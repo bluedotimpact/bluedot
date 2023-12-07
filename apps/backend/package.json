@@ -3,29 +3,40 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start": "tsup src/index.ts --watch --onSuccess \"NODE_ENV=development node dist/index.js\"",
+        "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
         "build": "tsup",
+        "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
         "test": "vitest",
         "lint": "eslint ."
     },
-    "devDependencies": {
-        "@bluedot/backend-contract": "*",
-        "@bluedot/eslint-config": "*",
-        "@bluedot/typescript-config": "*",
-        "@types/node": "^20.10.3",
-        "@types/pg": "^8.10.9",
-        "eslint": "^8.53.0",
-        "kanel": "^3.7.0",
-        "tsup": "^8.0.1",
-        "typescript": "^5.3.2",
-        "vitest": "^1.0.2"
-    },
     "dependencies": {
+        "@bluedot/backend-contract": "*",
         "@ts-rest/core": "^3.30.5",
         "@ts-rest/fastify": "^3.30.5",
         "fastify": "^4.24.3",
         "kysely": "^0.26.3",
         "pg": "^8.11.3",
         "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@bluedot/eslint-config": "*",
+        "@bluedot/typescript-config": "*",
+        "@types/node": "^20.10.3",
+        "@types/pg": "^8.10.9",
+        "eslint": "^8.53.0",
+        "kanel": "file:../../../kanel/packages/kanel",
+        "kanel-kysely": "file:../../../kanel/packages/kanel-kysely",
+        "tsup": "^8.0.1",
+        "typescript": "^5.3.2",
+        "vitest": "^1.0.2"
+    },
+    "tsup": {
+        "entry": [
+            "src/index.ts"
+        ],
+        "noExternal": [
+            "@bluedot/backend-contract"
+        ],
+        "outDir": "dist"
     }
 }

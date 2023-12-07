@@ -6,8 +6,9 @@
     "index.js"
   ],
   "devDependencies": {
+    "@types/eslint": "^8.44.8",
+    "eslint-config-domdomegg": "^1.2.3",
     "eslint-config-turbo": "^1.10.12",
-    "typescript": "^5.3.2",
-    "eslint-config-domdomegg": "^1.2.3"
+    "typescript": "^5.3.2"
   }
 }

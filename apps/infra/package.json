@@ -2,6 +2,7 @@
   "name": "@bluedot/infra",
   "version": "1.0.0",
   "private": true,
+  "main": "src/index.ts",
   "scripts": {
     "deploy:prod": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi up --stack prod --yes",
     "lint": "eslint ."

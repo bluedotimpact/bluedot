@@ -8,9 +8,9 @@ const s = initServer();
 const router = s.router(contract, {
   createPerson: async ({ body }) => {
     const person = {
-        ...body,
-        id: '1',
-    }
+      ...body,
+      id: '1',
+    };
 
     return {
       status: 200,
@@ -19,10 +19,10 @@ const router = s.router(contract, {
   },
   getPerson: async ({ params: { id } }) => {
     if (id === '1') {
-        return {
-            status: 200,
-            body: { id: '1', firstName: 'Adam', lastName: 'Jones' },
-        }
+      return {
+        status: 200,
+        body: { id: '1', firstName: 'Adam', lastName: 'Jones' },
+      };
     }
 
     return {
@@ -32,10 +32,10 @@ const router = s.router(contract, {
   },
   getPersons: async () => {
     return {
-        status: 200,
-        body: [{ id: '1', firstName: 'Adam', lastName: 'Jones' }],
-    }
-  }
+      status: 200,
+      body: [{ id: '1', firstName: 'Adam', lastName: 'Jones' }],
+    };
+  },
 });
 
 app.register(s.plugin(router));
