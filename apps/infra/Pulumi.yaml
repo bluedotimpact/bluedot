@@ -1,0 +1,6 @@
+name: infra
+runtime: nodejs
+config:
+  gcp:region: europe-west1
+  pulumi:disable-default-providers:
+    - kubernetes
