@@ -26,4 +26,8 @@ export async function migrateDb() {
     console.error('Failed to execute database migrations', error);
     process.exit(1);
   }
+
+  if (results?.length === 0) {
+    console.log('No migrations executed as all up to date');
+  }
 }

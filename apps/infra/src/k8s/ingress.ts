@@ -1,11 +1,11 @@
 import * as k8s from '@pulumi/kubernetes';
-import { k8sProvider } from '../gcloud/gke';
+import { provider } from './provider';
 
 new k8s.core.v1.Namespace('ingress-nginx-namespace', {
   metadata: {
     name: 'ingress-nginx',
   },
-}, { provider: k8sProvider });
+}, { provider });
 
 new k8s.helm.v3.Release('ingress-nginx', {
   chart: 'ingress-nginx',
@@ -18,18 +18,9 @@ new k8s.helm.v3.Release('ingress-nginx', {
       config: {
         'force-ssl-redirect': 'true',
       },
+      ingressClassResource: {
+        default: 'true',
+      },
     },
   },
-}, { provider: k8sProvider });
-
-new k8s.networking.v1.IngressClass('ingress-nginx', {
-  metadata: {
-    name: 'nginx',
-    annotations: {
-      'ingressclass.kubernetes.io/is-default-class': 'true',
-    },
-  },
-  spec: {
-    controller: 'k8s.io/ingress-nginx',
-  },
-}, { provider: k8sProvider });
+}, { provider });

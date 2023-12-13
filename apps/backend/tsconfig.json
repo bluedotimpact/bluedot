@@ -4,8 +4,5 @@
     "outDir": "./dist",
   },
   "extends": "@bluedot/typescript-config/base.json",
-  "include": [
-    "src/**/*.ts",
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

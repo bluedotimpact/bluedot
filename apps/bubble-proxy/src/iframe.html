@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+        #bubble-proxy-iframe {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            background-color: #fffcf7;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="bubble-proxy-iframe" frameBorder="0"></iframe>
+    <script>
+        const iframe = document.getElementById('bubble-proxy-iframe');
+        iframe.addEventListener('load', () => {
+            document.title = iframe.contentDocument.title;
+
+            const newIframeHref = iframe.contentWindow.location.href;
+            console.log('newHref', newIframeHref)
+            const removablePrefix = `${window.location.origin}/home`;
+            if (newIframeHref.startsWith(`${removablePrefix}/`)) {
+                const newPathname = newIframeHref.slice(removablePrefix.length)
+                if (newPathname !== window.location.href.slice(window.location.origin.length)) {
+                    window.history.pushState(null, "", `${window.location.origin}${newPathname}`);
+                }
+            } else {
+                window.location.href = newIframeHref;
+            }
+        })
+        iframe.setAttribute('src', `home${window.location.href.slice(window.location.origin.length)}`)
+    </script>
+</body>
+</html>

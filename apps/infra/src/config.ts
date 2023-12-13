@@ -3,6 +3,7 @@ import { Config } from '@pulumi/pulumi';
 const config = new Config();
 
 export const gcloudZone = config.get('gcloudZone') || 'europe-west1-b';
+export const gcloudRegion = gcloudZone.split('-').slice(0, 2).join('-');
 
 // Number of K8s cluster nodes to provision.
 export const k8sNodeCount = config.getNumber('k8sNodeCount') || 1;

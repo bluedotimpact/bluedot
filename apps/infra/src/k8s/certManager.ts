@@ -1,11 +1,11 @@
 import * as k8s from '@pulumi/kubernetes';
-import { k8sProvider } from '../gcloud/gke';
+import { provider } from './provider';
 
 new k8s.core.v1.Namespace('cert-manager-namespace', {
   metadata: {
     name: 'cert-manager',
   },
-}, { provider: k8sProvider });
+}, { provider });
 
 new k8s.helm.v3.Release('cert-manager', {
   chart: 'cert-manager',
@@ -16,7 +16,7 @@ new k8s.helm.v3.Release('cert-manager', {
   values: {
     installCRDs: true,
   },
-}, { provider: k8sProvider });
+}, { provider });
 
 new k8s.apiextensions.CustomResource('cert-manager-issuer', {
   apiVersion: 'cert-manager.io/v1',
@@ -28,8 +28,8 @@ new k8s.apiextensions.CustomResource('cert-manager-issuer', {
   spec: {
     acme: {
       email: 'software@bluedotimpact.org',
-      // server: "https://acme-v02.api.letsencrypt.org/directory",
-      server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+      server: 'https://acme-v02.api.letsencrypt.org/directory',
+      // server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
       privateKeySecretRef: {
         name: 'cert-manager-issuer-account-key',
       },
@@ -42,4 +42,4 @@ new k8s.apiextensions.CustomResource('cert-manager-issuer', {
       }],
     },
   },
-}, { provider: k8sProvider });
+}, { provider });

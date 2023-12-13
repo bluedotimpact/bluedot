@@ -1,0 +1,31 @@
+{
+    "name": "@bluedot/frontend",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "deploy:prod": "tools/deployDocker.sh",
+        "lint": "eslint .",
+        "start": "vite",
+        "build": "tsc && vite build"
+    },
+    "devDependencies": {
+        "@bluedot/eslint-config": "*",
+        "@bluedot/typescript-config": "*",
+        "@vitejs/plugin-react-swc": "^3.5.0",
+        "autoprefixer": "^10.4.16",
+        "eslint": "^8.53.0",
+        "postcss": "^8.4.32",
+        "tailwindcss": "^3.3.6",
+        "typescript": "^5.3.2",
+        "vite": "^5.0.8"
+    },
+    "dependencies": {
+        "@bluedot/ui": "*",
+        "oidc-client-ts": "^3.0.0-beta.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.20.1",
+        "zustand": "^4.4.7"
+    }
+}

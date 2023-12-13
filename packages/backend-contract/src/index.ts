@@ -43,4 +43,8 @@ export const contract = c.router({
     },
     summary: 'Get a person by id',
   },
+}, {
+  baseHeaders: z.object({
+    authorization: z.string(),
+  }),
 });

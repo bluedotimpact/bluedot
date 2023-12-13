@@ -38,4 +38,4 @@ const router = s.router(contract, {
   },
 });
 
-app.register(s.plugin(router));
+s.registerRouter(contract, router, app, { responseValidation: true });

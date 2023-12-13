@@ -175,10 +175,6 @@ export async function v00001init(db: Kysely<unknown>): Promise<void> {
     .addForeignKeyConstraint('Class', ['Class'], 'Classes', ['class_id'])
     .addForeignKeyConstraint('Cohort', ['Cohort'], 'Cohorts', ['cohort_id'])
     .addForeignKeyConstraint('Zoom account', ['Zoom account'], 'Zoom accounts', ['zoom_account_id'])
-    // These should be many-to-many joins
-    .addForeignKeyConstraint('Facilitator', ['Facilitator'], 'People', ['person_id'])
-    .addForeignKeyConstraint('Participants (Expected)', ['Participants (Expected)'], 'People', ['person_id'])
-    .addForeignKeyConstraint('Attendees', ['Attendees'], 'People', ['person_id'])
     .execute();
 
   await db.schema
@@ -296,7 +292,7 @@ export async function v00001init(db: Kysely<unknown>): Promise<void> {
     .execute();
 
   await db.schema
-    .createTable('[s] Course Hub Users')
+    .createTable('Course Hub Users')
     .addColumn('course_hub_user_id', 'text', (col) => col.primaryKey())
     .addColumn('Email', 'text')
     .addColumn('Full name', 'text')
@@ -347,6 +343,16 @@ export async function v00001init(db: Kysely<unknown>): Promise<void> {
     .addColumn('cohort_id', 'text')
     .addColumn('person_id', 'text')
     .addForeignKeyConstraint('cohort_id', ['cohort_id'], 'Cohorts', ['cohort_id'])
+    .addForeignKeyConstraint('person_id', ['person_id'], 'People', ['person_id'])
+    .execute();
+
+  await db.schema
+    .createTable('cohort_class_attendee')
+    .addColumn('cohort_class_id', 'text')
+    .addColumn('person_id', 'text')
+    .addColumn('role', 'text')
+    .addColumn('attended', 'boolean')
+    .addForeignKeyConstraint('cohort_class_id', ['cohort_class_id'], 'Cohort classes', ['cohort_class_id'])
     .addForeignKeyConstraint('person_id', ['person_id'], 'People', ['person_id'])
     .execute();
 }
