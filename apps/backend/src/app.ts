@@ -1,41 +1,19 @@
-import { contract } from '@bluedot/backend-contract';
-import { initServer } from '@ts-rest/fastify';
 import { fastify } from 'fastify';
+import { fastifyCors } from '@fastify/cors';
+import { authPlugin } from './lib/authPlugin';
+import { errorHandlerPlugin } from './lib/errorHandlerPlugin';
+import { routesPlugin } from './routesPlugin';
 
-export const app = fastify();
-const s = initServer();
+export const getInstance = async () => {
+  const instance = fastify();
 
-const router = s.router(contract, {
-  createPerson: async ({ body }) => {
-    const person = {
-      ...body,
-      id: '1',
-    };
+  await instance.register(errorHandlerPlugin);
+  await instance.register(fastifyCors);
 
-    return {
-      status: 200,
-      body: person,
-    };
-  },
-  getPerson: async ({ params: { id } }) => {
-    if (id === '1') {
-      return {
-        status: 200,
-        body: { id: '1', firstName: 'Adam', lastName: 'Jones' },
-      };
-    }
+  await instance.register(async (i) => {
+    await i.register(authPlugin);
+    await i.register(routesPlugin);
+  });
 
-    return {
-      status: 404,
-      body: { message: 'Person not found' },
-    };
-  },
-  getPersons: async () => {
-    return {
-      status: 200,
-      body: [{ id: '1', firstName: 'Adam', lastName: 'Jones' }],
-    };
-  },
-});
-
-s.registerRouter(contract, router, app, { responseValidation: true });
+  return instance;
+};

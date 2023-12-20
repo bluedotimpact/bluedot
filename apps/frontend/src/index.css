@@ -51,3 +51,7 @@
     -moz-osx-font-smoothing: grayscale;
     font-style: normal
 }
+
+html {
+    @apply bg-cream-normal
+}

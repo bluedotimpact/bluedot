@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type TextProps = React.PropsWithChildren<{
+export type TextProps = React.PropsWithChildren<{
   className?: string;
 }>;
 

@@ -30,6 +30,10 @@ export default {
           dark: '#1D7510',
           darker: '#11430A',
         },
+        cream: {
+          normal: '#FFFCF7',
+          dark: '#D9D6D2',
+        },
       },
       fontFamily: {
         sans: 'Roobert, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',

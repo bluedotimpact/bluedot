@@ -7,15 +7,21 @@
         "build": "tsup",
         "deploy:prod": "tools/deployDocker.sh",
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
+        "resetdb": "dropdb --host=localhost --port=5432 --force postgres && createdb --host=localhost --port=5432 postgres",
         "createLock": "tsup tools/createLock.ts --outDir dist_tools --external @npmcli/arborist && NODE_ENV=development node dist_tools/createLock.js",
         "test": "vitest",
         "lint": "eslint ."
     },
     "dependencies": {
         "@bluedot/backend-contract": "*",
+        "@fastify/cors": "^8.5.0",
         "@ts-rest/core": "^3.30.5",
         "@ts-rest/fastify": "^3.30.5",
-        "fastify": "^4.24.3",
+        "fast-jwt": "^3.3.2",
+        "fastify": "^4.25.1",
+        "fastify-plugin": "^4.5.1",
+        "get-jwks": "^9.0.0",
+        "http-errors": "^2.0.0",
         "kysely": "^0.26.3",
         "pg": "^8.11.3",
         "zod": "^3.22.4"

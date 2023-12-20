@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
     <style>
         html, body {
             padding: 0;
@@ -16,13 +15,23 @@
             background-color: #fffcf7;
         }
     </style>
+    <link id="bubble-proxy-icon" />
 </head>
 <body>
     <iframe id="bubble-proxy-iframe" frameBorder="0"></iframe>
     <script>
         const iframe = document.getElementById('bubble-proxy-iframe');
-        iframe.addEventListener('load', () => {
+        const icon = document.getElementById('bubble-proxy-icon');
+        const refreshMeta = () => {
             document.title = iframe.contentDocument.title;
+            [...icon.attributes].forEach(attribute => attribute.name === 'id' || icon.removeAttribute(attribute.name))
+            const iframeIcon = iframe.contentDocument.querySelector('link[rel=icon]');
+            if (iframeIcon) {
+                [...iframeIcon.attributes].forEach(attribute => icon.setAttribute(attribute.name, attribute.value))
+            }
+        }
+        iframe.addEventListener('load', () => {
+            refreshMeta();
 
             const newIframeHref = iframe.contentWindow.location.href;
             console.log('newHref', newIframeHref)
@@ -37,6 +46,7 @@
             }
         })
         iframe.setAttribute('src', `home${window.location.href.slice(window.location.origin.length)}`)
+        setInterval(refreshMeta, 1000)
     </script>
 </body>
 </html>
