@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import '../globals.css';
 import type { AppProps } from 'next/app';
 
@@ -7,4 +8,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+const AppWithNoSsr = dynamic(
+  () => Promise.resolve(App),
+  { ssr: false },
+);
+
+export default AppWithNoSsr;

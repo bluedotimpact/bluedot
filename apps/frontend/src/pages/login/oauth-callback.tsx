@@ -1,15 +1,17 @@
 import { H1 } from '@bluedot/ui';
 import { UserManager } from 'oidc-client-ts';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ErrorPage } from '../../components/ErrorPage';
 import { useAuthStore } from '../../lib/authStore';
 import { userManagerSettings } from '.';
 import { Navigate } from '../../components/Navigate';
 
-const LoginOauthCallbackPage = () => {
+const LoginOauthCallbackPage: React.FC = () => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const [auth, setAuth] = useAuthStore((s) => [s.auth, s.setAuth]);
-  const redirectTo = new URLSearchParams(window.location.search).get('redirect_to') || '/';
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect_to') || '/';
 
   useEffect(() => {
     const signinUser = async () => {

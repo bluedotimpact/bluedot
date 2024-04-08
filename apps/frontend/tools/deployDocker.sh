@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
+APP_NAME=$(basename "$PWD")
 REPO_URL="europe-west1-docker.pkg.dev/bluedot-prod/containers"
-IMAGE_NAME="bluedot-frontend"
+IMAGE_NAME="bluedot-$APP_NAME"
 VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 
 # Build
-npm run build
-docker build -t $IMAGE_NAME --build-arg VERSION_TAG="$VERSION_TAG" .
+VERSION_TAG=$VERSION_TAG npm run build
+docker build -t $IMAGE_NAME --build-arg APP_NAME="$APP_NAME" .
 
 # Tag and push to registry
 docker tag $IMAGE_NAME $REPO_URL/$IMAGE_NAME:$VERSION_TAG

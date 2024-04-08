@@ -15,10 +15,10 @@
     "dependencies": {
         "@bluedot/backend-contract": "*",
         "@fastify/cors": "^8.5.0",
-        "@ts-rest/core": "^3.30.5",
-        "@ts-rest/fastify": "^3.30.5",
+        "@ts-rest/core": "^3.41.1",
+        "@ts-rest/fastify": "^3.41.1",
         "fast-jwt": "^3.3.2",
-        "fastify": "^4.25.1",
+        "fastify": "^4.26.2",
         "fastify-plugin": "^4.5.1",
         "get-jwks": "^9.0.0",
         "http-errors": "^2.0.0",

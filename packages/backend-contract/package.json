@@ -9,7 +9,7 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "@ts-rest/core": "^3.30.5",
+        "@ts-rest/core": "^3.41.1",
         "zod": "^3.22.4"
     },
     "devDependencies": {

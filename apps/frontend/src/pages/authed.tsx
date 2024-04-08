@@ -11,7 +11,7 @@ const AuthedPage = withAuth(({ setAuth }) => {
   const queryClient = useQueryClient();
   const { mutate } = client.createCourse.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['courses']);
+      queryClient.invalidateQueries({ queryKey: ['courses'] });
     },
   });
 
@@ -25,7 +25,7 @@ const AuthedPage = withAuth(({ setAuth }) => {
       <H2>Courses</H2>
       <CourseListView />
       <H2>Create course</H2>
-      <Button onPress={() => { mutate({ body: {} }); }}>Create</Button>
+      <Button onPress={() => { mutate({ body: {}, headers: { authorization: '' } }); }}>Create</Button>
       <H2>Logout</H2>
       <Button onPress={() => setAuth(null)}>Logout</Button>
     </div>
@@ -34,7 +34,7 @@ const AuthedPage = withAuth(({ setAuth }) => {
 export default AuthedPage;
 
 const CourseListView: React.FC = () => {
-  const { data, isLoading, error } = client.listCourses.useQuery(['courses']);
+  const { data, isLoading, error } = client.listCourses.useQuery(['courses'], { headers: { authorization: '' } });
 
   if (isLoading) {
     return <P>Loading...</P>;
