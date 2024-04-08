@@ -6,12 +6,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { withAuth } from '../lib/withAuth';
 import { client } from '../lib/queryClient';
 
-export const AuthedPage = withAuth(({ setAuth }) => {
+const AuthedPage = withAuth(({ setAuth }) => {
   const [count, setCount] = useState(0);
   const queryClient = useQueryClient();
-  const {
-    data, isLoading, error, mutate,
-  } = client.createCourse.useMutation({
+  const { mutate } = client.createCourse.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(['courses']);
     },
@@ -33,6 +31,7 @@ export const AuthedPage = withAuth(({ setAuth }) => {
     </div>
   );
 });
+export default AuthedPage;
 
 const CourseListView: React.FC = () => {
   const { data, isLoading, error } = client.listCourses.useQuery(['courses']);

@@ -1,19 +1,17 @@
 {
-    "compilerOptions": {
-        // See https://github.com/microsoft/TypeScript/issues/29172
-        "outDir": "./dist",
-        
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
-    },
-    "extends": "@bluedot/typescript-config/base.json",
-    "include": [
-        "src"
+  "extends": "@bluedot/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
     ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.js",
+    "src/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }
