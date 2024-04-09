@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '../../lib/authStore';
 
 export const userManagerSettings: UserManagerSettings = {
-  authority: 'https://login.bluedotimpact.org/realms/main-realm/',
+  authority: 'https://login.bluedot.org/realms/main-realm/',
   client_id: 'bluedot-frontend',
   redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
   extraQueryParams: {

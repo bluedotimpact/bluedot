@@ -1,6 +1,7 @@
 name: infra
 runtime: nodejs
 config:
-  gcp:region: europe-west1
   pulumi:disable-default-providers:
     - kubernetes
+backend:
+  url: s3://bluedot-pulumi-backend/bluedot?endpoint=ams1.vultrobjects.com&s3ForcePathStyle=true&region=vultr&profile=vultr-object-storage

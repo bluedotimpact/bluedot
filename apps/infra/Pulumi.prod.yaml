@@ -1,7 +1,6 @@
-encryptionsalt: v1:DUK1ZaydsOk=:v1:i/od4xwGv3H0Epuw:/8u1tx+WW1/CQ4ZR1Q9h5rwscMGwdQ==
+encryptionsalt: v1:1DwWI+bI55I=:v1:tpqziDy1t6GntGld:l3IA3E6yuXwTfNlPX8Lxe59IqDG7QA==
 config:
-  gcp:project: bluedot-prod
-  infra:cloudSqlPassword:
-    secure: v1:tOLgdDwIJI1JwGsa:kjOYmNmNrh1VNkKDKEeXTo9zGpHRUG7PhFVDppVnFU12m4YdzdogSPQYKFoHSQ==
-  infra:mathesarSecretKey:
-    secure: v1:vhnZqx2UrpNRvYGT:1yCfZjPHt89vjoQaergXbxPFj9+HGQEN42KgwjLB2Q9XBdrWirJ7NFaOmFTtDAti6zBNCbGb3ruLWLvCeBfhBTRy
+  infra:dbPassword:
+    secure: v1:ERZRodNiiPzZWbC2:sG0lmdI7kUxxeD3krcFFzUg/SOa4bsXBwigCyoh8xAZvNFFopFPeSAR+TMUyrfE/YHt+XDHHKFuAm319k2j+gL+aYYtP3g83PhTOojEQSJI=
+  vultr:apiKey:
+    secure: v1:V4H9p6vQNMJM4KEQ:G/T2vskLJtn5ZtO9Ry7TfstCV0lwGmCQIwb6twGs9j9VJq5FWG249dYKg/RuJFOXl6eDZg==

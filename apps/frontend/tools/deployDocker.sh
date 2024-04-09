@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 APP_NAME=$(basename "$PWD")
-REPO_URL="europe-west1-docker.pkg.dev/bluedot-prod/containers"
+REPO_URL="sjc.vultrcr.com/bluedot"
 IMAGE_NAME="bluedot-$APP_NAME"
 VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 

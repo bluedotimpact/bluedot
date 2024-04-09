@@ -1,6 +1,8 @@
 import * as k8s from '@pulumi/kubernetes';
 import { services } from './serviceDefinitions';
 import { provider } from './provider';
+import { certManager } from './certManager';
+import { ingressNginx } from './ingress';
 
 services.forEach((service) => {
   const labels = { app: service.name };
@@ -65,6 +67,6 @@ services.forEach((service) => {
           },
         })),
       },
-    }, { provider });
+    }, { provider, dependsOn: [ingressNginx, certManager] });
   }
 });

@@ -1,17 +1,12 @@
 import * as k8s from '@pulumi/kubernetes';
 import { provider } from './provider';
 
-new k8s.core.v1.Namespace('cert-manager-namespace', {
-  metadata: {
-    name: 'cert-manager',
-  },
-}, { provider });
-
-new k8s.helm.v3.Release('cert-manager', {
+export const certManager = new k8s.helm.v3.Release('cert-manager', {
   chart: 'cert-manager',
   repositoryOpts: {
     repo: 'https://charts.jetstack.io',
   },
+  createNamespace: true,
   namespace: 'cert-manager',
   values: {
     installCRDs: true,
@@ -23,13 +18,13 @@ new k8s.apiextensions.CustomResource('cert-manager-issuer', {
   kind: 'ClusterIssuer',
   metadata: {
     name: 'cert-manager-issuer',
-    namespace: 'cert-manager',
+    namespace: certManager.namespace,
   },
   spec: {
     acme: {
-      email: 'software@bluedotimpact.org',
-      server: 'https://acme-v02.api.letsencrypt.org/directory',
-      // server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+      email: 'software@bluedot.org',
+      // server: 'https://acme-v02.api.letsencrypt.org/directory',
+      server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
       privateKeySecretRef: {
         name: 'cert-manager-issuer-account-key',
       },
