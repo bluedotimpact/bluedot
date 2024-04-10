@@ -7,7 +7,8 @@ const start = async () => {
     await migrateDb();
     const instance = await getInstance();
     await instance.listen({
-      port: 8001,
+      // eslint-disable-next-line turbo/no-undeclared-env-vars
+      port: process.env.PORT ? parseInt(process.env.PORT) : 8001,
       host: '0.0.0.0',
     }).then((address) => {
       console.log(`Server listening on ${address}`);

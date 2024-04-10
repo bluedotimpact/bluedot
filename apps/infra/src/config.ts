@@ -11,4 +11,5 @@ export const k8sNodeCount = config.getNumber('k8sNodeCount') || 1;
 // See https://www.vultr.com/api/#tag/plans/operation/list-plans
 export const k8sVpsPlan = config.get('k8sVpsPlan') || 'vc2-1c-2gb';
 
+export const containerRegistryDockerConfigJson = config.requireSecret('containerRegistryDockerConfigJson');
 export const dbPassword = config.requireSecret('dbPassword');

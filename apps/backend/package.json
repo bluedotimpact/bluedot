@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
-        "build": "tsup",
+        "build": "tsup && cp ../../package-lock.json dist_tools",
         "deploy:prod": "tools/deployDocker.sh",
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
         "resetdb": "dropdb --host=localhost --port=5432 --force postgres && createdb --host=localhost --port=5432 postgres",

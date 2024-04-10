@@ -1,6 +1,7 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import * as pulumi from '@pulumi/pulumi';
 import { dbPassword } from '../config';
+import { containerRegistrySecret } from './containerRegistry';
 
 // TODO: pin the external versions
 export const services: ServiceDefinition[] = [
@@ -45,7 +46,7 @@ export const services: ServiceDefinition[] = [
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-backend',
-  //       image: 'europe-west1-docker.pkg.dev/bluedot-prod/containers/bluedot-backend:latest',
+  //       image: 'sjc.vultrcr.com/bluedot/bluedot-backend:latest',
   //       env: [{
   //         name: 'DATABASE_CONNECTION_STRING',
   //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}:5432/postgres?sslmode=no-verify`),
@@ -54,24 +55,25 @@ export const services: ServiceDefinition[] = [
   //   },
   //   hosts: ['backend.bluedot.org'],
   // },
-  // {
-  //   name: 'bluedot-frontend',
-  //   targetPort: 80,
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-frontend',
-  //       image: 'europe-west1-docker.pkg.dev/bluedot-prod/containers/bluedot-frontend:latest',
-  //     }],
-  //   },
-  //   hosts: ['web.bluedot.org'],
-  // },
+  {
+    name: 'bluedot-frontend',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-frontend',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-frontend:latest',
+      }],
+      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
+    },
+    hosts: ['web.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-bubble-proxy',
   //   targetPort: 80,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-bubble-proxy',
-  //       image: 'europe-west1-docker.pkg.dev/bluedot-prod/containers/bluedot-bubble-proxy:latest',
+  //       image: 'sjc.vultrcr.com/bluedot/bluedot-bubble-proxy:latest',
   //     }],
   //   },
   //   hosts: [
