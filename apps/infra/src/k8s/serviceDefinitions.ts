@@ -26,6 +26,17 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
+  {
+    name: 'forms',
+    targetPort: 80,
+    spec: {
+      containers: [{
+        name: 'nginx',
+        image: 'nginx:stable@sha256:3579c1362f12c540b4c48ffa4816348b0653044d1e1e728816f6f5c9e85774e3',
+      }],
+    },
+    hosts: ['forms.k8s.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-bubble-proxy',
   //   targetPort: 80,
