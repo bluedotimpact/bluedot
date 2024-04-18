@@ -1,4 +1,4 @@
-import { escapeIdentifier, escapeString, processDatabase } from 'kanel';
+import { escapeIdentifier, processDatabase } from 'kanel';
 import { makeKyselyHook } from 'kanel-kysely';
 import { env } from '../src/env';
 import { migrateDb } from '../src/db/migrations/migrator';

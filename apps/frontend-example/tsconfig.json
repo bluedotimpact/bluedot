@@ -13,7 +13,8 @@
     "next.config.js",
     "src/**/*",
     ".next/types/**/*.ts",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "vitest.config.ts",
   ],
   "exclude": ["node_modules"]
 }

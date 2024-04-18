@@ -9,7 +9,8 @@
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
         "resetdb": "dropdb --host=localhost --port=5432 --force postgres && createdb --host=localhost --port=5432 postgres",
         "createLock": "tsup tools/createLock.ts --outDir dist_tools --external @npmcli/arborist && NODE_ENV=development node dist_tools/createLock.js",
-        "test": "vitest",
+        "test": "vitest --run",
+        "test:watch": "vitest",
         "lint": "eslint ."
     },
     "dependencies": {

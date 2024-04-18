@@ -2,15 +2,15 @@
   "name": "bluedot",
   "private": true,
   "scripts": {
-    "build": "turbo build",
+    "postinstall": "npm run postinstall --workspaces --if-present",
     "start": "turbo start",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo build",
+    "test": "turbo test"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "prettier": "^3.1.0",
     "turbo": "latest"
   },
   "engines": {

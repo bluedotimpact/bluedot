@@ -1,0 +1,78 @@
+name: ci_cd
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: Install NPM dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint --if-present
+      - name: Build
+        run: npm run build --if-present
+      - name: Test
+        run: npm run test --if-present
+      - id: modified_paths_check
+        uses: fkirc/skip-duplicate-actions@v5.3.1
+        with:
+          paths_filter: |
+            backend:
+              paths:
+                - 'apps/backend/**'
+            bubble-proxy:
+              paths:
+                - 'apps/bubble-proxy/**'
+            frontend-example:
+              paths:
+                - 'apps/bubble-proxy/**'
+            infra:
+              paths:
+                - 'apps/infra/**'
+            paths:
+              - 'package-lock.json'
+    outputs:
+      should_skip: ${{ steps.modified_paths_check.outputs.should_skip }}
+      paths_result: ${{ steps.modified_paths_check.outputs.paths_result }}
+
+  cd_infra:
+    needs: ci
+    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).infra.should_skip }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: prevent-concurrent-jobs
+    timeout-minutes: 10
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Configure for deployment
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo "$INFRA_PULUMI_PASSPHRASE" > apps/infra/passphrase.prod.txt
+
+          mkdir -p ~/.aws
+          echo "$INFRA_AWS_CREDENTIALS" > ~/.aws/credentials
+        env:
+          INFRA_PULUMI_PASSPHRASE: ${{ secrets.INFRA_PULUMI_PASSPHRASE }}
+          # See the infra README - these should actually have details for Vultr Object Storage
+          INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: npm run deploy:prod

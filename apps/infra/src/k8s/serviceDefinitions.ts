@@ -1,6 +1,4 @@
 import { core } from '@pulumi/kubernetes/types/input';
-import * as pulumi from '@pulumi/pulumi';
-import { dbPassword } from '../config';
 import { containerRegistrySecret } from './containerRegistry';
 
 // TODO: pin the external versions
@@ -16,45 +14,6 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['hello.k8s.bluedot.org'],
   },
-  // {
-  //   name: 'mathesar',
-  //   targetPort: 8000,
-  //   spec: {
-  //     containers: [{
-  //       name: 'mathesar',
-  //       image: 'mathesar/mathesar-prod:latest',
-  //       env: [{
-  //         name: 'SECRET_KEY',
-  //         value: mathesarSecretKey,
-  //       }, {
-  //         name: 'DJANGO_DATABASE_URL',
-  //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}/mathesar_django`),
-  //       }, {
-  //         name: 'MATHESAR_DATABASES',
-  //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `(postgres|postgresql://postgres:${password}@${ip}:5432/postgres)`),
-  //       }, {
-  //         name: 'ALLOWED_HOSTS',
-  //         value: '*',
-  //       }],
-  //     }],
-  //   },
-  //   hosts: ['mathesar.bluedot.org'],
-  // },
-  // {
-  //   name: 'bluedot-backend',
-  //   targetPort: 8001,
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-backend',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-backend:latest',
-  //       env: [{
-  //         name: 'DATABASE_CONNECTION_STRING',
-  //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}:5432/postgres?sslmode=no-verify`),
-  //       }],
-  //     }],
-  //   },
-  //   hosts: ['backend.bluedot.org'],
-  // },
   {
     name: 'bluedot-frontend-example',
     targetPort: 8080,
@@ -80,6 +39,21 @@ export const services: ServiceDefinition[] = [
   //     'course.aisafetyfundamentals.com',
   //     'course.biosecurityfundamentals.com',
   //   ],
+  // },
+  // {
+  //   name: 'bluedot-backend',
+  //   targetPort: 8001,
+  //   spec: {
+  //     containers: [{
+  //       name: 'bluedot-backend',
+  //       image: 'sjc.vultrcr.com/bluedot/bluedot-backend:latest',
+  //       env: [{
+  //         name: 'DATABASE_CONNECTION_STRING',
+  //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}:5432/postgres?sslmode=no-verify`),
+  //       }],
+  //     }],
+  //   },
+  //   hosts: ['backend.bluedot.org'],
   // },
   // {
   //   name: 'keycloak',
