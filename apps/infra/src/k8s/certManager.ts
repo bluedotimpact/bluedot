@@ -23,8 +23,8 @@ new k8s.apiextensions.CustomResource('cert-manager-issuer', {
   spec: {
     acme: {
       email: 'software@bluedot.org',
-      // server: 'https://acme-v02.api.letsencrypt.org/directory',
-      server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+      server: 'https://acme-v02.api.letsencrypt.org/directory',
+      // server: 'https://acme-staging-v02.api.letsencrypt.org/directory',
       privateKeySecretRef: {
         name: 'cert-manager-issuer-account-key',
       },

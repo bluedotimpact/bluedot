@@ -14,7 +14,7 @@ export const services: ServiceDefinition[] = [
         image: 'paulbouwer/hello-kubernetes:1.10.1',
       }],
     },
-    hosts: ['hello.bluedot.org'],
+    hosts: ['hello.k8s.bluedot.org'],
   },
   // {
   //   name: 'mathesar',
@@ -56,16 +56,16 @@ export const services: ServiceDefinition[] = [
   //   hosts: ['backend.bluedot.org'],
   // },
   {
-    name: 'bluedot-frontend',
+    name: 'bluedot-frontend-example',
     targetPort: 8080,
     spec: {
       containers: [{
-        name: 'bluedot-frontend',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-frontend:latest',
+        name: 'bluedot-frontend-example',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-frontend-example:latest',
       }],
       imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
-    hosts: ['web.bluedot.org'],
+    hosts: ['frontend-example.k8s.bluedot.org'],
   },
   // {
   //   name: 'bluedot-bubble-proxy',
@@ -139,5 +139,6 @@ interface ServiceDefinition {
   name: string,
   targetPort: number,
   spec: core.v1.PodSpec,
+  /** If you are not using a *.k8s.bluedot.org domain, you'll also need to add this in Porkbun */
   hosts?: string[],
 }
