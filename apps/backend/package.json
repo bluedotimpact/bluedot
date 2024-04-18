@@ -5,7 +5,7 @@
     "scripts": {
         "postinstall": "npm run kanel",
         "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
-        "build": "tsup && cp ../../package-lock.json dist_tools",
+        "build": "tsc && tsup && cp ../../package-lock.json dist_tools",
         "deploy:prod": "tools/deployDocker.sh",
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
         "resetdb": "dropdb --host=localhost --port=5432 --force postgres && createdb --host=localhost --port=5432 postgres",
@@ -31,6 +31,7 @@
     "devDependencies": {
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
+        "@types/http-errors": "^2.0.4",
         "@types/node": "^20.10.3",
         "@types/pg": "^8.10.9",
         "eslint": "^8.53.0",

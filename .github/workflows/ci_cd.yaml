@@ -75,4 +75,4 @@ jobs:
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/master' }}
-        run: npm run deploy:prod
+        run: npm run deploy:prod --workspace apps/infra

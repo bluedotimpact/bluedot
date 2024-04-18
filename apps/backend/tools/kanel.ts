@@ -5,6 +5,11 @@ import { migrateDb } from '../src/db/migrations/migrator';
 import { db } from '../src/db/client';
 
 async function run() {
+  if (process.env.CI) {
+    console.warn('Skipping kanel script in CI, because no Postgres database to use to generate files');
+    return;
+  }
+
   await migrateDb();
   await db.destroy();
 
