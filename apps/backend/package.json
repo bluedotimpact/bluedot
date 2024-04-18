@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "postinstall": "npm run kanel",
         "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
         "build": "tsup && cp ../../package-lock.json dist_tools",
         "deploy:prod": "tools/deployDocker.sh",
