@@ -2,17 +2,28 @@ name: ci_cd
 
 on: push
 
+env:
+  TURBO_CACHE_DIR: .turbo
+
 jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
           registry-url: https://registry.npmjs.org/
       - name: Install NPM dependencies
         run: npm ci
@@ -23,7 +34,7 @@ jobs:
       - name: Test
         run: npm run test --if-present
       - id: modified_paths_check
-        uses: fkirc/skip-duplicate-actions@v5.3.1
+        uses: fkirc/skip-duplicate-actions@v5
         with:
           paths_filter: |
             backend:
@@ -53,9 +64,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/

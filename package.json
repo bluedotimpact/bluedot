@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run postinstall --workspaces --if-present",
-    "start": "turbo start",
-    "lint": "turbo lint",
-    "build": "turbo build",
-    "test": "turbo test"
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "build": "turbo run build",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
