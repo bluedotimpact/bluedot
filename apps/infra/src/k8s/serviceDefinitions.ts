@@ -27,15 +27,16 @@ export const services: ServiceDefinition[] = [
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
   {
-    name: 'forms',
+    name: 'bluedot-miniextensions-proxy',
     targetPort: 80,
     spec: {
       containers: [{
-        name: 'nginx',
-        image: 'nginx:stable@sha256:3579c1362f12c540b4c48ffa4816348b0653044d1e1e728816f6f5c9e85774e3',
+        name: 'bluedot-miniextensions-proxy',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-miniextensions-proxy:latest',
       }],
+      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
-    hosts: ['forms.k8s.bluedot.org'],
+    hosts: ['forms.bluedot.org'],
   },
   // {
   //   name: 'bluedot-bubble-proxy',
