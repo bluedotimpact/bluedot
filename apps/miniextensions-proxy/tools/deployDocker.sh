@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
+cd $(dirname "${BASH_SOURCE[0]:-$0}")/..
+
 APP_NAME=$(basename "$PWD")
 REPO_URL="sjc.vultrcr.com/bluedot"
 IMAGE_NAME="bluedot-$APP_NAME"

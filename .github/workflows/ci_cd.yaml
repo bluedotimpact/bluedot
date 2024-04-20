@@ -45,10 +45,13 @@ jobs:
                 - 'apps/bubble-proxy/**'
             frontend-example:
               paths:
-                - 'apps/bubble-proxy/**'
+                - 'apps/frontend-example/**'
             infra:
               paths:
                 - 'apps/infra/**'
+            miniextensions-proxy:
+              paths:
+                - 'apps/miniextensions-proxy/**'
             paths:
               - 'package-lock.json'
     outputs:
@@ -74,7 +77,6 @@ jobs:
         run: npm ci
 
       - name: Configure for deployment
-        if: github.ref == 'refs/heads/master'
         run: |
           echo "$INFRA_PULUMI_PASSPHRASE" > apps/infra/passphrase.prod.txt
 
@@ -85,5 +87,34 @@ jobs:
           # See the infra README - these should actually have details for Vultr Object Storage
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
       - name: Deploy
-        if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run deploy:prod --workspace apps/infra
+
+  cd_frontend-example:
+    needs: ci
+    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).frontend-example.should_skip }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: prevent-concurrent-jobs
+    timeout-minutes: 10
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Configure for deployment
+        run: |
+          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
+
+          mkdir -p ~/.kube
+          echo "$K8S_KUBECONFIG" > ~/.kube/config
+        env:
+          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
+          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
+      - name: Deploy
+        run: npm run deploy:prod --workspace apps/frontend-example

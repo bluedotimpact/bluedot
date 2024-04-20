@@ -8,7 +8,7 @@ const HomePage = () => {
 
   return (
     <div className="mx-8">
-      <H1>Homepage</H1>
+      <H1>frontend-example</H1>
       <P>This is some example text</P>
       <Button onPress={() => setCount((c) => c + 1)}>
         count is {count}
