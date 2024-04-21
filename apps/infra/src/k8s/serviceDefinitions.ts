@@ -1,5 +1,5 @@
 import { core } from '@pulumi/kubernetes/types/input';
-import { containerRegistrySecret } from './containerRegistry';
+import { containerRegistrySecret, envVarSources } from './secrets';
 
 // TODO: pin the external versions
 export const services: ServiceDefinition[] = [
@@ -37,6 +37,25 @@ export const services: ServiceDefinition[] = [
       imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['forms.bluedot.org'],
+  },
+  {
+    name: 'bluedot-meet',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-meet',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-meet:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'NEXT_PUBLIC_ZOOM_CLIENT_ID', value: 'lX1NBglbQWO2ERYSS1xdfA' },
+          { name: 'ZOOM_CLIENT_SECRET', valueFrom: envVarSources.meetZoomClientSecret },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
+    },
+    hosts: ['meet.bluedot.org'],
   },
   // {
   //   name: 'bluedot-bubble-proxy',

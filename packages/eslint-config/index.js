@@ -51,6 +51,32 @@ const rules = {
   }],
 };
 
+/** @type {import("eslint").Linter.RulesRecord} */
+const tsOnlyRules = {
+  // This is rarely a value add: if we're already adding a TS comment, we're going to be ignoring some warnings
+  '@typescript-eslint/ban-ts-comment': ['off'],
+
+  // Based on airbnb-typescript, but with support for leading underscores
+  '@typescript-eslint/naming-convention': [
+    'error',
+    {
+      selector: 'variable',
+      format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+      leadingUnderscore: 'allow',
+    },
+    {
+      selector: 'function',
+      format: ['camelCase', 'PascalCase'],
+      leadingUnderscore: 'allow',
+    },
+    {
+      selector: 'typeLike',
+      format: ['PascalCase'],
+      leadingUnderscore: 'allow',
+    },
+  ],
+};
+
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   extends: [
@@ -60,7 +86,7 @@ module.exports = {
   rules,
   overrides: [{
     files: ['*.ts', '*.tsx', '*.mts', '*.cts'],
-    rules,
+    rules: { ...rules, ...tsOnlyRules },
   }, {
     files: ['apps/infra/**'],
     rules: {

@@ -1,8 +1,12 @@
 encryptionsalt: v1:1DwWI+bI55I=:v1:tpqziDy1t6GntGld:l3IA3E6yuXwTfNlPX8Lxe59IqDG7QA==
 config:
+  infra:airtablePat:
+    secure: v1:xxnGOjci0H2TTfIY:p5/SIY+vels8uuUTUCJYRW3JIIYJNF9Jmr1m8usCqYgjU073BMKjQ+uq3dUb42f1iNeOs0A124ZIzDjxv9f1cJNaOd8gfvAxQf1oA1WC/A/CqnHyoNFIG6zpE1C0gNtu+u8=
+  infra:alertsSlackBotToken:
+    secure: v1:KHo0xEvyljpu6RQu:FxDE6U4NfjkQTTCE+yLJKpF2tnjiNqGM4eWfgnSMgD+3RKyicTHqUuVKYyEQdNYj9YZkokYeD6X0eB277AYJHQUV3ZhbrrO/vA==
   infra:containerRegistryDockerConfigJson:
     secure: v1:lycjX7rEaALQ9R/z:sZY2d07ja/BvKImmficAenAbHtUZ/fRgnq1VUrD9whc4PEwv8RM952po7asuECsQHPF7/nSAheMWH4dk2n039ylID933zQ9lMSh9AbDP5hsw6Td+X+KSwyYBZlSx6RdYfzAf8F7dRk6Rd+varZXql+rKpwfhpcXoEd9OMHR/niMQIBOQk5mUqc/m2FUMkWptCYMJpfYUQu4x9oqA52hG39Ojbdr7NDf+ZiedXWIJFmniCTdOZRNUWDgnkXI2fGkPI0yr1O8cr68aS2WmrvtVYDfheaKJZd9kZ4avug==
-  infra:dbPassword:
-    secure: v1:ERZRodNiiPzZWbC2:sG0lmdI7kUxxeD3krcFFzUg/SOa4bsXBwigCyoh8xAZvNFFopFPeSAR+TMUyrfE/YHt+XDHHKFuAm319k2j+gL+aYYtP3g83PhTOojEQSJI=
+  infra:meetZoomClientSecret:
+    secure: v1:jPYJIQX1CoHF/Zmm:KTKen2BLFJ2UpCuIOXE5kdUh0OynxG/UbVbTD4h0Ft5X2UFFRYPp1iSVGd8Rxd+o
   vultr:apiKey:
     secure: v1:V4H9p6vQNMJM4KEQ:G/T2vskLJtn5ZtO9Ry7TfstCV0lwGmCQIwb6twGs9j9VJq5FWG249dYKg/RuJFOXl6eDZg==

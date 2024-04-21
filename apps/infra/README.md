@@ -21,7 +21,30 @@ aws_secret_access_key=
 
 Get `passphrase.prod.txt` from 1Password.
 
-## Manual connections
+## Tasks
+
+### Adding a new service
+
+TODO
+
+### Adding a secret
+
+We manage secrets with [Pulumi secrets](https://www.pulumi.com/learn/building-with-pulumi/secrets/). In general, we pass in secrets via Pulumi as environment variables to containers.
+
+To add a secret, run:
+
+```bash
+# key should be a camelCase identifier e.g. meetZoomClientSecret
+npm run config:secret <key>
+```
+
+It'll prompt you for a value, and then update [Pulumi.prod.yaml](./Pulumi.prod.yaml).
+
+If you want to use your secret as an environment variable, add it to the `toK8s` array in [secrets.ts](./src/k8s/secrets.ts). You can then use it as `envVarSources.key` in other files.
+
+If you want to use your secret 'raw', import config from [config.ts](./src/config.ts) and then call `config.requireSecret('key')`.
+
+### Connecting with kubectl
 
 ```bash
 PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-secrets k8sConfig > kubeconfig.json

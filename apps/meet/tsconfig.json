@@ -1,0 +1,20 @@
+{
+  "extends": "@bluedot/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "strict": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.js",
+    "src/**/*",
+    ".next/types/**/*.ts",
+    "tailwind.config.ts",
+    "vitest.config.ts",
+  ],
+  "exclude": ["node_modules"]
+}

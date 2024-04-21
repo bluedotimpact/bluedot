@@ -1,3 +1,4 @@
+import '../base.css';
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -7,7 +8,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>frontend-example</title>
+        <title>BlueDot Impact Meet</title>
       </Head>
       <Component {...pageProps} />
     </>
