@@ -1,5 +1,5 @@
 {
-  "name": "@bluedot/meet",
+  "name": "@bluedot/availability",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -13,17 +13,16 @@
   },
   "dependencies": {
     "@bluedot/ui": "*",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@zoom/meetingsdk": "^3.5.2",
     "airtable-ts": "^1.0.0",
     "axios": "^1.6.8",
-    "axios-hooks": "^5.0.2",
     "clsx": "^2.1.0",
     "http-errors": "^2.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "next": "^14.3.0-canary.14",
+    "next": "^14.0.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.3",
+    "react-select": "^5.8.0",
+    "weekly-availabilities": "^1.0.0"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",

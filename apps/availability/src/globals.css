@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Reckless Neue";
+  src: url("/fonts/RecklessNeue-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Reckless Neue";
+  src: url("/fonts/RecklessNeue-LightItalic.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: italic
+}
+
+@font-face {
+  font-family: "Roobert";
+  src: url("/fonts/Roobert-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Roobert";
+  src: url("/fonts/Roobert-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Roobert";
+  src: url("/fonts/Roobert-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal
+}
+
+/* TODO: move these styles out of here */
+
+.setup input {
+  @apply px-3 py-2 text-gray-700 rounded border focus:outline focus:outline-gray-400;
+}
+
+.setup button {
+  @apply px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300;
+}
+
+.timezone-select.solid-select-container {
+  @apply w-32;
+}
+
+.timezone-select .solid-select-list {
+  @apply bg-white border-gray-300 border-2 w-32;
+}
+
+.timezone-select .solid-select-option {
+  @apply flex justify-center cursor-pointer;
+}

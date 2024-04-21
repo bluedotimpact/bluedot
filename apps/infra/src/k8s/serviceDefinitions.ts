@@ -57,6 +57,23 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['meet.bluedot.org'],
   },
+  {
+    name: 'bluedot-availability',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-availability',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-availability:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
+    },
+    hosts: ['availability.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-bubble-proxy',
   //   targetPort: 80,
