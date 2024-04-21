@@ -63,7 +63,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).infra.should_skip }}
     runs-on: ubuntu-latest
     concurrency:
-      group: prevent-concurrent-jobs
+      group: ${{ github.job }}
     timeout-minutes: 10
     steps:
       - name: Checkout ${{ github.sha }}
@@ -94,7 +94,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).frontend-example.should_skip }}
     runs-on: ubuntu-latest
     concurrency:
-      group: prevent-concurrent-jobs
+      group: ${{ github.job }}
     timeout-minutes: 10
     steps:
       - name: Checkout ${{ github.sha }}
@@ -124,7 +124,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).miniextensions-proxy.should_skip }}
     runs-on: ubuntu-latest
     concurrency:
-      group: prevent-concurrent-jobs
+      group: ${{ github.job }}
     timeout-minutes: 10
     steps:
       - name: Checkout ${{ github.sha }}
