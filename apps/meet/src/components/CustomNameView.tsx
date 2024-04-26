@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@bluedot/ui';
+import { Button, Input } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import useJoinAs from '../lib/client/useJoinAs';
 import { Page } from './Page';
@@ -23,7 +23,7 @@ const CustomNameView: React.FC<CustomNameViewProps> = ({ page: { cohortClassId }
         <>
           <p>If you're sure this is the meeting for you, enter your name below</p>
           <form className="flex gap-2 mt-2" onSubmit={(event) => { event.preventDefault(); return joinAs({ name }); }}>
-            <input type="text" autoComplete="name" placeholder="Your name" className="px-2 py-1 rounded border-2 focus-visible:outline-1 focus-visible:outline-bluedot-normal" value={name} onChange={(value) => setName(value.target.value)} />
+            <Input type="text" autoComplete="name" placeholder="Your name" value={name} onChange={(value) => setName(value.target.value)} />
             <Button onPress={() => joinAs({ name })}>Join now</Button>
           </form>
         </>

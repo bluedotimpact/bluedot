@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { Button, Link } from '@bluedot/ui';
+import { Button, Input, Link } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import useJoinAs from '../lib/client/useJoinAs';
@@ -121,7 +121,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
             </Link>
           </div>
           <div className="mt-4">
-            <label><input type="checkbox" checked={joinWithApp} onChange={(event) => setJoinWithApp(event.target.checked)} /> Join with the Zoom app</label>
+            <label><Input type="checkbox" checked={joinWithApp} onChange={(event) => setJoinWithApp(event.target.checked)} /> Join with the Zoom app</label>
           </div>
         </>
       )}

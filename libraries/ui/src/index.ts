@@ -8,3 +8,9 @@ export {
 export type { TextProps } from './Text';
 export { Card, CardButton } from './Card';
 export type { CardProps } from './Card';
+export { Box } from './Box';
+export type { BoxProps } from './Box';
+export { Input } from './Input';
+export type { InputProps } from './Input';
+export { Textarea } from './Textarea';
+export type { TextareaProps } from './Textarea';

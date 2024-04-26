@@ -7,6 +7,11 @@ import {
   Controller, FormProvider, useForm, useFormContext,
 } from 'react-hook-form';
 import Select from 'react-select';
+import {
+  Box, Button, H1, Input,
+  Textarea,
+} from '@bluedot/ui';
+import clsx from 'clsx';
 import { SpinnerIcon } from '../../components/SpinnerIcon';
 import { parseOffsetFromStringToMinutes, offsets } from '../../lib/date';
 import { pad, snapToRect } from '../../lib/util';
@@ -21,7 +26,7 @@ const serializeCoord = ({ day, time }: Coord) => `${day},${time}`;
 
 // consts
 const MINUTES_IN_UNIT = 30;
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 const browserTimezoneName = new Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 // utils
@@ -228,17 +233,17 @@ const TimeAvWidget: React.FC<{ show24: boolean }> = ({ show24 }) => {
   }, [cellRefs, dragState, mainGrid, setValue]);
 
   return (
-    <div className="w-full touch-none">
+    <div className="w-full touch-none text-xs text-stone-500">
       <div className="flex">
         <div className="w-12" />
-        <div className="grid grid-cols-7 w-full text-sm sm:text-base">
-          {days.map((day) => <div key={day} className="h-8 mx-auto">{day}</div>)}
+        <div className="grid grid-cols-7 w-full text-center">
+          {days.map((day) => <div key={day}>{day.slice(0, 1)}</div>)}
         </div>
       </div>
       <div className="flex">
         <div className="w-12">
           {times.map((time, i) => i % 2 === 0 && (
-            <div key={time} className="h-8 text-xs text-gray-700 flex justify-end px-1 py-px">
+            <div key={time} className="h-8 flex justify-end px-1 py-px">
               <div className="-translate-y-2">{timeToLabel(time)}</div>
             </div>
           ))}
@@ -246,7 +251,7 @@ const TimeAvWidget: React.FC<{ show24: boolean }> = ({ show24 }) => {
         <div className="w-full">
           <div
             ref={mainGrid}
-            className="grid grid-cols-7 bg-gray-400 border-t border-l border-gray-800 w-full"
+            className="grid grid-cols-7 bg-white border-t border-l border-gray-800 w-full"
           >
             {cellCoords.map((coord, i) => {
               const isBlocked = timeAv[serializeCoord(coord)];
@@ -276,9 +281,7 @@ const TimeAvWidget: React.FC<{ show24: boolean }> = ({ show24 }) => {
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   ref={(ref) => { cellRefs[i] = { ref, coord }; }}
-                  className={`relative h-4 ${
-                    isBlocked ? 'bg-green-400' : 'bg-red-50'
-                  } border-gray-800 border-r border-b ${borderStyle}`}
+                  className={clsx(`relative h-4 border-gray-800 border-r border-b ${borderStyle}`, isBlocked && 'bg-green-400')}
                   onMouseDown={(e) => {
                     e.preventDefault();
                     dragStart(coord);
@@ -305,54 +308,52 @@ const TimeAv: React.FC = () => {
   const { setValue } = useFormContext<FormData>();
 
   return (
-    <div className="mt-4 flex justify-between space-x-2">
+    <div className="sm:flex gap-4">
       <TimeAvWidget show24={show24} />
-      <div className="w-20 sm:w-32 flex flex-col justify-start items-end space-y-2">
-        <div className="h-6" />
-        <button
-          type="button"
-          className="w-full px-1 py-1 text-xs text-gray-500 rounded border border-gray-300 hover:shadow"
-          onClick={() => setShow24(!show24)}
-        >
-          {show24 ? (
-            <>
-              <span className="hidden sm:inline">Show less hours</span>
-              <span className="sm:hidden">Less hours</span>
-            </>
-          ) : (
-            <>
-              <span className="hidden sm:inline">Show 24 hours</span>
-              <span className="sm:hidden">24 hours</span>
-            </>
-          )}
-        </button>
-        <button type="button" className="w-full px-1 py-1 text-xs text-gray-500 rounded border border-gray-300 hover:shadow" onClick={() => setValue('timeAv', {})}>
+      <div className="sm:w-40 sm:mt-4 flex sm:flex-col gap-2">
+        <Button className="w-full text-sm" onPress={() => setShow24(!show24)}>
+          Show {show24 ? 'less' : 'more'}
+        </Button>
+        <Button className="w-full text-sm" onPress={() => setValue('timeAv', {})}>
           Clear
-        </button>
+        </Button>
       </div>
     </div>
   );
 };
 
-const TimeOffsetSelector: React.FC = () => {
+const TimeOffsetSelector: React.FC<{ className?: string }> = ({ className }) => {
   const { control } = useFormContext<FormData>();
   const options = offsets.map((s) => ({ value: s, label: s }));
 
   const [detected, setDetected] = useState(true);
 
   return (
-    <div>
-      <label className="text-xs text-gray-500 mb-1">Time offset ({detected ? `Automatically set for ${browserTimezoneName}` : 'Overwritten'})</label>
+    <div className={className}>
+      <label className="text-xs text-stone-500 block">Time offset {detected ? `(Automatically set to ${browserTimezoneName})` : ''}</label>
       <Controller
         render={({ field: { onChange, value, ref } }) => (
           <Select
             ref={ref}
             options={options}
-            className="w-60"
+            className="w-full"
             value={{ value, label: value }}
             onChange={(val) => {
               setDetected(false);
               onChange(val?.value);
+            }}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 2,
+              colors: {
+                ...theme.colors,
+                primary: '#0037FF',
+              },
+            })}
+            classNames={{
+              control: (state) => clsx('!border-2 !border-stone-200 !rounded-sm !min-h-0 !shadow-none', state.isFocused && '!border-bluedot-normal'),
+              valueContainer: () => '!py-0',
+              dropdownIndicator: () => '!py-0',
             }}
           />
         )}
@@ -434,60 +435,50 @@ const Form: React.FC<{
   }
 
   return (
-    <div className="text-gray-700">
-      <div className="max-w-md mx-auto my-4 px-4 sm:p-0">
-        <div className="text-2xl">{title}</div>
-        <div className="text-lg">Time availability form</div>
-        <div className="space-y-2 mt-4 text-sm">
-          <p>Submit your time availability so that we can schedule the weekly discussion sessions at times that suit you. Your discussion sessions will be at the same time each week.</p>
-          <p><b>Please indicate all the times that you will be regularly free during the weeks of the course.</b></p>
-          <p>It’s okay if you can’t make the odd week here and there - there will be an option to switch cohort for a week if you can’t make your usual time.</p>
-        </div>
-      </div>
-      <div className="bg-gray-50 min-h-screen py-4">
-        <div className="max-w-md mx-auto px-4 sm:p-0 text-sm space-y-2">
-          <div>
-            <label className="text-xs text-gray-500 mb-1">Email (Don't change if pre-filled)<br />
-              <input
+    <div className="bg-cream-normal py-16 px-4">
+      <Box className="max-w-2xl mx-auto">
+        <div className="m-12">
+          <H1 className="!text-5xl">{title}</H1>
+          <div className="space-y-2 mt-4">
+            <p>Submit your availability so we can schedule your discussion sessions at times that suit you.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
+            <label className="text-xs text-stone-500 block">Email<br />
+              <Input
                 type="text"
-                placeholder="Email"
-                className="px-3 py-2 text-gray-700 rounded border focus:outline focus:outline-gray-400 w-60"
+                placeholder="you@example.com"
+                className="w-full"
                 {...register('email')}
               />
             </label>
+            <TimeOffsetSelector />
           </div>
-          <TimeOffsetSelector />
-          <div className="h-2" />
-          <div className="text-xs text-gray-500 space-y">
-            <p>Click and drag to select your availability. Times are in your selected time offset - note that daylight savings may change your offset during the course, but your cohort will usually stay at the same UTC time.</p>
-            <p />
+          <div className="text-xs text-stone-500 mt-6 mb-4 space-y-2">
+            <p>Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch cohort for weeks where you can’t make your usual time.</p>
           </div>
           <TimeAv />
-          <div>
-            <textarea
-              cols={40}
-              rows={3}
-              placeholder="Additional comments"
-              className="px-2 py-1 w-full text-xs text-gray-700 rounded border focus:outline focus:outline-gray-400"
+          <label className="text-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
+            <Textarea
+              className="w-full mt-1"
               {...register('comment')}
             />
-          </div>
-          <div className="flex items-center pt-6 pb-16 setup space-x-3">
+          </label>
+          <div className="mt-6">
             {submitting && <div className="flex w-full justify-center"><SpinnerIcon /></div>}
             {!submitting && (
             <>
-              <button type="button" onClick={submit} disabled={!isValidEmail() || !longEnoughInterval()}>
-                Submit
-              </button>
-              <p className="text-[10px] text-gray-500 leading-3">
-                {!isValidEmail() && 'Please input a valid email. '}
-                {!longEnoughInterval() && `Please fill out at least one interval of length at least ${minLength} minutes.`}
+              <p className="text-xs text-stone-500 mb-1">
+                {!isValidEmail() && <>Input a valid email.<br /></>}
+                {!longEnoughInterval() && `Fill out at least one interval of length at least ${minLength} minutes.`}
               </p>
+              <Button onPress={submit} disabled={!isValidEmail() || !longEnoughInterval()}>
+                Submit
+              </Button>
             </>
             )}
           </div>
         </div>
-      </div>
+      </Box>
     </div>
   );
 };
@@ -532,7 +523,7 @@ const FormWrapper: React.FC = () => {
 
   if (info.type === 'error') {
     return (
-      <div className="w-full h-screen flex justify-center items-center text-gray-700">
+      <div className="w-full h-screen flex justify-center items-center">
         Error loading form: {info.error}
       </div>
     );

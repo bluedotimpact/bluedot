@@ -49,8 +49,11 @@ const rules = {
     ],
     optionalDependencies: false,
   }],
+  'jsx-a11y/label-has-associated-control': ['error', {
+    controlComponents: ['Input', 'Textarea'],
+  }],
   // Almost always a false positive on the <Link> component
-  'jsx-a11y/anchor-is-valid': ['off']
+  'jsx-a11y/anchor-is-valid': ['off'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */

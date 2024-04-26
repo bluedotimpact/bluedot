@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
-import { Button } from '@bluedot/ui';
+import { Button, Input } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import { H1 } from '../components/Text';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/record-attendance';
@@ -60,11 +60,11 @@ const RecordAttendancePage: React.FC<{ cohortClassId: string, participantId: str
         {['Used native Zoom app', 'Used direct Zoom link in browser', 'Joined with wrong name', 'Joined with a custom name', 'Not sure, but I attended'].map((reason) => <Button onPress={() => recordAttendance({ reason })}>{reason}</Button>)}
       </div>
 
-      <div className="mt-4 flex md:w-1/2">
+      <div className="mt-4 flex gap-2 md:w-1/2">
         <label className="flex items-center flex-1">Other:
-          <input type="text" value={otherReason} onChange={(event) => setOtherReason(event.currentTarget.value)} className="ml-2 w-full px-2 py-1 rounded border-2 focus-visible:outline-1 focus-visible:outline-bluedot-normal" />
+          <Input type="text" value={otherReason} onChange={(value) => setOtherReason(value.target.value)} className="ml-2 w-full" />
         </label>
-        <Button onPress={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length} className="ml-2">Submit</Button>
+        <Button onPress={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</Button>
       </div>
     </Page>
   );

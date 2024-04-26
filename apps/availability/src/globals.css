@@ -54,14 +54,6 @@
 
 /* TODO: move these styles out of here */
 
-.setup input {
-  @apply px-3 py-2 text-gray-700 rounded border focus:outline focus:outline-gray-400;
-}
-
-.setup button {
-  @apply px-3 py-1 rounded text-white bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300;
-}
-
 .timezone-select.solid-select-container {
   @apply w-32;
 }
