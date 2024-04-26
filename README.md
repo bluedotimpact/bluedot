@@ -16,6 +16,7 @@ The following key parts of our software are _not_ in this repository because the
 - Application forms: MiniExtensions
 - Apply short links: Short.io
 - Primary database: Airtable
+- Various Airtable extensions (mainly just because these are fiddly to migrate to a monorepo, but could be open-sourced in future)
 
 ## Get started
 
