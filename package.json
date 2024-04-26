@@ -1,6 +1,7 @@
 {
   "name": "bluedot",
   "private": true,
+  "license": "AGPL-3.0-only",
   "scripts": {
     "postinstall": "npm run postinstall --workspaces --if-present",
     "start": "turbo run start",
@@ -19,6 +20,6 @@
   "packageManager": "npm@10.2.3",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "libraries/*"
   ]
 }

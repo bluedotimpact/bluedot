@@ -16,7 +16,7 @@ ENV APP_NAME=${APP_NAME}
 
 COPY --chown=node:node .next/standalone ./
 COPY --chown=node:node public ./apps/${APP_NAME}/public
-COPY --chown=node:node .next/static ./apps/${APP_NAME}/.next/static
+COPY --chown=node:node .next/static ./apps/${APP_NAME}/dist/static
 
 USER node
 

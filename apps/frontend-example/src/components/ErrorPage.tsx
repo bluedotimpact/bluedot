@@ -8,7 +8,7 @@ export const ErrorPage: React.FC<ErrorPageProps> = ({ error }) => {
   return (
     <div className="m-8">
       <H1>Error</H1>
-      <P>Sorry, an unexpected error has occured.</P>
+      <P>Sorry, an unexpected error has occurred.</P>
       <P>
         Error message: <span className="italic">{getNormalisedError(error).message}</span>
       </P>

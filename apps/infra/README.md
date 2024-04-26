@@ -4,13 +4,11 @@ Code for deploying our Kubernetes infrastructure, and our applications onto this
 
 We're currently hosting most things on [Vultr Kubernetes Engine](https://www.vultr.com/kubernetes/).
 
-## Manual setup
+## Developer setup instructions
 
-We initialised these two things manually:
-- Container registry, as this is not currently supported by Pulumi.
-- Object storage, as we need this for the Pulumi state backend so there's a bit of a chicken/egg situation here.
+1. Ensure you've followed [the general developer setup instructions](../../README.md#developer-setup-instructions)
 
-In `~/.aws/credentials` add the following:
+2. In `~/.aws/credentials` (you may need to create this file) add the following:
 
 ```ini
 [vultr-object-storage]
@@ -19,7 +17,7 @@ aws_access_key_id=80A66SRD78U8DZX8SBLJ
 aws_secret_access_key=
 ```
 
-Get `passphrase.prod.txt` from 1Password.
+3. In `passphrase.prod.txt` add the contents from [1Password](https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=j3reqistnwqma7zpy5lzdnwvpi&i=fvtnqvlv5mvrer7o5zm4iijsga&h=bluedotimpact.1password.com).
 
 ## Tasks
 
@@ -50,3 +48,13 @@ If you want to use your secret 'raw', import config from [config.ts](./src/confi
 PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-secrets k8sConfig > kubeconfig.json
 export KUBECONFIG=$(pwd)/kubeconfig.json
 ```
+
+## Things we set up manually
+
+In general we try to configure things with [infrastructure-as-code](https://en.wikipedia.org/wiki/Infrastructure_as_code) via Pulumi as far as practical.
+
+However, we initialised these two things manually:
+- Container registry, as this is not currently supported by Pulumi.
+- Object storage, as we need this for the Pulumi state backend so there's a bit of a chicken/egg situation here.
+
+(this is mainly so we know what isn't Pulumi managed in future, or how to recreate this setup if we need to do so)

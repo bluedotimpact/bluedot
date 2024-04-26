@@ -4,7 +4,9 @@
   "private": true,
   "main": "src/index.ts",
   "scripts": {
-    "postinstall": "command -v pulumi >/dev/null 2>&1 || curl -fsSL https://get.pulumi.com | sh",
+    "postinstall": "npm run postinstall:install_pulumi && npm run postinstall:create_passphrase_file",
+    "postinstall:install_pulumi": "command -v pulumi >/dev/null 2>&1 || curl -fsSL https://get.pulumi.com | sh",
+    "postinstall:create_passphrase_file": "touch passphrase.prod.txt",
     "deploy:prod": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi up --stack prod --yes",
     "config:secret": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi config set --secret",
     "lint": "eslint ."

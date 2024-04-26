@@ -1,5 +1,22 @@
 {
     "tailwindCSS.experimental.classRegex": [
         ["clsx\\(([^)]*)\\)", "'([^']*)'"]
+    ],
+    "cSpell.words": [
+        "BlueDot",
+        "bluedotimpact",
+        "aisafetyfundamentals",
+        "biosecurityfundamentals",
+        "Airtable",
+        "MiniExtensions",
+        "Vultr",
+        "kysely",
+        "kanel",
+        "clsx",
+        "Pulumi",
+        "nextjs",
+    ],
+    "cSpell.ignoreRegExpList": [
+        "(rec|tbl|app|viw|bli)[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{14}"
     ]
 }

@@ -12,7 +12,6 @@
     "next-env.d.ts",
     "next.config.js",
     "src/**/*",
-    ".next/types/**/*.ts",
     "tailwind.config.ts",
     "vitest.config.ts",
   ],
