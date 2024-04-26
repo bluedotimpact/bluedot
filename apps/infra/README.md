@@ -45,8 +45,8 @@ If you want to use your secret 'raw', import config from [config.ts](./src/confi
 ### Connecting with kubectl
 
 ```bash
-PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-secrets k8sConfig > kubeconfig.json
-export KUBECONFIG=$(pwd)/kubeconfig.json
+PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-secrets k8sConfig > kubeconfig.yaml
+export KUBECONFIG=$(pwd)/kubeconfig.yaml
 ```
 
 ## Things we set up manually
