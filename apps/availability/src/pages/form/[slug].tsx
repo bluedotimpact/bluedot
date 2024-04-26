@@ -351,7 +351,7 @@ const TimeOffsetSelector: React.FC<{ className?: string }> = ({ className }) => 
               },
             })}
             classNames={{
-              control: (state) => clsx('!border-2 !border-stone-200 !rounded-sm !min-h-0 !shadow-none', state.isFocused && '!border-bluedot-normal'),
+              control: (state) => clsx('!border-2 !rounded-sm !min-h-0 !shadow-none', state.isFocused ? '!border-bluedot-normal' : '!border-stone-200'),
               valueContainer: () => '!py-0',
               dropdownIndicator: () => '!py-0',
             }}
