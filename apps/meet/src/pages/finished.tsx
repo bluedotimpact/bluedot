@@ -1,8 +1,8 @@
 import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
+import { Button } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import { H1 } from '../components/Text';
-import Button from '../components/Button';
 import { CohortCourseHubLinkRequest, CohortCourseHubLinkResponse } from './api/public/cohort-course-hub-link';
 
 const Finished: React.FC = () => {

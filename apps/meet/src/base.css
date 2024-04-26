@@ -1,5 +1,6 @@
 /*
 Base styles to reset CSS, scoped to tw-preflight container
+This is so it doesn't clash with Zoom's styles
 Derived from https://unpkg.com/tailwindcss@3.3.3/src/css/preflight.css
 Also see https://github.com/tailwindlabs/tailwindcss/discussions/7050
 */

@@ -49,6 +49,8 @@ const rules = {
     ],
     optionalDependencies: false,
   }],
+  // Almost always a false positive on the <Link> component
+  'jsx-a11y/anchor-is-valid': ['off']
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */

@@ -1,13 +1,12 @@
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { Button, Link } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import useJoinAs from '../lib/client/useJoinAs';
 import { Page } from './Page';
 import { H1 } from './Text';
-import Button from './Button';
-import Link from './Link';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from '../pages/api/public/record-attendance';
 
 export type SelectPersonViewProps = {
@@ -72,11 +71,11 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
       {joinError && <p className="mb-2">Error: {joinError}</p>}
       {isJoining ? <p>Joining meeting...</p> : (
         <>
-          <div className="grid gap-2 md:w-1/2">
+          <div className="grid gap-2 sm:w-1/2">
             {data.participants.map((participant) => (
               <Button
                 key={participant.id}
-                onClick={async () => {
+                onPress={async () => {
                   if (joinWithApp) {
                     await axios<RecordAttendanceResponse, AxiosResponse<MeetingParticipantsResponse>, RecordAttendanceRequest>({
                       method: 'POST',
@@ -102,10 +101,8 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
           <div className="mt-4">
             Not on this list?
             {' '}
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <Link
-              role="button"
-              onClick={() => {
+              onPress={() => {
                 if (joinWithApp) {
                   setPage({
                     name: 'appJoin',

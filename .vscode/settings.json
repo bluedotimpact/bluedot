@@ -2,6 +2,9 @@
     "tailwindCSS.experimental.classRegex": [
         ["clsx\\(([^)]*)\\)", "'([^']*)'"]
     ],
+    "tailwindCSS.experimental.configFile": {
+        "apps/availability/tailwind.config.ts": "libraries/ui/**"
+    },
     "cSpell.words": [
         "BlueDot",
         "bluedotimpact",
