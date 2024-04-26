@@ -58,8 +58,8 @@ jobs:
             miniextensions-proxy:
               paths:
                 - 'apps/miniextensions-proxy/**'
-            paths:
-              - 'package-lock.json'
+          paths: '["package-lock.json"]'
+          paths_ignore: '["**/README.md"]'
     outputs:
       should_skip: ${{ steps.modified_paths_check.outputs.should_skip }}
       paths_result: ${{ steps.modified_paths_check.outputs.paths_result }}
