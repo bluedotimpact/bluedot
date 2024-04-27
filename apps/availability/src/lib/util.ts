@@ -11,8 +11,3 @@ export function snapToRect(
     y: y > bottom ? bottom - 5 : y < top ? top + 5 : y,
   };
 }
-
-// pad number with zeros so that it has 2 digits
-export function pad(num: number) {
-  return num < 10 ? `0${num}` : num;
-}

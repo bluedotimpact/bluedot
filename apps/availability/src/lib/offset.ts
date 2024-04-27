@@ -48,3 +48,9 @@ export function parseOffsetFromStringToMinutes(offset: string): number {
   const minutes = (parseInt(offset[4]!) * 10 + parseInt(offset[5]!)) * 60 + (parseInt(offset[7]!) * 10 + parseInt(offset[8]!));
   return sign * minutes;
 }
+
+export function formatOffsetFromMinutesToString(minutes: number): string {
+  // eslint-disable-next-line no-nested-ternary
+  const signSymbol = minutes === 0 ? '' : (minutes < 0 ? '+' : '-');
+  return `UTC${signSymbol}${(Math.floor(Math.abs(minutes) / 60)).toString().padStart(2, '0')}:${(Math.floor(Math.abs(minutes) % 60)).toString().padStart(2, '0')}`;
+}

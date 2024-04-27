@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { offsets, parseOffsetFromStringToMinutes } from './date';
+import { formatOffsetFromMinutesToString, offsets, parseOffsetFromStringToMinutes } from './offset';
 
 describe('parseOffsetFromStringToMinutes', () => {
   test.each([
@@ -12,8 +12,8 @@ describe('parseOffsetFromStringToMinutes', () => {
   ])('%s', (timezone, offset) => {
     expect(parseOffsetFromStringToMinutes(timezone)).toBe(offset);
   });
+});
 
-  test('all offsets can be parsed', () => {
-    offsets.forEach((offset) => expect(() => parseOffsetFromStringToMinutes(offset)).not.toThrow());
-  });
+test('all offsets can be parsed and stringified to themselves', () => {
+  offsets.forEach((offset) => expect(formatOffsetFromMinutesToString(parseOffsetFromStringToMinutes(offset))).toBe(offset));
 });
