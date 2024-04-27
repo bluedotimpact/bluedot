@@ -131,7 +131,7 @@ const Form: React.FC<{
   }
 
   return (
-    <div className="bg-cream-normal py-16 px-4">
+    <div className="bg-cream-normal text-bluedot-black antialiased py-16 px-4">
       <Box className="max-w-2xl mx-auto">
         <div className="m-12">
           <H1 className="!text-5xl">{title}</H1>

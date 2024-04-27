@@ -53,5 +53,5 @@
 }
 
 html {
-  @apply bg-cream-normal
+  @apply bg-cream-normal text-bluedot-black antialiased
 }

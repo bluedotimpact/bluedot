@@ -14,6 +14,7 @@ export default {
           normal: '#0037FF',
           dark: '#002199',
           darker: '#00114D',
+          black: '#1E1E1E',
         },
         aisf: {
           lighter: '#E6B3FF',
