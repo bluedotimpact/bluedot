@@ -1,0 +1,8 @@
+{
+    "name": "@bluedot/posthog-proxy",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "deploy:prod": "tools/deployDocker.sh"
+    }
+}

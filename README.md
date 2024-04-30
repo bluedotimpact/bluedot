@@ -64,7 +64,7 @@ We recommend most contributors learn how to:
    - On macOS with Homebrew: `brew install docker`
    - On Ubuntu Linux: [instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
 5. Install and configure a container runtime.
-   - On macOS with Homebrew: `brew install colima && docker context use colima`
+   - On macOS with Homebrew: `brew install colima && brew services start colima && docker context use colima`
    - On Ubuntu Linux: already installed with client
    - Other platforms: [Docker Engine](https://docs.docker.com/engine/install/) (NB: NOT Docker Desktop) or [Podman](https://podman.io/docs/installation)
 6. Install kubectl.

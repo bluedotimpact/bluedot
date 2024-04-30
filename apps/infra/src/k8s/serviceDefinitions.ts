@@ -39,6 +39,18 @@ export const services: ServiceDefinition[] = [
     hosts: ['forms.bluedot.org'],
   },
   {
+    name: 'bluedot-posthog-proxy',
+    targetPort: 80,
+    spec: {
+      containers: [{
+        name: 'bluedot-posthog-proxy',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-posthog-proxy:latest',
+      }],
+      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
+    },
+    hosts: ['analytics.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-meet',
     targetPort: 8080,
     spec: {
