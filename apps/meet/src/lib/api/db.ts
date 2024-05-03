@@ -8,8 +8,8 @@ export default new AirtableTs({
 const airtableBaseId = 'appPs3sb9BrYZN69z';
 
 export interface Cohort extends Item {
-  'Cohort sessions': string[],
-  'Iteration (link) (from Facilitator)': string,
+  'cohortSessions': string[],
+  'iteration': string,
 }
 
 export const cohortTable: Table<Cohort> = {
@@ -17,8 +17,12 @@ export const cohortTable: Table<Cohort> = {
   baseId: airtableBaseId,
   tableId: 'tblyiJSPoniwhi17T',
   schema: {
-    'Cohort sessions': 'string[]',
-    'Iteration (link) (from Facilitator)': 'string',
+    cohortSessions: 'string[]',
+    iteration: 'string',
+  },
+  mappings: {
+    cohortSessions: 'fldwEeC65sHvGGRGb',
+    iteration: 'fldtzy3nSP0piVApO',
   },
 };
 

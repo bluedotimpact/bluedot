@@ -19,7 +19,7 @@ export default apiRoute(async (
   res: NextApiResponse<CohortCourseHubLinkResponse>,
 ) => {
   const cohort = await db.get(cohortTable, req.body.cohortId);
-  const iteration = await db.get(iterationTable, cohort['Iteration (link) (from Facilitator)']);
+  const iteration = await db.get(iterationTable, cohort.iteration);
   const course = await db.get(courseTable, iteration.Course);
 
   res.status(200).json({

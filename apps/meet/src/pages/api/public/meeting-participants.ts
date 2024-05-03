@@ -46,7 +46,7 @@ export default apiRoute(async (
     throw err;
   }
   const cohortClasses = await Promise.all(
-    cohort['Cohort sessions']
+    cohort.cohortSessions
       .map((cohortClassId) => db.get(cohortClassTable, cohortClassId)),
   );
   const cohortClassesWithDistance = cohortClasses.map((cohortClass) => ({
