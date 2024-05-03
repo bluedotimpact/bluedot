@@ -48,12 +48,12 @@ export const cohortClassTable: Table<CohortClass> = {
     'Zoom account': 'string | null',
   },
   mappings: {
-    Facilitator: '[>] Facilitator',
-    'Participants (Expected)': '[>] Participants (Expected)',
-    Attendees: '[>] Attendees',
-    'Start date/time': 'Start date/time',
-    Cohort: '[>] Cohort',
-    'Zoom account': '[>] Zoom account',
+    Facilitator: 'fldP5BqdFfcn8enfc',
+    'Participants (Expected)': 'fldEKYwcacAa6nBEE',
+    Attendees: 'fldo0xEi6vJKSJlFN',
+    'Start date/time': 'flduTqIxS6OEHNr4H',
+    Cohort: 'fldjISs1XFGAwT5k5',
+    'Zoom account': 'fldH0pKnEELPI65Qs',
   },
 };
 
@@ -62,14 +62,14 @@ export interface Person extends Item {
 }
 
 export const personTable: Table<Person> = {
-  name: 'participant',
+  name: 'person',
   baseId: airtableBaseId,
   tableId: 'tblBeMxAM1FAW06n4',
   schema: {
     name: 'string',
   },
   mappings: {
-    name: 'fldyJ6QUIiw1kGOfc',
+    name: 'fldP4ejaYy137J5Md',
   },
 };
 
@@ -86,6 +86,10 @@ export const zoomAccountTable: Table<ZoomAccount> = {
     'Meeting link': 'string',
     'Host key': 'string',
   },
+  mappings: {
+    'Meeting link': 'fldF5V0uf7jYAxHu5',
+    'Host key': 'fldprdNVzdeAU1cRH',
+  },
 };
 
 export interface Iteration extends Item {
@@ -99,6 +103,9 @@ export const iterationTable: Table<Iteration> = {
   schema: {
     Course: 'string',
   },
+  mappings: {
+    Course: 'fldvx7D6Uw0VxMPr0',
+  },
 };
 
 export interface Course extends Item {
@@ -111,5 +118,8 @@ export const courseTable: Table<Course> = {
   tableId: 'tblO0sgD3ioedaqDw',
   schema: {
     '[*] Course Site': 'string',
+  },
+  mappings: {
+    '[*] Course Site': 'fldzJ2h89blzv6MSb',
   },
 };

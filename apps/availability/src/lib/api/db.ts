@@ -22,4 +22,10 @@ export const formConfigurationTable: Table<FormConfiguration> = {
     Webhook: 'string',
     'Minimum length': 'number',
   },
+  mappings: {
+    Slug: 'fldrw0oSjFSMezFJ2',
+    Title: 'fldHiGrJmyBvSdGUm',
+    Webhook: 'fldoGERxuxQ17adXI',
+    'Minimum length': 'fldUiReJ8a7hdV37E',
+  },
 };
