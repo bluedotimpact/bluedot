@@ -57,16 +57,19 @@ export const cohortClassTable: Table<CohortClass> = {
   },
 };
 
-export interface Participant extends Item {
-  'Name': string,
+export interface Person extends Item {
+  'name': string,
 }
 
-export const participantTable: Table<Participant> = {
+export const personTable: Table<Person> = {
   name: 'participant',
   baseId: airtableBaseId,
   tableId: 'tblBeMxAM1FAW06n4',
   schema: {
-    Name: 'string',
+    name: 'string',
+  },
+  mappings: {
+    name: 'fldyJ6QUIiw1kGOfc',
   },
 };
 
