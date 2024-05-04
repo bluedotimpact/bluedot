@@ -2,15 +2,23 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import posthog from 'posthog-js';
+import { PostHogProvider } from 'posthog-js/react';
 import {
   CookieBanner, Footer, isCurrentPath, Nav, constants,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { Analytics } from '../components/Analytics';
 
+if (typeof window !== 'undefined') {
+  posthog.init('phc_yZ6zilX74HsRDdqv4JXMzF3o0fEtQvvSGHEfrONN5MH', {
+    api_host: 'https://eu.i.posthog.com',
+  });
+}
+
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
+    <PostHogProvider>
       <Head>
         <title>BlueDot Impact</title>
         <link rel="icon" type="image/png" href="images/logo/favicon/favicon-96x96.png" sizes="96x96" />
@@ -33,7 +41,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <CookieBanner />
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
       <Analytics />
-    </>
+    </PostHogProvider>
   );
 };
 

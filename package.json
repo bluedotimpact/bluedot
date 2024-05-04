@@ -14,7 +14,8 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "turbo": "latest"
+    "turbo": "latest",
+    "posthog-js": "^1.130.2"
   },
   "engines": {
     "node": "^22"
