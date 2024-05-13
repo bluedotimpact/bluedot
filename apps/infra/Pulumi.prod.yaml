@@ -5,7 +5,7 @@ config:
   infra:alertsSlackBotToken:
     secure: v1:KHo0xEvyljpu6RQu:FxDE6U4NfjkQTTCE+yLJKpF2tnjiNqGM4eWfgnSMgD+3RKyicTHqUuVKYyEQdNYj9YZkokYeD6X0eB277AYJHQUV3ZhbrrO/vA==
   infra:containerRegistryDockerConfigJson:
-    secure: v1:lycjX7rEaALQ9R/z:sZY2d07ja/BvKImmficAenAbHtUZ/fRgnq1VUrD9whc4PEwv8RM952po7asuECsQHPF7/nSAheMWH4dk2n039ylID933zQ9lMSh9AbDP5hsw6Td+X+KSwyYBZlSx6RdYfzAf8F7dRk6Rd+varZXql+rKpwfhpcXoEd9OMHR/niMQIBOQk5mUqc/m2FUMkWptCYMJpfYUQu4x9oqA52hG39Ojbdr7NDf+ZiedXWIJFmniCTdOZRNUWDgnkXI2fGkPI0yr1O8cr68aS2WmrvtVYDfheaKJZd9kZ4avug==
+    secure: v1:LpnRT4IE6+Nzs4yo:0e50NwGbSdnlg1HyUx3KK+Q83olnnQoB0RF9jy/hxZ9SWogLG5dAOyb/81Bnf6qyX/TloW3s2KGysDA89KSPDNoSQy3TnKij9ZkasWpvB1KHRCfkwqhjz3T9Y+cEynTpxrV9EvQHiic4+FEVwV/9StEAa96JHAHj7PU9NLi1Tq0m1gpdjar8hvKg9WE9UkHcSQi1QPNtyOFNZ/e7olBGuej+ePWpftIt3n0mCyUt34/2zTpCfSEmTmD4jGs8Cm7ebGTfNTXrd87QHf77iukXWMzhgPrVciyWB9Av5ktY1Fk=
   infra:meetZoomClientSecret:
     secure: v1:jPYJIQX1CoHF/Zmm:KTKen2BLFJ2UpCuIOXE5kdUh0OynxG/UbVbTD4h0Ft5X2UFFRYPp1iSVGd8Rxd+o
   vultr:apiKey:
