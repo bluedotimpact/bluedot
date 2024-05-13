@@ -13,20 +13,6 @@ module.exports = {
   poweredByHeader: false,
   headers: async () => {
     return [
-      // See https://developers.zoom.us/docs/meeting-sdk/web/sharedarraybuffer/
-      {
-        source: '/',
-        headers: [
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
-          },
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-        ],
-      },
       {
         source: '/:path*',
         headers: [

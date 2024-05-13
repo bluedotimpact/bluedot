@@ -21,6 +21,11 @@ export const services: ServiceDefinition[] = [
       containers: [{
         name: 'bluedot-frontend-example',
         image: 'sjc.vultrcr.com/bluedot/bluedot-frontend-example:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
       }],
       imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
