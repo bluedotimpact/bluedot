@@ -6,10 +6,10 @@ import {
 const Dewi = () => {
   const [value, setValue] = useState(0);
   const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']; // Add more colors as needed
-  const images = ["bdi.png", "aisf.png", "bsf.png"]; // Array of images
+  const images = ['bdi.png', 'aisf.png', 'bsf.png']; // Array of images
 
   // Function to get the next color based on the current value
-  const getNextColor = () => colors[value % colors.length];
+  const getNextColor = () => colors[value % colors.length]!;
   const getCurrentImage = () => images[value % images.length];
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Dewi = () => {
       <div className="mx-8">
         <H1>Dewi's magic page</H1>
         <P className="mt-8">Value is {value}</P>
-        <img src={getCurrentImage()} alt="Dynamic Image" style={{ width: '300px' }} />
+        <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
       </div>
     </>
   );
