@@ -23,28 +23,16 @@ const Dewi = () => {
   }, []);
 
   useEffect(() => {
-    // Update the background color of the body
-    document.body.style.backgroundColor = getNextColor();
-    // Ensure the body takes up the full height
-    document.body.style.height = '100%';
+    // Update the background color of the main element
+    (document.getElementsByClassName('bluedot-base')[0] as HTMLElement).style.backgroundColor = getNextColor();
   }, [value]); // Dependency array to run effect when value changes
 
   return (
-    <>
-      <style>
-        {`
-          html, body {
-            height: 100%;
-            margin: 0;
-          }
-        `}
-      </style>
-      <div className="mx-8">
-        <H1>Dewi's magic page</H1>
-        <P className="mt-8">Value is {value}</P>
-        <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
-      </div>
-    </>
+    <div className="mx-8">
+      <H1>Dewi's magic page</H1>
+      <P className="mt-8">Value is {value}</P>
+      <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
+    </div>
   );
 };
 

@@ -1,42 +1,18 @@
-/** @type {import('next').NextConfig} */
-module.exports = {
-  transpilePackages: ['@bluedot/ui'],
-  reactStrictMode: true,
-  output: 'standalone',
-  distDir: 'dist',
+const { withDefaultBlueDotNextConfig } = require('@bluedot/ui/src/default-config/next');
 
-  // We already run eslint as a separate step
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
-  poweredByHeader: false,
-  headers: async () => {
-    return [
-      // See https://developers.zoom.us/docs/meeting-sdk/web/sharedarraybuffer/
+module.exports = withDefaultBlueDotNextConfig({
+  // See https://developers.zoom.us/docs/meeting-sdk/web/sharedarraybuffer/
+  headers: [{
+    source: '/',
+    headers: [
       {
-        source: '/',
-        headers: [
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
-          },
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-        ],
+        key: 'Cross-Origin-Embedder-Policy',
+        value: 'require-corp',
       },
       {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-BlueDot-Version',
-            // eslint-disable-next-line turbo/no-undeclared-env-vars
-            value: process.env.VERSION_TAG || 'unknown',
-          },
-        ],
+        key: 'Cross-Origin-Opener-Policy',
+        value: 'same-origin',
       },
-    ];
-  },
-};
+    ],
+  }],
+});

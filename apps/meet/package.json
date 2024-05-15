@@ -23,13 +23,14 @@
     "jsonwebtoken": "^9.0.2",
     "next": "^14.3.0-canary.14",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwindcss-scoped-preflight": "^3.2.6"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@testing-library/react": "^15.0.2",
-    "@types/node": "^20.10.3",
+    "@types/node": "^20.12.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^4.2.1",

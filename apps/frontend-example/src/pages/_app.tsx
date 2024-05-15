@@ -1,3 +1,4 @@
+import '@bluedot/ui/src/shared.css';
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -9,7 +10,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>frontend-example</title>
       </Head>
-      <Component {...pageProps} />
+      <main className="bluedot-base">
+        <Component {...pageProps} />
+      </main>
     </>
   );
 };
