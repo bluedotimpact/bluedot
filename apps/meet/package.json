@@ -36,7 +36,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "dotenv": "^16.4.5",
-    "eslint": "^8.53.0",
+    "eslint": "^8.57.0",
     "happy-dom": "^14.7.1",
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",
