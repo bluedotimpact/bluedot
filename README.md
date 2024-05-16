@@ -57,9 +57,9 @@ We recommend most contributors learn how to:
 2. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
    - On macOS with Homebrew: `brew install git`
    - On Ubuntu Linux: `sudo apt install git-all`
-3. Install [Node.js 20](https://nodejs.org/)
-   - On macOS with Homebrew: `brew install node@20`
-   - On Ubuntu Linux: `curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs`
+3. Install [Node.js 22](https://nodejs.org/)
+   - On macOS with Homebrew: `brew install node`
+   - On Ubuntu Linux: `curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs`
 4. Install [Docker client](https://docs.docker.com/engine/install/). NB: NOT Docker Desktop.
    - On macOS with Homebrew: `brew install docker`
    - On Ubuntu Linux: [instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)

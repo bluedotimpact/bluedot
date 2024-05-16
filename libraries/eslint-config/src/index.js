@@ -88,6 +88,9 @@ module.exports = {
     'eslint-config-domdomegg',
     'eslint-config-turbo',
   ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+  },
   rules,
   overrides: [{
     files: ['*.ts', '*.tsx', '*.mts', '*.cts'],

@@ -51,3 +51,7 @@
   -moz-osx-font-smoothing: grayscale;
   font-style: normal
 }
+
+.bluedot-base {
+  @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+}

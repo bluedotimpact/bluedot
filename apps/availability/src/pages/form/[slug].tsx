@@ -116,7 +116,7 @@ const Form: React.FC<{
 
   if (success) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         Form submitted successfully.
       </div>
     );
@@ -124,15 +124,15 @@ const Form: React.FC<{
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center min-h-screen">
         Error occurred. Please contact us for support.
       </div>
     );
   }
 
   return (
-    <div className="bg-cream-normal text-bluedot-black antialiased py-16 px-4">
-      <Box className="max-w-2xl mx-auto">
+    <div className="py-16 px-4">
+      <Box className="max-w-3xl mx-auto">
         <div className="m-12">
           <H1 className="!text-5xl">{title}</H1>
           <div className="space-y-2 mt-4">
