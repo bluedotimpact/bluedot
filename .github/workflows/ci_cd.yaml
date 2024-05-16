@@ -66,7 +66,7 @@ jobs:
 
   cd_infra:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).infra.should_skip }}
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).infra.should_skip) }}
     runs-on: ubuntu-latest
     concurrency:
       group: cd_infra
@@ -97,7 +97,7 @@ jobs:
 
   cd_frontend-example:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).frontend-example.should_skip }}
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).frontend-example.should_skip) }}
     runs-on: ubuntu-latest
     concurrency:
       group: cd_frontend-example
@@ -127,7 +127,7 @@ jobs:
 
   cd_availability:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).availability.should_skip }}
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).availability.should_skip) }}
     runs-on: ubuntu-latest
     concurrency:
       group: cd_availability
@@ -157,7 +157,7 @@ jobs:
 
   cd_meet:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).meet.should_skip }}
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).meet.should_skip) }}
     runs-on: ubuntu-latest
     concurrency:
       group: cd_meet
@@ -187,7 +187,7 @@ jobs:
 
   cd_miniextensions-proxy:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).miniextensions-proxy.should_skip }}
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).miniextensions-proxy.should_skip) }}
     runs-on: ubuntu-latest
     concurrency:
       group: cd_miniextensions-proxy
