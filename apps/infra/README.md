@@ -38,6 +38,8 @@ npm run config:secret <key>
 
 It'll prompt you for a value, and then update [Pulumi.prod.yaml](./Pulumi.prod.yaml).
 
+To generate a random password, consider: `openssl rand -hex 20`
+
 If you want to use your secret as an environment variable, add it to the `toK8s` array in [secrets.ts](./src/k8s/secrets.ts). You can then use it as `envVarSources.key` in other files.
 
 If you want to use your secret 'raw', import config from [config.ts](./src/config.ts) and then call `config.requireSecret('key')`.

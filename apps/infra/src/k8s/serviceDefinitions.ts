@@ -1,5 +1,6 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import { containerRegistrySecret, envVarSources } from './secrets';
+import { getConnectionDetails, keycloakPg } from './postgres';
 
 // TODO: pin the external versions
 export const services: ServiceDefinition[] = [
@@ -120,58 +121,54 @@ export const services: ServiceDefinition[] = [
   //   },
   //   hosts: ['backend.bluedot.org'],
   // },
-  // {
-  //   name: 'keycloak',
-  //   targetPort: 8080,
-  //   spec: {
-  //     containers: [{
-  //       name: 'keycloak',
-  //       image: 'quay.io/keycloak/keycloak:nightly',
-  //       args: ['start-dev'],
-  //       env: [{
-  //         name: 'KC_PROXY',
-  //         value: 'edge',
-  //       }, {
-  //         name: 'KC_HOSTNAME_STRICT',
-  //         value: 'false',
-  //       }, {
-  //         name: 'KC_DB',
-  //         value: 'postgres',
-  //       }, {
-  //         name: 'KC_DB_USERNAME',
-  //         value: 'postgres',
-  //       }, {
-  //         name: 'KC_DB_PASSWORD',
-  //         value: cloudSqlPassword,
-  //       }, {
-  //         name: 'KC_DB_URL_HOST',
-  //         value: databaseInstance.publicIpAddress,
-  //       }, {
-  //         name: 'KC_DB_URL_DATABASE',
-  //         value: 'keycloak',
-  //       }],
-  //       volumeMounts: [{
-  //         name: 'providers',
-  //         mountPath: '/opt/keycloak/providers',
-  //       }],
-  //     }],
-  //     initContainers: [{
-  //       name: 'curl',
-  //       image: 'curlimages/curl:latest',
-  //       command: ['/bin/sh', '-c'],
-  //       args: ['curl https://github.com/sventorben/keycloak-home-idp-discovery/releases/download/v23.0.0/keycloak-home-idp-discovery.jar -L --output /opt/keycloak/providers/keycloak-home-idp-discovery.jar && curl https://github.com/nkelemen18/koreui/releases/download/22.0.0/koreui-22.0.0.jar -L --output /opt/keycloak/providers/koreui.jar'],
-  //       volumeMounts: [{
-  //         name: 'providers',
-  //         mountPath: '/opt/keycloak/providers',
-  //       }],
-  //     }],
-  //     volumes: [{
-  //       emptyDir: {},
-  //       name: 'providers',
-  //     }],
-  //   },
-  //   hosts: ['login.bluedot.org'],
-  // },
+  {
+    name: 'keycloak',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-keycloak',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-keycloak:latest',
+        env: [{
+          name: 'KC_PROXY_HEADERS',
+          value: 'xforwarded',
+        }, {
+          name: 'KC_HOSTNAME_STRICT',
+          value: 'false',
+        }, {
+          name: 'KC_DB',
+          value: 'postgres',
+        }, {
+          name: 'KEYCLOAK_ADMIN',
+          value: 'bluedot',
+        }, {
+          name: 'KC_DB_URL',
+          valueFrom: getConnectionDetails(keycloakPg).jdbcUri,
+        }, {
+          name: 'KEYCLOAK_ADMIN_PASSWORD',
+          valueFrom: envVarSources.keycloakAdminPassword,
+        }],
+        volumeMounts: [{
+          name: 'providers',
+          mountPath: '/opt/keycloak/providers',
+        }],
+      }],
+      initContainers: [{
+        name: 'curl',
+        image: 'curlimages/curl:latest',
+        command: ['/bin/sh', '-c'],
+        args: ['curl https://github.com/sventorben/keycloak-home-idp-discovery/releases/download/v23.0.0/keycloak-home-idp-discovery.jar -L --output /opt/keycloak/providers/keycloak-home-idp-discovery.jar && curl https://github.com/nkelemen18/koreui/releases/download/22.0.0/koreui-22.0.0.jar -L --output /opt/keycloak/providers/koreui.jar'],
+        volumeMounts: [{
+          name: 'providers',
+          mountPath: '/opt/keycloak/providers',
+        }],
+      }],
+      volumes: [{
+        emptyDir: {},
+        name: 'providers',
+      }],
+    },
+    hosts: ['login.bluedot.org'],
+  },
 ];
 
 interface ServiceDefinition {

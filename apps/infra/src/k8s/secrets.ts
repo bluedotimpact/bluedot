@@ -8,6 +8,7 @@ const toK8s = [
   'airtablePat',
   'alertsSlackBotToken',
   'meetZoomClientSecret',
+  'keycloakAdminPassword',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {
