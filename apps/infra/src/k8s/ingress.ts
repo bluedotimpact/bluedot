@@ -17,5 +17,10 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
         default: 'true',
       },
     },
+    // This enables public connections to the database
+    // In general, use `kubectl port-forward svc/postgres-cluster-rw 5433:5432` instead
+    // tcp: {
+    //   5432: cluster.metadata.name.apply((v) => `default/${v}-rw:5432`),
+    // },
   },
 }, { provider });
