@@ -20,15 +20,17 @@ The app presents an API that Bubble can call with the API Connector:
 - Data type: JSON
 - Endpoint: `POST https://login-account-proxy.k8s.bluedot.org/api/public/submit`
 - Body type: JSON
-- Body: `{"email":"<email>","password":"<password>","secret":"<secret>"}`
+- Body: `{"newEmail":"<email>","password":"<password>","secret":"<secret>"}`
   - secret is private, and should be set to the same as the environment variable BUBBLE_SHARED_SECRET: this is to authenticate requests from Bubble easily
+
+(you can similar set up something very similar with `oldEmail` to do changes of email)
 
 Or with curl (replace the variables here):
 
 ```bash
 curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{"email":"<email>","password":"<password>","secret":"<secret>"}' \
+  --data '{"newEmail":"<email>","password":"<password>","secret":"<secret>"}' \
   https://login-account-proxy/api/public/submit
 ```
 

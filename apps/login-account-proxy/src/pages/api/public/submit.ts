@@ -4,7 +4,8 @@ import { apiRoute } from '../../../lib/api/apiRoute';
 import env from '../../../lib/api/env';
 
 export type SubmitRequest = {
-  email: string,
+  oldEmail: string,
+  newEmail: string,
   password: string,
   secret: string,
 };
@@ -15,17 +16,25 @@ export default apiRoute(async (
 ) => {
   // TODO: better schema validation
   const data = req.body as SubmitRequest;
-  if (typeof data.email !== 'string' || typeof data.password !== 'string' || typeof data.secret !== 'string') {
+  if (typeof data.newEmail !== 'string' || typeof data.password !== 'string' || typeof data.secret !== 'string') {
     res.status(400).send({ type: 'error', message: 'Invalid payload' });
     return;
   }
+  if (data.oldEmail && typeof data.oldEmail !== 'string') {
+    res.status(400).send({ type: 'error', message: 'oldEmail should be string if provided' });
+    return;
+  }
 
-  if (!data.email || !data.password || !data.secret) {
+  if (!data.newEmail || !data.password || !data.secret) {
     res.status(400).send({ type: 'error', message: 'One or more payload values were empty' });
     return;
   }
 
-  if (data.email === 'null') {
+  if (data.oldEmail === 'null') {
+    res.status(400).send({ type: 'error', message: 'Old email was null as string' });
+    return;
+  }
+  if (data.newEmail === 'null') {
     res.status(400).send({ type: 'error', message: 'Email was null as string' });
     return;
   }
@@ -45,13 +54,21 @@ export default apiRoute(async (
     Authorization: `Bearer ${accessToken}`,
   };
 
-  const potentialUsers = (await axios.get<{ id: string, email: string }[]>(`https://login.bluedot.org/admin/realms/customers/users?email=${encodeURIComponent(data.email)}&exact=true`, { headers })).data;
+  const potentialUsers = (await axios.get<{ id: string, email: string }[]>(`https://login.bluedot.org/admin/realms/customers/users?email=${encodeURIComponent(data.oldEmail || data.newEmail)}&exact=true`, { headers })).data;
 
   if (potentialUsers.length > 1) {
-    throw new Error(`Found more than one user for email: ${data.email}`);
+    throw new Error(`Found more than one user for email: ${data.newEmail}`);
   }
 
   if (potentialUsers.length === 1) {
+    if (data.oldEmail && data.oldEmail !== data.newEmail) {
+      await axios.put(`https://login.bluedot.org/admin/realms/customers/users/${potentialUsers[0]!.id}`, {
+        ...potentialUsers[0],
+        email: data.newEmail,
+        username: data.newEmail,
+      }, { headers });
+    }
+
     await axios.put(`https://login.bluedot.org/admin/realms/customers/users/${potentialUsers[0]!.id}/reset-password`, {
       type: 'password',
       value: data.password,
@@ -61,7 +78,7 @@ export default apiRoute(async (
   if (potentialUsers.length === 0) {
     await axios.post('https://login.bluedot.org/admin/realms/customers/users', {
       enabled: true,
-      email: data.email,
+      email: data.newEmail,
       credentials: [{
         type: 'password',
         value: data.password,
