@@ -1,5 +1,5 @@
 import { core } from '@pulumi/kubernetes/types/input';
-import { containerRegistrySecret, envVarSources } from './secrets';
+import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg } from './postgres';
 
 // TODO: pin the external versions
@@ -28,7 +28,6 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
-      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
@@ -40,7 +39,6 @@ export const services: ServiceDefinition[] = [
         name: 'bluedot-miniextensions-proxy',
         image: 'sjc.vultrcr.com/bluedot/bluedot-miniextensions-proxy:latest',
       }],
-      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['forms.bluedot.org'],
   },
@@ -52,7 +50,6 @@ export const services: ServiceDefinition[] = [
         name: 'bluedot-posthog-proxy',
         image: 'sjc.vultrcr.com/bluedot/bluedot-posthog-proxy:latest',
       }],
-      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['analytics.k8s.bluedot.org'],
   },
@@ -71,7 +68,6 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
-      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['meet.bluedot.org'],
   },
@@ -88,7 +84,6 @@ export const services: ServiceDefinition[] = [
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
-      imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
     },
     hosts: ['availability.bluedot.org'],
   },
@@ -122,49 +117,26 @@ export const services: ServiceDefinition[] = [
   //   hosts: ['backend.bluedot.org'],
   // },
   {
-    name: 'keycloak',
+    name: 'bluedot-login',
     targetPort: 8080,
     spec: {
       containers: [{
-        name: 'bluedot-keycloak',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-keycloak:latest',
-        env: [{
-          name: 'KC_PROXY_HEADERS',
-          value: 'xforwarded',
-        }, {
-          name: 'KC_HOSTNAME_STRICT',
-          value: 'false',
-        }, {
-          name: 'KC_DB',
-          value: 'postgres',
-        }, {
-          name: 'KEYCLOAK_ADMIN',
-          value: 'bluedot',
-        }, {
-          name: 'KC_DB_URL',
-          valueFrom: getConnectionDetails(keycloakPg).jdbcUri,
-        }, {
-          name: 'KEYCLOAK_ADMIN_PASSWORD',
-          valueFrom: envVarSources.keycloakAdminPassword,
-        }],
-        volumeMounts: [{
-          name: 'providers',
-          mountPath: '/opt/keycloak/providers',
-        }],
-      }],
-      initContainers: [{
-        name: 'curl',
-        image: 'curlimages/curl:latest',
-        command: ['/bin/sh', '-c'],
-        args: ['curl https://github.com/sventorben/keycloak-home-idp-discovery/releases/download/v23.0.0/keycloak-home-idp-discovery.jar -L --output /opt/keycloak/providers/keycloak-home-idp-discovery.jar && curl https://github.com/nkelemen18/koreui/releases/download/22.0.0/koreui-22.0.0.jar -L --output /opt/keycloak/providers/koreui.jar'],
-        volumeMounts: [{
-          name: 'providers',
-          mountPath: '/opt/keycloak/providers',
-        }],
-      }],
-      volumes: [{
-        emptyDir: {},
-        name: 'providers',
+        name: 'bluedot-login',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-login:latest',
+        env: [
+          { name: 'KC_DB_URL', valueFrom: getConnectionDetails(keycloakPg).jdbcUri },
+          { name: 'KEYCLOAK_ADMIN_PASSWORD', valueFrom: envVarSources.keycloakAdminPassword },
+        ],
+        startupProbe: {
+          httpGet: { path: '/health/started', port: 8080 },
+          failureThreshold: 18,
+        },
+        livenessProbe: {
+          httpGet: { path: '/health/live', port: 8080 },
+        },
+        readinessProbe: {
+          httpGet: { path: '/health/ready', port: 8080 },
+        },
       }],
     },
     hosts: ['login.bluedot.org'],

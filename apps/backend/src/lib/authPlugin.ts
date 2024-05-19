@@ -6,7 +6,7 @@ import z from 'zod';
 import createHttpError from 'http-errors';
 import { withErrorHandling } from './errorHandlerPlugin';
 
-const ISSUER_URL = 'https://login.bluedot.org/realms/main-realm';
+const ISSUER_URL = 'https://login.bluedot.org/realms/customers';
 
 const getJwks = buildGetJwks({
   issuersWhitelist: [ISSUER_URL],

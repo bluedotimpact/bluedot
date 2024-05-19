@@ -52,6 +52,9 @@ jobs:
             infra:
               paths:
                 - 'apps/infra/**'
+            login:
+              paths:
+                - 'apps/login/**'
             meet:
               paths:
                 - 'apps/meet/**'
@@ -154,6 +157,36 @@ jobs:
           VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
       - name: Deploy
         run: npm run deploy:prod --workspace apps/availability
+
+  cd_login:
+    needs: ci
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).login.should_skip) }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: cd_login
+    timeout-minutes: 10
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Configure for deployment
+        run: |
+          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
+
+          mkdir -p ~/.kube
+          echo "$K8S_KUBECONFIG" > ~/.kube/config
+        env:
+          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
+          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
+      - name: Deploy
+        run: npm run deploy:prod --workspace apps/login
 
   cd_meet:
     needs: ci

@@ -6,12 +6,9 @@ import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '../../lib/authStore';
 
 export const userManagerSettings: UserManagerSettings = {
-  authority: 'https://login.bluedot.org/realms/main-realm/',
-  client_id: 'bluedot-frontend',
+  authority: 'https://login.bluedot.org/realms/customers/',
+  client_id: 'bluedot-frontend-example',
   redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
-  extraQueryParams: {
-    kc_idp_hint: 'bluedotimpact-google',
-  },
 };
 
 const LoginPage: React.FC = () => {

@@ -11,7 +11,11 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
   values: {
     controller: {
       config: {
+        // Improve security
         'force-ssl-redirect': 'true',
+
+        // Sometimes the headers returned from Keycloak are really long
+        'proxy-buffer-size': '8k',
       },
       ingressClassResource: {
         default: 'true',

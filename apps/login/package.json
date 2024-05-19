@@ -1,0 +1,9 @@
+{
+    "name": "@bluedot/login",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build": "tools/getBluedotKeycloakTheme.sh",
+        "deploy:prod": "tools/deployDocker.sh"
+    }
+}

@@ -3,6 +3,7 @@ import { services } from './serviceDefinitions';
 import { provider } from './provider';
 import { certManager } from './certManager';
 import { ingressNginx } from './ingress';
+import { containerRegistrySecret } from './secrets';
 
 services.forEach((service) => {
   const labels = { app: service.name };
@@ -15,7 +16,11 @@ services.forEach((service) => {
       replicas: 1,
       template: {
         metadata: { labels },
-        spec: service.spec,
+        spec: {
+          // This allows us to use images from our private container registry without adding the secret manually each time
+          imagePullSecrets: [{ name: containerRegistrySecret.metadata.name }],
+          ...service.spec,
+        },
       },
     },
   }, { provider });
