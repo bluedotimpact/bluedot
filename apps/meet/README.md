@@ -8,7 +8,7 @@ No special actions needed, just follow [the general developer setup instructions
 
 ## Deployment
 
-This app is deployed onto the K8s cluster as a standard Next.js app. It uses [an Airtable base](https://airtable.com/appPs3sb9BrYZN69z) as a database.
+This app is deployed onto the K8s cluster as a standard Next.js app in docker. It uses [an Airtable base](https://airtable.com/appPs3sb9BrYZN69z) as a database.
 
 To deploy a new version, simply commit to the master branch. GitHub Actions automatically handles CD.
 
