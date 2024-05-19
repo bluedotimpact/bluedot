@@ -9,6 +9,8 @@ const toK8s = [
   'alertsSlackBotToken',
   'meetZoomClientSecret',
   'keycloakAdminPassword',
+  'loginProxySharedSecret',
+  'loginProxyKeycloakClientSecret',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

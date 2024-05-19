@@ -8,6 +8,10 @@ config:
     secure: v1:LpnRT4IE6+Nzs4yo:0e50NwGbSdnlg1HyUx3KK+Q83olnnQoB0RF9jy/hxZ9SWogLG5dAOyb/81Bnf6qyX/TloW3s2KGysDA89KSPDNoSQy3TnKij9ZkasWpvB1KHRCfkwqhjz3T9Y+cEynTpxrV9EvQHiic4+FEVwV/9StEAa96JHAHj7PU9NLi1Tq0m1gpdjar8hvKg9WE9UkHcSQi1QPNtyOFNZ/e7olBGuej+ePWpftIt3n0mCyUt34/2zTpCfSEmTmD4jGs8Cm7ebGTfNTXrd87QHf77iukXWMzhgPrVciyWB9Av5ktY1Fk=
   infra:keycloakAdminPassword:
     secure: v1:sIY8bHV1jWq56nmx:OjZpnTCKJhrhfIcZDgMrClxm6JSXBa/OMYYVyxROBEIOqHj9pH/kyVTjceUG5MVgnOUPBSHrjAE=
+  infra:loginProxyKeycloakClientSecret:
+    secure: v1:1HAWwfi+dX96o2Z0:2BIMFlRUbnJcmQoLqKiLiX8qeb8PF2GWSasLQKEpaJ3Y7EMOVsrrLOTLiVjoNa9e
+  infra:loginProxySharedSecret:
+    secure: v1:FrWHCxkfe3y9+L16:Kp5PksIPoM6KQEwP8COV4rS0BIy8OrnP8IvgMj0U0K2GFIRnmObStGYHGiz2I4HHV1jr1Fywk54=
   infra:meetZoomClientSecret:
     secure: v1:jPYJIQX1CoHF/Zmm:KTKen2BLFJ2UpCuIOXE5kdUh0OynxG/UbVbTD4h0Ft5X2UFFRYPp1iSVGd8Rxd+o
   vultr:apiKey:

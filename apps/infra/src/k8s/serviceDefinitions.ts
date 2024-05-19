@@ -87,6 +87,23 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['availability.bluedot.org'],
   },
+  {
+    name: 'bluedot-login-account-proxy',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-login-account-proxy',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-login-account-proxy:latest',
+        env: [
+          { name: 'BUBBLE_SHARED_SECRET', valueFrom: envVarSources.loginProxySharedSecret },
+          { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.loginProxyKeycloakClientSecret },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['login-account-proxy.k8s.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-bubble-proxy',
   //   targetPort: 80,
