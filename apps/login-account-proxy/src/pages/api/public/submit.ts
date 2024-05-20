@@ -14,10 +14,8 @@ export default apiRoute(async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  // TODO: better schema validation
   const data = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body) as SubmitRequest;
   if (typeof data.newEmail !== 'string' || typeof data.password !== 'string' || typeof data.secret !== 'string') {
-    console.error(`Invalid payload: ${JSON.stringify(req.body)}`);
     res.status(400).send({ type: 'error', message: 'Invalid payload' });
     return;
   }
