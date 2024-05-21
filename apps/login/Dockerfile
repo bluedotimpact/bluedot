@@ -6,6 +6,10 @@ WORKDIR /opt/keycloak
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
+ENV KC_FEATURES=admin-api,admin2,authorization,impersonation
+# This should be everything not the above, and we want to replace this with 'default'
+# See https://github.com/keycloak/keycloak/issues/29761
+ENV KC_FEATURES_DISABLED=account-api,account3,ciba,client-policies,device-flow,js-adapter,kerberos,par,step-up-authentication,web-authn
 COPY ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers
 RUN /opt/keycloak/bin/kc.sh build
 

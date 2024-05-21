@@ -154,6 +154,11 @@ export const services: ServiceDefinition[] = [
         readinessProbe: {
           httpGet: { path: '/health/ready', port: 8080 },
         },
+        resources: {
+          limits: {
+            memory: '500Mi',
+          },
+        },
       }],
     },
     hosts: ['login.bluedot.org'],
