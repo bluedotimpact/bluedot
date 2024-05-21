@@ -8,7 +8,7 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_infra
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -104,7 +104,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_frontend-example
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -134,7 +134,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_availability
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -164,7 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_login
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -194,7 +194,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_meet
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -224,7 +224,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: cd_miniextensions-proxy
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
