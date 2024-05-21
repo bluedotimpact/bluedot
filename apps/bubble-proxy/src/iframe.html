@@ -34,7 +34,6 @@
             refreshMeta();
 
             const newIframeHref = iframe.contentWindow.location.href;
-            console.log('newHref', newIframeHref)
             const removablePrefix = `${window.location.origin}/home`;
             if (newIframeHref.startsWith(`${removablePrefix}/`)) {
                 const newPathname = newIframeHref.slice(removablePrefix.length)
