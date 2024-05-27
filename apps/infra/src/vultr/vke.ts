@@ -1,10 +1,9 @@
 import * as vultr from '@ediri/vultr';
 import * as k8s from '@pulumi/kubernetes';
-import { k8sNodeCount, k8sVpsPlan, vultrRegion } from '../config';
 
 export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
   label: 'bluedot-prod',
-  region: vultrRegion,
+  region: 'ams',
   version: 'v1.29.2+1',
 
   // Initial node pool
@@ -25,11 +24,11 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
 // To edit the plan:
 // 1. Copy this block, change the name+label (alternate between main and default), then deploy
 // 2. Delete the older block, then deploy
-new vultr.KubernetesNodePools('vke-node-pool-main', {
+new vultr.KubernetesNodePools('vke-node-pool-default', {
   clusterId: k8sCluster.id,
-  label: 'main-node-pool',
-  nodeQuantity: k8sNodeCount,
-  plan: k8sVpsPlan,
+  label: 'default-node-pool',
+  nodeQuantity: 1,
+  plan: 'vhf-2c-4gb',
   autoScaler: false,
 });
 
