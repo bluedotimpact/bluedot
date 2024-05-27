@@ -6,7 +6,10 @@ This includes:
 
 - [availability](./apps/availability/): Collect time availability information from users
 - [meet](./apps/meet/): Record meeting attendance, and host meetings with the Zoom Web SDK
+- [login](./apps/login/): A custom build of Keycloak
+- [login-account-proxy](./apps/login-account-proxy/): An app for setting up users in Keycloak from Bubble
 - [miniextensions-proxy](./apps/miniextensions-proxy/) (forms.bluedot.org): Host forms on a custom domain
+- [posthog-proxy](./apps/posthog-proxy/) (analytics.k8s.bluedot.org): Reverse proxy to send analytics to PostHog
 - [infra](./apps/infra/): Deploying the above applications on Kubernetes
 
 The following key parts of our software are _not_ in this repository because they are built in 3rd party services that are hard to open-source the code for:
@@ -16,7 +19,14 @@ The following key parts of our software are _not_ in this repository because the
 - Application forms: MiniExtensions
 - Apply short links: Short.io
 - Primary database: Airtable
-- Various Airtable extensions (mainly just because these are fiddly to migrate to a monorepo, but could be open-sourced in future)
+
+The following key parts of our software are _not_ in this repository because they use substantially different toolchains, and are a pain to set up in a monorepo:
+
+- Various Airtable extensions
+  - [AI evaluator](https://github.com/bluedotimpact/ai-evaluator-extension)
+  - [Cohort scheduling](https://github.com/bluedotimpact/cohort-scheduling-extension)
+- [Keycloak theme](https://github.com/bluedotimpact/bluedot-keycloak-theme)
+- [Airtable standards](https://github.com/bluedotimpact/airtable-standards)
 
 ## Get started
 
@@ -76,7 +86,7 @@ We recommend most contributors learn how to:
    - To clone the main repo (not a fork): `git clone git@github.com:bluedotimpact/bluedot.git`
 9.  Change directory into the cloned repository, and run `npm install`
 
-Then find the [app](./apps/) or [library](./library/) you want to contribute to. It should follow the [general package structure](#general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), and run `npm run start` or `npm run test`, and edit code in `src`.
+Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), and run `npm run start` or `npm run test`, and edit code in `src`.
 
 Some packages have their own README with further developer setup instructions specific to that app, plus useful information about how the app works. Read this!
 
