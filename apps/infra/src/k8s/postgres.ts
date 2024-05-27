@@ -26,12 +26,33 @@ export const keycloakPg = new k8s.apiextensions.CustomResource('keycloak-pg', {
   },
 }, { provider, dependsOn: [cloudNativePg] });
 
+export const grafanaPg = new k8s.apiextensions.CustomResource('grafana-pg', {
+  apiVersion: 'postgresql.cnpg.io/v1',
+  kind: 'Cluster',
+  metadata: {
+    name: 'grafana-pg',
+    namespace: 'monitoring',
+  },
+  spec: {
+    instances: 1,
+    storage: {
+      size: '5Gi',
+    },
+  },
+}, { provider, dependsOn: [cloudNativePg] });
+
 export type PgConnectionDetails = {
+  /** @example 'some-pg-rw' */
   host: Input<string>,
+  /** @example 'app' */
   database: Input<string>,
+  /** @example 'app' */
   username: Input<string>,
+  /** @example 'abc123' */
   password: core.v1.EnvVarSource,
+  /** @example 'postgresql://app:abc123@some-pg-rw.default:5432/app' */
   uri: core.v1.EnvVarSource,
+  /** @example 'jdbc:postgresql://some-pg-rw.default:5432/app?password=abc123&user=app' */
   jdbcUri: core.v1.EnvVarSource,
 };
 
