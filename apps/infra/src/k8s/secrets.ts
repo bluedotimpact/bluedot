@@ -33,7 +33,10 @@ export const containerRegistrySecret = new k8s.core.v1.Secret('vultr-cr-secret',
     name: 'vultr-cr-credentials',
   },
   data: {
-    '.dockerconfigjson': config.requireSecret('containerRegistryDockerConfigJson'),
+    // containerRegistryDockerConfigJson should be a docker config json, e.g.:
+    // {"auths":{"sjc.vultrcr.com":{"auth":"abcd"}}}
+    '.dockerconfigjson': config.requireSecret('containerRegistryDockerConfigJson')
+      .apply((s) => Buffer.from(s).toString('base64')),
   },
   type: 'kubernetes.io/dockerconfigjson',
 }, { provider });
