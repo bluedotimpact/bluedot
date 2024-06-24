@@ -66,7 +66,7 @@ We recommend most contributors learn how to:
 1. (recommended, macOS only) Install [Homebrew](https://brew.sh/)
 2. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
    - On macOS with Homebrew: `brew install git`
-   - On Ubuntu Linux: `sudo apt install git-all`
+   - On Ubuntu Linux: `sudo apt install -y git-all`
 3. Install [Node.js 22](https://nodejs.org/)
    - On macOS with Homebrew: `brew install node`
    - On Ubuntu Linux: `curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs`
