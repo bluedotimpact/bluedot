@@ -36,6 +36,19 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
     _setJoinWithApp(value);
   };
 
+  const [showTimeWarning, setShowTimeWarning] = useState(false);
+
+  const minuteDifferenceAllowed = 10;
+  const checkSessionTime = () => {
+    if (data?.type !== 'success') return false;
+
+    const currentTime = Date.now() / 1000;
+    const timeDifference = Math.abs(currentTime - data.cohortClassTime);
+    const minutesDifference = Math.floor(timeDifference / 60);
+
+    return minutesDifference > minuteDifferenceAllowed; // Return true if more than 10 minutes away from session time
+  };
+
   if (loading) {
     return (
       <Page>
@@ -65,17 +78,30 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
 
   return (
     <Page>
-      <div className="flex">
-        <H1 className="flex-1">Hey there! Who are you?</H1>
-      </div>
+      {showTimeWarning ? (
+        <div className="mb-4">
+          <p>
+            Kindly note that this is not the right time to join the session. Please make sure to join just {minuteDifferenceAllowed} minutes before the session begins.
+          </p>
+          <Button className="ml-4" onPress={() => setShowTimeWarning(false)}>Dismiss</Button>
+        </div>
+      ) : (
+        <div className="flex">
+          <H1 className="flex-1">Hey there! Who are you?</H1>
+        </div>
+      )}
       {joinError && <p className="mb-2">Error: {joinError}</p>}
-      {isJoining ? <p>Joining meeting...</p> : (
+      {isJoining ? <p>Joining meeting...</p> : !showTimeWarning && (
         <>
           <div className="grid gap-2 sm:w-1/2">
             {data.participants.map((participant) => (
               <Button
                 key={participant.id}
                 onPress={async () => {
+                  if (checkSessionTime()) {
+                    setShowTimeWarning(true);
+                    return;
+                  }
                   if (joinWithApp) {
                     await axios<RecordAttendanceResponse, AxiosResponse<MeetingParticipantsResponse>, RecordAttendanceRequest>({
                       method: 'POST',

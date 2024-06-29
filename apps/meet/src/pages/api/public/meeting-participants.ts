@@ -16,6 +16,7 @@ export type MeetingParticipantsRequest = {
 export type MeetingParticipantsResponse = {
   type: 'success',
   cohortClassId: string,
+  cohortClassTime: number,
   participants: {
     id: string,
     name: string,
@@ -49,6 +50,7 @@ export default apiRoute(async (
     cohort.cohortSessions
       .map((cohortClassId) => db.get(cohortClassTable, cohortClassId)),
   );
+
   const cohortClassesWithDistance = cohortClasses.map((cohortClass) => ({
     cohortClass,
     distance: Math.abs((Date.now() / 1000) - cohortClass['Start date/time']!),
@@ -84,6 +86,7 @@ export default apiRoute(async (
   res.status(200).json({
     type: 'success',
     cohortClassId: cohortClass.id,
+    cohortClassTime: cohortClass['Start date/time'] ? cohortClass['Start date/time'] : Date.now() / 1000,
     participants: [
       { id: facilitator.id, name: facilitator.name, role: 'host' as const },
       ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
