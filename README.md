@@ -65,32 +65,72 @@ We recommend most contributors learn how to:
 
 1. (recommended, macOS only) Install [Homebrew](https://brew.sh/)
 2. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-   - On macOS with Homebrew: `brew install git`
-   - On Ubuntu Linux: `sudo apt install -y git-all`
+   - On macOS with Homebrew:
+      ```
+      brew install git
+      ```
+   - On Ubuntu Linux:
+      ```
+      sudo apt install -y git-all
+      ```
 3. Install [Node.js 22](https://nodejs.org/)
-   - On macOS with Homebrew: `brew install node`
-   - On Ubuntu Linux: `curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs`
+   - On macOS with Homebrew:
+      ```
+      brew install node
+      ```
+   - On Ubuntu Linux: 
+      ```
+      curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs
+      ```
 4. Install [Docker client](https://docs.docker.com/engine/install/). NB: NOT Docker Desktop.
-   - On macOS with Homebrew: `brew install docker`
+   - On macOS with Homebrew: 
+      ```
+      brew install docker
+      ```
    - On Ubuntu Linux: [instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
 5. Install and configure a container runtime.
-   - On macOS with Homebrew: `brew install colima && brew services start colima && docker context use colima`
+   - On macOS with Homebrew: 
+      ```
+      brew install colima && brew services start colima && docker context use colima
+      ```
    - On Ubuntu Linux: already installed with client
    - Other platforms: [Docker Engine](https://docs.docker.com/engine/install/) (NB: NOT Docker Desktop) or [Podman](https://podman.io/docs/installation)
 6. Install kubectl.
-   - On macOS with Homebrew: `brew install kubectl`
+   - On macOS with Homebrew: 
+      ```
+      brew install kubectl
+      ```
    - On Ubuntu Linux: [instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
 7. (recommended) Install [Visual Studio Code](https://code.visualstudio.com/)
-   - On macOS with Homebrew: `brew install --cask visual-studio-code`
+   - On macOS with Homebrew: 
+      ```
+      brew install --cask visual-studio-code
+      ```
 8. [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-   - To clone the main repo (not a fork): `git clone git@github.com:bluedotimpact/bluedot.git`
-9.  Change directory into the cloned repository, and run `npm install`
+   - To clone the main repo (not a fork): 
+      ```
+      git clone git@github.com:bluedotimpact/bluedot.git
+      ```
+9.  Change directory into the cloned repository, and run 
+      ```
+      npm install
+      ```
 
-Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), and run `npm run start` or `npm run test`, and edit code in `src`.
+Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), before editing code in `src`, run
+```
+npm run start
+```
+or
+```
+npm run test
+```
 
 Some packages have their own README with further developer setup instructions specific to that app, plus useful information about how the app works. Read this!
 
-Over time other people will make changes to the repository. Usually to get up to date with those changes, you'll need to [pull the latest changes from the master branch](https://docs.github.com/en/get-started/using-git/getting-changes-from-a-remote-repository), then re-run `npm install`.
+Over time other people will make changes to the repository. Usually to get up to date with those changes, you'll need to [pull the latest changes from the master branch](https://docs.github.com/en/get-started/using-git/getting-changes-from-a-remote-repository), then re-run 
+```
+npm install
+```
 
 ## General package structure
 
