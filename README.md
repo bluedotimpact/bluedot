@@ -14,11 +14,11 @@ This includes:
 
 The following key parts of our software are _not_ in this repository because they are built in 3rd party services that are hard to open-source the code for:
 
-- Public website (bluedot.org, aisafetyfundamentals.com, biosecurityfundamentals.com etc.): Wordpress
-- Course hub: Bubble
-- Application forms: MiniExtensions
-- Apply short links: Short.io
-- Primary database: Airtable
+- Public website ([bluedot.org](https://bluedot.org/), [aisafetyfundamentals.com](https://aisafetyfundamentals.com/), [biosecurityfundamentals.com](https://biosecurityfundamentals.com/) etc.): Wordpress
+- Course hub: [Bubble](https://bubble.io/)
+- Application forms: [MiniExtensions](https://miniextensions.com/)
+- Apply short links: [Short.io](https://short.io/)
+- Primary database: [Airtable](https://www.airtable.com/)
 
 The following key parts of our software are _not_ in this repository because they use substantially different toolchains, and are a pain to set up in a monorepo:
 
