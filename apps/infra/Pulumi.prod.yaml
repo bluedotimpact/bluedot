@@ -5,7 +5,7 @@ config:
   infra:alertsSlackBotToken:
     secure: v1:KHo0xEvyljpu6RQu:FxDE6U4NfjkQTTCE+yLJKpF2tnjiNqGM4eWfgnSMgD+3RKyicTHqUuVKYyEQdNYj9YZkokYeD6X0eB277AYJHQUV3ZhbrrO/vA==
   infra:containerRegistryDockerConfigJson:
-    secure: v1:RMBTVi8GcNAFnJYQ:juLPaNLM4EFq+E5Gghm3ExrDIZqTyDBxZEsfcl08bWz4sDIcA1sAD+attuewbYvD9tzlWkPb5cpN1Ien4tACupBNA8nm+QHltKOafJzliAssS5PJ9MF/eqBa4A949lfhwzxkm8qk2UxsjKn+rVQguAyOQq6NqcN/Lh/tMDxun3Z2qhOv3yjU4XTJYF1yYweHCuv7sZOihipcy9gSobrqmUP1MnoPPT0Y4/znw1nRhveyj4AWNKjEwbCPhUcIheHjSNk=
+    secure: v1:7jjujGHOhCGqPAc7:wQpIHmRWoe3RS3+oYuGImTohsqOyO+cvYZalo2l80UtQ2mgnp1hOy/mXvh53khEfYVmYI3Z7X4xcsmz84IeGNmHGdLtfUAXRCPjqhfZjJldOl3l6cydSaax696DhSLylK+bWqcd8bcqyzsuhEMrzogZHrtFNsRXPAj9ArOxCAGNmfEaDdaM9ozgxM1/zSKYd1RzaVWjLUoWNZm16NQ==
   infra:keycloakAdminPassword:
     secure: v1:sIY8bHV1jWq56nmx:OjZpnTCKJhrhfIcZDgMrClxm6JSXBa/OMYYVyxROBEIOqHj9pH/kyVTjceUG5MVgnOUPBSHrjAE=
   infra:loginProxyKeycloakClientSecret:
