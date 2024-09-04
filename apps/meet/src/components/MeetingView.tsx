@@ -8,7 +8,7 @@ type MeetingViewProps = {
   page: PageState & { name: 'room' }
 };
 
-export const ZOOM_VERSION = '3.5.2';
+export const ZOOM_VERSION = '3.8.5';
 
 declare let ZoomMtg: typeof ZoomMtgType;
 
