@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:25.0 as base
+FROM quay.io/keycloak/keycloak:25.0@sha256:410fce4b9b40e1f4e7f90b44acedbaa6d935bacea432a6884769067b253d46fb as base
 
 ### Build
 FROM base as builder
