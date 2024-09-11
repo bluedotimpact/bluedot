@@ -2,7 +2,7 @@
 set -euo pipefail
 cd $(dirname "${BASH_SOURCE[0]:-$0}")/..
 
-FIXED_RELEASE_VERSION="v1.0.0"
+FIXED_RELEASE_VERSION="v1.0.1"
 REPO="bluedotimpact/bluedot-keycloak-theme"
 ASSET_NAME="bluedot-keycloak-theme.jar"
 
