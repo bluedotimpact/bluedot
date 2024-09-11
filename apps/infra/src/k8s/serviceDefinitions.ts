@@ -2,7 +2,6 @@ import { core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg } from './postgres';
 
-// TODO: pin the external versions
 export const services: ServiceDefinition[] = [
   {
     name: 'hello',
@@ -10,7 +9,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'hello',
-        image: 'paulbouwer/hello-kubernetes:1.10.1',
+        image: 'paulbouwer/hello-kubernetes:1@sha256:2ad94733189b30844049caed7e17711bf11ed9d1116eaf10000586081451690b',
       }],
     },
     hosts: ['hello.k8s.bluedot.org'],
@@ -145,14 +144,14 @@ export const services: ServiceDefinition[] = [
           { name: 'KEYCLOAK_ADMIN_PASSWORD', valueFrom: envVarSources.keycloakAdminPassword },
         ],
         startupProbe: {
-          httpGet: { path: '/health/started', port: 8080 },
+          httpGet: { path: '/health/started', port: 9000 },
           failureThreshold: 18,
         },
         livenessProbe: {
-          httpGet: { path: '/health/live', port: 8080 },
+          httpGet: { path: '/health/live', port: 9000 },
         },
         readinessProbe: {
-          httpGet: { path: '/health/ready', port: 8080 },
+          httpGet: { path: '/health/ready', port: 9000 },
         },
         resources: {
           limits: {
