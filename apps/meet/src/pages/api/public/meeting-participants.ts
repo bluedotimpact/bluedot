@@ -73,7 +73,7 @@ export default apiRoute(async (
     throw new createHttpError.InternalServerError(`Cohort class ${cohortClass.id} missing Zoom account`);
   }
   const zoomAccount = await db.get(zoomAccountTable, cohortClass['Zoom account']);
-  const facilitator = await db.get(personTable, cohortClass.Facilitator);
+  const facilitators = await Promise.all(cohortClass.Facilitator.map((facilitatorId) => db.get(personTable, facilitatorId)));
   const participants = await Promise.all(
     cohortClass['Participants (Expected)']
       .map((participantId) => db.get(personTable, participantId)),
@@ -85,7 +85,7 @@ export default apiRoute(async (
     type: 'success',
     cohortClassId: cohortClass.id,
     participants: [
-      { id: facilitator.id, name: facilitator.name, role: 'host' as const },
+      ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
       ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
     // eslint-disable-next-line no-nested-ternary
     ].sort((a, b) => ((a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0)),

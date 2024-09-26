@@ -27,7 +27,7 @@ export const cohortTable: Table<Cohort> = {
 };
 
 export interface CohortClass extends Item {
-  'Facilitator': string,
+  'Facilitator': string[],
   'Participants (Expected)': string[],
   'Attendees': string[],
   'Start date/time': number | null,
@@ -40,7 +40,7 @@ export const cohortClassTable: Table<CohortClass> = {
   baseId: airtableBaseId,
   tableId: 'tblDNME0bA9OoApTk',
   schema: {
-    Facilitator: 'string',
+    Facilitator: 'string[]',
     'Participants (Expected)': 'string[]',
     Attendees: 'string[]',
     'Start date/time': 'number | null',
