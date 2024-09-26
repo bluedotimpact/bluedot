@@ -45,7 +45,7 @@ export default apiRoute(async (
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,
-    role: cohortClass.Facilitator === req.body.participantId ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
+    role: cohortClass.Facilitators.includes(req.body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
     iat: issuedAt,
     exp: expiresAt,
     tokenExp: expiresAt,

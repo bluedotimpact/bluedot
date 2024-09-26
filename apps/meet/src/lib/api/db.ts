@@ -27,7 +27,7 @@ export const cohortTable: Table<Cohort> = {
 };
 
 export interface CohortClass extends Item {
-  'Facilitator': string,
+  'Facilitators': string[],
   'Participants (Expected)': string[],
   'Attendees': string[],
   'Start date/time': number | null,
@@ -40,7 +40,7 @@ export const cohortClassTable: Table<CohortClass> = {
   baseId: airtableBaseId,
   tableId: 'tblDNME0bA9OoApTk',
   schema: {
-    Facilitator: 'string',
+    Facilitators: 'string[]',
     'Participants (Expected)': 'string[]',
     Attendees: 'string[]',
     'Start date/time': 'number | null',
@@ -48,7 +48,7 @@ export const cohortClassTable: Table<CohortClass> = {
     'Zoom account': 'string | null',
   },
   mappings: {
-    Facilitator: 'fldP5BqdFfcn8enfc',
+    Facilitators: 'fldP5BqdFfcn8enfc',
     'Participants (Expected)': 'fldEKYwcacAa6nBEE',
     Attendees: 'fldo0xEi6vJKSJlFN',
     'Start date/time': 'flduTqIxS6OEHNr4H',
