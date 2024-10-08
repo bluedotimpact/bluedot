@@ -32,17 +32,15 @@ export default apiRoute(async (
     return;
   }
 
-  const records = await db.scan(formConfigurationTable, {
-    filterByFormula: `{Slug} = "${req.query.slug}"`,
-  });
+  const records = await db.scan(formConfigurationTable);
+  const targetRecord = records.find((record) => record.Slug === req.query.slug);
 
-  if (!records || records.length === 0) {
+  if (!targetRecord) {
     res.status(404).send({ type: 'error', message: 'Form not found' });
     return;
   }
-  const record = records[0]!;
 
-  const webhookResponse = await axios.post(record.Webhook, {
+  const webhookResponse = await axios.post(targetRecord.Webhook, {
     Comments: data.comments,
     Email: data.email,
     'Time availability in UTC': data.availability,
@@ -50,7 +48,7 @@ export default apiRoute(async (
   });
 
   if (webhookResponse.status !== 200) {
-    throw new Error(`Unexpected response from form webhook (status ${webhookResponse.status}) for form ${record.id}`);
+    throw new Error(`Unexpected response from form webhook (status ${webhookResponse.status}) for form ${targetRecord.id}`);
   }
 
   res.status(200).json({ type: 'success' });

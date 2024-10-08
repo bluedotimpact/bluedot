@@ -13,17 +13,16 @@ export default apiRoute(async (
   req: NextApiRequest,
   res: NextApiResponse<GetFormResponse>,
 ) => {
-  const records = await db.scan(formConfigurationTable, {
-    filterByFormula: `{Slug} = "${req.query.slug}"`,
-  });
+  const records = await db.scan(formConfigurationTable);
+  const targetRecord = records.find((record) => record.Slug === req.query.slug);
 
-  if (!records || records.length === 0) {
+  if (!targetRecord) {
     throw new createHttpError.NotFound('Form not found');
   }
 
   res.status(200).json({
     type: 'success',
-    title: records[0]?.Title || 'Unnamed form',
-    minimumLength: records[0]?.['Minimum length'] ?? 90,
+    title: targetRecord.Title || 'Unnamed form', // Title for the page
+    minimumLength: targetRecord['Minimum length'] ?? 90, // Min required time for form validation
   });
 }, 'insecure_no_auth');
