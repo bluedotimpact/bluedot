@@ -12,7 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ediri/vultr": "^2.19.0",
+    "@ediri/vultr": "2.20.1",
     "@pulumi/kubernetes": "^4.5.5",
     "@pulumi/pulumi": "^3.95.0"
   },
