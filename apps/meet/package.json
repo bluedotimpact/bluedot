@@ -14,8 +14,8 @@
   "dependencies": {
     "@bluedot/ui": "*",
     "@types/jsonwebtoken": "^9.0.6",
-    "@zoom/meetingsdk": "^3.8.5",
-    "airtable-ts": "^1.2.0",
+    "@zoom/meetingsdk": "^3.9.2",
+    "airtable-ts": "^1.3.2",
     "axios": "^1.6.8",
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.0",
