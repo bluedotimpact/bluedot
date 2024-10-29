@@ -49,7 +49,7 @@ const CourseListView: React.FC = () => {
 
   return (
     <div className="grid md:grid-cols-4 gap-4">
-      {data.body.map((course) => (
+      {data?.body.map((course) => (
         <CardButton key={course.courseId} onPress={() => alert('test')}>
           <H2>{course.name}</H2>
         </CardButton>
