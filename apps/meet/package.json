@@ -21,7 +21,7 @@
     "clsx": "^2.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "next": "^14.3.0-canary.14",
+    "next": "^15.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss-scoped-preflight": "^3.2.6"
