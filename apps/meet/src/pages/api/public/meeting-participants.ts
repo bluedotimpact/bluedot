@@ -24,6 +24,7 @@ export type MeetingParticipantsResponse = {
   meetingNumber: string,
   meetingPassword: string,
   meetingHostKey: string,
+  arrivedOverOneHourEarly: boolean,
 } | {
   type: 'redirect',
   to: string,
@@ -68,6 +69,7 @@ export default apiRoute(async (
     }
   });
   const { cohortClass } = nearestCohortClassWithDistance;
+  const arrivedOverOneHourEarly = cohortClass['Start date/time']! - (Date.now() / 1000) > 60 * 60;
 
   if (!cohortClass['Zoom account']) {
     throw new createHttpError.InternalServerError(`Cohort class ${cohortClass.id} missing Zoom account`);
@@ -92,6 +94,7 @@ export default apiRoute(async (
     meetingNumber,
     meetingPassword,
     meetingHostKey,
+    arrivedOverOneHourEarly,
   });
 }, 'insecure_no_auth');
 
