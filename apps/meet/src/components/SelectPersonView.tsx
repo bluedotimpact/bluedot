@@ -63,6 +63,16 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
     );
   }
 
+  if (data.arrivedOverOneHourEarly) {
+    return (
+      <Page>
+        <H1>
+          This session doesn't start for over an hour. Come back closer to the time.
+        </H1>
+      </Page>
+    );
+  }
+
   return (
     <Page>
       <div className="flex">
