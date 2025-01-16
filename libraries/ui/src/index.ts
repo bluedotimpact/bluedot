@@ -14,3 +14,5 @@ export { Input } from './Input';
 export type { InputProps } from './Input';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
+export { Nav } from './Nav';
+export { CourseCard, CourseCardButton } from './CourseCard';

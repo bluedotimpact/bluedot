@@ -1,0 +1,9 @@
+{
+  "extends": "@bluedot/typescript-config/nextjs.json",
+  "include": [
+    "next-env.d.ts",
+    "src/**/*",
+    "tailwind.config.ts",
+  ],
+  "exclude": ["node_modules"]
+}
