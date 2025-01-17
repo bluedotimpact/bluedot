@@ -24,17 +24,17 @@ export const NavButton: React.FC<LinkOrButtonProps> & {
   ),
   {
     CTA: ({ className, ...rest }) => (
-      <LinkOrButton 
+      <LinkOrButton
         className={clsx(
           'bg-bluedot-lighter text-bluedot-normal font-medium',
           'border border-bluedot-lighter rounded-full px-6 py-2',
           'transition-all duration-200',
           'hover:bg-bluedot-normal hover:text-white',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal',
-          className
-        )} 
-        {...rest} 
+          className,
+        )}
+        {...rest}
       />
-    )
-  }
+    ),
+  },
 );
