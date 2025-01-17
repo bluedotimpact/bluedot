@@ -31,6 +31,22 @@ export const services: ServiceDefinition[] = [
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-website-25',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-website-25',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-website-25:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['frontend-example.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-miniextensions-proxy',
     targetPort: 80,
     spec: {
