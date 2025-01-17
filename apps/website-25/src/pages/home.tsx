@@ -1,11 +1,9 @@
-// import { useState } from 'react';
 import {
   Nav,
   CourseCard,
 } from '@bluedot/ui';
 
 const HomePage = () => {
-
   return (
     <div>
       <Nav logo="/BlueDot_Impact_Logo.svg" />
