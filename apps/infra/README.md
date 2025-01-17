@@ -31,7 +31,8 @@ For a standard Next.js app:
    - Copy the config for frontend-example, but put your app name in
    - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
    - If you need to add a secret, see [below](#adding-a-secret)
-4. Commit your changes to the master branch
+4. Update the base .github/workflows/ci_cd.yaml to include your app in the `paths` and `cd_infra` section. Again, we recommending following the pattern of frontend-example as a reference.
+5. Commit your changes to the master branch
 
 CI/CD might fail the first time, because there's a race condition between:
 - the infra being set up and expecting a docker container to pull
