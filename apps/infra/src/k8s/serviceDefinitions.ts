@@ -44,7 +44,7 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['frontend-example.k8s.bluedot.org'],
+    hosts: ['website-25.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-miniextensions-proxy',
