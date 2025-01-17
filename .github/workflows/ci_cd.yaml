@@ -49,6 +49,9 @@ jobs:
             frontend-example:
               paths:
                 - 'apps/frontend-example/**'
+            website-25:
+              paths:
+                - 'apps/website-25/**'
             infra:
               paths:
                 - 'apps/infra/**'
