@@ -6,6 +6,8 @@ export type NavProps = React.PropsWithChildren<{
   logo?: string
 }>;
 
+type NavButtonProps = LinkOrButtonProps;
+
 export const Nav: React.FC<NavProps> = ({ children, className, logo }) => {
   return (
     <nav className={clsx('border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white', className)}>
@@ -16,14 +18,14 @@ export const Nav: React.FC<NavProps> = ({ children, className, logo }) => {
   );
 };
 
-export const NavButton: React.FC<LinkOrButtonProps> & {
-  CTA: React.FC<LinkOrButtonProps>
+export const NavButton: React.FC<NavButtonProps> & {
+  CTA: React.FC<NavButtonProps>
 } = Object.assign(
-  ({ className, ...rest }) => (
-    <LinkOrButton className={clsx('border border-neutral-500 rounded px-8 pb-4 text-bluedot-black transition-all duration-200 inline-block cursor-pointer data-[hovered]:border-bluedot-normal data-[hovered]:bg-bluedot-lighter data-[focus-visible]:border-bluedot-normal data-[focus-visible]:bg-bluedot-lighter data-[pressed]:border-bluedot-normal data-[pressed=true]:bg-bluedot-normal data-[pressed=true]:text-white outline-none [text-align:inherit]', className)} {...rest} />
+  ({ className, ...rest }: NavButtonProps) => (
+    <LinkOrButton className={clsx('border border-neutral-500 rounded px-8 pb-4', className)} {...rest} />
   ),
   {
-    CTA: ({ className, ...rest }) => (
+    CTA: ({ className, ...rest }: NavButtonProps) => (
       <LinkOrButton
         className={clsx(
           'bg-bluedot-lighter text-bluedot-normal font-medium',
