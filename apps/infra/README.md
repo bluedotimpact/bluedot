@@ -23,7 +23,21 @@ aws_secret_access_key=
 
 ### Adding a new service
 
-TODO
+For a standard Next.js app:
+
+1. Copy an existing app folder. `frontend-example` is a good place to start because it is simple.
+2. Verify: does the app now build and run locally?
+3. Add the app to [serviceDefinitions.ts](./src/k8s/serviceDefinitions.ts)
+   - Copy the config for frontend-example, but put your app name in
+   - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
+   - If you need to add a secret, see [below](#adding-a-secret)
+4. Commit your changes to the master branch
+
+CI/CD might fail the first time, because there's a race condition between:
+- the infra being set up and expecting a docker container to pull
+- the docker deploy script wanting infra to deploy to
+
+Just run it again if this is where it fails.
 
 ### Adding a secret
 
