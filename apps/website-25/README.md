@@ -1,8 +1,8 @@
 # Website 2025
 
 Quick links:
-- [Latest live version](https://www.bluedot.com/home/)
-- [Task manager](https://github.com/orgs/bluedotimpact/projects/2/)
+- [Latest live version]() [WIP]
+- [GitHub Project task management](https://github.com/orgs/bluedotimpact/projects/2/)
 - [Figma mocks](https://www.figma.com/proto/tDmNmBclyDSKa0WYUMSPEr/Bluedot?node-id=52-723&t=pCyhhcqvCCeUqPCn-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
 
 ## Developer setup
