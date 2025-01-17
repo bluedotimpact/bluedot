@@ -1,8 +1,9 @@
-# frontend-example
+# Website 2025
 
-An example frontend app that is used as a bit of a scratchpad for testing different things out.
-
-Note that anything here is still public (both the code and resulting web app).
+Quick links:
+- [Latest live version](https://www.bluedot.com/home/)
+- [Task manager](https://github.com/orgs/bluedotimpact/projects/2/)
+- [Figma mocks](https://www.figma.com/proto/tDmNmBclyDSKa0WYUMSPEr/Bluedot?node-id=52-723&t=pCyhhcqvCCeUqPCn-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
 
 ## Developer setup
 
