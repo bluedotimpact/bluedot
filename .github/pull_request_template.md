@@ -35,6 +35,6 @@ Fixes # (issue)
 
 ## Testing
 ```
-$ npm run test && npm run lint
+$ npm run test
 <!-- Run `npm run test` and include the output here -->
 ```
