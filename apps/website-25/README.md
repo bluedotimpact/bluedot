@@ -9,6 +9,14 @@ Quick links:
 
 No special actions needed, just follow [the general developer setup instructions](../../README.md#developer-setup-instructions)
 
+```
+npm run start
+```
+
+```
+npm run test
+```
+
 ## Deployment
 
 This app is deployed onto the K8s cluster as a standard Next.js app in docker.
