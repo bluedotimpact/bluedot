@@ -11,16 +11,6 @@ Fixes # (issue)
 
 <!-- Description of the changes you've made -->
 
-## Type of Change
-| Type | ✓ |
-|------|---|
-| Bug fix | [ ] |
-| New feature | [ ] |
-| Breaking change | [ ] |
-| Documentation update | [ ] |
-| Performance improvement | [ ] |
-| Code refactoring | [ ] |
-
 ## Developer checklist
 - [ ] Used [BEM naming convention](https://getbem.com/naming/)
 - [ ] Added new unit tests where applicable
