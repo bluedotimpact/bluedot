@@ -6,7 +6,8 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "test:update": "vitest --u --watch=false"
   },
   "dependencies": {
     "@adobe/react-spectrum": "^3.32.2",

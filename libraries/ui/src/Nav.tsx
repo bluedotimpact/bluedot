@@ -10,11 +10,11 @@ type NavButtonProps = LinkOrButtonProps;
 
 export const Nav: React.FC<NavProps> = ({ children, className, logo }) => {
   return (
-    <nav className={clsx('border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white', className)}>
+    <nav className={clsx('nav border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white', className)}>
       <a href="/">
-        {logo ? <img src={logo} alt="BlueDot Impact Logo" className="h-6 mr-auto" /> : <p className="h-8 mr-auto text-xl">BlueDot Impact</p>}
+        {logo ? <img className="nav_logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
       </a>
-      <div className="flex flex-grow justify-center items-center gap-4">
+      <div className="nav_links-container flex flex-grow justify-center items-center gap-4">
         {children}
       </div>
       <NavButton.CTA href="/signup">Get started for Free</NavButton.CTA>
@@ -26,7 +26,7 @@ export const NavButton: React.FC<NavButtonProps> & {
   CTA: React.FC<NavButtonProps>
 } = Object.assign(
   ({ className, ...rest }: NavButtonProps) => (
-    <LinkOrButton className={clsx('border border-neutral-500 rounded px-8 pb-4', className)} {...rest} />
+    <LinkOrButton className={clsx('nav_link-cta border border-neutral-500 rounded px-8 pb-4', className)} {...rest} />
   ),
   {
     CTA: ({ className, ...rest }: NavButtonProps) => (
