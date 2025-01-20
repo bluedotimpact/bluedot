@@ -11,6 +11,9 @@ export type { CardProps } from './Card';
 
 export { CourseCard, CourseCardButton } from './CourseCard';
 
+export { HeroSection } from './HeroSection';
+export type { HeroSectionProps } from './HeroSection';
+
 export { Footer } from './Footer';
 
 export { Input } from './Input';

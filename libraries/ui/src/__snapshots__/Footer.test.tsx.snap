@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > renders default as expected 1`] = `
+<div>
+  <footer
+    class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+  >
+    <div
+      class="footer_content flex flex-col mb-16"
+    >
+      <p
+        class="footer_logo h-8 mr-auto text-xl text-white"
+      >
+        BlueDot Impact
+      </p>
+    </div>
+    <p
+      class="footer_copyright text-sm text-center text-bluedot-lighter"
+    >
+      © 
+      2025
+       BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
+    </p>
+  </footer>
+</div>
+`;
+
+exports[`Footer > renders with optional args 1`] = `
+<div>
+  <footer
+    class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+  >
+    <div
+      class="footer_content flex flex-col mb-16"
+    >
+      <img
+        alt="BlueDot Impact Logo"
+        class="footer_logo h-6 mr-auto"
+        src="https://www.bluedot.com/test-logo.jpg"
+      />
+    </div>
+    <p
+      class="footer_copyright text-sm text-center text-bluedot-lighter"
+    >
+      © 
+      2025
+       BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
+    </p>
+  </footer>
+</div>
+`;
