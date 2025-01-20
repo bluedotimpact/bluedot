@@ -1,0 +1,89 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > renders default as expected 1`] = `
+<div>
+  <nav
+    class="border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
+  >
+    <a
+      href="/"
+    >
+      <p
+        class="h-8 mr-auto text-xl"
+      >
+        BlueDot Impact
+      </p>
+    </a>
+    <div
+      class="flex flex-grow justify-center items-center gap-4"
+    />
+    <a
+      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+      data-rac=""
+      href="/signup"
+    >
+      Get started for Free
+    </a>
+  </nav>
+</div>
+`;
+
+exports[`Footer > renders with optional args 1`] = `
+<div>
+  <nav
+    class="border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
+  >
+    <a
+      href="/"
+    >
+      <img
+        alt="BlueDot Impact Logo"
+        class="h-6 mr-auto"
+        src="logo.png"
+      />
+    </a>
+    <div
+      class="flex flex-grow justify-center items-center gap-4"
+    />
+    <a
+      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+      data-rac=""
+      href="/signup"
+    >
+      Get started for Free
+    </a>
+  </nav>
+</div>
+`;
+
+exports[`Footer > renders with optional yield 1`] = `
+<div>
+  <nav
+    class="border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
+  >
+    <a
+      href="/"
+    >
+      <p
+        class="h-8 mr-auto text-xl"
+      >
+        BlueDot Impact
+      </p>
+    </a>
+    <div
+      class="flex flex-grow justify-center items-center gap-4"
+    >
+      <p>
+        This is the yield
+      </p>
+    </div>
+    <a
+      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+      data-rac=""
+      href="/signup"
+    >
+      Get started for Free
+    </a>
+  </nav>
+</div>
+`;
