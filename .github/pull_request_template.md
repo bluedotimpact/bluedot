@@ -17,11 +17,10 @@ Fixes # (issue)
 
 ## Screenshot
 
-| Screenshot |  |
+| 📸 |  |
 |---------|---|
-| Desktop | <!-- Include a screenshot or screen recording demonstrating your change--> |
-| Tablet  | <!-- Include a screenshot or screen recording demonstrating your change--> |
-| Mobile  | <!-- Include a screenshot or screen recording demonstrating your change--> |
+| 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
+| 📱  | <!-- Include a **Mobile** screenshot or screen recording demonstrating your change--> |
 
 ## Testing
 ```
