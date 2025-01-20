@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AboutPage > should render the error message correctly 1`] = `
+<div>
+  <div>
+    <div
+      class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+    >
+      <div
+        class="hero-section__content max-w-[600px] my-auto"
+      >
+        <h1
+          class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
+        >
+          Our mission is to ensure humanity safely navigates the transition to transformative AI.
+        </h1>
+      </div>
+    </div>
+  </div>
+</div>
+`;
