@@ -11,8 +11,12 @@ type NavButtonProps = LinkOrButtonProps;
 export const Nav: React.FC<NavProps> = ({ children, className, logo }) => {
   return (
     <nav className={clsx('border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white', className)}>
-      {logo ? <img src={logo} alt="BlueDot Impact Logo" className="h-6 mr-auto" /> : <p className="h-8 mr-auto text-xl">BlueDot Impact</p>}
-      {children}
+      <a href="/">
+        {logo ? <img src={logo} alt="BlueDot Impact Logo" className="h-6 mr-auto" /> : <p className="h-8 mr-auto text-xl">BlueDot Impact</p>}
+      </a>
+      <div className="flex flex-grow justify-center items-center gap-4">
+        {children}
+      </div>
       <NavButton.CTA href="/signup">Get started for Free</NavButton.CTA>
     </nav>
   );
