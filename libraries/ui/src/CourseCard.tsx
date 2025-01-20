@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { LinkOrButton, LinkOrButtonProps } from './LinkOrButton';
+import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
 
 export type CourseCardProps = React.PropsWithChildren<{
   className?: string,

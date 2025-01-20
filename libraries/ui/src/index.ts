@@ -1,33 +1,34 @@
 // Alphabetized by file name
-
-export { Box } from './Box';
-export type { BoxProps } from './Box';
-
-export { Button } from './Button';
-export type { ButtonProps } from './Button';
-
-export { Card, CardButton } from './Card';
-export type { CardProps } from './Card';
-
+// Updated Components - 2025
 export { CourseCard, CourseCardButton } from './CourseCard';
 
 export { HeroSection } from './HeroSection';
-export type { HeroSectionProps } from './HeroSection';
 
 export { Footer } from './Footer';
 
-export { Input } from './Input';
-export type { InputProps } from './Input';
-
-export { Link } from './Link';
-export type { LinkProps } from './Link';
-
 export { Nav } from './Nav';
+
+// Legacy Components
+
+export { Box } from './legacy/Box';
+export type { BoxProps } from './legacy/Box';
+
+export { Button } from './legacy/Button';
+export type { ButtonProps } from './legacy/Button';
+
+export { Card, CardButton } from './legacy/Card';
+export type { CardProps } from './legacy/Card';
+
+export { Input } from './legacy/Input';
+export type { InputProps } from './legacy/Input';
+
+export { Link } from './legacy/Link';
+export type { LinkProps } from './legacy/Link';
 
 export {
   H1, H2, HPrefix, P,
-} from './Text';
-export type { TextProps } from './Text';
+} from './legacy/Text';
+export type { TextProps } from './legacy/Text';
 
-export { Textarea } from './Textarea';
-export type { TextareaProps } from './Textarea';
+export { Textarea } from './legacy/Textarea';
+export type { TextareaProps } from './legacy/Textarea';
