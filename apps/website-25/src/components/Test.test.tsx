@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import AboutPage from './about';
+import Test from './Test';
 
-describe('AboutPage', () => {
+describe('Test', () => {
   test('should render the error message correctly', () => {
-    const { container } = render(<AboutPage />);
+    const { container } = render(<Test />);
     expect(container).toMatchSnapshot();
   });
 });
