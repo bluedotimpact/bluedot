@@ -1,18 +1,17 @@
 import {
   CourseCard,
+  HeroSection,
 } from '@bluedot/ui';
 
 const HomePage = () => {
   return (
     <div>
-      {/* HERO */}
-      <div className="bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]">
-        <div className="max-w-[600px] my-auto">
-          <h1 className="text-center">BlueDot Impact</h1>
-          <h2 className="text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none">The expertise you need to shape safe AI</h2>
-          <h3 className="text-bluedot-darker text-xl text-center">We run the world's most trusted AI Safety educational courses, career services and support community. Our programs are developed in collaboration with AI Safety world experts.</h3>
-        </div>
-      </div>
+      <HeroSection
+        title="The expertise you need to shape safe AI "
+        subtitle="We run the world's most trusted AI Safety educational courses, career services and support community. Our programs are developed in collaboration with AI Safety world experts."
+      >
+        <p className="text-center">BlueDot Impact</p>
+      </HeroSection>
 
       {/* COURSES */}
       <div className="mx-16 my-8">

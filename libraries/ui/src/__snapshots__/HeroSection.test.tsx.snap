@@ -1,0 +1,52 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > renders default as expected 1`] = `
+<div>
+  <div
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+  >
+    <div
+      class="hero-section__content max-w-[600px] my-auto"
+    />
+  </div>
+</div>
+`;
+
+exports[`Footer > renders with optional args 1`] = `
+<div>
+  <div
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+  >
+    <div
+      class="hero-section__content max-w-[600px] my-auto"
+    >
+      <h1
+        class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
+      >
+        This is the title
+      </h1>
+      <h2
+        class="hero-section__subtitle text-bluedot-darker text-xl text-center"
+      >
+        This is the subtitle
+      </h2>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Footer > renders with optional yield 1`] = `
+<div>
+  <div
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+  >
+    <div
+      class="hero-section__content max-w-[600px] my-auto"
+    >
+      <p>
+        This is the yield
+      </p>
+    </div>
+  </div>
+</div>
+`;
