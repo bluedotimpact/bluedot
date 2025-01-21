@@ -1,6 +1,7 @@
 import {
   CourseCard,
   HeroSection,
+  Section,
 } from '@bluedot/ui';
 
 const HomePage = () => {
@@ -14,15 +15,7 @@ const HomePage = () => {
       </HeroSection>
 
       {/* COURSES */}
-      <div className="mx-16 my-8">
-        <div className="ml-4">
-          <h2 className="text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-                                relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
-          >
-            Our courses
-          </h2>
-          <p className="text-bluedot-darker text-md mb-4">We run inclusive, blended learning courses that cater to various expertise levels and time availability</p>
-        </div>
+      <Section title="Our courses" subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability">
         <div className="flex flex-row gap-4">
           <CourseCard
             title="Alignment Fast Track"
@@ -49,7 +42,7 @@ const HomePage = () => {
             image="/images/governance-course.jpg"
           />
         </div>
-      </div>
+      </Section>
     </div>
   );
 };

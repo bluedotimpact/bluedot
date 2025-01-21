@@ -1,0 +1,66 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Section > renders default as expected 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8"
+  >
+    <div
+      class="section__heading ml-4"
+    >
+      <h2
+        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
+            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      >
+        This is the title
+      </h2>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section > renders with optional args 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8"
+  >
+    <div
+      class="section__heading ml-4"
+    >
+      <h2
+        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
+            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      >
+        This is the title
+      </h2>
+      <p
+        class="section__subtitle text-bluedot-darker text-md mb-4"
+      >
+        This is the subtitle
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section > renders with optional yield 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8"
+  >
+    <div
+      class="section__heading ml-4"
+    >
+      <h2
+        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
+            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      >
+        This is the title
+      </h2>
+    </div>
+    <p>
+      This is the yield
+    </p>
+  </div>
+</div>
+`;
