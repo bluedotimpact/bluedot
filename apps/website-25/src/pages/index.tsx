@@ -1,4 +1,5 @@
 import {
+  Banner,
   CourseCard,
   HeroSection,
   Section,
@@ -43,6 +44,13 @@ const HomePage = () => {
           />
         </div>
       </Section>
+      <div>
+        <Banner
+          title="Subscribe to our newsletter for the latest updates on AI safety careers"
+          showInput
+          showButton
+        />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,7 @@
 // Alphabetized by file name
 // Updated Components - 2025
+export { Banner } from './Banner';
+
 export { CourseCard, CourseCardButton } from './CourseCard';
 
 export { HeroSection } from './HeroSection';
