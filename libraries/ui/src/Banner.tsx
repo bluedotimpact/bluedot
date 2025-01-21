@@ -36,7 +36,7 @@ export const Banner: React.FC<BannerProps> = ({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={inputPlaceholder}
-            className="p-2 rounded border font-sans text-base font-normal text-center w-fit"
+            className="p-2 rounded border font-sans text-base font-normal text-center w-80"
           />
         )}
         {showButton && (
