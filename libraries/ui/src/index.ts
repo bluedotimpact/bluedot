@@ -8,6 +8,8 @@ export { Footer } from './Footer';
 
 export { Nav } from './Nav';
 
+export { Section } from './Section';
+
 // Legacy Components
 
 export { Box } from './legacy/Box';
