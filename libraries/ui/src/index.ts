@@ -15,6 +15,8 @@ export { Nav } from './Nav';
 
 export { Section } from './Section';
 
+export { Tag } from './Tag';
+
 // Legacy Components
 
 export { Box } from './legacy/Box';
