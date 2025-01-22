@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GraduateSection > renders default as expected 1`] = `
+<div>
+  <div
+    class="graduate-section mx-16 my-8"
+  >
+    <div
+      class="graduate-section__container flex flex-row mx-6 my-8 gap-6 items-center"
+    >
+      <p
+        class="graduate-section__text"
+      >
+        Our graduates work at
+      </p>
+      <div
+        class="graduate-section__logos-container flex flex-row gap-6 items-center"
+      >
+        <img
+          alt="Anthropic"
+          class="graduate-section__logo h-3"
+          src="/images/third-party-logos/anthropic.svg"
+        />
+        <img
+          alt="OpenAI"
+          class="graduate-section__logo h-6"
+          src="/images/third-party-logos/openai.svg"
+        />
+        <img
+          alt="Google DeepMind"
+          class="graduate-section__logo h-6"
+          src="/images/third-party-logos/deepmind.svg"
+        />
+        <img
+          alt="Centre for Governance of AI"
+          class="graduate-section__logo h-6"
+          src="/images/third-party-logos/govai.png"
+        />
+        <img
+          alt="Centre for the Study of Existential Risk"
+          class="graduate-section__logo h-6"
+          src="/images/third-party-logos/exrisk.png"
+        />
+        <img
+          alt="METR"
+          class="graduate-section__logo h-6"
+          src="/images/third-party-logos/metr.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

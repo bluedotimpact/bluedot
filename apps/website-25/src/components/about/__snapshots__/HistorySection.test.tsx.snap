@@ -1,0 +1,99 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HistorySection > renders default as expected 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8 max-w-full overflow-hidden history-section"
+  >
+    <div
+      class="section__heading ml-4"
+    >
+      <h2
+        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
+            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      >
+        Our History
+      </h2>
+    </div>
+    <div
+      class="history-section__container flex flex-col gap-8 my-14"
+    >
+      <div
+        class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="history-section__year"
+        >
+          2021
+        </strong>
+        <p
+          class="history-section__event-title"
+        >
+          A non-profit supporting students at the University of Cambridge to pursue high-impact careers
+        </p>
+      </div>
+      <div
+        class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="history-section__year"
+        >
+          2022
+        </strong>
+        <p
+          class="history-section__event-title"
+        >
+          Growing into a new start-up called “BlueDot Impact” and moved headquarters to London
+        </p>
+      </div>
+      <div
+        class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="history-section__year"
+        >
+          2023
+        </strong>
+        <p
+          class="history-section__event-title"
+        >
+          BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity
+        </p>
+      </div>
+      <div
+        class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="history-section__year"
+        >
+          2024
+        </strong>
+        <p
+          class="history-section__event-title"
+        >
+          BlueDot Impact is now running courses every 6 weeks and trains over 2500 professionals in AI Safety and Biosecurity
+        </p>
+      </div>
+      <div
+        class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          bg-bluedot-lighter border-bluedot-light"
+      >
+        <strong
+          class="history-section__year"
+        >
+          2025
+        </strong>
+        <p
+          class="history-section__event-title"
+        >
+          BlueDot is now running multiple courses in parallel every week! We are scaling the team to accelerate our impact!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
