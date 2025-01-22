@@ -18,6 +18,7 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
   return (
     <button
       type="button"
+      data-testid="cta-button"
       className={clsx(
         'cta-button flex items-center justify-center rounded-[8px] transition-all duration-200 font-semibold text-base',
         {
