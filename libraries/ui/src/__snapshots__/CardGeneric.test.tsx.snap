@@ -1,0 +1,145 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CardGeneric > renders default as expected 1`] = `
+<div>
+  <div
+    class="card w-80 h-80 flex flex-col items-start"
+  >
+    <div
+      class="card__image-container w-full h-48 mb-8"
+    >
+      <img
+        alt="John Doe"
+        class="card__image w-full h-full object-cover rounded-2xl"
+        src="/images/team/member.jpg"
+      />
+    </div>
+    <div
+      class="card__content flex flex-col gap-8"
+    >
+      <div
+        class="card__text space-y-1"
+      >
+        <h2
+          class="card__name text-2xl font-semibold text-bluedot-darker"
+        >
+          John Doe
+        </h2>
+        <p
+          class="card__role text-base text-black"
+        >
+          Developer
+        </p>
+      </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        href="https://linkedin.com/in/johndoe"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          LinkedIn
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CardGeneric > renders with custom className 1`] = `
+<div>
+  <div
+    class="card w-80 h-80 flex flex-col items-start"
+  >
+    <div
+      class="card__image-container w-full h-48 mb-8"
+    >
+      <img
+        alt="John Doe"
+        class="card__image w-full h-full object-cover rounded-2xl"
+        src="/images/team/member.jpg"
+      />
+    </div>
+    <div
+      class="card__content flex flex-col gap-8"
+    >
+      <div
+        class="card__text space-y-1"
+      >
+        <h2
+          class="card__name text-2xl font-semibold text-bluedot-darker"
+        >
+          John Doe
+        </h2>
+        <p
+          class="card__role text-base text-black"
+        >
+          Developer
+        </p>
+      </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        href="https://linkedin.com/in/johndoe"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          LinkedIn
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CardGeneric > renders with custom image dimensions 1`] = `
+<div>
+  <div
+    class="card w-80 h-80 flex flex-col items-start"
+  >
+    <div
+      class="card__image-container w-full h-48 mb-8"
+    >
+      <img
+        alt="John Doe"
+        class="card__image w-full h-full object-cover rounded-2xl"
+        src="/images/team/custom-size.jpg"
+      />
+    </div>
+    <div
+      class="card__content flex flex-col gap-8"
+    >
+      <div
+        class="card__text space-y-1"
+      >
+        <h2
+          class="card__name text-2xl font-semibold text-bluedot-darker"
+        >
+          John Doe
+        </h2>
+        <p
+          class="card__role text-base text-black"
+        >
+          Developer
+        </p>
+      </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        href="https://linkedin.com/in/johndoe"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          LinkedIn
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;

@@ -1,5 +1,5 @@
 import React from 'react';
-import CTALink from './CTALink';
+import { CTALink } from './CTALink';
 
 interface CardProps {
   imageSrc: string;
