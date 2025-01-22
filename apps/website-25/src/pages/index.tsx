@@ -4,6 +4,7 @@ import {
 import CourseSection from '../components/homepage/CourseSection';
 import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
+import TeamSection from '../components/homepage/TeamSection';
 
 const HomePage = () => {
   return (
@@ -21,6 +22,7 @@ const HomePage = () => {
       <GraduateSection />
       <CourseSection />
       <StorySection />
+      <TeamSection />
     </div>
   );
 };
