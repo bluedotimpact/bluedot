@@ -23,7 +23,7 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
         'cta-button flex items-center justify-center rounded-[8px] transition-all duration-200 font-semibold text-base',
         {
           'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal': variant === 'primary',
-          'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-[#F0F0FF]': variant === 'secondary',
+          'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter'': variant === 'secondary',
         },
         'px-4 py-2',
         className,
