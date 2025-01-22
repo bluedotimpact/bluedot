@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CareersSection > renders default as expected 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8 max-w-full overflow-hidden careers-section"
+  >
+    <div
+      class="section__heading ml-4"
+    >
+      <h2
+        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
+            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      >
+        Careers at BlueDot Impact
+      </h2>
+    </div>
+    <div
+      class="careers-section__container flex flex-col gap-8 my-14"
+    >
+      <div
+        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="careers-section__title"
+        >
+          Head of Communications and Marketing
+        </strong>
+        <p
+          class="careers-section__location-title"
+        >
+          London, Remote
+        </p>
+      </div>
+      <div
+        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="careers-section__title"
+        >
+          Head of Communications and Marketing
+        </strong>
+        <p
+          class="careers-section__location-title"
+        >
+          London, Remote
+        </p>
+      </div>
+      <div
+        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="careers-section__title"
+        >
+          Head of Communications and Marketing
+        </strong>
+        <p
+          class="careers-section__location-title"
+        >
+          London, Remote
+        </p>
+      </div>
+      <div
+        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
+      >
+        <strong
+          class="careers-section__title"
+        >
+          Head of Communications and Marketing
+        </strong>
+        <p
+          class="careers-section__location-title"
+        >
+          London, Remote
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
