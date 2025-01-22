@@ -1,8 +1,8 @@
 import { Section } from '@bluedot/ui';
 
-const IntroSection = () => {
+const IntroSection = ({ title }: { title: string }) => {
   return (
-    <Section className="intro-section" title="Why do we exist?">
+    <Section className="intro-section" title={title}>
       <div className="intro-section__container flex flex-row gap-28 my-16">
         <div className="intro-section__text-container flex flex-col gap-5">
           <p>Humanity faces unprecedented challenges from transformative AI (TAI), which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.</p>
