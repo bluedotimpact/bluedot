@@ -3,6 +3,8 @@
 
 export { Banner } from './Banner';
 
+export { CardGeneric } from './CardGeneric';
+
 export { CTAButton } from './CTAButton';
 
 export { CourseCard, CourseCardButton } from './CourseCard';
