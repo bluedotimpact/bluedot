@@ -1,4 +1,5 @@
 import {
+  Banner,
   HeroSection,
 } from '@bluedot/ui';
 import CourseSection from '../components/homepage/CourseSection';
@@ -18,6 +19,13 @@ const HomePage = () => {
           <img className="hero-section__logo-text w-52 mr-9" src="/images/logo/BlueDot_Impact_Logo_Text-Only.svg" alt="BlueDot Impact" />
         </div>
       </HeroSection>
+      <div>
+        <Banner
+          title="Subscribe to our newsletter for the latest updates on AI safety careers"
+          showInput
+          showButton
+        />
+      </div>
       <GraduateSection />
       <CourseSection />
       <StorySection />
