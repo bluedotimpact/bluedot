@@ -19,7 +19,7 @@ const HomePage = () => {
           <img className="hero-section__logo-icon w-20" src="/images/logo/BlueDot_Impact_Icon.svg" alt="BlueDot Impact" />
           <img className="hero-section__logo-text w-52 mr-9" src="/images/logo/BlueDot_Impact_Logo_Text-Only.svg" alt="BlueDot Impact" />
         </div>
-      </Section>
+      </HeroSection>
       <div>
         <Banner
           title="Subscribe to our newsletter for the latest updates on AI safety careers"
@@ -27,7 +27,6 @@ const HomePage = () => {
           showButton
         />
       </div>
-      </HeroSection>
       <GraduateSection />
       <CourseSection />
       <StorySection />

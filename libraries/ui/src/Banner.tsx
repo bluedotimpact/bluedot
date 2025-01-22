@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 interface BannerProps {
   title: string;
-  backgroundColor?: string;
   className?: string;
   inputPlaceholder?: string;
   buttonText?: string;
@@ -12,7 +11,7 @@ interface BannerProps {
 }
 
 export const Banner: React.FC<BannerProps> = ({
-  title, backgroundColor, className, inputPlaceholder = 'you@example.com', // Default placeholder
+  title, className, inputPlaceholder = 'you@example.com', // Default placeholder
   buttonText = 'Submit', // Default button text
   showInput = false, // Default to not show input
   showButton = false,
