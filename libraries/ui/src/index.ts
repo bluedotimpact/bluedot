@@ -1,5 +1,6 @@
 // Alphabetized by file name
 // Updated Components - 2025
+export { CTAButton } from './CTAButton';
 export { CourseCard, CourseCardButton } from './CourseCard';
 
 export { HeroSection } from './HeroSection';
