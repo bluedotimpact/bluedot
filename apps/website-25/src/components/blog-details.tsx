@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { TinaMarkdown } from "tinacms/dist/rich-text";
-import { useMDXComponents } from "./mdx-components";
-import Link from "next/link";
-import { ClockIcon } from "./icons";
+import Image from 'next/image';
+import { TinaMarkdown } from 'tinacms/dist/rich-text';
+import Link from 'next/link';
+import { useMDXComponents } from './mdx-components';
+import { ClockIcon } from './icons';
 
 interface BlogPost {
   title: string;
@@ -21,13 +21,13 @@ interface BlogDetailProps {
   relatedPosts: BlogPost[];
 }
 
-export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
+const BlogDetail = ({ post, relatedPosts }: BlogDetailProps) => {
   const components = useMDXComponents({});
   const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
 
@@ -51,10 +51,12 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
         {/* Author and Stats Section */}
         <div className="flex items-center justify-between mb-8 p-4 rounded-full border">
           <div className="flex items-center gap-3">
-            <img
+            <Image
               className="w-10 h-10 rounded-full"
-              src={post.author?.avatar}
-              alt="Rounded avatar"
+              src={post.author?.avatar || '/placeholder.svg'}
+              alt={`${post.author?.name}'s avatar`}
+              width={40}
+              height={40}
             />
             <span className="font-medium">{post.author?.name}</span>
           </div>
@@ -72,11 +74,12 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
           <div className="mb-8">
             <div className="aspect-[16/9] bg-blue-100 rounded-lg overflow-hidden">
               <Image
-                src={post.mainImage || "/placeholder.svg"}
-                alt={post.title}
+                src={post.mainImage}
+                alt={`Cover image for ${post.title}`}
                 width={1200}
                 height={675}
                 className="w-full h-full object-cover"
+                priority
               />
             </div>
           </div>
@@ -89,10 +92,12 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
         {/* Author and Stats Section */}
         <div className="flex items-center justify-between my-8 px-4 py-7 rounded-full border">
           <div className="flex items-center gap-3">
-            <img
+            <Image
               className="w-10 h-10 rounded-full"
-              src={post.author?.avatar}
-              alt="Rounded avatar"
+              src={post.author?.avatar || '/placeholder.svg'}
+              alt={`${post.author?.name}'s avatar`}
+              width={40}
+              height={40}
             />
             <span className="font-medium">{post.author?.name}</span>
           </div>
@@ -114,8 +119,8 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
             <div className="h-px flex-1 bg-blue-600" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedPosts.map((relatedPost, index) => (
-              <div key={index} className="border rounded-lg overflow-hidden">
+            {relatedPosts.map((relatedPost) => (
+              <div key={relatedPost._sys.relativePath} className="border rounded-lg overflow-hidden">
                 <div className="p-0">
                   <div className="p-4">
                     <span className="text-xs font-semibold text-gray-600">
@@ -125,8 +130,8 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
                   {relatedPost.mainImage && (
                     <div className="aspect-[16/9] bg-blue-100">
                       <Image
-                        src={relatedPost.mainImage || "/placeholder.svg"}
-                        alt={relatedPost.title}
+                        src={relatedPost.mainImage}
+                        alt={`Cover image for ${relatedPost.title}`}
                         width={600}
                         height={338}
                         className="w-full h-full object-cover"
@@ -135,7 +140,7 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
                   )}
                   <div className="p-4 flex flex-col">
                     <Link
-                      href={`${relatedPost._sys.relativePath?.split(".md")[0]}`}
+                      href={`${relatedPost._sys.relativePath?.split('.md')[0]}`}
                       className="text-xl font-semibold text-blue-600 mb-2"
                     >
                       {relatedPost.title}
@@ -152,4 +157,6 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
       )}
     </article>
   );
-}
+};
+
+export default BlogDetail;

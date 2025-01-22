@@ -1,10 +1,10 @@
-import type React from "react"
+import type React from 'react';
 
 interface IconProps {
   className?: string
 }
 
-export const ClockIcon: React.FC<IconProps> = ({ className = "w-4 h-4" }) => {
+export const ClockIcon: React.FC<IconProps> = ({ className = 'w-4 h-4' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,6 +19,5 @@ export const ClockIcon: React.FC<IconProps> = ({ className = "w-4 h-4" }) => {
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
     </svg>
-  )
-}
-
+  );
+};
