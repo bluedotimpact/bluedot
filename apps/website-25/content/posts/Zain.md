@@ -16,23 +16,40 @@ Here, we’ll explore the top 10 ChatGPT prompts that can help you learn anythin
 
 ## [Join The Squad For Grow Your Business](https://app.daily.dev/squads/saasbestdeal)
 
-1\. “Explain \[Topic] to me like I’m a 5-year-old.”
-
-Simplify complex concepts with this prompt. It breaks down intricate ideas into digestible explanations.
+> 1\. “Explain \[Topic] to me like I’m a 5-year-old.”\
+> Simplify complex concepts with this prompt. It breaks down intricate ideas into digestible explanations.
 
 Example: “Explain quantum mechanics to me like I’m a 5-year-old.” ChatGPT will respond with an analogy or simple language that’s easy to grasp, perfect for building foundational knowledge.
 
-2\. “Give me a 5-minute crash course on \[Topic].”
+2.** “Give me a 5-minute crash course on \[Topic].”**
 
-When you need a quick overview, this prompt provides a concise explanation of the basics, giving you just enough to get started.
+> When you need a quick overview, this prompt provides a concise explanation of the basics, giving you just enough to get started.
 
 Example: “Give me a 5-minute crash course on cryptocurrency trading.”
 
-3\. “What are the top 5 resources to learn \[Skill/Topic]?”
+def greet(name: str) -> str:
+
+`   """`
+
+`    Greets a user with a personalized message.`
+
+`    Args:`
+
+`        name (str): The name of the user to greet`
+
+`    Returns:`
+
+`        str: A personalized greeting message`
+
+`    """`
+
+```json
+return f"Hello, {name}!"
+```
 
 Save hours of research by letting ChatGPT curate the best learning materials, including books, websites, and courses.
 
-Example:
+*Example:*![](/uploads/gen-1735119779016-poster.png "hello world")
 
 “What are the top 5 resources to learn Python programming?”
 

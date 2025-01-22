@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { TinaMarkdown, TinaMarkdownContent } from "tinacms/dist/rich-text";
-import { MoreHorizontal, Share2, Clock } from "lucide-react";
+import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { useMDXComponents } from "./mdx-components";
 import Link from "next/link";
+import { ClockIcon } from "./icons";
 
 interface BlogPost {
   title: string;
@@ -23,7 +23,6 @@ interface BlogDetailProps {
 
 export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
   const components = useMDXComponents({});
-  console.log("post", post);
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
@@ -62,11 +61,9 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
+              <ClockIcon className="h-4 w-4" />
               <span className="text-muted-foreground">{post.readTime}</span>
             </div>
-            <Share2 className="h-4 w-4" />
-            <MoreHorizontal className="h-4 w-4" />
           </div>
         </div>
 
@@ -86,7 +83,7 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
         )}
 
         {/* Article Content */}
-        <div className="prose prose-lg max-w-none">
+        <div className="prose prose-lg max-w-none prose-blockquote:border-0 prose-blockquote:p-0 prose-pre:p-0 prose-pre:m-0 prose-code:before:content-none prose-code:after:content-none">
           <TinaMarkdown content={post.body} components={components} />
         </div>
         {/* Author and Stats Section */}
@@ -102,11 +99,9 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
+              <ClockIcon className="h-4 w-4" />
               <span className="text-muted-foreground">{post.readTime}</span>
             </div>
-            <Share2 className="h-4 w-4" />
-            <MoreHorizontal className="h-4 w-4" />
           </div>
         </div>
       </div>
@@ -139,7 +134,10 @@ export default function BlogDetail({ post, relatedPosts }: BlogDetailProps) {
                     </div>
                   )}
                   <div className="p-4 flex flex-col">
-                    <Link href={`${relatedPost._sys.relativePath?.split(".md")[0]}`} className="text-xl font-semibold text-blue-600 mb-2">
+                    <Link
+                      href={`${relatedPost._sys.relativePath?.split(".md")[0]}`}
+                      className="text-xl font-semibold text-blue-600 mb-2"
+                    >
                       {relatedPost.title}
                     </Link>
                     <time className="text-sm text-gray-600">
