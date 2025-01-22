@@ -3,6 +3,7 @@ import {
 } from '@bluedot/ui';
 import IntroSection from '../components/about/IntroSection';
 import HistorySection from '../components/about/HistorySection';
+import TeamSection from '../components/about/TeamSection';
 
 const AboutPage = () => {
   return (
@@ -12,6 +13,7 @@ const AboutPage = () => {
       />
       <IntroSection />
       <HistorySection />
+      <TeamSection />
     </div>
   );
 };
