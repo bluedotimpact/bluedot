@@ -3,10 +3,10 @@
 exports[`Footer > renders default as expected 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
   >
     <div
-      class="hero-section__content max-w-[600px] my-auto"
+      class="hero-section__content max-w-[600px]"
     />
   </div>
 </div>
@@ -15,10 +15,10 @@ exports[`Footer > renders default as expected 1`] = `
 exports[`Footer > renders with optional args 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
   >
     <div
-      class="hero-section__content max-w-[600px] my-auto"
+      class="hero-section__content max-w-[600px]"
     >
       <h1
         class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
@@ -38,10 +38,10 @@ exports[`Footer > renders with optional args 1`] = `
 exports[`Footer > renders with optional yield 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center w-full h-[613px]"
+    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
   >
     <div
-      class="hero-section__content max-w-[600px] my-auto"
+      class="hero-section__content max-w-[600px]"
     >
       <p>
         This is the yield
