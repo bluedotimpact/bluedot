@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
 import { HeroSection } from './HeroSection';
 
-describe('Footer', () => {
+describe('HeroSection', () => {
   test('renders default as expected', () => {
     const { container } = render(<HeroSection />);
     expect(container).toMatchSnapshot();
