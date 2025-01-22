@@ -3,7 +3,7 @@
 exports[`Section > renders default as expected 1`] = `
 <div>
   <div
-    class="section mx-16 my-8"
+    class="section mx-16 my-8 max-w-full overflow-hidden"
   >
     <div
       class="section__heading ml-4"
@@ -22,7 +22,7 @@ exports[`Section > renders default as expected 1`] = `
 exports[`Section > renders with optional args 1`] = `
 <div>
   <div
-    class="section mx-16 my-8"
+    class="section mx-16 my-8 max-w-full overflow-hidden"
   >
     <div
       class="section__heading ml-4"
@@ -46,7 +46,7 @@ exports[`Section > renders with optional args 1`] = `
 exports[`Section > renders with optional yield 1`] = `
 <div>
   <div
-    class="section mx-16 my-8"
+    class="section mx-16 my-8 max-w-full overflow-hidden"
   >
     <div
       class="section__heading ml-4"

@@ -3,7 +3,7 @@
 exports[`CourseSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section mx-16 my-8"
+    class="section mx-16 my-8 max-w-full overflow-hidden"
   >
     <div
       class="section__heading ml-4"

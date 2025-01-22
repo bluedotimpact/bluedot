@@ -26,7 +26,7 @@ exports[`HeroSection > renders with optional args 1`] = `
         This is the title
       </h1>
       <h2
-        class="hero-section__subtitle text-bluedot-darker text-xl text-center"
+        class="hero-section__subtitle text-bluedot-darker text-xl font-normal text-center"
       >
         This is the subtitle
       </h2>
