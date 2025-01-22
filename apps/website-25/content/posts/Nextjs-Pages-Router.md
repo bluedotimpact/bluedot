@@ -1,7 +1,7 @@
 ---
 title: Next.js Pages Router
 author: content/authors/zain.md
-date: 2025-01-20T19:00:00.000Z
+date: 2025-01-23T19:00:00.000Z
 mainImage: /uploads/journey1.webp
 excerpt: Hello World
 category: Technology

@@ -10,12 +10,12 @@ export default function Home(props: { query: any; variables: any; data: any }) {
     data: props.data,
   });
   const relatedPosts =
-    data.postConnection.edges
+  (data?.postConnection && data.postConnection?.edges?.length) ? data.postConnection.edges
       ?.filter(
         (edge: any) => edge.node._sys.filename !== props.variables.relativePath
       )
       .slice(0, 3)
-      .map((edge: any) => edge.node) || [];
+      .map((edge: any) => edge.node) : [];
 
   return <BlogDetail relatedPosts={relatedPosts} post={data.post} />;
 }
