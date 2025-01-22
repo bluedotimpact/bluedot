@@ -1,6 +1,5 @@
 import {
   Banner,
-  CourseCard,
   HeroSection,
 } from '@bluedot/ui';
 import CourseSection from '../components/homepage/CourseSection';
