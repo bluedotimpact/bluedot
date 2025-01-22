@@ -1,6 +1,12 @@
 name: ci_cd
 
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 env:
   TURBO_CACHE_DIR: .turbo
