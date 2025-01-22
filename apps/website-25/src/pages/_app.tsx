@@ -11,14 +11,14 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>BlueDot Impact</title>
       </Head>
-      <Nav logo="/BlueDot_Impact_Logo.svg">
+      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg">
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />
       </main>
-      <Footer logo="/BlueDot_Impact_Logo_White.svg" />
+      <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
     </>
   );
 };
