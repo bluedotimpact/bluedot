@@ -1,9 +1,19 @@
 import {
   HeroSection,
+  FaceTiles,
 } from '@bluedot/ui';
 import CourseSection from '../components/homepage/CourseSection';
 import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
+
+const faces = [
+  { src: '/images/team/team_1.jpg', alt: 'Person 1' },
+  { src: '/images/team/team_1.jpg', alt: 'Person 2' },
+  { src: '/images/team/team_1.jpg', alt: 'Person 3' },
+  { src: '/images/team/team_1.jpg', alt: 'Person 4' },
+  { src: '/images/team/team_1.jpg', alt: 'Person 5' },
+  // ... more faces
+];
 
 const HomePage = () => {
   return (
@@ -21,6 +31,12 @@ const HomePage = () => {
       <GraduateSection />
       <CourseSection />
       <StorySection />
+
+      <FaceTiles
+        faces={faces}
+        maxDisplay={4}
+        size={40}
+      />
     </div>
   );
 };

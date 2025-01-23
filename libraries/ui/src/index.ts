@@ -9,6 +9,8 @@ export { CourseCard, CourseCardButton } from './CourseCard';
 
 export { HeroSection } from './HeroSection';
 
+export { FaceTiles } from './FaceTiles';
+
 export { Footer } from './Footer';
 
 export { Nav } from './Nav';
