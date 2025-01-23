@@ -21,7 +21,6 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
     return (
       <a
         href={url}
-        target="_blank"
         rel="noopener noreferrer"
         className={clsx(
           'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base',
