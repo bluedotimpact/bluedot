@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tag > renders as button when onClick provided 1`] = `
+<div>
+  <button
+    class="tag__button tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1"
+    type="button"
+  >
+    Interactive tag
+  </button>
+</div>
+`;
+
+exports[`Tag > renders default as expected 1`] = `
+<div>
+  <span
+    class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200"
+    role="status"
+  >
+    Basic tag
+  </span>
+</div>
+`;
+
+exports[`Tag > renders with custom className 1`] = `
+<div>
+  <span
+    class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 custom-class"
+    role="status"
+  >
+    Custom tag
+  </span>
+</div>
+`;
