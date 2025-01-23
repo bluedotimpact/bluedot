@@ -12,7 +12,7 @@ export const Tag: React.FC<TagProps> = ({
   label,
   onClick,
 }) => {
-  const baseStyles = 'tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-light'
+  const baseStyles = 'tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-light'
     + 'text-gray-800 text-sm font-medium transition-colors duration-200';
 
   const interactiveStyles = 'hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-1';
