@@ -10,8 +10,7 @@ export const Tag: React.FC<TagProps> = ({
   className,
   label,
 }) => {
-  const baseStyles = 'tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-light'
-    + 'text-gray-800 text-sm font-medium transition-colors duration-200';
+  const baseStyles = 'tag inline-flex items-center px-4 py-1.5 rounded-lg border text-xs font-semibold border-bluedot-lighter text-gray-800 text-sm font-medium transition-colors duration-200';
 
   return (
     <span

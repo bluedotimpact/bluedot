@@ -43,7 +43,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             </p>
             <Tag
               label={courseType}
-              className="text-xs font-semibold border-bluedot-light"
             />
           </div>
           {children}
@@ -60,7 +59,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             </p>
             <Tag
               label={courseType}
-              className="text-xs font-semibold border-bluedot-lighter"
             />
           </div>
           {children}
