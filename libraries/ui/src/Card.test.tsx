@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
-import { CardGeneric } from './CardGeneric';
+import { Card } from './Card';
 
-describe('CardGeneric', () => {
+describe('Card', () => {
   const defaultProps = {
     imageSrc: '/images/team/member.jpg',
     name: 'John Doe',
@@ -11,13 +11,13 @@ describe('CardGeneric', () => {
   };
 
   test('renders default as expected', () => {
-    const { container } = render(<CardGeneric {...defaultProps} />);
+    const { container } = render(<Card {...defaultProps} />);
     expect(container).toMatchSnapshot();
   });
 
   test('renders with custom image dimensions', () => {
     const { container } = render(
-      <CardGeneric
+      <Card
         {...defaultProps}
         imageSrc="/images/team/custom-size.jpg"
       />,
@@ -27,7 +27,7 @@ describe('CardGeneric', () => {
 
   test('renders with custom className', () => {
     const { container } = render(
-      <CardGeneric
+      <Card
         {...defaultProps}
         className="custom-class"
       />,
