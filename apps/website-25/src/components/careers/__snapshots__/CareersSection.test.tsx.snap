@@ -19,64 +19,164 @@ exports[`CareersSection > renders default as expected 1`] = `
       class="careers-section__container flex flex-col gap-8 my-14"
     >
       <div
-        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
       >
         <strong
-          class="careers-section__title"
+          class="careers-section__title basis-[33%]"
         >
-          Head of Communications and Marketing
+          AI Alignment Project Judge
         </strong>
         <p
-          class="careers-section__location-title"
+          class="careers-section__location"
         >
           London, Remote
         </p>
+        <p
+          class="careers-section__type"
+        >
+          Permanent
+        </p>
+        <button
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+          data-testid="cta-button"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon w-2 h-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </button>
       </div>
       <div
-        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
       >
         <strong
-          class="careers-section__title"
+          class="careers-section__title basis-[33%]"
         >
-          Head of Communications and Marketing
+          Course Operations Specialist
         </strong>
         <p
-          class="careers-section__location-title"
+          class="careers-section__location"
         >
           London, Remote
         </p>
+        <p
+          class="careers-section__type"
+        >
+          Permanent
+        </p>
+        <button
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+          data-testid="cta-button"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon w-2 h-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </button>
       </div>
       <div
-        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
       >
         <strong
-          class="careers-section__title"
+          class="careers-section__title basis-[33%]"
         >
-          Head of Communications and Marketing
+          Software Engineering Contractor
         </strong>
         <p
-          class="careers-section__location-title"
+          class="careers-section__location"
         >
           London, Remote
         </p>
+        <p
+          class="careers-section__type"
+        >
+          Permanent
+        </p>
+        <button
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+          data-testid="cta-button"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon w-2 h-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </button>
       </div>
       <div
-        class="careers-section__location-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
       >
         <strong
-          class="careers-section__title"
+          class="careers-section__title basis-[33%]"
         >
-          Head of Communications and Marketing
+          Economics of Transformative AI Teaching Fellow
         </strong>
         <p
-          class="careers-section__location-title"
+          class="careers-section__location"
         >
           London, Remote
         </p>
+        <p
+          class="careers-section__type"
+        >
+          Permanent
+        </p>
+        <button
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+          data-testid="cta-button"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon w-2 h-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </button>
       </div>
     </div>
   </div>
