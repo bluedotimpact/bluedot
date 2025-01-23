@@ -35,7 +35,6 @@ exports[`Card > renders default as expected 1`] = `
         class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
         href="https://linkedin.com/in/johndoe"
         rel="noopener noreferrer"
-        target="_blank"
       >
         <span
           class="cta-button__text"
@@ -83,7 +82,6 @@ exports[`Card > renders with custom className 1`] = `
         class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
         href="https://linkedin.com/in/johndoe"
         rel="noopener noreferrer"
-        target="_blank"
       >
         <span
           class="cta-button__text"
@@ -131,7 +129,6 @@ exports[`Card > renders with custom image dimensions 1`] = `
         class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
         href="https://linkedin.com/in/johndoe"
         rel="noopener noreferrer"
-        target="_blank"
       >
         <span
           class="cta-button__text"
