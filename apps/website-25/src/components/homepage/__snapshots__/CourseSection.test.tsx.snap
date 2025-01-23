@@ -50,7 +50,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             5 days
           </p>
           <span
-            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
+            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
             role="status"
           >
             Crash course
@@ -84,7 +84,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             5 days
           </p>
           <span
-            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
+            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
             role="status"
           >
             Crash course
@@ -118,7 +118,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             12 weeks
           </p>
           <span
-            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
+            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
             role="status"
           >
             In-depth course
@@ -152,7 +152,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             12 weeks
           </p>
           <span
-            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-full border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
+            class="tag__label tag inline-flex items-center px-4 py-1.5 rounded-lg border border-bluedot-lighttext-gray-800 text-sm font-medium transition-colors duration-200 text-xs font-semibold border-bluedot-lighter"
             role="status"
           >
             In-depth course
