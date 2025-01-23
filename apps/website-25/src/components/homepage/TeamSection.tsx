@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardGeneric } from '@bluedot/ui/src/CardGeneric';
+import { Card, Section } from '@bluedot/ui';
 
 const TeamSection = () => {
   const teamMembers = [
@@ -21,25 +21,35 @@ const TeamSection = () => {
       role: 'Product',
       linkedInUrl: 'https://linkedin.com/in/li-lian',
     },
+    {
+      imageSrc: '/images/team/luke.jpg',
+      name: 'Luke Drago',
+      role: 'AI Governance',
+      linkedInUrl: 'https://linkedin.com/in/luke',
+    },
+    {
+      imageSrc: '/images/team/tarin.jpg',
+      name: 'Tarin Rickett',
+      role: 'Engineering',
+      linkedInUrl: 'https://linkedin.com/in/tarin',
+    },
   ];
 
   return (
-    <section className="py-20 px-4 md:px-8 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-[#0066FF] text-5xl font-bold mb-16">Our team</h1>
-        <div className="flex flex-wrap gap-8 justify-center md:justify-start">
-          {teamMembers.map((member, index) => (
-            <CardGeneric
-              key={index}
-              imageSrc={member.imageSrc}
-              name={member.name}
-              role={member.role}
-              linkedInUrl={member.linkedInUrl}
-            />
-          ))}
-        </div>
+    <Section title="Our team">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-[1400px] mx-auto">
+        {teamMembers.map((member) => (
+          <Card
+            key={member.name}
+            imageSrc={member.imageSrc}
+            title={member.name}
+            subtitle={member.role}
+            ctaUrl={member.linkedInUrl}
+            className="w-full"
+          />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 };
 
