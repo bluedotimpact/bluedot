@@ -2,50 +2,108 @@
 
 exports[`Footer > renders default as expected 1`] = `
 <div>
-  <footer
-    class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+  <div
+    class="footer-container"
   >
     <div
-      class="footer_content flex flex-col mb-16"
+      class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
     >
-      <p
-        class="footer_logo h-8 mr-auto text-xl text-white"
+      <h1
+        class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
       >
-        BlueDot Impact
-      </p>
+        Subscribe to our newsletter for the latest updates on AI safety careers
+      </h1>
+      <form
+        class="mt-6"
+      >
+        <input
+          class="p-2 rounded border font-sans text-base font-normal text-center w-80"
+          placeholder="you@example.com"
+          type="text"
+          value=""
+        />
+        <button
+          class="ml-2 p-2 bg-bluedot-normal text-white font-bold rounded"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
     </div>
-    <p
-      class="footer_copyright text-sm text-center text-bluedot-lighter"
+    <footer
+      class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
     >
-      © 
-      2025
-       BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
-    </p>
-  </footer>
+      <div
+        class="footer_content flex flex-col mb-16"
+      >
+        <p
+          class="footer_logo h-8 mr-auto text-xl text-white"
+        >
+          BlueDot Impact
+        </p>
+      </div>
+      <p
+        class="footer_copyright text-sm text-center text-bluedot-lighter"
+      >
+        © 
+        2025
+         BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
+      </p>
+    </footer>
+  </div>
 </div>
 `;
 
 exports[`Footer > renders with optional args 1`] = `
 <div>
-  <footer
-    class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+  <div
+    class="footer-container"
   >
     <div
-      class="footer_content flex flex-col mb-16"
+      class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
     >
-      <img
-        alt="BlueDot Impact Logo"
-        class="footer_logo h-6 mr-auto"
-        src="https://www.bluedot.com/test-logo.jpg"
-      />
+      <h1
+        class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
+      >
+        Subscribe to our newsletter for the latest updates on AI safety careers
+      </h1>
+      <form
+        class="mt-6"
+      >
+        <input
+          class="p-2 rounded border font-sans text-base font-normal text-center w-80"
+          placeholder="you@example.com"
+          type="text"
+          value=""
+        />
+        <button
+          class="ml-2 p-2 bg-bluedot-normal text-white font-bold rounded"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
     </div>
-    <p
-      class="footer_copyright text-sm text-center text-bluedot-lighter"
+    <footer
+      class="footer bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
     >
-      © 
-      2025
-       BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
-    </p>
-  </footer>
+      <div
+        class="footer_content flex flex-col mb-16"
+      >
+        <img
+          alt="BlueDot Impact Logo"
+          class="footer_logo h-6 mr-auto"
+          src="https://www.bluedot.com/test-logo.jpg"
+        />
+      </div>
+      <p
+        class="footer_copyright text-sm text-center text-bluedot-lighter"
+      >
+        © 
+        2025
+         BlueDot Impact is primarily funded by Open Philanthropy, and is a non-profit based in the UK (company number 14964572).
+      </p>
+    </footer>
+  </div>
 </div>
 `;

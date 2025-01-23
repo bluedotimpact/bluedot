@@ -3,15 +3,15 @@
 exports[`Banner > renders 1`] = `
 <div>
   <div
-    class="banner relative w-full p-5 text-center rounded-lg bg-bluedot-lighter"
+    class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
   >
     <h1
-      class="banner__title text-bluedot-normal font-serif font-normal"
+      class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
     >
       Test Banner
     </h1>
     <form
-      class="mt-4"
+      class="mt-6"
     />
   </div>
 </div>
@@ -20,15 +20,15 @@ exports[`Banner > renders 1`] = `
 exports[`Banner > renders with input and button 1`] = `
 <div>
   <div
-    class="banner relative w-full p-5 text-center rounded-lg bg-bluedot-lighter"
+    class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
   >
     <h1
-      class="banner__title text-bluedot-normal font-serif font-normal"
+      class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
     >
       Test Banner
     </h1>
     <form
-      class="mt-4"
+      class="mt-6"
     >
       <input
         class="p-2 rounded border font-sans text-base font-normal text-center w-80"
