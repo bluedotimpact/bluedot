@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTina } from 'tinacms/dist/react';
-import client from '../../../tina/__generated__/client';
+import { client } from '../../../tina/__generated__/client';
 import BlogDetail from '../../components/blog-details';
 
 interface PostEdge {

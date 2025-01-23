@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from 'next/image';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import Link from 'next/link';
