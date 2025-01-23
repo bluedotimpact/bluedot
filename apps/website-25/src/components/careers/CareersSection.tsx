@@ -1,4 +1,4 @@
-import { CTAButton, Section } from '@bluedot/ui';
+import { CTALinkOrButton, Section } from '@bluedot/ui';
 
 const CareersSection = () => {
   return (
@@ -27,13 +27,13 @@ const JobListing = ({
       <strong className="careers-section__title basis-[33%]">{title}</strong>
       <p className="careers-section__location">{location}</p>
       <p className="careers-section__type">{type}</p>
-      <CTAButton
+      <CTALinkOrButton
         className="careers-section__cta-button"
         variant="secondary"
         withChevron
       >
         Apply now
-      </CTAButton>
+      </CTALinkOrButton>
     </div>
   );
 };
