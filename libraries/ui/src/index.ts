@@ -3,8 +3,6 @@
 
 export { Banner } from './Banner';
 
-export { Card } from './Card';
-
 export { CTALinkOrButton } from './CTALinkOrButton';
 
 export { CourseCard, CourseCardButton } from './CourseCard';
