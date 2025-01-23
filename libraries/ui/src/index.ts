@@ -3,8 +3,6 @@
 
 export { Banner } from './Banner';
 
-export { Card } from './Card';
-
 export { CTALinkOrButton } from './CTALinkOrButton';
 
 export { CourseCard, CourseCardButton } from './CourseCard';
@@ -24,6 +22,8 @@ export type { BoxProps } from './legacy/Box';
 
 export { Button } from './legacy/Button';
 export type { ButtonProps } from './legacy/Button';
+
+export { CardButton } from './legacy/CardButton';
 
 export { Input } from './legacy/Input';
 export type { InputProps } from './legacy/Input';
