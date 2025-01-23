@@ -20,15 +20,16 @@ export const Banner: React.FC<BannerProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitted value:', inputValue);
+    // eslint-disable-next-line no-alert
+    alert('Thank you!');
     // TODO: Send the email to the backend
     setInputValue('');
   };
 
   return (
-    <div className={clsx('banner relative w-full p-5 text-center rounded-lg bg-bluedot-lighter', className)}>
-      <h1 className="banner__title text-bluedot-normal font-serif font-normal">{title}</h1>
-      <form onSubmit={handleSubmit} className="mt-4">
+    <div className={clsx('banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter', className)}>
+      <h1 className="banner__title text-bluedot-normal font-serif font-normal text-2xl">{title}</h1>
+      <form onSubmit={handleSubmit} className="mt-6">
         {showInput && (
           <input
             type="text"
