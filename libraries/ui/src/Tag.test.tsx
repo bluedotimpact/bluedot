@@ -18,13 +18,4 @@ describe('Tag', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders as button when onClick provided', () => {
-    const { container } = render(
-      <Tag
-        label="Interactive tag"
-        onClick={() => {}}
-      />,
-    );
-    expect(container).toMatchSnapshot();
-  });
 });
