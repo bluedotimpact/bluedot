@@ -32,9 +32,9 @@ exports[`Card > renders default as expected 1`] = `
         </p>
       </div>
       <a
-        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+        data-testid="cta-link"
         href="https://linkedin.com/in/johndoe"
-        rel="noopener noreferrer"
       >
         <span
           class="cta-button__text"
@@ -79,9 +79,9 @@ exports[`Card > renders with custom className 1`] = `
         </p>
       </div>
       <a
-        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+        data-testid="cta-link"
         href="https://linkedin.com/in/johndoe"
-        rel="noopener noreferrer"
       >
         <span
           class="cta-button__text"
@@ -126,9 +126,9 @@ exports[`Card > renders with custom image dimensions 1`] = `
         </p>
       </div>
       <a
-        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2"
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+        data-testid="cta-link"
         href="https://linkedin.com/in/johndoe"
-        rel="noopener noreferrer"
       >
         <span
           class="cta-button__text"

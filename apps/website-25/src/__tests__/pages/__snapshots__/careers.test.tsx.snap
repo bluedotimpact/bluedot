@@ -85,7 +85,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             Permanent
           </p>
           <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
             data-testid="cta-button"
             type="button"
           >
@@ -125,7 +125,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             Permanent
           </p>
           <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
             data-testid="cta-button"
             type="button"
           >
@@ -165,7 +165,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             Permanent
           </p>
           <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
             data-testid="cta-button"
             type="button"
           >
@@ -205,7 +205,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             Permanent
           </p>
           <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter px-4 py-2 careers-section__cta-button"
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
             data-testid="cta-button"
             type="button"
           >

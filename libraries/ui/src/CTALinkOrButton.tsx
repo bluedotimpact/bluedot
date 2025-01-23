@@ -9,6 +9,13 @@ export type CTAProps = {
   url?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2';
+
+const CTA_VARIANT_STYLES = {
+  primary: 'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal',
+  secondary: 'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter',
+} as const;
+
 export const CTALinkOrButton: React.FC<CTAProps> = ({
   className,
   variant = 'primary',
@@ -17,20 +24,18 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
   url,
   ...rest
 }) => {
+  const commonClassNames = clsx(
+    CTA_BASE_STYLES,
+    CTA_VARIANT_STYLES[variant],
+    className,
+  );
+
   if (url) {
     return (
       <a
         href={url}
-        rel="noopener noreferrer"
-        className={clsx(
-          'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base',
-          {
-            'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal': variant === 'primary',
-            'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter': variant === 'secondary',
-          },
-          'px-4 py-2',
-          className,
-        )}
+        data-testid="cta-link"
+        className={commonClassNames}
       >
         <span className="cta-button__text">{children}</span>
         {withChevron && (
@@ -50,15 +55,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
     <button
       type="button"
       data-testid="cta-button"
-      className={clsx(
-        'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base',
-        {
-          'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal': variant === 'primary',
-          'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter': variant === 'secondary',
-        },
-        'px-4 py-2',
-        className,
-      )}
+      className={commonClassNames}
       {...rest}
     >
       <span className="cta-button__text">{children}</span>
