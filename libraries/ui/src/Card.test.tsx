@@ -5,9 +5,9 @@ import { Card } from './Card';
 describe('Card', () => {
   const defaultProps = {
     imageSrc: '/images/team/member.jpg',
-    name: 'John Doe',
-    role: 'Developer',
-    linkedInUrl: 'https://linkedin.com/in/johndoe',
+    title: 'John Doe',
+    subtitle: 'Developer',
+    ctaUrl: 'https://linkedin.com/in/johndoe',
   };
 
   test('renders default as expected', () => {

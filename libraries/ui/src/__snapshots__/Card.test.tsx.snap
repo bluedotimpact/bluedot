@@ -21,12 +21,12 @@ exports[`Card > renders default as expected 1`] = `
         class="card__text space-y-1"
       >
         <h2
-          class="card__name text-2xl font-semibold text-bluedot-darker"
+          class="card__title text-2xl font-semibold text-bluedot-darker"
         >
           John Doe
         </h2>
         <p
-          class="card__role text-base text-black"
+          class="card__subtitle text-base text-black"
         >
           Developer
         </p>
@@ -69,12 +69,12 @@ exports[`Card > renders with custom className 1`] = `
         class="card__text space-y-1"
       >
         <h2
-          class="card__name text-2xl font-semibold text-bluedot-darker"
+          class="card__title text-2xl font-semibold text-bluedot-darker"
         >
           John Doe
         </h2>
         <p
-          class="card__role text-base text-black"
+          class="card__subtitle text-base text-black"
         >
           Developer
         </p>
@@ -117,12 +117,12 @@ exports[`Card > renders with custom image dimensions 1`] = `
         class="card__text space-y-1"
       >
         <h2
-          class="card__name text-2xl font-semibold text-bluedot-darker"
+          class="card__title text-2xl font-semibold text-bluedot-darker"
         >
           John Doe
         </h2>
         <p
-          class="card__role text-base text-black"
+          class="card__subtitle text-base text-black"
         >
           Developer
         </p>

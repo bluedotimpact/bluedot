@@ -5,7 +5,7 @@ export { Banner } from './Banner';
 
 export { Card } from './Card';
 
-export { CTAButton } from './CTAButton';
+export { CTALinkOrButton } from './CTALinkOrButton';
 
 export { CourseCard, CourseCardButton } from './CourseCard';
 
