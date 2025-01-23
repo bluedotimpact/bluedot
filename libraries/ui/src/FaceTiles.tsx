@@ -13,41 +13,43 @@ interface FaceTilesProps {
 export const FaceTiles: React.FC<FaceTilesProps> = ({
   faces,
   maxDisplay = 4,
-  size = 40,
+  size = 32,
   className = '',
 }) => {
   const displayFaces = faces.slice(0, maxDisplay);
-  const remainingCount = Math.max(0, faces.length - maxDisplay);
+  // TODO: Both of these should be fetched from the backend in the future
+  const remainingCount = 4071;
 
   return (
-    <div className={`flex items-center ${className}`}>
-      <div className="flex -space-x-3">
-        {displayFaces.map((face, index) => (
+    <div className={`face-tiles flex items-center ${className}`}>
+      <div className="face-tiles__container flex -space-x-3">
+        {displayFaces.map((face) => (
           <div
-            key={index}
-            className="rounded-full border-2 border-white overflow-hidden"
+            key={face.src}
+            className="face-tiles__avatar rounded-full border border-white overflow-hidden"
             style={{ width: size, height: size }}
           >
             <img
               src={face.src}
               alt={face.alt}
-              className="w-full h-full object-cover"
+              className="face-tiles__avatar-img w-full h-full object-cover"
             />
           </div>
         ))}
+        {remainingCount > 0 && (
+          <div
+            className="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal"
+            style={{
+              width: 66,
+              height: 32,
+              borderRadius: 16,
+              padding: '8px 16px',
+            }}
+          >
+            +{remainingCount}
+          </div>
+        )}
       </div>
-      {remainingCount > 0 && (
-        <div
-          className="flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold text-sm ml-1"
-          style={{
-            width: size + 16,
-            height: size,
-            fontSize: size * 0.35,
-          }}
-        >
-          +{remainingCount}
-        </div>
-      )}
     </div>
   );
 };
