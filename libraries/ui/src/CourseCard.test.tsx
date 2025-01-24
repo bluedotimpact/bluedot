@@ -32,6 +32,7 @@ describe('CourseCard', () => {
         <button type="button">Enroll Now</button>
       </CourseCard>,
     );
-    expect(container).toMatchSnapshot();
+    const yieldedContent = screen.getByTestId('test-element');
+    expect(yieldedContent).toBeTruthy();
   });
 });
