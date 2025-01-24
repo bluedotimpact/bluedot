@@ -32,6 +32,6 @@ describe('CourseCard', () => {
         <button data-testid="test-element" type="button">Enroll Now</button>
       </CourseCard>,
     );
-    expect(container).toMatchSnapshot();
+    expect(container).toMatchSnapshot(); // *
   });
 });
