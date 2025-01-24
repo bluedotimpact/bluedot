@@ -17,5 +17,4 @@ describe('Tag', () => {
     );
     expect(container).toMatchSnapshot();
   });
-
 });
