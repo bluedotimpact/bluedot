@@ -8,7 +8,7 @@ const Callout: React.FC = () => {
 
   return (
     <div className="callout bg-[radial-gradient(ellipse_at_30%,_#fff_0%,_#6687ff_100%)] rounded-lg p-8 m-8 flex flex-col items-center">
-      <h2 className="callout__title text-black font-bold text-2xl mb-4 text-center">{title}</h2>
+      <h2 className="callout__title mb-4 text-center">{title}</h2>
       <CTAButton
         variant="primary"
         url={ctaLink}
