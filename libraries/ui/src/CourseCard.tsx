@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
+import { Tag } from './Tag';
 
 export type CourseCardProps = React.PropsWithChildren<{
   className?: string,
@@ -40,9 +41,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             <p className="text-left text-xs">
               {courseLength(courseType)}
             </p>
-            <p className="text-right text-xs border border-bluedot-lighter rounded-xl px-4 py-2 font-semibold">
-              {courseType}
-            </p>
+            <Tag
+              label={courseType}
+            />
           </div>
           {children}
         </div>
@@ -56,9 +57,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({
             <p className="text-left text-xs">
               {courseLength(courseType)}
             </p>
-            <p className="text-right text-xs border border-bluedot-lighter rounded-xl px-4 py-2 font-semibold">
-              {courseType}
-            </p>
+            <Tag
+              label={courseType}
+            />
           </div>
           {children}
         </div>
