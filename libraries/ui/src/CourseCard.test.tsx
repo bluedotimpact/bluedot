@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { CourseCard } from './CourseCard';
 
 describe('CourseCard', () => {
@@ -27,9 +27,9 @@ describe('CourseCard', () => {
   });
 
   test('renders with optional yield', () => {
-    const { container } = render(
+    render(
       <CourseCard {...baseProps}>
-        <button test-id="test-element" type="button">Enroll Now</button>
+        <button data-testid="test-element" type="button">Enroll Now</button>
       </CourseCard>,
     );
     const yieldedContent = screen.getByTestId('test-element');
