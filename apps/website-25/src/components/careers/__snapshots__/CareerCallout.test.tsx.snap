@@ -1,0 +1,35 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Callout > renders default as expected 1`] = `
+<div>
+  <div
+    class="bg-[radial-gradient(ellipse_at_30%,_#fff_0%,_#6687ff_100%)] rounded-lg p-8 m-8 flex flex-col items-center"
+  >
+    <h2
+      class="text-black font-bold text-2xl mb-4 text-center"
+    >
+      Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+    </h2>
+    <button
+      class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal px-4 py-2"
+      data-testid="cta-button"
+      type="button"
+    >
+      <span
+        class="cta-button__text"
+      >
+        View our careers
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <img
+          alt="→"
+          class="cta-button__chevron-icon w-2 h-2"
+          src="/icons/chevron_white.svg"
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;
