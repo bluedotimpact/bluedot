@@ -3,15 +3,15 @@
 exports[`Callout > renders default as expected 1`] = `
 <div>
   <div
-    class="bg-[radial-gradient(ellipse_at_30%,_#fff_0%,_#6687ff_100%)] rounded-lg p-8 m-8 flex flex-col items-center"
+    class="callout bg-[radial-gradient(ellipse_at_30%,_#fff_0%,_#6687ff_100%)] rounded-lg p-8 m-8 flex flex-col items-center"
   >
     <h2
-      class="text-black font-bold text-2xl mb-4 text-center"
+      class="callout__title text-black font-bold text-2xl mb-4 text-center"
     >
       Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
     </h2>
     <button
-      class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal px-4 py-2"
+      class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal px-4 py-2 callout__cta"
       data-testid="cta-button"
       type="button"
     >
