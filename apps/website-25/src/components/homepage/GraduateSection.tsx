@@ -1,8 +1,16 @@
+import { FaceTiles } from '@bluedot/ui';
+
+const faces = [
+  { src: '/images/face-tiles/facetile-1.png', alt: 'Person 1' },
+  { src: '/images/face-tiles/facetile-2.png', alt: 'Person 2' },
+  { src: '/images/face-tiles/facetile-3.png', alt: 'Person 3' },
+];
+
 const GraduateSection = () => {
   return (
     <div className="graduate-section mx-16 my-8">
       <div className="graduate-section__container flex flex-row mx-6 my-8 gap-6 items-center">
-        {/* TODO: Facepiles Component. Issue #25 */}
+        <FaceTiles faces={faces} />
         <p className="graduate-section__text">Our graduates work at</p>
         <div className="graduate-section__logos-container flex flex-row gap-6 items-center">
           <img className="graduate-section__logo h-3" src="/images/third-party-logos/anthropic.svg" alt="Anthropic" />
