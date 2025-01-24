@@ -29,7 +29,7 @@ describe('CourseCard', () => {
   test('renders with optional yield', () => {
     const { container } = render(
       <CourseCard {...baseProps}>
-        <button type="button">Enroll Now</button>
+        <button test-id="test-element" type="button">Enroll Now</button>
       </CourseCard>,
     );
     const yieldedContent = screen.getByTestId('test-element');
