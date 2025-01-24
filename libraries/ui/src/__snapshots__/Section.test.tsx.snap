@@ -25,7 +25,135 @@ exports[`Section > renders default as expected 1`] = `
 </div>
 `;
 
-exports[`Section > renders with optional args 1`] = `
+exports[`Section > renders with CTA link 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8 max-w-full overflow-hidden"
+  >
+    <div
+      class="section__header ml-4 flex justify-between items-center gap-4"
+    >
+      <div
+        class="section__content flex-1"
+      >
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[80%]"
+        >
+          This is the title
+        </h2>
+      </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
+        data-testid="cta-link"
+        href="/some-path"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Click me
+        </span>
+        <span
+          class="cta-button__chevron ml-3"
+        >
+          <img
+            alt="→"
+            class="cta-button__chevron-icon w-2 h-2"
+            src="/icons/chevron_blue.svg"
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      class="section__body"
+    />
+  </div>
+</div>
+`;
+
+exports[`Section > renders with all optional props 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8 max-w-full overflow-hidden"
+  >
+    <div
+      class="section__header ml-4 flex justify-between items-center gap-4"
+    >
+      <div
+        class="section__content flex-1"
+      >
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[80%]"
+        >
+          This is the title
+        </h2>
+        <p
+          class="section__subtitle text-bluedot-darker text-md mb-4"
+        >
+          This is the subtitle
+        </p>
+      </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
+        data-testid="cta-link"
+        href="/some-path"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Click me
+        </span>
+        <span
+          class="cta-button__chevron ml-3"
+        >
+          <img
+            alt="→"
+            class="cta-button__chevron-icon w-2 h-2"
+            src="/icons/chevron_blue.svg"
+          />
+        </span>
+      </a>
+    </div>
+    <div
+      class="section__body"
+    >
+      <p>
+        This is the yield
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section > renders with children content 1`] = `
+<div>
+  <div
+    class="section mx-16 my-8 max-w-full overflow-hidden"
+  >
+    <div
+      class="section__header ml-4 flex justify-between items-center gap-4"
+    >
+      <div
+        class="section__content flex-1"
+      >
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+        >
+          This is the title
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <p>
+        This is the yield
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Section > renders with optional subtitle 1`] = `
 <div>
   <div
     class="section mx-16 my-8 max-w-full overflow-hidden"
@@ -51,35 +179,6 @@ exports[`Section > renders with optional args 1`] = `
     <div
       class="section__body"
     />
-  </div>
-</div>
-`;
-
-exports[`Section > renders with optional yield 1`] = `
-<div>
-  <div
-    class="section mx-16 my-8 max-w-full overflow-hidden"
-  >
-    <div
-      class="section__header ml-4 flex justify-between items-center gap-4"
-    >
-      <div
-        class="section__content flex-1"
-      >
-        <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
-        >
-          This is the title
-        </h2>
-      </div>
-    </div>
-    <div
-      class="section__body"
-    >
-      <p>
-        This is the yield
-      </p>
-    </div>
   </div>
 </div>
 `;
