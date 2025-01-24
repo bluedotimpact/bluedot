@@ -27,12 +27,11 @@ describe('CourseCard', () => {
   });
 
   test('renders with optional yield', () => {
-    render(
+   const { container } = render(
       <CourseCard {...baseProps}>
         <button data-testid="test-element" type="button">Enroll Now</button>
       </CourseCard>,
     );
-    const yieldedContent = screen.getByTestId('test-element');
-    expect(yieldedContent).toBeTruthy();
+    expect(container).toMatchSnapshot();
   });
 });
