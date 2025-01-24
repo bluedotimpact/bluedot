@@ -23,6 +23,7 @@ exports[`Nav > renders default as expected 1`] = `
       >
         <button
           class="flex items-center gap-2 hover:text-bluedot-normal"
+          type="button"
         >
           Explore
           <svg
@@ -109,6 +110,7 @@ exports[`Nav > renders with optional args 1`] = `
       >
         <button
           class="flex items-center gap-2 hover:text-bluedot-normal"
+          type="button"
         >
           Explore
           <svg
@@ -213,6 +215,7 @@ exports[`Nav > renders with optional yield 1`] = `
       >
         <button
           class="flex items-center gap-2 hover:text-bluedot-normal"
+          type="button"
         >
           Explore
           <svg
