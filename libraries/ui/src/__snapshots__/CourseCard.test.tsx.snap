@@ -115,7 +115,9 @@ exports[`CourseCard > renders with optional yield 1`] = `
         Crash course
       </p>
     </div>
-    <button>
+    <button
+      type="button"
+    >
       Enroll Now
     </button>
   </div>

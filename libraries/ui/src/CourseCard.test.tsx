@@ -7,7 +7,7 @@ describe('CourseCard', () => {
     title: 'Introduction to Testing',
     description: 'Learn proper testing techniques',
     courseType: 'Crash course',
-    image: '/test-image.jpg'
+    image: '/test-image.jpg',
   };
 
   test('renders default as expected', () => {
@@ -21,7 +21,7 @@ describe('CourseCard', () => {
         {...baseProps}
         className="custom-class"
         cardType="Featured"
-      />
+      />,
     );
     expect(container).toMatchSnapshot();
   });
@@ -29,8 +29,8 @@ describe('CourseCard', () => {
   test('renders with optional yield', () => {
     const { container } = render(
       <CourseCard {...baseProps}>
-        <button>Enroll Now</button>
-      </CourseCard>
+        <button type="button">Enroll Now</button>
+      </CourseCard>,
     );
     expect(container).toMatchSnapshot();
   });
