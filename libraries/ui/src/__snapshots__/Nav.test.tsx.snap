@@ -1,89 +1,280 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Footer > renders default as expected 1`] = `
+exports[`Nav > renders default as expected 1`] = `
 <div>
   <nav
-    class="nav border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
+    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1387.73px] top-[12px] left-1/2 -translate-x-1/2 rounded-[36px]"
   >
-    <a
-      href="/"
+    <div
+      class="flex items-center w-full h-[72px] px-8"
     >
-      <p
-        class="nav_logo--placeholder h-8 mr-auto text-xl"
+      <a
+        class="shrink-0 w-[200px]"
+        href="/"
       >
-        BlueDot Impact
-      </p>
-    </a>
-    <div
-      class="nav_links-container flex flex-grow justify-center items-center gap-4"
-    />
-    <a
-      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-      data-rac=""
-      href="/signup"
-    >
-      Get started for Free
-    </a>
-  </nav>
-</div>
-`;
-
-exports[`Footer > renders with optional args 1`] = `
-<div>
-  <nav
-    class="nav border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
-  >
-    <a
-      href="/"
-    >
-      <img
-        alt="BlueDot Impact Logo"
-        class="nav_logo h-6 mr-auto"
-        src="logo.png"
-      />
-    </a>
-    <div
-      class="nav_links-container flex flex-grow justify-center items-center gap-4"
-    />
-    <a
-      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-      data-rac=""
-      href="/signup"
-    >
-      Get started for Free
-    </a>
-  </nav>
-</div>
-`;
-
-exports[`Footer > renders with optional yield 1`] = `
-<div>
-  <nav
-    class="nav border rounded-full px-8 py-4 flex items-center gap-4 my-4 mx-8 shadow-md fixed top-0 left-0 right-0 z-50 bg-white"
-  >
-    <a
-      href="/"
-    >
-      <p
-        class="nav_logo--placeholder h-8 mr-auto text-xl"
+        <p
+          class="nav_logo--placeholder h-8 mr-auto text-xl"
+        >
+          BlueDot Impact
+        </p>
+      </a>
+      <div
+        class="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative"
       >
-        BlueDot Impact
-      </p>
-    </a>
-    <div
-      class="nav_links-container flex flex-grow justify-center items-center gap-4"
-    >
-      <p>
-        This is the yield
-      </p>
+        <button
+          class="flex items-center gap-2 hover:text-bluedot-normal"
+        >
+          Explore
+          <svg
+            class="w-4 h-4 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 9l-7 7-7-7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="shrink-0 w-[200px] flex justify-end"
+      >
+        <a
+          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+          data-rac=""
+          href="/signup"
+        >
+          Get started for Free
+        </a>
+      </div>
     </div>
-    <a
-      class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-      data-rac=""
-      href="/signup"
+    <div
+      class="overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0"
     >
-      Get started for Free
-    </a>
+      <div
+        class="flex justify-center pb-[28px]"
+      >
+        <div
+          class="w-[200px] shrink-0"
+        />
+        <div
+          class="flex-grow flex justify-center items-center gap-[243px]"
+        >
+          <div
+            class="flex flex-col"
+          >
+            <h2
+              class="font-bold text-xl mb-4"
+            >
+              Our courses
+            </h2>
+            <div
+              class="flex flex-col gap-[14px]"
+            />
+          </div>
+        </div>
+        <div
+          class="w-[200px] shrink-0"
+        />
+      </div>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Nav > renders with optional args 1`] = `
+<div>
+  <nav
+    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1387.73px] top-[12px] left-1/2 -translate-x-1/2 rounded-[36px]"
+  >
+    <div
+      class="flex items-center w-full h-[72px] px-8"
+    >
+      <a
+        class="shrink-0 w-[200px]"
+        href="/"
+      >
+        <img
+          alt="BlueDot Impact Logo"
+          class="nav_logo h-6 mr-auto"
+          src="logo.png"
+        />
+      </a>
+      <div
+        class="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative"
+      >
+        <button
+          class="flex items-center gap-2 hover:text-bluedot-normal"
+        >
+          Explore
+          <svg
+            class="w-4 h-4 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 9l-7 7-7-7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+      </div>
+      <div
+        class="shrink-0 w-[200px] flex justify-end"
+      >
+        <a
+          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+          data-rac=""
+          href="/signup"
+        >
+          Get started for Free
+        </a>
+      </div>
+    </div>
+    <div
+      class="overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0"
+    >
+      <div
+        class="flex justify-center pb-[28px]"
+      >
+        <div
+          class="w-[200px] shrink-0"
+        />
+        <div
+          class="flex-grow flex justify-center items-center gap-[243px]"
+        >
+          <div
+            class="flex flex-col"
+          >
+            <h2
+              class="font-bold text-xl mb-4"
+            >
+              Our courses
+            </h2>
+            <div
+              class="flex flex-col gap-[14px]"
+            >
+              <a
+                class="hover:text-bluedot-normal flex items-center gap-2"
+                href="/course1"
+              >
+                Course 1
+              </a>
+              <a
+                class="hover:text-bluedot-normal flex items-center gap-2"
+                href="/course2"
+              >
+                <span
+                  class="text-bluedot-normal text-xl font-black"
+                >
+                  New!
+                </span>
+                Course 2
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-[200px] shrink-0"
+        />
+      </div>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Nav > renders with optional yield 1`] = `
+<div>
+  <nav
+    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1387.73px] top-[12px] left-1/2 -translate-x-1/2 rounded-[36px]"
+  >
+    <div
+      class="flex items-center w-full h-[72px] px-8"
+    >
+      <a
+        class="shrink-0 w-[200px]"
+        href="/"
+      >
+        <p
+          class="nav_logo--placeholder h-8 mr-auto text-xl"
+        >
+          BlueDot Impact
+        </p>
+      </a>
+      <div
+        class="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative"
+      >
+        <button
+          class="flex items-center gap-2 hover:text-bluedot-normal"
+        >
+          Explore
+          <svg
+            class="w-4 h-4 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 9l-7 7-7-7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+        <p>
+          This is the yield
+        </p>
+      </div>
+      <div
+        class="shrink-0 w-[200px] flex justify-end"
+      >
+        <a
+          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
+          data-rac=""
+          href="/signup"
+        >
+          Get started for Free
+        </a>
+      </div>
+    </div>
+    <div
+      class="overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0"
+    >
+      <div
+        class="flex justify-center pb-[28px]"
+      >
+        <div
+          class="w-[200px] shrink-0"
+        />
+        <div
+          class="flex-grow flex justify-center items-center gap-[243px]"
+        >
+          <div
+            class="flex flex-col"
+          >
+            <h2
+              class="font-bold text-xl mb-4"
+            >
+              Our courses
+            </h2>
+            <div
+              class="flex flex-col gap-[14px]"
+            />
+          </div>
+        </div>
+        <div
+          class="w-[200px] shrink-0"
+        />
+      </div>
+    </div>
   </nav>
 </div>
 `;
