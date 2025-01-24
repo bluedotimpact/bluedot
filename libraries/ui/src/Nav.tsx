@@ -34,6 +34,7 @@ export const Nav: React.FC<NavProps> = ({
         </a>
         <div className="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative">
           <button
+            type="button"
             onClick={() => setIsExpanded(!isExpanded)}
             className="flex items-center gap-2 hover:text-bluedot-normal"
           >
