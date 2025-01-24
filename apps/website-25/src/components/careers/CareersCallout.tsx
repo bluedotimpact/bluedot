@@ -11,7 +11,7 @@ const Callout: React.FC = () => {
       <h2 className="callout__title text-black font-bold text-2xl mb-4 text-center">{title}</h2>
       <CTAButton
         variant="primary"
-        onClick={() => window.open(ctaLink, '_blank')}
+        url={ctaLink}
         withChevron
         className="callout__cta"
       >
