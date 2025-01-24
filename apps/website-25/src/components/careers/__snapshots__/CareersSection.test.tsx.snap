@@ -6,177 +6,184 @@ exports[`CareersSection > renders default as expected 1`] = `
     class="section mx-16 my-8 max-w-full overflow-hidden careers-section"
   >
     <div
-      class="section__heading ml-4"
+      class="section__header ml-4 flex justify-between items-center gap-4"
     >
-      <h2
-        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      <div
+        class="section__content flex-1"
       >
-        Careers at BlueDot Impact
-      </h2>
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+        >
+          Careers at BlueDot Impact
+        </h2>
+      </div>
     </div>
     <div
-      class="careers-section__container flex flex-col gap-8 my-14"
+      class="section__body"
     >
       <div
-        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+        class="careers-section__container flex flex-col gap-8 my-14"
       >
-        <strong
-          class="careers-section__title basis-[33%]"
-        >
-          AI Alignment Project Judge
-        </strong>
-        <p
-          class="careers-section__location"
-        >
-          London, Remote
-        </p>
-        <p
-          class="careers-section__type"
-        >
-          Permanent
-        </p>
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
-          >
-            Apply now
-          </span>
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <img
-              alt="→"
-              class="cta-button__chevron-icon w-2 h-2"
-              src="/icons/chevron_blue.svg"
-            />
-          </span>
-        </button>
-      </div>
-      <div
-        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
+        <div
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
-      >
-        <strong
-          class="careers-section__title basis-[33%]"
         >
-          Course Operations Specialist
-        </strong>
-        <p
-          class="careers-section__location"
-        >
-          London, Remote
-        </p>
-        <p
-          class="careers-section__type"
-        >
-          Permanent
-        </p>
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
+          <strong
+            class="careers-section__title basis-[33%]"
           >
-            Apply now
-          </span>
-          <span
-            class="cta-button__chevron ml-3"
+            AI Alignment Project Judge
+          </strong>
+          <p
+            class="careers-section__location"
           >
-            <img
-              alt="→"
-              class="cta-button__chevron-icon w-2 h-2"
-              src="/icons/chevron_blue.svg"
-            />
-          </span>
-        </button>
-      </div>
-      <div
-        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
+            London, Remote
+          </p>
+          <p
+            class="careers-section__type"
+          >
+            Permanent
+          </p>
+          <button
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-button"
+            type="button"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Apply now
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon w-2 h-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </button>
+        </div>
+        <div
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
-      >
-        <strong
-          class="careers-section__title basis-[33%]"
         >
-          Software Engineering Contractor
-        </strong>
-        <p
-          class="careers-section__location"
-        >
-          London, Remote
-        </p>
-        <p
-          class="careers-section__type"
-        >
-          Permanent
-        </p>
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
+          <strong
+            class="careers-section__title basis-[33%]"
           >
-            Apply now
-          </span>
-          <span
-            class="cta-button__chevron ml-3"
+            Course Operations Specialist
+          </strong>
+          <p
+            class="careers-section__location"
           >
-            <img
-              alt="→"
-              class="cta-button__chevron-icon w-2 h-2"
-              src="/icons/chevron_blue.svg"
-            />
-          </span>
-        </button>
-      </div>
-      <div
-        class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
+            London, Remote
+          </p>
+          <p
+            class="careers-section__type"
+          >
+            Permanent
+          </p>
+          <button
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-button"
+            type="button"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Apply now
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon w-2 h-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </button>
+        </div>
+        <div
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
           border-gray-200"
-      >
-        <strong
-          class="careers-section__title basis-[33%]"
         >
-          Economics of Transformative AI Teaching Fellow
-        </strong>
-        <p
-          class="careers-section__location"
-        >
-          London, Remote
-        </p>
-        <p
-          class="careers-section__type"
-        >
-          Permanent
-        </p>
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
+          <strong
+            class="careers-section__title basis-[33%]"
           >
-            Apply now
-          </span>
-          <span
-            class="cta-button__chevron ml-3"
+            Software Engineering Contractor
+          </strong>
+          <p
+            class="careers-section__location"
           >
-            <img
-              alt="→"
-              class="cta-button__chevron-icon w-2 h-2"
-              src="/icons/chevron_blue.svg"
-            />
-          </span>
-        </button>
+            London, Remote
+          </p>
+          <p
+            class="careers-section__type"
+          >
+            Permanent
+          </p>
+          <button
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-button"
+            type="button"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Apply now
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon w-2 h-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </button>
+        </div>
+        <div
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
+          border-gray-200"
+        >
+          <strong
+            class="careers-section__title basis-[33%]"
+          >
+            Economics of Transformative AI Teaching Fellow
+          </strong>
+          <p
+            class="careers-section__location"
+          >
+            London, Remote
+          </p>
+          <p
+            class="careers-section__type"
+          >
+            Permanent
+          </p>
+          <button
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-button"
+            type="button"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Apply now
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon w-2 h-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

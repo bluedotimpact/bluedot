@@ -6,157 +6,164 @@ exports[`CourseSection > renders default as expected 1`] = `
     class="section mx-16 my-8 max-w-full overflow-hidden"
   >
     <div
-      class="section__heading ml-4"
+      class="section__header ml-4 flex justify-between items-center gap-4"
     >
-      <h2
-        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      <div
+        class="section__content flex-1"
       >
-        Our courses
-      </h2>
-      <p
-        class="section__subtitle text-bluedot-darker text-md mb-4"
-      >
-        We run inclusive, blended learning courses that cater to various expertise levels and time availability
-      </p>
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+        >
+          Our courses
+        </h2>
+        <p
+          class="section__subtitle text-bluedot-darker text-md mb-4"
+        >
+          We run inclusive, blended learning courses that cater to various expertise levels and time availability
+        </p>
+      </div>
     </div>
     <div
-      class="flex flex-row gap-4"
+      class="section__body"
     >
       <div
-        class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
+        class="flex flex-row gap-4"
       >
-        <img
-          alt="Course Card Placeholder"
-          class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
-          src="/images/intro-course.png"
-        />
-        <h3
-          class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
-        >
-          Alignment Fast Track
-        </h3>
-        <p
-          class="text-bluedot-darker text-md mb-4 line-clamp-4"
-        >
-          AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
-        </p>
         <div
-          class="flex justify-between items-center"
+          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
         >
+          <img
+            alt="Course Card Placeholder"
+            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            src="/images/intro-course.png"
+          />
+          <h3
+            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+          >
+            Alignment Fast Track
+          </h3>
           <p
-            class="text-left text-xs"
+            class="text-bluedot-darker text-md mb-4 line-clamp-4"
           >
-            5 days
+            AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
           </p>
-          <span
-            class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
-            role="status"
+          <div
+            class="flex justify-between items-center"
           >
-            Crash course
-          </span>
+            <p
+              class="text-left text-xs"
+            >
+              5 days
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              role="status"
+            >
+              Crash course
+            </span>
+          </div>
         </div>
-      </div>
-      <div
-        class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
-          src="/images/governance-course.jpg"
-        />
-        <h3
-          class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
-        >
-          Governance Fast-Track
-        </h3>
-        <p
-          class="text-bluedot-darker text-md mb-4 line-clamp-4"
-        >
-          Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
-        </p>
         <div
-          class="flex justify-between items-center"
+          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
         >
+          <img
+            alt="Course Card Placeholder"
+            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            src="/images/governance-course.jpg"
+          />
+          <h3
+            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+          >
+            Governance Fast-Track
+          </h3>
           <p
-            class="text-left text-xs"
+            class="text-bluedot-darker text-md mb-4 line-clamp-4"
           >
-            5 days
+            Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
           </p>
-          <span
-            class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
-            role="status"
+          <div
+            class="flex justify-between items-center"
           >
-            Crash course
-          </span>
+            <p
+              class="text-left text-xs"
+            >
+              5 days
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              role="status"
+            >
+              Crash course
+            </span>
+          </div>
         </div>
-      </div>
-      <div
-        class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
-          src="/images/alignment-course.png"
-        />
-        <h3
-          class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
-        >
-          AI Alignment
-        </h3>
-        <p
-          class="text-bluedot-darker text-md mb-4 line-clamp-4"
-        >
-          AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
-        </p>
         <div
-          class="flex justify-between items-center"
+          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
         >
+          <img
+            alt="Course Card Placeholder"
+            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            src="/images/alignment-course.png"
+          />
+          <h3
+            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+          >
+            AI Alignment
+          </h3>
           <p
-            class="text-left text-xs"
+            class="text-bluedot-darker text-md mb-4 line-clamp-4"
           >
-            12 weeks
+            AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
           </p>
-          <span
-            class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
-            role="status"
+          <div
+            class="flex justify-between items-center"
           >
-            In-depth course
-          </span>
+            <p
+              class="text-left text-xs"
+            >
+              12 weeks
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              role="status"
+            >
+              In-depth course
+            </span>
+          </div>
         </div>
-      </div>
-      <div
-        class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
-          src="/images/governance-course.jpg"
-        />
-        <h3
-          class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
-        >
-          AI Governance
-        </h3>
-        <p
-          class="text-bluedot-darker text-md mb-4 line-clamp-4"
-        >
-          The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
-        </p>
         <div
-          class="flex justify-between items-center"
+          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
         >
+          <img
+            alt="Course Card Placeholder"
+            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            src="/images/governance-course.jpg"
+          />
+          <h3
+            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+          >
+            AI Governance
+          </h3>
           <p
-            class="text-left text-xs"
+            class="text-bluedot-darker text-md mb-4 line-clamp-4"
           >
-            12 weeks
+            The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
           </p>
-          <span
-            class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
-            role="status"
+          <div
+            class="flex justify-between items-center"
           >
-            In-depth course
-          </span>
+            <p
+              class="text-left text-xs"
+            >
+              12 weeks
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              role="status"
+            >
+              In-depth course
+            </span>
+          </div>
         </div>
       </div>
     </div>

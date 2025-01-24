@@ -20,125 +20,139 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       class="section mx-16 my-8 max-w-full overflow-hidden intro-section"
     >
       <div
-        class="section__heading ml-4"
-      >
-        <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
-        >
-          Why do we exist?
-        </h2>
-      </div>
-      <div
-        class="intro-section__container flex flex-row gap-28 my-16"
+        class="section__header ml-4 flex justify-between items-center gap-4"
       >
         <div
-          class="intro-section__text-container flex flex-col gap-5"
+          class="section__content flex-1"
         >
-          <p>
-            Humanity faces unprecedented challenges from transformative AI (TAI), which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
-          </p>
-          <p>
-            BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field. Thus far, we’ve trained over 3,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation, including deep knowledge of how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, the urgency and magnitude of AI risks demand we do much more.
-          </p>
+          <h2
+            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          >
+            Why do we exist?
+          </h2>
         </div>
-        <img
-          alt="BlueDot Impact team"
-          class="intro-section__image w-[570px] rounded-2xl"
-          src="/images/team/team_1.jpg"
-        />
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="intro-section__container flex flex-row gap-28 my-16"
+        >
+          <div
+            class="intro-section__text-container flex flex-col gap-5"
+          >
+            <p>
+              Humanity faces unprecedented challenges from transformative AI (TAI), which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+            </p>
+            <p>
+              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field. Thus far, we’ve trained over 3,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation, including deep knowledge of how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, the urgency and magnitude of AI risks demand we do much more.
+            </p>
+          </div>
+          <img
+            alt="BlueDot Impact team"
+            class="intro-section__image w-[570px] rounded-2xl"
+            src="/images/team/team_1.jpg"
+          />
+        </div>
       </div>
     </div>
     <div
       class="section mx-16 my-8 max-w-full overflow-hidden history-section"
     >
       <div
-        class="section__heading ml-4"
+        class="section__header ml-4 flex justify-between items-center gap-4"
       >
-        <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+        <div
+          class="section__content flex-1"
         >
-          Our History
-        </h2>
+          <h2
+            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          >
+            Our History
+          </h2>
+        </div>
       </div>
       <div
-        class="history-section__container flex flex-col gap-8 my-14"
+        class="section__body"
       >
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="history-section__container flex flex-col gap-8 my-14"
         >
-          <strong
-            class="history-section__year"
-          >
-            2021
-          </strong>
-          <p
-            class="history-section__event-title"
-          >
-            A non-profit supporting students at the University of Cambridge to pursue high-impact careers
-          </p>
-        </div>
-        <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          <div
+            class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
           border-gray-200"
-        >
-          <strong
-            class="history-section__year"
           >
-            2022
-          </strong>
-          <p
-            class="history-section__event-title"
-          >
-            Growing into a new start-up called “BlueDot Impact” and moved headquarters to London
-          </p>
-        </div>
-        <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+            <strong
+              class="history-section__year"
+            >
+              2021
+            </strong>
+            <p
+              class="history-section__event-title"
+            >
+              A non-profit supporting students at the University of Cambridge to pursue high-impact careers
+            </p>
+          </div>
+          <div
+            class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
           border-gray-200"
-        >
-          <strong
-            class="history-section__year"
           >
-            2023
-          </strong>
-          <p
-            class="history-section__event-title"
-          >
-            BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity
-          </p>
-        </div>
-        <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+            <strong
+              class="history-section__year"
+            >
+              2022
+            </strong>
+            <p
+              class="history-section__event-title"
+            >
+              Growing into a new start-up called “BlueDot Impact” and moved headquarters to London
+            </p>
+          </div>
+          <div
+            class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
           border-gray-200"
-        >
-          <strong
-            class="history-section__year"
           >
-            2024
-          </strong>
-          <p
-            class="history-section__event-title"
+            <strong
+              class="history-section__year"
+            >
+              2023
+            </strong>
+            <p
+              class="history-section__event-title"
+            >
+              BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity
+            </p>
+          </div>
+          <div
+            class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+          border-gray-200"
           >
-            BlueDot Impact is now running courses every 6 weeks and trains over 2500 professionals in AI Safety and Biosecurity
-          </p>
-        </div>
-        <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
+            <strong
+              class="history-section__year"
+            >
+              2024
+            </strong>
+            <p
+              class="history-section__event-title"
+            >
+              BlueDot Impact is now running courses every 6 weeks and trains over 2500 professionals in AI Safety and Biosecurity
+            </p>
+          </div>
+          <div
+            class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
           bg-bluedot-lighter border-bluedot-light"
-        >
-          <strong
-            class="history-section__year"
           >
-            2025
-          </strong>
-          <p
-            class="history-section__event-title"
-          >
-            BlueDot is now running multiple courses in parallel every week! We are scaling the team to accelerate our impact!
-          </p>
+            <strong
+              class="history-section__year"
+            >
+              2025
+            </strong>
+            <p
+              class="history-section__event-title"
+            >
+              BlueDot is now running multiple courses in parallel every week! We are scaling the team to accelerate our impact!
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -146,219 +160,226 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       class="section mx-16 my-8 max-w-full overflow-hidden team-section"
     >
       <div
-        class="section__heading ml-4"
+        class="section__header ml-4 flex justify-between items-center gap-4"
       >
-        <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+        <div
+          class="section__content flex-1"
         >
-          Our team
-        </h2>
+          <h2
+            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          >
+            Our team
+          </h2>
+        </div>
       </div>
       <div
-        class="team-section__container flex flex-row flex-wrap mt-16 gap-4"
+        class="section__body"
       >
         <div
-          class="team-member pb-6 w-[323px]"
+          class="team-section__container flex flex-row flex-wrap mt-16 gap-4"
         >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/adam.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Adam Jones
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            AI Safety
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/domdomegg/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/adam.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Adam Jones
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              AI Safety
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/domdomegg/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/dewi.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Dewi Erwan
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            CEO
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/dewierwan/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/dewi.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Dewi Erwan
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              CEO
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/dewierwan/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/josh.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Josh Landes
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            Community Manager
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/josh-landes12/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/josh.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Josh Landes
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              Community Manager
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/josh-landes12/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/lilian.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Li-Lian Ang
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            Product
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/anglilian/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/lilian.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Li-Lian Ang
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              Product
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/anglilian/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/tarin.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Tarin Rickett
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            Engineering
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/tarin-rickett/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/tarin.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Tarin Rickett
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              Engineering
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/tarin-rickett/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/vio.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Viorica  Gheroghita
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            Product
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/vioricagheorghita/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/vio.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Viorica  Gheroghita
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              Product
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/vioricagheorghita/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
-        </div>
-        <div
-          class="team-member pb-6 w-[323px]"
-        >
-          <img
-            alt="Course Card Placeholder"
-            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-            src="/images/team/will.jpg"
-          />
-          <h2
-            class="team-member__name"
-          >
-            Will Saunter
-          </h2>
-          <p
-            class="team-member__title mb-4"
-          >
-            Co-founder
-          </p>
           <div
-            class="team-member__links flex justify-between items-center"
+            class="team-member pb-6 w-[323px]"
           >
-            <a
-              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-              href="https://www.linkedin.com/in/will-saunter/"
+            <img
+              alt="Course Card Placeholder"
+              class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+              src="/images/team/will.jpg"
+            />
+            <h2
+              class="team-member__name"
             >
-              LinkedIn
-            </a>
+              Will Saunter
+            </h2>
+            <p
+              class="team-member__title mb-4"
+            >
+              Co-founder
+            </p>
+            <div
+              class="team-member__links flex justify-between items-center"
+            >
+              <a
+                class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+                href="https://www.linkedin.com/in/will-saunter/"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </div>
