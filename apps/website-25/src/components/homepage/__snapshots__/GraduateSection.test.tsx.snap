@@ -8,6 +8,50 @@ exports[`GraduateSection > renders default as expected 1`] = `
     <div
       class="graduate-section__container flex flex-row mx-6 my-8 gap-6 items-center"
     >
+      <div
+        class="face-tiles flex items-center "
+      >
+        <div
+          class="face-tiles__container flex -space-x-3"
+        >
+          <div
+            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+            style="width: 32px; height: 32px;"
+          >
+            <img
+              alt="Person 1"
+              class="face-tiles__avatar-img w-full h-full object-cover"
+              src="/images/face-tiles/facetile-1.png"
+            />
+          </div>
+          <div
+            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+            style="width: 32px; height: 32px;"
+          >
+            <img
+              alt="Person 2"
+              class="face-tiles__avatar-img w-full h-full object-cover"
+              src="/images/face-tiles/facetile-2.png"
+            />
+          </div>
+          <div
+            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+            style="width: 32px; height: 32px;"
+          >
+            <img
+              alt="Person 3"
+              class="face-tiles__avatar-img w-full h-full object-cover"
+              src="/images/face-tiles/facetile-3.png"
+            />
+          </div>
+          <div
+            class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
+          >
+            +
+            4071
+          </div>
+        </div>
+      </div>
       <p
         class="graduate-section__text"
       >
