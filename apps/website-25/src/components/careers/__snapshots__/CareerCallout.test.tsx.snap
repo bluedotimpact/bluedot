@@ -14,7 +14,6 @@ exports[`Callout > renders default as expected 1`] = `
       class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal px-4 py-2 callout__cta"
       data-testid="cta-button"
       type="button"
-      url="/careers"
     >
       <span
         class="cta-button__text"
