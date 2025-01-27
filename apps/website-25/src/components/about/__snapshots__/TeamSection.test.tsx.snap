@@ -6,219 +6,226 @@ exports[`TeamSection > renders default as expected 1`] = `
     class="section mx-16 my-8 max-w-full overflow-hidden team-section"
   >
     <div
-      class="section__heading ml-4"
+      class="section__header ml-4 flex justify-between items-center gap-4"
     >
-      <h2
-        class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none
-            relative after:content-[''] after:absolute after:top-1/2 after:ml-3 after:h-[2px] after:w-full after:bg-bluedot-normal"
+      <div
+        class="section__content flex-1"
       >
-        Our team
-      </h2>
+        <h2
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+        >
+          Our team
+        </h2>
+      </div>
     </div>
     <div
-      class="team-section__container flex flex-row flex-wrap mt-16 gap-4"
+      class="section__body"
     >
       <div
-        class="team-member pb-6 w-[323px]"
+        class="team-section__container flex flex-row flex-wrap mt-16 gap-4"
       >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/adam.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Adam Jones
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          AI Safety
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/domdomegg/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/adam.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Adam Jones
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            AI Safety
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/domdomegg/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/dewi.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Dewi Erwan
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          CEO
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/dewierwan/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/dewi.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Dewi Erwan
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            CEO
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/dewierwan/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/josh.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Josh Landes
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          Community Manager
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/josh-landes12/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/josh.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Josh Landes
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            Community Manager
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/josh-landes12/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/lilian.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Li-Lian Ang
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          Product
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/anglilian/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/lilian.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Li-Lian Ang
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            Product
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/anglilian/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/tarin.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Tarin Rickett
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          Engineering
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/tarin-rickett/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/tarin.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Tarin Rickett
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            Engineering
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/tarin-rickett/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/vio.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Viorica  Gheroghita
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          Product
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/vioricagheorghita/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/vio.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Viorica  Gheroghita
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            Product
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/vioricagheorghita/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
-      </div>
-      <div
-        class="team-member pb-6 w-[323px]"
-      >
-        <img
-          alt="Course Card Placeholder"
-          class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
-          src="/images/team/will.jpg"
-        />
-        <h2
-          class="team-member__name"
-        >
-          Will Saunter
-        </h2>
-        <p
-          class="team-member__title mb-4"
-        >
-          Co-founder
-        </p>
         <div
-          class="team-member__links flex justify-between items-center"
+          class="team-member pb-6 w-[323px]"
         >
-          <a
-            class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
-            href="https://www.linkedin.com/in/will-saunter/"
+          <img
+            alt="Course Card Placeholder"
+            class="team-member__image w-full h-[223px] object-cover rounded-xl mb-3"
+            src="/images/team/will.jpg"
+          />
+          <h2
+            class="team-member__name"
           >
-            LinkedIn
-          </a>
+            Will Saunter
+          </h2>
+          <p
+            class="team-member__title mb-4"
+          >
+            Co-founder
+          </p>
+          <div
+            class="team-member__links flex justify-between items-center"
+          >
+            <a
+              class="team-member__link text-center text-xs text-bluedot-normal border border-bluedot-normal rounded-lg px-4 py-2 font-semibold"
+              href="https://www.linkedin.com/in/will-saunter/"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
     </div>
