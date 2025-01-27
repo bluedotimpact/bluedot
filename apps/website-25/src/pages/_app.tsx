@@ -5,7 +5,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { Footer, Nav } from '@bluedot/ui';
 
-// TODO: add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
+// TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
   { title: 'Intro to Transformative AI', href: 'https://aisafetyfundamentals.com/intro-to-tai/' },
   { title: 'AI Alignment Fast-Track', href: 'https://aisafetyfundamentals.com/alignment-fast-track/' },

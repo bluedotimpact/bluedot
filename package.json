@@ -22,5 +22,8 @@
   "workspaces": [
     "apps/*",
     "libraries/*"
-  ]
+  ],
+  "dependencies": {
+    "react-icons": "^5.4.0"
+  }
 }
