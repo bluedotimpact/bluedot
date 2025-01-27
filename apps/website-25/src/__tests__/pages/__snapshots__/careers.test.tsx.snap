@@ -20,7 +20,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       class="section mx-16 my-8 max-w-full overflow-hidden intro-section"
     >
       <div
-        class="section__header ml-4 flex justify-between items-center gap-4"
+        class="section__title-container ml-4 flex justify-between items-center gap-4"
       >
         <div
           class="section__content flex-1"
@@ -60,7 +60,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       class="section mx-16 my-8 max-w-full overflow-hidden careers-section"
     >
       <div
-        class="section__header ml-4 flex justify-between items-center gap-4"
+        class="section__title-container ml-4 flex justify-between items-center gap-4"
       >
         <div
           class="section__content flex-1"

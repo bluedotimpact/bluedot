@@ -6,7 +6,7 @@ exports[`Card > renders default as expected 1`] = `
     class="card flex flex-col items-start "
   >
     <div
-      class="card__image-container w-[324px] h-[223.72px] mb-3"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"
@@ -53,7 +53,7 @@ exports[`Card > renders with custom className 1`] = `
     class="card flex flex-col items-start custom-class"
   >
     <div
-      class="card__image-container w-[324px] h-[223.72px] mb-3"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"
@@ -100,7 +100,7 @@ exports[`Card > renders with custom image dimensions 1`] = `
     class="card flex flex-col items-start "
   >
     <div
-      class="card__image-container w-[324px] h-[223.72px] mb-3"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"

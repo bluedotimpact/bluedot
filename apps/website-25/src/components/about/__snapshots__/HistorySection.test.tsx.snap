@@ -6,7 +6,7 @@ exports[`HistorySection > renders default as expected 1`] = `
     class="section mx-16 my-8 max-w-full overflow-hidden history-section"
   >
     <div
-      class="section__header ml-4 flex justify-between items-center gap-4"
+      class="section__title-container ml-4 flex justify-between items-center gap-4"
     >
       <div
         class="section__content flex-1"

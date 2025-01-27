@@ -20,7 +20,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div className={`card flex flex-col items-start ${className}`}>
-      <div className="card__image-container w-[324px] h-[223.72px] mb-3">
+      <div className="card__image-container w-[323px] h-[223px] mb-3">
         <img
           className={`card__image w-full h-full object-cover rounded-2xl ${imageClassName}`}
           src={imageSrc}
