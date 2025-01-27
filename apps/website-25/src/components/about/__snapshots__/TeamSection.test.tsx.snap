@@ -3,7 +3,7 @@
 exports[`TeamSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section mx-16 my-8 max-w-full overflow-hidden team-section"
+    class="section mx-16 my-8 max-w-full overflow-hidden team"
   >
     <div
       class="section__header ml-4 flex justify-between items-center gap-4"
@@ -19,6 +19,7 @@ exports[`TeamSection > renders default as expected 1`] = `
       </div>
     </div>
     <div
+<<<<<<< HEAD
       class="section__body"
     >
       <div
@@ -226,6 +227,302 @@ exports[`TeamSection > renders default as expected 1`] = `
               LinkedIn
             </a>
           </div>
+=======
+      class="team__grid flex flex-row flex-wrap mt-16 gap-4 max-w-[1400px] mx-auto"
+    >
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Adam Jones"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/adam.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Adam Jones
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              AI Safety
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://www.linkedin.com/in/domdomegg/"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Dewi Erwan"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/dewi.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Dewi Erwan
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              CEO
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://www.linkedin.com/in/dewierwan/"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Josh Landes"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/josh.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Josh Landes
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              Community Manager
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://linkedin.com/in/josh-landes12"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Li-Lian Ang"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/lilian.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Li-Lian Ang
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              Product
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://linkedin.com/in/anglilian"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Tarin Rickett"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/tarin.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Tarin Rickett
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              Engineering
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://linkedin.com/in/tarin-rickett/"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Viorica Gheorghita"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/vio.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Viorica Gheorghita
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              Product
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://www.linkedin.com/in/vioricagheorghita/"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+        </div>
+      </div>
+      <div
+        class="card flex flex-col items-start team__card w-[323px]"
+      >
+        <div
+          class="card__image-container w-[324px] h-[223.72px] mb-3"
+        >
+          <img
+            alt="Will Saunter"
+            class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+            src="/images/team/will.jpg"
+          />
+        </div>
+        <div
+          class="card__content flex flex-col gap-12"
+        >
+          <div
+            class="card__text"
+          >
+            <h2
+              class="card__title text-2xl font-semibold text-bluedot-darker"
+            >
+              Will Saunter
+            </h2>
+            <p
+              class="card__subtitle text-base text-black"
+            >
+              Co-founder
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="https://linkedin.com/in/will-saunter"
+          >
+            <span
+              class="cta-button__text"
+            >
+              LinkedIn
+            </span>
+          </a>
+>>>>>>> 5bbe596 (Update TeamSection to use Card component)
         </div>
       </div>
     </div>
