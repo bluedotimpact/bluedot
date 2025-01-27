@@ -5,7 +5,7 @@ import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
 export type NavProps = React.PropsWithChildren<{
   className?: string,
   logo?: string,
-  courses?: Array<{
+  courses: Array<{
     title: string;
     href: string;
     isNew?: boolean;
@@ -23,12 +23,12 @@ export const Nav: React.FC<NavProps> = ({
     <nav className={clsx(
       'nav fixed z-50 bg-white border',
       'transition-all duration-300',
-      'w-[1387.73px] top-[12px] left-1/2 -translate-x-1/2',
-      isExpanded ? 'rounded-[36px]' : 'rounded-[36px]',
+      'w-[1400px] top-3 left-1/2 -translate-x-1/2',
+      'rounded-[36px]',
       className,
     )}
     >
-      <div className="flex items-center w-full h-[72px] px-8">
+      <div className="flex items-center w-full h-20 px-8">
         <a href="/" className="shrink-0 w-[200px]">
           {logo ? <img className="nav_logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
         </a>
@@ -60,8 +60,7 @@ export const Nav: React.FC<NavProps> = ({
         isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
       )}
       >
-        <div className="flex justify-center pb-[28px]">
-          <div className="w-[200px] shrink-0" />
+        <div className="flex justify-center pb-7">
           <div className="flex-grow flex justify-center items-center gap-[243px]">
             <div className="flex flex-col">
               <h2 className="font-bold text-xl mb-4">Our courses</h2>
@@ -71,6 +70,7 @@ export const Nav: React.FC<NavProps> = ({
                     key={course.href}
                     href={course.href}
                     className="hover:text-bluedot-normal flex items-center gap-2"
+                    // TODO: 01/27 Update this to be in global styles when hover styles are confirmed
                   >
                     {course.isNew && (
                       <span className="text-bluedot-normal text-xl font-black">New!</span>
@@ -81,7 +81,6 @@ export const Nav: React.FC<NavProps> = ({
               </div>
             </div>
           </div>
-          <div className="w-[200px] shrink-0" />
         </div>
       </div>
     </nav>

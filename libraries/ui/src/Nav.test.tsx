@@ -3,12 +3,7 @@ import { render } from '@testing-library/react';
 import { Nav } from './Nav';
 
 describe('Nav', () => {
-  test('renders default as expected', () => {
-    const { container } = render(<Nav />);
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders with optional args', () => {
+  test('renders with courses', () => {
     const { container } = render(
       <Nav
         logo="logo.png"
@@ -23,7 +18,11 @@ describe('Nav', () => {
 
   test('renders with optional yield', () => {
     const { container } = render(
-      <Nav>
+      <Nav
+        courses={[
+          { title: 'Course 1', href: '/course1' },
+        ]}
+      >
         <p>This is the yield</p>
       </Nav>,
     );
