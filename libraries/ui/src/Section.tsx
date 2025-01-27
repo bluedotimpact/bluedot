@@ -15,7 +15,7 @@ export const Section: React.FC<SectionProps> = ({
 }) => {
   return (
     <div className={clsx('section mx-16 my-8 max-w-full overflow-hidden', className)}>
-      <div className="section__header ml-4 flex justify-between items-center gap-4">
+      <div className="section__title-container ml-4 flex justify-between items-center gap-4">
         <div className="section__content flex-1">
           <h2 className={clsx(
             'section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative',
