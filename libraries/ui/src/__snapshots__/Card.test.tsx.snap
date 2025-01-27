@@ -3,22 +3,22 @@
 exports[`Card > renders default as expected 1`] = `
 <div>
   <div
-    class="card w-80 h-80 flex flex-col items-start"
+    class="card flex flex-col items-start "
   >
     <div
-      class="card__image-container w-full h-48 mb-8"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl"
+        class="card__image w-full h-full object-cover rounded-2xl "
         src="/images/team/member.jpg"
       />
     </div>
     <div
-      class="card__content flex flex-col gap-8"
+      class="card__content flex flex-col gap-12"
     >
       <div
-        class="card__text space-y-1"
+        class="card__text"
       >
         <h2
           class="card__title text-2xl font-semibold text-bluedot-darker"
@@ -50,22 +50,22 @@ exports[`Card > renders default as expected 1`] = `
 exports[`Card > renders with custom className 1`] = `
 <div>
   <div
-    class="card w-80 h-80 flex flex-col items-start"
+    class="card flex flex-col items-start custom-class"
   >
     <div
-      class="card__image-container w-full h-48 mb-8"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl"
+        class="card__image w-full h-full object-cover rounded-2xl "
         src="/images/team/member.jpg"
       />
     </div>
     <div
-      class="card__content flex flex-col gap-8"
+      class="card__content flex flex-col gap-12"
     >
       <div
-        class="card__text space-y-1"
+        class="card__text"
       >
         <h2
           class="card__title text-2xl font-semibold text-bluedot-darker"
@@ -97,22 +97,22 @@ exports[`Card > renders with custom className 1`] = `
 exports[`Card > renders with custom image dimensions 1`] = `
 <div>
   <div
-    class="card w-80 h-80 flex flex-col items-start"
+    class="card flex flex-col items-start "
   >
     <div
-      class="card__image-container w-full h-48 mb-8"
+      class="card__image-container w-[323px] h-[223px] mb-3"
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl"
+        class="card__image w-full h-full object-cover rounded-2xl "
         src="/images/team/custom-size.jpg"
       />
     </div>
     <div
-      class="card__content flex flex-col gap-8"
+      class="card__content flex flex-col gap-12"
     >
       <div
-        class="card__text space-y-1"
+        class="card__text"
       >
         <h2
           class="card__title text-2xl font-semibold text-bluedot-darker"
