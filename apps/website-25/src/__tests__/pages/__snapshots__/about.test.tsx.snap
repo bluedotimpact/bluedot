@@ -179,14 +179,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="team__grid flex flex-row flex-wrap mt-16 gap-4 max-w-[1400px] mx-auto"
         >
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Adam Jones"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/adam.jpg"
               />
             </div>
@@ -221,14 +221,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Dewi Erwan"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/dewi.jpg"
               />
             </div>
@@ -263,14 +263,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Josh Landes"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/josh.jpg"
               />
             </div>
@@ -305,14 +305,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Li-Lian Ang"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/lilian.jpg"
               />
             </div>
@@ -347,14 +347,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Tarin Rickett"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/tarin.jpg"
               />
             </div>
@@ -378,7 +378,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <a
                 class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
-                href="https://linkedin.com/in/tarin-rickett/"
+                href="https://linkedin.com/in/tarinrickett/"
               >
                 <span
                   class="cta-button__text"
@@ -389,14 +389,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Viorica Gheorghita"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/vio.jpg"
               />
             </div>
@@ -431,14 +431,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card w-[323px]"
+            class="card flex flex-col items-start team__card"
           >
             <div
-              class="card__image-container w-[324px] h-[223.72px] mb-3"
+              class="card__image-container w-[323px] h-[223px] mb-3"
             >
               <img
                 alt="Will Saunter"
-                class="card__image w-full h-full object-cover rounded-2xl team__card-image h-[223px] object-cover"
+                class="card__image w-full h-full object-cover rounded-2xl team__card-image"
                 src="/images/team/will.jpg"
               />
             </div>
