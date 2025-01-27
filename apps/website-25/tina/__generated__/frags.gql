@@ -1,0 +1,39 @@
+fragment AuthorParts on Author {
+  __typename
+  name
+  avatar
+  title
+  bio
+}
+
+fragment PostParts on Post {
+  __typename
+  title
+  author {
+    ... on Author {
+      __typename
+      name
+      avatar
+      title
+      bio
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  date
+  mainImage
+  excerpt
+  category
+  readTime
+  body
+}

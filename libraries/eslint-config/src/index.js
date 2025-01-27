@@ -108,6 +108,7 @@ module.exports = {
     'dist',
     'dist_*',
     'generated/',
+    'tina/',
     'node_modules/',
   ],
 };
