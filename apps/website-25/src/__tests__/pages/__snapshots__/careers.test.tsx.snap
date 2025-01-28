@@ -80,7 +80,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       class="flex justify-center gap-8 px-16 my-16"
     >
       <div
-        class="value-card w-[437px] h-[296px] rounded-2xl border p-6 flex flex-col gap-[27px]"
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
       >
         <div
           class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
@@ -88,7 +88,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           <img
             alt="Think hard, act fast, fail faster"
             class="value-card__icon"
-            src="icons/lightning_bolt_blue.svg"
+            src="icons/fast.svg"
           />
         </div>
         <h3
@@ -103,7 +103,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         </p>
       </div>
       <div
-        class="value-card w-[437px] h-[296px] rounded-2xl border p-6 flex flex-col gap-[27px]"
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
       >
         <div
           class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
@@ -111,7 +111,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           <img
             alt="Care personally, challenge directly"
             class="value-card__icon"
-            src="icons/heart_blue.svg"
+            src="icons/care.svg"
           />
         </div>
         <h3
@@ -126,7 +126,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         </p>
       </div>
       <div
-        class="value-card w-[437px] h-[296px] rounded-2xl border p-6 flex flex-col gap-[27px]"
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
       >
         <div
           class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
