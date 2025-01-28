@@ -12,11 +12,31 @@ exports[`StorySection > renders default as expected 1`] = `
         class="section__content flex-1"
       >
         <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[80%]"
         >
           Our story
         </h2>
       </div>
+      <a
+        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
+        data-testid="cta-link"
+        href="/about"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Learn more about us
+        </span>
+        <span
+          class="cta-button__chevron ml-3"
+        >
+          <img
+            alt="→"
+            class="cta-button__chevron-icon w-2 h-2"
+            src="/icons/chevron_blue.svg"
+          />
+        </span>
+      </a>
     </div>
     <div
       class="section__body"
