@@ -48,7 +48,7 @@ const teamMembers = [
 const TeamSection = () => {
   return (
     <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mt-16 gap-4 max-w-[1400px] mx-auto">
+      <div className="team__grid flex flex-row flex-wrap mt-16 max-w-[1400px] mx-auto">
         {/* TODO: 01/27 Migrate this max-w-[1400px] check to Section definition or global.css when we hear back from UX  */}
         {teamMembers.map((member) => (
           <Card
@@ -57,7 +57,8 @@ const TeamSection = () => {
             title={member.name}
             subtitle={member.role}
             ctaUrl={member.linkedInUrl}
-            className="team__card"
+            isExternalUrl
+            className="team__card ml-4 mb-12"
             imageClassName="team__card-image"
           />
         ))}

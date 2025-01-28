@@ -176,10 +176,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="team__grid flex flex-row flex-wrap mt-16 gap-4 max-w-[1400px] mx-auto"
+          class="team__grid flex flex-row flex-wrap mt-16 max-w-[1400px] mx-auto"
         >
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -191,7 +191,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -208,9 +208,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/domdomegg/"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -221,7 +223,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -233,7 +235,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -250,9 +252,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/dewierwan/"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -263,7 +267,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -275,7 +279,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -292,9 +296,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/josh-landes12"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -305,7 +311,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -317,7 +323,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -334,9 +340,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/anglilian"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -347,7 +355,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -359,7 +367,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -376,9 +384,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/tarinrickett/"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -389,7 +399,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -401,7 +411,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -418,9 +428,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/vioricagheorghita/"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"
@@ -431,7 +443,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start team__card"
+            class="card flex flex-col items-start team__card ml-4 mb-12"
           >
             <div
               class="card__image-container w-[323px] h-[223px] mb-3"
@@ -443,7 +455,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               />
             </div>
             <div
-              class="card__content flex flex-col gap-12"
+              class="card__content flex flex-col gap-8 w-full"
             >
               <div
                 class="card__text"
@@ -460,9 +472,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/will-saunter"
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <span
                   class="cta-button__text"

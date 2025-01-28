@@ -2,7 +2,7 @@ import { Section } from '@bluedot/ui';
 
 const StorySection = () => {
   return (
-    <Section className="story-section" title="Our story">
+    <Section className="story-section" title="Our story" ctaUrl="/about" ctaText="Learn more about us">
       <div className="story-section__container flex flex-row gap-28 my-16">
         <img className="story-section__image w-[570px] rounded-2xl" src="/images/team/team_1.jpg" alt="BlueDot Impact team" />
         <div className="story-section__text-container flex flex-col gap-5">
