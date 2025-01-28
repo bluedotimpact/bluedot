@@ -24,10 +24,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={courses}
       >
-        <div>Support us</div>
-        {/* TODO: add support us page */}
+        <a href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" target="_blank" rel="noopener noreferrer">Support us</a>
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
+        <a href="https://bluedot.org/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />

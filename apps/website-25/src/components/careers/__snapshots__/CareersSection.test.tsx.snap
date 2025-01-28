@@ -25,8 +25,7 @@ exports[`CareersSection > renders default as expected 1`] = `
         class="careers-section__container flex flex-col gap-8 my-14"
       >
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -43,10 +42,12 @@ exports[`CareersSection > renders default as expected 1`] = `
           >
             Permanent
           </p>
-          <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-            data-testid="cta-button"
-            type="button"
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-link"
+            href="https://bluedot.org/ai-alignment-project-judge/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <span
               class="cta-button__text"
@@ -62,11 +63,10 @@ exports[`CareersSection > renders default as expected 1`] = `
                 src="/icons/chevron_blue.svg"
               />
             </span>
-          </button>
+          </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -83,10 +83,12 @@ exports[`CareersSection > renders default as expected 1`] = `
           >
             Permanent
           </p>
-          <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-            data-testid="cta-button"
-            type="button"
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-link"
+            href="https://bluedot.org/ai-safety-course-operations/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <span
               class="cta-button__text"
@@ -102,11 +104,10 @@ exports[`CareersSection > renders default as expected 1`] = `
                 src="/icons/chevron_blue.svg"
               />
             </span>
-          </button>
+          </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -123,10 +124,12 @@ exports[`CareersSection > renders default as expected 1`] = `
           >
             Permanent
           </p>
-          <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-            data-testid="cta-button"
-            type="button"
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-link"
+            href="https://bluedot.org/swe-contractor/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <span
               class="cta-button__text"
@@ -142,11 +145,10 @@ exports[`CareersSection > renders default as expected 1`] = `
                 src="/icons/chevron_blue.svg"
               />
             </span>
-          </button>
+          </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -163,10 +165,12 @@ exports[`CareersSection > renders default as expected 1`] = `
           >
             Permanent
           </p>
-          <button
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-            data-testid="cta-button"
-            type="button"
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+            data-testid="cta-link"
+            href="https://bluedot.org/economics-of-tai-teaching-fellow/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <span
               class="cta-button__text"
@@ -182,7 +186,7 @@ exports[`CareersSection > renders default as expected 1`] = `
                 src="/icons/chevron_blue.svg"
               />
             </span>
-          </button>
+          </a>
         </div>
       </div>
     </div>

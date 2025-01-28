@@ -7,9 +7,10 @@ export type CTAProps = {
   withChevron?: boolean;
   children: React.ReactNode;
   url?: string;
+  isExternalUrl?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2';
+const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit';
 
 const CTA_VARIANT_STYLES = {
   primary: 'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal',
@@ -22,6 +23,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
   withChevron = false,
   children,
   url,
+  isExternalUrl = false,
   ...rest
 }) => {
   const commonClassNames = clsx(
@@ -34,6 +36,8 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
     return (
       <a
         href={url}
+        target={isExternalUrl ? '_blank' : undefined}
+        rel={isExternalUrl ? 'noopener noreferrer' : undefined}
         data-testid="cta-link"
         className={commonClassNames}
       >

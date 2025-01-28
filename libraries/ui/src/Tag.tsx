@@ -3,12 +3,12 @@ import clsx from 'clsx';
 
 export type TagProps = {
   className?: string,
-  label: string;
+  children: React.ReactNode;
 };
 
 export const Tag: React.FC<TagProps> = ({
   className,
-  label,
+  children,
 }) => {
   return (
     <span
@@ -18,7 +18,7 @@ export const Tag: React.FC<TagProps> = ({
         className,
       )}
     >
-      {label}
+      {children}
     </span>
   );
 };

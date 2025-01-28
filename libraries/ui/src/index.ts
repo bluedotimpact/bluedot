@@ -7,7 +7,7 @@ export { Card } from './Card';
 
 export { CTALinkOrButton } from './CTALinkOrButton';
 
-export { CourseCard, CourseCardButton } from './CourseCard';
+export { CourseCard } from './CourseCard';
 
 export { HeroSection } from './HeroSection';
 

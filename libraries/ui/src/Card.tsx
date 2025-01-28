@@ -6,6 +6,7 @@ interface CardProps {
   title: string;
   subtitle?: string;
   ctaUrl?: string;
+  isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
 }
@@ -15,6 +16,7 @@ export const Card: React.FC<CardProps> = ({
   title,
   subtitle,
   ctaUrl,
+  isExternalUrl = false,
   className = '',
   imageClassName = '',
 }) => {
@@ -28,7 +30,7 @@ export const Card: React.FC<CardProps> = ({
         />
       </div>
 
-      <div className="card__content flex flex-col gap-12">
+      <div className="card__content flex flex-col gap-8 w-full">
         <div className="card__text">
           <h2 className="card__title text-2xl font-semibold text-bluedot-darker">{title}</h2>
           {subtitle && (<p className="card__subtitle text-base text-black">{subtitle}</p>)}
@@ -38,6 +40,7 @@ export const Card: React.FC<CardProps> = ({
           url={ctaUrl}
           variant="secondary"
           withChevron={false}
+          isExternalUrl={isExternalUrl}
         >
           LinkedIn
         </CTALinkOrButton>
