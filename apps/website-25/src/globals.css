@@ -8,4 +8,7 @@
   h2 {
     @apply text-2xl font-extrabold;
   }
+  a {
+    @apply hover:text-bluedot-normal;
+  }
 }
