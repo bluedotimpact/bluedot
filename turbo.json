@@ -5,8 +5,10 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "!**/*.stories.{tsx,jsx,mdx}"],
       "outputs": ["dist/**", "!dist/cache/**"]
     },
+    "build:storybook": {},
     "lint": {},
     "test": {},
     "start": {
