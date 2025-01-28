@@ -11,10 +11,7 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
   stories: [
-    "../src/**/*.mdx", 
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../../../libraries/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../../website-25/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../../../libraries/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
     getAbsolutePath("@storybook/addon-onboarding"),
@@ -26,6 +23,6 @@ const config: StorybookConfig = {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
-  staticDirs: ["../public"],
+  staticDirs: ["../public", "../../website-25/public"],
 };
 export default config;
