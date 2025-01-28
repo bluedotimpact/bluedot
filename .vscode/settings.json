@@ -3,18 +3,19 @@
         ["clsx\\(([^)]*)\\)", "'([^']*)'"]
     ],
     "cSpell.words": [
+        "Airtable",
+        "aisafetyfundamentals",
+        "autodocs",
+        "biosecurityfundamentals",
         "BlueDot",
         "bluedotimpact",
-        "aisafetyfundamentals",
-        "biosecurityfundamentals",
-        "Airtable",
-        "MiniExtensions",
-        "Vultr",
-        "kysely",
-        "kanel",
         "clsx",
-        "Pulumi",
+        "kanel",
+        "kysely",
+        "MiniExtensions",
         "nextjs",
+        "Pulumi",
+        "Vultr"
     ],
     "cSpell.ignoreRegExpList": [
         "(rec|tbl|app|viw|bli)[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{14}"
