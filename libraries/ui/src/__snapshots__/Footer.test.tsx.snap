@@ -270,7 +270,7 @@ exports[`Footer > renders default as expected 1`] = `
         2025
          
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://bluedot.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -279,7 +279,7 @@ exports[`Footer > renders default as expected 1`] = `
         </a>
          is primarily funded by 
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://www.openphilanthropy.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -288,7 +288,7 @@ exports[`Footer > renders default as expected 1`] = `
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
           rel="noopener noreferrer"
           target="_blank"
@@ -572,7 +572,7 @@ exports[`Footer > renders with optional args 1`] = `
         2025
          
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://bluedot.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -581,7 +581,7 @@ exports[`Footer > renders with optional args 1`] = `
         </a>
          is primarily funded by 
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://www.openphilanthropy.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -590,7 +590,7 @@ exports[`Footer > renders with optional args 1`] = `
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link footer__link--underline"
+          class="footer__link underline"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
           rel="noopener noreferrer"
           target="_blank"
