@@ -1,6 +1,3 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
+const { withDefaultBlueDotNextConfig } = require('@bluedot/ui/src/default-config/next');
 
-export default nextConfig;
+module.exports = withDefaultBlueDotNextConfig();
