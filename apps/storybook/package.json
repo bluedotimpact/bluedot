@@ -11,9 +11,10 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "next": "14.2.23",
-    "react": "^18",
-    "react-dom": "^18"
+    "next": "^15.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@bluedot/ui": "*"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
