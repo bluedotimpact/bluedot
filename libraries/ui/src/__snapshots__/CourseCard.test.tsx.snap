@@ -3,7 +3,7 @@
 exports[`CourseCard > renders Featured as expected 1`] = `
 <div>
   <div
-    class="course-card--featured border border-gray-300 rounded-lg px-8 pb-4 max-w-[646px] undefined"
+    class="course-card--featured container-lined px-8 pb-4 max-w-[646px]"
   >
     <p
       class="course-card__featured-label uppercase font-semibold"
@@ -46,7 +46,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <div
-    class="course-card border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px] undefined"
+    class="course-card container-lined px-6 pb-6 max-w-[323px]"
   >
     <img
       alt="Course Card Placeholder"

@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { Tag } from './Tag';
 
 export type CourseCardProps = React.PropsWithChildren<{
@@ -45,7 +46,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     cardType === 'Featured'
       ? (
-        <div className={`course-card--featured container-lined px-8 pb-4 max-w-[646px] ${className}`}>
+        <div className={clsx('course-card--featured container-lined px-8 pb-4 max-w-[646px]', className)}>
           <p className="course-card__featured-label uppercase font-semibold">Featured course</p>
           <img
             src={imageSrc}
@@ -66,7 +67,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </div>
       )
       : (
-        <div className={`course-card container-lined px-6 pb-6 max-w-[323px] ${className}`}>
+        <div className={clsx('course-card container-lined px-6 pb-6 max-w-[323px]', className)}>
           <img
             src={imageSrc}
             alt="Course Card Placeholder"

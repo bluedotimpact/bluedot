@@ -30,7 +30,7 @@ exports[`CourseSection > renders default as expected 1`] = `
         class="flex flex-row gap-4"
       >
         <div
-          class="course-card border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px] undefined"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
@@ -64,7 +64,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="course-card border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px] undefined"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
@@ -98,7 +98,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="course-card border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px] undefined"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
@@ -132,7 +132,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="course-card border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px] undefined"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
