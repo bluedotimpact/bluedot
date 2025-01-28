@@ -11,13 +11,12 @@ exports[`Tag > renders default as expected 1`] = `
 </div>
 `;
 
-exports[`Tag > renders with custom className 1`] = `
-<div>
-  <span
-    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light custom-class"
-    role="status"
-  >
-    Custom tag
-  </span>
-</div>
+exports[`Tag > renders with optional args 1`] = `
+<span
+  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light custom-class"
+  data-testid="tag"
+  role="status"
+>
+  Custom tag
+</span>
 `;

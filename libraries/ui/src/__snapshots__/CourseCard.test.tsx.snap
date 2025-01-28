@@ -1,0 +1,125 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CourseCard > renders Featured as expected 1`] = `
+<div>
+  <div
+    class="container-lined px-8 pb-4 max-w-[646px]"
+    data-testid="course-card--featured"
+  >
+    <p
+      class="uppercase font-semibold"
+      data-testid="course-card__featured-label"
+    >
+      Featured course
+    </p>
+    <img
+      alt="Course Card Placeholder"
+      class="w-full h-[165px] object-cover rounded-lg"
+      data-testid="course-card__image"
+    />
+    <h3
+      class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+      data-testid="course-card__title"
+    >
+      Title
+    </h3>
+    <p
+      class="text-bluedot-darker text-md mb-4 line-clamp-6"
+      data-testid="course-card__description"
+    >
+      Description
+    </p>
+    <div
+      class="flex justify-between items-center"
+      data-testid="course-card__metadata"
+    >
+      <p
+        class="text-left text-xs"
+        data-testid="course-card__metadata-item"
+      >
+        5 days
+      </p>
+      <span
+        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+        data-testid="course-card__application-deadline"
+        role="status"
+      >
+        Apply now
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CourseCard > renders default as expected 1`] = `
+<div>
+  <div
+    class="container-lined px-6 pb-6 max-w-[323px]"
+    data-testid="course-card"
+  >
+    <img
+      alt="Course Card Placeholder"
+      class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+      data-testid="course-card__image"
+    />
+    <h3
+      class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+      data-testid="course-card__title"
+    >
+      Title
+    </h3>
+    <p
+      class="text-bluedot-darker text-md mb-4 line-clamp-4"
+      data-testid="course-card__description"
+    >
+      Description
+    </p>
+    <div
+      class="flex justify-between items-center"
+      data-testid="course-card__metadata"
+    >
+      <p
+        class="text-left text-xs"
+        data-testid="course-card__metadata-item"
+      >
+        5 days
+      </p>
+      <span
+        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+        data-testid="course-card__application-deadline"
+        role="status"
+      >
+        Apply now
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CourseCard > renders with optional args 1`] = `
+<span
+  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+  data-testid="course-card__application-deadline"
+  role="status"
+>
+  Apply by Feb 1
+</span>
+`;
+
+exports[`CourseCard > renders with optional args 2`] = `
+<p
+  class="text-left text-xs"
+  data-testid="course-card__metadata-item"
+>
+  12 weeks
+</p>
+`;
+
+exports[`CourseCard > renders with optional args 3`] = `
+<img
+  alt="Course Card Placeholder"
+  class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+  data-testid="course-card__image"
+  src="/images/team/custom-size.jpg"
+/>
+`;

@@ -1,20 +1,24 @@
+import React from 'react';
 import { describe, expect, test } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Tag } from './Tag';
 
 describe('Tag', () => {
   test('renders default as expected', () => {
-    const { container } = render(<Tag label="Basic tag" />);
+    const { container } = render(<Tag>Basic tag</Tag>);
     expect(container).toMatchSnapshot();
   });
 
-  test('renders with custom className', () => {
-    const { container } = render(
+  test('renders with optional args', () => {
+    render(
       <Tag
-        label="Custom tag"
+        dataTestId="tag"
         className="custom-class"
-      />,
+      >
+        Custom tag
+      </Tag>,
     );
-    expect(container).toMatchSnapshot();
+    const tagEl = screen.getByTestId('tag');
+    expect(tagEl).toMatchSnapshot();
   });
 });
