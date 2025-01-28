@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run dev",
+    "lint": "eslint .",
     "dev": "storybook dev -p 6006",
     "build:storybook": "storybook build"
   },
@@ -13,6 +14,8 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
     "@chromatic-com/storybook": "^3.2.4",
     "@storybook/addon-essentials": "^8.5.2",
     "@storybook/addon-interactions": "^8.5.2",
@@ -25,7 +28,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.23",
     "eslint-plugin-storybook": "^0.11.2",
     "postcss": "^8",
     "storybook": "^8.5.2",
