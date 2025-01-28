@@ -55,3 +55,7 @@
 .bluedot-base {
   @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
 }
+
+.container-lined {
+  @apply border border-gray-300 rounded-xl;
+}

@@ -1,4 +1,4 @@
-/* Try to avoid adding styles here. Instead, use tailwind inline styles or add them to @bluedot/ui's global.css (if they're relevant to other apps) */
+/* Try to avoid adding styles here. Instead, use tailwind inline styles or add them to @bluedot/ui's shared.css (if they're relevant to other apps) */
 @tailwind base;
 
 @layer base {
