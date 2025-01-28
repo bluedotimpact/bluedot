@@ -4,17 +4,19 @@ import { Tag } from './Tag';
 
 describe('Tag', () => {
   test('renders default as expected', () => {
-    const { container } = render(<Tag label="Basic tag" />);
+    const { container } = render(<Tag>Basic tag</Tag>);
     expect(container).toMatchSnapshot();
   });
 
-  test('renders with custom className', () => {
+  test('renders with optional args', () => {
     const { container } = render(
       <Tag
-        label="Custom tag"
         className="custom-class"
-      />,
+      >
+        Custom tag
+      </Tag>,
     );
-    expect(container).toMatchSnapshot();
+    const tagEl = container.querySelector('.custom-class');
+    expect(tagEl).toMatchSnapshot();
   });
 });

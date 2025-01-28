@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 import * as dotenv from 'dotenv';
 
 /**
- * @param {import('vitest/config').UserConfig} [config] 
+ * @param {import('vitest/config').UserConfig} [config]
  * @returns {import('vitest/config').UserConfig}
  */
 export const withDefaultBlueDotVitestConfig = async (config) => defineConfig({
@@ -15,6 +15,8 @@ export const withDefaultBlueDotVitestConfig = async (config) => defineConfig({
     env: dotenv.config({ path: '.env.test' }).parsed,
 
     ...config?.test,
+
+    globals: true,
 
     exclude: [...defaultExclude, '**/.{turbo,next}/**', ...(config?.test?.exclude ?? [])],
   },

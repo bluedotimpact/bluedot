@@ -30,138 +30,138 @@ exports[`CourseSection > renders default as expected 1`] = `
         class="flex flex-row gap-4"
       >
         <div
-          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
-            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            class="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
             src="/images/intro-course.png"
           />
           <h3
-            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+            class="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
           >
             Alignment Fast Track
           </h3>
           <p
-            class="text-bluedot-darker text-md mb-4 line-clamp-4"
+            class="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4"
           >
             AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
           </p>
           <div
-            class="flex justify-between items-center"
+            class="course-card__metadata flex justify-between items-center"
           >
             <p
-              class="text-left text-xs"
+              class="course-card__metadata-item text-left text-xs"
             >
               5 days
             </p>
             <span
-              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light course-card__application-deadline"
               role="status"
             >
-              Crash course
+              Apply now
             </span>
           </div>
         </div>
         <div
-          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
-            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            class="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
             src="/images/governance-course.jpg"
           />
           <h3
-            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+            class="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
           >
             Governance Fast-Track
           </h3>
           <p
-            class="text-bluedot-darker text-md mb-4 line-clamp-4"
+            class="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4"
           >
             Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
           </p>
           <div
-            class="flex justify-between items-center"
+            class="course-card__metadata flex justify-between items-center"
           >
             <p
-              class="text-left text-xs"
+              class="course-card__metadata-item text-left text-xs"
             >
               5 days
             </p>
             <span
-              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light course-card__application-deadline"
               role="status"
             >
-              Crash course
+              Apply now
             </span>
           </div>
         </div>
         <div
-          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
-            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            class="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
             src="/images/alignment-course.png"
           />
           <h3
-            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+            class="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
           >
             AI Alignment
           </h3>
           <p
-            class="text-bluedot-darker text-md mb-4 line-clamp-4"
+            class="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4"
           >
             AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
           </p>
           <div
-            class="flex justify-between items-center"
+            class="course-card__metadata flex justify-between items-center"
           >
             <p
-              class="text-left text-xs"
+              class="course-card__metadata-item text-left text-xs"
             >
               12 weeks
             </p>
             <span
-              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light course-card__application-deadline"
               role="status"
             >
-              In-depth course
+              Apply now
             </span>
           </div>
         </div>
         <div
-          class="border border-gray-300 rounded-xl px-6 pb-6 max-w-[323px]"
+          class="course-card container-lined px-6 pb-6 max-w-[323px]"
         >
           <img
             alt="Course Card Placeholder"
-            class="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            class="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
             src="/images/governance-course.jpg"
           />
           <h3
-            class="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
+            class="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
           >
             AI Governance
           </h3>
           <p
-            class="text-bluedot-darker text-md mb-4 line-clamp-4"
+            class="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4"
           >
             The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
           </p>
           <div
-            class="flex justify-between items-center"
+            class="course-card__metadata flex justify-between items-center"
           >
             <p
-              class="text-left text-xs"
+              class="course-card__metadata-item text-left text-xs"
             >
               12 weeks
             </p>
             <span
-              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light"
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light course-card__application-deadline"
               role="status"
             >
-              In-depth course
+              Apply now
             </span>
           </div>
         </div>
