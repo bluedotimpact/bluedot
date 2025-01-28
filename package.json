@@ -13,6 +13,7 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
+    "@types/react-icons": "^2.2.7",
     "turbo": "latest"
   },
   "engines": {
