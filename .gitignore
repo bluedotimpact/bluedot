@@ -24,6 +24,7 @@ out/
 build/
 dist/
 dist_*/
+storybook-static/
 
 # Generated files
 generated/
