@@ -17,8 +17,7 @@ const HistorySection = () => {
 const HistoryEvent = ({ year, event, now }: { year: string, event: string, now?: boolean }) => {
   return (
     <div className={
-        `history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          ${now ? 'bg-bluedot-lighter border-bluedot-light' : 'border-gray-200'}`
+        `history-section__event-container w-full flex flex-row gap-12 p-8 ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
       }
     >
       <strong className="history-section__year">{year}</strong>

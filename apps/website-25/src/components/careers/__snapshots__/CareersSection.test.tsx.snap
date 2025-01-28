@@ -25,8 +25,7 @@ exports[`CareersSection > renders default as expected 1`] = `
         class="careers-section__container flex flex-col gap-8 my-14"
       >
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -67,8 +66,7 @@ exports[`CareersSection > renders default as expected 1`] = `
           </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -109,8 +107,7 @@ exports[`CareersSection > renders default as expected 1`] = `
           </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"
@@ -151,8 +148,7 @@ exports[`CareersSection > renders default as expected 1`] = `
           </a>
         </div>
         <div
-          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
         >
           <strong
             class="careers-section__title basis-[33%]"

@@ -14,16 +14,12 @@ const CareersSection = () => {
 };
 
 const JobListing = ({
-  title, location = 'London, Remote', type = 'Permanent', now, url, isExternalUrl = false,
+  title, location = 'London, Remote', type = 'Permanent', url, isExternalUrl = false,
 }: {
-  title: string, location?: string, type?: string, now?: boolean, url?: string, isExternalUrl?: boolean
+  title: string, location?: string, type?: string, url?: string, isExternalUrl?: boolean
 }) => {
   return (
-    <div className={
-        `careers-section__location-container w-full flex flex-row items-center justify-between p-8 border-solid border rounded-2xl
-          ${now ? 'bg-bluedot-lighter border-bluedot-light' : 'border-gray-200'}`
-      }
-    >
+    <div className="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined">
       <strong className="careers-section__title basis-[33%]">{title}</strong>
       <p className="careers-section__location">{location}</p>
       <p className="careers-section__type">{type}</p>

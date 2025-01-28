@@ -25,8 +25,7 @@ exports[`HistorySection > renders default as expected 1`] = `
         class="history-section__container flex flex-col gap-8 my-14"
       >
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
         >
           <strong
             class="history-section__year"
@@ -40,8 +39,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
         >
           <strong
             class="history-section__year"
@@ -55,8 +53,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
         >
           <strong
             class="history-section__year"
@@ -70,8 +67,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          border-gray-200"
+          class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
         >
           <strong
             class="history-section__year"
@@ -85,8 +81,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-section__event-container w-full flex flex-row gap-12 p-8 border-solid border rounded-2xl
-          bg-bluedot-lighter border-bluedot-light"
+          class="history-section__event-container w-full flex flex-row gap-12 p-8 border bg-bluedot-lighter border-bluedot-light rounded-xl"
         >
           <strong
             class="history-section__year"

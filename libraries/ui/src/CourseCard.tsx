@@ -33,7 +33,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     cardType === 'Featured'
       ? (
-        <div className={clsx('border border-gray-300 rounded-lg px-8 pb-4 max-w-[323px]', className)}>
+        <div className={clsx('container-lined px-8 pb-4 max-w-[323px]', className)}>
           <p className="uppercase font-semibold">Featured course</p>
           <img src={image} alt="Course Card Placeholder" className="w-full h-[165px] object-cover rounded-lg" />
           <h3 className="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
