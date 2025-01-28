@@ -29,7 +29,6 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "@storybook/react": "^8.5.2",
     "@testing-library/react": "^15.0.2",
     "@types/node": "^20.12.12",
     "@types/react": "^18.0.22",
