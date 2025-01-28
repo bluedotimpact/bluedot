@@ -1,3 +1,4 @@
+import React from 'react';
 import clsx from 'clsx';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
 import { Tag } from './Tag';

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
 
 export type NavProps = React.PropsWithChildren<{
