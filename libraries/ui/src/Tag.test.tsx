@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Tag } from './Tag';
 
 describe('Tag', () => {
@@ -10,15 +10,14 @@ describe('Tag', () => {
   });
 
   test('renders with optional args', () => {
-    render(
+    const { container } = render(
       <Tag
-        dataTestId="tag"
         className="custom-class"
       >
         Custom tag
       </Tag>,
     );
-    const tagEl = screen.getByTestId('tag');
+    const tagEl = container.querySelector('.custom-class');
     expect(tagEl).toMatchSnapshot();
   });
 });

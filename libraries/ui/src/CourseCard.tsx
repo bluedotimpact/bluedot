@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { Tag } from './Tag';
 
 export type CourseCardProps = React.PropsWithChildren<{
@@ -46,21 +45,20 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   return (
     cardType === 'Featured'
       ? (
-        <div data-testid="course-card--featured" className={clsx('container-lined px-8 pb-4 max-w-[646px]', className)}>
-          <p data-testid="course-card__featured-label" className="uppercase font-semibold">Featured course</p>
+        <div className={`course-card--featured container-lined px-8 pb-4 max-w-[646px] ${className}`}>
+          <p className="course-card__featured-label uppercase font-semibold">Featured course</p>
           <img
             src={imageSrc}
             alt="Course Card Placeholder"
-            data-testid="course-card__image"
-            className="w-full h-[165px] object-cover rounded-lg"
+            className="course-card__image w-full h-[165px] object-cover rounded-lg"
           />
-          <h3 data-testid="course-card__title" className="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
-          <p data-testid="course-card__description" className="text-bluedot-darker text-md mb-4 line-clamp-6">{description}</p>
-          <div data-testid="course-card__metadata" className="flex justify-between items-center">
-            <p data-testid="course-card__metadata-item" className="text-left text-xs">
+          <h3 className="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
+          <p className="course-card__description text-bluedot-darker text-md mb-4 line-clamp-6">{description}</p>
+          <div className="course-card__metadata flex justify-between items-center">
+            <p className="course-card__metadata-item text-left text-xs">
               {courseLength(courseType)}
             </p>
-            <Tag dataTestId="course-card__application-deadline">
+            <Tag className="course-card__application-deadline">
               {applyByText(applicationDeadline)}
             </Tag>
           </div>
@@ -68,20 +66,19 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </div>
       )
       : (
-        <div data-testid="course-card" className={clsx('container-lined px-6 pb-6 max-w-[323px]', className)}>
+        <div className={`course-card container-lined px-6 pb-6 max-w-[323px] ${className}`}>
           <img
             src={imageSrc}
             alt="Course Card Placeholder"
-            data-testid="course-card__image"
-            className="w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
+            className="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
           />
-          <h3 data-testid="course-card__title" className="text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
-          <p data-testid="course-card__description" className="text-bluedot-darker text-md mb-4 line-clamp-4">{description}</p>
-          <div data-testid="course-card__metadata" className="flex justify-between items-center">
-            <p data-testid="course-card__metadata-item" className="text-left text-xs">
+          <h3 className="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
+          <p className="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4">{description}</p>
+          <div className="course-card__metadata flex justify-between items-center">
+            <p className="course-card__metadata-item text-left text-xs">
               {courseLength(courseType)}
             </p>
-            <Tag dataTestId="course-card__application-deadline">
+            <Tag className="course-card__application-deadline">
               {applyByText(applicationDeadline)}
             </Tag>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { CourseCard } from './CourseCard';
 
 describe('CourseCard', () => {
@@ -24,7 +24,7 @@ describe('CourseCard', () => {
   });
 
   test('renders with optional args', () => {
-    render(
+    const { container } = render(
       <CourseCard
         {...defaultProps}
         applicationDeadline="Feb 1"
@@ -32,11 +32,11 @@ describe('CourseCard', () => {
         imageSrc="/images/team/custom-size.jpg"
       />,
     );
-    const applicationDeadlineEl = screen.getByTestId('course-card__application-deadline');
+    const applicationDeadlineEl = container.querySelector('.course-card__application-deadline');
     expect(applicationDeadlineEl).toMatchSnapshot();
-    const courseLengthEl = screen.getByTestId('course-card__metadata-item');
+    const courseLengthEl = container.querySelector('.course-card__metadata-item');
     expect(courseLengthEl).toMatchSnapshot();
-    const imgEl = screen.getByTestId('course-card__image');
+    const imgEl = container.querySelector('.course-card__image');
     expect(imgEl).toMatchSnapshot();
   });
 });
