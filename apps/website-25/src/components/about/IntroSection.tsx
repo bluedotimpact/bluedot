@@ -1,7 +1,5 @@
 import { Section } from '@bluedot/ui';
 
-import React from 'react';
-
 const IntroSection = ({ title }: { title: string }) => {
   return (
     <Section className="intro-section" title={title}>
