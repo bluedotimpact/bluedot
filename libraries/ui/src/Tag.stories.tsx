@@ -11,10 +11,6 @@ const meta = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  args: {
-    className: '',
-    label: '',
-  },
 } satisfies Meta<typeof Tag>;
 
 export default meta;
@@ -22,12 +18,12 @@ type Story = StoryObj<typeof meta>;
 
 export const CrashCourse: Story = {
   args: {
-    label: 'Crash course',
+    children: 'Crash course',
   },
 };
 
 export const InDepthCourse: Story = {
   args: {
-    label: 'In-depth course',
+    children: 'In-depth course',
   },
 };
