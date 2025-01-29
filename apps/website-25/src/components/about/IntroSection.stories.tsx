@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { withStorybookWrapper } from '../../lib/withStorybookWrapper';
-
 import IntroSection from './IntroSection';
 
 const meta = {
@@ -16,7 +14,6 @@ const meta = {
   args: {
     title: '',
   },
-  decorators: [withStorybookWrapper],
 } satisfies Meta<typeof IntroSection>;
 
 export default meta;
