@@ -16,6 +16,9 @@ const config: StorybookConfig = {
     "../../website-25/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../../../libraries/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
+  core: {
+    disableTelemetry: true,
+  },
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
