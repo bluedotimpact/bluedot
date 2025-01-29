@@ -12,13 +12,15 @@ Fixes # (issue)
 <!-- Description of the changes you've made -->
 
 ## Developer checklist
-- [ ] Used [BEM naming convention](https://getbem.com/naming/)
-- [ ] Added new unit tests where applicable
+- [ ] Used [BEM naming convention](https://getbem.com/naming/) for classNames
+- [ ] Added or updated Jest tests
+- [ ] Added or updated Storybook stories
 
 ## Screenshot
 
 | 📸 |  |
 |---------|---|
+| 📕 | <!-- Include a **Storybook** screenshot or screen recording demonstrating your change--> |
 | 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
 | 📱  | <!-- Include a **Mobile** screenshot or screen recording demonstrating your change--> |
 
