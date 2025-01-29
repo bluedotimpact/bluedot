@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
+import { CTALinkOrButton } from './CTALinkOrButton';
 
 interface BannerProps {
   title: string;
@@ -29,20 +30,20 @@ export const Banner: React.FC<BannerProps> = ({
   return (
     <div className={clsx('banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter', className)}>
       <h1 className="banner__title text-bluedot-normal font-serif font-normal text-2xl">{title}</h1>
-      <form onSubmit={handleSubmit} className="mt-6">
+      <form onSubmit={handleSubmit} className="banner__form flex flex-col items-center gap-4 mt-6">
         {showInput && (
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={inputPlaceholder}
-            className="p-2 rounded border font-sans text-base font-normal text-center w-80"
+            className="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
           />
         )}
         {showButton && (
-          <button type="submit" className="ml-2 p-2 bg-bluedot-normal text-white font-bold rounded">
+          <CTALinkOrButton className="banner__submit-btn" type="submit">
             {buttonText}
-          </button>
+          </CTALinkOrButton>
         )}
       </form>
     </div>

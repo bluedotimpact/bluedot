@@ -29,20 +29,20 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
               )}
 
               <div className="footer__social flex gap-6 justify-center">
-                <a href="https://twitter.com/BlueDotImpact" className="footer__social-link" aria-label="Twitter">
+                <a href="https://twitter.com/BlueDotImpact" className="footer__social-link link-on-dark" aria-label="Twitter">
                   <FaXTwitter className="w-6 h-6" />
                 </a>
-                <a href="https://youtube.com/@bluedotimpact" className="footer__social-link" aria-label="YouTube">
+                <a href="https://youtube.com/@bluedotimpact" className="footer__social-link link-on-dark" aria-label="YouTube">
                   <FaYoutube className="w-6 h-6" />
                 </a>
-                <a href="https://www.facebook.com/bluedotimpact" className="footer__social-link" aria-label="Facebook">
+                <a href="https://www.facebook.com/bluedotimpact" className="footer__social-link link-on-dark" aria-label="Facebook">
                   <FaFacebook className="w-6 h-6" />
                 </a>
-                <a href="#" className="footer__social-link" aria-label="Instagram">
+                <a href="#" className="footer__social-link link-on-dark" aria-label="Instagram">
                   <FaInstagram className="w-6 h-6" />
                 </a>
                 {/* TODO: 01/27 Add Instagram link */}
-                <a href="https://www.linkedin.com/company/bluedotimpact/" className="footer__social-link" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/bluedotimpact/" className="footer__social-link link-on-dark" aria-label="LinkedIn">
                   <FaLinkedin className="w-6 h-6" />
                 </a>
               </div>
@@ -51,10 +51,10 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             <div className="footer__section">
               <h3 className="footer__heading text-base font-[650px] mb-4">BlueDot Impact</h3>
               <ul className="footer__list space-y-2 mb-auto font-normal">
-                <li className="footer__item"><a href="/about" className="footer__link">About us</a></li>
-                <li className="footer__item"><a href="/support-us" className="footer__link">Support us</a></li>
-                <li className="footer__item"><a href="/careers" className="footer__link">Join us</a></li>
-                <li className="footer__item"><a href="/contact" className="footer__link">Contact us</a></li>
+                <li className="footer__item"><a href="/about" className="footer__link link-on-dark">About us</a></li>
+                <li className="footer__item"><a href="/support-us" className="footer__link link-on-dark">Support us</a></li>
+                <li className="footer__item"><a href="/careers" className="footer__link link-on-dark">Join us</a></li>
+                <li className="footer__item"><a href="/contact" className="footer__link link-on-dark">Contact us</a></li>
               </ul>
             </div>
 
@@ -62,10 +62,10 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             <div className="footer__section">
               <h3 className="footer__heading text-base font-[650px] mb-4">Explore</h3>
               <ul className="footer__list space-y-2 text-base font-normal">
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/intro-to-tai/" className="footer__link">Intro to Transformative AI</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment-fast-track/" className="footer__link">AI Alignment Fast Track</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment/" className="footer__link">AI Alignment In-Depth</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/governance/" className="footer__link">AI Governance In-Depth</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/intro-to-tai/" className="footer__link link-on-dark">Intro to Transformative AI</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment-fast-track/" className="footer__link link-on-dark">AI Alignment Fast Track</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment/" className="footer__link link-on-dark">AI Alignment In-Depth</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/governance/" className="footer__link link-on-dark">AI Governance In-Depth</a></li>
               </ul>
             </div>
 
@@ -83,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
         </div>
 
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" target="_blank" rel="noopener noreferrer" className="footer__link underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" target="_blank" rel="noopener noreferrer" className="footer__link underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="footer__link underline">14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" target="_blank" rel="noopener noreferrer" className="footer__link link-on-dark underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" target="_blank" rel="noopener noreferrer" className="footer__link link-on-dark underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="footer__link link-on-dark underline">14964572</a>).
         </p>
       </footer>
     </div>
