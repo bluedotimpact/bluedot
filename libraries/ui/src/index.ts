@@ -21,6 +21,8 @@ export { Section } from './Section';
 
 export { Tag } from './Tag';
 
+export { ValueCard } from './ValueCard';
+
 // Non-component exports
 
 export { newTabProps } from './utils';

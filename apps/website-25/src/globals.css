@@ -3,12 +3,15 @@
 
 @layer base {
   p {
-    @apply text-[16px] font-normal;
+    @apply text-bluedot-black text-[16px] font-normal;
   }
   h2 {
-    @apply text-2xl font-extrabold;
+    @apply text-bluedot-darker text-2xl font-extrabold;
   }
-  a {
-    @apply hover:text-bluedot-normal hover:cursor-pointer;
+  a, .link {
+    @apply text-bluedot-black hover:text-bluedot-normal hover:cursor-pointer;
+  }
+  .link-on-dark {
+    @apply text-white hover:text-bluedot-lighter hover:cursor-pointer;
   }
 }

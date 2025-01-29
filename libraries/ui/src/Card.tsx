@@ -29,11 +29,11 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   imageClassName = '',
 }) => {
-  const Wrapper = isEntireCardClickable ? 'a' : 'div';
+  const Wrapper = isEntireCardClickable && ctaUrl ? 'a' : 'div';
 
   return (
     <Wrapper
-      {...(isEntireCardClickable && { href: ctaUrl, ...newTabProps(isExternalUrl) })}
+      {...(isEntireCardClickable && ctaUrl && { href: ctaUrl, ...newTabProps(isExternalUrl) })}
       className={clsx(
         'card flex flex-col items-start transition-transform duration-200',
         className,
@@ -60,7 +60,7 @@ export const Card: React.FC<CardProps> = ({
               {ctaMetadata}
             </p>
           )}
-          {isEntireCardClickable ? (
+          {isEntireCardClickable || !ctaUrl ? (
             <Tag className="card__cta--inert hover:bg-bluedot-lighter">{ctaText}</Tag>
           ) : (
             <CTALinkOrButton

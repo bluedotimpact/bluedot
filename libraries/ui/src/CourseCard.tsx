@@ -9,6 +9,7 @@ export type CourseCardProps = React.PropsWithChildren<{
   description: string,
   // Optional
   className?: string,
+  ctaUrl?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
   cardType?: 'Featured' | 'Regular',
   courseType?: CourseType,
@@ -39,6 +40,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
+  ctaUrl,
   applicationDeadline,
   cardType = 'Regular',
   courseType = 'Crash course',
@@ -73,9 +75,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           title={title}
           subtitle={description}
           ctaMetadata={courseLength(courseType)}
-          ctaUrl="#" // TODO
+          ctaUrl={ctaUrl}
           ctaText={applyByText(applicationDeadline)}
           isEntireCardClickable
+          isExternalUrl
           className={clsx('course-card container-lined p-5 max-w-[323px]', className)}
           imageClassName="course-card__image w-full h-[165px] object-cover rounded-xl"
         />

@@ -57,6 +57,99 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
+      class="section mx-16 my-8 max-w-full overflow-hidden"
+    >
+      <div
+        class="section__title-container ml-4 flex justify-between items-center gap-4"
+      >
+        <div
+          class="section__content flex-1"
+        >
+          <h2
+            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          >
+            Our values
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      />
+    </div>
+    <div
+      class="flex justify-center gap-8 px-16 my-16"
+    >
+      <div
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
+      >
+        <div
+          class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
+        >
+          <img
+            alt="Think hard, act fast, fail faster"
+            class="value-card__icon"
+            src="icons/fast.svg"
+          />
+        </div>
+        <h3
+          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+        >
+          Think hard, act fast, fail faster
+        </h3>
+        <p
+          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+        >
+          We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+        </p>
+      </div>
+      <div
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
+      >
+        <div
+          class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
+        >
+          <img
+            alt="Care personally, challenge directly"
+            class="value-card__icon"
+            src="icons/care.svg"
+          />
+        </div>
+        <h3
+          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+        >
+          Care personally, challenge directly
+        </h3>
+        <p
+          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+        >
+          We care about our team and our community, and we hold everyone to high standards.
+        </p>
+      </div>
+      <div
+        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
+      >
+        <div
+          class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
+        >
+          <img
+            alt="Obsessed with empowering problem-solvers"
+            class="value-card__icon"
+            src="icons/solvers.svg"
+          />
+        </div>
+        <h3
+          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+        >
+          Obsessed with empowering problem-solvers
+        </h3>
+        <p
+          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+        >
+          We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+        </p>
+      </div>
+    </div>
+    <div
       class="section mx-16 my-8 max-w-full overflow-hidden careers-section"
     >
       <div
@@ -97,7 +190,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-alignment-project-judge/"
               rel="noopener noreferrer"
@@ -138,7 +231,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-safety-course-operations/"
               rel="noopener noreferrer"
@@ -179,7 +272,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/swe-contractor/"
               rel="noopener noreferrer"
@@ -220,7 +313,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/economics-of-tai-teaching-fellow/"
               rel="noopener noreferrer"

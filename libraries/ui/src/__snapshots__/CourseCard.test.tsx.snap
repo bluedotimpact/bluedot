@@ -46,9 +46,8 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
-  <a
+  <div
     class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
-    href="#"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -92,7 +91,7 @@ exports[`CourseCard > renders default as expected 1`] = `
         </span>
       </div>
     </div>
-  </a>
+  </div>
 </div>
 `;
 

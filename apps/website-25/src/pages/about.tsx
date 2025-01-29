@@ -4,6 +4,7 @@ import {
 import IntroSection from '../components/about/IntroSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
+import JoinUsCta from '../components/about/JoinUsCta';
 
 const AboutPage = () => {
   return (
@@ -14,6 +15,7 @@ const AboutPage = () => {
       <IntroSection title="Why do we exist?" />
       <HistorySection />
       <TeamSection />
+      <JoinUsCta />
     </div>
   );
 };

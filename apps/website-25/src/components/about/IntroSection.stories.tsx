@@ -1,29 +1,26 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Tag } from './Tag';
+import IntroSection from './IntroSection';
 
 const meta = {
-  title: 'ui/Tag',
-  component: Tag,
+  title: 'website/IntroSection',
+  component: IntroSection,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Tag>;
+  args: {
+    title: '',
+  },
+} satisfies Meta<typeof IntroSection>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const CrashCourse: Story = {
+export const OurCulture: Story = {
   args: {
-    children: 'Crash course',
-  },
-};
-
-export const InDepthCourse: Story = {
-  args: {
-    children: 'In-depth course',
+    title: 'Our culture!',
   },
 };
