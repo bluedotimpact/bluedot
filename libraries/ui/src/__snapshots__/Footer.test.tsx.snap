@@ -14,7 +14,7 @@ exports[`Footer > renders default as expected 1`] = `
         Subscribe to our newsletter for the latest updates on AI safety careers
       </h1>
       <form
-        class="banner__form flex flex-col items-center gap-4 mt-6"
+        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
       >
         <input
           class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
@@ -321,7 +321,7 @@ exports[`Footer > renders with optional args 1`] = `
         Subscribe to our newsletter for the latest updates on AI safety careers
       </h1>
       <form
-        class="banner__form flex flex-col items-center gap-4 mt-6"
+        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
       >
         <input
           class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
