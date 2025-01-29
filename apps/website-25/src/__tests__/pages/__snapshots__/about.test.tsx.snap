@@ -484,6 +484,39 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="join-us-cta mx-16 my-8 max-w-full overflow-hidden"
+    >
+      <div
+        class="join-us-cta__container container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
+      >
+        <h2
+          class="join-us-cta__title max-w-[890px] text-center mb-8"
+        >
+          Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+        </h2>
+        <a
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal join-us-cta__cta-button"
+          data-testid="cta-link"
+          href="/careers"
+        >
+          <span
+            class="cta-button__text"
+          >
+            View our careers
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon w-2 h-2"
+              src="/icons/chevron_white.svg"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 `;
