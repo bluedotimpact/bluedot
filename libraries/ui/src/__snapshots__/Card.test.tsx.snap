@@ -87,7 +87,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
         class="card__cta-row flex items-center justify-between mt-auto"
       >
         <span
-          class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta--inert hover:bg-bluedot-lighter"
+          class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
           role="status"
         >
           LinkedIn

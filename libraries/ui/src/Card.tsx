@@ -61,7 +61,7 @@ export const Card: React.FC<CardProps> = ({
             </p>
           )}
           {isEntireCardClickable || !ctaUrl ? (
-            <Tag className="card__cta--inert hover:bg-bluedot-lighter">{ctaText}</Tag>
+            <Tag className="card__cta_inert hover:bg-bluedot-lighter">{ctaText}</Tag>
           ) : (
             <CTALinkOrButton
               className="card__cta"

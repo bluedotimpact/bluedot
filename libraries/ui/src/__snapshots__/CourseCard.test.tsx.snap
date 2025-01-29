@@ -84,7 +84,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           5 days
         </p>
         <span
-          class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta--inert hover:bg-bluedot-lighter"
+          class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
           role="status"
         >
           Apply now
@@ -97,7 +97,7 @@ exports[`CourseCard > renders default as expected 1`] = `
 
 exports[`CourseCard > renders with optional args 1`] = `
 <span
-  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta--inert hover:bg-bluedot-lighter"
+  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
   role="status"
 >
   Apply by Feb 1

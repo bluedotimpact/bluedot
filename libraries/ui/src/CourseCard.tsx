@@ -31,7 +31,7 @@ const courseLength = (courseType: CourseType) => {
   }
 };
 
-export const applyByText = (applicationDeadline: string | undefined) => {
+const applyByText = (applicationDeadline: string | undefined) => {
   return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
 };
 
