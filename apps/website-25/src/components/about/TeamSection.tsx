@@ -57,6 +57,7 @@ const TeamSection = () => {
             title={member.name}
             subtitle={member.role}
             ctaUrl={member.linkedInUrl}
+            ctaText="LinkedIn"
             isExternalUrl
             className="team__card ml-4 mb-12"
             imageClassName="team__card-image"

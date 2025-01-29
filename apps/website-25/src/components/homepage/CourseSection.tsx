@@ -6,7 +6,7 @@ import {
 const CourseSection = () => {
   return (
     <Section title="Our courses" subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability">
-      <div className="flex flex-row gap-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1">
         <CourseCard
           title="Alignment Fast Track"
           description="AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable."

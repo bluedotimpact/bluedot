@@ -21,6 +21,10 @@ export { Section } from './Section';
 
 export { Tag } from './Tag';
 
+// Non-component exports
+
+export { newTabProps } from './utils';
+
 // Legacy Components
 
 export { Box } from './legacy/Box';

@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
+import { newTabProps } from './utils';
 
 export type CTAProps = {
   className?: string;
@@ -36,8 +37,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
     return (
       <a
         href={url}
-        target={isExternalUrl ? '_blank' : undefined}
-        rel={isExternalUrl ? 'noopener noreferrer' : undefined}
+        {...newTabProps(isExternalUrl)}
         data-testid="cta-link"
         className={commonClassNames}
       >

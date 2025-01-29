@@ -4,6 +4,7 @@ import {
   FaXTwitter, FaYoutube, FaFacebook, FaInstagram, FaLinkedin,
 } from 'react-icons/fa6';
 import { Banner } from './Banner';
+import { newTabProps } from './utils';
 
 export type FooterProps = React.PropsWithChildren<{
   className?: string,
@@ -83,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
         </div>
 
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" target="_blank" rel="noopener noreferrer" className="footer__link underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" target="_blank" rel="noopener noreferrer" className="footer__link underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="footer__link underline">14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...newTabProps(true)} className="footer__link underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...newTabProps(true)} className="footer__link underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...newTabProps(true)} className="footer__link underline">14964572</a>).
         </p>
       </footer>
     </div>

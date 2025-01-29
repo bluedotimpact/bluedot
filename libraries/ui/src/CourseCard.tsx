@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Tag } from './Tag';
+import { Card } from './Card';
 
 export type CourseCardProps = React.PropsWithChildren<{
   // Required
@@ -11,7 +12,7 @@ export type CourseCardProps = React.PropsWithChildren<{
   applicationDeadline?: string, // Expected format: "Feb 1"
   cardType?: 'Featured' | 'Regular',
   courseType?: CourseType,
-  imageSrc?: string
+  imageSrc: string
 }>;
 
 type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
@@ -29,7 +30,7 @@ const courseLength = (courseType: CourseType) => {
   }
 };
 
-const applyByText = (applicationDeadline: string | undefined) => {
+export const applyByText = (applicationDeadline: string | undefined) => {
   return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
 };
 
@@ -67,24 +68,17 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         </div>
       )
       : (
-        <div className={clsx('course-card container-lined px-6 pb-6 max-w-[323px]', className)}>
-          <img
-            src={imageSrc}
-            alt="Course Card Placeholder"
-            className="course-card__image w-full h-[165px] object-cover rounded-xl mt-6 mb-12"
-          />
-          <h3 className="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none">{title}</h3>
-          <p className="course-card__description text-bluedot-darker text-md mb-4 line-clamp-4">{description}</p>
-          <div className="course-card__metadata flex justify-between items-center">
-            <p className="course-card__metadata-item text-left text-xs">
-              {courseLength(courseType)}
-            </p>
-            <Tag className="course-card__application-deadline">
-              {applyByText(applicationDeadline)}
-            </Tag>
-          </div>
-          {children}
-        </div>
+        <Card
+          imageSrc={imageSrc}
+          title={title}
+          subtitle={description}
+          ctaMetadata={courseLength(courseType)}
+          ctaUrl="#" // TODO
+          ctaText={applyByText(applicationDeadline)}
+          isEntireCardClickable
+          className={clsx('course-card container-lined p-5 max-w-[323px]', className)}
+          imageClassName="course-card__image w-full h-[165px] object-cover rounded-xl"
+        />
       )
   );
 };
