@@ -13,8 +13,8 @@ export type CTAProps = {
 const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit';
 
 const CTA_VARIANT_STYLES = {
-  primary: 'cta-button--primary bg-bluedot-normal text-white hover:bg-bluedot-normal',
-  secondary: 'cta-button--secondary bg-transparent text-bluedot-normal border border-bluedot-normal hover:bg-bluedot-lighter',
+  primary: 'cta-button--primary bg-bluedot-normal link-on-dark',
+  secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
 } as const;
 
 export const CTALinkOrButton: React.FC<CTAProps> = ({

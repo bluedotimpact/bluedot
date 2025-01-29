@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CTALinkOrButton > renders with primary variant by default as a button 1`] = `
+<button
+  class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark"
+  data-testid="cta-button"
+  type="button"
+>
+  <span
+    class="cta-button__text"
+  >
+    Click me
+  </span>
+</button>
+`;
