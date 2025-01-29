@@ -1,16 +1,8 @@
-import type { Meta, StoryObj, StoryFn } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { withStorybookWrapper } from '../../lib/withStorybookWrapper';
 
 import IntroSection from './IntroSection';
-
-// Include globals
-import '../../globals.css';
-
-// Wrap component
-const withWebsiteWrapper = (Story: StoryFn) => (
-  <main className="bluedot-base">
-    <div><Story /></div>
-  </main>
-);
 
 const meta = {
   title: 'website/IntroSection',
@@ -24,7 +16,7 @@ const meta = {
   args: {
     title: '',
   },
-  decorators: [withWebsiteWrapper],
+  decorators: [withStorybookWrapper],
 } satisfies Meta<typeof IntroSection>;
 
 export default meta;
