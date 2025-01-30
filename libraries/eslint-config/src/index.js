@@ -56,6 +56,7 @@ const rules = {
   'jsx-a11y/anchor-is-valid': ['off'],
   'tailwindcss/no-contradicting-classname': ['error'],
   'tailwindcss/no-unnecessary-arbitrary-value': ['error'],
+  'tailwindcss/enforces-shorthand': ['error'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */
