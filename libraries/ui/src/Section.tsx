@@ -18,7 +18,7 @@ export const Section: React.FC<SectionProps> = ({
       <div className="section__title-container ml-4 flex justify-between items-center gap-4">
         <div className="section__content flex-1">
           <h2 className={clsx(
-            'section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative',
+            'section__title mb-4 relative',
             "after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal",
             ctaText && ctaUrl
               ? 'after:w-4/5'
