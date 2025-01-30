@@ -15,7 +15,7 @@ const meta = {
     courses: [
       { title: 'Course 1', href: '#' },
       { title: 'Course 2', href: '#' },
-    ]
+    ],
   },
 } satisfies Meta<typeof Nav>;
 
@@ -23,7 +23,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {}
+  args: {},
 };
 
 export const Customized: Story = {
