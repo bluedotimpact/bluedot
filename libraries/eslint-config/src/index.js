@@ -110,6 +110,7 @@ module.exports = {
     'dist',
     'dist_*',
     'generated/',
+    'storybook-static/',
     'node_modules/',
   ],
 };
