@@ -48,8 +48,6 @@ exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <div
     class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
-    rel="noopener noreferrer"
-    target="_blank"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
