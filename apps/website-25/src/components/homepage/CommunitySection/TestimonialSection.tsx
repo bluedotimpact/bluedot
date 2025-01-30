@@ -34,7 +34,7 @@ const testimonials: Testimonial[] = [
 
 const TestimonialSection = () => {
   return (
-    <section className="testimonial-section py-24">
+    <section className="testimonial-section py-12">
       <div className="testimonial-section__container container-lined mx-auto max-w-[1750px]">
         <h2 className="testimonial-section__title text-2xl font-bold text-bluedot-darker mb-12 px-6 pt-6">
           What our graduates say
