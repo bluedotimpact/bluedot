@@ -18,11 +18,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-    args: {},
-}
+  args: {},
+};
 
 export const Customized: Story = {
-    args: {
-      logo: 'https://website-25.k8s.bluedot.org/images/logo/BlueDot_Impact_Logo_White.svg',
-    },
-  };
+  args: {
+    logo: 'https://website-25.k8s.bluedot.org/images/logo/BlueDot_Impact_Logo_White.svg',
+  },
+};

@@ -13,9 +13,8 @@ export type FooterProps = React.PropsWithChildren<{
 }>;
 
 export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
-
   // Footer links are styled differently than default `.link-on-dark`
-  const footerLinkClassNames = 'footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer'
+  const footerLinkClassNames = 'footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer';
 
   return (
     <div className="footer">
@@ -88,7 +87,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
           </nav>
         </div>
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>14964572</a>).
         </p>
       </footer>
     </div>
