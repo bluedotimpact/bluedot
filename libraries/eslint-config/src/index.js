@@ -54,6 +54,7 @@ const rules = {
   }],
   // Almost always a false positive on the <Link> component
   'jsx-a11y/anchor-is-valid': ['off'],
+  'tailwindcss/no-unnecessary-arbitrary-value': ['error'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */
@@ -84,6 +85,7 @@ const tsOnlyRules = {
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
+  plugins: ['tailwindcss'],
   extends: [
     'eslint-config-domdomegg',
     'eslint-config-turbo',
