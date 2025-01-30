@@ -116,7 +116,13 @@ exports[`CourseCard > renders with optional args 1`] = `
 </button>
 `;
 
-exports[`CourseCard > renders with optional args 2`] = `null`;
+exports[`CourseCard > renders with optional args 2`] = `
+<p
+  class="card__cta-metadata text-left text-xs text-bluedot-black"
+>
+  12 weeks
+</p>
+`;
 
 exports[`CourseCard > renders with optional args 3`] = `
 <img

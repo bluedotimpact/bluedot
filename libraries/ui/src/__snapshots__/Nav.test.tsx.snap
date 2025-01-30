@@ -27,7 +27,7 @@ exports[`Nav > renders with courses 1`] = `
         >
           Explore
           <svg
-            class="w-4 h-4 transition-transform"
+            class="size-4 transition-transform"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -126,7 +126,7 @@ exports[`Nav > renders with optional yield 1`] = `
         >
           Explore
           <svg
-            class="w-4 h-4 transition-transform"
+            class="size-4 transition-transform"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

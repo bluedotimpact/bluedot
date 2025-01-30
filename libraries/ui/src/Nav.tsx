@@ -40,7 +40,7 @@ export const Nav: React.FC<NavProps> = ({
           >
             Explore
             <svg
-              className={clsx('w-4 h-4 transition-transform', isExpanded ? 'rotate-180' : '')}
+              className={clsx('size-4 transition-transform', isExpanded ? 'rotate-180' : '')}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

@@ -6,7 +6,7 @@ exports[`ValueCard > renders default as expected 1`] = `
     class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
   >
     <div
-      class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
+      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
     >
       <img
         alt="Test Title"
@@ -34,7 +34,7 @@ exports[`ValueCard > renders with all props correctly 1`] = `
     class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
   >
     <div
-      class="value-card__icon-wrapper w-[50px] h-[50px] flex items-center justify-center"
+      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
     >
       <img
         alt="Custom Title"

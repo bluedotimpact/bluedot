@@ -14,7 +14,7 @@ exports[`Footer > renders default as expected 1`] = `
         Subscribe to our newsletter for the latest updates on AI safety careers
       </h1>
       <form
-        class="banner__form flex flex-col items-center gap-4 mt-6"
+        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
       >
         <input
           class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
@@ -61,7 +61,7 @@ exports[`Footer > renders default as expected 1`] = `
                 href="https://twitter.com/BlueDotImpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -81,7 +81,7 @@ exports[`Footer > renders default as expected 1`] = `
                 href="https://youtube.com/@bluedotimpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -101,7 +101,7 @@ exports[`Footer > renders default as expected 1`] = `
                 href="https://www.facebook.com/bluedotimpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -121,7 +121,7 @@ exports[`Footer > renders default as expected 1`] = `
                 href="#"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -141,7 +141,7 @@ exports[`Footer > renders default as expected 1`] = `
                 href="https://www.linkedin.com/company/bluedotimpact/"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -321,7 +321,7 @@ exports[`Footer > renders with optional args 1`] = `
         Subscribe to our newsletter for the latest updates on AI safety careers
       </h1>
       <form
-        class="banner__form flex flex-col items-center gap-4 mt-6"
+        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
       >
         <input
           class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
@@ -368,7 +368,7 @@ exports[`Footer > renders with optional args 1`] = `
                 href="https://twitter.com/BlueDotImpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -388,7 +388,7 @@ exports[`Footer > renders with optional args 1`] = `
                 href="https://youtube.com/@bluedotimpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -408,7 +408,7 @@ exports[`Footer > renders with optional args 1`] = `
                 href="https://www.facebook.com/bluedotimpact"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -428,7 +428,7 @@ exports[`Footer > renders with optional args 1`] = `
                 href="#"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"
@@ -448,7 +448,7 @@ exports[`Footer > renders with optional args 1`] = `
                 href="https://www.linkedin.com/company/bluedotimpact/"
               >
                 <svg
-                  class="w-6 h-6"
+                  class="size-6"
                   fill="currentColor"
                   height="1em"
                   stroke="currentColor"

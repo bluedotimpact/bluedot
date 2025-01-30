@@ -31,20 +31,20 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
               <div className="footer__social flex gap-6 justify-center">
                 <a href="https://twitter.com/BlueDotImpact" className="footer__social-link link-on-dark" aria-label="Twitter">
-                  <FaXTwitter className="w-6 h-6" />
+                  <FaXTwitter className="size-6" />
                 </a>
                 <a href="https://youtube.com/@bluedotimpact" className="footer__social-link link-on-dark" aria-label="YouTube">
-                  <FaYoutube className="w-6 h-6" />
+                  <FaYoutube className="size-6" />
                 </a>
                 <a href="https://www.facebook.com/bluedotimpact" className="footer__social-link link-on-dark" aria-label="Facebook">
-                  <FaFacebook className="w-6 h-6" />
+                  <FaFacebook className="size-6" />
                 </a>
                 <a href="#" className="footer__social-link link-on-dark" aria-label="Instagram">
-                  <FaInstagram className="w-6 h-6" />
+                  <FaInstagram className="size-6" />
                 </a>
                 {/* TODO: 01/27 Add Instagram link */}
                 <a href="https://www.linkedin.com/company/bluedotimpact/" className="footer__social-link link-on-dark" aria-label="LinkedIn">
-                  <FaLinkedin className="w-6 h-6" />
+                  <FaLinkedin className="size-6" />
                 </a>
               </div>
             </div>

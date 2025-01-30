@@ -32,7 +32,7 @@ export const FaceTiles: React.FC<FaceTilesProps> = ({
             <img
               src={face.src}
               alt={face.alt}
-              className="face-tiles__avatar-img w-full h-full object-cover"
+              className="face-tiles__avatar-img size-full object-cover"
             />
           </div>
         ))}

@@ -6,7 +6,8 @@
     "types": "src/index.ts",
     "scripts": {
         "build": "tsc",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@ts-rest/core": "^3.41.1",

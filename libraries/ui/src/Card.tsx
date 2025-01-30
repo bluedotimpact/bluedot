@@ -43,7 +43,7 @@ export const Card: React.FC<CardProps> = ({
     >
       <div className="card__image-container max-w-[323px] max-h-[223px] w-full mb-3">
         <img
-          className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
+          className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`} 
           src={imageSrc}
           alt={`${title}`}
         />

@@ -7,6 +7,7 @@
     "start": "next dev -p 8000",
     "build": "next build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
     "deploy:prod": "tools/deployDocker.sh"
