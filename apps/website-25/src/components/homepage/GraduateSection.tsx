@@ -1,9 +1,9 @@
 import { FaceTiles } from '@bluedot/ui';
 
 const faces = [
-  { src: '/images/face-tiles/facetile-1.png', alt: 'Person 1' },
-  { src: '/images/face-tiles/facetile-2.png', alt: 'Person 2' },
-  { src: '/images/face-tiles/facetile-3.png', alt: 'Person 3' },
+  { src: '/images/graduates/matthew.png', alt: 'Matthew' },
+  { src: '/images/graduates/sarah.png', alt: 'Sarah' },
+  { src: '/images/graduates/kendrea.png', alt: 'Kendrea' },
 ];
 
 const GraduateSection = () => {
