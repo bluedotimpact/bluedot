@@ -10,7 +10,7 @@ exports[`Card > renders default as expected 1`] = `
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl "
+        class="card__image size-full object-cover rounded-2xl "
         src="/images/team/member.jpg"
       />
     </div>
@@ -57,7 +57,7 @@ exports[`Card > renders with custom className 1`] = `
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl "
+        class="card__image size-full object-cover rounded-2xl "
         src="/images/team/member.jpg"
       />
     </div>
@@ -104,7 +104,7 @@ exports[`Card > renders with custom image dimensions 1`] = `
     >
       <img
         alt="John Doe"
-        class="card__image w-full h-full object-cover rounded-2xl "
+        class="card__image size-full object-cover rounded-2xl "
         src="/images/team/custom-size.jpg"
       />
     </div>

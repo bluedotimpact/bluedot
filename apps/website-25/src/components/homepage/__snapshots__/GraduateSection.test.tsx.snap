@@ -20,7 +20,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
           >
             <img
               alt="Person 1"
-              class="face-tiles__avatar-img w-full h-full object-cover"
+              class="face-tiles__avatar-img size-full object-cover"
               src="/images/face-tiles/facetile-1.png"
             />
           </div>
@@ -30,7 +30,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
           >
             <img
               alt="Person 2"
-              class="face-tiles__avatar-img w-full h-full object-cover"
+              class="face-tiles__avatar-img size-full object-cover"
               src="/images/face-tiles/facetile-2.png"
             />
           </div>
@@ -40,7 +40,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
           >
             <img
               alt="Person 3"
-              class="face-tiles__avatar-img w-full h-full object-cover"
+              class="face-tiles__avatar-img size-full object-cover"
               src="/images/face-tiles/facetile-3.png"
             />
           </div>

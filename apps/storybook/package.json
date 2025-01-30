@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npm run dev",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "dev": "storybook dev -p 6006",
     "build:storybook": "storybook build"
   },

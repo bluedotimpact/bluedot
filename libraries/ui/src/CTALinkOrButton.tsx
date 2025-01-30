@@ -47,7 +47,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
             <img
               src={variant === 'primary' ? '/icons/chevron_white.svg' : '/icons/chevron_blue.svg'}
               alt="→"
-              className="cta-button__chevron-icon w-2 h-2"
+              className="cta-button__chevron-icon size-2"
             />
           </span>
         )}
@@ -68,7 +68,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
           <img
             src={variant === 'primary' ? '/icons/chevron_white.svg' : '/icons/chevron_blue.svg'}
             alt="→"
-            className="cta-button__chevron-icon w-2 h-2"
+            className="cta-button__chevron-icon size-2"
           />
         </span>
       )}

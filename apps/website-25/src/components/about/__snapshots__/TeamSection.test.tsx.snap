@@ -12,7 +12,7 @@ exports[`TeamSection > renders default as expected 1`] = `
         class="section__content flex-1"
       >
         <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:translate-y-[-50%] after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-[100%]"
+          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
         >
           Our team
         </h2>
@@ -32,7 +32,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Adam Jones"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/adam.jpg"
             />
           </div>
@@ -76,7 +76,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Dewi Erwan"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/dewi.jpg"
             />
           </div>
@@ -120,7 +120,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Josh Landes"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/josh.jpg"
             />
           </div>
@@ -164,7 +164,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Li-Lian Ang"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/lilian.jpg"
             />
           </div>
@@ -208,7 +208,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Tarin Rickett"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/tarin.jpg"
             />
           </div>
@@ -252,7 +252,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Viorica Gheorghita"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/vio.jpg"
             />
           </div>
@@ -296,7 +296,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           >
             <img
               alt="Will Saunter"
-              class="card__image w-full h-full object-cover rounded-2xl team__card-image"
+              class="card__image size-full object-cover rounded-2xl team__card-image"
               src="/images/team/will.jpg"
             />
           </div>

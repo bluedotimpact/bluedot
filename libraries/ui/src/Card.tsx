@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({
     <div className={`card flex flex-col items-start ${className}`}>
       <div className="card__image-container w-[323px] h-[223px] mb-3">
         <img
-          className={`card__image w-full h-full object-cover rounded-2xl ${imageClassName}`}
+          className={`card__image size-full object-cover rounded-2xl ${imageClassName}`}
           src={imageSrc}
           alt={`${title}`}
         />
