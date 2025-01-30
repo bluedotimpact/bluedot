@@ -36,7 +36,7 @@ exports[`Footer > renders default as expected 1`] = `
       </form>
     </div>
     <footer
-      class="footer__main bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+      class="footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col"
     >
       <div
         class="footer__content flex flex-col mb-16"
@@ -172,7 +172,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/about"
                 >
                   About us
@@ -182,7 +182,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/support-us"
                 >
                   Support us
@@ -192,7 +192,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/careers"
                 >
                   Join us
@@ -202,7 +202,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/contact"
                 >
                   Contact us
@@ -225,7 +225,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/intro-to-tai/"
                 >
                   Intro to Transformative AI
@@ -235,7 +235,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/alignment-fast-track/"
                 >
                   AI Alignment Fast Track
@@ -245,7 +245,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/alignment/"
                 >
                   AI Alignment In-Depth
@@ -255,7 +255,7 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/governance/"
                 >
                   AI Governance In-Depth
@@ -275,7 +275,7 @@ exports[`Footer > renders default as expected 1`] = `
         2025
          
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://bluedot.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -284,7 +284,7 @@ exports[`Footer > renders default as expected 1`] = `
         </a>
          is primarily funded by 
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://www.openphilanthropy.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -293,7 +293,7 @@ exports[`Footer > renders default as expected 1`] = `
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
           rel="noopener noreferrer"
           target="_blank"
@@ -343,7 +343,7 @@ exports[`Footer > renders with optional args 1`] = `
       </form>
     </div>
     <footer
-      class="footer__main bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col"
+      class="footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col"
     >
       <div
         class="footer__content flex flex-col mb-16"
@@ -479,7 +479,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/about"
                 >
                   About us
@@ -489,7 +489,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/support-us"
                 >
                   Support us
@@ -499,7 +499,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/careers"
                 >
                   Join us
@@ -509,7 +509,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="/contact"
                 >
                   Contact us
@@ -532,7 +532,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/intro-to-tai/"
                 >
                   Intro to Transformative AI
@@ -542,7 +542,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/alignment-fast-track/"
                 >
                   AI Alignment Fast Track
@@ -552,7 +552,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/alignment/"
                 >
                   AI Alignment In-Depth
@@ -562,7 +562,7 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item"
               >
                 <a
-                  class="footer__link link-on-dark"
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                   href="https://aisafetyfundamentals.com/governance/"
                 >
                   AI Governance In-Depth
@@ -582,7 +582,7 @@ exports[`Footer > renders with optional args 1`] = `
         2025
          
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://bluedot.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -591,7 +591,7 @@ exports[`Footer > renders with optional args 1`] = `
         </a>
          is primarily funded by 
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://www.openphilanthropy.org/"
           rel="noopener noreferrer"
           target="_blank"
@@ -600,7 +600,7 @@ exports[`Footer > renders with optional args 1`] = `
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link link-on-dark underline"
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer underline"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
           rel="noopener noreferrer"
           target="_blank"
