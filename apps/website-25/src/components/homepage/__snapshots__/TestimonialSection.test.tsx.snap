@@ -30,7 +30,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             class="testimonial-section__profile flex items-center gap-4 mt-auto"
           >
             <div
-              class="testimonial-section__image-wrapper w-16 h-16 relative rounded-full overflow-hidden"
+              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
             >
               <img
                 alt="Kendrea Beers"
@@ -74,7 +74,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             class="testimonial-section__profile flex items-center gap-4 mt-auto"
           >
             <div
-              class="testimonial-section__image-wrapper w-16 h-16 relative rounded-full overflow-hidden"
+              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
             >
               <img
                 alt="Sarah Cogan"
@@ -118,7 +118,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             class="testimonial-section__profile flex items-center gap-4 mt-auto"
           >
             <div
-              class="testimonial-section__image-wrapper w-16 h-16 relative rounded-full overflow-hidden"
+              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
             >
               <img
                 alt="Matthew Bradbury"

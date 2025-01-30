@@ -13,4 +13,4 @@ describe('TestimonialSection', () => {
     const testimonialCards = getAllByRole('blockquote');
     expect(testimonialCards).toHaveLength(3);
   });
-}); 
+});
