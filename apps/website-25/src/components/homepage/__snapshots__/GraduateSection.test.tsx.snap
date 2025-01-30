@@ -19,9 +19,9 @@ exports[`GraduateSection > renders default as expected 1`] = `
             style="width: 32px; height: 32px;"
           >
             <img
-              alt="Person 1"
+              alt="Matthew"
               class="face-tiles__avatar-img size-full object-cover"
-              src="/images/face-tiles/facetile-1.png"
+              src="/images/graduates/matthew.png"
             />
           </div>
           <div
@@ -29,9 +29,9 @@ exports[`GraduateSection > renders default as expected 1`] = `
             style="width: 32px; height: 32px;"
           >
             <img
-              alt="Person 2"
+              alt="Sarah"
               class="face-tiles__avatar-img size-full object-cover"
-              src="/images/face-tiles/facetile-2.png"
+              src="/images/graduates/sarah.png"
             />
           </div>
           <div
@@ -39,9 +39,9 @@ exports[`GraduateSection > renders default as expected 1`] = `
             style="width: 32px; height: 32px;"
           >
             <img
-              alt="Person 3"
+              alt="Kendrea"
               class="face-tiles__avatar-img size-full object-cover"
-              src="/images/face-tiles/facetile-3.png"
+              src="/images/graduates/kendrea.png"
             />
           </div>
           <div
