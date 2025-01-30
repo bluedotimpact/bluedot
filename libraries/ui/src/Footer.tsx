@@ -4,7 +4,7 @@ import {
   FaXTwitter, FaYoutube, FaFacebook, FaInstagram, FaLinkedin,
 } from 'react-icons/fa6';
 import { Banner } from './Banner';
-import { newTabProps } from './utils';
+import { EXTERNAL_LINK_PROPS } from './utils';
 
 export type FooterProps = React.PropsWithChildren<{
   className?: string,
@@ -84,7 +84,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
         </div>
 
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...newTabProps(true)} className="footer__link link-on-dark underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...newTabProps(true)} className="footer__link link-on-dark underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...newTabProps(true)} className="footer__link link-on-dark underline">14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">14964572</a>).
         </p>
       </footer>
     </div>

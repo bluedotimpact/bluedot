@@ -197,7 +197,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Adam Jones
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   AI Safety
                 </p>
@@ -245,7 +245,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Dewi Erwan
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   CEO
                 </p>
@@ -293,7 +293,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Josh Landes
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   Community Manager
                 </p>
@@ -341,7 +341,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Li-Lian Ang
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   Product
                 </p>
@@ -389,7 +389,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Tarin Rickett
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   Engineering
                 </p>
@@ -437,7 +437,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Viorica Gheorghita
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   Product
                 </p>
@@ -485,7 +485,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   Will Saunter
                 </h2>
                 <p
-                  class="card__subtitle text-base text-black"
+                  class="card__subtitle text-base text-bluedot-black"
                 >
                   Co-founder
                 </p>

@@ -1,6 +1,4 @@
-export const newTabProps = (openInNewTab: boolean) => {
-  return {
-    target: openInNewTab ? '_blank' : undefined,
-    rel: openInNewTab ? 'noopener noreferrer' : undefined,
-  };
-};
+export const EXTERNAL_LINK_PROPS = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+} as const;

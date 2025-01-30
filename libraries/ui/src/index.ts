@@ -25,7 +25,7 @@ export { ValueCard } from './ValueCard';
 
 // Non-component exports
 
-export { newTabProps } from './utils';
+export { EXTERNAL_LINK_PROPS } from './utils';
 
 // Legacy Components
 

@@ -30,7 +30,7 @@ exports[`CourseSection > renders default as expected 1`] = `
         class="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1"
       >
         <a
-          class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/alignment-fast-track/"
           rel="noopener noreferrer"
           target="_blank"
@@ -56,7 +56,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                 Alignment Fast Track
               </h2>
               <p
-                class="card__subtitle text-base text-black"
+                class="card__subtitle text-base text-bluedot-black"
               >
                 AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
               </p>
@@ -65,21 +65,26 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__cta-row flex items-center justify-between mt-auto"
             >
               <p
-                class="card__cta-metadata text-left text-xs text-black"
+                class="card__cta-metadata text-left text-xs text-bluedot-black"
               >
                 5 days
               </p>
-              <span
-                class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-                role="status"
+              <button
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-button"
+                type="button"
               >
-                Apply now
-              </span>
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+              </button>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/governance-fast-track/"
           rel="noopener noreferrer"
           target="_blank"
@@ -105,7 +110,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                 Governance Fast-Track
               </h2>
               <p
-                class="card__subtitle text-base text-black"
+                class="card__subtitle text-base text-bluedot-black"
               >
                 Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
               </p>
@@ -114,21 +119,26 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__cta-row flex items-center justify-between mt-auto"
             >
               <p
-                class="card__cta-metadata text-left text-xs text-black"
+                class="card__cta-metadata text-left text-xs text-bluedot-black"
               >
                 5 days
               </p>
-              <span
-                class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-                role="status"
+              <button
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-button"
+                type="button"
               >
-                Apply now
-              </span>
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+              </button>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/alignment/"
           rel="noopener noreferrer"
           target="_blank"
@@ -154,7 +164,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                 AI Alignment
               </h2>
               <p
-                class="card__subtitle text-base text-black"
+                class="card__subtitle text-base text-bluedot-black"
               >
                 AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
               </p>
@@ -163,21 +173,26 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__cta-row flex items-center justify-between mt-auto"
             >
               <p
-                class="card__cta-metadata text-left text-xs text-black"
+                class="card__cta-metadata text-left text-xs text-bluedot-black"
               >
                 12 weeks
               </p>
-              <span
-                class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-                role="status"
+              <button
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-button"
+                type="button"
               >
-                Apply now
-              </span>
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+              </button>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/governance/"
           rel="noopener noreferrer"
           target="_blank"
@@ -203,7 +218,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                 AI Governance
               </h2>
               <p
-                class="card__subtitle text-base text-black"
+                class="card__subtitle text-base text-bluedot-black"
               >
                 The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
               </p>
@@ -212,16 +227,21 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__cta-row flex items-center justify-between mt-auto"
             >
               <p
-                class="card__cta-metadata text-left text-xs text-black"
+                class="card__cta-metadata text-left text-xs text-bluedot-black"
               >
                 12 weeks
               </p>
-              <span
-                class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-                role="status"
+              <button
+                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-button"
+                type="button"
               >
-                Apply now
-              </span>
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+              </button>
             </div>
           </div>
         </a>

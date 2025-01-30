@@ -34,7 +34,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
         5 days
       </p>
       <span
-        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black course-card__application-deadline"
+        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-bluedot-black course-card__application-deadline"
         role="status"
       >
         Apply now
@@ -47,7 +47,9 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <div
-    class="card flex flex-col items-start transition-transform duration-200 course-card container-lined p-5 max-w-[323px] hover:scale-[1.01]"
+    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+    rel="noopener noreferrer"
+    target="_blank"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -70,7 +72,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           Title
         </h2>
         <p
-          class="card__subtitle text-base text-black"
+          class="card__subtitle text-base text-bluedot-black"
         >
           Description
         </p>
@@ -79,30 +81,28 @@ exports[`CourseCard > renders default as expected 1`] = `
         class="card__cta-row flex items-center justify-between mt-auto"
       >
         <p
-          class="card__cta-metadata text-left text-xs text-black"
+          class="card__cta-metadata text-left text-xs text-bluedot-black"
         >
           5 days
         </p>
-        <span
-          class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-          role="status"
+        <button
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+          data-testid="cta-button"
+          type="button"
         >
-          Apply now
-        </span>
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+        </button>
       </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`CourseCard > renders with optional args 1`] = `
-<span
-  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-black card__cta_inert hover:bg-bluedot-lighter"
-  role="status"
->
-  Apply by Feb 1
-</span>
-`;
+exports[`CourseCard > renders with optional args 1`] = `null`;
 
 exports[`CourseCard > renders with optional args 2`] = `null`;
 
