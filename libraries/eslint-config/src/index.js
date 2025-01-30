@@ -54,6 +54,7 @@ const rules = {
   }],
   // Almost always a false positive on the <Link> component
   'jsx-a11y/anchor-is-valid': ['off'],
+  'tailwindcss/no-contradicting-classname': ['error'],
   'tailwindcss/no-unnecessary-arbitrary-value': ['error'],
 };
 
