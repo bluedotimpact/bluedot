@@ -20,6 +20,7 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
             dark: '#002199',
             darker: '#00114D',
             black: '#1E1E1E',
+            canvas: 'var(--bluedot-cream-normal)',
           },
           aisf: {
             lighter: '#E6B3FF',
@@ -36,7 +37,7 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
             darker: '#11430A',
           },
           cream: {
-            normal: '#FFFCF7',
+            normal: 'var(--bluedot-cream-normal)',
             dark: '#D9D6D2',
           },
           ...config.theme?.extend?.colors,
@@ -45,6 +46,10 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
           sans: 'Roobert, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
           serif: '"Reckless Neue", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
           ...config.theme?.extend?.fontFamily,
+        },
+        spacing: {
+          'max-width': '1440px',
+          ...config.theme?.extend?.spacing,
         },
       },
     },

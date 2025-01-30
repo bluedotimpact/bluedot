@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bluedot-cream-normal: #FFFCF7;
+}
+
 @font-face {
   font-family: "Reckless Neue";
   src: url("/fonts/RecklessNeue-Light.woff2") format("woff2");
@@ -58,4 +62,8 @@
 
 .container-lined {
   @apply border border-gray-300 rounded-xl;
+}
+.container-elevated {
+  /* RGBA of var(--bluedot-cream-normal) */
+  box-shadow: 0px 4px 20px 0px rgba(30, 30, 30, 0.1);
 }

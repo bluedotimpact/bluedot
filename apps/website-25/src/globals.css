@@ -9,7 +9,7 @@
     @apply text-bluedot-darker text-2xl font-extrabold;
   }
   a, .link {
-    @apply text-bluedot-black hover:text-bluedot-normal hover:cursor-pointer;
+    @apply text-bluedot-darker hover:text-bluedot-normal hover:cursor-pointer;
   }
   .link-on-dark {
     @apply text-white hover:text-bluedot-lighter hover:cursor-pointer;
