@@ -23,6 +23,10 @@ export { Tag } from './Tag';
 
 export { ValueCard } from './ValueCard';
 
+// Non-component exports
+
+export { EXTERNAL_LINK_PROPS } from './utils';
+
 // Legacy Components
 
 export { Box } from './legacy/Box';

@@ -4,6 +4,7 @@ import { CourseCard } from './CourseCard';
 
 describe('CourseCard', () => {
   const defaultProps = {
+    imageSrc: '/images/courses/course.jpg',
     title: 'Title',
     description: 'Description',
   };
@@ -31,9 +32,9 @@ describe('CourseCard', () => {
         imageSrc="/images/team/custom-size.jpg"
       />,
     );
-    const applicationDeadlineEl = container.querySelector('.course-card__application-deadline');
+    const applicationDeadlineEl = container.querySelector('.card__cta');
     expect(applicationDeadlineEl).toMatchSnapshot();
-    const courseLengthEl = container.querySelector('.course-card__metadata-item');
+    const courseLengthEl = container.querySelector('.card__cta-metadata');
     expect(courseLengthEl).toMatchSnapshot();
     const imgEl = container.querySelector('.course-card__image');
     expect(imgEl).toMatchSnapshot();
