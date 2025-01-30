@@ -6,6 +6,7 @@
     "postinstall": "npm run postinstall --workspaces --if-present",
     "start": "turbo run start",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
     "test": "turbo run test",
     "test:update": "turbo run test -- -u"

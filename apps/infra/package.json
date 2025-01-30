@@ -9,7 +9,8 @@
     "postinstall:create_passphrase_file": "touch passphrase.prod.txt",
     "deploy:prod": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi up --stack prod --yes",
     "config:secret": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi config set --secret",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@ediri/vultr": "2.20.1",
