@@ -21,14 +21,12 @@ export const Nav: React.FC<NavProps> = ({
 
   return (
     <nav className={clsx(
-      'nav fixed z-50 bg-white border',
-      'transition-all duration-300',
-      'w-[1400px] top-3 left-1/2 -translate-x-1/2',
-      'rounded-[36px]',
+      'nav fixed z-50 w-full bg-bluedot-canvas container-elevated',
+      'transition-all duration-300 left-1/2 -translate-x-1/2',
       className,
     )}
     >
-      <div className="flex items-center w-full h-20 px-8">
+      <div className="flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8">
         <a href="/" className="shrink-0 w-[200px]">
           {logo ? <img className="nav_logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
         </a>

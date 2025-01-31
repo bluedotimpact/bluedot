@@ -3,10 +3,10 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1400px] top-3 left-1/2 -translate-x-1/2 rounded-[36px]"
+    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="flex items-center w-full h-20 px-8"
+      class="flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
     >
       <a
         class="shrink-0 w-[200px]"
@@ -102,10 +102,10 @@ exports[`Nav > renders with courses 1`] = `
 exports[`Nav > renders with optional yield 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1400px] top-3 left-1/2 -translate-x-1/2 rounded-[36px]"
+    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="flex items-center w-full h-20 px-8"
+      class="flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
     >
       <a
         class="shrink-0 w-[200px]"
