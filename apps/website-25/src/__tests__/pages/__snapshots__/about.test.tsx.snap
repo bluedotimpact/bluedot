@@ -203,7 +203,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -251,7 +251,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -299,7 +299,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -347,7 +347,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -395,7 +395,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -443,7 +443,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -491,7 +491,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__footer-row flex items-center justify-between mt-auto w-full"
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"

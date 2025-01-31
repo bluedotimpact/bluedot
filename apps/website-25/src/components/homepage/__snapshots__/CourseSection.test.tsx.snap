@@ -146,10 +146,10 @@ exports[`CourseSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__footer-row flex items-center justify-between mt-auto w-full"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <div
-                class="card__footer-content text-left text-xs text-bluedot-black flex-1"
+                class="card__footer flex items-center justify-between w-full"
               >
                 <div
                   class="course-card__footer flex justify-between w-full"
@@ -218,10 +218,10 @@ exports[`CourseSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__footer-row flex items-center justify-between mt-auto w-full"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <div
-                class="card__footer-content text-left text-xs text-bluedot-black flex-1"
+                class="card__footer flex items-center justify-between w-full"
               >
                 <div
                   class="course-card__footer flex justify-between w-full"
@@ -290,10 +290,10 @@ exports[`CourseSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__footer-row flex items-center justify-between mt-auto w-full"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <div
-                class="card__footer-content text-left text-xs text-bluedot-black flex-1"
+                class="card__footer flex items-center justify-between w-full"
               >
                 <div
                   class="course-card__footer flex justify-between w-full"
@@ -362,10 +362,10 @@ exports[`CourseSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__footer-row flex items-center justify-between mt-auto w-full"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <div
-                class="card__footer-content text-left text-xs text-bluedot-black flex-1"
+                class="card__footer flex items-center justify-between w-full"
               >
                 <div
                   class="course-card__footer flex justify-between w-full"
