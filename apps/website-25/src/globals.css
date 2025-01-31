@@ -2,14 +2,23 @@
 @tailwind base;
 
 @layer base {
-  p {
-    @apply text-bluedot-black text-[16px] font-normal;
+  h1 {
+    @apply text-bluedot-darker font-sans text-5xl font-[700] leading-[1.25];
   }
-  h2 {
-    @apply text-bluedot-darker text-2xl font-extrabold;
+  h2, .title {
+    @apply text-bluedot-darker font-sans text-5xl font-[700] leading-[1.5];
+  }
+  h3, .subtitle {
+    @apply text-bluedot-darker font-sans text-2xl font-[650] leading-[1.5];
+  }
+  p, li, .body {
+    @apply text-bluedot-black font-sans text-sm font-[400] leading-[1.5];
+  }
+  .text-on-dark {
+    @apply text-white;
   }
   a, .link {
-    @apply text-bluedot-black hover:text-bluedot-normal hover:cursor-pointer;
+    @apply text-bluedot-darker hover:text-bluedot-normal hover:cursor-pointer;
   }
   .link-on-dark {
     @apply text-white hover:text-bluedot-lighter hover:cursor-pointer;

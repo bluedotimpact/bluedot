@@ -3,10 +3,10 @@
 exports[`HeroSection > renders default as expected 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
   >
     <div
-      class="hero-section__content max-w-[600px]"
+      class="hero-section__content max-w-[865px] mt-[82px] py-28"
     />
   </div>
 </div>
@@ -15,18 +15,18 @@ exports[`HeroSection > renders default as expected 1`] = `
 exports[`HeroSection > renders with optional args 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
   >
     <div
-      class="hero-section__content max-w-[600px]"
+      class="hero-section__content max-w-[865px] mt-[82px] py-28"
     >
       <h1
-        class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
+        class="hero-section__title text-on-dark text-center"
       >
         This is the title
       </h1>
       <h2
-        class="hero-section__subtitle text-bluedot-darker text-xl font-normal text-center"
+        class="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4"
       >
         This is the subtitle
       </h2>
@@ -38,10 +38,10 @@ exports[`HeroSection > renders with optional args 1`] = `
 exports[`HeroSection > renders with optional yield 1`] = `
 <div>
   <div
-    class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
   >
     <div
-      class="hero-section__content max-w-[600px]"
+      class="hero-section__content max-w-[865px] mt-[82px] py-28"
     >
       <p>
         This is the yield

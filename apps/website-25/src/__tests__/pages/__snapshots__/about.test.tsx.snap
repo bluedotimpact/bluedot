@@ -4,13 +4,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
     >
       <div
-        class="hero-section__content max-w-[600px]"
+        class="hero-section__content max-w-[865px] mt-[82px] py-28"
       >
         <h1
-          class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
+          class="hero-section__title text-on-dark text-center"
         >
           Our mission is to ensure humanity safely navigates the transition to transformative AI.
         </h1>
@@ -26,7 +26,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:w-full"
           >
             Why do we exist?
           </h2>
@@ -66,7 +66,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:w-full"
           >
             Our History
           </h2>
@@ -161,7 +161,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:w-full"
           >
             Our team
           </h2>
@@ -518,11 +518,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       <div
         class="join-us-cta__container container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
       >
-        <h2
+        <h3
           class="join-us-cta__title max-w-[890px] text-center mb-8"
         >
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
-        </h2>
+        </h3>
         <a
           class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
           data-testid="cta-link"

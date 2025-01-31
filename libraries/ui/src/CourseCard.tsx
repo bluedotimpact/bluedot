@@ -63,7 +63,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps & { footerRow: React.ReactNod
           <p className="course-card__featured-label uppercase font-[650] text-xs mb-3">
             Featured course
           </p>
-          <h2 className="course-card__title text-xxl font-semibold text-bluedot-darker mb-6">
+          <h2 className="course-card__title text-2xl font-semibold text-bluedot-darker mb-6">
             {title}
           </h2>
           <CTALinkOrButton

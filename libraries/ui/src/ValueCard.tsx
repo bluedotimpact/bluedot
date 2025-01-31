@@ -16,10 +16,10 @@ export const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description }
           className="value-card__icon"
         />
       </div>
-      <h3 className="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal">
+      <h3 className="value-card__title">
         {title}
       </h3>
-      <p className="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left">
+      <p className="value-card__description">
         {description}
       </p>
     </div>

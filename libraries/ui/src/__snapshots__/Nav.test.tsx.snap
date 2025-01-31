@@ -3,26 +3,26 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1400px] top-3 left-1/2 -translate-x-1/2 rounded-[36px]"
+    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="flex items-center w-full h-20 px-8"
+      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
     >
       <a
-        class="shrink-0 w-[200px]"
+        class="nav__logo-link shrink-0 w-[200px]"
         href="/"
       >
         <img
           alt="BlueDot Impact Logo"
-          class="nav_logo h-6 mr-auto"
+          class="nav__logo h-6 mr-auto"
           src="logo.png"
         />
       </a>
       <div
-        class="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative"
+        class="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative"
       >
         <button
-          class="flex items-center gap-2 hover:text-bluedot-normal"
+          class="nav__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
           type="button"
         >
           Explore
@@ -42,57 +42,57 @@ exports[`Nav > renders with courses 1`] = `
         </button>
       </div>
       <div
-        class="shrink-0 w-[200px] flex justify-end"
+        class="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-          data-rac=""
-          href="/signup"
+          class="nav__secondary-cta"
+          href="https://course.aisafetyfundamentals.com/alignment?show=login"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Get started for Free
+          Login
+        </a>
+        <a
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+          data-testid="cta-link"
+          href="https://aisafetyfundamentals.com/"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Get started for free
+          </span>
         </a>
       </div>
     </div>
     <div
-      class="overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0"
+      class="nav__dropdown overflow-hidden transition-[max-height,opacity] duration-300 flex justify-center items-center pb-7 max-h-0 opacity-0"
     >
       <div
-        class="flex justify-center pb-7"
+        class="nav__dropdown-content flex flex-col gap-[14px] w-max"
       >
-        <div
-          class="flex-grow flex justify-center items-center gap-[243px]"
+        <h2
+          class="nav__dropdown-title font-bold text-xl"
         >
-          <div
-            class="flex flex-col"
+          Our courses
+        </h2>
+        <a
+          class="nav__dropdown-link"
+          href="/course1"
+        >
+          Course 1
+        </a>
+        <a
+          class="nav__dropdown-link"
+          href="/course2"
+        >
+          <span
+            class="nav__new-badge text-bluedot-normal text-xl font-black pr-2"
           >
-            <h2
-              class="font-bold text-xl mb-4"
-            >
-              Our courses
-            </h2>
-            <div
-              class="flex flex-col gap-[14px]"
-            >
-              <a
-                class="hover:text-bluedot-normal flex items-center gap-2"
-                href="/course1"
-              >
-                Course 1
-              </a>
-              <a
-                class="hover:text-bluedot-normal flex items-center gap-2"
-                href="/course2"
-              >
-                <span
-                  class="text-bluedot-normal text-xl font-black"
-                >
-                  New!
-                </span>
-                Course 2
-              </a>
-            </div>
-          </div>
-        </div>
+            New!
+          </span>
+          Course 2
+        </a>
       </div>
     </div>
   </nav>
@@ -102,13 +102,13 @@ exports[`Nav > renders with courses 1`] = `
 exports[`Nav > renders with optional yield 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 bg-white border transition-all duration-300 w-[1400px] top-3 left-1/2 -translate-x-1/2 rounded-[36px]"
+    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="flex items-center w-full h-20 px-8"
+      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
     >
       <a
-        class="shrink-0 w-[200px]"
+        class="nav__logo-link shrink-0 w-[200px]"
         href="/"
       >
         <p
@@ -118,10 +118,10 @@ exports[`Nav > renders with optional yield 1`] = `
         </p>
       </a>
       <div
-        class="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative"
+        class="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative"
       >
         <button
-          class="flex items-center gap-2 hover:text-bluedot-normal"
+          class="nav__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
           type="button"
         >
           Explore
@@ -144,46 +144,46 @@ exports[`Nav > renders with optional yield 1`] = `
         </p>
       </div>
       <div
-        class="shrink-0 w-[200px] flex justify-end"
+        class="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-          data-rac=""
-          href="/signup"
+          class="nav__secondary-cta"
+          href="https://course.aisafetyfundamentals.com/alignment?show=login"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Get started for Free
+          Login
+        </a>
+        <a
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+          data-testid="cta-link"
+          href="https://aisafetyfundamentals.com/"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Get started for free
+          </span>
         </a>
       </div>
     </div>
     <div
-      class="overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0"
+      class="nav__dropdown overflow-hidden transition-[max-height,opacity] duration-300 flex justify-center items-center pb-7 max-h-0 opacity-0"
     >
       <div
-        class="flex justify-center pb-7"
+        class="nav__dropdown-content flex flex-col gap-[14px] w-max"
       >
-        <div
-          class="flex-grow flex justify-center items-center gap-[243px]"
+        <h2
+          class="nav__dropdown-title font-bold text-xl"
         >
-          <div
-            class="flex flex-col"
-          >
-            <h2
-              class="font-bold text-xl mb-4"
-            >
-              Our courses
-            </h2>
-            <div
-              class="flex flex-col gap-[14px]"
-            >
-              <a
-                class="hover:text-bluedot-normal flex items-center gap-2"
-                href="/course1"
-              >
-                Course 1
-              </a>
-            </div>
-          </div>
-        </div>
+          Our courses
+        </h2>
+        <a
+          class="nav__dropdown-link"
+          href="/course1"
+        >
+          Course 1
+        </a>
       </div>
     </div>
   </nav>

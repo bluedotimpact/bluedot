@@ -3,23 +3,21 @@ import React from 'react';
 import {
   FaXTwitter, FaYoutube, FaFacebook, FaInstagram, FaLinkedin,
 } from 'react-icons/fa6';
-import { Banner } from './Banner';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
 export type FooterProps = React.PropsWithChildren<{
+  // Optional
   className?: string,
   logo?: string
 }>;
 
 export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
+  // Footer links are styled differently than default `.link-on-dark`
+  const footerLinkClassNames = 'footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer';
+
   return (
     <div className="footer">
-      <Banner
-        title="Subscribe to our newsletter for the latest updates on AI safety careers"
-        showInput
-        showButton
-      />
-      <footer className={clsx('footer__main bg-bluedot-normal text-white min-h-[397] p-8 flex flex-col', className)}>
+      <footer className={clsx('footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col', className)}>
         <div className="footer__content flex flex-col mb-16">
           <nav className="footer__nav grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="footer__section footer__section--brand flex flex-col justify-between h-[180px]">
@@ -50,23 +48,23 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
 
             <div className="footer__section">
-              <h3 className="footer__heading text-base font-[650px] mb-4">BlueDot Impact</h3>
+              <p className="footer__heading text-on-dark font-[650] mb-4">BlueDot Impact</p>
               <ul className="footer__list space-y-2 mb-auto font-normal">
-                <li className="footer__item"><a href="/about" className="footer__link link-on-dark">About us</a></li>
-                <li className="footer__item"><a href="/support-us" className="footer__link link-on-dark">Support us</a></li>
-                <li className="footer__item"><a href="/careers" className="footer__link link-on-dark">Join us</a></li>
-                <li className="footer__item"><a href="/contact" className="footer__link link-on-dark">Contact us</a></li>
+                <li className="footer__item"><a href="/about" className={footerLinkClassNames}>About us</a></li>
+                <li className="footer__item"><a href="/support-us" className={footerLinkClassNames}>Support us</a></li>
+                <li className="footer__item"><a href="/careers" className={footerLinkClassNames}>Join us</a></li>
+                <li className="footer__item"><a href="/contact" className={footerLinkClassNames}>Contact us</a></li>
               </ul>
             </div>
 
             {/* // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai */}
             <div className="footer__section">
-              <h3 className="footer__heading text-base font-[650px] mb-4">Explore</h3>
+              <p className="footer__heading text-on-dark font-[650] mb-4">Explore</p>
               <ul className="footer__list space-y-2 text-base font-normal">
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/intro-to-tai/" className="footer__link link-on-dark">Intro to Transformative AI</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment-fast-track/" className="footer__link link-on-dark">AI Alignment Fast Track</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment/" className="footer__link link-on-dark">AI Alignment In-Depth</a></li>
-                <li className="footer__item"><a href="https://aisafetyfundamentals.com/governance/" className="footer__link link-on-dark">AI Governance In-Depth</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/intro-to-tai/" className={footerLinkClassNames}>Intro to Transformative AI</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment-fast-track/" className={footerLinkClassNames}>AI Alignment Fast Track</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment/" className={footerLinkClassNames}>AI Alignment In-Depth</a></li>
+                <li className="footer__item"><a href="https://aisafetyfundamentals.com/governance/" className={footerLinkClassNames}>AI Governance In-Depth</a></li>
               </ul>
             </div>
 
@@ -82,9 +80,8 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
           </nav>
         </div>
-
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link link-on-dark underline">14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>14964572</a>).
         </p>
       </footer>
     </div>

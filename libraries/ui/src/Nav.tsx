@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
+import { CTALinkOrButton } from './CTALinkOrButton';
+import { EXTERNAL_LINK_PROPS } from './utils';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string,
@@ -21,22 +23,20 @@ export const Nav: React.FC<NavProps> = ({
 
   return (
     <nav className={clsx(
-      'nav fixed z-50 bg-white border',
-      'transition-all duration-300',
-      'w-[1400px] top-3 left-1/2 -translate-x-1/2',
-      'rounded-[36px]',
+      'nav fixed z-50 w-full bg-bluedot-canvas container-elevated',
+      'transition-all duration-300 left-1/2 -translate-x-1/2',
       className,
     )}
     >
-      <div className="flex items-center w-full h-20 px-8">
-        <a href="/" className="shrink-0 w-[200px]">
-          {logo ? <img className="nav_logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
+      <div className="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8">
+        <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+          {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
         </a>
-        <div className="nav_links-container flex flex-grow justify-center items-center gap-[36px] relative">
+        <div className="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative">
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-2 hover:text-bluedot-normal"
+            className="nav__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
           >
             Explore
             <svg
@@ -50,37 +50,31 @@ export const Nav: React.FC<NavProps> = ({
           </button>
           {children}
         </div>
-        <div className="shrink-0 w-[200px] flex justify-end">
-          <NavButton.CTA href="/signup">Get started for Free</NavButton.CTA>
+        <div className="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]">
+          <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Login</a>
+          <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
         </div>
       </div>
 
       <div className={clsx(
-        'overflow-hidden transition-[max-height,opacity] duration-300',
+        'nav__dropdown overflow-hidden transition-[max-height,opacity] duration-300 flex justify-center items-center pb-7',
         isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
       )}
       >
-        <div className="flex justify-center pb-7">
-          <div className="flex-grow flex justify-center items-center gap-[243px]">
-            <div className="flex flex-col">
-              <h2 className="font-bold text-xl mb-4">Our courses</h2>
-              <div className="flex flex-col gap-[14px]">
-                {courses?.map((course) => (
-                  <a
-                    key={course.href}
-                    href={course.href}
-                    className="hover:text-bluedot-normal flex items-center gap-2"
-                    // TODO: 01/27 Update this to be in global styles when hover styles are confirmed
-                  >
-                    {course.isNew && (
-                      <span className="text-bluedot-normal text-xl font-black">New!</span>
-                    )}
-                    {course.title}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="nav__dropdown-content flex flex-col gap-[14px] w-max">
+          <h2 className="nav__dropdown-title font-bold text-xl">Our courses</h2>
+          {courses?.map((course) => (
+            <a
+              key={course.href}
+              href={course.href}
+              className="nav__dropdown-link"
+            >
+              {course.isNew && (
+                <span className="nav__new-badge text-bluedot-normal text-xl font-black pr-2">New!</span>
+              )}
+              {course.title}
+            </a>
+          ))}
         </div>
       </div>
     </nav>
