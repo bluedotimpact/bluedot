@@ -50,7 +50,7 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
         spacing: {
           'max-width': '1440px',
           'min-width': '388px',
-          'gutter': '16px',
+          gutter: '16px',
           'gutter-sm': '8px',
           ...config.theme?.extend?.spacing,
         },
