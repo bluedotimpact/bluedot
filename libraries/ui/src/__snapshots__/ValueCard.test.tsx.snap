@@ -15,12 +15,12 @@ exports[`ValueCard > renders default as expected 1`] = `
       />
     </div>
     <h3
-      class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+      class="value-card__title"
     >
       Test Title
     </h3>
     <p
-      class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+      class="value-card__description"
     >
       Test description
     </p>
@@ -43,12 +43,12 @@ exports[`ValueCard > renders with all props correctly 1`] = `
       />
     </div>
     <h3
-      class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+      class="value-card__title"
     >
       Custom Title
     </h3>
     <p
-      class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+      class="value-card__description"
     >
       Custom description text that is longer
     </p>

@@ -8,11 +8,11 @@ exports[`JoinUsCta > renders default as expected 1`] = `
     <div
       class="join-us-cta__container container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
     >
-      <h2
+      <h3
         class="join-us-cta__title max-w-[890px] text-center mb-8"
       >
         Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
-      </h2>
+      </h3>
       <a
         class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
         data-testid="cta-link"

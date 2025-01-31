@@ -54,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
 
             <div className="footer__section">
-              <h3 className="footer__heading text-base font-[650px] mb-4">BlueDot Impact</h3>
+              <p className="footer__heading text-on-dark font-[650] mb-4">BlueDot Impact</p>
               <ul className="footer__list space-y-2 mb-auto font-normal">
                 <li className="footer__item"><a href="/about" className={footerLinkClassNames}>About us</a></li>
                 <li className="footer__item"><a href="/support-us" className={footerLinkClassNames}>Support us</a></li>
@@ -65,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
             {/* // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai */}
             <div className="footer__section">
-              <h3 className="footer__heading text-base font-[650px] mb-4">Explore</h3>
+              <p className="footer__heading text-on-dark font-[650] mb-4">Explore</p>
               <ul className="footer__list space-y-2 text-base font-normal">
                 <li className="footer__item"><a href="https://aisafetyfundamentals.com/intro-to-tai/" className={footerLinkClassNames}>Intro to Transformative AI</a></li>
                 <li className="footer__item"><a href="https://aisafetyfundamentals.com/alignment-fast-track/" className={footerLinkClassNames}>AI Alignment Fast Track</a></li>

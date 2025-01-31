@@ -4,13 +4,13 @@ exports[`CareersPage > should render the error message correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-[radial-gradient(circle_at_center,#6687FF_0%,white_100%)] flex flex-row justify-center items-center w-full min-h-[570px]"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
     >
       <div
-        class="hero-section__content max-w-[600px]"
+        class="hero-section__content max-w-[865px] mt-[82px] py-28"
       >
         <h1
-          class="hero-section__title text-bluedot-darker text-[48px] text-center mb-4 font-serif font-extrabold leading-none"
+          class="hero-section__title text-on-dark text-center"
         >
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h1>
@@ -26,7 +26,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
           >
             Our culture
           </h2>
@@ -66,7 +66,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
           >
             Our values
           </h2>
@@ -92,12 +92,12 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           />
         </div>
         <h3
-          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+          class="value-card__title"
         >
           Think hard, act fast, fail faster
         </h3>
         <p
-          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+          class="value-card__description"
         >
           We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
         </p>
@@ -115,12 +115,12 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           />
         </div>
         <h3
-          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+          class="value-card__title"
         >
           Care personally, challenge directly
         </h3>
         <p
-          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+          class="value-card__description"
         >
           We care about our team and our community, and we hold everyone to high standards.
         </p>
@@ -138,12 +138,12 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           />
         </div>
         <h3
-          class="value-card__title font-reckless text-2xl font-[450] leading-[26.9px] text-left text-bluedot-normal"
+          class="value-card__title"
         >
           Obsessed with empowering problem-solvers
         </h3>
         <p
-          class="value-card__description font-roobert text-base font-normal leading-[20.22px] text-left"
+          class="value-card__description"
         >
           We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
         </p>
@@ -159,7 +159,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="section__content flex-1"
         >
           <h2
-            class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+            class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
           >
             Careers at BlueDot Impact
           </h2>
