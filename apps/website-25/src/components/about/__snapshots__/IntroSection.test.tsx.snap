@@ -13,7 +13,9 @@ exports[`IntroSection > renders default as expected 1`] = `
       >
         <h2
           class="section__title mb-4 relative after:w-full"
-        />
+        >
+          Hello, World
+        </h2>
       </div>
     </div>
     <div

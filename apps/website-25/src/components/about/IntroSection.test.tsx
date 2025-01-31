@@ -4,7 +4,7 @@ import IntroSection from './IntroSection';
 
 describe('IntroSection', () => {
   test('renders default as expected', () => {
-    const { container } = render(<IntroSection />);
+    const { container } = render(<IntroSection title="Hello, World" />);
     expect(container).toMatchSnapshot();
   });
 });
