@@ -14,6 +14,12 @@
   p, li, .body {
     @apply text-bluedot-black font-sans text-sm font-[400] leading-[1.5];
   }
+  ul {
+    @apply list-inside list-disc;
+  }
+  ol {
+    @apply list-decimal;
+  }
   .text-on-dark {
     @apply text-white;
   }
