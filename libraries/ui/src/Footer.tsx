@@ -18,11 +18,6 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
   return (
     <div className="footer">
-      <Banner
-        title="Subscribe to our newsletter for the latest updates on AI safety careers"
-        showInput
-        showButton
-      />
       <footer className={clsx('footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col', className)}>
         <div className="footer__content flex flex-col mb-16">
           <nav className="footer__nav grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
