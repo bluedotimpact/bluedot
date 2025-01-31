@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Nav } from './Nav';
+import imgSrc from '../public/BlueDot_Impact_Logo.svg';
 
 const meta = {
   title: 'ui/Nav',
@@ -28,7 +29,7 @@ export const Default: Story = {
 
 export const Customized: Story = {
   args: {
-    logo: 'https://39669.cdn.cke-cs.com/cgyAlfpLFBBiEjoXacnz/images/be262dc1ef80a786dbc507268d72f22824557f1b418c5bb0.png',
+    logo: imgSrc,
     children: [
       <><a href="#">Support Us</a><a href="#">About</a><a href="#">Join us</a><a href="#">Blog</a></>,
     ],
