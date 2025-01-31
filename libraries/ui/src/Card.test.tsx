@@ -42,7 +42,7 @@ describe('Card', () => {
 
   test('does not include ctaMetadata unless given', () => {
     const { container } = render(<Card {...defaultProps} />);
-    const ctaMetadataElement = container.querySelector('.card__footer-content');
+    const ctaMetadataElement = container.querySelector('.card__footer');
     expect(ctaMetadataElement).toBeNull();
   });
 
@@ -53,7 +53,7 @@ describe('Card', () => {
         footerContent="Some metadata"
       />,
     );
-    const ctaMetadataElement = container.querySelector('.card__footer-content');
+    const ctaMetadataElement = container.querySelector('.card__footer');
     expect(ctaMetadataElement).not.toBeNull();
   });
 });

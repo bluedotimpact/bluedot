@@ -116,10 +116,10 @@ exports[`CourseCard > renders default as expected 1`] = `
         </p>
       </div>
       <div
-        class="card__footer-row flex items-center justify-between mt-auto w-full"
+        class="card__bottom-section mt-auto flex flex-col gap-4"
       >
         <div
-          class="card__footer-content text-left text-xs text-bluedot-black flex-1"
+          class="card__footer flex items-center justify-between w-full"
         >
           <div
             class="course-card__footer flex justify-between w-full"
@@ -159,84 +159,14 @@ exports[`CourseCard > renders default as expected 1`] = `
 `;
 
 exports[`CourseCard > renders with optional args 1`] = `
-<div
-  class="card__footer-row flex items-center justify-between mt-auto w-full"
+<span
+  class="course-card__length font-medium"
 >
-  <div
-    class="card__footer-content text-left text-xs text-bluedot-black flex-1"
-  >
-    <div
-      class="course-card__footer flex justify-between w-full"
-    >
-      <p
-        class="course-card__footer-left text-left text-xs text-bluedot-black"
-      >
-        <span
-          class="course-card__rating flex gap-[3px] items-center font-[650]"
-        >
-          5.0
-           
-          <img
-            alt="★"
-            class="course-card__star-icon size-[10px]"
-            src="/icons/star.svg"
-          />
-        </span>
-        <span
-          class="course-card__length font-medium"
-        >
-          12 weeks
-        </span>
-      </p>
-      <span
-        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-        role="status"
-      >
-        Self-paced
-      </span>
-    </div>
-  </div>
-</div>
+  12 weeks
+</span>
 `;
 
 exports[`CourseCard > renders with optional args 2`] = `
-<div
-  class="card__footer-content text-left text-xs text-bluedot-black flex-1"
->
-  <div
-    class="course-card__footer flex justify-between w-full"
-  >
-    <p
-      class="course-card__footer-left text-left text-xs text-bluedot-black"
-    >
-      <span
-        class="course-card__rating flex gap-[3px] items-center font-[650]"
-      >
-        5.0
-         
-        <img
-          alt="★"
-          class="course-card__star-icon size-[10px]"
-          src="/icons/star.svg"
-        />
-      </span>
-      <span
-        class="course-card__length font-medium"
-      >
-        12 weeks
-      </span>
-    </p>
-    <span
-      class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-      role="status"
-    >
-      Self-paced
-    </span>
-  </div>
-</div>
-`;
-
-exports[`CourseCard > renders with optional args 3`] = `
 <img
   alt="Title"
   class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"

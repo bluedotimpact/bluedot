@@ -3,18 +3,20 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
-interface CardProps {
+type CardProps = {
   imageSrc: string;
   title: string;
   subtitle?: string;
   footerContent?: React.ReactNode;
-  ctaText: string;
   ctaUrl?: string;
   isEntireCardClickable?: boolean;
   isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
-}
+} & (
+  | { ctaText: string; isEntireCardClickable?: false }
+  | { ctaText?: string; isEntireCardClickable: true }
+);
 
 export const Card: React.FC<CardProps> = ({
   imageSrc,
@@ -54,13 +56,7 @@ export const Card: React.FC<CardProps> = ({
           <h2 className="card__title text-2xl font-[650] text-bluedot-darker mb-1">{title}</h2>
           {subtitle && (<p className="card__subtitle text-sm text-bluedot-black">{subtitle}</p>)}
         </div>
-
-        <div className="card__footer-row flex items-center justify-between mt-auto w-full">
-          {footerContent && (
-            <div className="card__footer-content text-left text-xs text-bluedot-black flex-1">
-              {footerContent}
-            </div>
-          )}
+        <div className="card__bottom-section mt-auto flex flex-col gap-4">
           {!isEntireCardClickable && (
             <CTALinkOrButton
               className="card__cta"
@@ -71,6 +67,11 @@ export const Card: React.FC<CardProps> = ({
             >
               {ctaText}
             </CTALinkOrButton>
+          )}
+          {footerContent && (
+            <div className="card__footer flex items-center justify-between w-full">
+              {footerContent}
+            </div>
           )}
         </div>
       </div>

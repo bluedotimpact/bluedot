@@ -41,7 +41,7 @@ export const Banner: React.FC<BannerProps> = ({
           />
         )}
         {showButton && (
-          <CTALinkOrButton className="banner__submit-btn rounded-lg" type="submit">
+          <CTALinkOrButton className="banner__submit-btn" type="submit">
             {buttonText}
           </CTALinkOrButton>
         )}
