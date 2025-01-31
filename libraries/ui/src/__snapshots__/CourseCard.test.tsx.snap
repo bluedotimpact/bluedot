@@ -2,59 +2,99 @@
 
 exports[`CourseCard > renders Featured as expected 1`] = `
 <div>
-  <div
-    class="course-card--featured container-lined px-8 pb-4 max-w-[646px]"
+  <a
+    class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] container-lined p-6 max-w-[656px]"
+    rel="noopener noreferrer"
+    target="_blank"
   >
-    <p
-      class="course-card__featured-label uppercase font-semibold"
-    >
-      Featured course
-    </p>
-    <img
-      alt="Course Card Placeholder"
-      class="course-card__image w-full h-[165px] object-cover rounded-lg"
-      src="/images/courses/course.jpg"
-    />
-    <h3
-      class="course-card__title text-bluedot-normal text-[24px] mb-4 font-serif font-extrabold leading-none"
-    >
-      Title
-    </h3>
-    <p
-      class="course-card__description text-bluedot-darker text-md mb-4 line-clamp-6"
-    >
-      Description
-    </p>
     <div
-      class="course-card__metadata flex justify-between items-center"
+      class="course-card__content flex gap-4"
+    >
+      <div
+        class="course-card__text"
+      >
+        <p
+          class="course-card__featured-label uppercase font-[650] text-xs mb-3"
+        >
+          Featured course
+        </p>
+        <h2
+          class="course-card__title text-2xl font-semibold text-bluedot-darker mb-6"
+        >
+          Title
+        </h2>
+        <button
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+          data-testid="cta-button"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Apply now
+          </span>
+        </button>
+        <p
+          class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+        >
+          Description
+        </p>
+      </div>
+      <div
+        class="course-card__image-container flex-shrink-0 max-w-[60%] mb-6"
+      >
+        <img
+          alt="Title"
+          class="course-card__image w-[319px] h-full object-cover"
+          src="/images/courses/course.jpg"
+        />
+      </div>
+    </div>
+    <div
+      class="course-card__footer flex justify-between w-full"
     >
       <p
-        class="course-card__metadata-item text-left text-xs"
+        class="course-card__footer-left text-left text-xs text-bluedot-black"
       >
-        5 days
+        <span
+          class="course-card__rating flex gap-[3px] items-center font-[650]"
+        >
+          5.0
+           
+          <img
+            alt="★"
+            class="course-card__star-icon size-[10px]"
+            src="/icons/star.svg"
+          />
+        </span>
+        <span
+          class="course-card__length font-medium"
+        >
+          5 days
+        </span>
       </p>
       <span
-        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-bluedot-black course-card__application-deadline"
+        class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
         role="status"
       >
-        Apply now
+        Crash course
       </span>
     </div>
-  </div>
+  </a>
 </div>
 `;
 
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
-  <div
-    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+  <a
+    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
     >
       <img
         alt="Title"
-        class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+        class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
         src="/images/courses/course.jpg"
       />
     </div>
@@ -65,67 +105,71 @@ exports[`CourseCard > renders default as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
         >
           Title
         </h2>
         <p
-          class="card__subtitle text-base text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black"
         >
           Description
         </p>
       </div>
       <div
-        class="card__cta-row flex items-center justify-between mt-auto"
+        class="card__bottom-section mt-auto flex flex-col gap-4"
       >
-        <p
-          class="card__cta-metadata text-left text-xs text-bluedot-black"
+        <div
+          class="card__footer flex items-center justify-between w-full"
         >
-          5 days
-        </p>
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
+          <div
+            class="course-card__footer flex justify-between w-full"
           >
-            Apply now
-          </span>
-        </button>
+            <p
+              class="course-card__footer-left text-left text-xs text-bluedot-black"
+            >
+              <span
+                class="course-card__rating flex gap-[3px] items-center font-[650]"
+              >
+                5.0
+                 
+                <img
+                  alt="★"
+                  class="course-card__star-icon size-[10px]"
+                  src="/icons/star.svg"
+                />
+              </span>
+              <span
+                class="course-card__length font-medium"
+              >
+                5 days
+              </span>
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+              role="status"
+            >
+              Crash course
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </a>
 </div>
 `;
 
 exports[`CourseCard > renders with optional args 1`] = `
-<button
-  class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-  data-testid="cta-button"
-  type="button"
+<span
+  class="course-card__length font-medium"
 >
-  <span
-    class="cta-button__text"
-  >
-    Apply by Feb 1
-  </span>
-</button>
+  12 weeks
+</span>
 `;
 
 exports[`CourseCard > renders with optional args 2`] = `
-<p
-  class="card__cta-metadata text-left text-xs text-bluedot-black"
->
-  12 weeks
-</p>
-`;
-
-exports[`CourseCard > renders with optional args 3`] = `
 <img
   alt="Title"
-  class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+  class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
   src="/images/team/custom-size.jpg"
 />
 `;

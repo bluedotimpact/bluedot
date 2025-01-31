@@ -32,9 +32,7 @@ describe('CourseCard', () => {
         imageSrc="/images/team/custom-size.jpg"
       />,
     );
-    const applicationDeadlineEl = container.querySelector('.card__cta');
-    expect(applicationDeadlineEl).toMatchSnapshot();
-    const courseLengthEl = container.querySelector('.card__cta-metadata');
+    const courseLengthEl = container.querySelector('.course-card__length');
     expect(courseLengthEl).toMatchSnapshot();
     const imgEl = container.querySelector('.course-card__image');
     expect(imgEl).toMatchSnapshot();

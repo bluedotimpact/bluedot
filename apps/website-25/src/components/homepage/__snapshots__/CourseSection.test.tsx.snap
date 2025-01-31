@@ -27,10 +27,94 @@ exports[`CourseSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
+        class="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1 mb-4"
+      >
+        <a
+          class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] container-lined p-6 max-w-[656px]"
+          href="https://aisafetyfundamentals.com/intro-to-tai/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <div
+            class="course-card__content flex gap-4"
+          >
+            <div
+              class="course-card__text"
+            >
+              <p
+                class="course-card__featured-label uppercase font-[650] text-xs mb-3"
+              >
+                Featured course
+              </p>
+              <h2
+                class="course-card__title text-2xl font-semibold text-bluedot-darker mb-6"
+              >
+                AI Safety: Intro to Transformative AI
+              </h2>
+              <button
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+                data-testid="cta-button"
+                type="button"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+              </button>
+              <p
+                class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+              >
+                The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.
+              </p>
+            </div>
+            <div
+              class="course-card__image-container flex-shrink-0 max-w-[60%] mb-6"
+            >
+              <img
+                alt="AI Safety: Intro to Transformative AI"
+                class="course-card__image w-[319px] h-full object-cover"
+                src="/images/alignment-course.png"
+              />
+            </div>
+          </div>
+          <div
+            class="course-card__footer flex justify-between w-full"
+          >
+            <p
+              class="course-card__footer-left text-left text-xs text-bluedot-black"
+            >
+              <span
+                class="course-card__rating flex gap-[3px] items-center font-[650]"
+              >
+                5.0
+                 
+                <img
+                  alt="★"
+                  class="course-card__star-icon size-[10px]"
+                  src="/icons/star.svg"
+                />
+              </span>
+              <span
+                class="course-card__length font-medium"
+              >
+                5 days
+              </span>
+            </p>
+            <span
+              class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+              role="status"
+            >
+              Crash course
+            </span>
+          </div>
+        </a>
+      </div>
+      <div
         class="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1"
       >
         <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/alignment-fast-track/"
           rel="noopener noreferrer"
           target="_blank"
@@ -40,7 +124,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           >
             <img
               alt="Alignment Fast Track"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
               src="/images/intro-course.png"
             />
           </div>
@@ -51,40 +135,58 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Alignment Fast Track
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
-              <p
-                class="card__cta-metadata text-left text-xs text-bluedot-black"
+              <div
+                class="card__footer flex items-center justify-between w-full"
               >
-                5 days
-              </p>
-              <button
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-button"
-                type="button"
-              >
-                <span
-                  class="cta-button__text"
+                <div
+                  class="course-card__footer flex justify-between w-full"
                 >
-                  Apply now
-                </span>
-              </button>
+                  <p
+                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  >
+                    <span
+                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    >
+                      5.0
+                       
+                      <img
+                        alt="★"
+                        class="course-card__star-icon size-[10px]"
+                        src="/icons/star.svg"
+                      />
+                    </span>
+                    <span
+                      class="course-card__length font-medium"
+                    >
+                      5 days
+                    </span>
+                  </p>
+                  <span
+                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                    role="status"
+                  >
+                    Crash course
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/governance-fast-track/"
           rel="noopener noreferrer"
           target="_blank"
@@ -94,7 +196,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           >
             <img
               alt="Governance Fast-Track"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
               src="/images/governance-course.jpg"
             />
           </div>
@@ -105,40 +207,58 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Governance Fast-Track
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
-              <p
-                class="card__cta-metadata text-left text-xs text-bluedot-black"
+              <div
+                class="card__footer flex items-center justify-between w-full"
               >
-                5 days
-              </p>
-              <button
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-button"
-                type="button"
-              >
-                <span
-                  class="cta-button__text"
+                <div
+                  class="course-card__footer flex justify-between w-full"
                 >
-                  Apply now
-                </span>
-              </button>
+                  <p
+                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  >
+                    <span
+                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    >
+                      5.0
+                       
+                      <img
+                        alt="★"
+                        class="course-card__star-icon size-[10px]"
+                        src="/icons/star.svg"
+                      />
+                    </span>
+                    <span
+                      class="course-card__length font-medium"
+                    >
+                      5 days
+                    </span>
+                  </p>
+                  <span
+                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                    role="status"
+                  >
+                    Crash course
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/alignment/"
           rel="noopener noreferrer"
           target="_blank"
@@ -148,7 +268,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           >
             <img
               alt="AI Alignment"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
               src="/images/alignment-course.png"
             />
           </div>
@@ -159,40 +279,58 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 AI Alignment
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
-              <p
-                class="card__cta-metadata text-left text-xs text-bluedot-black"
+              <div
+                class="card__footer flex items-center justify-between w-full"
               >
-                12 weeks
-              </p>
-              <button
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-button"
-                type="button"
-              >
-                <span
-                  class="cta-button__text"
+                <div
+                  class="course-card__footer flex justify-between w-full"
                 >
-                  Apply now
-                </span>
-              </button>
+                  <p
+                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  >
+                    <span
+                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    >
+                      5.0
+                       
+                      <img
+                        alt="★"
+                        class="course-card__star-icon size-[10px]"
+                        src="/icons/star.svg"
+                      />
+                    </span>
+                    <span
+                      class="course-card__length font-medium"
+                    >
+                      12 weeks
+                    </span>
+                  </p>
+                  <span
+                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                    role="status"
+                  >
+                    In-depth course
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card container-lined p-5 max-w-[323px]"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
           href="https://aisafetyfundamentals.com/governance/"
           rel="noopener noreferrer"
           target="_blank"
@@ -202,7 +340,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           >
             <img
               alt="AI Governance"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-xl"
+              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
               src="/images/governance-course.jpg"
             />
           </div>
@@ -213,35 +351,53 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 AI Governance
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
-              <p
-                class="card__cta-metadata text-left text-xs text-bluedot-black"
+              <div
+                class="card__footer flex items-center justify-between w-full"
               >
-                12 weeks
-              </p>
-              <button
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-button"
-                type="button"
-              >
-                <span
-                  class="cta-button__text"
+                <div
+                  class="course-card__footer flex justify-between w-full"
                 >
-                  Apply now
-                </span>
-              </button>
+                  <p
+                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  >
+                    <span
+                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    >
+                      5.0
+                       
+                      <img
+                        alt="★"
+                        class="course-card__star-icon size-[10px]"
+                        src="/icons/star.svg"
+                      />
+                    </span>
+                    <span
+                      class="course-card__length font-medium"
+                    >
+                      12 weeks
+                    </span>
+                  </p>
+                  <span
+                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                    role="status"
+                  >
+                    In-depth course
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </a>

@@ -43,21 +43,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Adam Jones
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 AI Safety
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/domdomegg/"
                 rel="noopener noreferrer"
@@ -91,21 +91,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Dewi Erwan
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 CEO
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/dewierwan/"
                 rel="noopener noreferrer"
@@ -139,21 +139,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Josh Landes
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Community Manager
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/josh-landes12"
                 rel="noopener noreferrer"
@@ -187,21 +187,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Li-Lian Ang
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Product
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/anglilian"
                 rel="noopener noreferrer"
@@ -235,21 +235,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Tarin Rickett
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Engineering
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/tarinrickett/"
                 rel="noopener noreferrer"
@@ -283,21 +283,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Viorica Gheorghita
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Product
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/vioricagheorghita/"
                 rel="noopener noreferrer"
@@ -331,21 +331,21 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
               >
                 Will Saunter
               </h2>
               <p
-                class="card__subtitle text-base text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black"
               >
                 Co-founder
               </p>
             </div>
             <div
-              class="card__cta-row flex items-center justify-between mt-auto"
+              class="card__bottom-section mt-auto flex flex-col gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://linkedin.com/in/will-saunter"
                 rel="noopener noreferrer"

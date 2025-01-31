@@ -24,3 +24,14 @@ export const Default: Story = {
     ctaUrl: 'https://aisafetyfundamentals.com/alignment-fast-track/',
   },
 };
+
+export const Featured: Story = {
+  args: {
+    title: 'AI Safety: Intro to Transformative AI',
+    description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.',
+    courseType: 'Crash course',
+    imageSrc: '/images/alignment-course.png',
+    ctaUrl: 'https://aisafetyfundamentals.com/intro-to-tai/',
+    cardType: 'Featured',
+  },
+};

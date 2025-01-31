@@ -3,24 +3,26 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
-interface CardProps {
+type CardProps = {
   imageSrc: string;
   title: string;
   subtitle?: string;
-  ctaMetadata?: string;
-  ctaText: string;
+  footerContent?: React.ReactNode;
   ctaUrl?: string;
   isEntireCardClickable?: boolean;
   isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
-}
+} & (
+  | { ctaText: string; isEntireCardClickable?: false }
+  | { ctaText?: string; isEntireCardClickable: true }
+);
 
 export const Card: React.FC<CardProps> = ({
   imageSrc,
   title,
   subtitle,
-  ctaMetadata,
+  footerContent,
   ctaUrl,
   ctaText,
   isEntireCardClickable = false,
@@ -28,7 +30,7 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   imageClassName = '',
 }) => {
-  const Wrapper = isEntireCardClickable && ctaUrl ? 'a' : 'div';
+  const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
     'card flex flex-col items-start transition-transform duration-200',
     isEntireCardClickable && 'hover:scale-[1.01]',
@@ -51,25 +53,26 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <h2 className="card__title text-2xl font-semibold text-bluedot-darker mb-1">{title}</h2>
-          {subtitle && (<p className="card__subtitle text-base text-bluedot-black">{subtitle}</p>)}
+          <h2 className="card__title text-2xl font-[650] text-bluedot-darker mb-1">{title}</h2>
+          {subtitle && (<p className="card__subtitle text-sm text-bluedot-black">{subtitle}</p>)}
         </div>
-
-        <div className="card__cta-row flex items-center justify-between mt-auto">
-          {ctaMetadata && (
-            <p className="card__cta-metadata text-left text-xs text-bluedot-black">
-              {ctaMetadata}
-            </p>
+        <div className="card__bottom-section mt-auto flex flex-col gap-4">
+          {!isEntireCardClickable && (
+            <CTALinkOrButton
+              className="card__cta"
+              url={ctaUrl}
+              variant="secondary"
+              withChevron={false}
+              isExternalUrl={isExternalUrl}
+            >
+              {ctaText}
+            </CTALinkOrButton>
           )}
-          <CTALinkOrButton
-            className="card__cta"
-            url={!isEntireCardClickable ? ctaUrl : undefined}
-            variant="secondary"
-            withChevron={false}
-            isExternalUrl={isExternalUrl}
-          >
-            {ctaText}
-          </CTALinkOrButton>
+          {footerContent && (
+            <div className="card__footer flex items-center justify-between w-full">
+              {footerContent}
+            </div>
+          )}
         </div>
       </div>
     </Wrapper>
