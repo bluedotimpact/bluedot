@@ -1,7 +1,7 @@
 import {
-    EXTERNAL_LINK_PROPS,
-    HeroSection,
-    Section,
+  EXTERNAL_LINK_PROPS,
+  HeroSection,
+  Section,
 } from '@bluedot/ui';
 
 const PrivacyPolicyPage = () => {
@@ -99,7 +99,8 @@ const PrivacyPolicyPage = () => {
         <p className="my-2">We'll keep your personal information while we need it for the purposes for which we collected it, to comply with our legal and regulatory obligations, to exercise our legal rights, and to protect ourselves from legal claims.</p>
         <p className="my-2">Afterwards, we'll delete or anonymize it so that nobody can identify you from the information.</p>
         <h3 className="my-4">How do we secure your personal information?</h3>
-        <p className="my-2">Organizational and technical measures protect your personal information. We've taken steps to secure our IT systems and have procedures to handle suspected data breaches. We'll notify you of any data breaches if required by law.</p><p className="my-2">Our security measures include:</p><ul>
+        <p className="my-2">Organizational and technical measures protect your personal information. We've taken steps to secure our IT systems and have procedures to handle suspected data breaches. We'll notify you of any data breaches if required by law.</p><p className="my-2">Our security measures include:</p>
+        <ul>
           <li>providing staff relevant security training;</li>
           <li>encrypting information in transit and at rest;</li>
           <li>using single sign-on to access most internal services;</li>
@@ -113,12 +114,15 @@ const PrivacyPolicyPage = () => {
       </Section>
       <Section title="What cookies do we use?">
         <strong>Essential cookies</strong>
-        <p className="my-2">These cookies are required to enable core functionality. This includes technologies that allow you to use our Platforms; prevent fraudulent activity and improve security; or that allow you to make use of other website functions.</p><p className="my-2">The cookies that we use in this category are:</p><ul>
+        <p className="my-2">These cookies are required to enable core functionality. This includes technologies that allow you to use our Platforms; prevent fraudulent activity and improve security; or that allow you to make use of other website functions.</p><p className="my-2">The cookies that we use in this category are:</p>
+        <ul>
           <li>cookielawinfo-checkbox-*: Set by the GDPR Cookie Consent plugin, this cookie is used to record the user consent for the cookies in various categories.</li>
           <li>_GRECAPTCHA: Set by the provider ReCaptcha. This is used on forms to protect our Platforms against bots.</li>
           <li>__stripe_mid, __stripe_sid, ndcd: Set by Stripe. This is used to prevent fraud when taking payments.</li>
           <li>agisf_* (when logged in): Set by our course hub. This keeps you signed in to your account as you navigate between pages.</li>
-        </ul><h3 className="my-4">Non-essential cookies</h3><p className="my-2">These cookies help us improve or optimize the experience we provide. They allow us to measure how visitors interact with the Platforms and we use this information to improve the user experience and performance of the Platforms.</p><p className="my-2">The cookies that we use in this category are:</p><ul>
+        </ul>
+        <h3 className="my-4">Non-essential cookies</h3><p className="my-2">These cookies help us improve or optimize the experience we provide. They allow us to measure how visitors interact with the Platforms and we use this information to improve the user experience and performance of the Platforms.</p><p className="my-2">The cookies that we use in this category are:</p>
+        <ul>
           <li>_ga*, _gid, _gat: Set by Google Analytics. This helps us understand how people are interacting with our websites, for example what order you view pages in, and whether you're a new or returning visitor.</li>
           <li>ph_*: Set by PostHog Analytics. This helps us understand how people are interacting with our websites, for example what order you view pages in, and whether you're a new or returning visitor.</li>
           <li>agisf_* (when not logged in): Set by our course hub. This helps us understand how people are interacting with our course hub.</li>
@@ -129,12 +133,14 @@ const PrivacyPolicyPage = () => {
         </ul>
       </Section>
       <Section title="Your personal information rights">
-        <p className="my-2">You can contact us via the details above to:</p><ul>
+        <p className="my-2">You can contact us via the details above to:</p>
+        <ul>
           <li>get a copy of your personal information (sometimes in a structured, machine readable format);</li>
           <li>ask us to correct, delete, or restrict use of your personal information;</li>
           <li>object to the use of your personal information; and</li>
           <li>withdraw consent you've given us to process your data</li>
-        </ul><p className="my-2">These rights are sometimes limited. For example, we can't comply if answering your request would reveal personal information about another person, or if you ask us to delete information which we're required by law to keep.</p><p className="my-2">If you're based in the UK or EU you can also complain to a data protection authority, such as the UK's <a href="https://ico.org.uk/">Information Commissioner's Office</a>.</p>
+        </ul>
+        <p className="my-2">These rights are sometimes limited. For example, we can't comply if answering your request would reveal personal information about another person, or if you ask us to delete information which we're required by law to keep.</p><p className="my-2">If you're based in the UK or EU you can also complain to a data protection authority, such as the UK's <a href="https://ico.org.uk/">Information Commissioner's Office</a>.</p>
       </Section>
       <Section title="Updates to this Privacy Policy">
         <p className="my-2">We reserve the right to change this Privacy Policy. We'll alert you when we do this by updating the date of this Privacy Policy, or as otherwise may be required by law.</p>
