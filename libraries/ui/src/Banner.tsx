@@ -29,7 +29,7 @@ export const Banner: React.FC<BannerProps> = ({
 
   return (
     <div className={clsx('banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter', className)}>
-      <h1 className="banner__title text-bluedot-normal font-serif font-normal text-2xl">{title}</h1>
+      <h3 className="banner__title font-[500]">{title}</h3>
       <form onSubmit={handleSubmit} className="banner__form flex flex-row items-center justify-center gap-4 mt-6">
         {showInput && (
           <input

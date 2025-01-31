@@ -5,36 +5,6 @@ exports[`Footer > renders default as expected 1`] = `
   <div
     class="footer"
   >
-    <div
-      class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
-    >
-      <h1
-        class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
-      >
-        Subscribe to our newsletter for the latest updates on AI safety careers
-      </h1>
-      <form
-        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
-      >
-        <input
-          class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
-          placeholder="you@example.com"
-          type="text"
-          value=""
-        />
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn"
-          data-testid="cta-button"
-          type="submit"
-        >
-          <span
-            class="cta-button__text"
-          >
-            Submit
-          </span>
-        </button>
-      </form>
-    </div>
     <footer
       class="footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col"
     >
@@ -312,36 +282,6 @@ exports[`Footer > renders with optional args 1`] = `
   <div
     class="footer"
   >
-    <div
-      class="banner relative w-full p-12 text-center rounded-lg bg-bluedot-lighter"
-    >
-      <h1
-        class="banner__title text-bluedot-normal font-serif font-normal text-2xl"
-      >
-        Subscribe to our newsletter for the latest updates on AI safety careers
-      </h1>
-      <form
-        class="banner__form flex flex-row items-center justify-center gap-4 mt-6"
-      >
-        <input
-          class="banner__input p-2 rounded border font-sans text-base font-normal text-center w-80"
-          placeholder="you@example.com"
-          type="text"
-          value=""
-        />
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn"
-          data-testid="cta-button"
-          type="submit"
-        >
-          <span
-            class="cta-button__text"
-          >
-            Submit
-          </span>
-        </button>
-      </form>
-    </div>
     <footer
       class="footer__main bg-bluedot-darker text-white min-h-[397] p-8 flex flex-col"
     >

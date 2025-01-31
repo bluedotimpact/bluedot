@@ -12,31 +12,11 @@ exports[`StorySection > renders default as expected 1`] = `
         class="section__content flex-1"
       >
         <h2
-          class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-4/5"
+          class="section__title mb-4 relative after:w-full"
         >
           Our story
         </h2>
       </div>
-      <a
-        class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
-        data-testid="cta-link"
-        href="/about"
-      >
-        <span
-          class="cta-button__text"
-        >
-          Learn more about us
-        </span>
-        <span
-          class="cta-button__chevron ml-3"
-        >
-          <img
-            alt="→"
-            class="cta-button__chevron-icon size-2"
-            src="/icons/chevron_blue.svg"
-          />
-        </span>
-      </a>
     </div>
     <div
       class="section__body"
@@ -78,6 +58,26 @@ exports[`StorySection > renders default as expected 1`] = `
           <p>
             BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.
           </p>
+          <a
+            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="/about"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Learn more about us
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </a>
         </div>
       </div>
     </div>

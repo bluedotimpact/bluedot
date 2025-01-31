@@ -12,7 +12,7 @@ exports[`TeamSection > renders default as expected 1`] = `
         class="section__content flex-1"
       >
         <h2
-          class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+          class="section__title mb-4 relative after:w-full"
         >
           Our team
         </h2>
