@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
+import { CTALinkOrButton } from './CTALinkOrButton';
+import { EXTERNAL_LINK_PROPS } from './utils';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string,
@@ -48,8 +50,9 @@ export const Nav: React.FC<NavProps> = ({
           </button>
           {children}
         </div>
-        <div className="shrink-0 w-[200px] flex justify-end">
-          <NavButton.CTA href="/signup">Get started for Free</NavButton.CTA>
+        <div className="shrink-0 flex justify-end items-center gap-[36px]">
+          <a href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Login</a>
+          <CTALinkOrButton url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
         </div>
       </div>
 

@@ -42,14 +42,25 @@ exports[`Nav > renders with courses 1`] = `
         </button>
       </div>
       <div
-        class="shrink-0 w-[200px] flex justify-end"
+        class="shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-          data-rac=""
-          href="/signup"
+          href="https://course.aisafetyfundamentals.com/alignment?show=login"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Get started for Free
+          Login
+        </a>
+        <a
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark"
+          data-testid="cta-link"
+          href="https://aisafetyfundamentals.com/"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Get started for free
+          </span>
         </a>
       </div>
     </div>
@@ -144,14 +155,25 @@ exports[`Nav > renders with optional yield 1`] = `
         </p>
       </div>
       <div
-        class="shrink-0 w-[200px] flex justify-end"
+        class="shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="bg-bluedot-lighter text-bluedot-normal font-medium border border-bluedot-lighter rounded-full px-6 py-2 transition-all duration-200 hover:bg-bluedot-normal hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal"
-          data-rac=""
-          href="/signup"
+          href="https://course.aisafetyfundamentals.com/alignment?show=login"
+          rel="noopener noreferrer"
+          target="_blank"
         >
-          Get started for Free
+          Login
+        </a>
+        <a
+          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark"
+          data-testid="cta-link"
+          href="https://aisafetyfundamentals.com/"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Get started for free
+          </span>
         </a>
       </div>
     </div>
