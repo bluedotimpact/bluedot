@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Footer } from './Footer';
+import imgSrc from '../public/BlueDot_Impact_Logo_White.svg';
 
 const meta = {
   title: 'ui/Footer',
@@ -23,6 +24,6 @@ export const Default: Story = {
 
 export const Customized: Story = {
   args: {
-    logo: 'https://website-25.k8s.bluedot.org/images/logo/BlueDot_Impact_Logo_White.svg',
+    logo: imgSrc,
   },
 };
