@@ -1,4 +1,4 @@
-import { FaceTiles } from '@bluedot/ui';
+import { FaceTiles, Section } from '@bluedot/ui';
 
 const faces = [
   { src: '/images/graduates/matthew.png', alt: 'Matthew' },
@@ -8,8 +8,8 @@ const faces = [
 
 const GraduateSection = () => {
   return (
-    <div className="graduate-section mx-16 my-8">
-      <div className="graduate-section__container flex flex-row mx-6 my-8 gap-6 items-center">
+    <Section className="graduate-section">
+      <div className="graduate-section__container flex flex-row gap-6 items-center">
         <FaceTiles faces={faces} />
         <p className="graduate-section__text">Our graduates work at</p>
         <div className="graduate-section__logos-container flex flex-row gap-6 items-center">
@@ -21,7 +21,7 @@ const GraduateSection = () => {
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/metr.png" alt="METR" />
         </div>
       </div>
-    </div>
+    </Section>
   );
 };
 
