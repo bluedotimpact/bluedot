@@ -3,10 +3,10 @@
 exports[`HistorySection > renders default as expected 1`] = `
 <div>
   <div
-    class="section mx-16 my-8 max-w-full overflow-hidden history-section"
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 history-section"
   >
     <div
-      class="section__title-container ml-4 flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-4"
     >
       <div
         class="section__content flex-1"

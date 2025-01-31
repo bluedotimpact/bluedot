@@ -17,10 +17,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section mx-16 my-8 max-w-full overflow-hidden intro-section"
+      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 intro-section"
     >
       <div
-        class="section__title-container ml-4 flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-4"
       >
         <div
           class="section__content flex-1"
@@ -36,7 +36,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex flex-row gap-28 my-16"
+          class="intro-section__container flex flex-row gap-4"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"
@@ -57,10 +57,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section mx-16 my-8 max-w-full overflow-hidden history-section"
+      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 history-section"
     >
       <div
-        class="section__title-container ml-4 flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-4"
       >
         <div
           class="section__content flex-1"
@@ -152,10 +152,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section mx-16 my-8 max-w-full overflow-hidden team"
+      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 team"
     >
       <div
-        class="section__title-container ml-4 flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-4"
       >
         <div
           class="section__content flex-1"

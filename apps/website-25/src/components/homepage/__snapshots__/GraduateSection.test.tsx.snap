@@ -3,93 +3,104 @@
 exports[`GraduateSection > renders default as expected 1`] = `
 <div>
   <div
-    class="graduate-section mx-16 my-8"
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 graduate-section"
   >
     <div
-      class="graduate-section__container flex flex-row mx-6 my-8 gap-6 items-center"
+      class="section__title-container flex justify-between items-center gap-4"
     >
       <div
-        class="face-tiles flex items-center "
+        class="section__content flex-1"
+      />
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="graduate-section__container flex flex-row gap-6 items-center"
       >
         <div
-          class="face-tiles__container flex -space-x-3"
+          class="face-tiles flex items-center "
         >
           <div
-            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-            style="width: 32px; height: 32px;"
+            class="face-tiles__container flex -space-x-3"
           >
-            <img
-              alt="Matthew"
-              class="face-tiles__avatar-img size-full object-cover"
-              src="/images/graduates/matthew.png"
-            />
-          </div>
-          <div
-            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-            style="width: 32px; height: 32px;"
-          >
-            <img
-              alt="Sarah"
-              class="face-tiles__avatar-img size-full object-cover"
-              src="/images/graduates/sarah.png"
-            />
-          </div>
-          <div
-            class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-            style="width: 32px; height: 32px;"
-          >
-            <img
-              alt="Kendrea"
-              class="face-tiles__avatar-img size-full object-cover"
-              src="/images/graduates/kendrea.png"
-            />
-          </div>
-          <div
-            class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
-          >
-            +
-            4071
+            <div
+              class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+              style="width: 32px; height: 32px;"
+            >
+              <img
+                alt="Matthew"
+                class="face-tiles__avatar-img size-full object-cover"
+                src="/images/graduates/matthew.png"
+              />
+            </div>
+            <div
+              class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+              style="width: 32px; height: 32px;"
+            >
+              <img
+                alt="Sarah"
+                class="face-tiles__avatar-img size-full object-cover"
+                src="/images/graduates/sarah.png"
+              />
+            </div>
+            <div
+              class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+              style="width: 32px; height: 32px;"
+            >
+              <img
+                alt="Kendrea"
+                class="face-tiles__avatar-img size-full object-cover"
+                src="/images/graduates/kendrea.png"
+              />
+            </div>
+            <div
+              class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
+            >
+              +
+              4071
+            </div>
           </div>
         </div>
-      </div>
-      <p
-        class="graduate-section__text"
-      >
-        Our graduates work at
-      </p>
-      <div
-        class="graduate-section__logos-container flex flex-row gap-6 items-center"
-      >
-        <img
-          alt="Anthropic"
-          class="graduate-section__logo h-3"
-          src="/images/third-party-logos/anthropic.svg"
-        />
-        <img
-          alt="OpenAI"
-          class="graduate-section__logo h-6"
-          src="/images/third-party-logos/openai.svg"
-        />
-        <img
-          alt="Google DeepMind"
-          class="graduate-section__logo h-6"
-          src="/images/third-party-logos/deepmind.svg"
-        />
-        <img
-          alt="Centre for Governance of AI"
-          class="graduate-section__logo h-6"
-          src="/images/third-party-logos/govai.png"
-        />
-        <img
-          alt="Centre for the Study of Existential Risk"
-          class="graduate-section__logo h-6"
-          src="/images/third-party-logos/exrisk.png"
-        />
-        <img
-          alt="METR"
-          class="graduate-section__logo h-6"
-          src="/images/third-party-logos/metr.png"
-        />
+        <p
+          class="graduate-section__text"
+        >
+          Our graduates work at
+        </p>
+        <div
+          class="graduate-section__logos-container flex flex-row gap-6 items-center"
+        >
+          <img
+            alt="Anthropic"
+            class="graduate-section__logo h-3"
+            src="/images/third-party-logos/anthropic.svg"
+          />
+          <img
+            alt="OpenAI"
+            class="graduate-section__logo h-6"
+            src="/images/third-party-logos/openai.svg"
+          />
+          <img
+            alt="Google DeepMind"
+            class="graduate-section__logo h-6"
+            src="/images/third-party-logos/deepmind.svg"
+          />
+          <img
+            alt="Centre for Governance of AI"
+            class="graduate-section__logo h-6"
+            src="/images/third-party-logos/govai.png"
+          />
+          <img
+            alt="Centre for the Study of Existential Risk"
+            class="graduate-section__logo h-6"
+            src="/images/third-party-logos/exrisk.png"
+          />
+          <img
+            alt="METR"
+            class="graduate-section__logo h-6"
+            src="/images/third-party-logos/metr.png"
+          />
+        </div>
       </div>
     </div>
   </div>

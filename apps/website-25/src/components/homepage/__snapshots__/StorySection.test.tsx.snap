@@ -3,10 +3,10 @@
 exports[`StorySection > renders default as expected 1`] = `
 <div>
   <div
-    class="section mx-16 my-8 max-w-full overflow-hidden story-section"
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 story-section"
   >
     <div
-      class="section__title-container ml-4 flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-4"
     >
       <div
         class="section__content flex-1"
@@ -22,7 +22,7 @@ exports[`StorySection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="story-section__container flex flex-row gap-28 my-16"
+        class="story-section__container flex flex-row gap-4"
       >
         <img
           alt="BlueDot Impact team"
