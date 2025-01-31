@@ -17,29 +17,6 @@ exports[`StorySection > renders default as expected 1`] = `
           Our story
         </h2>
       </div>
-<<<<<<< HEAD
-      <a
-        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
-        data-testid="cta-link"
-        href="/about"
-      >
-        <span
-          class="cta-button__text"
-        >
-          Learn more about us
-        </span>
-        <span
-          class="cta-button__chevron ml-3"
-        >
-          <img
-            alt="→"
-            class="cta-button__chevron-icon size-2"
-            src="/icons/chevron_blue.svg"
-          />
-        </span>
-      </a>
-=======
->>>>>>> 28e05c84bd88b2469b68aecaff05b31daea82605
     </div>
     <div
       class="section__body"
@@ -82,7 +59,7 @@ exports[`StorySection > renders default as expected 1`] = `
             BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.
           </p>
           <a
-            class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
             data-testid="cta-link"
             href="/about"
           >

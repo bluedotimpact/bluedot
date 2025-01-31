@@ -47,7 +47,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                 Featured course
               </p>
               <h2
-                class="course-card__title text-xxl font-semibold text-bluedot-darker mb-6"
+                class="course-card__title text-2xl font-semibold text-bluedot-darker mb-6"
               >
                 AI Safety: Intro to Transformative AI
               </h2>
