@@ -190,7 +190,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-alignment-project-judge/"
               rel="noopener noreferrer"
@@ -231,7 +231,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-safety-course-operations/"
               rel="noopener noreferrer"
@@ -272,7 +272,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/swe-contractor/"
               rel="noopener noreferrer"
@@ -313,7 +313,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/economics-of-tai-teaching-fellow/"
               rel="noopener noreferrer"

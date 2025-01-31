@@ -23,7 +23,7 @@ exports[`Footer > renders default as expected 1`] = `
           value=""
         />
         <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn"
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn rounded-lg"
           data-testid="cta-button"
           type="submit"
         >
@@ -330,7 +330,7 @@ exports[`Footer > renders with optional args 1`] = `
           value=""
         />
         <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn"
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark banner__submit-btn rounded-lg"
           data-testid="cta-button"
           type="submit"
         >

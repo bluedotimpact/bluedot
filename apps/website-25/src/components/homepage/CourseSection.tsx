@@ -53,7 +53,7 @@ const CourseSection = () => {
           <CourseCard
             key={course.title}
             {...course}
-            cardType='Featured'
+            cardType="Featured"
           />
         ))}
       </div>

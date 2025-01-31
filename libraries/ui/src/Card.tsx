@@ -7,7 +7,7 @@ interface CardProps {
   imageSrc: string;
   title: string;
   subtitle?: string;
-  ctaMetadata?: string;
+  footerContent?: React.ReactNode;
   ctaText: string;
   ctaUrl?: string;
   isEntireCardClickable?: boolean;
@@ -20,7 +20,7 @@ export const Card: React.FC<CardProps> = ({
   imageSrc,
   title,
   subtitle,
-  ctaMetadata,
+  footerContent,
   ctaUrl,
   ctaText,
   isEntireCardClickable = false,
@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   imageClassName = '',
 }) => {
-  const Wrapper = isEntireCardClickable && ctaUrl ? 'a' : 'div';
+  const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
     'card flex flex-col items-start transition-transform duration-200',
     isEntireCardClickable && 'hover:scale-[1.01]',
@@ -51,25 +51,27 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <h2 className="card__title text-2xl font-semibold text-bluedot-darker mb-1">{title}</h2>
-          {subtitle && (<p className="card__subtitle text-base text-bluedot-black">{subtitle}</p>)}
+          <h2 className="card__title text-2xl font-[650] text-bluedot-darker mb-1">{title}</h2>
+          {subtitle && (<p className="card__subtitle text-sm text-bluedot-black">{subtitle}</p>)}
         </div>
 
-        <div className="card__cta-row flex items-center justify-between mt-auto">
-          {ctaMetadata && (
-            <p className="card__cta-metadata text-left text-xs text-bluedot-black">
-              {ctaMetadata}
-            </p>
+        <div className="card__footer-row flex items-center justify-between mt-auto w-full">
+          {footerContent && (
+            <div className="card__footer-content text-left text-xs text-bluedot-black flex-1">
+              {footerContent}
+            </div>
           )}
-          <CTALinkOrButton
-            className="card__cta"
-            url={!isEntireCardClickable ? ctaUrl : undefined}
-            variant="secondary"
-            withChevron={false}
-            isExternalUrl={isExternalUrl}
-          >
-            {ctaText}
-          </CTALinkOrButton>
+          {!isEntireCardClickable && (
+            <CTALinkOrButton
+              className="card__cta"
+              url={ctaUrl}
+              variant="secondary"
+              withChevron={false}
+              isExternalUrl={isExternalUrl}
+            >
+              {ctaText}
+            </CTALinkOrButton>
+          )}
         </div>
       </div>
     </Wrapper>

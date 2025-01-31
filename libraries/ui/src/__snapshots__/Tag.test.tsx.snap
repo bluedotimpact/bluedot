@@ -3,7 +3,7 @@
 exports[`Tag > renders default as expected 1`] = `
 <div>
   <span
-    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-bluedot-black"
+    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black"
     role="status"
   >
     Basic tag
@@ -13,7 +13,7 @@ exports[`Tag > renders default as expected 1`] = `
 
 exports[`Tag > renders with optional args 1`] = `
 <span
-  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-light text-bluedot-black custom-class"
+  class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black custom-class"
   role="status"
 >
   Custom tag

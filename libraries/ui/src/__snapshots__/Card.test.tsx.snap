@@ -21,21 +21,21 @@ exports[`Card > renders default as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
         >
           John Doe
         </h2>
         <p
-          class="card__subtitle text-base text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black"
         >
           Developer
         </p>
       </div>
       <div
-        class="card__cta-row flex items-center justify-between mt-auto"
+        class="card__footer-row flex items-center justify-between mt-auto w-full"
       >
         <a
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
           data-testid="cta-link"
           href="https://linkedin.com/in/johndoe"
         >
@@ -73,31 +73,19 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-semibold text-bluedot-darker mb-1"
+          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
         >
           John Doe
         </h2>
         <p
-          class="card__subtitle text-base text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black"
         >
           Developer
         </p>
       </div>
       <div
-        class="card__cta-row flex items-center justify-between mt-auto"
-      >
-        <button
-          class="cta-button flex items-center justify-center rounded-lg transition-all duration-200 font-semibold text-base px-4 py-2 w-fit cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-          data-testid="cta-button"
-          type="button"
-        >
-          <span
-            class="cta-button__text"
-          >
-            LinkedIn
-          </span>
-        </button>
-      </div>
+        class="card__footer-row flex items-center justify-between mt-auto w-full"
+      />
     </div>
   </a>
 </div>
