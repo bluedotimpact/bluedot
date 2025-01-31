@@ -9,7 +9,7 @@ const StorySection = () => {
           <p>BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this <a className="underline" href="https://hearthisidea.com/episodes/erwan/">podcast interview</a> and our <a className="underline" href="https://bluedot.org/blog">blog</a>.
           </p>
           <p>Over the past 2 years, we've supported 2,500 people to learn about AI safety and pandemic preparedness, and our alumni work in critical roles across government and industry. In 2024, we will train ~3x more people than 2023 by running each of our three existing courses every four months (AI Alignment, AI Governance, Pandemics).</p>
-          <h2>Our commitment to AI Safety</h2>
+          <h3>Our commitment to AI Safety</h3>
           <p>BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.</p>
         </div>
       </div>

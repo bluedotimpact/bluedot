@@ -12,7 +12,7 @@ exports[`CareersSection > renders default as expected 1`] = `
         class="section__content flex-1"
       >
         <h2
-          class="section__title text-bluedot-normal text-[48px] mb-4 font-serif font-extrabold leading-none relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
+          class="section__title mb-4 relative after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:ml-8 after:h-[2px] after:bg-bluedot-normal after:w-full"
         >
           Careers at BlueDot Impact
         </h2>
