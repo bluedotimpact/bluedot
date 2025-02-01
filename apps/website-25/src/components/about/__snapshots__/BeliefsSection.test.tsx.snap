@@ -1,9 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ValuesSection > renders default as expected 1`] = `
+exports[`BeliefsSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 values-section"
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 beliefs-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-4"
@@ -14,7 +14,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
         <h2
           class="section__title mb-4 relative after:w-full"
         >
-          Our values
+          Our core beliefs
         </h2>
       </div>
     </div>
@@ -22,7 +22,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="flex gap-8 overflow-y-scroll"
+        class="beliefs-section__container flex gap-8 overflow-y-scroll"
       >
         <div
           class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
@@ -31,7 +31,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="Think hard, act fast, fail faster"
+              alt="AGI could arrive soon, and we’re dangerously unprepared"
               class="value-card__icon"
               src="icons/fast.svg"
             />
@@ -39,12 +39,12 @@ exports[`ValuesSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            Think hard, act fast, fail faster
+            AGI could arrive soon, and we’re dangerously unprepared
           </h3>
           <p
             class="value-card__description"
           >
-            We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+            Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
           </p>
         </div>
         <div
@@ -54,7 +54,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="Care personally, challenge directly"
+              alt="What we do now matters"
               class="value-card__icon"
               src="icons/care.svg"
             />
@@ -62,12 +62,12 @@ exports[`ValuesSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            Care personally, challenge directly
+            What we do now matters
           </h3>
           <p
             class="value-card__description"
           >
-            We care about our team and our community, and we hold everyone to high standards.
+            The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
           </p>
         </div>
         <div
@@ -77,7 +77,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="Obsessed with empowering problem-solvers"
+              alt="The right people at key moments rewrite history"
               class="value-card__icon"
               src="icons/solvers.svg"
             />
@@ -85,12 +85,35 @@ exports[`ValuesSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            Obsessed with empowering problem-solvers
+            The right people at key moments rewrite history
           </h3>
           <p
             class="value-card__description"
           >
-            We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+            Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+          </p>
+        </div>
+        <div
+          class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+        >
+          <div
+            class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+          >
+            <img
+              alt="We need urgency, wisdom and optimism"
+              class="value-card__icon"
+              src="icons/solvers.svg"
+            />
+          </div>
+          <h3
+            class="value-card__title"
+          >
+            We need urgency, wisdom and optimism
+          </h3>
+          <p
+            class="value-card__description"
+          >
+            The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
           </p>
         </div>
       </div>

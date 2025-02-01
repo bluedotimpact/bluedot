@@ -22,7 +22,7 @@ exports[`TeamSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="team__grid flex flex-row flex-wrap mt-16 max-w-[1400px] mx-auto"
+        class="team__grid flex flex-row flex-wrap mx-auto"
       >
         <div
           class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"

@@ -79,7 +79,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="flex gap-8 overflow-y-scroll"
         >
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -102,7 +102,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             </p>
           </div>
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -125,7 +125,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             </p>
           </div>
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
