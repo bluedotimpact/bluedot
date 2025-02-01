@@ -31,7 +31,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="AGI Could Arrive Soon, and We’re Dangerously Unprepared"
+              alt="AGI could arrive soon, and we’re dangerously unprepared"
               class="value-card__icon"
               src="icons/fast.svg"
             />
@@ -39,7 +39,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            AGI Could Arrive Soon, and We’re Dangerously Unprepared
+            AGI could arrive soon, and we’re dangerously unprepared
           </h3>
           <p
             class="value-card__description"
@@ -54,7 +54,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="What We Do Now Matters"
+              alt="What we do now matters"
               class="value-card__icon"
               src="icons/care.svg"
             />
@@ -62,7 +62,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            What We Do Now Matters
+            What we do now matters
           </h3>
           <p
             class="value-card__description"
@@ -77,7 +77,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="The Right People at Key Moments Rewrite History"
+              alt="The right people at key moments rewrite history"
               class="value-card__icon"
               src="icons/solvers.svg"
             />
@@ -85,7 +85,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            The Right People at Key Moments Rewrite History
+            The right people at key moments rewrite history
           </h3>
           <p
             class="value-card__description"
@@ -100,7 +100,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="We Need Urgency, Wisdom and Optimism"
+              alt="We need urgency, wisdom and optimism"
               class="value-card__icon"
               src="icons/solvers.svg"
             />
@@ -108,7 +108,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           <h3
             class="value-card__title"
           >
-            We Need Urgency, Wisdom and Optimism
+            We need urgency, wisdom and optimism
           </h3>
           <p
             class="value-card__description"
