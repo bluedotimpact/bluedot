@@ -3,7 +3,7 @@ import { Section } from '@bluedot/ui';
 const HistorySection = () => {
   return (
     <Section className="history-section" title="Our History">
-      <div className="history-section__container flex flex-col gap-8 my-14">
+      <div className="history-section__container flex flex-col gap-8">
         <HistoryEvent year="2021" event="A non-profit supporting students at the University of Cambridge to pursue high-impact careers" />
         <HistoryEvent year="2022" event="Growing into a new start-up called “BlueDot Impact” and moved headquarters to London" />
         <HistoryEvent year="2023" event="BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity" />

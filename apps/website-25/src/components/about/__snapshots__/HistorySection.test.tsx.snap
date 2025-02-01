@@ -22,7 +22,7 @@ exports[`HistorySection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="history-section__container flex flex-col gap-8 my-14"
+        class="history-section__container flex flex-col gap-8"
       >
         <div
           class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"

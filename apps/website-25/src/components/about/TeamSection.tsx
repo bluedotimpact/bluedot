@@ -48,8 +48,7 @@ const teamMembers = [
 const TeamSection = () => {
   return (
     <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mt-16 max-w-[1400px] mx-auto">
-        {/* TODO: 01/27 Migrate this max-w-[1400px] check to Section definition or global.css when we hear back from UX  */}
+      <div className="team__grid flex flex-row flex-wrap mx-auto">
         {teamMembers.map((member) => (
           <Card
             key={member.name}
