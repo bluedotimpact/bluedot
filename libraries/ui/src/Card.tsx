@@ -13,6 +13,7 @@ type CardProps = {
   isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
+  subtitleClassName?: string;
 } & (
   | { ctaText: string; isEntireCardClickable?: false }
   | { ctaText?: string; isEntireCardClickable: true }
@@ -29,6 +30,7 @@ export const Card: React.FC<CardProps> = ({
   isExternalUrl = false,
   className = '',
   imageClassName = '',
+  subtitleClassName = '',
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
@@ -54,7 +56,7 @@ export const Card: React.FC<CardProps> = ({
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
           <h2 className="card__title text-2xl font-[650] text-bluedot-darker mb-1">{title}</h2>
-          {subtitle && (<p className="card__subtitle text-sm text-bluedot-black">{subtitle}</p>)}
+          {subtitle && (<p className={`card__subtitle text-sm text-bluedot-black ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         <div className="card__bottom-section mt-auto flex flex-col gap-4">
           {!isEntireCardClickable && (

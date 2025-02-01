@@ -6,11 +6,9 @@ import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
 
 export type CourseCardProps = React.PropsWithChildren<{
-  // Required
   title: string,
   description: string,
   imageSrc: string,
-  // Optional
   className?: string,
   ctaUrl?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
@@ -139,8 +137,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       ctaUrl={ctaUrl}
       isEntireCardClickable
       isExternalUrl
-      className={clsx('course-card course-card--regular container-lined p-5 max-w-[323px]', className)}
+      className={clsx(
+        'course-card course-card--regular container-lined p-5',
+        'flex flex-col w-[323px] h-[409px]',
+        className,
+      )}
       imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
+      subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
     />
   );
 };
