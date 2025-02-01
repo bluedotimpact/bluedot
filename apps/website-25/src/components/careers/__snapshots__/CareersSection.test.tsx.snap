@@ -22,7 +22,7 @@ exports[`CareersSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="careers-section__container flex flex-col gap-8 my-14"
+        class="careers-section__container flex flex-col gap-8"
       >
         <div
           class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"

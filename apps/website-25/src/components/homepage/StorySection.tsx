@@ -3,8 +3,8 @@ import { CTALinkOrButton, Section } from '@bluedot/ui';
 const StorySection = () => {
   return (
     <Section className="story-section" title="Our story">
-      <div className="story-section__container flex flex-row gap-4">
-        <img className="story-section__image w-[570px] rounded-2xl" src="/images/team/team_1.jpg" alt="BlueDot Impact team" />
+      <div className="story-section__container flex lg:flex-row flex-col gap-4">
+        <img className="story-section__image max-w-[570px] w-full max-h-[365px] rounded-2xl" src="/images/team/team_1.jpg" alt="BlueDot Impact team" />
         <div className="story-section__text-container flex flex-col gap-5">
           <p>BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this <a className="underline" href="https://hearthisidea.com/episodes/erwan/">podcast interview</a> and our <a className="underline" href="https://bluedot.org/blog">blog</a>.
           </p>

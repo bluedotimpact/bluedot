@@ -22,7 +22,7 @@ exports[`IntroSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="intro-section__container flex flex-row gap-4"
+        class="intro-section__container flex lg:flex-row flex-col gap-4"
       >
         <div
           class="intro-section__text-container flex flex-col gap-5"
@@ -36,7 +36,7 @@ exports[`IntroSection > renders default as expected 1`] = `
         </div>
         <img
           alt="BlueDot Impact team"
-          class="intro-section__image w-[570px] rounded-2xl"
+          class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
           src="/images/team/team_1.jpg"
         />
       </div>

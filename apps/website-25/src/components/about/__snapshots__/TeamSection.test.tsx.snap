@@ -25,7 +25,7 @@ exports[`TeamSection > renders default as expected 1`] = `
         class="team__grid flex flex-row flex-wrap mt-16 max-w-[1400px] mx-auto"
       >
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -73,7 +73,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -121,7 +121,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -169,7 +169,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -217,7 +217,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -265,7 +265,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -313,7 +313,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 team__card ml-4 mb-12"
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
         >
           <div
             class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"

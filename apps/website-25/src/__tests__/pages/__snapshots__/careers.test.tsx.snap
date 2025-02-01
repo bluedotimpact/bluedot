@@ -36,7 +36,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex flex-row gap-4"
+          class="intro-section__container flex lg:flex-row flex-col gap-4"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"
@@ -50,14 +50,14 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           </div>
           <img
             alt="BlueDot Impact team"
-            class="intro-section__image w-[570px] rounded-2xl"
+            class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
             src="/images/team/team_1.jpg"
           />
         </div>
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
+      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 values-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-4"
@@ -74,79 +74,80 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
       <div
         class="section__body"
-      />
-    </div>
-    <div
-      class="flex justify-center gap-8 px-16 my-16"
-    >
-      <div
-        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
       >
         <div
-          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+          class="flex gap-8 overflow-y-scroll"
         >
-          <img
-            alt="Think hard, act fast, fail faster"
-            class="value-card__icon"
-            src="icons/fast.svg"
-          />
+          <div
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+          >
+            <div
+              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+            >
+              <img
+                alt="Think hard, act fast, fail faster"
+                class="value-card__icon"
+                src="icons/fast.svg"
+              />
+            </div>
+            <h3
+              class="value-card__title"
+            >
+              Think hard, act fast, fail faster
+            </h3>
+            <p
+              class="value-card__description"
+            >
+              We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+            </p>
+          </div>
+          <div
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+          >
+            <div
+              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+            >
+              <img
+                alt="Care personally, challenge directly"
+                class="value-card__icon"
+                src="icons/care.svg"
+              />
+            </div>
+            <h3
+              class="value-card__title"
+            >
+              Care personally, challenge directly
+            </h3>
+            <p
+              class="value-card__description"
+            >
+              We care about our team and our community, and we hold everyone to high standards.
+            </p>
+          </div>
+          <div
+            class="value-card container-lined max-w-[437px] min-w-min-width w-full h-[296px] p-6 flex flex-col gap-[27px]"
+          >
+            <div
+              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+            >
+              <img
+                alt="Obsessed with empowering problem-solvers"
+                class="value-card__icon"
+                src="icons/solvers.svg"
+              />
+            </div>
+            <h3
+              class="value-card__title"
+            >
+              Obsessed with empowering problem-solvers
+            </h3>
+            <p
+              class="value-card__description"
+            >
+              We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+            </p>
+          </div>
         </div>
-        <h3
-          class="value-card__title"
-        >
-          Think hard, act fast, fail faster
-        </h3>
-        <p
-          class="value-card__description"
-        >
-          We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-        </p>
-      </div>
-      <div
-        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
-      >
-        <div
-          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-        >
-          <img
-            alt="Care personally, challenge directly"
-            class="value-card__icon"
-            src="icons/care.svg"
-          />
-        </div>
-        <h3
-          class="value-card__title"
-        >
-          Care personally, challenge directly
-        </h3>
-        <p
-          class="value-card__description"
-        >
-          We care about our team and our community, and we hold everyone to high standards.
-        </p>
-      </div>
-      <div
-        class="value-card container-lined w-[437px] h-[296px] p-6 flex flex-col gap-[27px]"
-      >
-        <div
-          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-        >
-          <img
-            alt="Obsessed with empowering problem-solvers"
-            class="value-card__icon"
-            src="icons/solvers.svg"
-          />
-        </div>
-        <h3
-          class="value-card__title"
-        >
-          Obsessed with empowering problem-solvers
-        </h3>
-        <p
-          class="value-card__description"
-        >
-          We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
-        </p>
       </div>
     </div>
     <div
@@ -169,7 +170,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="careers-section__container flex flex-col gap-8 my-14"
+          class="careers-section__container flex flex-col gap-8"
         >
           <div
             class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"

@@ -3,7 +3,7 @@
 exports[`Card > renders default as expected 1`] = `
 <div>
   <div
-    class="card flex flex-col items-start transition-transform duration-200"
+    class="card flex flex-col items-start min-w-min-width transition-transform duration-200"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -54,7 +54,7 @@ exports[`Card > renders default as expected 1`] = `
 exports[`Card > renders with isEntireCardClickable as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01]"
     href="https://linkedin.com/in/johndoe"
   >
     <div

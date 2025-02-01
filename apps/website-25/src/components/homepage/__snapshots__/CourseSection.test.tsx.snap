@@ -27,7 +27,7 @@ exports[`CourseSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1 mb-4"
+        class="flex flex-col lg:flex-row gap-4 p-1 mb-4"
       >
         <a
           class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] container-lined p-6 max-w-[656px]"
@@ -109,298 +109,298 @@ exports[`CourseSection > renders default as expected 1`] = `
             </span>
           </div>
         </a>
-      </div>
-      <div
-        class="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1"
-      >
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
-          href="https://aisafetyfundamentals.com/alignment-fast-track/"
-          rel="noopener noreferrer"
-          target="_blank"
+        <div
+          class="flex flex-row gap-4 overflow-y-scroll p-1"
         >
-          <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="Alignment Fast Track"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
-              src="/images/intro-course.png"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          <a
+            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
+            href="https://aisafetyfundamentals.com/alignment-fast-track/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <div
-              class="card__text"
+              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
             >
-              <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
-              >
-                Alignment Fast Track
-              </h2>
-              <p
-                class="card__subtitle text-sm text-bluedot-black"
-              >
-                AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
-              </p>
+              <img
+                alt="Alignment Fast Track"
+                class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                src="/images/intro-course.png"
+              />
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
             >
               <div
-                class="card__footer flex items-center justify-between w-full"
+                class="card__text"
+              >
+                <h2
+                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                >
+                  Alignment Fast Track
+                </h2>
+                <p
+                  class="card__subtitle text-sm text-bluedot-black"
+                >
+                  AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
+                </p>
+              </div>
+              <div
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <div
-                  class="course-card__footer flex justify-between w-full"
+                  class="card__footer flex items-center justify-between w-full"
                 >
-                  <p
-                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  <div
+                    class="course-card__footer flex justify-between w-full"
                   >
-                    <span
-                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    <p
+                      class="course-card__footer-left text-left text-xs text-bluedot-black"
                     >
-                      5.0
-                       
-                      <img
-                        alt="★"
-                        class="course-card__star-icon size-[10px]"
-                        src="/icons/star.svg"
-                      />
-                    </span>
+                      <span
+                        class="course-card__rating flex gap-[3px] items-center font-[650]"
+                      >
+                        5.0
+                         
+                        <img
+                          alt="★"
+                          class="course-card__star-icon size-[10px]"
+                          src="/icons/star.svg"
+                        />
+                      </span>
+                      <span
+                        class="course-card__length font-medium"
+                      >
+                        5 days
+                      </span>
+                    </p>
                     <span
-                      class="course-card__length font-medium"
+                      class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                      role="status"
                     >
-                      5 days
+                      Crash course
                     </span>
-                  </p>
-                  <span
-                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-                    role="status"
-                  >
-                    Crash course
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
-          href="https://aisafetyfundamentals.com/governance-fast-track/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="Governance Fast-Track"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
-              src="/images/governance-course.jpg"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          </a>
+          <a
+            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
+            href="https://aisafetyfundamentals.com/governance-fast-track/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <div
-              class="card__text"
+              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
             >
-              <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
-              >
-                Governance Fast-Track
-              </h2>
-              <p
-                class="card__subtitle text-sm text-bluedot-black"
-              >
-                Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
-              </p>
+              <img
+                alt="Governance Fast-Track"
+                class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                src="/images/governance-course.jpg"
+              />
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
             >
               <div
-                class="card__footer flex items-center justify-between w-full"
+                class="card__text"
+              >
+                <h2
+                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                >
+                  Governance Fast-Track
+                </h2>
+                <p
+                  class="card__subtitle text-sm text-bluedot-black"
+                >
+                  Despite AI’s potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
+                </p>
+              </div>
+              <div
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <div
-                  class="course-card__footer flex justify-between w-full"
+                  class="card__footer flex items-center justify-between w-full"
                 >
-                  <p
-                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  <div
+                    class="course-card__footer flex justify-between w-full"
                   >
-                    <span
-                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    <p
+                      class="course-card__footer-left text-left text-xs text-bluedot-black"
                     >
-                      5.0
-                       
-                      <img
-                        alt="★"
-                        class="course-card__star-icon size-[10px]"
-                        src="/icons/star.svg"
-                      />
-                    </span>
+                      <span
+                        class="course-card__rating flex gap-[3px] items-center font-[650]"
+                      >
+                        5.0
+                         
+                        <img
+                          alt="★"
+                          class="course-card__star-icon size-[10px]"
+                          src="/icons/star.svg"
+                        />
+                      </span>
+                      <span
+                        class="course-card__length font-medium"
+                      >
+                        5 days
+                      </span>
+                    </p>
                     <span
-                      class="course-card__length font-medium"
+                      class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                      role="status"
                     >
-                      5 days
+                      Crash course
                     </span>
-                  </p>
-                  <span
-                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-                    role="status"
-                  >
-                    Crash course
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
-          href="https://aisafetyfundamentals.com/alignment/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="AI Alignment"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
-              src="/images/alignment-course.png"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          </a>
+          <a
+            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
+            href="https://aisafetyfundamentals.com/alignment/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <div
-              class="card__text"
+              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
             >
-              <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
-              >
-                AI Alignment
-              </h2>
-              <p
-                class="card__subtitle text-sm text-bluedot-black"
-              >
-                AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
-              </p>
+              <img
+                alt="AI Alignment"
+                class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                src="/images/alignment-course.png"
+              />
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
             >
               <div
-                class="card__footer flex items-center justify-between w-full"
+                class="card__text"
+              >
+                <h2
+                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                >
+                  AI Alignment
+                </h2>
+                <p
+                  class="card__subtitle text-sm text-bluedot-black"
+                >
+                  AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
+                </p>
+              </div>
+              <div
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <div
-                  class="course-card__footer flex justify-between w-full"
+                  class="card__footer flex items-center justify-between w-full"
                 >
-                  <p
-                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  <div
+                    class="course-card__footer flex justify-between w-full"
                   >
-                    <span
-                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    <p
+                      class="course-card__footer-left text-left text-xs text-bluedot-black"
                     >
-                      5.0
-                       
-                      <img
-                        alt="★"
-                        class="course-card__star-icon size-[10px]"
-                        src="/icons/star.svg"
-                      />
-                    </span>
+                      <span
+                        class="course-card__rating flex gap-[3px] items-center font-[650]"
+                      >
+                        5.0
+                         
+                        <img
+                          alt="★"
+                          class="course-card__star-icon size-[10px]"
+                          src="/icons/star.svg"
+                        />
+                      </span>
+                      <span
+                        class="course-card__length font-medium"
+                      >
+                        12 weeks
+                      </span>
+                    </p>
                     <span
-                      class="course-card__length font-medium"
+                      class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                      role="status"
                     >
-                      12 weeks
+                      In-depth course
                     </span>
-                  </p>
-                  <span
-                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-                    role="status"
-                  >
-                    In-depth course
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
-          href="https://aisafetyfundamentals.com/governance/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="AI Governance"
-              class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
-              src="/images/governance-course.jpg"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          </a>
+          <a
+            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
+            href="https://aisafetyfundamentals.com/governance/"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <div
-              class="card__text"
+              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
             >
-              <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
-              >
-                AI Governance
-              </h2>
-              <p
-                class="card__subtitle text-sm text-bluedot-black"
-              >
-                The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
-              </p>
+              <img
+                alt="AI Governance"
+                class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                src="/images/governance-course.jpg"
+              />
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
             >
               <div
-                class="card__footer flex items-center justify-between w-full"
+                class="card__text"
+              >
+                <h2
+                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                >
+                  AI Governance
+                </h2>
+                <p
+                  class="card__subtitle text-sm text-bluedot-black"
+                >
+                  The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
+                </p>
+              </div>
+              <div
+                class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <div
-                  class="course-card__footer flex justify-between w-full"
+                  class="card__footer flex items-center justify-between w-full"
                 >
-                  <p
-                    class="course-card__footer-left text-left text-xs text-bluedot-black"
+                  <div
+                    class="course-card__footer flex justify-between w-full"
                   >
-                    <span
-                      class="course-card__rating flex gap-[3px] items-center font-[650]"
+                    <p
+                      class="course-card__footer-left text-left text-xs text-bluedot-black"
                     >
-                      5.0
-                       
-                      <img
-                        alt="★"
-                        class="course-card__star-icon size-[10px]"
-                        src="/icons/star.svg"
-                      />
-                    </span>
+                      <span
+                        class="course-card__rating flex gap-[3px] items-center font-[650]"
+                      >
+                        5.0
+                         
+                        <img
+                          alt="★"
+                          class="course-card__star-icon size-[10px]"
+                          src="/icons/star.svg"
+                        />
+                      </span>
+                      <span
+                        class="course-card__length font-medium"
+                      >
+                        12 weeks
+                      </span>
+                    </p>
                     <span
-                      class="course-card__length font-medium"
+                      class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
+                      role="status"
                     >
-                      12 weeks
+                      In-depth course
                     </span>
-                  </p>
-                  <span
-                    class="tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black course-card__type"
-                    role="status"
-                  >
-                    In-depth course
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>

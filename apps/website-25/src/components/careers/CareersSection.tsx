@@ -3,7 +3,7 @@ import { CTALinkOrButton, Section } from '@bluedot/ui';
 const CareersSection = () => {
   return (
     <Section className="careers-section" title="Careers at BlueDot Impact">
-      <div className="careers-section__container flex flex-col gap-8 my-14">
+      <div className="careers-section__container flex flex-col gap-8">
         <JobListing title="AI Alignment Project Judge" url="https://bluedot.org/ai-alignment-project-judge/" isExternalUrl />
         <JobListing title="Course Operations Specialist" url="https://bluedot.org/ai-safety-course-operations/" isExternalUrl />
         <JobListing title="Software Engineering Contractor" url="https://bluedot.org/swe-contractor/" isExternalUrl />

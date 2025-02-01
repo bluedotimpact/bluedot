@@ -11,7 +11,7 @@ const GraduateSection = () => {
     <Section className="graduate-section">
       <div className="graduate-section__container flex flex-row gap-6 items-center">
         <FaceTiles faces={faces} />
-        <p className="graduate-section__text">Our graduates work at</p>
+        <p className="graduate-section__text flex-shrink-0">Our graduates work at</p>
         <div className="graduate-section__logos-container flex flex-row gap-6 items-center">
           <img className="graduate-section__logo h-3" src="/images/third-party-logos/anthropic.svg" alt="Anthropic" />
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/openai.svg" alt="OpenAI" />
