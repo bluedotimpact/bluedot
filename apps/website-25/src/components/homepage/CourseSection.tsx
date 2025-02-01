@@ -48,7 +48,7 @@ const CourseSection = () => {
   return (
     <Section title="Our courses" subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability">
       {/* Note: This is not the final arrangement, this is just somewhere to put the featured card before we re-jig this section */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1 mb-4">
+      <div className="flex flex-col lg:flex-row gap-4 p-1 mb-4">
         {featuredCourses.map((course) => (
           <CourseCard
             key={course.title}
@@ -56,14 +56,15 @@ const CourseSection = () => {
             cardType="Featured"
           />
         ))}
-      </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible m-1">
+        {/* Replace with SlideList component */}
+        <div className="flex flex-row gap-4 overflow-y-scroll p-1">
         {courses.map((course) => (
           <CourseCard
             key={course.title}
             {...course}
           />
         ))}
+      </div>
       </div>
     </Section>
   );
