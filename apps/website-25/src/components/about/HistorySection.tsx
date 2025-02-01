@@ -4,11 +4,11 @@ const HistorySection = () => {
   return (
     <Section className="history-section" title="Our history">
       <div className="history-section__container flex flex-col gap-8">
-        <HistoryEvent year="2021" event="A non-profit supporting students at the University of Cambridge to pursue high-impact careers" />
-        <HistoryEvent year="2022" event="Growing into a new start-up called “BlueDot Impact” and moved headquarters to London" />
-        <HistoryEvent year="2023" event="BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity" />
-        <HistoryEvent year="2024" event="BlueDot Impact is now running courses every 6 weeks and trains over 2500 professionals in AI Safety and Biosecurity" />
-        <HistoryEvent year="2025" event="BlueDot is now running multiple courses in parallel every week! We are scaling the team to accelerate our impact!" now />
+        <HistoryEvent year="2021" event="Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies." />
+        <HistoryEvent year="2022" event="Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters." />
+        <HistoryEvent year="2023" event="Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity." />
+        <HistoryEvent year="2024" event="Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety." />
+        <HistoryEvent year="2025" event="Launching multiple courses weekly and expanding a world-class team to scale our global impact." now />
       </div>
     </Section>
   );

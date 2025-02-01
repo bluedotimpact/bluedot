@@ -35,7 +35,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           <p
             class="history-section__event-title"
           >
-            A non-profit supporting students at the University of Cambridge to pursue high-impact careers
+            Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
           </p>
         </div>
         <div
@@ -49,7 +49,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           <p
             class="history-section__event-title"
           >
-            Growing into a new start-up called “BlueDot Impact” and moved headquarters to London
+            Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
           </p>
         </div>
         <div
@@ -63,7 +63,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           <p
             class="history-section__event-title"
           >
-            BlueDot Impact is now running 1 training course every 4 months and trains over xxx people in AI Safety and Biosecurity
+            Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
           </p>
         </div>
         <div
@@ -77,7 +77,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           <p
             class="history-section__event-title"
           >
-            BlueDot Impact is now running courses every 6 weeks and trains over 2500 professionals in AI Safety and Biosecurity
+            Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
           </p>
         </div>
         <div
@@ -91,7 +91,7 @@ exports[`HistorySection > renders default as expected 1`] = `
           <p
             class="history-section__event-title"
           >
-            BlueDot is now running multiple courses in parallel every week! We are scaling the team to accelerate our impact!
+            Launching multiple courses weekly and expanding a world-class team to scale our global impact.
           </p>
         </div>
       </div>
