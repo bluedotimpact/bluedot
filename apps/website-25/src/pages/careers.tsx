@@ -1,7 +1,5 @@
 import {
   HeroSection,
-  Section,
-  ValueCard,
 } from '@bluedot/ui';
 import IntroSection from '../components/about/IntroSection';
 import CareersSection from '../components/careers/CareersSection';

@@ -58,13 +58,13 @@ const CourseSection = () => {
         ))}
         {/* Replace with SlideList component */}
         <div className="flex flex-row gap-4 overflow-y-scroll p-1">
-        {courses.map((course) => (
-          <CourseCard
-            key={course.title}
-            {...course}
-          />
-        ))}
-      </div>
+          {courses.map((course) => (
+            <CourseCard
+              key={course.title}
+              {...course}
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );
