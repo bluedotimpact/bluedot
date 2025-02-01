@@ -22,11 +22,11 @@ exports[`StorySection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="story-section__container flex flex-row gap-4"
+        class="story-section__container flex lg:flex-row flex-col gap-4"
       >
         <img
           alt="BlueDot Impact team"
-          class="story-section__image w-[570px] rounded-2xl"
+          class="story-section__image max-w-[570px] w-full max-h-[365px] rounded-2xl"
           src="/images/team/team_1.jpg"
         />
         <div

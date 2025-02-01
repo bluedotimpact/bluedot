@@ -63,7 +63,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
           </div>
         </div>
         <p
-          class="graduate-section__text"
+          class="graduate-section__text flex-shrink-0"
         >
           Our graduates work at
         </p>
