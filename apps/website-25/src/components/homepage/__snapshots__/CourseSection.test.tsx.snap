@@ -147,7 +147,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                     <img
                       alt="★"
                       class="course-card__star-icon size-[10px]"
-                      src="/icons/star.svg"
+                      src="/icons/star_black.svg"
                     />
                   </span>
                   <span
@@ -204,7 +204,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
                           >
                             Alignment Fast Track
                           </h2>
@@ -234,7 +234,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                                   <img
                                     alt="★"
                                     class="course-card__star-icon size-[10px]"
-                                    src="/icons/star.svg"
+                                    src="/icons/star_black.svg"
                                   />
                                 </span>
                                 <span
@@ -284,7 +284,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
                           >
                             Governance Fast-Track
                           </h2>
@@ -314,7 +314,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                                   <img
                                     alt="★"
                                     class="course-card__star-icon size-[10px]"
-                                    src="/icons/star.svg"
+                                    src="/icons/star_black.svg"
                                   />
                                 </span>
                                 <span
@@ -368,7 +368,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
                           >
                             AI Alignment
                           </h2>
@@ -398,7 +398,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                                   <img
                                     alt="★"
                                     class="course-card__star-icon size-[10px]"
-                                    src="/icons/star.svg"
+                                    src="/icons/star_black.svg"
                                   />
                                 </span>
                                 <span
@@ -448,7 +448,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
                           >
                             AI Governance
                           </h2>
@@ -478,7 +478,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                                   <img
                                     alt="★"
                                     class="course-card__star-icon size-[10px]"
-                                    src="/icons/star.svg"
+                                    src="/icons/star_black.svg"
                                   />
                                 </span>
                                 <span

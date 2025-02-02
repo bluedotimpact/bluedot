@@ -21,7 +21,7 @@ exports[`Card > renders default as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+          class="card__title text-xl font-[650] text-bluedot-darker mb-1"
         >
           John Doe
         </h2>
@@ -73,7 +73,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+          class="card__title text-xl font-[650] text-bluedot-darker mb-1"
         >
           John Doe
         </h2>

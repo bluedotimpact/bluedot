@@ -1,5 +1,7 @@
 /* Try to avoid adding styles here. Instead, use tailwind inline styles or add them to @bluedot/ui's shared.css (if they're relevant to other apps) */
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   h1 {

@@ -64,7 +64,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           <img
             alt="★"
             class="course-card__star-icon size-[10px]"
-            src="/icons/star.svg"
+            src="/icons/star_black.svg"
           />
         </span>
         <span
@@ -105,7 +105,7 @@ exports[`CourseCard > renders default as expected 1`] = `
         class="card__text"
       >
         <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+          class="card__title text-xl font-[650] text-bluedot-darker mb-1"
         >
           Title
         </h2>
@@ -135,7 +135,7 @@ exports[`CourseCard > renders default as expected 1`] = `
                 <img
                   alt="★"
                   class="course-card__star-icon size-[10px]"
-                  src="/icons/star.svg"
+                  src="/icons/star_black.svg"
                 />
               </span>
               <span

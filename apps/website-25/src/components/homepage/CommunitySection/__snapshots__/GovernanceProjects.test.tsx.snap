@@ -1,0 +1,280 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GovernanceProjects > renders as expected 1`] = `
+<div>
+  <section
+    class="governance-projects p-6 container-lined"
+  >
+    <div
+      class="governance-projects__container mx-auto max-w-[1750px]"
+    >
+      <div
+        class="governance-projects__header mb-12 flex justify-between"
+      >
+        <div
+          class="governance-projects__title-container flex flex-col gap-2"
+        >
+          <h2
+            class="governance-projects__title text-2xl font-[650] text-bluedot-darker"
+          >
+            AI Governance Projects
+          </h2>
+          <p
+            class="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black"
+          >
+            Competition winners
+          </p>
+        </div>
+        <a
+          class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
+          data-testid="cta-link"
+          href="#"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Explore more projects
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon size-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </a>
+      </div>
+      <div
+        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible mb-3"
+      >
+        <a
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          href="#"
+        >
+          <div
+            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+          >
+            <div
+              class="governance-projects__image-container relative"
+            >
+              <img
+                alt="Contextual Constitutional AI"
+                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
+                src="/images/project-winners/akshat-naik.png"
+              />
+              <div
+                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
+              >
+                <img
+                  alt="★"
+                  class="governance-projects__star-icon size-[12px]"
+                  src="/icons/star_gold.svg"
+                />
+                 
+                1st Place
+              </div>
+            </div>
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h2
+                class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+              >
+                Contextual Constitutional AI
+              </h2>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <div
+                class="card__footer flex items-center justify-between w-full"
+              >
+                <span
+                  class="governance-projects__author text-bluedot-black"
+                >
+                  by 
+                  Akshat Naik
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          href="#"
+        >
+          <div
+            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+          >
+            <div
+              class="governance-projects__image-container relative"
+            >
+              <img
+                alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
+                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
+                src="/images/project-winners/ella-duus.png"
+              />
+              <div
+                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
+              >
+                <img
+                  alt="★"
+                  class="governance-projects__star-icon size-[12px]"
+                  src="/icons/star_gold.svg"
+                />
+                 
+                1st Place
+              </div>
+            </div>
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h2
+                class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+              >
+                Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
+              </h2>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <div
+                class="card__footer flex items-center justify-between w-full"
+              >
+                <span
+                  class="governance-projects__author text-bluedot-black"
+                >
+                  by 
+                  Ella Duus
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          href="#"
+        >
+          <div
+            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+          >
+            <div
+              class="governance-projects__image-container relative"
+            >
+              <img
+                alt="Societal Adaptation to AI Human-Labor Automation"
+                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
+                src="/images/project-winners/yuval-rymon.png"
+              />
+              <div
+                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
+              >
+                <img
+                  alt="★"
+                  class="governance-projects__star-icon size-[12px]"
+                  src="/icons/star_gold.svg"
+                />
+                 
+                1st Place
+              </div>
+            </div>
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h2
+                class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+              >
+                Societal Adaptation to AI Human-Labor Automation
+              </h2>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <div
+                class="card__footer flex items-center justify-between w-full"
+              >
+                <span
+                  class="governance-projects__author text-bluedot-black"
+                >
+                  by 
+                  Yuval Rymon
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+        <a
+          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          href="#"
+        >
+          <div
+            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+          >
+            <div
+              class="governance-projects__image-container relative"
+            >
+              <img
+                alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
+                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
+                src="/images/project-winners/naci-cankaya.png"
+              />
+              <div
+                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
+              >
+                <img
+                  alt="★"
+                  class="governance-projects__star-icon size-[12px]"
+                  src="/icons/star_gold.svg"
+                />
+                 
+                1st Place
+              </div>
+            </div>
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h2
+                class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+              >
+                Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
+              </h2>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <div
+                class="card__footer flex items-center justify-between w-full"
+              >
+                <span
+                  class="governance-projects__author text-bluedot-black"
+                >
+                  by 
+                  Naci Cankaya
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+`;
