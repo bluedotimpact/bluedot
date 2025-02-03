@@ -183,13 +183,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                     class="size-full"
                   >
                     <a
-                      class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] hover:container-elevated course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
                       href="https://aisafetyfundamentals.com/alignment-fast-track/"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <div
-                        class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+                        class="card__image-container max-h-[223px] w-full mb-3"
                       >
                         <img
                           alt="Alignment Fast Track"
@@ -263,13 +263,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                     class="size-full"
                   >
                     <a
-                      class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] hover:container-elevated course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
                       href="https://aisafetyfundamentals.com/governance-fast-track/"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <div
-                        class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+                        class="card__image-container max-h-[223px] w-full mb-3"
                       >
                         <img
                           alt="Governance Fast-Track"
@@ -347,13 +347,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                     class="size-full"
                   >
                     <a
-                      class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] hover:container-elevated course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
                       href="https://aisafetyfundamentals.com/alignment/"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <div
-                        class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+                        class="card__image-container max-h-[223px] w-full mb-3"
                       >
                         <img
                           alt="AI Alignment"
@@ -427,13 +427,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                     class="size-full"
                   >
                     <a
-                      class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] hover:container-elevated course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] h-full m-1"
                       href="https://aisafetyfundamentals.com/governance/"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <div
-                        class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+                        class="card__image-container max-h-[223px] w-full mb-3"
                       >
                         <img
                           alt="AI Governance"

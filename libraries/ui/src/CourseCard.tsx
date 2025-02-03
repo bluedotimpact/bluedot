@@ -138,7 +138,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       isEntireCardClickable
       isExternalUrl
       className={clsx(
-        'course-card course-card--regular container-lined p-5',
+        'course-card course-card--regular min-w-min-width container-lined p-5',
         'flex flex-col w-[323px] h-[466px]',
         className,
       )}

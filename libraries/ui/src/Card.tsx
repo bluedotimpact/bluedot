@@ -35,7 +35,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
-    'card flex flex-col items-start min-w-min-width transition-transform duration-200',
+    'card flex flex-col items-start transition-transform duration-200 max-w-[323px]',
     isEntireCardClickable && 'hover:scale-[1.01] hover:container-elevated',
     className,
   );
@@ -46,7 +46,7 @@ export const Card: React.FC<CardProps> = ({
       {...(isEntireCardClickable && isExternalUrl && ctaUrl && EXTERNAL_LINK_PROPS)}
       className={wrapperClassName}
     >
-      <div className="card__image-container max-w-[323px] max-h-[223px] w-full mb-3">
+      <div className="card__image-container max-h-[223px] w-full mb-3">
         {/* If an element (may or may not be an <img>) is given, use that, otherwise use the image at `imageSrc` */}
         {imageNode || (
           <img

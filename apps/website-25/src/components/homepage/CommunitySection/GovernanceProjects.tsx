@@ -61,7 +61,7 @@ const GovernanceProjects = () => {
             Explore more projects
           </CTALinkOrButton>
         </div>
-        <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible mb-3">
+        <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-4 overflow-visible mb-3">
           {projects.map((project) => (
             <Card
               key={project.title}
