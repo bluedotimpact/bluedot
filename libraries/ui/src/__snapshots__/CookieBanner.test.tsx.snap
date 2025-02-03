@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CookieBanner > renders as expected 1`] = `
+<div>
+  <div
+    class="cookie-banner fixed bottom-6 right-0 mx-4 sm:mx-6 shadow-lg flex flex-col gap-5 p-6 rounded-lg bg-cream-normal w-fit max-w-[420px] border border-bluedot-normal"
+  >
+    <div
+      class="cookie-banner__text text-pretty"
+    >
+      We use analytics cookies to improve our website and measure ad performance.
+       
+      <a
+        class="underline"
+        href="/privacy-policy"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Cookie Policy
+      </a>
+      .
+    </div>
+    <div
+      class="cookie-banner__buttons flex flex-wrap gap-4 justify-center"
+    >
+      <button
+        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject px-6 whitespace-nowrap"
+        data-testid="cta-button"
+        type="button"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Reject all
+        </span>
+      </button>
+      <button
+        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept px-6 whitespace-nowrap"
+        data-testid="cta-button"
+        type="button"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Accept all
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
