@@ -47,14 +47,14 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </a>
       </div>
       <div
-        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(0,max-content))] gap-4 overflow-visible mb-3"
+        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-4 overflow-visible mb-3"
       >
         <a
-          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="#"
         >
           <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+            class="card__image-container max-h-[223px] w-full mb-3"
           >
             <div
               class="governance-projects__image-container relative"
@@ -106,11 +106,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="#"
         >
           <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+            class="card__image-container max-h-[223px] w-full mb-3"
           >
             <div
               class="governance-projects__image-container relative"
@@ -162,11 +162,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="#"
         >
           <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+            class="card__image-container max-h-[223px] w-full mb-3"
           >
             <div
               class="governance-projects__image-container relative"
@@ -218,11 +218,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="#"
         >
           <div
-            class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+            class="card__image-container max-h-[223px] w-full mb-3"
           >
             <div
               class="governance-projects__image-container relative"

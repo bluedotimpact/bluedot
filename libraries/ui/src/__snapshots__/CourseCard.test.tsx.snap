@@ -87,10 +87,10 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px]"
+    class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
   >
     <div
-      class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+      class="card__image-container max-h-[223px] w-full mb-3"
     >
       <img
         alt="Title"
