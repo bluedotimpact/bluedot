@@ -26,7 +26,7 @@ exports[`Card > renders default as expected 1`] = `
           John Doe
         </h2>
         <p
-          class="card__subtitle text-sm text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black "
         >
           Developer
         </p>
@@ -78,7 +78,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
           John Doe
         </h2>
         <p
-          class="card__subtitle text-sm text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black "
         >
           Developer
         </p>
