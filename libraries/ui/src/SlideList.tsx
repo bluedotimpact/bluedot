@@ -22,7 +22,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   itemsPerSlide = 1,
   slideClassName,
   containerClassName,
-  slidesWrapperWidth = '800px',
+  slidesWrapperWidth = '652px',
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
@@ -109,7 +109,7 @@ export const SlideList: React.FC<SlideListProps> = ({
 
       <div className={clsx('slide-list__content flex gap-8', containerClassName)}>
         {featuredSlot && (
-          <div className="slide-list__featured w-[600px] flex-shrink-0">
+          <div className="slide-list__featured flex-shrink-0">
             {featuredSlot}
           </div>
         )}
