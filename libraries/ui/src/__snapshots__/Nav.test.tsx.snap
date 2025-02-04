@@ -6,7 +6,7 @@ exports[`Nav > renders with courses 1`] = `
     class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
+      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-12"
     >
       <a
         class="nav__logo-link shrink-0 w-[200px]"
@@ -105,7 +105,7 @@ exports[`Nav > renders with optional yield 1`] = `
     class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
   >
     <div
-      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
+      class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-12"
     >
       <a
         class="nav__logo-link shrink-0 w-[200px]"

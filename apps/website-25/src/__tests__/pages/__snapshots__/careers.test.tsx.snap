@@ -17,7 +17,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full md:px-gutter px-gutter-sm my-8 intro-section"
+      class="section my-8 intro-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-4"
@@ -57,7 +57,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full md:px-gutter px-gutter-sm my-8 values-section"
+      class="section my-8 values-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-4"
@@ -151,7 +151,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full md:px-gutter px-gutter-sm my-8 careers-section"
+      class="section my-8 careers-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-4"

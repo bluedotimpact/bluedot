@@ -3,7 +3,7 @@
 exports[`GraduateSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full md:px-gutter px-gutter-sm my-8 graduate-section"
+    class="section my-8 graduate-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-4"

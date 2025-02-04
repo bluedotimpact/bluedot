@@ -3,7 +3,7 @@
 exports[`CourseSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full md:px-gutter px-gutter-sm my-8"
+    class="section my-8"
   >
     <div
       class="section__title-container flex justify-between items-center gap-4"
@@ -82,7 +82,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           class="slide-list__content flex gap-8"
         >
           <div
-            class="slide-list__featured w-[600px] flex-shrink-0"
+            class="slide-list__featured flex-shrink-0"
           >
             <div
               class="h-full"
@@ -171,7 +171,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           </div>
           <div
             class="slide-list__container relative overflow-hidden flex-shrink-0"
-            style="width: 800px;"
+            style="width: 652px;"
           >
             <div
               class="slide-list__track flex transition-transform duration-300 ease-in-out pb-8"
