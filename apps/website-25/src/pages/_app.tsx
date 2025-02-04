@@ -28,7 +28,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         <a href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" {...EXTERNAL_LINK_PROPS}>Support us</a>
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
-        <a href="https://bluedot.org/blog/" {...EXTERNAL_LINK_PROPS}>Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />

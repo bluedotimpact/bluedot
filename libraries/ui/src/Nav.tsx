@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import React, { useState } from 'react';
-import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
+import React, { useCallback, useState } from 'react';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils';
+import HamburgerButton from './HamburgerButton';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string,
@@ -14,92 +14,152 @@ export type NavProps = React.PropsWithChildren<{
   }>;
 }>;
 
-type NavButtonProps = LinkOrButtonProps;
+const SearchIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+    <circle cx="21.4853" cy="22.4853" r="6" transform="rotate(-45 21.4853 22.4853)" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M27.1421 28.1421L30.6776 31.6776" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+const DropdownIcon: React.FC<{ expanded: boolean }> = ({ expanded }) => (
+  <svg
+    className={clsx('size-4 transition-transform', expanded ? 'rotate-180' : '')}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+);
+
+const ExploreSection: React.FC<{
+  expanded: boolean;
+  innerClassName?: string;
+  className?: string;
+  courses: Array<{ title: string; href: string; isNew?: boolean }>;
+}> = ({
+  expanded, innerClassName, className, courses,
+}) => (
+  <div className={clsx(
+    'nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300',
+    expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+    className,
+  )}
+  >
+    <div className={clsx('nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty', innerClassName)}>
+      <h2 className="nav-explore-section__dropdown-title font-bold text-xl">Our courses</h2>
+      {courses?.map((course) => (
+        <a key={course.href} href={course.href} className="nav-explore-section__dropdown-link">
+          {course.isNew && (
+          <span className="nav-explore-section__new-badge text-bluedot-normal text-xl font-black pr-2">
+            New!
+          </span>
+          )}
+          {course.title}
+        </a>
+      ))}
+    </div>
+  </div>
+);
+
+const NavLinks: React.FC<{
+  exploreSectionInline?: boolean,
+  children: React.ReactNode,
+  courses: Array<{ title: string; href: string; isNew?: boolean }>,
+  exploreExpanded: boolean,
+  onToggleExplore: () => void,
+  className?: string
+}> = ({
+  exploreSectionInline, children, courses, exploreExpanded, onToggleExplore, className,
+}) => (
+  <div className={clsx('nav-links flex gap-9', className)}>
+    <div>
+      <button
+        type="button"
+        onClick={onToggleExplore}
+        className="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+      >
+        Explore
+        <DropdownIcon expanded={exploreExpanded} />
+      </button>
+      {exploreSectionInline && <ExploreSection expanded={exploreExpanded} courses={courses} innerClassName="pl-6 pt-6" />}
+    </div>
+    {children}
+  </div>
+);
+
+const LoginButtons: React.FC<{ className?: string }> = ({ className }) => (
+  <div className={clsx('nav__cta-container flex items-center', className)}>
+    <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Log in</a>
+    {/* TODO flag decision to keep default here */}
+    <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
+  </div>
+);
 
 export const Nav: React.FC<NavProps> = ({
   children, className, logo, courses,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  // Use a string rather than two booleans because `exploreExpanded = true`
+  // with `navExpanded = false` is not a valid state
+  const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore'>('none');
+  const navExpanded = expandedSections === 'nav' || expandedSections === 'nav-and-explore';
+  const exploreExpanded = expandedSections === 'nav-and-explore';
+
+  const onToggleExplore = useCallback(() => {
+    setExpandedSections((prev) => (prev === 'nav-and-explore' ? 'nav' : 'nav-and-explore'));
+  }, []);
+
+  const onToggleNav = useCallback(() => {
+    setExpandedSections((prev) => (prev === 'none' ? 'nav' : 'none'));
+  }, []);
 
   return (
-    <nav className={clsx(
-      'nav fixed z-50 w-full bg-bluedot-canvas container-elevated',
-      'transition-all duration-300 left-1/2 -translate-x-1/2',
-      className,
-    )}
-    >
-      <div className="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8">
-        <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-          {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
-        </a>
-        <div className="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative">
-          <button
-            type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="nav__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+    <nav className={clsx('nav fixed z-50 w-full bg-bluedot-canvas container-elevated', className)}>
+      <div className="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9">
+        <div className="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]">
+          <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+            {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
+          </a>
+          <NavLinks
+            onToggleExplore={onToggleExplore}
+            exploreExpanded={exploreExpanded}
+            courses={courses}
+            className="nav__links--desktop hidden lg:flex"
           >
-            Explore
-            <svg
-              className={clsx('size-4 transition-transform', isExpanded ? 'rotate-180' : '')}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {children}
+            {children}
+          </NavLinks>
+          <div className="nav__actions flex">
+            <SearchIcon />
+            <LoginButtons className="nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex" />
+            <HamburgerButton open={navExpanded} setOpen={onToggleNav} className="nav__menu--mobile-tablet lg:hidden" />
+          </div>
         </div>
-        <div className="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]">
-          <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Login</a>
-          <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
-        </div>
-      </div>
-
-      <div className={clsx(
-        'nav__dropdown overflow-hidden transition-[max-height,opacity] duration-300 flex justify-center items-center pb-7',
-        isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
-      )}
-      >
-        <div className="nav__dropdown-content flex flex-col gap-[14px] w-max">
-          <h2 className="nav__dropdown-title font-bold text-xl">Our courses</h2>
-          {courses?.map((course) => (
-            <a
-              key={course.href}
-              href={course.href}
-              className="nav__dropdown-link"
+        <div
+          className={clsx(
+            'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden',
+            navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
+          )}
+        >
+          <ExploreSection
+            expanded={exploreExpanded}
+            courses={courses}
+            className="nav__drawer-content--desktop"
+            innerClassName="pb-10 hidden lg:flex mx-auto"
+          />
+          <div className="nav__drawer-content--mobile-tablet flex flex-col flex-grow font-medium pb-8 pt-2 lg:hidden">
+            <NavLinks
+              onToggleExplore={onToggleExplore}
+              exploreExpanded={exploreExpanded}
+              exploreSectionInline
+              courses={courses}
+              className="nav__links--mobile-tablet flex-col"
             >
-              {course.isNew && (
-                <span className="nav__new-badge text-bluedot-normal text-xl font-black pr-2">New!</span>
-              )}
-              {course.title}
-            </a>
-          ))}
+              {children}
+            </NavLinks>
+            <LoginButtons className="nav__login--mobile justify-between mt-20 sm:hidden" />
+          </div>
         </div>
       </div>
     </nav>
   );
 };
-
-export const NavButton: React.FC<NavButtonProps> & {
-  CTA: React.FC<NavButtonProps>
-} = Object.assign(
-  ({ className, ...rest }: NavButtonProps) => (
-    <LinkOrButton className={clsx('nav_link-cta border border-neutral-500 rounded px-8 pb-4', className)} {...rest} />
-  ),
-  {
-    CTA: ({ className, ...rest }: NavButtonProps) => (
-      <LinkOrButton
-        className={clsx(
-          'bg-bluedot-lighter text-bluedot-normal font-medium',
-          'border border-bluedot-lighter rounded-full px-6 py-2',
-          'transition-all duration-200',
-          'hover:bg-bluedot-normal hover:text-white',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bluedot-normal',
-          className,
-        )}
-        {...rest}
-      />
-    ),
-  },
-);
