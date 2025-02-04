@@ -5,9 +5,12 @@
   h1 {
     @apply text-bluedot-darker font-sans text-5xl font-bold leading-tight;
   }
+  /* TODO: Where is the title class used? */
+  /* TODO: Introduce font-demibold for font-[650] */
   h2, .title {
     @apply text-bluedot-darker font-sans text-2xl font-[650] leading-normal;
   }
+  /* TODO: Where is the subtitle class used? */
   h3, .subtitle {
     @apply text-bluedot-darker font-sans text-2xl font-[650] leading-[1.5];
   }
