@@ -1,4 +1,4 @@
-import { EXTERNAL_LINK_PROPS, Footer, Nav } from '@bluedot/ui';
+import { EXTERNAL_LINK_PROPS, Footer, HeroSection, Nav } from '@bluedot/ui';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -21,7 +21,19 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <a href="/careers">Join us</a>
         <a href="https://bluedot.org/blog/" {...EXTERNAL_LINK_PROPS}>Blog</a>
       </Nav>
-      <main className="bluedot-base">{children}</main>
+      <main className="bluedot-base overflow-y-scroll">
+        <HeroSection
+          title="The expertise you need to shape safe AI "
+          subtitle="We run the world's most trusted AI Safety educational courses, career services and support community. Our programs are developed in collaboration with AI Safety world experts."
+        >
+          <div className="hero-section__logo-container flex flex-col items-center gap-7 mb-3">
+            <img className="hero-section__logo-icon w-20 mb-20" src="/images/logo/BlueDot_Impact_Icon_White.svg" alt="BlueDot Impact" />
+          </div>
+        </HeroSection>
+        <div className="max-w-max-width min-w-min-width mx-auto">
+          {children}
+        </div>
+      </main>
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
     </>
   );
