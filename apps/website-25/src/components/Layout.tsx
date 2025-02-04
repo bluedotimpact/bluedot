@@ -1,4 +1,9 @@
-import { EXTERNAL_LINK_PROPS, Footer, HeroSection, Nav } from '@bluedot/ui';
+import {
+  EXTERNAL_LINK_PROPS,
+  Footer,
+  HeroSection,
+  Nav,
+} from '@bluedot/ui';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -9,7 +14,9 @@ const courses = [
   { title: 'Economics of Transformative AI Fast-Track', href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/', isNew: true },
 ];
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC<{
+  children: React.ReactNode
+}> = ({ children }) => {
   return (
     <>
       <Nav
