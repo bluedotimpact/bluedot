@@ -35,7 +35,7 @@ export const Card: React.FC<CardProps> = ({
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
     'card flex flex-col items-start min-w-min-width transition-transform duration-200',
-    isEntireCardClickable && 'hover:scale-[1.01]',
+    isEntireCardClickable && 'hover:scale-[1.01] hover:container-elevated',
     className,
   );
 
