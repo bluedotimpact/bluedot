@@ -107,7 +107,7 @@ export const SlideList: React.FC<SlideListProps> = ({
         </div>
       </div>
 
-      <div className={clsx('slide-list__content flex gap-8', containerClassName)}>
+      <div className={clsx('slide-list__content flex gap-2', containerClassName)}>
         {featuredSlot && (
           <div className="slide-list__featured w-[600px] flex-shrink-0">
             {featuredSlot}
@@ -130,7 +130,7 @@ export const SlideList: React.FC<SlideListProps> = ({
               return (
                 <div
                   key={slideKey}
-                  className={clsx('slide-list__track-item w-full flex-shrink-0 flex gap-8', slideClassName)}
+                  className={clsx('slide-list__track-item w-full flex-shrink-0 flex gap-2', slideClassName)}
                 >
                   {slideItems.map((child) => (
                     <div

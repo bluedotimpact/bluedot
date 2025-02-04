@@ -45,7 +45,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps & { footerRow: React.ReactNod
   footerRow,
 }) => {
   const wrapperClassName = clsx(
-    'course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]',
+    'course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
     'container-lined p-6 max-w-[656px]',
     className,
   );
@@ -139,7 +139,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       isExternalUrl
       className={clsx(
         'course-card course-card--regular container-lined p-5',
-        'flex flex-col w-[323px] h-[409px]',
+        'flex flex-col w-[323px] h-[466px]',
         className,
       )}
       imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"

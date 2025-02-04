@@ -53,19 +53,16 @@ const CourseSection = () => {
         description="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
         itemsPerSlide={2}
         featuredSlot={(
-          <div className="h-full">
-            <CourseCard
-              {...featuredCourses[0]}
-              cardType="Featured"
-            />
-          </div>
+          <CourseCard
+            {...featuredCourses[0]}
+            cardType="Featured"
+            className="h-full m-1"
+          />
         )}
       >
         {courses.map((course) => (
           <SlideItem key={course.title}>
-            <div className="h-full">
-              <CourseCard {...course} />
-            </div>
+            <CourseCard {...course} className="h-full m-1" />
           </SlideItem>
         ))}
       </SlideList>

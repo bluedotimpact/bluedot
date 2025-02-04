@@ -76,7 +76,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
           </div>
         </div>
         <div
-          class="slide-list__content flex gap-8 justify-center"
+          class="slide-list__content flex gap-2 justify-center"
         >
           <div
             class="slide-list__container relative overflow-hidden flex-shrink-0"
@@ -87,7 +87,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
               style="transform: translateX(-0%);"
             >
               <div
-                class="slide-list__track-item w-full flex-shrink-0 flex gap-8 gap-8"
+                class="slide-list__track-item w-full flex-shrink-0 flex gap-2 gap-8"
               >
                 <div
                   class="slide-list__item flex-1"

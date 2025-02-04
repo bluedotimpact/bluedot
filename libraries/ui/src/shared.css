@@ -56,14 +56,16 @@
   font-style: normal
 }
 
-.bluedot-base {
-  @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
-}
+@layer utilities {
+  .bluedot-base {
+    @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+  }
 
-.container-lined {
-  @apply border border-gray-300 rounded-xl;
-}
-.container-elevated {
-  /* RGBA of var(--bluedot-cream-normal) */
-  box-shadow: 0px 4px 20px 0px rgba(30, 30, 30, 0.1);
+  .container-lined {
+    @apply border border-gray-300 rounded-xl;
+  }
+  .container-elevated {
+    /* RGBA of var(--bluedot-cream-normal) */
+    box-shadow: 0px 4px 20px 0px rgba(30, 30, 30, 0.1);
+  }
 }
