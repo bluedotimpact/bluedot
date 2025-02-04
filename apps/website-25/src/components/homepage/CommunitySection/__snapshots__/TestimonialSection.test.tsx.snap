@@ -22,25 +22,25 @@ exports[`TestimonialSection > renders as expected 1`] = `
           class="slide-list__header flex justify-between items-start mb-8"
         >
           <div
-            class="slide-list__header-titles"
+            class="slide-list__header-content"
           >
             <h2
-              class="slide-list__header-title text-4xl font-bold text-navy-900"
+              class="slide-list__title text-4xl font-bold text-bluedot-darker"
             >
               What our graduates say
             </h2>
           </div>
           <div
-            class="slide-list__header-navigation flex gap-2"
+            class="slide-list__nav flex gap-2 pt-2"
           >
             <button
               aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               disabled=""
               type="button"
             >
               <svg
-                class="size-5"
+                class="slide-list__nav-icon size-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -55,12 +55,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
             </button>
             <button
               aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-2 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               disabled=""
               type="button"
             >
               <svg
-                class="size-5"
+                class="slide-list__nav-icon size-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -79,7 +79,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
           class="slide-list__content flex gap-8 justify-center"
         >
           <div
-            class="slide-list__slides relative overflow-hidden flex-shrink-0"
+            class="slide-list__container relative overflow-hidden flex-shrink-0"
             style="width: 100%;"
           >
             <div
@@ -87,10 +87,10 @@ exports[`TestimonialSection > renders as expected 1`] = `
               style="transform: translateX(-0%);"
             >
               <div
-                class="slide-list__slide w-full flex-shrink-0 flex gap-8 gap-8"
+                class="slide-list__track-item w-full flex-shrink-0 flex gap-8 gap-8"
               >
                 <div
-                  class="slide-list__slide-item flex-1"
+                  class="slide-list__item flex-1"
                 >
                   <div
                     class="size-full"
@@ -136,7 +136,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   </div>
                 </div>
                 <div
-                  class="slide-list__slide-item flex-1"
+                  class="slide-list__item flex-1"
                 >
                   <div
                     class="size-full"
@@ -182,7 +182,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   </div>
                 </div>
                 <div
-                  class="slide-list__slide-item flex-1"
+                  class="slide-list__item flex-1"
                 >
                   <div
                     class="size-full"
