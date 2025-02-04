@@ -3,7 +3,7 @@
 exports[`IntroSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 intro-section"
+    class="section w-full md:px-gutter px-gutter-sm my-8 intro-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-4"
