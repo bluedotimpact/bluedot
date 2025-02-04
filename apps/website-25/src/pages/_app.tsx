@@ -3,17 +3,7 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { Footer, Nav } from '@bluedot/ui';
-import { EXTERNAL_LINK_PROPS } from '@bluedot/ui/src/utils';
-
-// TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
-const courses = [
-  { title: 'Intro to Transformative AI', href: 'https://aisafetyfundamentals.com/intro-to-tai/' },
-  { title: 'AI Alignment Fast-Track', href: 'https://aisafetyfundamentals.com/alignment-fast-track/' },
-  { title: 'AI Alignment In-Depth', href: 'https://aisafetyfundamentals.com/alignment/' },
-  { title: 'AI Governance Fast-Track', href: 'https://aisafetyfundamentals.com/governance-fast-track/' },
-  { title: 'Economics of Transformative AI Fast-Track', href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/', isNew: true },
-];
+import Layout from '../components/Layout';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
@@ -21,19 +11,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>BlueDot Impact</title>
       </Head>
-      <Nav
-        logo="/images/logo/BlueDot_Impact_Logo.svg"
-        courses={courses}
-      >
-        <a href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" {...EXTERNAL_LINK_PROPS}>Support us</a>
-        <a href="/about">About</a>
-        <a href="/careers">Join us</a>
-        <a href="https://bluedot.org/blog/" {...EXTERNAL_LINK_PROPS}>Blog</a>
-      </Nav>
-      <main className="bluedot-base">
+      <Layout>
         <Component {...pageProps} />
-      </main>
-      <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+      </Layout>
     </>
   );
 };
