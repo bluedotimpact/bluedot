@@ -28,6 +28,7 @@ export const Nav: React.FC<NavProps> = ({
       className,
     )}
     >
+      {/* TODO: nav & first div could be extracted to NavLayout component */}
       <div className="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-12">
         <a href="/" className="nav__logo-link shrink-0 w-[200px]">
           {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
