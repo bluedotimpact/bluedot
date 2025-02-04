@@ -6,7 +6,7 @@
     @apply text-bluedot-darker font-sans text-5xl font-bold leading-tight;
   }
   h2, .title {
-    @apply text-bluedot-darker font-sans text-5xl font-[700] leading-[1.5];
+    @apply text-bluedot-darker font-sans text-2xl font-[650] leading-normal;
   }
   h3, .subtitle {
     @apply text-bluedot-darker font-sans text-2xl font-[650] leading-[1.5];

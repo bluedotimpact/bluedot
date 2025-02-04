@@ -18,7 +18,7 @@ export const Section: React.FC<SectionProps> = ({
       <div className="section__title-container flex justify-between items-center gap-4">
         <div className="section__content flex-1">
           {title && (
-            <h2 className={clsx(
+            <h1 className={clsx(
               'section__title mb-4 relative',
               ctaText && ctaUrl
                 ? 'after:w-4/5'
@@ -26,7 +26,7 @@ export const Section: React.FC<SectionProps> = ({
             )}
             >
               {title}
-            </h2>
+            </h1>
           )}
           {subtitle && (
             <p className="section__subtitle text-bluedot-darker text-md mb-4">{subtitle}</p>
