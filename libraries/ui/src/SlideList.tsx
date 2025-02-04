@@ -36,6 +36,9 @@ export const SlideList: React.FC<SlideListProps> = ({
     setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
   };
 
+  const isFirstSlide = currentSlide === 0;
+  const isLastSlide = currentSlide === totalSlides - 1;
+
   return (
     <section className={clsx('slide-list w-full', className)}>
       <div className="slide-list__header flex justify-between items-start mb-8">
@@ -147,16 +150,18 @@ export const SlideList: React.FC<SlideListProps> = ({
             })}
           </div>
 
-          <div className="slide-list__progress absolute bottom-0 left-0 w-full">
-            <div className="slide-list__progress-track h-1 bg-charcoal-normal">
-              <div
-                className="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
-                style={{
-                  width: `${((currentSlide + 1) / totalSlides) * 100}%`,
-                }}
-              />
+          {(!isFirstSlide || !isLastSlide) && (
+            <div className="slide-list__progress absolute bottom-0 left-0 w-full">
+              <div className="slide-list__progress-track h-1 bg-charcoal-normal">
+                <div
+                  className="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
+                  style={{
+                    width: `${((currentSlide + 1) / totalSlides) * 100}%`,
+                  }}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

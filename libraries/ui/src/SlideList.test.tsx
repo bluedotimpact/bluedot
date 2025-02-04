@@ -96,4 +96,22 @@ describe('SlideList', () => {
     expect(prevButton).toHaveProperty('disabled', false);
     expect(nextButton).toHaveProperty('disabled', true);
   });
+
+  it('hides progress indicator when all content fits in one view', () => {
+    render(
+      <SlideList title="Our courses" itemsPerSlide={3}>
+        <SlideItem>Slide 1</SlideItem>
+        <SlideItem>Slide 2</SlideItem>
+        <SlideItem>Slide 3</SlideItem>
+      </SlideList>,
+    );
+
+    // Navigation buttons should not be present since all content fits
+    expect(screen.queryByLabelText('Previous slide')).toBeNull();
+    expect(screen.queryByLabelText('Next slide')).toBeNull();
+
+    // Progress indicator should not be present
+    const progressBar = screen.queryByRole('progressbar');
+    expect(progressBar).toBeNull();
+  });
 });
