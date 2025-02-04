@@ -25,11 +25,11 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         <div
           class="section__content flex-1"
         >
-          <h2
+          <h1
             class="section__title mb-4 relative after:w-full"
           >
             Our culture
-          </h2>
+          </h1>
         </div>
       </div>
       <div
@@ -65,11 +65,11 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         <div
           class="section__content flex-1"
         >
-          <h2
+          <h1
             class="section__title mb-4 relative after:w-full"
           >
             Our values
-          </h2>
+          </h1>
         </div>
       </div>
       <div
@@ -159,11 +159,11 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         <div
           class="section__content flex-1"
         >
-          <h2
+          <h1
             class="section__title mb-4 relative after:w-full"
           >
             Careers at BlueDot Impact
-          </h2>
+          </h1>
         </div>
       </div>
       <div

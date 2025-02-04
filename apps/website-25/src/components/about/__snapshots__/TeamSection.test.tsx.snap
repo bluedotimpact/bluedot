@@ -11,11 +11,11 @@ exports[`TeamSection > renders default as expected 1`] = `
       <div
         class="section__content flex-1"
       >
-        <h2
+        <h1
           class="section__title mb-4 relative after:w-full"
         >
           Our team
-        </h2>
+        </h1>
       </div>
     </div>
     <div
@@ -43,7 +43,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Adam Jones
               </h2>
@@ -91,7 +91,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Dewi Erwan
               </h2>
@@ -139,7 +139,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Josh Landes
               </h2>
@@ -187,7 +187,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Li-Lian Ang
               </h2>
@@ -235,7 +235,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Tarin Rickett
               </h2>
@@ -283,7 +283,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Viorica Gheorghita
               </h2>
@@ -331,7 +331,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               class="card__text"
             >
               <h2
-                class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                class="card__title text-2xl text-bluedot-darker mb-1"
               >
                 Will Saunter
               </h2>

@@ -102,7 +102,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                     Featured course
                   </p>
                   <h2
-                    class="course-card__title text-2xl font-semibold text-bluedot-darker mb-6"
+                    class="course-card__title text-2xl text-bluedot-darker mb-6"
                   >
                     AI Safety: Intro to Transformative AI
                   </h2>
@@ -204,7 +204,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-2xl text-bluedot-darker mb-1"
                           >
                             Alignment Fast Track
                           </h2>
@@ -284,7 +284,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-2xl text-bluedot-darker mb-1"
                           >
                             Governance Fast-Track
                           </h2>
@@ -368,7 +368,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-2xl text-bluedot-darker mb-1"
                           >
                             AI Alignment
                           </h2>
@@ -448,7 +448,7 @@ exports[`CourseSection > renders default as expected 1`] = `
                           class="card__text"
                         >
                           <h2
-                            class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                            class="card__title text-2xl text-bluedot-darker mb-1"
                           >
                             AI Governance
                           </h2>
