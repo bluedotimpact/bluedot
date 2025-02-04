@@ -29,11 +29,11 @@ export const SlideList: React.FC<SlideListProps> = ({
   const totalSlides = Math.ceil(childrenArray.length / itemsPerSlide);
 
   const handlePrevious = () => {
-    setCurrentSlide((prev) => (prev > 0 ? prev - 1 : totalSlides - 1));
+    setCurrentSlide((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentSlide((prev) => (prev < totalSlides - 1 ? prev + 1 : 0));
+    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
   };
 
   return (
@@ -49,7 +49,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           <button
             type="button"
             onClick={handlePrevious}
-            disabled={totalSlides <= 1}
+            disabled={currentSlide === 0}
             className={clsx(
               'slide-list__nav-button slide-list__nav-button--prev',
               'p-3 border rounded-lg transition-colors',
@@ -78,7 +78,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           <button
             type="button"
             onClick={handleNext}
-            disabled={totalSlides <= 1}
+            disabled={currentSlide === totalSlides - 1}
             className={clsx(
               'slide-list__nav-button slide-list__nav-button--next',
               'p-3 border rounded-lg transition-colors',
