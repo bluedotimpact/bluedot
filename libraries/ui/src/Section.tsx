@@ -14,7 +14,7 @@ export const Section: React.FC<SectionProps> = ({
   className, title, subtitle, ctaText, ctaUrl, children,
 }) => {
   return (
-    <div className={clsx('section w-full md:px-gutter px-gutter-sm my-8', className)}>
+    <div className={clsx('section my-8', className)}>
       <div className="section__title-container flex justify-between items-center gap-4">
         <div className="section__content flex-1">
           {title && (

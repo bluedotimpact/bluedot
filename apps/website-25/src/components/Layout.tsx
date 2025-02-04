@@ -30,7 +30,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <img className="hero-section__logo-icon w-20 mb-20" src="/images/logo/BlueDot_Impact_Icon_White.svg" alt="BlueDot Impact" />
           </div>
         </HeroSection>
-        <div className="max-w-max-width min-w-min-width mx-auto">
+        {/* TODO: px-... is called margin on Figma */}
+        <div className="max-w-max-width min-w-min-width mx-auto md:px-12 px-6">
           {children}
         </div>
       </main>
