@@ -19,6 +19,8 @@ export { Nav } from './Nav';
 
 export { Section } from './Section';
 
+export { SlideList, SlideItem } from './SlideList';
+
 export { Tag } from './Tag';
 
 export { ValueCard } from './ValueCard';

@@ -2,154 +2,249 @@
 
 exports[`TestimonialSection > renders as expected 1`] = `
 <div>
-  <section
-    class="testimonial-section py-12"
+  <div
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
   >
     <div
-      class="testimonial-section__container container-lined mx-auto max-w-[1750px]"
+      class="section__title-container flex justify-between items-center gap-4"
     >
-      <h2
-        class="testimonial-section__title text-2xl font-bold text-bluedot-darker mb-12 px-6 pt-6"
-      >
-        What our graduates say
-      </h2>
       <div
-        class="testimonial-section__grid grid grid-cols-1 md:grid-cols-3 gap-[30px] divide-x divide-gray-200 px-[46px] pb-[78px] text-black"
+        class="section__content flex-1"
+      />
+    </div>
+    <div
+      class="section__body"
+    >
+      <section
+        class="slide-list w-full"
       >
         <div
-          class="testimonial-section__card flex flex-col px-8 first:pl-0 last:pr-0"
+          class="slide-list__header flex justify-between items-start mb-8"
         >
-          <blockquote
-            class="testimonial-section__quote text-lg mb-6 line-clamp-[8]"
-          >
-            "
-            This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
-            "
-          </blockquote>
           <div
-            class="testimonial-section__profile flex items-center gap-4 mt-auto"
+            class="slide-list__header-content"
           >
-            <div
-              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
+            <h2
+              class="slide-list__title text-4xl font-bold text-bluedot-darker"
             >
-              <img
-                alt="Kendrea Beers"
-                class="testimonial-section__image object-cover"
-                data-nimg="fill"
-                decoding="async"
-                loading="lazy"
-                sizes="100vw"
-                src="/_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=3840&q=75"
-                srcset="/_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=640&q=75 640w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=750&q=75 750w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=828&q=75 828w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=1080&q=75 1080w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=1200&q=75 1200w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=1920&q=75 1920w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=2048&q=75 2048w, /_next/image?url=%2Fimages%2Fgraduates%2Fkendrea.png&w=3840&q=75 3840w"
-                style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
-              />
-            </div>
-            <div
-              class="testimonial-section__profile-info"
+              What our graduates say
+            </h2>
+          </div>
+          <div
+            class="slide-list__nav flex gap-2 pt-2"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              disabled=""
+              type="button"
             >
-              <div
-                class="testimonial-section__name font-semibold"
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Kendrea Beers
-              </div>
-              <div
-                class="testimonial-section__role text-black"
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                Horizon Junior Fellow at the Center for Security and Emerging Technology
-              </div>
-            </div>
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
           </div>
         </div>
         <div
-          class="testimonial-section__card flex flex-col px-8 first:pl-0 last:pr-0"
+          class="slide-list__content flex gap-8 justify-center"
         >
-          <blockquote
-            class="testimonial-section__quote text-lg mb-6 line-clamp-[8]"
-          >
-            "
-            I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
-            "
-          </blockquote>
           <div
-            class="testimonial-section__profile flex items-center gap-4 mt-auto"
+            class="slide-list__container relative overflow-hidden flex-shrink-0"
+            style="width: 100%;"
           >
             <div
-              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
+              class="slide-list__track flex transition-transform duration-300 ease-in-out pb-8"
+              style="transform: translateX(-0%);"
             >
-              <img
-                alt="Sarah Cogan"
-                class="testimonial-section__image object-cover"
-                data-nimg="fill"
-                decoding="async"
-                loading="lazy"
-                sizes="100vw"
-                src="/_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=3840&q=75"
-                srcset="/_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=640&q=75 640w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=750&q=75 750w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=828&q=75 828w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=1080&q=75 1080w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=1200&q=75 1200w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=1920&q=75 1920w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=2048&q=75 2048w, /_next/image?url=%2Fimages%2Fgraduates%2Fsarah.png&w=3840&q=75 3840w"
-                style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
-              />
+              <div
+                class="slide-list__track-item w-full flex-shrink-0 flex gap-8 gap-8"
+              >
+                <div
+                  class="slide-list__item flex-1"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                    >
+                      <blockquote
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      >
+                        "
+                        This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
+                        "
+                      </blockquote>
+                      <div
+                        class="testimonial__footer flex items-center gap-4 mt-auto"
+                      >
+                        <div
+                          class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                        >
+                          <img
+                            alt="Kendrea Beers"
+                            class="size-full object-cover"
+                            src="/images/graduates/kendrea.png"
+                          />
+                        </div>
+                        <div
+                          class="testimonial__info"
+                        >
+                          <div
+                            class="testimonial__name font-semibold text-bluedot-black"
+                          >
+                            Kendrea Beers
+                          </div>
+                          <div
+                            class="testimonial__role text-sm text-bluedot-darker"
+                          >
+                            Horizon Junior Fellow at the Center for Security and Emerging Technology
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__item flex-1"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                    >
+                      <blockquote
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      >
+                        "
+                        I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
+                        "
+                      </blockquote>
+                      <div
+                        class="testimonial__footer flex items-center gap-4 mt-auto"
+                      >
+                        <div
+                          class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                        >
+                          <img
+                            alt="Sarah Cogan"
+                            class="size-full object-cover"
+                            src="/images/graduates/sarah.png"
+                          />
+                        </div>
+                        <div
+                          class="testimonial__info"
+                        >
+                          <div
+                            class="testimonial__name font-semibold text-bluedot-black"
+                          >
+                            Sarah Cogan
+                          </div>
+                          <div
+                            class="testimonial__role text-sm text-bluedot-darker"
+                          >
+                            Software Engineer at Google DeepMind
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__item flex-1"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                    >
+                      <blockquote
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      >
+                        "
+                        This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
+                        "
+                      </blockquote>
+                      <div
+                        class="testimonial__footer flex items-center gap-4 mt-auto"
+                      >
+                        <div
+                          class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                        >
+                          <img
+                            alt="Matthew Bradbury"
+                            class="size-full object-cover"
+                            src="/images/graduates/matthew.png"
+                          />
+                        </div>
+                        <div
+                          class="testimonial__info"
+                        >
+                          <div
+                            class="testimonial__name font-semibold text-bluedot-black"
+                          >
+                            Matthew Bradbury
+                          </div>
+                          <div
+                            class="testimonial__role text-sm text-bluedot-darker"
+                          >
+                            Senior AI Risk Analyst in the UK Government
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
-              class="testimonial-section__profile-info"
+              class="slide-list__progress absolute bottom-0 left-0 w-full"
             >
               <div
-                class="testimonial-section__name font-semibold"
+                class="slide-list__progress-track h-1 bg-charcoal-normal"
               >
-                Sarah Cogan
-              </div>
-              <div
-                class="testimonial-section__role text-black"
-              >
-                Software Engineer at Google DeepMind
+                <div
+                  class="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
+                  style="width: 100%;"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="testimonial-section__card flex flex-col px-8 first:pl-0 last:pr-0"
-        >
-          <blockquote
-            class="testimonial-section__quote text-lg mb-6 line-clamp-[8]"
-          >
-            "
-            This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
-            "
-          </blockquote>
-          <div
-            class="testimonial-section__profile flex items-center gap-4 mt-auto"
-          >
-            <div
-              class="testimonial-section__image-wrapper size-16 relative rounded-full overflow-hidden"
-            >
-              <img
-                alt="Matthew Bradbury"
-                class="testimonial-section__image object-cover"
-                data-nimg="fill"
-                decoding="async"
-                loading="lazy"
-                sizes="100vw"
-                src="/_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=3840&q=75"
-                srcset="/_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=640&q=75 640w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=750&q=75 750w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=828&q=75 828w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=1080&q=75 1080w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=1200&q=75 1200w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=1920&q=75 1920w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=2048&q=75 2048w, /_next/image?url=%2Fimages%2Fgraduates%2Fmatthew.png&w=3840&q=75 3840w"
-                style="position: absolute; height: 100%; width: 100%; left: 0px; top: 0px; right: 0px; bottom: 0px; color: transparent;"
-              />
-            </div>
-            <div
-              class="testimonial-section__profile-info"
-            >
-              <div
-                class="testimonial-section__name font-semibold"
-              >
-                Matthew Bradbury
-              </div>
-              <div
-                class="testimonial-section__role text-black"
-              >
-                Senior AI Risk Analyst in the UK Government
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
-  </section>
+  </div>
 </div>
 `;
