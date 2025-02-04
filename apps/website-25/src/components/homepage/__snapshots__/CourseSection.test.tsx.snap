@@ -40,7 +40,7 @@ exports[`CourseSection > renders default as expected 1`] = `
           >
             <button
               aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg hover:bg-gray-50"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               type="button"
             >
               <svg
@@ -59,7 +59,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             </button>
             <button
               aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg hover:bg-gray-50"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-2 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               type="button"
             >
               <svg
@@ -526,7 +526,7 @@ exports[`CourseSection > renders default as expected 1`] = `
               class="slide-list__progress absolute bottom-0 left-0 w-full"
             >
               <div
-                class="slide-list__progress-track h-1 bg-gray-100"
+                class="slide-list__progress-track h-1 bg-charcoal-normal"
               >
                 <div
                   class="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"

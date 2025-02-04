@@ -22,6 +22,10 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
             black: '#1E1E1E',
             canvas: 'var(--bluedot-cream-normal)',
           },
+          charcoal: {
+            light: '#CCCCCC',
+            normal: '#1E1E1E',
+          },
           aisf: {
             lighter: '#E6B3FF',
             light: '#D680FF',
