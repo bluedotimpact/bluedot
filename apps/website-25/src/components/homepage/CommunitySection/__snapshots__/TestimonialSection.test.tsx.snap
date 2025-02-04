@@ -35,7 +35,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
           >
             <button
               aria-label="Previous slide"
-              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               disabled=""
               type="button"
             >
@@ -55,7 +55,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             </button>
             <button
               aria-label="Next slide"
-              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-gray-80 text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80 hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               disabled=""
               type="button"
             >
@@ -99,7 +99,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                       class="testimonial flex flex-col h-full border rounded-lg p-8"
                     >
                       <blockquote
-                        class="testimonial__quote text-lg text-gray-700 mb-8 flex-grow text-center"
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
                       >
                         "
                         This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
@@ -121,12 +121,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           class="testimonial__info"
                         >
                           <div
-                            class="testimonial__name font-semibold text-navy-900"
+                            class="testimonial__name font-semibold text-bluedot-black"
                           >
                             Kendrea Beers
                           </div>
                           <div
-                            class="testimonial__role text-sm text-gray-600"
+                            class="testimonial__role text-sm text-bluedot-darker"
                           >
                             Horizon Junior Fellow at the Center for Security and Emerging Technology
                           </div>
@@ -145,7 +145,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                       class="testimonial flex flex-col h-full border rounded-lg p-8"
                     >
                       <blockquote
-                        class="testimonial__quote text-lg text-gray-700 mb-8 flex-grow text-center"
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
                       >
                         "
                         I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
@@ -167,12 +167,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           class="testimonial__info"
                         >
                           <div
-                            class="testimonial__name font-semibold text-navy-900"
+                            class="testimonial__name font-semibold text-bluedot-black"
                           >
                             Sarah Cogan
                           </div>
                           <div
-                            class="testimonial__role text-sm text-gray-600"
+                            class="testimonial__role text-sm text-bluedot-darker"
                           >
                             Software Engineer at Google DeepMind
                           </div>
@@ -191,7 +191,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                       class="testimonial flex flex-col h-full border rounded-lg p-8"
                     >
                       <blockquote
-                        class="testimonial__quote text-lg text-gray-700 mb-8 flex-grow text-center"
+                        class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
                       >
                         "
                         This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
@@ -213,12 +213,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           class="testimonial__info"
                         >
                           <div
-                            class="testimonial__name font-semibold text-navy-900"
+                            class="testimonial__name font-semibold text-bluedot-black"
                           >
                             Matthew Bradbury
                           </div>
                           <div
-                            class="testimonial__role text-sm text-gray-600"
+                            class="testimonial__role text-sm text-bluedot-darker"
                           >
                             Senior AI Risk Analyst in the UK Government
                           </div>

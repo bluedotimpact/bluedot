@@ -25,7 +25,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   slidesWrapperWidth = '800px',
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = React.Children.toArray(children) as React.ReactElement[];
   const totalSlides = Math.ceil(childrenArray.length / itemsPerSlide);
 
   const handlePrevious = () => {
@@ -53,9 +53,9 @@ export const SlideList: React.FC<SlideListProps> = ({
             className={clsx(
               'slide-list__nav-button slide-list__nav-button--prev',
               'p-3 border rounded-lg transition-colors',
-              'border-gray-80 text-black',
+              'border-charcoal-light text-black',
               'focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0',
-              'disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80',
+              'disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light',
               'hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal',
               'active:bg-bluedot-normal active:border-bluedot-normal active:text-black',
             )}
@@ -82,9 +82,9 @@ export const SlideList: React.FC<SlideListProps> = ({
             className={clsx(
               'slide-list__nav-button slide-list__nav-button--next',
               'p-3 border rounded-lg transition-colors',
-              'border-gray-80 text-black',
+              'border-charcoal-light text-black',
               'focus:outline-none focus:ring-2 focus:ring-bluedot-light',
-              'disabled:pointer-events-none disabled:border-gray-80 disabled:text-gray-80',
+              'disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light',
               'hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal',
               'active:bg-bluedot-normal active:border-bluedot-normal active:text-black',
             )}
@@ -122,23 +122,27 @@ export const SlideList: React.FC<SlideListProps> = ({
             className="slide-list__track flex transition-transform duration-300 ease-in-out pb-8"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {Array.from({ length: totalSlides }, (_, index) => (
-              <div
-                key={`slide-${index}`}
-                className={clsx('slide-list__track-item w-full flex-shrink-0 flex gap-8', slideClassName)}
-              >
-                {childrenArray
-                  .slice(index * itemsPerSlide, (index + 1) * itemsPerSlide)
-                  .map((child, i) => (
+            {Array.from({ length: totalSlides }).map((_, index) => {
+              const slideStart = index * itemsPerSlide;
+              const slideItems = childrenArray.slice(slideStart, slideStart + itemsPerSlide);
+              const slideKey = slideItems.map((child) => child.key).join('-') || `slide-${slideStart}`;
+
+              return (
+                <div
+                  key={slideKey}
+                  className={clsx('slide-list__track-item w-full flex-shrink-0 flex gap-8', slideClassName)}
+                >
+                  {slideItems.map((child) => (
                     <div
-                      key={`item-${index}-${i}`}
+                      key={child.key ?? `item-${child.props?.children}`}
                       className="slide-list__item flex-1"
                     >
                       {child}
                     </div>
                   ))}
-              </div>
-            ))}
+                </div>
+              );
+            })}
           </div>
 
           <div className="slide-list__progress absolute bottom-0 left-0 w-full">
