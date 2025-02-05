@@ -58,23 +58,8 @@ const GovernanceProjects = () => {
               title={project.title}
               subtitle={`by ${project.authorName}`}
               subtitleClassName="text-base"
+              imageSrc={project.imageSrc}
               ctaUrl={project.ctaUrl}
-              imageNode={(
-                <div className="governance-projects__image-container relative">
-                  <img
-                    className="governance-projects__image w-full max-h-full object-cover rounded-2xl"
-                    src={project.imageSrc}
-                    alt={project.title}
-                  />
-                  <div className="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2">
-                    <img
-                      src="/icons/star_gold.svg"
-                      alt="★"
-                      className="governance-projects__star-icon size-[12px]"
-                    />{' '}1st Place
-                  </div>
-                </div>
-              )}
               className="governance-projects__project"
               isEntireCardClickable
               isExternalUrl

@@ -11,12 +11,11 @@ type CardProps = {
   isExternalUrl?: boolean;
   className?: string;
   subtitleClassName?: string;
+  imageSrc: string;
+  imageClassName?: string;
 } & (
   | { ctaText: string; isEntireCardClickable?: false }
   | { ctaText?: string; isEntireCardClickable: true }
-) & (
-  | { imageSrc: string; imageClassName?: string; imageNode?: never }
-  | { imageNode: React.ReactNode; imageSrc?: never; imageClassName?: never }
 );
 
 export const Card: React.FC<CardProps> = ({
@@ -31,7 +30,6 @@ export const Card: React.FC<CardProps> = ({
   imageSrc,
   subtitleClassName = '',
   imageClassName = '',
-  imageNode,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
@@ -49,14 +47,11 @@ export const Card: React.FC<CardProps> = ({
       className={wrapperClassName}
     >
       <div className="card__image-container max-h-[223px] w-full mb-3">
-        {/* If an element (may or may not be an <img>) is given, use that, otherwise use the image at `imageSrc` */}
-        {imageNode || (
-          <img
-            className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
-            src={imageSrc}
-            alt={`${title}`}
-          />
-        )}
+        <img
+          className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
+          src={imageSrc}
+          alt={`${title}`}
+        />
       </div>
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
