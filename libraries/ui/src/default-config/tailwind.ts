@@ -24,7 +24,7 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
             secondary: 'var(--bluedot-lighter)',
             'primary-accent': 'var(--bluedot-normal)',
             'secondary-accent': 'var(--bluedot-lighter)',
-            divider: 'var(--bluedot-charcoal-lighter)',
+            divider: 'var(--bluedot-charcoal-light)',
           },
           /* Brand Colors */
           /* We kept these for backwards compatibility. Avoid using them. Use Design System Colors instead. */
