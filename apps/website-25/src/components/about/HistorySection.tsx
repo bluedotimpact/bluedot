@@ -19,7 +19,8 @@ const HistoryEvent = ({ year, event, now }: { year: string, event: string, now?:
   return (
     <div className="history-section__event">
       {isMobile ? (
-        <div className={`history-section__event-container--mobile w-full flex flex-row gap-12 p-8
+        <div className={
+          `history-section__event-container--mobile w-full flex flex-row gap-12 p-8
           ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
         }
         >
@@ -30,7 +31,7 @@ const HistoryEvent = ({ year, event, now }: { year: string, event: string, now?:
         <div className="history-section__event-container--desktop flex flex-col gap-4">
           <div className="history-section__year-container w-full flex gap-2">
             <p className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min">{year}</p>
-            <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"></div>
+            <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
           </div>
           <p className="history-section__event-title">{event}</p>
         </div>
