@@ -14,28 +14,28 @@ const projects: Project[] = [
     title: 'Contextual Constitutional AI',
     authorName: 'Akshat Naik',
     imageSrc: '/images/project-winners/akshat-naik.png',
-    ctaUrl: '#',
+    ctaUrl: 'https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/',
   },
   {
     id: 2,
     title: 'Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration',
     authorName: 'Ella Duus',
     imageSrc: '/images/project-winners/ella-duus.png',
-    ctaUrl: '#',
+    ctaUrl: 'https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/',
   },
   {
     id: 3,
     title: 'Societal Adaptation to AI Human-Labor Automation',
     authorName: 'Yuval Rymon',
     imageSrc: '/images/project-winners/yuval-rymon.png',
-    ctaUrl: '#',
+    ctaUrl: 'https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/',
   },
   {
     id: 4,
     title: 'Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research',
     authorName: 'Naci Cankaya',
     imageSrc: '/images/project-winners/naci-cankaya.png',
-    ctaUrl: '#',
+    ctaUrl: 'https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/',
   },
 ];
 
@@ -77,13 +77,15 @@ const GovernanceProjects = () => {
               )}
               className="governance-projects__project"
               isEntireCardClickable
+              isExternalUrl
             />
           ))}
         </div>
         <CTALinkOrButton
           className="governance-projects__link h-fit py-3"
-          url="#"
+          url="https://aisafetyfundamentals.com/projects/"
           variant="secondary"
+          isExternalUrl
           withChevron
         >
           Explore more projects
