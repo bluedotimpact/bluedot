@@ -14,13 +14,26 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
         ...config.theme?.extend,
         colors: {
           bluedot: {
+            /* Design System Colors */
+            text: 'var(--bluedot-charcoal-normal)',
+            'text-on-dark': 'var(--bluedot-cream-normal)',
+            'secondary-text': 'var(--bluedot-darker)',
+            canvas: 'var(--bluedot-cream-normal)',
+            'canvas-dark': 'var(--bluedot-darker)',
+            primary: 'var(--bluedot-normal)',
+            secondary: 'var(--bluedot-lighter)',
+            'primary-accent': 'var(--bluedot-normal)',
+            'secondary-accent': 'var(--bluedot-lighter)',
+            divider: 'var(--bluedot-charcoal-lighter)',
+
+            /* Brand Colors */
+            /* We kept these for backwards compatibility. Avoid using them. Use Design System Colors instead. */
             lighter: 'var(--bluedot-lighter)',
             light: 'var(--bluedot-light)',
             normal: 'var(--bluedot-normal)',
             dark: 'var(--bluedot-dark)',
             darker: 'var(--bluedot-darker)',
             black: 'var(--bluedot-black)',
-            canvas: 'var(--bluedot-cream-normal)',
           },
           charcoal: {
             light: 'var(--bluedot-charcoal-light)',
