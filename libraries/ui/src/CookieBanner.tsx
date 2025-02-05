@@ -41,7 +41,7 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     <div className={rootClassName}>
       <div className="cookie-banner__text text-pretty">
         We use analytics cookies to improve our website and measure ad performance.{' '}
-        <a className="underline" href="/privacy-policy" {...EXTERNAL_LINK_PROPS}>Cookie Policy</a>.
+        <a className="underline" href="/privacy-policy">Cookie Policy</a>.
       </div>
       <div className="cookie-banner__buttons flex flex-wrap gap-4 justify-center">
         <CTALinkOrButton

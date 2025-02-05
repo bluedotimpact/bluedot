@@ -1,5 +1,5 @@
 import {
-  beforeEach,
+  afterEach,
   describe,
   expect,
   test,
@@ -10,10 +10,12 @@ import { CookieBanner } from './CookieBanner';
 
 describe('CookieBanner', () => {
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
+  const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
 
-  beforeEach(() => {
+  afterEach(() => {
     localStorage.clear();
     setItemSpy.mockClear();
+    getItemSpy.mockClear();
   });
 
   test('renders as expected', () => {
@@ -41,5 +43,12 @@ describe('CookieBanner', () => {
     fireEvent.click(rejectButton!);
 
     expect(setItemSpy).toHaveBeenCalledWith('cookies', 'rejected');
+  });
+
+  test('does not render if "cookies" is already set', () => {
+    getItemSpy.mockReturnValue('accepted');
+
+    const { container } = render(<CookieBanner />);
+    expect(container.firstChild).toBeNull();
   });
 });

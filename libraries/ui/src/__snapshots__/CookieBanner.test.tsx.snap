@@ -13,8 +13,6 @@ exports[`CookieBanner > renders as expected 1`] = `
       <a
         class="underline"
         href="/privacy-policy"
-        rel="noopener noreferrer"
-        target="_blank"
       >
         Cookie Policy
       </a>
