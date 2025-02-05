@@ -24,11 +24,11 @@ exports[`TestimonialSection > renders as expected 1`] = `
           <div
             class="slide-list__header-content"
           >
-            <h2
-              class="slide-list__title text-4xl font-bold text-bluedot-darker"
+            <h3
+              class="slide-list__subtitle"
             >
               What our graduates say
-            </h2>
+            </h3>
           </div>
         </div>
         <div
