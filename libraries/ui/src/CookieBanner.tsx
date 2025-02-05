@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { EXTERNAL_LINK_PROPS } from './utils';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
 type CookieBannerProps = {
