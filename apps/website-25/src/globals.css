@@ -13,6 +13,9 @@
   h3, .subtitle {
     @apply text-bluedot-darker font-sans text-2xl font-[650] leading-[1.5];
   }
+  h4 {
+    @apply text-bluedot-darker font-sans text-xl font-[650];
+  }
   p, li, .body {
     @apply text-bluedot-black font-sans text-sm font-[400] leading-[1.5];
   }

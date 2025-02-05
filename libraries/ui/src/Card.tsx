@@ -40,6 +40,8 @@ export const Card: React.FC<CardProps> = ({
     className,
   );
 
+  const showBottomSection = !!(!isEntireCardClickable || footerContent);
+
   return (
     <Wrapper
       href={isEntireCardClickable ? ctaUrl : undefined}
@@ -59,27 +61,29 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <h2 className="card__title text-xl font-[650] text-bluedot-darker mb-1">{title}</h2>
-          {subtitle && (<p className={`card__subtitle text-sm text-bluedot-black ${subtitleClassName}`}>{subtitle}</p>)}
+          <h4 className="card__title mb-1">{title}</h4>
+          {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
-        <div className="card__bottom-section mt-auto flex flex-col gap-4">
-          {!isEntireCardClickable && (
-            <CTALinkOrButton
-              className="card__cta"
-              url={ctaUrl}
-              variant="secondary"
-              withChevron={false}
-              isExternalUrl={isExternalUrl}
-            >
-              {ctaText}
-            </CTALinkOrButton>
-          )}
-          {footerContent && (
-            <div className="card__footer flex items-center justify-between w-full">
-              {footerContent}
-            </div>
-          )}
-        </div>
+        {showBottomSection && (
+          <div className="card__bottom-section mt-auto flex flex-col gap-4">
+            {!isEntireCardClickable && (
+              <CTALinkOrButton
+                className="card__cta"
+                url={ctaUrl}
+                variant="secondary"
+                withChevron={false}
+                isExternalUrl={isExternalUrl}
+              >
+                {ctaText}
+              </CTALinkOrButton>
+            )}
+            {footerContent && (
+              <div className="card__footer flex items-center justify-between w-full">
+                {footerContent}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </Wrapper>
   );

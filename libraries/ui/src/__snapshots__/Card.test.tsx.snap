@@ -20,13 +20,13 @@ exports[`Card > renders default as expected 1`] = `
       <div
         class="card__text"
       >
-        <h2
-          class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+        <h4
+          class="card__title mb-1"
         >
           John Doe
-        </h2>
+        </h4>
         <p
-          class="card__subtitle text-sm text-bluedot-black "
+          class="card__subtitle "
         >
           Developer
         </p>
@@ -72,20 +72,17 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
       <div
         class="card__text"
       >
-        <h2
-          class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+        <h4
+          class="card__title mb-1"
         >
           John Doe
-        </h2>
+        </h4>
         <p
-          class="card__subtitle text-sm text-bluedot-black "
+          class="card__subtitle "
         >
           Developer
         </p>
       </div>
-      <div
-        class="card__bottom-section mt-auto flex flex-col gap-4"
-      />
     </div>
   </a>
 </div>

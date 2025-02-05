@@ -42,30 +42,22 @@ const projects: Project[] = [
 const GovernanceProjects = () => {
   return (
     <section className="governance-projects p-6 container-lined">
-      <div className="governance-projects__container mx-auto max-w-[1750px]">
-        <div className="governance-projects__header mb-12 flex justify-between">
-          <div className="governance-projects__title-container flex flex-col gap-2">
-            <h2 className="governance-projects__title text-2xl font-[650] text-bluedot-darker">
-              AI Governance Projects
-            </h2>
-            <p className="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black">
-              Competition winners
-            </p>
-          </div>
-          <CTALinkOrButton
-            className="governance-projects__link h-fit py-3"
-            url="#"
-            variant="secondary"
-            withChevron
-          >
-            Explore more projects
-          </CTALinkOrButton>
+      <div className="governance-projects__container mx-auto max-w-[1750px] flex flex-col gap-12">
+        <div className="governance-projects__title-container flex flex-col gap-2">
+          <h3 className="governance-projects__title">
+            AI Governance Projects
+          </h3>
+          <p className="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black">
+            Competition winners
+          </p>
         </div>
         <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-4 overflow-visible mb-3">
           {projects.map((project) => (
             <Card
               key={project.title}
               title={project.title}
+              subtitle={`by ${project.authorName}`}
+              subtitleClassName="text-base"
               ctaUrl={project.ctaUrl}
               imageNode={(
                 <div className="governance-projects__image-container relative">
@@ -83,16 +75,19 @@ const GovernanceProjects = () => {
                   </div>
                 </div>
               )}
-              footerContent={(
-                <span className="governance-projects__author text-bluedot-black">
-                  by {project.authorName}
-                </span>
-              )}
               className="governance-projects__project"
               isEntireCardClickable
             />
           ))}
         </div>
+        <CTALinkOrButton
+          className="governance-projects__link h-fit py-3"
+          url="#"
+          variant="secondary"
+          withChevron
+        >
+          Explore more projects
+        </CTALinkOrButton>
       </div>
     </section>
   );

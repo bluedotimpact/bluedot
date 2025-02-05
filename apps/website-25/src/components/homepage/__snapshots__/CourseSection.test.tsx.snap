@@ -203,13 +203,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h2
-                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+                          <h4
+                            class="card__title mb-1"
                           >
                             Alignment Fast Track
-                          </h2>
+                          </h4>
                           <p
-                            class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
                             AI systems are rapidly becoming more capable and more general. Despite AI's potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
                           </p>
@@ -283,13 +283,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h2
-                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+                          <h4
+                            class="card__title mb-1"
                           >
                             Governance Fast-Track
-                          </h2>
+                          </h4>
                           <p
-                            class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
                             Despite AI's potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
                           </p>
@@ -367,13 +367,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h2
-                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+                          <h4
+                            class="card__title mb-1"
                           >
                             AI Alignment
-                          </h2>
+                          </h4>
                           <p
-                            class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
                             AI systems are rapidly becoming more capable and more general. Despite AI's potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
                           </p>
@@ -447,13 +447,13 @@ exports[`CourseSection > renders default as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h2
-                            class="card__title text-xl font-[650] text-bluedot-darker mb-1"
+                          <h4
+                            class="card__title mb-1"
                           >
                             AI Governance
-                          </h2>
+                          </h4>
                           <p
-                            class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
                             The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
                           </p>
