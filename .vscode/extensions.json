@@ -2,6 +2,7 @@
     "recommendations": [
         "streetsidesoftware.code-spell-checker",
         "dbaeumer.vscode-eslint",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "figma.figma-vscode-extension"
     ]
 }

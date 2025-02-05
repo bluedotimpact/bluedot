@@ -3,7 +3,7 @@
 exports[`CourseCard > renders Featured as expected 1`] = `
 <div>
   <a
-    class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] container-lined p-6 max-w-[656px]"
+    class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
     rel="noopener noreferrer"
     target="_blank"
   >
@@ -87,7 +87,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 max-w-[323px]"
+    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px]"
   >
     <div
       class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
@@ -110,7 +110,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           Title
         </h2>
         <p
-          class="card__subtitle text-sm text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
         >
           Description
         </p>

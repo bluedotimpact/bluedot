@@ -26,7 +26,7 @@ exports[`Card > renders default as expected 1`] = `
           John Doe
         </h2>
         <p
-          class="card__subtitle text-sm text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black "
         >
           Developer
         </p>
@@ -54,7 +54,7 @@ exports[`Card > renders default as expected 1`] = `
 exports[`Card > renders with isEntireCardClickable as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01]"
+    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://linkedin.com/in/johndoe"
   >
     <div
@@ -78,7 +78,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
           John Doe
         </h2>
         <p
-          class="card__subtitle text-sm text-bluedot-black"
+          class="card__subtitle text-sm text-bluedot-black "
         >
           Developer
         </p>
