@@ -24,55 +24,11 @@ exports[`TestimonialSection > renders as expected 1`] = `
           <div
             class="slide-list__header-content"
           >
-            <h2
-              class="slide-list__title text-4xl font-bold text-bluedot-darker"
+            <h3
+              class="slide-list__subtitle"
             >
               What our graduates say
-            </h2>
-          </div>
-          <div
-            class="slide-list__nav flex gap-2 pt-2"
-          >
-            <button
-              aria-label="Previous slide"
-              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
-              disabled=""
-              type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-            <button
-              aria-label="Next slide"
-              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
-              disabled=""
-              type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
+            </h3>
           </div>
         </div>
         <div
@@ -227,18 +183,6 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__progress absolute bottom-0 left-0 w-full"
-            >
-              <div
-                class="slide-list__progress-track h-1 bg-charcoal-normal"
-              >
-                <div
-                  class="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
-                  style="width: 100%;"
-                />
               </div>
             </div>
           </div>

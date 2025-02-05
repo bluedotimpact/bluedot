@@ -25,22 +25,23 @@ exports[`CourseSection > renders default as expected 1`] = `
             class="slide-list__header-content"
           >
             <h2
-              class="slide-list__title text-4xl font-bold text-bluedot-darker"
+              class="slide-list__title"
             >
               Our courses
             </h2>
             <p
-              class="slide-list__description mt-4 text-lg text-bluedot-black"
+              class="slide-list__description mt-4"
             >
               We run inclusive, blended learning courses that cater to various expertise levels and time availability
             </p>
           </div>
           <div
-            class="slide-list__nav flex gap-2 pt-2"
+            class="slide-list__nav flex items-center gap-2 pt-2 ml-auto"
           >
             <button
               aria-label="Previous slide"
-              class="slide-list__nav-button slide-list__nav-button--prev p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              disabled=""
               type="button"
             >
               <svg
@@ -59,7 +60,7 @@ exports[`CourseSection > renders default as expected 1`] = `
             </button>
             <button
               aria-label="Next slide"
-              class="slide-list__nav-button slide-list__nav-button--next p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0 disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal active:bg-bluedot-normal active:border-bluedot-normal active:text-black"
               type="button"
             >
               <svg

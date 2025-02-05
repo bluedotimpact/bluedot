@@ -27,31 +27,18 @@ exports[`GovernanceProjects > renders as expected 1`] = `
       >
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
-          href="#"
+          href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
           >
-            <div
-              class="governance-projects__image-container relative"
-            >
-              <img
-                alt="Contextual Constitutional AI"
-                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
-                src="/images/project-winners/akshat-naik.png"
-              />
-              <div
-                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
-              >
-                <img
-                  alt="★"
-                  class="governance-projects__star-icon size-[12px]"
-                  src="/icons/star_gold.svg"
-                />
-                 
-                1st Place
-              </div>
-            </div>
+            <img
+              alt="Contextual Constitutional AI"
+              class="card__image w-full max-h-full object-cover rounded-2xl "
+              src="/images/project-winners/akshat-naik.png"
+            />
           </div>
           <div
             class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -74,31 +61,18 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </a>
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
-          href="#"
+          href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
           >
-            <div
-              class="governance-projects__image-container relative"
-            >
-              <img
-                alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
-                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
-                src="/images/project-winners/ella-duus.png"
-              />
-              <div
-                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
-              >
-                <img
-                  alt="★"
-                  class="governance-projects__star-icon size-[12px]"
-                  src="/icons/star_gold.svg"
-                />
-                 
-                1st Place
-              </div>
-            </div>
+            <img
+              alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
+              class="card__image w-full max-h-full object-cover rounded-2xl "
+              src="/images/project-winners/ella-duus.png"
+            />
           </div>
           <div
             class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -121,31 +95,18 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </a>
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
-          href="#"
+          href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
           >
-            <div
-              class="governance-projects__image-container relative"
-            >
-              <img
-                alt="Societal Adaptation to AI Human-Labor Automation"
-                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
-                src="/images/project-winners/yuval-rymon.png"
-              />
-              <div
-                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
-              >
-                <img
-                  alt="★"
-                  class="governance-projects__star-icon size-[12px]"
-                  src="/icons/star_gold.svg"
-                />
-                 
-                1st Place
-              </div>
-            </div>
+            <img
+              alt="Societal Adaptation to AI Human-Labor Automation"
+              class="card__image w-full max-h-full object-cover rounded-2xl "
+              src="/images/project-winners/yuval-rymon.png"
+            />
           </div>
           <div
             class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -168,31 +129,18 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </a>
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
-          href="#"
+          href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
           >
-            <div
-              class="governance-projects__image-container relative"
-            >
-              <img
-                alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
-                class="governance-projects__image w-full max-h-full object-cover rounded-2xl"
-                src="/images/project-winners/naci-cankaya.png"
-              />
-              <div
-                class="governance-projects__badge absolute flex items-center gap-1 text-sm font-[650] top-2 left-2 text-bluedot-black bg-cream-normal rounded-lg px-3 py-2"
-              >
-                <img
-                  alt="★"
-                  class="governance-projects__star-icon size-[12px]"
-                  src="/icons/star_gold.svg"
-                />
-                 
-                1st Place
-              </div>
-            </div>
+            <img
+              alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
+              class="card__image w-full max-h-full object-cover rounded-2xl "
+              src="/images/project-winners/naci-cankaya.png"
+            />
           </div>
           <div
             class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -217,7 +165,9 @@ exports[`GovernanceProjects > renders as expected 1`] = `
       <a
         class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
         data-testid="cta-link"
-        href="#"
+        href="https://aisafetyfundamentals.com/projects/"
+        rel="noopener noreferrer"
+        target="_blank"
       >
         <span
           class="cta-button__text"

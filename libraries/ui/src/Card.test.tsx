@@ -40,18 +40,15 @@ describe('Card', () => {
     expect(cardElement).not.toBeNull();
   });
 
-  test('does not include ctaMetadata unless given', () => {
+  test('does not include footer unless given', () => {
     const { container } = render(<Card {...defaultProps} />);
     const ctaMetadataElement = container.querySelector('.card__footer');
     expect(ctaMetadataElement).toBeNull();
   });
 
-  test('includes ctaMetadata when given', () => {
+  test('includes footer when given', () => {
     const { container } = render(
-      <Card
-        {...defaultProps}
-        footerContent="Some metadata"
-      />,
+      <Card {...defaultProps}>A footer of some kind</Card>,
     );
     const ctaMetadataElement = container.querySelector('.card__footer');
     expect(ctaMetadataElement).not.toBeNull();

@@ -33,7 +33,7 @@ const TestimonialSection = () => {
   return (
     <Section>
       <SlideList
-        title="What our graduates say"
+        subtitle="What our graduates say"
         itemsPerSlide={3}
         slideClassName="gap-8"
         containerClassName="justify-center"
