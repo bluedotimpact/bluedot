@@ -45,14 +45,14 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
       </div>
       <div className="cookie-banner__buttons flex flex-wrap gap-4 justify-center">
         <CTALinkOrButton
-          className="cookie-banner__button--reject px-6 whitespace-nowrap"
+          className="cookie-banner__button--reject"
           variant="primary"
           onClick={() => setCookieConsent('rejected')}
         >
           Reject all
         </CTALinkOrButton>
         <CTALinkOrButton
-          className="cookie-banner__button--accept px-6 whitespace-nowrap"
+          className="cookie-banner__button--accept"
           variant="primary"
           onClick={() => setCookieConsent('accepted')}
         >

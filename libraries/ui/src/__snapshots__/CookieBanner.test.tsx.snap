@@ -24,7 +24,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       class="cookie-banner__buttons flex flex-wrap gap-4 justify-center"
     >
       <button
-        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject px-6 whitespace-nowrap"
+        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
         data-testid="cta-button"
         type="button"
       >
@@ -35,7 +35,7 @@ exports[`CookieBanner > renders as expected 1`] = `
         </span>
       </button>
       <button
-        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept px-6 whitespace-nowrap"
+        class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
         data-testid="cta-button"
         type="button"
       >
