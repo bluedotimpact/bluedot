@@ -48,7 +48,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Adam Jones
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 AI Safety
               </p>
@@ -96,7 +96,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Dewi Erwan
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 CEO
               </p>
@@ -144,7 +144,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Josh Landes
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 Community Manager
               </p>
@@ -192,7 +192,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Li-Lian Ang
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 Product
               </p>
@@ -240,7 +240,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Tarin Rickett
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 Engineering
               </p>
@@ -288,7 +288,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Viorica Gheorghita
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 Product
               </p>
@@ -336,7 +336,7 @@ exports[`TeamSection > renders default as expected 1`] = `
                 Will Saunter
               </h2>
               <p
-                class="card__subtitle text-sm text-bluedot-black"
+                class="card__subtitle text-sm text-bluedot-black "
               >
                 Co-founder
               </p>

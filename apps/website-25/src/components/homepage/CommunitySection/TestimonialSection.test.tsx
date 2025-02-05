@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import TestimonialSection from './TestimonialSection';
 
 describe('TestimonialSection', () => {
@@ -8,9 +8,20 @@ describe('TestimonialSection', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('displays correct number of testimonials', () => {
-    const { getAllByRole } = render(<TestimonialSection />);
-    const testimonialCards = getAllByRole('blockquote');
-    expect(testimonialCards).toHaveLength(3);
+  test('displays testimonials not in a slide list', () => {
+    render(<TestimonialSection />);
+
+    // Check for testimonial content
+    const testimonials = screen.getAllByRole('blockquote');
+    expect(testimonials).toHaveLength(3);
+
+    // Verify slide navigation does not exist
+    expect(screen.queryByLabelText('Previous slide')).toBeNull();
+    expect(screen.queryByLabelText('Next slide')).toBeNull();
+  });
+
+  test('displays section title', () => {
+    render(<TestimonialSection />);
+    expect(screen.getByText(/What our graduates say/i)).toBeDefined();
   });
 });
