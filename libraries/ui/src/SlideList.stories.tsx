@@ -2,8 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SlideList, SlideItem } from './SlideList';
 
 const meta = {
-  title: 'Components/SlideList',
+  title: 'ui/SlideList',
   component: SlideList,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -14,8 +16,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: 'Example Slides',
-    description: 'This is a description of the slides',
     children: [
       <SlideItem key="1">Slide 1</SlideItem>,
       <SlideItem key="2">Slide 2</SlideItem>,
@@ -38,7 +38,7 @@ export const WithFeaturedSlot: Story = {
 
 export const MultipleItemsPerSlide: Story = {
   args: {
-    title: 'Multiple Items Per Slide',
+    subtitle: 'Multiple Items Per Slide',
     itemsPerSlide: 2,
     children: [
       <SlideItem key="1">
@@ -59,7 +59,7 @@ export const MultipleItemsPerSlide: Story = {
 
 export const SingleSlide: Story = {
   args: {
-    title: 'Single Slide',
+    subtitle: 'Single Slide',
     description: 'Navigation buttons should be disabled',
     children: [
       <SlideItem key="1">

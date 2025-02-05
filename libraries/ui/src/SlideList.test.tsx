@@ -114,4 +114,21 @@ describe('SlideList', () => {
     const progressBar = screen.queryByRole('progressbar');
     expect(progressBar).toBeNull();
   });
+
+  it('renders without header if no title, subtitle, or description', () => {
+    const { container } = render(
+      <SlideList>
+        <SlideItem>Slide 1</SlideItem>
+        <SlideItem>Slide 2</SlideItem>
+        <SlideItem>Slide 3</SlideItem>
+      </SlideList>,
+    );
+
+    // Header content container should not be present
+    expect(container.querySelector('.slide-list__header-content')).toBeNull();
+
+    // Navigation buttons should still be present since all content fits
+    expect(screen.getByLabelText('Previous slide')).toBeDefined();
+    expect(screen.getByLabelText('Next slide')).toBeDefined();
+  });
 });
