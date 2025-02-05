@@ -7,13 +7,13 @@ type CardProps = {
   imageSrc: string;
   title: string;
   subtitle?: string;
-  footerContent?: React.ReactNode;
   ctaUrl?: string;
   isEntireCardClickable?: boolean;
   isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
   subtitleClassName?: string;
+  children?: React.ReactNode;
 } & (
   | { ctaText: string; isEntireCardClickable?: false }
   | { ctaText?: string; isEntireCardClickable: true }
@@ -23,7 +23,6 @@ export const Card: React.FC<CardProps> = ({
   imageSrc,
   title,
   subtitle,
-  footerContent,
   ctaUrl,
   ctaText,
   isEntireCardClickable = false,
@@ -31,6 +30,7 @@ export const Card: React.FC<CardProps> = ({
   className = '',
   imageClassName = '',
   subtitleClassName = '',
+  children,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
@@ -70,9 +70,9 @@ export const Card: React.FC<CardProps> = ({
               {ctaText}
             </CTALinkOrButton>
           )}
-          {footerContent && (
+          {children && (
             <div className="card__footer flex items-center justify-between w-full">
-              {footerContent}
+              {children}
             </div>
           )}
         </div>

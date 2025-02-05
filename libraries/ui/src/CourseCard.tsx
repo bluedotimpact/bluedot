@@ -35,14 +35,14 @@ const applyByText = (applicationDeadline: string | undefined) => {
   return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
 };
 
-const FeaturedCourseCard: React.FC<CourseCardProps & { footerRow: React.ReactNode }> = ({
+const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
   ctaUrl,
   applicationDeadline,
   imageSrc,
-  footerRow,
+  children,
 }) => {
   const wrapperClassName = clsx(
     'course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
@@ -86,7 +86,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps & { footerRow: React.ReactNod
           />
         </div>
       </div>
-      {footerRow}
+      {children}
     </a>
   );
 };
@@ -126,14 +126,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       ctaUrl={ctaUrl}
       applicationDeadline={applicationDeadline}
       imageSrc={imageSrc}
-      footerRow={CourseCardFooter}
-    />
+    >
+      {CourseCardFooter}
+    </FeaturedCourseCard>
   ) : (
     <Card
       imageSrc={imageSrc}
       title={title}
       subtitle={description}
-      footerContent={CourseCardFooter}
       ctaUrl={ctaUrl}
       isEntireCardClickable
       isExternalUrl
@@ -144,6 +144,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       )}
       imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
       subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-    />
+    >
+      {CourseCardFooter}
+    </Card>
   );
 };
