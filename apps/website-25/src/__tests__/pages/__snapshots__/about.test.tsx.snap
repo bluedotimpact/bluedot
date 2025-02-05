@@ -198,136 +198,126 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           <div
             class="history-section__event"
           >
-            <div>
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-4"
+            >
               <div
-                class="history-section__event-container flex flex-col gap-4"
+                class="history-section__year-container w-full flex gap-2"
               >
-                <div
-                  class="history-section__year-container w-full flex gap-2"
-                >
-                  <p
-                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
-                  >
-                    2021
-                  </p>
-                  <div
-                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                  />
-                </div>
                 <p
-                  class="history-section__event-title"
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
-                  Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
+                  2021
                 </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
               </div>
+              <p
+                class="history-section__event-title"
+              >
+                Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
+              </p>
             </div>
           </div>
           <div
             class="history-section__event"
           >
-            <div>
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-4"
+            >
               <div
-                class="history-section__event-container flex flex-col gap-4"
+                class="history-section__year-container w-full flex gap-2"
               >
-                <div
-                  class="history-section__year-container w-full flex gap-2"
-                >
-                  <p
-                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
-                  >
-                    2022
-                  </p>
-                  <div
-                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                  />
-                </div>
                 <p
-                  class="history-section__event-title"
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
-                  Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
+                  2022
                 </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
               </div>
+              <p
+                class="history-section__event-title"
+              >
+                Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
+              </p>
             </div>
           </div>
           <div
             class="history-section__event"
           >
-            <div>
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-4"
+            >
               <div
-                class="history-section__event-container flex flex-col gap-4"
+                class="history-section__year-container w-full flex gap-2"
               >
-                <div
-                  class="history-section__year-container w-full flex gap-2"
-                >
-                  <p
-                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
-                  >
-                    2023
-                  </p>
-                  <div
-                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                  />
-                </div>
                 <p
-                  class="history-section__event-title"
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
-                  Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
+                  2023
                 </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
               </div>
+              <p
+                class="history-section__event-title"
+              >
+                Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
+              </p>
             </div>
           </div>
           <div
             class="history-section__event"
           >
-            <div>
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-4"
+            >
               <div
-                class="history-section__event-container flex flex-col gap-4"
+                class="history-section__year-container w-full flex gap-2"
               >
-                <div
-                  class="history-section__year-container w-full flex gap-2"
-                >
-                  <p
-                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
-                  >
-                    2024
-                  </p>
-                  <div
-                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                  />
-                </div>
                 <p
-                  class="history-section__event-title"
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
-                  Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
+                  2024
                 </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
               </div>
+              <p
+                class="history-section__event-title"
+              >
+                Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
+              </p>
             </div>
           </div>
           <div
             class="history-section__event"
           >
-            <div>
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-4"
+            >
               <div
-                class="history-section__event-container flex flex-col gap-4"
+                class="history-section__year-container w-full flex gap-2"
               >
-                <div
-                  class="history-section__year-container w-full flex gap-2"
-                >
-                  <p
-                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
-                  >
-                    2025
-                  </p>
-                  <div
-                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                  />
-                </div>
                 <p
-                  class="history-section__event-title"
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
-                  Launching multiple courses weekly and expanding a world-class team to scale our global impact.
+                  2025
                 </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
               </div>
+              <p
+                class="history-section__event-title"
+              >
+                Launching multiple courses weekly and expanding a world-class team to scale our global impact.
+              </p>
             </div>
           </div>
         </div>
