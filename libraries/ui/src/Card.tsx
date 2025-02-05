@@ -19,6 +19,7 @@ type CardProps = {
 );
 
 export const Card: React.FC<CardProps> = ({
+  imageSrc,
   title,
   subtitle,
   ctaUrl,
@@ -26,9 +27,8 @@ export const Card: React.FC<CardProps> = ({
   isEntireCardClickable = false,
   isExternalUrl = false,
   className = '',
-  imageSrc,
-  subtitleClassName = '',
   imageClassName = '',
+  subtitleClassName = '',
   children,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
