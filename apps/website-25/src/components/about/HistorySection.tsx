@@ -1,9 +1,10 @@
+import {BrowserView, MobileView} from 'react-device-detect';
 import { Section } from '@bluedot/ui';
 
 const HistorySection = () => {
   return (
     <Section className="history-section" title="Our history">
-      <div className="history-section__container flex flex-col gap-8">
+      <div className="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8">
         <HistoryEvent year="2021" event="Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies." />
         <HistoryEvent year="2022" event="Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters." />
         <HistoryEvent year="2023" event="Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity." />
@@ -16,12 +17,25 @@ const HistorySection = () => {
 
 const HistoryEvent = ({ year, event, now }: { year: string, event: string, now?: boolean }) => {
   return (
-    <div className={
-        `history-section__event-container w-full flex flex-row gap-12 p-8 ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
-      }
-    >
-      <strong className="history-section__year">{year}</strong>
-      <p className="history-section__event-title">{event}</p>
+    <div className="history-section__event">
+      <MobileView>
+        <div className={`history-section__event-container w-full flex flex-row gap-12 p-8
+          ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
+        }
+        >
+          <strong className="history-section__year">{year}</strong>
+          <p className="history-section__event-title">{event}</p>
+        </div>
+      </MobileView>
+      <BrowserView>
+        <div className="history-section__event-container flex flex-col gap-4">
+          <div className="history-section__year-container w-full flex gap-2">
+            <p className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min">{year}</p>
+            <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"></div>
+          </div>
+          <p className="history-section__event-title">{event}</p>
+        </div>
+      </BrowserView>
     </div>
   );
 };

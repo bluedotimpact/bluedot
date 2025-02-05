@@ -193,77 +193,142 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="history-section__container flex flex-col gap-8"
+          class="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8"
         >
           <div
-            class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
+            class="history-section__event"
           >
-            <strong
-              class="history-section__year"
-            >
-              2021
-            </strong>
-            <p
-              class="history-section__event-title"
-            >
-              Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
-            </p>
+            <div>
+              <div
+                class="history-section__event-container flex flex-col gap-4"
+              >
+                <div
+                  class="history-section__year-container w-full flex gap-2"
+                >
+                  <p
+                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  >
+                    2021
+                  </p>
+                  <div
+                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                  />
+                </div>
+                <p
+                  class="history-section__event-title"
+                >
+                  Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
+                </p>
+              </div>
+            </div>
           </div>
           <div
-            class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
+            class="history-section__event"
           >
-            <strong
-              class="history-section__year"
-            >
-              2022
-            </strong>
-            <p
-              class="history-section__event-title"
-            >
-              Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
-            </p>
+            <div>
+              <div
+                class="history-section__event-container flex flex-col gap-4"
+              >
+                <div
+                  class="history-section__year-container w-full flex gap-2"
+                >
+                  <p
+                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  >
+                    2022
+                  </p>
+                  <div
+                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                  />
+                </div>
+                <p
+                  class="history-section__event-title"
+                >
+                  Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
+                </p>
+              </div>
+            </div>
           </div>
           <div
-            class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
+            class="history-section__event"
           >
-            <strong
-              class="history-section__year"
-            >
-              2023
-            </strong>
-            <p
-              class="history-section__event-title"
-            >
-              Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
-            </p>
+            <div>
+              <div
+                class="history-section__event-container flex flex-col gap-4"
+              >
+                <div
+                  class="history-section__year-container w-full flex gap-2"
+                >
+                  <p
+                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  >
+                    2023
+                  </p>
+                  <div
+                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                  />
+                </div>
+                <p
+                  class="history-section__event-title"
+                >
+                  Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
+                </p>
+              </div>
+            </div>
           </div>
           <div
-            class="history-section__event-container w-full flex flex-row gap-12 p-8 container-lined"
+            class="history-section__event"
           >
-            <strong
-              class="history-section__year"
-            >
-              2024
-            </strong>
-            <p
-              class="history-section__event-title"
-            >
-              Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
-            </p>
+            <div>
+              <div
+                class="history-section__event-container flex flex-col gap-4"
+              >
+                <div
+                  class="history-section__year-container w-full flex gap-2"
+                >
+                  <p
+                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  >
+                    2024
+                  </p>
+                  <div
+                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                  />
+                </div>
+                <p
+                  class="history-section__event-title"
+                >
+                  Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
+                </p>
+              </div>
+            </div>
           </div>
           <div
-            class="history-section__event-container w-full flex flex-row gap-12 p-8 border bg-bluedot-lighter border-bluedot-light rounded-xl"
+            class="history-section__event"
           >
-            <strong
-              class="history-section__year"
-            >
-              2025
-            </strong>
-            <p
-              class="history-section__event-title"
-            >
-              Launching multiple courses weekly and expanding a world-class team to scale our global impact.
-            </p>
+            <div>
+              <div
+                class="history-section__event-container flex flex-col gap-4"
+              >
+                <div
+                  class="history-section__year-container w-full flex gap-2"
+                >
+                  <p
+                    class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  >
+                    2025
+                  </p>
+                  <div
+                    class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                  />
+                </div>
+                <p
+                  class="history-section__event-title"
+                >
+                  Launching multiple courses weekly and expanding a world-class team to scale our global impact.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
