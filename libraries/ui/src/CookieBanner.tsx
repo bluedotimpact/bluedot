@@ -33,7 +33,7 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
   if (!showBanner) return null;
 
   const rootClassName = clsx(
-    'cookie-banner fixed bottom-6 right-0 mx-4 sm:mx-6 shadow-lg flex flex-col gap-5 p-6 rounded-lg bg-cream-normal w-fit max-w-[420px] border border-bluedot-normal',
+    'cookie-banner container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px]',
     className,
   );
 
