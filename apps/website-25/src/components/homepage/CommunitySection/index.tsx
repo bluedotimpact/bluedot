@@ -1,13 +1,13 @@
 // import { CommunityStats } from './CommunityStats';
-// import { GovernanceProjects } from './GovernanceProjects';
 import { Section } from '@bluedot/ui';
+import GovernanceProjects from './GovernanceProjects';
 import TestimonialSection from './TestimonialSection';
 
 const CommunitySection = () => {
   return (
     <Section title="Our community">
-      {/* <CommunityStats />
-      <GovernanceProjects /> */}
+      {/* <CommunityStats /> */}
+      <GovernanceProjects />
       <TestimonialSection />
     </Section>
   );

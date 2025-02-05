@@ -22,12 +22,10 @@ const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
+    getAbsolutePath("@storybook/addon-styling-webpack"),
     getAbsolutePath("@storybook/addon-designs"),
   ],
-  framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
-    options: {},
-  },
+  framework: '@storybook/nextjs',
   staticDirs: ["../public", "../../website-25/public"],
   async viteFinal(config) {
     // Merge custom configuration into the default config

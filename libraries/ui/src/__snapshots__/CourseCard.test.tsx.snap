@@ -64,7 +64,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           <img
             alt="★"
             class="course-card__star-icon size-[10px]"
-            src="/icons/star.svg"
+            src="/icons/star_black.svg"
           />
         </span>
         <span
@@ -87,10 +87,10 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px]"
+    class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
   >
     <div
-      class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+      class="card__image-container max-h-[223px] w-full mb-3"
     >
       <img
         alt="Title"
@@ -104,13 +104,13 @@ exports[`CourseCard > renders default as expected 1`] = `
       <div
         class="card__text"
       >
-        <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+        <h4
+          class="card__title mb-1"
         >
           Title
-        </h2>
+        </h4>
         <p
-          class="card__subtitle text-sm text-bluedot-black flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+          class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
         >
           Description
         </p>
@@ -135,7 +135,7 @@ exports[`CourseCard > renders default as expected 1`] = `
                 <img
                   alt="★"
                   class="course-card__star-icon size-[10px]"
-                  src="/icons/star.svg"
+                  src="/icons/star_black.svg"
                 />
               </span>
               <span

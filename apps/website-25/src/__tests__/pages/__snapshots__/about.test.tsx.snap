@@ -291,10 +291,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="team__grid flex flex-row flex-wrap mx-auto"
         >
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Adam Jones"
@@ -308,13 +308,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Adam Jones
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   AI Safety
                 </p>
@@ -339,10 +339,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Dewi Erwan"
@@ -356,13 +356,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Dewi Erwan
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   CEO
                 </p>
@@ -387,10 +387,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Josh Landes"
@@ -404,13 +404,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Josh Landes
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   Community Manager
                 </p>
@@ -435,10 +435,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Li-Lian Ang"
@@ -452,13 +452,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Li-Lian Ang
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   Product
                 </p>
@@ -483,10 +483,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Tarin Rickett"
@@ -500,13 +500,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Tarin Rickett
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   Engineering
                 </p>
@@ -531,10 +531,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Viorica Gheorghita"
@@ -548,13 +548,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Viorica Gheorghita
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   Product
                 </p>
@@ -579,10 +579,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start min-w-min-width transition-transform duration-200 team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
           >
             <div
-              class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+              class="card__image-container max-h-[223px] w-full mb-3"
             >
               <img
                 alt="Will Saunter"
@@ -596,13 +596,13 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h2
-                  class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+                <h4
+                  class="card__title mb-1"
                 >
                   Will Saunter
-                </h2>
+                </h4>
                 <p
-                  class="card__subtitle text-sm text-bluedot-black "
+                  class="card__subtitle "
                 >
                   Co-founder
                 </p>

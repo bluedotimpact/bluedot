@@ -3,10 +3,10 @@
 exports[`Card > renders default as expected 1`] = `
 <div>
   <div
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200"
+    class="card flex flex-col items-start transition-transform duration-200 max-w-[323px]"
   >
     <div
-      class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+      class="card__image-container max-h-[223px] w-full mb-3"
     >
       <img
         alt="John Doe"
@@ -20,13 +20,13 @@ exports[`Card > renders default as expected 1`] = `
       <div
         class="card__text"
       >
-        <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+        <h4
+          class="card__title mb-1"
         >
           John Doe
-        </h2>
+        </h4>
         <p
-          class="card__subtitle text-sm text-bluedot-black "
+          class="card__subtitle "
         >
           Developer
         </p>
@@ -54,11 +54,11 @@ exports[`Card > renders default as expected 1`] = `
 exports[`Card > renders with isEntireCardClickable as expected 1`] = `
 <div>
   <a
-    class="card flex flex-col items-start min-w-min-width transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01]"
     href="https://linkedin.com/in/johndoe"
   >
     <div
-      class="card__image-container max-w-[323px] max-h-[223px] w-full mb-3"
+      class="card__image-container max-h-[223px] w-full mb-3"
     >
       <img
         alt="John Doe"
@@ -72,20 +72,17 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
       <div
         class="card__text"
       >
-        <h2
-          class="card__title text-2xl font-[650] text-bluedot-darker mb-1"
+        <h4
+          class="card__title mb-1"
         >
           John Doe
-        </h2>
+        </h4>
         <p
-          class="card__subtitle text-sm text-bluedot-black "
+          class="card__subtitle "
         >
           Developer
         </p>
       </div>
-      <div
-        class="card__bottom-section mt-auto flex flex-col gap-4"
-      />
     </div>
   </a>
 </div>

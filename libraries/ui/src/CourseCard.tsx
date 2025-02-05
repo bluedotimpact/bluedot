@@ -107,7 +107,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         <span className="course-card__rating flex gap-[3px] items-center font-[650]">
           5.0{' '}
           <img
-            src="/icons/star.svg"
+            src="/icons/star_black.svg"
             alt="★"
             className="course-card__star-icon size-[10px]"
           />
@@ -138,8 +138,8 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       isEntireCardClickable
       isExternalUrl
       className={clsx(
-        'course-card course-card--regular container-lined p-5',
-        'flex flex-col w-[323px] h-[466px]',
+        'course-card course-card--regular min-w-min-width container-lined p-5',
+        'flex flex-col w-[323px] h-[466px] hover:container-elevated',
         className,
       )}
       imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
