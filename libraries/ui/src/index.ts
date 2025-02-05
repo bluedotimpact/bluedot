@@ -25,6 +25,8 @@ export { Tag } from './Tag';
 
 export { ValueCard } from './ValueCard';
 
+export { CookieBanner } from './CookieBanner';
+
 // Non-component exports
 
 export { EXTERNAL_LINK_PROPS } from './utils';

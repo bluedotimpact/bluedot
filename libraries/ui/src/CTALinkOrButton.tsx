@@ -11,7 +11,7 @@ export type CTAProps = {
   isExternalUrl?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650]';
+const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap';
 
 const CTA_VARIANT_STYLES = {
   primary: 'cta-button--primary bg-bluedot-normal link-on-dark',
