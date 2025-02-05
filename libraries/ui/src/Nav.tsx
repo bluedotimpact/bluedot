@@ -23,7 +23,7 @@ export const Nav: React.FC<NavProps> = ({
 
   return (
     <nav className={clsx(
-      'nav fixed z-50 w-full bg-bluedot-canvas container-elevated',
+      'nav fixed z-50 w-full bg-color-canvas container-elevated',
       'transition-all duration-300 left-1/2 -translate-x-1/2',
       className,
     )}
