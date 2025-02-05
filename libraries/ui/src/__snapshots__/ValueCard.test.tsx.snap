@@ -3,7 +3,7 @@
 exports[`ValueCard > renders default as expected 1`] = `
 <div>
   <div
-    class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+    class="value-card w-full flex flex-col gap-6 py-6"
   >
     <div
       class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -15,12 +15,12 @@ exports[`ValueCard > renders default as expected 1`] = `
       />
     </div>
     <h3
-      class="value-card__title"
+      class="value-card__title min-h-[60px]"
     >
       Test Title
     </h3>
     <p
-      class="value-card__description"
+      class="value-card__description "
     >
       Test description
     </p>
@@ -31,7 +31,7 @@ exports[`ValueCard > renders default as expected 1`] = `
 exports[`ValueCard > renders with all props correctly 1`] = `
 <div>
   <div
-    class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+    class="value-card w-full flex flex-col gap-6 py-6"
   >
     <div
       class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -43,12 +43,12 @@ exports[`ValueCard > renders with all props correctly 1`] = `
       />
     </div>
     <h3
-      class="value-card__title"
+      class="value-card__title min-h-[60px]"
     >
       Custom Title
     </h3>
     <p
-      class="value-card__description"
+      class="value-card__description "
     >
       Custom description text that is longer
     </p>
