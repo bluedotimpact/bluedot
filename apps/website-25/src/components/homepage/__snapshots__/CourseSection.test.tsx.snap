@@ -141,17 +141,6 @@ exports[`CourseSection > renders default as expected 1`] = `
                   class="course-card__footer-left text-left text-xs text-bluedot-black"
                 >
                   <span
-                    class="course-card__rating flex gap-[3px] items-center font-[650]"
-                  >
-                    5.0
-                     
-                    <img
-                      alt="★"
-                      class="course-card__star-icon size-[10px]"
-                      src="/icons/star_black.svg"
-                    />
-                  </span>
-                  <span
                     class="course-card__length font-medium"
                   >
                     5 days
@@ -228,17 +217,6 @@ exports[`CourseSection > renders default as expected 1`] = `
                                 class="course-card__footer-left text-left text-xs text-bluedot-black"
                               >
                                 <span
-                                  class="course-card__rating flex gap-[3px] items-center font-[650]"
-                                >
-                                  5.0
-                                   
-                                  <img
-                                    alt="★"
-                                    class="course-card__star-icon size-[10px]"
-                                    src="/icons/star_black.svg"
-                                  />
-                                </span>
-                                <span
                                   class="course-card__length font-medium"
                                 >
                                   5 days
@@ -307,17 +285,6 @@ exports[`CourseSection > renders default as expected 1`] = `
                               <p
                                 class="course-card__footer-left text-left text-xs text-bluedot-black"
                               >
-                                <span
-                                  class="course-card__rating flex gap-[3px] items-center font-[650]"
-                                >
-                                  5.0
-                                   
-                                  <img
-                                    alt="★"
-                                    class="course-card__star-icon size-[10px]"
-                                    src="/icons/star_black.svg"
-                                  />
-                                </span>
                                 <span
                                   class="course-card__length font-medium"
                                 >
@@ -392,17 +359,6 @@ exports[`CourseSection > renders default as expected 1`] = `
                                 class="course-card__footer-left text-left text-xs text-bluedot-black"
                               >
                                 <span
-                                  class="course-card__rating flex gap-[3px] items-center font-[650]"
-                                >
-                                  5.0
-                                   
-                                  <img
-                                    alt="★"
-                                    class="course-card__star-icon size-[10px]"
-                                    src="/icons/star_black.svg"
-                                  />
-                                </span>
-                                <span
                                   class="course-card__length font-medium"
                                 >
                                   12 weeks
@@ -471,17 +427,6 @@ exports[`CourseSection > renders default as expected 1`] = `
                               <p
                                 class="course-card__footer-left text-left text-xs text-bluedot-black"
                               >
-                                <span
-                                  class="course-card__rating flex gap-[3px] items-center font-[650]"
-                                >
-                                  5.0
-                                   
-                                  <img
-                                    alt="★"
-                                    class="course-card__star-icon size-[10px]"
-                                    src="/icons/star_black.svg"
-                                  />
-                                </span>
                                 <span
                                   class="course-card__length font-medium"
                                 >
