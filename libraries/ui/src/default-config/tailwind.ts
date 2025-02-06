@@ -67,10 +67,10 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
         },
         fontSize: {
           /* Design System Font Sizes */
-          'design-s': ['0.75rem' /* 12px */, { lineHeight: '1rem' /* 16px */ }], // equivalent to xs
-          'design-m': ['0.875rem' /* 14px */, { lineHeight: '1.25rem' /* 20px */ }], // equivalent to sm
-          'design-l': ['1.5rem' /* 24px */, { lineHeight: '2rem' /* 32px */ }], // equivalent to 2xl
-          'design-xl': ['3rem' /* 48px */, { lineHeight: '1' }], // equivalent to 5xl
+          'size-s': ['0.75rem' /* 12px */, { lineHeight: '1rem' /* 16px */ }], // equivalent to xs
+          'size-m': ['0.875rem' /* 14px */, { lineHeight: '1.25rem' /* 20px */ }], // equivalent to sm
+          'size-l': ['1.5rem' /* 24px */, { lineHeight: '2rem' /* 32px */ }], // equivalent to 2xl
+          'size-xl': ['3rem' /* 48px */, { lineHeight: '1' }], // equivalent to 5xl
           ...config.theme?.extend?.fontSize,
         },
         spacing: {
