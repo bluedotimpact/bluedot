@@ -55,7 +55,7 @@ exports[`BlogSection > renders default as expected 1`] = `
         </a>
         <a
           class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider"
-          href="https://aisafetyfundamentals.com/blog/why-we-run-our-ai-safety-courses/"
+          href="https://bluedot.org/blog/why-we-run-our-ai-safety-courses/"
         >
           <p
             class="blog-section__blog-post-date basis-[16%] uppercase mb-6"

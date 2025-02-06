@@ -14,7 +14,7 @@ const BlogSection = () => {
           date="December 4, 2024"
           title="Why we run our AI safety courses"
           author="Adam Jones"
-          url="https://aisafetyfundamentals.com/blog/why-we-run-our-ai-safety-courses/"
+          url="https://bluedot.org/blog/why-we-run-our-ai-safety-courses/"
         />
         <BlogPost
           date="October 30, 2024"
