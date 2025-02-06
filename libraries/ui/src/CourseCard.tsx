@@ -11,7 +11,9 @@ export type CourseCardProps = React.PropsWithChildren<{
   className?: string,
   ctaUrl?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
+  // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
+  // eslint-disable-next-line react/no-unused-prop-types
   courseType?: CourseType,
 }>;
 
