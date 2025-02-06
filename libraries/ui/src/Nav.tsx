@@ -136,7 +136,7 @@ export const Nav: React.FC<NavProps> = ({
         </div>
         <div
           className={clsx(
-            'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden',
+            'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
             navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
           )}
         >
