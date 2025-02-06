@@ -59,13 +59,13 @@ export const SlideList: React.FC<SlideListProps> = ({
         {(title || subtitle || description) && (
           <div className="slide-list__header-content mb-6 md:mb-0">
             {title && (
-              <h2 className="slide-list__title">{title}</h2>
+              <h2 className="slide-list__title text-2xl font-bold">{title}</h2>
             )}
             {subtitle && (
-              <h3 className="slide-list__subtitle">{subtitle}</h3>
+              <h3 className="slide-list__subtitle text-xl">{subtitle}</h3>
             )}
             {description && (
-              <p className="slide-list__description mt-4 max-w-[600px]">{description}</p>
+              <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">{description}</p>
             )}
           </div>
         )}
@@ -73,7 +73,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           <div className="slide-list__nav hidden md:flex items-center gap-2 pt-2 md:ml-auto">
             <SlideListBtn
               onClick={handlePrevious}
-              disabled={currentSlide === 0}
+              disabled={isFirstSlide}
               ariaLabel="Previous slide"
             >
               <svg
@@ -235,10 +235,10 @@ export const SlideListBtn: React.FC<{
       'slide-list__nav-button',
       'p-3 border rounded-lg transition-colors',
       'border-charcoal-light text-black',
-      'focus:outline-none focus:ring-2 focus:ring-bluedot-light focus:ring-offset-0',
-      'disabled:pointer-events-none disabled:border-charcoal-light disabled:text-charcoal-light',
-      'hover:bg-bluedot-lighter hover:border-bluedot-lighter hover:text-bluedot-normal',
-      'active:bg-bluedot-normal active:border-bluedot-normal active:text-black',
+      'hover:bg-gray-50',
+      'active:bg-gray-100',
+      'disabled:opacity-50 disabled:cursor-not-allowed',
+      'focus:outline-none focus:ring-2 focus:ring-bluedot-light',
     )}
     aria-label={ariaLabel}
   >
