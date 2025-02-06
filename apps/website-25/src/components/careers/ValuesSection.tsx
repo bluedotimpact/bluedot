@@ -3,7 +3,7 @@ import { Section, ValueCard } from '@bluedot/ui';
 const ValuesSection = () => {
   return (
     <Section className="values-section" title="Our values">
-      <div className="flex gap-8 overflow-y-scroll">
+      <div className="flex sm:flex-row flex-col gap-8 overflow-y-scroll">
         <ValueCard
           icon="icons/fast.svg"
           title="Think hard, act fast, fail faster"
