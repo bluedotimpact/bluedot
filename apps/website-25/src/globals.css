@@ -5,7 +5,7 @@
 
 @layer base {
   h1 {
-    @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.25];
+    @apply text-color-secondary-text font-sans text-5xl font-bold leading-tight;
   }
   h2, .title {
     @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.5];
