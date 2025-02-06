@@ -52,7 +52,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="size-full"
                   >
                     <div
-                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                      class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                     >
                       <blockquote
                         class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
@@ -98,7 +98,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="size-full"
                   >
                     <div
-                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                      class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                     >
                       <blockquote
                         class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
@@ -144,7 +144,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="size-full"
                   >
                     <div
-                      class="testimonial flex flex-col h-full border rounded-lg p-8"
+                      class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                     >
                       <blockquote
                         class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
