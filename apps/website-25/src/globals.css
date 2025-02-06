@@ -17,7 +17,7 @@
     @apply text-color-secondary-text font-sans text-xl font-[650];
   }
   p, li, .body {
-    @apply text-color-text font-sans text-sm font-[400] leading-[1.5];
+    @apply text-color-text font-sans text-sm font-normal leading-normal;
   }
   ul {
     @apply list-inside list-disc;
