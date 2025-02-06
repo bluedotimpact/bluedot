@@ -5,19 +5,19 @@
 
 @layer base {
   h1 {
-    @apply text-bluedot-darker font-sans text-5xl font-[700] leading-[1.25];
+    @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.25];
   }
   h2, .title {
-    @apply text-bluedot-darker font-sans text-5xl font-[700] leading-[1.5];
+    @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.5];
   }
   h3, .subtitle {
-    @apply text-bluedot-darker font-sans text-2xl font-[650] leading-[1.5];
+    @apply text-color-secondary-text font-sans text-2xl font-[650] leading-[1.5];
   }
   h4 {
-    @apply text-bluedot-darker font-sans text-xl font-[650];
+    @apply text-color-secondary-text font-sans text-xl font-[650];
   }
   p, li, .body {
-    @apply text-bluedot-black font-sans text-sm font-[400] leading-[1.5];
+    @apply text-color-text font-sans text-sm font-[400] leading-[1.5];
   }
   ul {
     @apply list-inside list-disc;
@@ -26,12 +26,12 @@
     @apply list-decimal;
   }
   .text-on-dark {
-    @apply text-white;
+    @apply text-color-text-on-dark;
   }
   a, .link {
-    @apply text-bluedot-darker hover:text-bluedot-normal hover:cursor-pointer;
+    @apply text-color-secondary-text hover:text-color-primary-accent hover:cursor-pointer;
   }
   .link-on-dark {
-    @apply text-white hover:text-bluedot-lighter hover:cursor-pointer;
+    @apply text-color-text-on-dark hover:text-color-secondary-accent hover:cursor-pointer;
   }
 }

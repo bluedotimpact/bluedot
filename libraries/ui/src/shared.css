@@ -3,7 +3,30 @@
 @tailwind utilities;
 
 :root {
+  --bluedot-lighter: #CCD7FF;
+  --bluedot-light: #6687FF;
+  --bluedot-normal: #0037FF;
+  --bluedot-dark: #002199;
+  --bluedot-darker: #00114D;
+  --bluedot-black: #1E1E1E;
+
+  --bluedot-charcoal-light: #CCCCCC;
+  --bluedot-charcoal-normal: #1E1E1E;
+
+  --bluedot-aisf-lighter: #E6B3FF;
+  --bluedot-aisf-light: #D680FF;
+  --bluedot-aisf-normal: #C64EFF;
+  --bluedot-aisf-dark: #9C00E5;
+  --bluedot-aisf-darker: #560080;
+
+  --bluedot-pandemics-lighter: #C7F7C0;
+  --bluedot-pandemics-light: #78EB66;
+  --bluedot-pandemics-normal: #34CE1B;
+  --bluedot-pandemics-dark: #1D7510;
+  --bluedot-pandemics-darker: #11430A;
+
   --bluedot-cream-normal: #FFFCF7;
+  --bluedot-cream-dark: #D9D6D2;
 }
 
 @font-face {
