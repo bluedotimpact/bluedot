@@ -85,14 +85,14 @@
   }
 
   .container-lined {
-    @apply border border-gray-300 rounded-xl;
+    @apply border border-color-divider rounded-lg;
   }
   .container-elevated {
     /* RGBA of var(--bluedot-cream-normal) */
     box-shadow: 0px 4px 20px 0px rgba(30, 30, 30, 0.1);
   }
-}
-.container-dialog {
-  @apply border border-bluedot-normal rounded-lg;
-  box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
+  .container-dialog {
+    @apply border border-color-primary rounded-lg;
+    box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
+  }
 }
