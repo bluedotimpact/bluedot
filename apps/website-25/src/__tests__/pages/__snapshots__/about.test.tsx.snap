@@ -378,7 +378,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://www.linkedin.com/in/domdomegg/"
                   rel="noopener noreferrer"
@@ -426,7 +426,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://www.linkedin.com/in/dewierwan/"
                   rel="noopener noreferrer"
@@ -474,7 +474,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://linkedin.com/in/josh-landes12"
                   rel="noopener noreferrer"
@@ -522,7 +522,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://linkedin.com/in/anglilian"
                   rel="noopener noreferrer"
@@ -570,7 +570,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://linkedin.com/in/tarinrickett/"
                   rel="noopener noreferrer"
@@ -618,7 +618,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://www.linkedin.com/in/vioricagheorghita/"
                   rel="noopener noreferrer"
@@ -666,7 +666,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__bottom-section mt-auto flex flex-col gap-4"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
                   href="https://linkedin.com/in/will-saunter"
                   rel="noopener noreferrer"
@@ -696,7 +696,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h3>
         <a
-          class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
           data-testid="cta-link"
           href="/careers"
         >
