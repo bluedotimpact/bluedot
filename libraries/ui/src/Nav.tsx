@@ -82,7 +82,7 @@ const NavLinks: React.FC<{
         Explore
         <DropdownIcon expanded={exploreExpanded} />
       </button>
-      {exploreSectionInline && <ExploreSection expanded={exploreExpanded} courses={courses} innerClassName="pl-6 pt-6" />}
+      {exploreSectionInline && <ExploreSection expanded={exploreExpanded} courses={courses} className="nav-links__explore-section" innerClassName="pl-6 pt-6" />}
     </div>
     {children}
   </div>
