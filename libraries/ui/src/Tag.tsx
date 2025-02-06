@@ -14,7 +14,7 @@ export const Tag: React.FC<TagProps> = ({
     <span
       role="status"
       className={clsx(
-        'tag inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold border border-bluedot-lighter text-bluedot-black',
+        'tag inline-flex items-center px-2 py-1 text-xs font-semibold text-color-secondary-text',
         className,
       )}
     >
