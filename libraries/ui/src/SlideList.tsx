@@ -179,7 +179,7 @@ export const SlideList: React.FC<SlideListProps> = ({
               gap: '0.25rem',
             }}
           >
-            {React.Children.map(children, (child, index) => (
+            {React.Children.map(children, (child) => (
               <div
                 className={clsx(
                   'slide-list__slide flex-shrink-0 w-full',
