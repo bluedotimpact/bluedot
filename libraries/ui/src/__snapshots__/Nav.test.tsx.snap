@@ -45,22 +45,14 @@ exports[`Nav > renders with courses 1`] = `
         class="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="nav__secondary-cta"
-          href="https://course.aisafetyfundamentals.com/alignment?show=login"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Login
-        </a>
-        <a
           class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
           data-testid="cta-link"
-          href="https://aisafetyfundamentals.com/"
+          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
         >
           <span
             class="cta-button__text"
           >
-            Get started for free
+            Support us
           </span>
         </a>
       </div>
@@ -147,22 +139,14 @@ exports[`Nav > renders with optional yield 1`] = `
         class="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]"
       >
         <a
-          class="nav__secondary-cta"
-          href="https://course.aisafetyfundamentals.com/alignment?show=login"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Login
-        </a>
-        <a
           class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
           data-testid="cta-link"
-          href="https://aisafetyfundamentals.com/"
+          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
         >
           <span
             class="cta-button__text"
           >
-            Get started for free
+            Support us
           </span>
         </a>
       </div>

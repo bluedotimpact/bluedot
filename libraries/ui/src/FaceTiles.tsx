@@ -18,7 +18,7 @@ export const FaceTiles: React.FC<FaceTilesProps> = ({
 }) => {
   const displayFaces = faces.slice(0, maxDisplay);
   // TODO: Both of these should be fetched from the backend in the future
-  const remainingCount = 4071;
+  const remainingCount = 4000;
 
   return (
     <div className={`face-tiles flex items-center ${className}`}>

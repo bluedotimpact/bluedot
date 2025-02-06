@@ -51,8 +51,9 @@ export const Nav: React.FC<NavProps> = ({
           {children}
         </div>
         <div className="nav__cta-container shrink-0 flex justify-end items-center gap-[36px]">
-          <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Login</a>
-          <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
+          {/* <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Login</a> */}
+          {/* <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton> */}
+          <CTALinkOrButton className="nav__primary-cta" url="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" {...EXTERNAL_LINK_PROPS}>Support us</CTALinkOrButton>
         </div>
       </div>
 
