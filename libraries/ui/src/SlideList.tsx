@@ -11,7 +11,7 @@ export type SlideListProps = {
   itemsPerSlide?: number;
   slideClassName?: string;
   containerClassName?: string;
-  slidesWrapperWidth?: string;
+  slidesWrapperWidth?: string | { mobile: string; desktop: string };
 };
 
 export const SlideList: React.FC<SlideListProps> = ({
@@ -24,11 +24,23 @@ export const SlideList: React.FC<SlideListProps> = ({
   itemsPerSlide = 1,
   slideClassName,
   containerClassName,
-  slidesWrapperWidth = '800px',
+  slidesWrapperWidth = { mobile: '100%', desktop: '800px' },
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const effectiveItemsPerSlide = isMobile ? 1 : itemsPerSlide;
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const totalSlides = Math.ceil(childrenArray.length / itemsPerSlide);
+  const totalSlides = Math.ceil(childrenArray.length / effectiveItemsPerSlide);
 
   const handlePrevious = () => {
     setCurrentSlide((prev) => Math.max(0, prev - 1));
@@ -43,9 +55,9 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   return (
     <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex justify-between items-start mb-8">
+      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8">
         {(title || subtitle || description) && (
-          <div className="slide-list__header-content">
+          <div className="slide-list__header-content mb-6 md:mb-0">
             {title && (
               <h2 className="slide-list__title">{title}</h2>
             )}
@@ -53,12 +65,12 @@ export const SlideList: React.FC<SlideListProps> = ({
               <h3 className="slide-list__subtitle">{subtitle}</h3>
             )}
             {description && (
-              <p className="slide-list__description mt-4">{description}</p>
+              <p className="slide-list__description mt-4 max-w-[600px]">{description}</p>
             )}
           </div>
         )}
         {totalSlides > 1 && (
-          <div className="slide-list__nav flex items-center gap-2 pt-2 ml-auto">
+          <div className="slide-list__nav hidden md:flex items-center gap-2 pt-2 md:ml-auto">
             <SlideListBtn
               onClick={handlePrevious}
               disabled={currentSlide === 0}
@@ -101,42 +113,83 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
       </div>
 
-      <div className={clsx('slide-list__content flex gap-2', containerClassName)}>
+      <div className={clsx('slide-list__content flex flex-col md:flex-row gap-4', containerClassName)}>
         {featuredSlot && (
-          <div className="slide-list__featured w-[600px] flex-shrink-0">
+          <div className="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
 
+        {/* Mobile navigation buttons - shown below featured slot */}
+        {totalSlides > 1 && (
+          <div className="slide-list__nav md:hidden flex items-center justify-end gap-2 mt-4">
+            <SlideListBtn
+              onClick={handlePrevious}
+              disabled={currentSlide === 0}
+              ariaLabel="Previous slide"
+            >
+              <svg
+                className="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </SlideListBtn>
+            <SlideListBtn
+              onClick={handleNext}
+              disabled={currentSlide === totalSlides - 1}
+              ariaLabel="Next slide"
+            >
+              <svg
+                className="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </SlideListBtn>
+          </div>
+        )}
+
         <div
-          className="slide-list__container relative overflow-hidden flex-shrink-0"
-          style={{ width: slidesWrapperWidth }}
+          className="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
+          style={{
+            width: typeof slidesWrapperWidth === 'string'
+              ? slidesWrapperWidth
+              : `min(100%, ${slidesWrapperWidth.desktop})`,
+          }}
         >
           <div
-            className="slide-list__track flex transition-transform duration-300 ease-in-out pb-8"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            className="slide-list__slides flex transition-transform duration-300"
+            style={{
+              transform: `translateX(-${currentSlide * 100}%)`,
+              gap: '0.25rem',
+            }}
           >
-            {Array.from({ length: totalSlides }).map((_, index) => {
-              const slideStart = index * itemsPerSlide;
-              const slideItems = childrenArray.slice(slideStart, slideStart + itemsPerSlide);
-              const slideKey = slideItems.map((child) => child.key).join('-') || `slide-${slideStart}`;
-
-              return (
-                <div
-                  key={slideKey}
-                  className={clsx('slide-list__track-item w-full flex-shrink-0 flex gap-2', slideClassName)}
-                >
-                  {slideItems.map((child) => (
-                    <div
-                      key={child.key ?? `item-${child.props?.children}`}
-                      className="slide-list__item flex-1"
-                    >
-                      {child}
-                    </div>
-                  ))}
-                </div>
-              );
-            })}
+            {React.Children.map(children, (child, index) => (
+              <div
+                className={clsx(
+                  'slide-list__slide flex-shrink-0 w-full',
+                  slideClassName,
+                )}
+                style={{ width: `${100 / effectiveItemsPerSlide}%` }}
+              >
+                {child}
+              </div>
+            ))}
           </div>
 
           {(!isFirstSlide || !isLastSlide) && (

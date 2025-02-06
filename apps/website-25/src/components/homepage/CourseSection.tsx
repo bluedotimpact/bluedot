@@ -56,13 +56,16 @@ const CourseSection = () => {
           <CourseCard
             {...featuredCourses[0]}
             cardType="Featured"
-            className="h-full m-1"
+            className="h-full"
           />
         )}
+        slidesWrapperWidth={{ mobile: '100%', desktop: '800px' }}
+        containerClassName="gap-4"
+        slideClassName="gap-4"
       >
         {courses.map((course) => (
           <SlideItem key={course.title}>
-            <CourseCard {...course} className="h-full m-1" />
+            <CourseCard {...course} className="size-full md:w-[323px]" />
           </SlideItem>
         ))}
       </SlideList>
