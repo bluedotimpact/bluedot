@@ -1,9 +1,11 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Nav } from './Nav';
 import imgSrc from '../public/BlueDot_Impact_Logo.svg';
 
+/**
+ * Wrapper to add a min-height so the viewport doesn't collapse completely
+ */
 const NavWrapper: React.FC<React.ComponentProps<typeof Nav>> = (props) => (
   <div className="min-h-96">
     <Nav {...props} />
@@ -18,9 +20,6 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
-    styles: {
-      minHeight: '800px', // Set min-height for the docs version
-    },
   },
   args: {
     courses: [

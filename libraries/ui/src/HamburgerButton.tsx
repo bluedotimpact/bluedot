@@ -21,6 +21,7 @@ export type HamburgerButtonProps = {
   setOpen: (open: boolean) => void,
   className?: string,
 };
+
 export const HamburgerButton: React.FC<HamburgerButtonProps> = ({
   open,
   setOpen,

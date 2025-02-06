@@ -13,7 +13,6 @@ describe('Nav', () => {
         ]}
       />,
     );
-
     expect(container).toMatchSnapshot();
   });
 
