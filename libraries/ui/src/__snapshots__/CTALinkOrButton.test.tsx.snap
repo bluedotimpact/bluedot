@@ -2,7 +2,7 @@
 
 exports[`CTALinkOrButton > renders with primary variant by default as a button 1`] = `
 <button
-  class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+  class="cta-button flex items-center justify-center rounded-design-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
   data-testid="cta-button"
   type="button"
 >
