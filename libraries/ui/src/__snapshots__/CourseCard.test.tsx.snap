@@ -2,8 +2,8 @@
 
 exports[`CourseCard > renders Featured as expected 1`] = `
 <div>
-  <div
-    class="p-[3px]"
+  <a
+    class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
   >
     <a
       class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"

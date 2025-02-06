@@ -42,10 +42,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             class="intro-section__text-container flex flex-col gap-5"
           >
             <p>
-              Humanity faces unprecedented challenges from transformative AI (TAI), which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+              Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
             </p>
             <p>
-              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field. Thus far, we’ve trained over 3,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation, including deep knowledge of how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, the urgency and magnitude of AI risks demand we do much more.
+              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of,  deep knowledge in how to communicate complex concepts, close relationships across the field and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
             </p>
           </div>
           <img
@@ -194,8 +194,6 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-alignment-project-judge/"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"
@@ -235,8 +233,6 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-safety-course-operations/"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"
@@ -276,8 +272,6 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/swe-contractor/"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"
@@ -317,8 +311,6 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/economics-of-tai-teaching-fellow/"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"

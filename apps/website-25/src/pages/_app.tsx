@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { CookieBanner, Footer, Nav } from '@bluedot/ui';
-import { EXTERNAL_LINK_PROPS } from '@bluedot/ui/src/utils';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -27,7 +26,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       >
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
-        <a href="https://bluedot.org/blog/" {...EXTERNAL_LINK_PROPS}>Blog</a>
+        <a href="https://bluedot.org/blog/">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />

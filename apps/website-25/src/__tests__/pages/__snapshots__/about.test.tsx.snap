@@ -42,10 +42,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="intro-section__text-container flex flex-col gap-5"
           >
             <p>
-              Humanity faces unprecedented challenges from transformative AI (TAI), which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+              Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
             </p>
             <p>
-              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field. Thus far, we’ve trained over 3,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation, including deep knowledge of how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, the urgency and magnitude of AI risks demand we do much more.
+              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of,  deep knowledge in how to communicate complex concepts, close relationships across the field and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
             </p>
           </div>
           <img
@@ -85,7 +85,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
             >
               <img
-                alt="AGI could arrive soon, and we’re unprepared"
+                alt="AGI could arrive soon, and society is unprepared"
                 class="value-card__icon"
                 src="icons/fast.svg"
               />
@@ -93,7 +93,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             <h3
               class="value-card__title min-h-[60px]"
             >
-              AGI could arrive soon, and we’re unprepared
+              AGI could arrive soon, and society is unprepared
             </h3>
             <p
               class="value-card__description "
@@ -214,7 +214,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-title"
+                class="history-section__event-title mr-12"
               >
                 Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
               </p>
@@ -239,7 +239,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-title"
+                class="history-section__event-title mr-12"
               >
                 Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
               </p>
@@ -264,7 +264,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-title"
+                class="history-section__event-title mr-12"
               >
                 Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
               </p>
@@ -289,7 +289,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-title"
+                class="history-section__event-title mr-12"
               >
                 Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
               </p>
@@ -314,7 +314,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-title"
+                class="history-section__event-title mr-12"
               >
                 Launching multiple courses weekly and expanding a world-class team to scale our global impact.
               </p>
