@@ -5,19 +5,19 @@
 
 @layer base {
   h1 {
-    @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.25];
+    @apply text-color-secondary-text font-sans text-size-xl font-bold leading-tight;
   }
   h2, .title {
-    @apply text-color-secondary-text font-sans text-5xl font-[700] leading-[1.5];
+    @apply text-color-secondary-text font-sans text-size-xl font-bold leading-normal;
   }
   h3, .subtitle {
-    @apply text-color-secondary-text font-sans text-2xl font-[650] leading-[1.5];
+    @apply text-color-secondary-text font-sans text-size-l font-[650] leading-normal;
   }
   h4 {
     @apply text-color-secondary-text font-sans text-xl font-[650];
   }
   p, li, .body {
-    @apply text-color-text font-sans text-sm font-[400] leading-[1.5];
+    @apply text-color-text font-sans text-size-m font-normal leading-normal;
   }
   ul {
     @apply list-inside list-disc;

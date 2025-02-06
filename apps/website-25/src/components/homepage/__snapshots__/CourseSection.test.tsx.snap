@@ -102,11 +102,11 @@ exports[`CourseSection > renders default as expected 1`] = `
                   >
                     Featured course
                   </p>
-                  <h2
-                    class="course-card__title text-2xl font-semibold text-bluedot-darker mb-6"
+                  <h3
+                    class="course-card__title mb-6"
                   >
                     AI Safety: Intro to Transformative AI
-                  </h2>
+                  </h3>
                   <button
                     class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
                     data-testid="cta-button"

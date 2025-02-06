@@ -65,6 +65,14 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
           serif: '"Reckless Neue", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
           ...config.theme?.extend?.fontFamily,
         },
+        fontSize: {
+          /* Design System Font Sizes */
+          'size-s': ['0.75rem' /* 12px */, { lineHeight: '1rem' /* 16px */ }], // equivalent to xs
+          'size-m': ['0.875rem' /* 14px */, { lineHeight: '1.25rem' /* 20px */ }], // equivalent to sm
+          'size-l': ['1.5rem' /* 24px */, { lineHeight: '2rem' /* 32px */ }], // equivalent to 2xl
+          'size-xl': ['3rem' /* 48px */, { lineHeight: '1' }], // equivalent to 5xl
+          ...config.theme?.extend?.fontSize,
+        },
         spacing: {
           'max-width': '1440px',
           'min-width': '388px',

@@ -61,9 +61,9 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
           <p className="course-card__featured-label uppercase font-[650] text-xs mb-3">
             Featured course
           </p>
-          <h2 className="course-card__title text-2xl font-semibold text-bluedot-darker mb-6">
+          <h3 className="course-card__title mb-6">
             {title}
-          </h2>
+          </h3>
           <CTALinkOrButton
             className="course-card__cta mb-6 px-6"
             variant="primary"
