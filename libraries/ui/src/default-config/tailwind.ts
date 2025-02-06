@@ -12,6 +12,12 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
       ...config.theme,
       extend: {
         ...config.theme?.extend,
+        borderRadius: {
+          /* Design System Border Radius */
+          'design-sm': '0.25rem' /* 4px */, // equivalent to base
+          'design-md': '0.5rem' /* 8px */, // equivalent to lg
+          ...config.theme?.extend?.borderRadius,
+        },
         colors: {
           color: {
             /* Design System Colors */
