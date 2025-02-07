@@ -16,7 +16,7 @@ type FooterSectionProps = {
   links?: { href: string; label: string }[];
 };
 
-const FooterSection: React.FC<FooterSectionProps> = ({ title, links }) => (
+const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links }) => (
   <div className="footer__section">
     {title && <h3 className="footer__heading text-on-dark mb-4 text-size-m">{title}</h3>}
     {links && (
@@ -77,7 +77,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
 
             <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5">
-              <FooterSection
+              <FooterLinksSection
                 title="BlueDot Impact"
                 links={[
                   { href: '/about', label: 'About us' },
@@ -88,7 +88,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
               />
 
               {/* // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai */}
-              <FooterSection
+              <FooterLinksSection
                 title="Explore"
                 links={[
                   { href: 'https://aisafetyfundamentals.com/intro-to-tai/', label: 'Intro to Transformative AI' },
@@ -98,22 +98,23 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                 ]}
               />
 
-              {/* TODO add comments back in, and comment out the below */}
-              {/* <FooterSection
+              
+              <FooterLinksSection
                 title="Resources"
                 links={[
-                  { href: '/announcements', label: 'Announcements and stories' },
-                  { href: '/useful-links', label: 'Useful links' },
-                  { href: '/community-projects', label: 'Community projects' },
+                  // TODO: 01/27 add routing to resources when resources are integrated
+                  // { href: '/announcements', label: 'Announcements and stories' },
+                  // { href: '/useful-links', label: 'Useful links' },
+                  // { href: '/community-projects', label: 'Community projects' },
                   { href: '/privacy-policy', label: 'Privacy Policy' },
                 ]}
-              /> */}
+              />
             </div>
             <FooterSocial className="sm:hidden" />
           </nav>
         </div>
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={`${footerLinkClassNames} underline`}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>14964572</a>).
         </p>
       </footer>
     </div>
