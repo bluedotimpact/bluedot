@@ -1,12 +1,12 @@
 import {
   HeroSection,
 } from '@bluedot/ui';
+import BlogSection from '../components/homepage/BlogSection';
+import CommunitySection from '../components/homepage/CommunitySection/index';
 import CourseSection from '../components/homepage/CourseSection';
+import FAQSection from '../components/homepage/FAQSection';
 import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
-import CommunitySection from '../components/homepage/CommunitySection/index';
-import FAQSection from '../components/homepage/FAQSection';
-import BlogSection from '../components/homepage/BlogSection';
 
 const HomePage = () => {
   return (
@@ -21,10 +21,10 @@ const HomePage = () => {
       </HeroSection>
       <GraduateSection />
       <CourseSection />
-      <StorySection />
       <CommunitySection />
-      <FAQSection />
+      <StorySection />
       <BlogSection />
+      <FAQSection />
     </div>
   );
 };

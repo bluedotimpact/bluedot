@@ -2,7 +2,7 @@ import { CTALinkOrButton, Section, Tag } from '@bluedot/ui';
 
 const BlogSection = () => {
   return (
-    <Section className="blog-section" title="Our work">
+    <Section className="blog-section" title="Our blog">
       <div className="blog-section__container flex flex-col mb-6">
         {/* TODO: Blog posts should be fetched from the backend in the future */}
         <BlogPost
