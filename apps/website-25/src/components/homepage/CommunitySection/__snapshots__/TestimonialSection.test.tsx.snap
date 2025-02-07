@@ -25,7 +25,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             class="slide-list__header-content mb-6 md:mb-0"
           >
             <h3
-              class="slide-list__subtitle"
+              class="slide-list__subtitle text-xl"
             >
               What our graduates say
             </h3>

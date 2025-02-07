@@ -4,6 +4,7 @@ const BlogSection = () => {
   return (
     <Section className="blog-section" title="Our work">
       <div className="blog-section__container flex flex-col mb-6">
+        {/* TODO: Blog posts should be fetched from the backend in the future */}
         <BlogPost
           date="December 12, 2024"
           title="Teach-swap-explain: a learning activity for course designers to create highly effective learning experiences"
