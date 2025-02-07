@@ -36,6 +36,7 @@ export const Nav: React.FC<NavProps> = ({
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
             className="nav__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
           >
             Explore

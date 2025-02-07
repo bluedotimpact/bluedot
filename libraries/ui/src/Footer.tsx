@@ -39,20 +39,20 @@ type FooterSocialProps = {
 
 const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
   <div className={clsx('footer__social flex gap-6', className)}>
-    <a href="https://twitter.com/BlueDotImpact" className="footer__social-link link-on-dark" aria-label="Twitter">
+    <a href="https://twitter.com/BlueDotImpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Twitter">
       <FaXTwitter className="size-6" />
     </a>
-    <a href="https://youtube.com/@bluedotimpact" className="footer__social-link link-on-dark" aria-label="YouTube">
+    <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="YouTube">
       <FaYoutube className="size-6" />
     </a>
-    <a href="https://www.facebook.com/bluedotimpact" className="footer__social-link link-on-dark" aria-label="Facebook">
+    <a href="https://www.facebook.com/bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Facebook">
       <FaFacebook className="size-6" />
     </a>
-    <a href="#" className="footer__social-link link-on-dark" aria-label="Instagram">
+    <a href="#" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Instagram">
       <FaInstagram className="size-6" />
     </a>
     {/* TODO: 01/27 Add Instagram link */}
-    <a href="https://www.linkedin.com/company/bluedotimpact/" className="footer__social-link link-on-dark" aria-label="LinkedIn">
+    <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="LinkedIn">
       <FaLinkedin className="size-6" />
     </a>
   </div>
@@ -98,7 +98,6 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                 ]}
               />
 
-              
               <FooterLinksSection
                 title="Resources"
                 links={[
@@ -114,7 +113,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
           </nav>
         </div>
         <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={`${footerLinkClassNames} underline`}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={`${footerLinkClassNames} underline`}>14964572</a>).
+          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={footerLinkClassNames}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>14964572</a>).
         </p>
       </footer>
     </div>

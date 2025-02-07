@@ -5,6 +5,7 @@ import CourseSection from '../components/homepage/CourseSection';
 import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
 import CommunitySection from '../components/homepage/CommunitySection/index';
+import FAQSection from '../components/homepage/FAQSection';
 
 const HomePage = () => {
   return (
@@ -21,6 +22,7 @@ const HomePage = () => {
       <CourseSection />
       <StorySection />
       <CommunitySection />
+      <FAQSection />
     </div>
   );
 };
