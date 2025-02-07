@@ -31,6 +31,9 @@
   a, .link {
     @apply text-color-secondary-text hover:text-color-primary-accent hover:cursor-pointer;
   }
+  p > a {
+    @apply underline;
+  }
   .link-on-dark {
     @apply text-color-text-on-dark hover:text-color-secondary-accent hover:cursor-pointer;
   }
