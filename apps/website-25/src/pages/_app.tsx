@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { CookieBanner, Footer, Nav } from '@bluedot/ui';
-import { EXTERNAL_LINK_PROPS } from '@bluedot/ui/src/utils';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
