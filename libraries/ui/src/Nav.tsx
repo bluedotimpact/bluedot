@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import React, { useCallback, useState } from 'react';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { EXTERNAL_LINK_PROPS } from './utils';
 import { HamburgerButton } from './HamburgerButton';
 
 export type NavProps = React.PropsWithChildren<{
