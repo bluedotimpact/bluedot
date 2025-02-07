@@ -90,8 +90,9 @@ const NavLinks: React.FC<{
 
 const LoginButtons: React.FC<{ className?: string }> = ({ className }) => (
   <div className={clsx('nav__cta-container flex items-center', className)}>
-    <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Log in</a>
-    <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
+    <CTALinkOrButton className="nav__primary-cta" url="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" isExternalUrl>Support us</CTALinkOrButton>
+    {/* <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Log in</a>
+    <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton> */}
   </div>
 );
 
@@ -113,7 +114,7 @@ export const Nav: React.FC<NavProps> = ({
   }, []);
 
   return (
-    <nav className={clsx('nav fixed z-50 w-full bg-bluedot-canvas container-elevated', className)}>
+    <nav className={clsx('nav fixed z-50 w-full bg-cream-normal container-elevated', className)}>
       <div className="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9">
         <div className="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]">
           <a href="/" className="nav__logo-link shrink-0 w-[200px]">

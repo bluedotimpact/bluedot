@@ -1,0 +1,48 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Collapsible > renders correctly 1`] = `
+<div>
+  <div
+    class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+  >
+    <div
+      class="collapsible__header flex justify-between w-full cursor-pointer"
+      tabindex="-1"
+    >
+      <h3
+        class="collapsible__title text-color-text text-2xl font-normal"
+      >
+        Test Collapsible
+      </h3>
+      <button
+        aria-expanded="false"
+        aria-label="Test Collapsible"
+        class="collapsible__button flex items-center"
+        type="button"
+      >
+        <svg
+          class="collapsible__button-icon size-6 transition-transform"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 9l-7 7-7-7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      aria-hidden="true"
+      class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+    >
+      <p>
+        Test Content
+      </p>
+    </div>
+  </div>
+</div>
+`;

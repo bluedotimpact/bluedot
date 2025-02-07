@@ -5,9 +5,13 @@ export { Banner } from './Banner';
 
 export { Card } from './Card';
 
-export { CTALinkOrButton } from './CTALinkOrButton';
+export { Collapsible } from './Collapsible';
+
+export { CookieBanner } from './CookieBanner';
 
 export { CourseCard } from './CourseCard';
+
+export { CTALinkOrButton } from './CTALinkOrButton';
 
 export { HeroSection } from './HeroSection';
 
@@ -25,9 +29,7 @@ export { Tag } from './Tag';
 
 export { ValueCard } from './ValueCard';
 
-export { CookieBanner } from './CookieBanner';
-
-// Non-component exports
+// Utils
 
 export { EXTERNAL_LINK_PROPS } from './utils';
 

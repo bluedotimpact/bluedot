@@ -52,7 +52,7 @@ exports[`FaceTiles > renders default as expected 1`] = `
         class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
       >
         +
-        4071
+        4000
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@ exports[`FaceTiles > renders empty state 1`] = `
         class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
       >
         +
-        4071
+        4000
       </div>
     </div>
   </div>
@@ -130,7 +130,7 @@ exports[`FaceTiles > renders with custom className 1`] = `
         class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
       >
         +
-        4071
+        4000
       </div>
     </div>
   </div>
@@ -179,7 +179,7 @@ exports[`FaceTiles > renders with custom maxDisplay 1`] = `
         class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
       >
         +
-        4071
+        4000
       </div>
     </div>
   </div>
@@ -238,7 +238,7 @@ exports[`FaceTiles > renders with custom size 1`] = `
         class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
       >
         +
-        4071
+        4000
       </div>
     </div>
   </div>

@@ -1,0 +1,296 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FAQSection > renders default as expected 1`] = `
+<div>
+  <div
+    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 faq-section"
+  >
+    <div
+      class="section__title-container flex justify-between items-center gap-4"
+    >
+      <div
+        class="section__content flex-1"
+      >
+        <h2
+          class="section__title mb-4 relative after:w-full"
+        >
+          Frequently asked questions
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+      >
+        <div
+          class="collapsible__header flex justify-between w-full cursor-pointer"
+          tabindex="-1"
+        >
+          <h3
+            class="collapsible__title text-color-text text-2xl font-normal"
+          >
+            How can I maximise my chances of getting accepted onto the courses?
+          </h3>
+          <button
+            aria-expanded="false"
+            aria-label="How can I maximise my chances of getting accepted onto the courses?"
+            class="collapsible__button flex items-center"
+            type="button"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+        >
+          <p>
+            Check you are the 
+            <a
+              href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
+            >
+              right fit
+            </a>
+             and read our tips for making a 
+            <a
+              href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
+            >
+              great application.
+            </a>
+          </p>
+        </div>
+      </div>
+      <div
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+      >
+        <div
+          class="collapsible__header flex justify-between w-full cursor-pointer"
+          tabindex="-1"
+        >
+          <h3
+            class="collapsible__title text-color-text text-2xl font-normal"
+          >
+            I’d like to run your course for my work/university/ local AIS group… can you help with training and materials?
+          </h3>
+          <button
+            aria-expanded="false"
+            aria-label="I’d like to run your course for my work/university/ local AIS group… can you help with training and materials?"
+            class="collapsible__button flex items-center"
+            type="button"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+        >
+          <p>
+            We are excited that you want to 
+            <a
+              href="https://bluedot.org/running-versions-of-our-courses/"
+            >
+              run a version of our courses
+            </a>
+             and will support you in any way we can. A good place to start is by looking through our 
+            <a
+              href="https://course.bluedot.org/home/facilitator-training"
+            >
+              facilitator training course
+            </a>
+             curriculum.
+          </p>
+        </div>
+      </div>
+      <div
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+      >
+        <div
+          class="collapsible__header flex justify-between w-full cursor-pointer"
+          tabindex="-1"
+        >
+          <h3
+            class="collapsible__title text-color-text text-2xl font-normal"
+          >
+            Who funds your work?
+          </h3>
+          <button
+            aria-expanded="false"
+            aria-label="Who funds your work?"
+            class="collapsible__button flex items-center"
+            type="button"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+        >
+          <p>
+            BlueDot Impact is primarily funded by 
+            <a
+              href="https://www.openphilanthropy.org/"
+            >
+              Open Philanthropy
+            </a>
+            , and is a non-profit based in the UK (company number 
+            <a
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            >
+              14964572
+            </a>
+            ). Our courses are free but upon course completion we give our participants the opportunity to 
+            <a
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+            >
+              Support Us
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+      <div
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+      >
+        <div
+          class="collapsible__header flex justify-between w-full cursor-pointer"
+          tabindex="-1"
+        >
+          <h3
+            class="collapsible__title text-color-text text-2xl font-normal"
+          >
+            How can I collaborate/partner with BlueDot Impact on AI safety initiatives?
+          </h3>
+          <button
+            aria-expanded="false"
+            aria-label="How can I collaborate/partner with BlueDot Impact on AI safety initiatives?"
+            class="collapsible__button flex items-center"
+            type="button"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+        >
+          <p>
+            We love to hear from potential collaborators so please 
+            <a
+              href="https://bluedot.org/contact/"
+            >
+              reach out
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+      <div
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+      >
+        <div
+          class="collapsible__header flex justify-between w-full cursor-pointer"
+          tabindex="-1"
+        >
+          <h3
+            class="collapsible__title text-color-text text-2xl font-normal"
+          >
+            How can I stay informed about BlueDot Impact’s latest roles?
+          </h3>
+          <button
+            aria-expanded="false"
+            aria-label="How can I stay informed about BlueDot Impact’s latest roles?"
+            class="collapsible__button flex items-center"
+            type="button"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+        >
+          <p>
+            Please see more information about our job openings 
+            <a
+              href="/careers"
+            >
+              here
+            </a>
+             including an 
+            <a
+              href="https://airtable.com/appB9rItpTpWkNqEI/shrulKbUxr7NhgnKJ"
+            >
+              expression of interest form
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

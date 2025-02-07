@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="41" height="44" viewBox="0 0 41 44" fill="none">
+  <circle cx="20.3203" cy="6" r="5" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="20.3203" cy="38" r="5" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="34.177" cy="14" r="5" transform="rotate(60 34.177 14)" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="6.46412" cy="30" r="5" transform="rotate(60 6.46412 30)" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="34.177" cy="30" r="5" transform="rotate(120 34.177 30)" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="6.46412" cy="14" r="5" transform="rotate(120 6.46412 14)" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M20.4689 16.8265C20.3963 16.6303 20.2092 16.5 20 16.5C19.7908 16.5 19.6037 16.6303 19.5311 16.8265L18.2604 20.2604L14.8265 21.5311C14.6303 21.6037 14.5 21.7908 14.5 22C14.5 22.2092 14.6303 22.3963 14.8265 22.4689L18.2604 23.7396L19.5311 27.1735C19.6037 27.3697 19.7908 27.5 20 27.5C20.2092 27.5 20.3963 27.3697 20.4689 27.1735L21.7396 23.7396L25.1735 22.4689C25.3697 22.3963 25.5 22.2092 25.5 22C25.5 21.7908 25.3697 21.6037 25.1735 21.5311L21.7396 20.2604L20.4689 16.8265Z" fill="#00114D" stroke="#00114D" stroke-linejoin="round"/>
+</svg>

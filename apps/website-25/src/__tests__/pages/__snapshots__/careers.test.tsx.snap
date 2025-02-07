@@ -76,10 +76,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="flex gap-8 overflow-y-scroll"
+          class="flex sm:flex-row flex-col gap-8 overflow-y-scroll"
         >
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card w-full flex flex-col gap-6 py-6"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -91,18 +91,18 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               />
             </div>
             <h3
-              class="value-card__title"
+              class="value-card__title min-h-[60px]"
             >
               Think hard, act fast, fail faster
             </h3>
             <p
-              class="value-card__description"
+              class="value-card__description "
             >
               We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
             </p>
           </div>
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card w-full flex flex-col gap-6 py-6"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -114,18 +114,18 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               />
             </div>
             <h3
-              class="value-card__title"
+              class="value-card__title min-h-[60px]"
             >
               Care personally, challenge directly
             </h3>
             <p
-              class="value-card__description"
+              class="value-card__description "
             >
               We care about our team and our community, and we hold everyone to high standards.
             </p>
           </div>
           <div
-            class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+            class="value-card w-full flex flex-col gap-6 py-6"
           >
             <div
               class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -137,12 +137,12 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               />
             </div>
             <h3
-              class="value-card__title"
+              class="value-card__title min-h-[60px]"
             >
               Obsessed with empowering problem-solvers
             </h3>
             <p
-              class="value-card__description"
+              class="value-card__description "
             >
               We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
             </p>
@@ -191,7 +191,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-alignment-project-judge/"
               rel="noopener noreferrer"
@@ -232,7 +232,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/ai-safety-course-operations/"
               rel="noopener noreferrer"
@@ -273,7 +273,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/swe-contractor/"
               rel="noopener noreferrer"
@@ -314,7 +314,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
               href="https://bluedot.org/economics-of-tai-teaching-fellow/"
               rel="noopener noreferrer"

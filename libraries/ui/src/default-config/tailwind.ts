@@ -12,37 +12,57 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
       ...config.theme,
       extend: {
         ...config.theme?.extend,
+        borderRadius: {
+          /* Design System Border Radius */
+          'radius-sm': '0.25rem' /* 4px */, // equivalent to base
+          'radius-md': '0.5rem' /* 8px */, // equivalent to lg
+          ...config.theme?.extend?.borderRadius,
+        },
         colors: {
-          bluedot: {
-            lighter: '#CCD7FF',
-            light: '#6687FF',
-            normal: '#0037FF',
-            dark: '#002199',
-            darker: '#00114D',
-            black: '#1E1E1E',
+          color: {
+            /* Design System Colors */
+            text: 'var(--bluedot-black)',
+            'text-on-dark': 'var(--bluedot-cream-normal)',
+            'secondary-text': 'var(--bluedot-darker)',
             canvas: 'var(--bluedot-cream-normal)',
+            'canvas-dark': 'var(--bluedot-darker)',
+            primary: 'var(--bluedot-normal)',
+            secondary: 'var(--bluedot-lighter)',
+            'primary-accent': 'var(--bluedot-normal)',
+            'secondary-accent': 'var(--bluedot-lighter)',
+            divider: 'var(--bluedot-charcoal-light)',
+          },
+          /* Brand Colors */
+          /* We kept these for backwards compatibility. Avoid using them. Use Design System Colors instead. */
+          bluedot: {
+            lighter: 'var(--bluedot-lighter)',
+            light: 'var(--bluedot-light)',
+            normal: 'var(--bluedot-normal)',
+            dark: 'var(--bluedot-dark)',
+            darker: 'var(--bluedot-darker)',
+            black: 'var(--bluedot-black)',
           },
           charcoal: {
-            light: '#CCCCCC',
-            normal: '#1E1E1E',
+            light: 'var(--bluedot-charcoal-light)',
+            normal: 'var(--bluedot-charcoal-normal)',
           },
           aisf: {
-            lighter: '#E6B3FF',
-            light: '#D680FF',
-            normal: '#C64EFF',
-            dark: '#9C00E5',
-            darker: '#560080',
+            lighter: 'var(--bluedot-aisf-lighter)',
+            light: 'var(--bluedot-aisf-light)',
+            normal: 'var(--bluedot-aisf-normal)',
+            dark: 'var(--bluedot-aisf-dark)',
+            darker: 'var(--bluedot-aisf-darker)',
           },
           pandemics: {
-            lighter: '#C7F7C0',
-            light: '#78EB66',
-            normal: '#34CE1B',
-            dark: '#1D7510',
-            darker: '#11430A',
+            lighter: 'var(--bluedot-pandemics-lighter)',
+            light: 'var(--bluedot-pandemics-light)',
+            normal: 'var(--bluedot-pandemics-normal)',
+            dark: 'var(--bluedot-pandemics-dark)',
+            darker: 'var(--bluedot-pandemics-darker)',
           },
           cream: {
             normal: 'var(--bluedot-cream-normal)',
-            dark: '#D9D6D2',
+            dark: 'var(--bluedot-cream-dark)',
           },
           ...config.theme?.extend?.colors,
         },
@@ -50,6 +70,14 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
           sans: 'Roobert, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
           serif: '"Reckless Neue", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
           ...config.theme?.extend?.fontFamily,
+        },
+        fontSize: {
+          /* Design System Font Sizes */
+          'size-s': ['0.75rem' /* 12px */, { lineHeight: '1rem' /* 16px */ }], // equivalent to xs
+          'size-m': ['0.875rem' /* 14px */, { lineHeight: '1.25rem' /* 20px */ }], // equivalent to sm
+          'size-l': ['1.5rem' /* 24px */, { lineHeight: '2rem' /* 32px */ }], // equivalent to 2xl
+          'size-xl': ['3rem' /* 48px */, { lineHeight: '1' }], // equivalent to 5xl
+          ...config.theme?.extend?.fontSize,
         },
         spacing: {
           'max-width': '1440px',

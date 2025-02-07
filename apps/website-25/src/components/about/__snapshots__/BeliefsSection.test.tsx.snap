@@ -22,33 +22,33 @@ exports[`BeliefsSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="beliefs-section__container flex gap-8 overflow-y-scroll"
+        class="beliefs-section__container flex sm:flex-row flex-col gap-8 overflow-y-scroll"
       >
         <div
-          class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+          class="value-card w-full flex flex-col gap-6 py-6"
         >
           <div
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="AGI could arrive soon, and we’re dangerously unprepared"
+              alt="AGI could arrive soon, and we’re unprepared"
               class="value-card__icon"
               src="icons/fast.svg"
             />
           </div>
           <h3
-            class="value-card__title"
+            class="value-card__title min-h-[60px]"
           >
-            AGI could arrive soon, and we’re dangerously unprepared
+            AGI could arrive soon, and we’re unprepared
           </h3>
           <p
-            class="value-card__description"
+            class="value-card__description "
           >
             Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
           </p>
         </div>
         <div
-          class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+          class="value-card w-full flex flex-col gap-6 py-6"
         >
           <div
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -60,18 +60,18 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             />
           </div>
           <h3
-            class="value-card__title"
+            class="value-card__title min-h-[60px]"
           >
             What we do now matters
           </h3>
           <p
-            class="value-card__description"
+            class="value-card__description "
           >
             The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
           </p>
         </div>
         <div
-          class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+          class="value-card w-full flex flex-col gap-6 py-6"
         >
           <div
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -83,18 +83,18 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             />
           </div>
           <h3
-            class="value-card__title"
+            class="value-card__title min-h-[60px]"
           >
             The right people at key moments rewrite history
           </h3>
           <p
-            class="value-card__description"
+            class="value-card__description "
           >
             Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
           </p>
         </div>
         <div
-          class="value-card container-lined max-w-[437px] min-w-min-width w-full min-h-[296px] p-6 flex flex-col gap-[27px]"
+          class="value-card w-full flex flex-col gap-6 py-6"
         >
           <div
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
@@ -102,16 +102,16 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             <img
               alt="We need urgency, wisdom and optimism"
               class="value-card__icon"
-              src="icons/solvers.svg"
+              src="icons/network.svg"
             />
           </div>
           <h3
-            class="value-card__title"
+            class="value-card__title min-h-[60px]"
           >
             We need urgency, wisdom and optimism
           </h3>
           <p
-            class="value-card__description"
+            class="value-card__description "
           >
             The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
           </p>

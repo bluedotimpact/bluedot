@@ -25,7 +25,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={courses}
       >
-        <a href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" {...EXTERNAL_LINK_PROPS}>Support us</a>
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
       </Nav>

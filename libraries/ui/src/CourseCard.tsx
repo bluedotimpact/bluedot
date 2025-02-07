@@ -61,9 +61,9 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
           <p className="course-card__featured-label uppercase font-[650] text-xs mb-3">
             Featured course
           </p>
-          <h2 className="course-card__title text-2xl font-semibold text-bluedot-darker mb-6">
+          <h3 className="course-card__title mb-6">
             {title}
-          </h2>
+          </h3>
           <CTALinkOrButton
             className="course-card__cta mb-6 px-6"
             variant="primary"
@@ -104,14 +104,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   const CourseCardFooter = (
     <div className="course-card__footer flex justify-between w-full">
       <p className="course-card__footer-left text-left text-xs text-bluedot-black">
-        <span className="course-card__rating flex gap-[3px] items-center font-[650]">
-          5.0{' '}
-          <img
-            src="/icons/star_black.svg"
-            alt="★"
-            className="course-card__star-icon size-[10px]"
-          />
-        </span>
         <span className="course-card__length font-medium">{courseLength(courseType)}</span>
       </p>
       <Tag className="course-card__type">{courseType}</Tag>

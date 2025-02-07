@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated"
+    class="nav fixed z-50 w-full bg-cream-normal container-elevated"
   >
     <div
       class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
@@ -76,22 +76,16 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
           >
             <a
-              class="nav__secondary-cta"
-              href="https://course.aisafetyfundamentals.com/alignment?show=login"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
               target="_blank"
-            >
-              Log in
-            </a>
-            <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
-              href="https://aisafetyfundamentals.com/"
             >
               <span
                 class="cta-button__text"
               >
-                Get started for free
+                Support us
               </span>
             </a>
           </div>
@@ -224,22 +218,16 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container flex items-center nav__login--mobile justify-between mt-20 sm:hidden"
           >
             <a
-              class="nav__secondary-cta"
-              href="https://course.aisafetyfundamentals.com/alignment?show=login"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
               target="_blank"
-            >
-              Log in
-            </a>
-            <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
-              href="https://aisafetyfundamentals.com/"
             >
               <span
                 class="cta-button__text"
               >
-                Get started for free
+                Support us
               </span>
             </a>
           </div>
@@ -253,7 +241,7 @@ exports[`Nav > renders with courses 1`] = `
 exports[`Nav > renders with optional yield 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full bg-bluedot-canvas container-elevated"
+    class="nav fixed z-50 w-full bg-cream-normal container-elevated"
   >
     <div
       class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
@@ -331,22 +319,16 @@ exports[`Nav > renders with optional yield 1`] = `
             class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
           >
             <a
-              class="nav__secondary-cta"
-              href="https://course.aisafetyfundamentals.com/alignment?show=login"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
               target="_blank"
-            >
-              Log in
-            </a>
-            <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
-              href="https://aisafetyfundamentals.com/"
             >
               <span
                 class="cta-button__text"
               >
-                Get started for free
+                Support us
               </span>
             </a>
           </div>
@@ -462,22 +444,16 @@ exports[`Nav > renders with optional yield 1`] = `
             class="nav__cta-container flex items-center nav__login--mobile justify-between mt-20 sm:hidden"
           >
             <a
-              class="nav__secondary-cta"
-              href="https://course.aisafetyfundamentals.com/alignment?show=login"
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
               target="_blank"
-            >
-              Log in
-            </a>
-            <a
-              class="cta-button flex items-center justify-center rounded transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
-              href="https://aisafetyfundamentals.com/"
             >
               <span
                 class="cta-button__text"
               >
-                Get started for free
+                Support us
               </span>
             </a>
           </div>
