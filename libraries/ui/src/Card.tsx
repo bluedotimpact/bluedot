@@ -4,8 +4,10 @@ import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
 type CardProps = {
-  imageSrc: string;
+  // Required
   title: string;
+  // Optional
+  imageSrc?: string;
   subtitle?: string;
   ctaUrl?: string;
   isExternalUrl?: boolean;
@@ -46,13 +48,15 @@ export const Card: React.FC<CardProps> = ({
       {...(isEntireCardClickable && isExternalUrl && ctaUrl && EXTERNAL_LINK_PROPS)}
       className={wrapperClassName}
     >
-      <div className="card__image-container max-h-[223px] w-full mb-3">
-        <img
-          className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
-          src={imageSrc}
-          alt={`${title}`}
-        />
-      </div>
+      {imageSrc && (
+        <div className="card__image-container max-h-[223px] w-full mb-3">
+          <img
+            className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
+            src={imageSrc}
+            alt={`${title}`}
+          />
+        </div>
+      )}
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
