@@ -717,6 +717,40 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         </a>
       </div>
     </div>
+    <div
+      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
+    >
+      <div
+        class="section__title-container flex justify-between items-center gap-4"
+      >
+        <div
+          class="section__content flex-1"
+        >
+          <h2
+            class="section__title mb-4 relative after:w-full"
+          >
+            Contact us
+          </h2>
+          <p
+            class="section__subtitle text-bluedot-darker text-md mb-4"
+          >
+            We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
+            <br />
+            <br />
+            Email us at 
+            <a
+              href="mailto:team@bluedot.org"
+            >
+              team@bluedot.org
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      />
+    </div>
   </div>
 </div>
 `;

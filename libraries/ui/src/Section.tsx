@@ -5,7 +5,7 @@ import { CTALinkOrButton } from './CTALinkOrButton';
 export type SectionProps = React.PropsWithChildren<{
   className?: string,
   title?: string,
-  subtitle?: string,
+  subtitle?: string | React.ReactNode,
   ctaText?: string,
   ctaUrl?: string,
 }>;
