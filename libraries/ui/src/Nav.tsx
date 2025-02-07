@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinkOrButton, LinkOrButtonProps } from './legacy/LinkOrButton';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils';
@@ -20,19 +20,43 @@ export const Nav: React.FC<NavProps> = ({
   children, className, logo, courses,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <nav className={clsx(
-      'nav fixed z-50 w-full bg-color-canvas container-elevated',
-      'transition-all duration-300 left-1/2 -translate-x-1/2',
+      'nav fixed z-50 w-full container-elevated transition-all duration-300 left-1/2 -translate-x-1/2',
+      isScrolled ? 'bg-bluedot-darker' : 'bg-color-canvas',
+      isScrolled && '[&_a]:text-white [&_a]:hover:text-bluedot-lighter',
       className,
     )}
     >
       <div className="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8">
         <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-          {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
+          {logo && (
+            <img
+              className={clsx(
+                'nav__logo h-6 mr-auto transition-all duration-300',
+                isScrolled && 'brightness-0 invert',
+              )}
+              src={logo}
+              alt="BlueDot Impact Logo"
+            />
+          )}
         </a>
-        <div className="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative">
+        <div className={clsx(
+          'nav__links-container flex flex-grow justify-center items-center gap-[36px] relative',
+          isScrolled && 'text-white',
+        )}
+        >
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
