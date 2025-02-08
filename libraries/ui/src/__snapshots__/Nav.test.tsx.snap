@@ -132,11 +132,11 @@ exports[`Nav > renders with courses 1`] = `
           <div
             class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pb-10 hidden lg:flex mx-auto"
           >
-            <h2
-              class="nav-explore-section__dropdown-title font-bold text-xl"
+            <h3
+              class="nav-explore-section__dropdown-title font-bold"
             >
               Our courses
-            </h2>
+            </h3>
             <a
               class="nav-explore-section__dropdown-link"
               href="/course1"
@@ -148,7 +148,7 @@ exports[`Nav > renders with courses 1`] = `
               href="/course2"
             >
               <span
-                class="nav-explore-section__new-badge text-bluedot-normal text-xl font-black pr-2"
+                class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
               >
                 New!
               </span>
@@ -188,11 +188,11 @@ exports[`Nav > renders with courses 1`] = `
                 <div
                   class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pl-6 pt-6"
                 >
-                  <h2
-                    class="nav-explore-section__dropdown-title font-bold text-xl"
+                  <h3
+                    class="nav-explore-section__dropdown-title font-bold"
                   >
                     Our courses
-                  </h2>
+                  </h3>
                   <a
                     class="nav-explore-section__dropdown-link"
                     href="/course1"
@@ -204,7 +204,7 @@ exports[`Nav > renders with courses 1`] = `
                     href="/course2"
                   >
                     <span
-                      class="nav-explore-section__new-badge text-bluedot-normal text-xl font-black pr-2"
+                      class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
                     >
                       New!
                     </span>
@@ -253,11 +253,11 @@ exports[`Nav > renders with optional yield 1`] = `
           class="nav__logo-link shrink-0 w-[200px]"
           href="/"
         >
-          <p
-            class="nav_logo--placeholder h-8 mr-auto text-xl"
+          <h3
+            class="nav_logo--placeholder h-8 mr-auto"
           >
             BlueDot Impact
-          </p>
+          </h3>
         </a>
         <div
           class="nav-links flex gap-9 nav__links--desktop hidden lg:flex"
@@ -375,11 +375,11 @@ exports[`Nav > renders with optional yield 1`] = `
           <div
             class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pb-10 hidden lg:flex mx-auto"
           >
-            <h2
-              class="nav-explore-section__dropdown-title font-bold text-xl"
+            <h3
+              class="nav-explore-section__dropdown-title font-bold"
             >
               Our courses
-            </h2>
+            </h3>
             <a
               class="nav-explore-section__dropdown-link"
               href="/course1"
@@ -420,11 +420,11 @@ exports[`Nav > renders with optional yield 1`] = `
                 <div
                   class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pl-6 pt-6"
                 >
-                  <h2
-                    class="nav-explore-section__dropdown-title font-bold text-xl"
+                  <h3
+                    class="nav-explore-section__dropdown-title font-bold"
                   >
                     Our courses
-                  </h2>
+                  </h3>
                   <a
                     class="nav-explore-section__dropdown-link"
                     href="/course1"

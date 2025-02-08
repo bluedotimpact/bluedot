@@ -46,11 +46,11 @@ const ExploreSection: React.FC<{
   )}
   >
     <div className={clsx('nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty', innerClassName)}>
-      <h2 className="nav-explore-section__dropdown-title font-bold text-xl">Our courses</h2>
+      <h3 className="nav-explore-section__dropdown-title font-bold">Our courses</h3>
       {courses?.map((course) => (
         <a key={course.href} href={course.href} className="nav-explore-section__dropdown-link">
           {course.isNew && (
-          <span className="nav-explore-section__new-badge text-bluedot-normal text-xl font-black pr-2">
+          <span className="nav-explore-section__new-badge text-bluedot-normal font-black pr-2">
             New!
           </span>
           )}
@@ -118,7 +118,7 @@ export const Nav: React.FC<NavProps> = ({
       <div className="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9">
         <div className="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]">
           <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-            {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <p className="nav_logo--placeholder h-8 mr-auto text-xl">BlueDot Impact</p>}
+            {logo ? <img className="nav__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" /> : <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>}
           </a>
           <NavLinks
             onToggleExplore={onToggleExplore}
