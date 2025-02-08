@@ -111,33 +111,37 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   );
 
   return cardType === 'Featured' ? (
-    <FeaturedCourseCard
-      className={className}
-      title={title}
-      description={description}
-      ctaUrl={ctaUrl}
-      applicationDeadline={applicationDeadline}
-      imageSrc={imageSrc}
-    >
-      {CourseCardFooter}
-    </FeaturedCourseCard>
+    <div className="p-[3px]">
+      <FeaturedCourseCard
+        className={className}
+        title={title}
+        description={description}
+        ctaUrl={ctaUrl}
+        applicationDeadline={applicationDeadline}
+        imageSrc={imageSrc}
+      >
+        {CourseCardFooter}
+      </FeaturedCourseCard>
+    </div>
   ) : (
-    <Card
-      imageSrc={imageSrc}
-      title={title}
-      subtitle={description}
-      ctaUrl={ctaUrl}
-      isEntireCardClickable
-      isExternalUrl
-      className={clsx(
-        'course-card course-card--regular min-w-min-width container-lined p-5',
-        'flex flex-col w-[323px] h-[466px] hover:container-elevated',
-        className,
-      )}
-      imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
-      subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-    >
-      {CourseCardFooter}
-    </Card>
+    <div className="p-[2px]">
+      <Card
+        imageSrc={imageSrc}
+        title={title}
+        subtitle={description}
+        ctaUrl={ctaUrl}
+        isEntireCardClickable
+        isExternalUrl
+        className={clsx(
+          'course-card course-card--regular min-w-min-width container-lined p-5',
+          'flex flex-col w-[323px] h-[466px] hover:container-elevated',
+          className,
+        )}
+        imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
+        subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+      >
+        {CourseCardFooter}
+      </Card>
+    </div>
   );
 };
