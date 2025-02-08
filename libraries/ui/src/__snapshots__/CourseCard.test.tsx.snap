@@ -2,137 +2,145 @@
 
 exports[`CourseCard > renders Featured as expected 1`] = `
 <div>
-  <a
-    class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
-    rel="noopener noreferrer"
-    target="_blank"
+  <div
+    class="p-[3px]"
   >
-    <div
-      class="course-card__content flex gap-4"
+    <a
+      class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <div
-        class="course-card__text"
+        class="course-card__content flex gap-4"
+      >
+        <div
+          class="course-card__text"
+        >
+          <p
+            class="course-card__featured-label uppercase font-[650] text-xs mb-3"
+          >
+            Featured course
+          </p>
+          <h3
+            class="course-card__title mb-6"
+          >
+            Title
+          </h3>
+          <button
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+            data-testid="cta-button"
+            type="button"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Apply now
+            </span>
+          </button>
+          <p
+            class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+          >
+            Description
+          </p>
+        </div>
+        <div
+          class="course-card__image-container flex-shrink-0 max-w-[60%] mb-6"
+        >
+          <img
+            alt="Title"
+            class="course-card__image w-[319px] h-full object-cover"
+            src="/images/courses/course.jpg"
+          />
+        </div>
+      </div>
+      <div
+        class="course-card__footer flex justify-between w-full"
       >
         <p
-          class="course-card__featured-label uppercase font-[650] text-xs mb-3"
-        >
-          Featured course
-        </p>
-        <h3
-          class="course-card__title mb-6"
-        >
-          Title
-        </h3>
-        <button
-          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
-          data-testid="cta-button"
-          type="button"
+          class="course-card__footer-left text-left text-xs text-bluedot-black"
         >
           <span
-            class="cta-button__text"
+            class="course-card__length font-medium"
           >
-            Apply now
+            5 days
           </span>
-        </button>
-        <p
-          class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
-        >
-          Description
         </p>
-      </div>
-      <div
-        class="course-card__image-container flex-shrink-0 max-w-[60%] mb-6"
-      >
-        <img
-          alt="Title"
-          class="course-card__image w-[319px] h-full object-cover"
-          src="/images/courses/course.jpg"
-        />
-      </div>
-    </div>
-    <div
-      class="course-card__footer flex justify-between w-full"
-    >
-      <p
-        class="course-card__footer-left text-left text-xs text-bluedot-black"
-      >
         <span
-          class="course-card__length font-medium"
+          class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+          role="status"
         >
-          5 days
+          Crash course
         </span>
-      </p>
-      <span
-        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-        role="status"
-      >
-        Crash course
-      </span>
-    </div>
-  </a>
+      </div>
+    </a>
+  </div>
 </div>
 `;
 
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
-  <a
-    class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
+  <div
+    class="p-[2px]"
   >
-    <div
-      class="card__image-container max-h-[223px] w-full mb-3"
-    >
-      <img
-        alt="Title"
-        class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
-        src="/images/courses/course.jpg"
-      />
-    </div>
-    <div
-      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+    <a
+      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
     >
       <div
-        class="card__text"
+        class="card__image-container max-h-[223px] w-full mb-3"
       >
-        <h4
-          class="card__title mb-1"
-        >
-          Title
-        </h4>
-        <p
-          class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-        >
-          Description
-        </p>
+        <img
+          alt="Title"
+          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+          src="/images/courses/course.jpg"
+        />
       </div>
       <div
-        class="card__bottom-section mt-auto flex flex-col gap-4"
+        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
       >
         <div
-          class="card__footer flex items-center justify-between w-full"
+          class="card__text"
+        >
+          <h4
+            class="card__title mb-1"
+          >
+            Title
+          </h4>
+          <p
+            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+          >
+            Description
+          </p>
+        </div>
+        <div
+          class="card__bottom-section mt-auto flex flex-col gap-4"
         >
           <div
-            class="course-card__footer flex justify-between w-full"
+            class="card__footer flex items-center justify-between w-full"
           >
-            <p
-              class="course-card__footer-left text-left text-xs text-bluedot-black"
+            <div
+              class="course-card__footer flex justify-between w-full"
             >
-              <span
-                class="course-card__length font-medium"
+              <p
+                class="course-card__footer-left text-left text-xs text-bluedot-black"
               >
-                5 days
+                <span
+                  class="course-card__length font-medium"
+                >
+                  5 days
+                </span>
+              </p>
+              <span
+                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                role="status"
+              >
+                Crash course
               </span>
-            </p>
-            <span
-              class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-              role="status"
-            >
-              Crash course
-            </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </a>
+    </a>
+  </div>
 </div>
 `;
 
