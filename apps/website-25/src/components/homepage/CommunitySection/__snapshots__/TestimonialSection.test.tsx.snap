@@ -53,7 +53,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                   >
                     <blockquote
-                      class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
                     >
                       "
                       This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
@@ -80,7 +80,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           Kendrea Beers
                         </div>
                         <div
-                          class="testimonial__role text-sm text-bluedot-darker"
+                          class="testimonial__role text-size-s text-bluedot-darker"
                         >
                           Horizon Junior Fellow at the Center for Security and Emerging Technology
                         </div>
@@ -100,7 +100,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                   >
                     <blockquote
-                      class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
                     >
                       "
                       I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
@@ -127,7 +127,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           Sarah Cogan
                         </div>
                         <div
-                          class="testimonial__role text-sm text-bluedot-darker"
+                          class="testimonial__role text-size-s text-bluedot-darker"
                         >
                           Software Engineer at Google DeepMind
                         </div>
@@ -147,7 +147,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                     class="testimonial flex flex-col h-full border rounded-radius-md p-8"
                   >
                     <blockquote
-                      class="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center"
+                      class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
                     >
                       "
                       This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
@@ -174,7 +174,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                           Matthew Bradbury
                         </div>
                         <div
-                          class="testimonial__role text-sm text-bluedot-darker"
+                          class="testimonial__role text-size-s text-bluedot-darker"
                         >
                           Senior AI Risk Analyst in the UK Government
                         </div>

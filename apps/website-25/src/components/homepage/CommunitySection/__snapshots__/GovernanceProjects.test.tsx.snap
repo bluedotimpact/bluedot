@@ -17,7 +17,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           AI Governance Projects
         </h3>
         <p
-          class="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black"
+          class="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black"
         >
           Competition winners
         </p>
