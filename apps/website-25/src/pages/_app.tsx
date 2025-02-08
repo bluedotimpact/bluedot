@@ -26,6 +26,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       >
         <a href="/about">About</a>
         <a href="/careers">Join us</a>
+        <a href="https://bluedot.org/blog/">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />

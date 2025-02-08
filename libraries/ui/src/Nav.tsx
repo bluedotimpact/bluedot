@@ -90,6 +90,7 @@ const NavLinks: React.FC<{
 const LoginButtons: React.FC<{ className?: string }> = ({ className }) => (
   <div className={clsx('nav__cta-container flex items-center', className)}>
     <CTALinkOrButton className="nav__primary-cta" url="https://donate.stripe.com/5kA3fpgjpdJv6o89AA" isExternalUrl>Support us</CTALinkOrButton>
+    {/* TODO Potentially switch from "Support us" to "Log in"/"Get started for free" for non-MVP site */}
     {/* <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Log in</a>
     <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton> */}
   </div>

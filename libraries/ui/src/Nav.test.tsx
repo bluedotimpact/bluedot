@@ -32,7 +32,7 @@ describe('Nav', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('clicking the hamburger menu toggles nav__drawer max height above 1', async () => {
+  test('clicking the hamburger button expands the mobile nav drawer', async () => {
     const { container } = render(
       <Nav courses={[{ title: 'Course 1', href: '/course1' }]} />,
     );
@@ -47,8 +47,6 @@ describe('Nav', () => {
     expect(navDrawer!.className).toMatch(/max-h-0/);
 
     fireEvent.click(hamburgerButton!);
-
-    await new Promise((resolve) => { setTimeout(resolve, 1000); });
 
     // The nav__drawer now has a max height that is not 0 (expanded state).
     await waitFor(() => {
