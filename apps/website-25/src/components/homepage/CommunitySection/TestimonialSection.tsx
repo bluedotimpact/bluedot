@@ -42,7 +42,7 @@ const TestimonialSection = () => {
         {testimonials.map((testimonial) => (
           <SlideItem key={testimonial.name}>
             <div className="testimonial flex flex-col h-full border rounded-radius-md p-8">
-              <blockquote className="testimonial__quote text-lg text-bluedot-darker mb-8 flex-grow text-center">
+              <blockquote className="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center">
                 "{testimonial.quote}"
               </blockquote>
               <div className="testimonial__footer flex items-center gap-4 mt-auto">
@@ -57,7 +57,7 @@ const TestimonialSection = () => {
                   <div className="testimonial__name font-semibold text-bluedot-black">
                     {testimonial.name}
                   </div>
-                  <div className="testimonial__role text-sm text-bluedot-darker">
+                  <div className="testimonial__role text-size-s text-bluedot-darker">
                     {testimonial.role}
                   </div>
                 </div>

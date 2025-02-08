@@ -47,7 +47,7 @@ const GovernanceProjects = () => {
           <h3 className="governance-projects__title">
             AI Governance Projects
           </h3>
-          <p className="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black">
+          <p className="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black">
             Competition winners
           </p>
         </div>
