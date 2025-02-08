@@ -143,11 +143,11 @@ exports[`Footer > renders default as expected 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 BlueDot Impact
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
@@ -196,11 +196,11 @@ exports[`Footer > renders default as expected 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 Explore
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
@@ -249,11 +249,11 @@ exports[`Footer > renders default as expected 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 Resources
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
@@ -566,11 +566,11 @@ exports[`Footer > renders with optional args 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 BlueDot Impact
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
@@ -619,11 +619,11 @@ exports[`Footer > renders with optional args 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 Explore
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
@@ -672,11 +672,11 @@ exports[`Footer > renders with optional args 1`] = `
             <div
               class="footer__section"
             >
-              <p
-                class="footer__heading font-[650] text-on-dark mb-4"
+              <h3
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
               >
                 Resources
-              </p>
+              </h3>
               <ul
                 class="footer__list space-y-2 mb-auto font-normal list-none p-0"
               >
