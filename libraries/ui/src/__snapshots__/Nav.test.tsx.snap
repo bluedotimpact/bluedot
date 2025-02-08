@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full bg-color-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 left-1/2 -translate-x-1/2 bg-color-canvas"
   >
     <div
       class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
@@ -14,7 +14,7 @@ exports[`Nav > renders with courses 1`] = `
       >
         <img
           alt="BlueDot Impact Logo"
-          class="nav__logo h-6 mr-auto"
+          class="nav__logo h-6 mr-auto transition-all duration-300"
           src="logo.png"
         />
       </a>
@@ -95,7 +95,7 @@ exports[`Nav > renders with courses 1`] = `
 exports[`Nav > renders with optional yield 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full bg-color-canvas container-elevated transition-all duration-300 left-1/2 -translate-x-1/2"
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 left-1/2 -translate-x-1/2 bg-color-canvas"
   >
     <div
       class="nav__container flex items-center justify-center w-full max-w-max-width h-20 mx-auto px-8"
@@ -103,13 +103,7 @@ exports[`Nav > renders with optional yield 1`] = `
       <a
         class="nav__logo-link shrink-0 w-[200px]"
         href="/"
-      >
-        <p
-          class="nav_logo--placeholder h-8 mr-auto text-xl"
-        >
-          BlueDot Impact
-        </p>
-      </a>
+      />
       <div
         class="nav__links-container flex flex-grow justify-center items-center gap-[36px] relative"
       >
