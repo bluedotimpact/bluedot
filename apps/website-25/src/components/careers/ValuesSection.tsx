@@ -1,5 +1,5 @@
 import { Section, ValueCard } from '@bluedot/ui';
-import { SlideList, SlideItem } from '@bluedot/ui/src/SlideList';
+import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const values = [
   {
@@ -28,13 +28,11 @@ const ValuesSection = () => {
         slideClassName='px-2'
       >
         {values.map((value) => (
-          <SlideItem key={value.title}>
-            <ValueCard
-              icon={value.icon}
-              title={value.title}
-              description={value.description}
-            />
-          </SlideItem>
+          <ValueCard
+            icon={value.icon}
+            title={value.title}
+            description={value.description}
+          />
         ))}
       </SlideList>
     </Section>

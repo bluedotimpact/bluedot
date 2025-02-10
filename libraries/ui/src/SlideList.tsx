@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 
 export type SlideListProps = {
@@ -12,6 +12,7 @@ export type SlideListProps = {
   slideClassName?: string;
   containerClassName?: string;
   slidesWrapperWidth?: string | { mobile: string; desktop: string };
+  minItemWidth?: number;
 };
 
 export const SlideList: React.FC<SlideListProps> = ({
@@ -25,30 +26,39 @@ export const SlideList: React.FC<SlideListProps> = ({
   slideClassName,
   containerClassName,
   slidesWrapperWidth = { mobile: '100%', desktop: '800px' },
+  minItemWidth = 300,
 }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState(800); // Start with a guess that will usually make the whole list display on desktop
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+  useEffect(() => {
+    const cleanup = () => {
+      if (containerRef.current) {
+        resizeObserver.unobserve(containerRef.current);
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if (!containerRef.current) return cleanup;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        setContainerWidth(entry.contentRect.width);
+      });
+    });
+    resizeObserver.observe(containerRef.current);
+
+    return cleanup;
   }, []);
 
-  const effectiveItemsPerSlide = isMobile ? 1 : itemsPerSlide;
+  const itemsFit = containerWidth === 0 ? 1 : Math.floor(containerWidth / minItemWidth);
+  const effectiveItemsPerSlide = Math.max(1, Math.min(itemsFit, itemsPerSlide));
+
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
   const totalSlides = Math.ceil(childrenArray.length / effectiveItemsPerSlide);
 
-  const handlePrevious = () => {
-    setCurrentSlide((prev) => Math.max(0, prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
-  };
+  const handlePrevious = () => setCurrentSlide((p) => Math.max(0, p - 1));
+  const handleNext = () => setCurrentSlide((p) => Math.min(totalSlides - 1, p + 1));
 
   const isFirstSlide = currentSlide === 0;
   const isLastSlide = currentSlide === totalSlides - 1;
@@ -120,7 +130,6 @@ export const SlideList: React.FC<SlideListProps> = ({
           </div>
         )}
 
-        {/* Mobile navigation buttons - shown below featured slot */}
         {totalSlides > 1 && (
           <div className="slide-list__nav md:hidden flex items-center justify-end gap-2 mt-4">
             <SlideListBtn
@@ -165,11 +174,13 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
 
         <div
+          ref={containerRef}
           className="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
           style={{
-            width: typeof slidesWrapperWidth === 'string'
-              ? slidesWrapperWidth
-              : `min(100%, ${slidesWrapperWidth.desktop})`,
+            width:
+              typeof slidesWrapperWidth === 'string'
+                ? slidesWrapperWidth
+                : `min(100%, ${slidesWrapperWidth.desktop})`,
           }}
         >
           <div
@@ -208,15 +219,6 @@ export const SlideList: React.FC<SlideListProps> = ({
     </section>
   );
 };
-
-export const SlideItem: React.FC<{
-  className?: string;
-  children: React.ReactNode;
-}> = ({ className, children }) => (
-  <div className={clsx('size-full', className)}>
-    {children}
-  </div>
-);
 
 export const SlideListBtn: React.FC<{
   onClick: () => void;

@@ -43,31 +43,27 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 style="width: 25%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="AGI could arrive soon, and we're unprepared"
-                        class="value-card__icon"
-                        src="icons/fast.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      AGI could arrive soon, and we're unprepared
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                    </p>
+                    <img
+                      alt="AGI could arrive soon, and we're unprepared"
+                      class="value-card__icon"
+                      src="icons/fast.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    AGI could arrive soon, and we're unprepared
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                  </p>
                 </div>
               </div>
               <div
@@ -75,31 +71,27 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 style="width: 25%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="What we do now matters"
-                        class="value-card__icon"
-                        src="icons/care.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      What we do now matters
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                    </p>
+                    <img
+                      alt="What we do now matters"
+                      class="value-card__icon"
+                      src="icons/care.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    What we do now matters
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                  </p>
                 </div>
               </div>
               <div
@@ -107,31 +99,27 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 style="width: 25%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="The right people at key moments rewrite history"
-                        class="value-card__icon"
-                        src="icons/solvers.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      The right people at key moments rewrite history
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                    </p>
+                    <img
+                      alt="The right people at key moments rewrite history"
+                      class="value-card__icon"
+                      src="icons/solvers.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    The right people at key moments rewrite history
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                  </p>
                 </div>
               </div>
               <div
@@ -139,31 +127,27 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 style="width: 25%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="We need urgency, wisdom and optimism"
-                        class="value-card__icon"
-                        src="icons/network.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      We need urgency, wisdom and optimism
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                    </p>
+                    <img
+                      alt="We need urgency, wisdom and optimism"
+                      class="value-card__icon"
+                      src="icons/network.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    We need urgency, wisdom and optimism
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                  </p>
                 </div>
               </div>
             </div>

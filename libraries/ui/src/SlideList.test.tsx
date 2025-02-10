@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import {
   describe, it, expect, beforeEach, afterEach, vi,
 } from 'vitest';
-import { SlideList, SlideItem } from './SlideList';
+import { SlideList } from './SlideList';
 
 describe('SlideList', () => {
   // Mock window.innerWidth
@@ -35,9 +35,9 @@ describe('SlideList', () => {
     setWindowWidth(1024);
     const { rerender } = render(
       <SlideList title="Our courses">
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
-        <SlideItem>Slide 3</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
+        <div className="size-full">Slide 3</div>
       </SlideList>,
     );
 
@@ -49,9 +49,9 @@ describe('SlideList', () => {
     triggerResize();
     rerender(
       <SlideList title="Our courses">
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
-        <SlideItem>Slide 3</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
+        <div className="size-full">Slide 3</div>
       </SlideList>,
     );
 
@@ -64,8 +64,8 @@ describe('SlideList', () => {
 
     render(
       <SlideList title="Our courses">
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
       </SlideList>,
     );
 
@@ -78,8 +78,8 @@ describe('SlideList', () => {
   it('handles basic navigation between slides', () => {
     render(
       <SlideList title="Our courses">
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
       </SlideList>,
     );
 
@@ -91,9 +91,9 @@ describe('SlideList', () => {
   it('hides navigation when all content fits in view', () => {
     render(
       <SlideList title="Our courses" itemsPerSlide={3}>
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
-        <SlideItem>Slide 3</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
+        <div className="size-full">Slide 3</div>
       </SlideList>,
     );
 
@@ -104,8 +104,8 @@ describe('SlideList', () => {
   it('handles navigation button states correctly', async () => {
     render(
       <SlideList title="Our courses">
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
       </SlideList>,
     );
 
@@ -129,9 +129,9 @@ describe('SlideList', () => {
   it('renders without header if no title, subtitle, or description', () => {
     const { container } = render(
       <SlideList>
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
-        <SlideItem>Slide 3</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
+        <div className="size-full">Slide 3</div>
       </SlideList>,
     );
 
@@ -150,8 +150,8 @@ describe('SlideList', () => {
 
     const { rerender } = render(
       <SlideList title="Our courses" itemsPerSlide={2}>
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
       </SlideList>,
     );
 
@@ -160,8 +160,8 @@ describe('SlideList', () => {
     triggerResize();
     rerender(
       <SlideList title="Our courses" itemsPerSlide={2}>
-        <SlideItem>Slide 1</SlideItem>
-        <SlideItem>Slide 2</SlideItem>
+        <div className="size-full">Slide 1</div>
+        <div className="size-full">Slide 2</div>
       </SlideList>,
     );
 

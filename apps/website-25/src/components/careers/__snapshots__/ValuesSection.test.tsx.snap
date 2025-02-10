@@ -43,31 +43,27 @@ exports[`ValuesSection > renders default as expected 1`] = `
                 style="width: 33.333333333333336%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="Think hard, act fast, fail faster"
-                        class="value-card__icon"
-                        src="icons/fast.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      Think hard, act fast, fail faster
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-                    </p>
+                    <img
+                      alt="Think hard, act fast, fail faster"
+                      class="value-card__icon"
+                      src="icons/fast.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    Think hard, act fast, fail faster
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+                  </p>
                 </div>
               </div>
               <div
@@ -75,31 +71,27 @@ exports[`ValuesSection > renders default as expected 1`] = `
                 style="width: 33.333333333333336%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="Care personally, challenge directly"
-                        class="value-card__icon"
-                        src="icons/care.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      Care personally, challenge directly
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We care about our team and our community, and we hold everyone to high standards.
-                    </p>
+                    <img
+                      alt="Care personally, challenge directly"
+                      class="value-card__icon"
+                      src="icons/care.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    Care personally, challenge directly
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    We care about our team and our community, and we hold everyone to high standards.
+                  </p>
                 </div>
               </div>
               <div
@@ -107,31 +99,27 @@ exports[`ValuesSection > renders default as expected 1`] = `
                 style="width: 33.333333333333336%;"
               >
                 <div
-                  class="size-full"
+                  class="value-card w-full flex flex-col gap-6 py-6"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
                   >
-                    <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-                    >
-                      <img
-                        alt="Obsessed with empowering problem-solvers"
-                        class="value-card__icon"
-                        src="icons/solvers.svg"
-                      />
-                    </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      Obsessed with empowering problem-solvers
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
-                    </p>
+                    <img
+                      alt="Obsessed with empowering problem-solvers"
+                      class="value-card__icon"
+                      src="icons/solvers.svg"
+                    />
                   </div>
+                  <h3
+                    class="value-card__title min-h-[60px]"
+                  >
+                    Obsessed with empowering problem-solvers
+                  </h3>
+                  <p
+                    class="value-card__description "
+                  >
+                    We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+                  </p>
                 </div>
               </div>
             </div>

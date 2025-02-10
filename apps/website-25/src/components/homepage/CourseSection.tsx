@@ -2,7 +2,7 @@ import {
   CourseCard,
   Section,
 } from '@bluedot/ui';
-import { SlideList, SlideItem } from '@bluedot/ui/src/SlideList';
+import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const featuredCourses = [
   {
@@ -63,9 +63,7 @@ const CourseSection = () => {
         containerClassName="gap-4"
       >
         {courses.map((course) => (
-          <SlideItem key={course.title}>
-            <CourseCard {...course} className="size-full md:w-[323px]" />
-          </SlideItem>
+          <CourseCard key={course.title} {...course} className="size-full md:w-[323px]" />
         ))}
       </SlideList>
     </Section>

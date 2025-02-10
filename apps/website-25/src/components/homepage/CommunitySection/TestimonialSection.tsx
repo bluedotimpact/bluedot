@@ -1,5 +1,5 @@
 import { Section } from '@bluedot/ui';
-import { SlideList, SlideItem } from '@bluedot/ui/src/SlideList';
+import { SlideList } from '@bluedot/ui/src/SlideList';
 
 type Testimonial = {
   quote: string;
@@ -40,30 +40,28 @@ const TestimonialSection = () => {
         slidesWrapperWidth="100%"
       >
         {testimonials.map((testimonial) => (
-          <SlideItem key={testimonial.name}>
-            <div className="testimonial flex flex-col h-full border rounded-radius-md p-8">
-              <blockquote className="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center">
-                "{testimonial.quote}"
-              </blockquote>
-              <div className="testimonial__footer flex items-center gap-4 mt-auto">
-                <div className="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0">
-                  <img
-                    src={testimonial.imageSrc}
-                    alt={testimonial.name}
-                    className="size-full object-cover"
-                  />
+          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">
+            <blockquote className="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center">
+              "{testimonial.quote}"
+            </blockquote>
+            <div className="testimonial__footer flex items-center gap-4 mt-auto">
+              <div className="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0">
+                <img
+                  src={testimonial.imageSrc}
+                  alt={testimonial.name}
+                  className="size-full object-cover"
+                />
+              </div>
+              <div className="testimonial__info">
+                <div className="testimonial__name font-semibold text-bluedot-black">
+                  {testimonial.name}
                 </div>
-                <div className="testimonial__info">
-                  <div className="testimonial__name font-semibold text-bluedot-black">
-                    {testimonial.name}
-                  </div>
-                  <div className="testimonial__role text-size-s text-bluedot-darker">
-                    {testimonial.role}
-                  </div>
+                <div className="testimonial__role text-size-s text-bluedot-darker">
+                  {testimonial.role}
                 </div>
               </div>
             </div>
-          </SlideItem>
+          </div>
         ))}
       </SlideList>
     </Section>
