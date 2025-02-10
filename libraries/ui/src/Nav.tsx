@@ -151,7 +151,7 @@ export const Nav: React.FC<NavProps> = ({
       className={clsx(
         'nav fixed z-50 w-full container-elevated transition-all duration-300',
         isScrolled ? 'bg-bluedot-darker' : 'bg-cream-normal',
-        isScrolled && '[&_*]:text-white [&_a]:hover:text-bluedot-lighter [&_button]:hover:text-bluedot-lighter',
+        isScrolled && '[&_*]:text-white [&_a:hover]:text-bluedot-lighter [&_button:hover]:text-bluedot-lighter',
         className,
       )}
     >
