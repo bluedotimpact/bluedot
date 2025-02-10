@@ -47,7 +47,7 @@ const GovernanceProjects = () => {
           <h3 className="governance-projects__title">
             AI Governance Projects
           </h3>
-          <p className="governance-projects__featured-label text-xs font-[650] uppercase text-bluedot-black">
+          <p className="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black">
             Competition winners
           </p>
         </div>
@@ -62,7 +62,6 @@ const GovernanceProjects = () => {
               ctaUrl={project.ctaUrl}
               className="governance-projects__project"
               isEntireCardClickable
-              isExternalUrl
             />
           ))}
         </div>
@@ -70,7 +69,6 @@ const GovernanceProjects = () => {
           className="governance-projects__link h-fit py-3"
           url="https://aisafetyfundamentals.com/projects/"
           variant="secondary"
-          isExternalUrl
           withChevron
         >
           Explore more projects

@@ -20,7 +20,6 @@ export const Default: Story = {
     subtitle: 'This is a default card.',
     ctaUrl: 'https://example.com',
     ctaText: 'Learn More',
-    isExternalUrl: true,
   },
 };
 
@@ -43,7 +42,7 @@ export const CardWithFooter: Story = {
     ctaUrl: 'https://example.com',
     ctaText: 'Learn More',
     footerContent: <div>Footer Content Here</div>,
-    isExternalUrl: true,
+    isExternalUrl: false,
   },
 };
 

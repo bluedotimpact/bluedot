@@ -11,18 +11,18 @@ exports[`FAQSection > renders default as expected 1`] = `
       <div
         class="section__content flex-1"
       >
-        <h2
+        <h3
           class="section__title mb-4 relative after:w-full"
         >
           Frequently asked questions
-        </h2>
+        </h3>
       </div>
     </div>
     <div
       class="section__body"
     >
       <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
       >
         <div
           class="collapsible__header flex justify-between w-full cursor-pointer"
@@ -75,7 +75,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
       >
         <div
           class="collapsible__header flex justify-between w-full cursor-pointer"
@@ -84,11 +84,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           <h3
             class="collapsible__title text-color-text text-2xl font-normal"
           >
-            I’d like to run your course for my work/university/ local AIS group… can you help with training and materials?
+            I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?
           </h3>
           <button
             aria-expanded="false"
-            aria-label="I’d like to run your course for my work/university/ local AIS group… can you help with training and materials?"
+            aria-label="I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?"
             class="collapsible__button flex items-center"
             type="button"
           >
@@ -129,7 +129,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
       >
         <div
           class="collapsible__header flex justify-between w-full cursor-pointer"
@@ -189,7 +189,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
       >
         <div
           class="collapsible__header flex justify-between w-full cursor-pointer"
@@ -237,7 +237,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
       >
         <div
           class="collapsible__header flex justify-between w-full cursor-pointer"
@@ -246,11 +246,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           <h3
             class="collapsible__title text-color-text text-2xl font-normal"
           >
-            How can I stay informed about BlueDot Impact’s latest roles?
+            How can I stay informed about BlueDot Impact's latest roles?
           </h3>
           <button
             aria-expanded="false"
-            aria-label="How can I stay informed about BlueDot Impact’s latest roles?"
+            aria-label="How can I stay informed about BlueDot Impact's latest roles?"
             class="collapsible__button flex items-center"
             type="button"
           >

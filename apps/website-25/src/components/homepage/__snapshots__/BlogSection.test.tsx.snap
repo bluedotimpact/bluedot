@@ -109,7 +109,7 @@ exports[`BlogSection > renders default as expected 1`] = `
                 Adam Jones
               </p>
               <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text blog-section__blog-post-tag sm:self-end"
+                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text blog-section__blog-post-tag self-end"
                 role="status"
               >
                 AI alignment

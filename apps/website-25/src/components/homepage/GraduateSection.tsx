@@ -17,7 +17,7 @@ const GraduateSection = () => {
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/openai.svg" alt="OpenAI" />
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/deepmind.svg" alt="Google DeepMind" />
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/govai.png" alt="Centre for Governance of AI" />
-          <img className="graduate-section__logo h-6" src="/images/third-party-logos/exrisk.png" alt="Centre for the Study of Existential Risk" />
+          <img className="graduate-section__logo h-6" src="/images/third-party-logos/exrisk.svg" alt="Centre for the Study of Existential Risk" />
           <img className="graduate-section__logo h-6" src="/images/third-party-logos/metr.png" alt="METR" />
         </div>
       </div>

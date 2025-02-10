@@ -93,7 +93,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
           <img
             alt="Centre for the Study of Existential Risk"
             class="graduate-section__logo h-6"
-            src="/images/third-party-logos/exrisk.png"
+            src="/images/third-party-logos/exrisk.svg"
           />
           <img
             alt="METR"

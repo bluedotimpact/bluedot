@@ -31,7 +31,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
             class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
           >
             <img
-              alt="AGI could arrive soon, and we’re unprepared"
+              alt="AGI could arrive soon, and society is unprepared"
               class="value-card__icon"
               src="icons/fast.svg"
             />
@@ -39,7 +39,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           <h3
             class="value-card__title min-h-[60px]"
           >
-            AGI could arrive soon, and we’re unprepared
+            AGI could arrive soon, and society is unprepared
           </h3>
           <p
             class="value-card__description "

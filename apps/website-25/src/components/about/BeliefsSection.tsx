@@ -6,7 +6,7 @@ const BeliefsSection = () => {
       <div className="beliefs-section__container flex sm:flex-row flex-col gap-8 overflow-y-scroll">
         <ValueCard
           icon="icons/fast.svg"
-          title="AGI could arrive soon, and we’re unprepared"
+          title="AGI could arrive soon, and society is unprepared"
           description="Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes."
         />
         <ValueCard
