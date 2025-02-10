@@ -14,7 +14,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         <h3
           class="governance-projects__title"
         >
-          AI Governance Projects
+          Featured Course Projects
         </h3>
         <p
           class="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black"

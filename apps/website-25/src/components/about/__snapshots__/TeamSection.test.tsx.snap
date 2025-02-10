@@ -31,6 +31,102 @@ exports[`TeamSection > renders default as expected 1`] = `
             class="card__image-container max-h-[223px] w-full mb-3"
           >
             <img
+              alt="Dewi Erwan"
+              class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+              src="/images/team/dewi.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h4
+                class="card__title mb-1"
+              >
+                Dewi Erwan
+              </h4>
+              <p
+                class="card__subtitle "
+              >
+                Co-founder & CEO
+              </p>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://www.linkedin.com/in/dewierwan/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+        >
+          <div
+            class="card__image-container max-h-[223px] w-full mb-3"
+          >
+            <img
+              alt="Will Saunter"
+              class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+              src="/images/team/will.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <h4
+                class="card__title mb-1"
+              >
+                Will Saunter
+              </h4>
+              <p
+                class="card__subtitle "
+              >
+                Co-founder
+              </p>
+            </div>
+            <div
+              class="card__bottom-section mt-auto flex flex-col gap-4"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://linkedin.com/in/will-saunter"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+        >
+          <div
+            class="card__image-container max-h-[223px] w-full mb-3"
+          >
+            <img
               alt="Adam Jones"
               class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
               src="/images/team/adam.jpg"
@@ -60,54 +156,6 @@ exports[`TeamSection > renders default as expected 1`] = `
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/domdomegg/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <span
-                  class="cta-button__text"
-                >
-                  LinkedIn
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
-        >
-          <div
-            class="card__image-container max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="Dewi Erwan"
-              class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
-              src="/images/team/dewi.jpg"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-          >
-            <div
-              class="card__text"
-            >
-              <h4
-                class="card__title mb-1"
-              >
-                Dewi Erwan
-              </h4>
-              <p
-                class="card__subtitle "
-              >
-                CEO
-              </p>
-            </div>
-            <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
-            >
-              <a
-                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-link"
-                href="https://www.linkedin.com/in/dewierwan/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -300,54 +348,6 @@ exports[`TeamSection > renders default as expected 1`] = `
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                 data-testid="cta-link"
                 href="https://www.linkedin.com/in/vioricagheorghita/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <span
-                  class="cta-button__text"
-                >
-                  LinkedIn
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
-        >
-          <div
-            class="card__image-container max-h-[223px] w-full mb-3"
-          >
-            <img
-              alt="Will Saunter"
-              class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
-              src="/images/team/will.jpg"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-          >
-            <div
-              class="card__text"
-            >
-              <h4
-                class="card__title mb-1"
-              >
-                Will Saunter
-              </h4>
-              <p
-                class="card__subtitle "
-              >
-                Co-founder
-              </p>
-            </div>
-            <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
-            >
-              <a
-                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                data-testid="cta-link"
-                href="https://linkedin.com/in/will-saunter"
                 rel="noopener noreferrer"
                 target="_blank"
               >
