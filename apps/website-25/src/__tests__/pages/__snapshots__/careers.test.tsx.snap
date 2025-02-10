@@ -217,160 +217,176 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="careers-section__container flex flex-col gap-8"
         >
           <div
-            class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
+            class="careers-section__listing"
           >
-            <strong
-              class="careers-section__title basis-[33%]"
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
             >
-              AI Alignment Project Judge
-            </strong>
-            <p
-              class="careers-section__location"
-            >
-              London, Remote
-            </p>
-            <p
-              class="careers-section__type"
-            >
-              Permanent
-            </p>
-            <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
-              href="https://bluedot.org/ai-alignment-project-judge/"
-            >
-              <span
-                class="cta-button__text"
+              <strong
+                class="careers-section__title basis-[33%]"
               >
-                Apply now
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
+                AI Alignment Project Judge
+              </strong>
+              <p
+                class="careers-section__location"
               >
-                <img
-                  alt="→"
-                  class="cta-button__chevron-icon size-2"
-                  src="/icons/chevron_blue.svg"
-                />
-              </span>
-            </a>
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="https://bluedot.org/ai-alignment-project-judge/"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
           </div>
           <div
-            class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
+            class="careers-section__listing"
           >
-            <strong
-              class="careers-section__title basis-[33%]"
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
             >
-              Course Operations Specialist
-            </strong>
-            <p
-              class="careers-section__location"
-            >
-              London, Remote
-            </p>
-            <p
-              class="careers-section__type"
-            >
-              Permanent
-            </p>
-            <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
-              href="https://bluedot.org/ai-safety-course-operations/"
-            >
-              <span
-                class="cta-button__text"
+              <strong
+                class="careers-section__title basis-[33%]"
               >
-                Apply now
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
+                Course Operations Specialist
+              </strong>
+              <p
+                class="careers-section__location"
               >
-                <img
-                  alt="→"
-                  class="cta-button__chevron-icon size-2"
-                  src="/icons/chevron_blue.svg"
-                />
-              </span>
-            </a>
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="https://bluedot.org/ai-safety-course-operations/"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
           </div>
           <div
-            class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
+            class="careers-section__listing"
           >
-            <strong
-              class="careers-section__title basis-[33%]"
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
             >
-              Software Engineering Contractor
-            </strong>
-            <p
-              class="careers-section__location"
-            >
-              London, Remote
-            </p>
-            <p
-              class="careers-section__type"
-            >
-              Permanent
-            </p>
-            <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
-              href="https://bluedot.org/swe-contractor/"
-            >
-              <span
-                class="cta-button__text"
+              <strong
+                class="careers-section__title basis-[33%]"
               >
-                Apply now
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
+                Software Engineering Contractor
+              </strong>
+              <p
+                class="careers-section__location"
               >
-                <img
-                  alt="→"
-                  class="cta-button__chevron-icon size-2"
-                  src="/icons/chevron_blue.svg"
-                />
-              </span>
-            </a>
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="https://bluedot.org/swe-contractor/"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
           </div>
           <div
-            class="careers-section__location-container w-full flex flex-row items-center justify-between p-8 container-lined"
+            class="careers-section__listing"
           >
-            <strong
-              class="careers-section__title basis-[33%]"
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
             >
-              Economics of Transformative AI Teaching Fellow
-            </strong>
-            <p
-              class="careers-section__location"
-            >
-              London, Remote
-            </p>
-            <p
-              class="careers-section__type"
-            >
-              Permanent
-            </p>
-            <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
-              href="https://bluedot.org/economics-of-tai-teaching-fellow/"
-            >
-              <span
-                class="cta-button__text"
+              <strong
+                class="careers-section__title basis-[33%]"
               >
-                Apply now
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
+                Economics of Transformative AI Teaching Fellow
+              </strong>
+              <p
+                class="careers-section__location"
               >
-                <img
-                  alt="→"
-                  class="cta-button__chevron-icon size-2"
-                  src="/icons/chevron_blue.svg"
-                />
-              </span>
-            </a>
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="https://bluedot.org/economics-of-tai-teaching-fellow/"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
