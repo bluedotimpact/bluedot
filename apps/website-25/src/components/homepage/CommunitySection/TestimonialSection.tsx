@@ -35,7 +35,7 @@ const TestimonialSection = () => {
       <SlideList
         subtitle="What our graduates say"
         itemsPerSlide={3}
-        slideClassName="gap-8"
+        slideClassName="px-2"
         containerClassName="justify-center"
         slidesWrapperWidth="100%"
       >

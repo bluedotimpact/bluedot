@@ -75,79 +75,123 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       <div
         class="section__body"
       >
-        <div
-          class="flex sm:flex-row flex-col gap-8 overflow-y-scroll"
+        <section
+          class="slide-list w-full"
         >
           <div
-            class="value-card w-full flex flex-col gap-6 py-6"
-          >
-            <div
-              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-            >
-              <img
-                alt="Think hard, act fast, fail faster"
-                class="value-card__icon"
-                src="icons/fast.svg"
-              />
-            </div>
-            <h3
-              class="value-card__title min-h-[60px]"
-            >
-              Think hard, act fast, fail faster
-            </h3>
-            <p
-              class="value-card__description "
-            >
-              We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-            </p>
-          </div>
+            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8"
+          />
           <div
-            class="value-card w-full flex flex-col gap-6 py-6"
+            class="slide-list__content flex flex-col md:flex-row gap-4"
           >
             <div
-              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+              class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
+              style="width: 100%;"
             >
-              <img
-                alt="Care personally, challenge directly"
-                class="value-card__icon"
-                src="icons/care.svg"
-              />
+              <div
+                class="slide-list__slides flex transition-transform duration-300"
+                style="transform: translateX(-0%);"
+              >
+                <div
+                  class="slide-list__slide flex-shrink-0 w-full px-2"
+                  style="width: 33.333333333333336%;"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="value-card w-full flex flex-col gap-6 py-6"
+                    >
+                      <div
+                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      >
+                        <img
+                          alt="Think hard, act fast, fail faster"
+                          class="value-card__icon"
+                          src="icons/fast.svg"
+                        />
+                      </div>
+                      <h3
+                        class="value-card__title min-h-[60px]"
+                      >
+                        Think hard, act fast, fail faster
+                      </h3>
+                      <p
+                        class="value-card__description "
+                      >
+                        We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__slide flex-shrink-0 w-full px-2"
+                  style="width: 33.333333333333336%;"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="value-card w-full flex flex-col gap-6 py-6"
+                    >
+                      <div
+                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      >
+                        <img
+                          alt="Care personally, challenge directly"
+                          class="value-card__icon"
+                          src="icons/care.svg"
+                        />
+                      </div>
+                      <h3
+                        class="value-card__title min-h-[60px]"
+                      >
+                        Care personally, challenge directly
+                      </h3>
+                      <p
+                        class="value-card__description "
+                      >
+                        We care about our team and our community, and we hold everyone to high standards.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__slide flex-shrink-0 w-full px-2"
+                  style="width: 33.333333333333336%;"
+                >
+                  <div
+                    class="size-full"
+                  >
+                    <div
+                      class="value-card w-full flex flex-col gap-6 py-6"
+                    >
+                      <div
+                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      >
+                        <img
+                          alt="Obsessed with empowering problem-solvers"
+                          class="value-card__icon"
+                          src="icons/solvers.svg"
+                        />
+                      </div>
+                      <h3
+                        class="value-card__title min-h-[60px]"
+                      >
+                        Obsessed with empowering problem-solvers
+                      </h3>
+                      <p
+                        class="value-card__description "
+                      >
+                        We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3
-              class="value-card__title min-h-[60px]"
-            >
-              Care personally, challenge directly
-            </h3>
-            <p
-              class="value-card__description "
-            >
-              We care about our team and our community, and we hold everyone to high standards.
-            </p>
           </div>
-          <div
-            class="value-card w-full flex flex-col gap-6 py-6"
-          >
-            <div
-              class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-            >
-              <img
-                alt="Obsessed with empowering problem-solvers"
-                class="value-card__icon"
-                src="icons/solvers.svg"
-              />
-            </div>
-            <h3
-              class="value-card__title min-h-[60px]"
-            >
-              Obsessed with empowering problem-solvers
-            </h3>
-            <p
-              class="value-card__description "
-            >
-              We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
-            </p>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
     <div
