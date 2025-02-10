@@ -62,7 +62,6 @@ const GovernanceProjects = () => {
               ctaUrl={project.ctaUrl}
               className="governance-projects__project"
               isEntireCardClickable
-              isExternalUrl
             />
           ))}
         </div>
@@ -70,7 +69,6 @@ const GovernanceProjects = () => {
           className="governance-projects__link h-fit py-3"
           url="https://aisafetyfundamentals.com/projects/"
           variant="secondary"
-          isExternalUrl
           withChevron
         >
           Explore more projects

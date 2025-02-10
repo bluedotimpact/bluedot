@@ -43,7 +43,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               />
             </div>
             <p
-              class="history-section__event-title"
+              class="history-section__event-title mr-12"
             >
               Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
             </p>
@@ -68,7 +68,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               />
             </div>
             <p
-              class="history-section__event-title"
+              class="history-section__event-title mr-12"
             >
               Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
             </p>
@@ -93,7 +93,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               />
             </div>
             <p
-              class="history-section__event-title"
+              class="history-section__event-title mr-12"
             >
               Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
             </p>
@@ -118,7 +118,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               />
             </div>
             <p
-              class="history-section__event-title"
+              class="history-section__event-title mr-12"
             >
               Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
             </p>
@@ -143,7 +143,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               />
             </div>
             <p
-              class="history-section__event-title"
+              class="history-section__event-title mr-12"
             >
               Launching multiple courses weekly and expanding a world-class team to scale our global impact.
             </p>

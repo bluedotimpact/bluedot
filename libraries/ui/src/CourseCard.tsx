@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Card } from './Card';
-import { EXTERNAL_LINK_PROPS } from './utils';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
 
@@ -12,7 +11,9 @@ export type CourseCardProps = React.PropsWithChildren<{
   className?: string,
   ctaUrl?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
+  // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
+  // eslint-disable-next-line react/no-unused-prop-types
   courseType?: CourseType,
 }>;
 
@@ -53,7 +54,6 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   return (
     <a
       href={ctaUrl}
-      {...EXTERNAL_LINK_PROPS}
       className={wrapperClassName}
     >
       <div className="course-card__content flex gap-4">
@@ -68,7 +68,6 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             className="course-card__cta mb-6 px-6"
             variant="primary"
             withChevron={false}
-            isExternalUrl
           >
             {applyByText(applicationDeadline)}
           </CTALinkOrButton>

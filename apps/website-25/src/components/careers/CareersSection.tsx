@@ -4,10 +4,10 @@ const CareersSection = () => {
   return (
     <Section className="careers-section" title="Careers at BlueDot Impact">
       <div className="careers-section__container flex flex-col gap-8">
-        <JobListing title="AI Alignment Project Judge" url="https://bluedot.org/ai-alignment-project-judge/" isExternalUrl />
-        <JobListing title="Course Operations Specialist" url="https://bluedot.org/ai-safety-course-operations/" isExternalUrl />
-        <JobListing title="Software Engineering Contractor" url="https://bluedot.org/swe-contractor/" isExternalUrl />
-        <JobListing title="Economics of Transformative AI Teaching Fellow" url="https://bluedot.org/economics-of-tai-teaching-fellow/" isExternalUrl />
+        <JobListing title="AI Alignment Project Judge" url="https://bluedot.org/ai-alignment-project-judge/" />
+        <JobListing title="Course Operations Specialist" url="https://bluedot.org/ai-safety-course-operations/" />
+        <JobListing title="Software Engineering Contractor" url="https://bluedot.org/swe-contractor/" />
+        <JobListing title="Economics of Transformative AI Teaching Fellow" url="https://bluedot.org/economics-of-tai-teaching-fellow/" />
       </div>
     </Section>
   );

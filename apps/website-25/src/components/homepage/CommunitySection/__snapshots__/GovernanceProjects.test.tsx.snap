@@ -28,8 +28,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
-          rel="noopener noreferrer"
-          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -62,8 +60,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
-          rel="noopener noreferrer"
-          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -96,8 +92,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
-          rel="noopener noreferrer"
-          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -130,8 +124,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
           href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
-          rel="noopener noreferrer"
-          target="_blank"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -166,8 +158,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
         data-testid="cta-link"
         href="https://aisafetyfundamentals.com/projects/"
-        rel="noopener noreferrer"
-        target="_blank"
       >
         <span
           class="cta-button__text"
