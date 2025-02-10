@@ -40,10 +40,10 @@ exports[`TestimonialSection > renders as expected 1`] = `
           >
             <div
               class="slide-list__slides flex transition-transform duration-300"
-              style="transform: translateX(-0%); gap: 0.25rem;"
+              style="transform: translateX(-0%);"
             >
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-8"
+                class="slide-list__slide flex-shrink-0 w-full px-2"
                 style="width: 33.333333333333336%;"
               >
                 <div
@@ -90,7 +90,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-8"
+                class="slide-list__slide flex-shrink-0 w-full px-2"
                 style="width: 33.333333333333336%;"
               >
                 <div
@@ -137,7 +137,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-8"
+                class="slide-list__slide flex-shrink-0 w-full px-2"
                 style="width: 33.333333333333336%;"
               >
                 <div

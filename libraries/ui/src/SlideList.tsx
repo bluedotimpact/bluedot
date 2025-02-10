@@ -176,7 +176,6 @@ export const SlideList: React.FC<SlideListProps> = ({
             className="slide-list__slides flex transition-transform duration-300"
             style={{
               transform: `translateX(-${currentSlide * 100}%)`,
-              gap: '0.25rem',
             }}
           >
             {React.Children.map(children, (child) => (

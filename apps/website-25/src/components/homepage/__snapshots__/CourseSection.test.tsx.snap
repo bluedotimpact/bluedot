@@ -206,10 +206,10 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
           >
             <div
               class="slide-list__slides flex transition-transform duration-300"
-              style="transform: translateX(-0%); gap: 0.25rem;"
+              style="transform: translateX(-0%);"
             >
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-4"
+                class="slide-list__slide flex-shrink-0 w-full"
                 style="width: 50%;"
               >
                 <div
@@ -283,7 +283,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-4"
+                class="slide-list__slide flex-shrink-0 w-full"
                 style="width: 50%;"
               >
                 <div
@@ -357,7 +357,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-4"
+                class="slide-list__slide flex-shrink-0 w-full"
                 style="width: 50%;"
               >
                 <div
@@ -431,7 +431,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide flex-shrink-0 w-full gap-4"
+                class="slide-list__slide flex-shrink-0 w-full"
                 style="width: 50%;"
               >
                 <div
