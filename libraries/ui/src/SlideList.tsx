@@ -57,8 +57,13 @@ export const SlideList: React.FC<SlideListProps> = ({
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
   const totalSlides = Math.ceil(childrenArray.length / effectiveItemsPerSlide);
 
-  const handlePrevious = () => setCurrentSlide((p) => Math.max(0, p - 1));
-  const handleNext = () => setCurrentSlide((p) => Math.min(totalSlides - 1, p + 1));
+  const handlePrevious = () => {
+    setCurrentSlide((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
+  };
 
   const isFirstSlide = currentSlide === 0;
   const isLastSlide = currentSlide === totalSlides - 1;
@@ -177,10 +182,9 @@ export const SlideList: React.FC<SlideListProps> = ({
           ref={containerRef}
           className="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
           style={{
-            width:
-              typeof slidesWrapperWidth === 'string'
-                ? slidesWrapperWidth
-                : `min(100%, ${slidesWrapperWidth.desktop})`,
+            width: typeof slidesWrapperWidth === 'string'
+              ? slidesWrapperWidth
+              : `min(100%, ${slidesWrapperWidth.desktop})`,
           }}
         >
           <div
