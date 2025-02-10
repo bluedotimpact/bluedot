@@ -8,10 +8,9 @@ export type SlideListProps = {
   description?: string;
   children: React.ReactNode;
   featuredSlot?: React.ReactNode;
-  itemsPerSlide?: number;
+  maxItemsPerSlide?: number;
   slideClassName?: string;
   containerClassName?: string;
-  slidesWrapperWidth?: string | { mobile: string; desktop: string };
   minItemWidth?: number;
 };
 
@@ -22,14 +21,14 @@ export const SlideList: React.FC<SlideListProps> = ({
   description,
   children,
   featuredSlot,
-  itemsPerSlide = 1,
+  maxItemsPerSlide = 1,
   slideClassName,
   containerClassName,
-  slidesWrapperWidth = { mobile: '100%', desktop: '800px' },
-  minItemWidth = 300,
+  minItemWidth = 340,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState(800); // Start with a guess that will usually make the whole list display on desktop
+  const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
+  const containerWidth = measuredContainerWidth ?? 800; // Fall back to a guess that will usually make the whole list display on desktop
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -41,9 +40,13 @@ export const SlideList: React.FC<SlideListProps> = ({
 
     if (!containerRef.current) return cleanup;
 
+    if (measuredContainerWidth === null && containerRef.current) {
+      setMeasuredContainerWidth(containerRef.current.getBoundingClientRect().width);
+    }
+
     const resizeObserver = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
-        setContainerWidth(entry.contentRect.width);
+        setMeasuredContainerWidth(entry.contentRect.width);
       });
     });
     resizeObserver.observe(containerRef.current);
@@ -51,11 +54,11 @@ export const SlideList: React.FC<SlideListProps> = ({
     return cleanup;
   }, []);
 
-  const itemsFit = containerWidth === 0 ? 1 : Math.floor(containerWidth / minItemWidth);
-  const effectiveItemsPerSlide = Math.max(1, Math.min(itemsFit, itemsPerSlide));
+  const itemsFit = Math.max(1, Math.floor(containerWidth / minItemWidth));
+  const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const totalSlides = Math.ceil(childrenArray.length / effectiveItemsPerSlide);
+  const totalSlides = Math.ceil(childrenArray.length / itemsPerSlide);
 
   const handlePrevious = () => {
     setCurrentSlide((prev) => Math.max(0, prev - 1));
@@ -70,9 +73,9 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   return (
     <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8">
+      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start mb-8">
         {(title || subtitle || description) && (
-          <div className="slide-list__header-content mb-6 md:mb-0">
+          <div className="slide-list__header-content mb-6 lg:mb-0">
             {title && (
               <h2 className="slide-list__title text-2xl font-bold">{title}</h2>
             )}
@@ -85,7 +88,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           </div>
         )}
         {totalSlides > 1 && (
-          <div className="slide-list__nav hidden md:flex items-center gap-2 pt-2 md:ml-auto">
+          <div className="slide-list__nav hidden lg:flex items-center gap-2 pt-2 lg:ml-auto">
             <SlideListBtn
               onClick={handlePrevious}
               disabled={isFirstSlide}
@@ -128,15 +131,15 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
       </div>
 
-      <div className={clsx('slide-list__content flex flex-col md:flex-row gap-4', containerClassName)}>
+      <div className={clsx('slide-list__content flex flex-col lg:flex-row gap-4', containerClassName)}>
         {featuredSlot && (
-          <div className="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden">
+          <div className="slide-list__featured w-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
 
         {totalSlides > 1 && (
-          <div className="slide-list__nav md:hidden flex items-center justify-end gap-2 mt-4">
+          <div className="slide-list__nav lg:hidden flex items-center justify-end gap-2 mt-4">
             <SlideListBtn
               onClick={handlePrevious}
               disabled={currentSlide === 0}
@@ -180,12 +183,7 @@ export const SlideList: React.FC<SlideListProps> = ({
 
         <div
           ref={containerRef}
-          className="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
-          style={{
-            width: typeof slidesWrapperWidth === 'string'
-              ? slidesWrapperWidth
-              : `min(100%, ${slidesWrapperWidth.desktop})`,
-          }}
+          className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-6"
         >
           <div
             className="slide-list__slides flex transition-transform duration-300"
@@ -199,7 +197,7 @@ export const SlideList: React.FC<SlideListProps> = ({
                   'slide-list__slide flex-shrink-0 w-full',
                   slideClassName,
                 )}
-                style={{ width: `${100 / effectiveItemsPerSlide}%` }}
+                style={{ width: `${100 / itemsPerSlide}%` }}
               >
                 {child}
               </div>
@@ -207,7 +205,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           </div>
 
           {(!isFirstSlide || !isLastSlide) && (
-            <div className="slide-list__progress absolute bottom-0 left-0 w-full">
+            <div className="slide-list__progress w-full">
               <div className="slide-list__progress-track h-1 bg-charcoal-normal">
                 <div
                   className="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"

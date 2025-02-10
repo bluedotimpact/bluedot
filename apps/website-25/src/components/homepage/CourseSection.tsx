@@ -51,7 +51,8 @@ const CourseSection = () => {
       <SlideList
         title="Our courses"
         description="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
-        itemsPerSlide={2}
+        maxItemsPerSlide={2}
+        minItemWidth={300}
         featuredSlot={(
           <CourseCard
             {...featuredCourses[0]}
@@ -59,11 +60,10 @@ const CourseSection = () => {
             className="h-full"
           />
         )}
-        slidesWrapperWidth={{ mobile: '100%', desktop: '800px' }}
         containerClassName="gap-4"
       >
         {courses.map((course) => (
-          <CourseCard key={course.title} {...course} className="size-full md:w-[323px]" />
+          <CourseCard key={course.title} {...course} className="size-full" />
         ))}
       </SlideList>
     </Section>

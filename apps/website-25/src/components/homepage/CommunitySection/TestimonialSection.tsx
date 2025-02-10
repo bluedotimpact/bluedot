@@ -34,10 +34,9 @@ const TestimonialSection = () => {
     <Section>
       <SlideList
         subtitle="What our graduates say"
-        itemsPerSlide={3}
+        maxItemsPerSlide={3}
         slideClassName="px-2"
         containerClassName="justify-center"
-        slidesWrapperWidth="100%"
       >
         {testimonials.map((testimonial) => (
           <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">
