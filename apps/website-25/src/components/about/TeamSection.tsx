@@ -2,16 +2,22 @@ import { Card, Section } from '@bluedot/ui';
 
 const teamMembers = [
   {
+    imageSrc: '/images/team/dewi.jpg',
+    name: 'Dewi Erwan',
+    role: 'Co-founder & CEO',
+    linkedInUrl: 'https://www.linkedin.com/in/dewierwan/',
+  },
+  {
+    imageSrc: '/images/team/will.jpg',
+    name: 'Will Saunter',
+    role: 'Co-founder',
+    linkedInUrl: 'https://linkedin.com/in/will-saunter',
+  },
+  {
     imageSrc: '/images/team/adam.jpg',
     name: 'Adam Jones',
     role: 'AI Safety',
     linkedInUrl: 'https://www.linkedin.com/in/domdomegg/',
-  },
-  {
-    imageSrc: '/images/team/dewi.jpg',
-    name: 'Dewi Erwan',
-    role: 'CEO',
-    linkedInUrl: 'https://www.linkedin.com/in/dewierwan/',
   },
   {
     imageSrc: '/images/team/josh.jpg',
@@ -36,12 +42,6 @@ const teamMembers = [
     name: 'Viorica Gheorghita',
     role: 'Product',
     linkedInUrl: 'https://www.linkedin.com/in/vioricagheorghita/',
-  },
-  {
-    imageSrc: '/images/team/will.jpg',
-    name: 'Will Saunter',
-    role: 'Co-founder',
-    linkedInUrl: 'https://linkedin.com/in/will-saunter',
   },
 ];
 

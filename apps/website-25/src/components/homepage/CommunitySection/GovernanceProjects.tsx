@@ -45,7 +45,7 @@ const GovernanceProjects = () => {
       <div className="governance-projects__container mx-auto max-w-[1750px] flex flex-col gap-12">
         <div className="governance-projects__title-container flex flex-col gap-2">
           <h3 className="governance-projects__title">
-            AI Governance Projects
+            Featured Course Projects
           </h3>
           <p className="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black">
             Competition winners

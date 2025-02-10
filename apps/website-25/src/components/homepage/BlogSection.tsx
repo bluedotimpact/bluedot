@@ -8,19 +8,19 @@ const BlogSection = () => {
         <BlogPost
           date="December 12, 2024"
           title="Teach-swap-explain: a learning activity for course designers to create highly effective learning experiences"
-          author="Adam Jones"
+          author="Adam Jones, AI Safety Lead at BlueDot Impact"
           url="https://bluedot.org/blog/teach-swap-explain-activity/"
         />
         <BlogPost
           date="December 4, 2024"
           title="Why we run our AI safety courses"
-          author="Adam Jones"
+          author="Adam Jones, AI Safety Lead at BlueDot Impact"
           url="https://bluedot.org/blog/why-we-run-our-ai-safety-courses/"
         />
         <BlogPost
           date="October 30, 2024"
           title="AI Alignment June 2024 course retrospective"
-          author="Adam Jones"
+          author="Adam Jones, AI Safety Lead at BlueDot Impact"
           url="https://bluedot.org/blog/ai-alignment-june-2024-retro/"
           tag="AI alignment"
         />

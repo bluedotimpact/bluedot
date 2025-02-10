@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import {
-  FaXTwitter, FaYoutube, FaFacebook, FaInstagram, FaLinkedin,
+  FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
@@ -45,13 +45,6 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
     <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="YouTube">
       <FaYoutube className="size-6" />
     </a>
-    <a href="https://www.facebook.com/bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Facebook">
-      <FaFacebook className="size-6" />
-    </a>
-    <a href="#" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Instagram">
-      <FaInstagram className="size-6" />
-    </a>
-    {/* TODO: 01/27 Add Instagram link */}
     <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="LinkedIn">
       <FaLinkedin className="size-6" />
     </a>
