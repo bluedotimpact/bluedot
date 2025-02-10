@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-cream-normal"
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
       class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
@@ -49,29 +49,6 @@ exports[`Nav > renders with courses 1`] = `
         <div
           class="nav__actions flex"
         >
-          <svg
-            fill="none"
-            height="48"
-            viewBox="0 0 48 48"
-            width="48"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="21.4853"
-              cy="22.4853"
-              r="6"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-              transform="rotate(-45 21.4853 22.4853)"
-            />
-            <path
-              d="M27.1421 28.1421L30.6776 31.6776"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-            />
-          </svg>
           <div
             class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
           >
@@ -241,7 +218,7 @@ exports[`Nav > renders with courses 1`] = `
 exports[`Nav > renders with optional yield 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-cream-normal"
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
       class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
@@ -292,29 +269,6 @@ exports[`Nav > renders with optional yield 1`] = `
         <div
           class="nav__actions flex"
         >
-          <svg
-            fill="none"
-            height="48"
-            viewBox="0 0 48 48"
-            width="48"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="21.4853"
-              cy="22.4853"
-              r="6"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-              transform="rotate(-45 21.4853 22.4853)"
-            />
-            <path
-              d="M27.1421 28.1421L30.6776 31.6776"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-            />
-          </svg>
           <div
             class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
           >

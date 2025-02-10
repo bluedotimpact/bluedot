@@ -16,13 +16,6 @@ export type NavProps = React.PropsWithChildren<{
   }>;
 }>;
 
-const SearchIcon: React.FC = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
-    <circle cx="21.4853" cy="22.4853" r="6" transform="rotate(-45 21.4853 22.4853)" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    <path d="M27.1421 28.1421L30.6776 31.6776" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-  </svg>
-);
-
 const DropdownIcon: React.FC<{ expanded: boolean }> = ({ expanded }) => (
   <svg
     className={clsx('size-4 transition-transform', expanded ? 'rotate-180' : '')}
@@ -103,7 +96,7 @@ const NavLinks: React.FC<{
   </div>
 );
 
-const LoginButtons: React.FC<{ className?: string }> = ({ className }) => (
+const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
   <div className={clsx('nav__cta-container flex items-center', className)}>
     <CTALinkOrButton
       className="nav__primary-cta"
@@ -150,7 +143,7 @@ export const Nav: React.FC<NavProps> = ({
     <nav
       className={clsx(
         'nav fixed z-50 w-full container-elevated transition-all duration-300',
-        isScrolled ? 'bg-bluedot-darker' : 'bg-cream-normal',
+        isScrolled ? 'bg-color-canvas-dark' : 'bg-color-canvas',
         isScrolled && '[&_*]:text-white [&_a:hover]:text-bluedot-lighter [&_button:hover]:text-bluedot-lighter',
         className,
       )}
@@ -180,8 +173,7 @@ export const Nav: React.FC<NavProps> = ({
             {children}
           </NavLinks>
           <div className="nav__actions flex">
-            <SearchIcon />
-            <LoginButtons className="nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex" />
+            <CTAButtons className="nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex" />
             <HamburgerButton
               open={navExpanded}
               setOpen={onToggleNav}
@@ -214,7 +206,7 @@ export const Nav: React.FC<NavProps> = ({
             >
               {children}
             </NavLinks>
-            <LoginButtons className="nav__login--mobile justify-between mt-20 sm:hidden" />
+            <CTAButtons className="nav__login--mobile justify-between mt-20 sm:hidden" />
           </div>
         </div>
       </div>
