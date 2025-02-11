@@ -80,7 +80,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
           </div>
         </div>
         <div
-          class="slide-list__content flex flex-col md:flex-row gap-space-between gap-4"
+          class="slide-list__content flex flex-col md:flex-row gap-space-between gap-space-between"
         >
           <div
             class="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden"
@@ -93,7 +93,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                 href="https://aisafetyfundamentals.com/intro-to-tai/"
               >
                 <div
-                  class="course-card__content flex gap-4"
+                  class="course-card__content flex gap-space-between"
                 >
                   <div
                     class="course-card__text"
@@ -219,7 +219,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -251,7 +251,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -293,7 +293,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -325,7 +325,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -367,7 +367,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/economics-of-tai/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -399,7 +399,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -441,7 +441,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment-fast-track/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -473,7 +473,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -515,7 +515,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance-fast-track/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -547,7 +547,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -589,7 +589,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated size-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/writing/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -621,7 +621,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-4"
+                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"

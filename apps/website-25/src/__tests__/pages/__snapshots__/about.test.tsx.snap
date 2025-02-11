@@ -36,7 +36,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-4"
+          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"
@@ -252,7 +252,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -277,7 +277,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -302,7 +302,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -327,7 +327,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -352,7 +352,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -428,7 +428,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -476,7 +476,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -524,7 +524,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -572,7 +572,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -620,7 +620,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -668,7 +668,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -716,7 +716,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
