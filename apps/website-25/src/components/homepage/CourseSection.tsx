@@ -78,7 +78,10 @@ const CourseSection = () => {
       >
         {courses.map((course) => (
           <SlideItem key={course.title}>
-            <CourseCard {...course} className="size-full md:w-[323px]" />
+            <CourseCard
+              {...course}
+              className="w-full md:w-[323px]"
+            />
           </SlideItem>
         ))}
       </SlideList>

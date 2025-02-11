@@ -9,7 +9,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
       class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
     >
       <div
-        class="course-card__content flex gap-space-between"
+        class="course-card__content block md:flex gap-space-between w-full"
       >
         <div
           class="course-card__text"
@@ -42,11 +42,11 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           </p>
         </div>
         <div
-          class="course-card__image-container flex-shrink-0 max-w-[60%] mb-6"
+          class="course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6"
         >
           <img
             alt="Title"
-            class="course-card__image w-[319px] h-full object-cover"
+            class="course-card__image size-full md:w-[319px] object-cover"
             src="/images/courses/course.jpg"
           />
         </div>
