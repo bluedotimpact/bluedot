@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CommunityValuesSection > renders default as expected 1`] = `
+exports[`CommunityValuesSection > renders as expected 1`] = `
 <div>
   <div
     class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 community-values-section"
