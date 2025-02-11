@@ -1,0 +1,14 @@
+@keyframes infinite-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.infinite-scroll-wrapper {
+  display: flex;
+  width: max-content;
+  animation: infinite-scroll 25s linear infinite;
+}
+
+.infinite-scroll-wrapper:hover {
+  animation-play-state: paused;
+} 
