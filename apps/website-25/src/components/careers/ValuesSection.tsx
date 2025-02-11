@@ -29,12 +29,7 @@ const ValuesSection = () => {
       >
         {values.map((value) => (
           <SlideItem key={value.title}>
-            <Card
-              imageSrc={value.imageSrc}
-              title={value.title}
-              subtitle={value.subtitle}
-              isEntireCardClickable // TODO drop requirement
-            />
+            <Card {...value} className="values-section__value" />
           </SlideItem>
         ))}
       </SlideList>

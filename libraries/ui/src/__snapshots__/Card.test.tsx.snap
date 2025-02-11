@@ -6,7 +6,7 @@ exports[`Card > renders default as expected 1`] = `
     class="card flex flex-col items-start transition-transform duration-200"
   >
     <div
-      class="card__image-container w-full mb-3"
+      class="card__image-container w-full mb-4"
     >
       <img
         alt="John Doe"
@@ -21,7 +21,7 @@ exports[`Card > renders default as expected 1`] = `
         class="card__text"
       >
         <p
-          class="card__title subtitle-sm mb-1"
+          class="card__title subtitle-sm mb-2"
         >
           John Doe
         </p>
@@ -32,7 +32,7 @@ exports[`Card > renders default as expected 1`] = `
         </p>
       </div>
       <div
-        class="card__bottom-section mt-auto flex flex-col gap-space-between"
+        class="card__bottom-section flex flex-col gap-space-between"
       >
         <a
           class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -58,7 +58,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
     href="https://linkedin.com/in/johndoe"
   >
     <div
-      class="card__image-container w-full mb-3"
+      class="card__image-container w-full mb-4"
     >
       <img
         alt="John Doe"
@@ -73,7 +73,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
         class="card__text"
       >
         <p
-          class="card__title subtitle-sm mb-1"
+          class="card__title subtitle-sm mb-2"
         >
           John Doe
         </p>

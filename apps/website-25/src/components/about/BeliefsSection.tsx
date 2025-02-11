@@ -34,12 +34,7 @@ const BeliefsSection = () => {
       >
         {beliefs.map((belief) => (
           <SlideItem key={belief.title}>
-            <Card
-              imageSrc={belief.imageSrc}
-              title={belief.title}
-              subtitle={belief.subtitle}
-              isEntireCardClickable // TODO drop requirement
-            />
+            <Card {...belief} className="beliefs-section__belief" />
           </SlideItem>
         ))}
       </SlideList>

@@ -99,11 +99,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <a
-                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                    <div
+                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="AGI could arrive soon, and we're unprepared"
@@ -118,7 +118,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             AGI could arrive soon, and we're unprepared
                           </p>
@@ -129,7 +129,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -139,11 +139,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <a
-                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                    <div
+                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="What we do now matters"
@@ -158,7 +158,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             What we do now matters
                           </p>
@@ -169,7 +169,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -179,11 +179,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <a
-                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                    <div
+                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="The right people at key moments rewrite history"
@@ -198,7 +198,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             The right people at key moments rewrite history
                           </p>
@@ -209,7 +209,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -219,11 +219,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <a
-                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                    <div
+                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="We need urgency, wisdom and optimism"
@@ -238,7 +238,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             We need urgency, wisdom and optimism
                           </p>
@@ -249,7 +249,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -434,7 +434,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Dewi Erwan"
@@ -449,7 +449,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Dewi Erwan
                 </p>
@@ -460,7 +460,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -482,7 +482,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Will Saunter"
@@ -497,7 +497,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Will Saunter
                 </p>
@@ -508,7 +508,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -530,7 +530,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Adam Jones"
@@ -545,7 +545,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Adam Jones
                 </p>
@@ -556,7 +556,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -578,7 +578,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Josh Landes"
@@ -593,7 +593,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Josh Landes
                 </p>
@@ -604,7 +604,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -626,7 +626,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Li-Lian Ang"
@@ -641,7 +641,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Li-Lian Ang
                 </p>
@@ -652,7 +652,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -674,7 +674,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Tarin Rickett"
@@ -689,7 +689,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Tarin Rickett
                 </p>
@@ -700,7 +700,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -722,7 +722,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Viorica Gheorghita"
@@ -737,7 +737,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Viorica Gheorghita
                 </p>
@@ -748,7 +748,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"

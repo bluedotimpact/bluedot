@@ -45,11 +45,11 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <a
-                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                  <div
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="card__image-container w-full mb-3"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="AGI could arrive soon, and we're unprepared"
@@ -64,7 +64,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         class="card__text"
                       >
                         <p
-                          class="card__title subtitle-sm mb-1"
+                          class="card__title subtitle-sm mb-2"
                         >
                           AGI could arrive soon, and we're unprepared
                         </p>
@@ -75,7 +75,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
               <div
@@ -85,11 +85,11 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <a
-                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                  <div
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="card__image-container w-full mb-3"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="What we do now matters"
@@ -104,7 +104,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         class="card__text"
                       >
                         <p
-                          class="card__title subtitle-sm mb-1"
+                          class="card__title subtitle-sm mb-2"
                         >
                           What we do now matters
                         </p>
@@ -115,7 +115,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
               <div
@@ -125,11 +125,11 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <a
-                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                  <div
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="card__image-container w-full mb-3"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="The right people at key moments rewrite history"
@@ -144,7 +144,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         class="card__text"
                       >
                         <p
-                          class="card__title subtitle-sm mb-1"
+                          class="card__title subtitle-sm mb-2"
                         >
                           The right people at key moments rewrite history
                         </p>
@@ -155,7 +155,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
               <div
@@ -165,11 +165,11 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <a
-                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
+                  <div
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="card__image-container w-full mb-3"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="We need urgency, wisdom and optimism"
@@ -184,7 +184,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         class="card__text"
                       >
                         <p
-                          class="card__title subtitle-sm mb-1"
+                          class="card__title subtitle-sm mb-2"
                         >
                           We need urgency, wisdom and optimism
                         </p>
@@ -195,7 +195,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>

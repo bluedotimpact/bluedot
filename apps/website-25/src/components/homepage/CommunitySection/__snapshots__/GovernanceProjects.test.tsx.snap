@@ -30,7 +30,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
         >
           <div
-            class="card__image-container w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Contextual Constitutional AI"
@@ -45,7 +45,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Contextual Constitutional AI
               </p>
@@ -62,7 +62,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
         >
           <div
-            class="card__image-container w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
@@ -77,7 +77,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
               </p>
@@ -94,7 +94,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
         >
           <div
-            class="card__image-container w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Societal Adaptation to AI Human-Labor Automation"
@@ -109,7 +109,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Societal Adaptation to AI Human-Labor Automation
               </p>
@@ -126,7 +126,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
         >
           <div
-            class="card__image-container w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
@@ -141,7 +141,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
               </p>

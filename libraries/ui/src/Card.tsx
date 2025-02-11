@@ -10,15 +10,14 @@ type CardProps = {
   imageSrc?: string;
   subtitle?: string;
   ctaUrl?: string;
+  ctaText?: string;
+  isEntireCardClickable?: boolean;
   isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
   subtitleClassName?: string;
   children?: React.ReactNode;
-} & (
-  | { ctaText: string; isEntireCardClickable?: false }
-  | { ctaText?: string; isEntireCardClickable: true }
-);
+};
 
 export const Card: React.FC<CardProps> = ({
   imageSrc,
@@ -40,16 +39,17 @@ export const Card: React.FC<CardProps> = ({
     className,
   );
 
-  const showBottomSection = !!(!isEntireCardClickable || children);
+  const showCTA = !isEntireCardClickable && ctaUrl;
+  const showBottomSection = !!(showCTA || children);
 
   return (
     <Wrapper
       href={isEntireCardClickable ? ctaUrl : undefined}
-      {...(isEntireCardClickable && isExternalUrl && ctaUrl && EXTERNAL_LINK_PROPS)}
+      {...(isEntireCardClickable && isExternalUrl && EXTERNAL_LINK_PROPS)}
       className={wrapperClassName}
     >
       {imageSrc && (
-        <div className="card__image-container w-full mb-3">
+        <div className="card__image-container w-full mb-4">
           <img
             className={`card__image w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
             src={imageSrc}
@@ -60,12 +60,12 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <p className="card__title subtitle-sm mb-1">{title}</p>
+          <p className="card__title subtitle-sm mb-2">{title}</p>
           {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         {showBottomSection && (
-          <div className="card__bottom-section mt-auto flex flex-col gap-space-between">
-            {!isEntireCardClickable && (
+          <div className="card__bottom-section flex flex-col gap-space-between">
+            {showCTA && (
               <CTALinkOrButton
                 className="card__cta"
                 url={ctaUrl}

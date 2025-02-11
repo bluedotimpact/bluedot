@@ -225,7 +225,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="AI Alignment"
@@ -240,7 +240,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             AI Alignment
                           </p>
@@ -251,7 +251,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -299,7 +299,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="AI Governance"
@@ -314,7 +314,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             AI Governance
                           </p>
@@ -325,7 +325,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -373,7 +373,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Economics of Transformative AI"
@@ -388,7 +388,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Economics of Transformative AI
                           </p>
@@ -399,7 +399,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -447,7 +447,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Alignment Fast Track"
@@ -462,7 +462,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Alignment Fast Track
                           </p>
@@ -473,7 +473,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -521,7 +521,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Governance Fast-Track"
@@ -536,7 +536,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Governance Fast-Track
                           </p>
@@ -547,7 +547,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -595,7 +595,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                       target="_blank"
                     >
                       <div
-                        class="card__image-container w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Writing Intensive"
@@ -610,7 +610,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Writing Intensive
                           </p>
@@ -621,7 +621,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"

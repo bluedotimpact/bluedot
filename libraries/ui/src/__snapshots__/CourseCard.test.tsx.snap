@@ -82,9 +82,11 @@ exports[`CourseCard > renders default as expected 1`] = `
   >
     <a
       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
+      rel="noopener noreferrer"
+      target="_blank"
     >
       <div
-        class="card__image-container w-full mb-3"
+        class="card__image-container w-full mb-4"
       >
         <img
           alt="Title"
@@ -99,7 +101,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           class="card__text"
         >
           <p
-            class="card__title subtitle-sm mb-1"
+            class="card__title subtitle-sm mb-2"
           >
             Title
           </p>
@@ -110,7 +112,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+          class="card__bottom-section flex flex-col gap-space-between"
         >
           <div
             class="card__footer flex items-center justify-between w-full"
