@@ -36,7 +36,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-4"
+          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"

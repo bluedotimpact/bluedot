@@ -22,7 +22,7 @@ exports[`StorySection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="story-section__container flex lg:flex-row flex-col gap-4"
+        class="story-section__container flex lg:flex-row flex-col gap-space-between"
       >
         <img
           alt="BlueDot Impact team"

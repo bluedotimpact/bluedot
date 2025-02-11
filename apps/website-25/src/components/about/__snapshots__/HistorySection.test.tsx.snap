@@ -28,7 +28,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -53,7 +53,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -78,7 +78,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -103,7 +103,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -128,7 +128,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"

@@ -64,7 +64,7 @@ export const Card: React.FC<CardProps> = ({
           {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         {showBottomSection && (
-          <div className="card__bottom-section mt-auto flex flex-col gap-4">
+          <div className="card__bottom-section mt-auto flex flex-col gap-space-between">
             {!isEntireCardClickable && (
               <CTALinkOrButton
                 className="card__cta"

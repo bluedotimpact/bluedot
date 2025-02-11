@@ -56,7 +56,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       href={ctaUrl}
       className={wrapperClassName}
     >
-      <div className="course-card__content flex gap-4">
+      <div className="course-card__content flex gap-space-between">
         <div className="course-card__text">
           <p className="course-card__featured-label uppercase font-[650] text-xs mb-3">
             Featured course
@@ -132,7 +132,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isEntireCardClickable
         isExternalUrl
         className={clsx(
-          'course-card course-card--regular min-w-min-width container-lined p-5',
+          'course-card course-card--regular container-lined p-5',
           'flex flex-col w-[323px] h-[466px] hover:container-elevated',
           className,
         )}
