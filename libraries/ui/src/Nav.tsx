@@ -113,6 +113,12 @@ const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
   </div>
 );
 
+export const isCurrentPath = (href: string): boolean => {
+  if (typeof window === 'undefined') return false;
+  const currentPath = window.location.pathname;
+  return href === currentPath || (href !== '/' && currentPath.startsWith(href));
+};
+
 export const Nav: React.FC<NavProps> = ({
   children, className, logo, courses,
 }) => {
