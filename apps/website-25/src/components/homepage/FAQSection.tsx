@@ -2,7 +2,7 @@ import { Collapsible, Section } from '@bluedot/ui';
 
 const FAQSection = () => {
   return (
-    <Section className="faq-section" title="Frequently asked questions">
+    <Section className="faq-section !overflow-visible" title="Frequently asked questions">
       <Collapsible className="faq-section__item" title="How can I maximise my chances of getting accepted onto the courses?">
         <p>Check you are the <a href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/">right fit</a> and read our tips for making a <a href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/">great application.</a></p>
       </Collapsible>
