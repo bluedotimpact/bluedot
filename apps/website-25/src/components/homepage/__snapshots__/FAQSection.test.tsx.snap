@@ -3,19 +3,19 @@
 exports[`FAQSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 faq-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden faq-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
       >
-        <h3
+        <h2
           class="section__title mb-4 relative after:w-full"
         >
           Frequently asked questions
-        </h3>
+        </h2>
       </div>
     </div>
     <div
@@ -29,7 +29,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           tabindex="-1"
         >
           <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+            class="collapsible__title"
           >
             How can I maximise my chances of getting accepted onto the courses?
           </h3>
@@ -82,7 +82,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           tabindex="-1"
         >
           <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+            class="collapsible__title"
           >
             I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?
           </h3>
@@ -136,7 +136,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           tabindex="-1"
         >
           <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+            class="collapsible__title"
           >
             Who funds your work?
           </h3>
@@ -196,7 +196,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           tabindex="-1"
         >
           <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+            class="collapsible__title"
           >
             How can I collaborate/partner with BlueDot Impact on AI safety initiatives?
           </h3>
@@ -244,7 +244,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           tabindex="-1"
         >
           <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+            class="collapsible__title"
           >
             How can I stay informed about BlueDot Impact's latest roles?
           </h3>

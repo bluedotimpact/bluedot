@@ -10,7 +10,7 @@ exports[`Collapsible > renders correctly 1`] = `
       tabindex="-1"
     >
       <h3
-        class="collapsible__title text-color-text text-2xl font-normal"
+        class="collapsible__title"
       >
         Test Collapsible
       </h3>

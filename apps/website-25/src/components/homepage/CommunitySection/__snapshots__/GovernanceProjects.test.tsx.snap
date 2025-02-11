@@ -2,7 +2,7 @@
 
 exports[`GovernanceProjects > renders as expected 1`] = `
 <div>
-  <section
+  <div
     class="governance-projects p-6 container-lined"
   >
     <div
@@ -23,7 +23,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </p>
       </div>
       <div
-        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-4 overflow-visible mb-3"
+        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-space-between overflow-visible mb-3"
       >
         <a
           class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
@@ -175,6 +175,6 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         </span>
       </a>
     </div>
-  </section>
+  </div>
 </div>
 `;

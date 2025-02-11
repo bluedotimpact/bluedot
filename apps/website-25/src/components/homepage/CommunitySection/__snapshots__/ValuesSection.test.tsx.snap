@@ -3,89 +3,78 @@
 exports[`CommunityValuesSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 community-values-section"
+    class="community-values-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="community-values-section__container flex sm:flex-row flex-col"
     >
       <div
-        class="section__content flex-1"
-      />
-    </div>
-    <div
-      class="section__body"
-    >
-      <div
-        class="community-values-section__container flex sm:flex-row flex-col gap-8 overflow-y-scroll"
+        class="value-card w-full flex flex-col gap-6 py-6"
       >
         <div
-          class="value-card w-full flex flex-col gap-6 py-6"
+          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
         >
-          <div
-            class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-          >
-            <img
-              class="value-card__icon"
-              src="icons/network.svg"
-            />
-          </div>
-          <p
-            class="value-card__description font-semibold"
-          >
-            Our online community brings together 4,500+ professionals across 100+ countries
-          </p>
+          <img
+            class="value-card__icon"
+            src="icons/network.svg"
+          />
         </div>
+        <p
+          class="value-card__description font-semibold"
+        >
+          Our online community brings together 4,500+ professionals across 100+ countries
+        </p>
+      </div>
+      <div
+        class="value-card w-full flex flex-col gap-6 py-6"
+      >
         <div
-          class="value-card w-full flex flex-col gap-6 py-6"
+          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
         >
-          <div
-            class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-          >
-            <img
-              class="value-card__icon"
-              src="icons/people.svg"
-            />
-          </div>
-          <p
-            class="value-card__description font-semibold"
-          >
-            Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers
-          </p>
+          <img
+            class="value-card__icon"
+            src="icons/people.svg"
+          />
         </div>
+        <p
+          class="value-card__description font-semibold"
+        >
+          Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers
+        </p>
+      </div>
+      <div
+        class="value-card w-full flex flex-col gap-6 py-6"
+      >
         <div
-          class="value-card w-full flex flex-col gap-6 py-6"
+          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
         >
-          <div
-            class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-          >
-            <img
-              class="value-card__icon"
-              src="icons/study.svg"
-            />
-          </div>
-          <p
-            class="value-card__description font-semibold"
-          >
-            40+ independent study groups worldwide have used our materials to run their own courses
-          </p>
+          <img
+            class="value-card__icon"
+            src="icons/study.svg"
+          />
         </div>
+        <p
+          class="value-card__description font-semibold"
+        >
+          40+ independent study groups worldwide have used our materials to run their own courses
+        </p>
+      </div>
+      <div
+        class="value-card w-full flex flex-col gap-6 py-6"
+      >
         <div
-          class="value-card w-full flex flex-col gap-6 py-6"
+          class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
         >
-          <div
-            class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
-          >
-            <img
-              class="value-card__icon"
-              src="icons/world.svg"
-            />
-          </div>
-          <p
-            class="value-card__description font-semibold"
-          >
-            We run regular in-person events across the world, turning online connections into lasting relationships
-          </p>
+          <img
+            class="value-card__icon"
+            src="icons/world.svg"
+          />
         </div>
+        <p
+          class="value-card__description font-semibold"
+        >
+          We run regular in-person events across the world, turning online connections into lasting relationships
+        </p>
       </div>
     </div>
   </div>
