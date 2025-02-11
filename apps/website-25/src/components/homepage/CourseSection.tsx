@@ -52,7 +52,7 @@ const courses = [
   },
   {
     title: 'Writing Intensive',
-    description: 'This is a 5-day intensive writing course where you’ll transform your AI safety course learnings into a published article.',
+    description: 'This is a 5-day intensive writing course where you`ll transform your AI safety course learnings into a published article.',
     courseType: 'Crash course',
     imageSrc: '/images/writing-intensive.png',
     ctaUrl: 'https://aisafetyfundamentals.com/writing/',
@@ -78,7 +78,10 @@ const CourseSection = () => {
       >
         {courses.map((course) => (
           <SlideItem key={course.title}>
-            <CourseCard {...course} className="size-full md:w-[323px]" />
+            <CourseCard
+              {...course}
+              className="w-full md:w-[323px]"
+            />
           </SlideItem>
         ))}
       </SlideList>
