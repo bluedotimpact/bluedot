@@ -2,8 +2,8 @@ import { Section, ValueCard } from '@bluedot/ui';
 
 const CommunityValuesSection = () => {
   return (
-    <Section className="community-values-section">
-      <div className="community-values-section__container flex sm:flex-row flex-col gap-8 overflow-y-scroll">
+    <div className="community-values-section">
+      <div className="community-values-section__container flex sm:flex-row flex-col">
         <ValueCard
           icon="icons/network.svg"
           description="Our online community brings together 4,500+ professionals across 100+ countries"
@@ -21,7 +21,7 @@ const CommunityValuesSection = () => {
           description="We run regular in-person events across the world, turning online connections into lasting relationships"
         />
       </div>
-    </Section>
+    </div>
   );
 };
 

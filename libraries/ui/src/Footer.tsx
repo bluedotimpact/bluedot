@@ -18,7 +18,7 @@ type FooterSectionProps = {
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links }) => (
   <div className="footer__section">
-    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-m">{title}</h3>}
+    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md">{title}</h3>}
     {links && (
       <ul className="footer__list space-y-2 mb-auto font-normal list-none p-0">
         {links.map((link) => (
@@ -57,8 +57,8 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
   return (
     <div className="footer">
-      <footer className={clsx('footer__main bg-bluedot-darker text-white min-h-[397] p-12 flex flex-col', className)}>
-        <div className="footer__content flex flex-col mb-24">
+      <footer className={clsx('footer__main bg-bluedot-darker py-spacing-y flex flex-col', className)}>
+        <div className="footer__content section-normal flex flex-col mb-24">
           <nav className="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
               {logo ? (

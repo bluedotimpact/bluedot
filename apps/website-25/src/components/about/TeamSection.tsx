@@ -48,7 +48,7 @@ const teamMembers = [
 const TeamSection = () => {
   return (
     <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mx-auto">
+      <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
         {teamMembers.map((member) => (
           <Card
             key={member.name}
@@ -58,7 +58,7 @@ const TeamSection = () => {
             ctaUrl={member.linkedInUrl}
             ctaText="LinkedIn"
             isExternalUrl
-            className="team__card ml-4 mb-12"
+            className="team__card"
             imageClassName="team__card-image"
           />
         ))}

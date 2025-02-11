@@ -55,14 +55,14 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   return (
     <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8">
+      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between">
         {(title || subtitle || description) && (
           <div className="slide-list__header-content mb-6 md:mb-0">
             {title && (
-              <h2 className="slide-list__title text-2xl font-bold">{title}</h2>
+              <h2 className="slide-list__title">{title}</h2>
             )}
             {subtitle && (
-              <h3 className="slide-list__subtitle text-xl">{subtitle}</h3>
+              <h3 className="slide-list__subtitle">{subtitle}</h3>
             )}
             {description && (
               <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">{description}</p>
@@ -70,7 +70,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           </div>
         )}
         {totalSlides > 1 && (
-          <div className="slide-list__nav hidden md:flex items-center gap-2 pt-2 md:ml-auto">
+          <div className="slide-list__nav hidden md:flex items-center gap-2 md:ml-auto">
             <SlideListBtn
               onClick={handlePrevious}
               disabled={isFirstSlide}
@@ -113,7 +113,7 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
       </div>
 
-      <div className={clsx('slide-list__content flex flex-col md:flex-row gap-4', containerClassName)}>
+      <div className={clsx('slide-list__content flex flex-col md:flex-row gap-space-between', containerClassName)}>
         {featuredSlot && (
           <div className="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
