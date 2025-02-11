@@ -19,7 +19,7 @@ export { FaceTiles } from './FaceTiles';
 
 export { Footer } from './Footer';
 
-export { Nav } from './Nav';
+export { Nav, isCurrentPath } from './Nav';
 
 export { Section } from './Section';
 

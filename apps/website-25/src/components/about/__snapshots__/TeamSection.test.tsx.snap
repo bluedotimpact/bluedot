@@ -3,10 +3,10 @@
 exports[`TeamSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 team"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden team"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -22,10 +22,10 @@ exports[`TeamSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="team__grid flex flex-row flex-wrap mx-auto"
+        class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
       >
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -42,11 +42,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Dewi Erwan
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -54,7 +54,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -73,7 +73,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -90,11 +90,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Will Saunter
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -102,7 +102,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -121,7 +121,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -138,11 +138,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Adam Jones
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -150,7 +150,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -169,7 +169,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -186,11 +186,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Josh Landes
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -198,7 +198,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -217,7 +217,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -234,11 +234,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Li-Lian Ang
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -246,7 +246,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -265,7 +265,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -282,11 +282,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Tarin Rickett
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -294,7 +294,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -313,7 +313,7 @@ exports[`TeamSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
         >
           <div
             class="card__image-container max-h-[223px] w-full mb-3"
@@ -330,11 +330,11 @@ exports[`TeamSection > renders default as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Viorica Gheorghita
-              </h4>
+              </p>
               <p
                 class="card__subtitle "
               >
@@ -342,7 +342,7 @@ exports[`TeamSection > renders default as expected 1`] = `
               </p>
             </div>
             <div
-              class="card__bottom-section mt-auto flex flex-col gap-4"
+              class="card__bottom-section mt-auto flex flex-col gap-space-between"
             >
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"

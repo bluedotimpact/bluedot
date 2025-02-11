@@ -9,7 +9,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
       class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
     >
       <div
-        class="course-card__content flex gap-4"
+        class="course-card__content flex gap-space-between"
       >
         <div
           class="course-card__text"
@@ -81,7 +81,7 @@ exports[`CourseCard > renders default as expected 1`] = `
     class="p-[2px]"
   >
     <a
-      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular min-w-min-width container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
+      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
     >
       <div
         class="card__image-container max-h-[223px] w-full mb-3"
@@ -98,11 +98,11 @@ exports[`CourseCard > renders default as expected 1`] = `
         <div
           class="card__text"
         >
-          <h4
-            class="card__title mb-1"
+          <p
+            class="card__title subtitle-sm mb-1"
           >
             Title
-          </h4>
+          </p>
           <p
             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
           >
@@ -110,7 +110,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="card__bottom-section mt-auto flex flex-col gap-4"
+          class="card__bottom-section mt-auto flex flex-col gap-space-between"
         >
           <div
             class="card__footer flex items-center justify-between w-full"

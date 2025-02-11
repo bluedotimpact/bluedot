@@ -4,7 +4,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
     >
       <div
         class="hero-section__content max-w-[865px] mt-[82px] py-28"
@@ -17,10 +17,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 intro-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden intro-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -36,7 +36,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-4"
+          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"
@@ -57,10 +57,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 values-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden values-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -79,10 +79,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           class="slide-list w-full"
         >
           <div
-            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8"
+            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between"
           />
           <div
-            class="slide-list__content flex flex-col md:flex-row gap-4"
+            class="slide-list__content flex flex-col md:flex-row gap-space-between"
           >
             <div
               class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
@@ -195,10 +195,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 careers-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden careers-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"

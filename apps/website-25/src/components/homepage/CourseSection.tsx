@@ -74,7 +74,7 @@ const CourseSection = () => {
           />
         )}
         slidesWrapperWidth={{ mobile: '100%', desktop: '800px' }}
-        containerClassName="gap-4"
+        containerClassName="gap-space-between"
       >
         {courses.map((course) => (
           <SlideItem key={course.title}>

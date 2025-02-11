@@ -97,7 +97,7 @@ const NavLinks: React.FC<{
 );
 
 const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
-  <div className={clsx('nav__cta-container flex items-center', className)}>
+  <div className={clsx('nav__cta-container', className)}>
     <CTALinkOrButton
       className="nav__primary-cta"
       url="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
@@ -112,6 +112,12 @@ const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
     */}
   </div>
 );
+
+export const isCurrentPath = (href: string): boolean => {
+  if (typeof window === 'undefined') return false;
+  const currentPath = window.location.pathname;
+  return href === currentPath || (href !== '/' && currentPath.startsWith(href));
+};
 
 export const Nav: React.FC<NavProps> = ({
   children, className, logo, courses,
@@ -148,8 +154,8 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <div className="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9">
-        <div className="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]">
+      <div className="nav__container section-normal">
+        <div className="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]">
           <a href="/" className="nav__logo-link shrink-0 w-[200px]">
             {logo ? (
               <img
@@ -173,7 +179,7 @@ export const Nav: React.FC<NavProps> = ({
             {children}
           </NavLinks>
           <div className="nav__actions flex">
-            <CTAButtons className="nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex" />
+            <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
             <HamburgerButton
               open={navExpanded}
               setOpen={onToggleNav}
@@ -206,7 +212,7 @@ export const Nav: React.FC<NavProps> = ({
             >
               {children}
             </NavLinks>
-            <CTAButtons className="nav__login--mobile justify-between mt-20 sm:hidden" />
+            <CTAButtons className="nav__login--mobile justify-between mt-20 flex sm:hidden" />
           </div>
         </div>
       </div>

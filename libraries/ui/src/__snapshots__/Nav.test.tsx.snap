@@ -6,10 +6,10 @@ exports[`Nav > renders with courses 1`] = `
     class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
-      class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
+      class="nav__container section-normal"
     >
       <div
-        class="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]"
+        class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -50,7 +50,7 @@ exports[`Nav > renders with courses 1`] = `
           class="nav__actions flex"
         >
           <div
-            class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
+            class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
@@ -192,7 +192,7 @@ exports[`Nav > renders with courses 1`] = `
             </div>
           </div>
           <div
-            class="nav__cta-container flex items-center nav__login--mobile justify-between mt-20 sm:hidden"
+            class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
           >
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
@@ -221,10 +221,10 @@ exports[`Nav > renders with optional yield 1`] = `
     class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
-      class="nav__container w-full max-w-max-width mx-auto px-3 sm:px-6 lg:px-9"
+      class="nav__container section-normal"
     >
       <div
-        class="nav__bar flex flex-grow justify-between items-center pl-3 h-[72px] sm:h-[100px]"
+        class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -270,7 +270,7 @@ exports[`Nav > renders with optional yield 1`] = `
           class="nav__actions flex"
         >
           <div
-            class="nav__cta-container flex items-center nav__login--tablet-desktop gap-6 ml-4 mr-2 hidden sm:flex"
+            class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
@@ -395,7 +395,7 @@ exports[`Nav > renders with optional yield 1`] = `
             </p>
           </div>
           <div
-            class="nav__cta-container flex items-center nav__login--mobile justify-between mt-20 sm:hidden"
+            class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
           >
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"

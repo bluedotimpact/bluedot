@@ -3,7 +3,7 @@
 exports[`HeroSection > renders default as expected 1`] = `
 <div>
   <div
-    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
       class="hero-section__content max-w-[865px] mt-[82px] py-28"
@@ -15,7 +15,7 @@ exports[`HeroSection > renders default as expected 1`] = `
 exports[`HeroSection > renders with optional args 1`] = `
 <div>
   <div
-    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
       class="hero-section__content max-w-[865px] mt-[82px] py-28"
@@ -38,7 +38,7 @@ exports[`HeroSection > renders with optional args 1`] = `
 exports[`HeroSection > renders with optional yield 1`] = `
 <div>
   <div
-    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
       class="hero-section__content max-w-[865px] mt-[82px] py-28"

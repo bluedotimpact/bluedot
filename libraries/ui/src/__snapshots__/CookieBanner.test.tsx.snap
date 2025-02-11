@@ -18,7 +18,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       .
     </p>
     <div
-      class="cookie-banner__buttons flex flex-wrap gap-4 justify-center"
+      class="cookie-banner__buttons flex flex-wrap gap-space-between justify-center"
     >
       <button
         class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"

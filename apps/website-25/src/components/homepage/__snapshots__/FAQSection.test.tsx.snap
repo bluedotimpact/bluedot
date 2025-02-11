@@ -3,19 +3,19 @@
 exports[`FAQSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 faq-section !overflow-visible"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden faq-section !overflow-visible"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
       >
-        <h3
+        <h2
           class="section__title mb-4 relative after:w-full"
         >
           Frequently asked questions
-        </h3>
+        </h2>
       </div>
     </div>
     <div
@@ -28,11 +28,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer"
           tabindex="-1"
         >
-          <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+          <p
+            class="collapsible__title subtitle-sm"
           >
             How can I maximise my chances of getting accepted onto the courses?
-          </h3>
+          </p>
           <button
             aria-expanded="false"
             aria-label="How can I maximise my chances of getting accepted onto the courses?"
@@ -81,11 +81,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer"
           tabindex="-1"
         >
-          <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+          <p
+            class="collapsible__title subtitle-sm"
           >
             I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?
-          </h3>
+          </p>
           <button
             aria-expanded="false"
             aria-label="I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?"
@@ -135,11 +135,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer"
           tabindex="-1"
         >
-          <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+          <p
+            class="collapsible__title subtitle-sm"
           >
             Who funds your work?
-          </h3>
+          </p>
           <button
             aria-expanded="false"
             aria-label="Who funds your work?"
@@ -195,11 +195,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer"
           tabindex="-1"
         >
-          <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+          <p
+            class="collapsible__title subtitle-sm"
           >
             How can I collaborate/partner with BlueDot Impact on AI safety initiatives?
-          </h3>
+          </p>
           <button
             aria-expanded="false"
             aria-label="How can I collaborate/partner with BlueDot Impact on AI safety initiatives?"
@@ -243,11 +243,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer"
           tabindex="-1"
         >
-          <h3
-            class="collapsible__title text-color-text text-2xl font-normal"
+          <p
+            class="collapsible__title subtitle-sm"
           >
             How can I stay informed about BlueDot Impact's latest roles?
-          </h3>
+          </p>
           <button
             aria-expanded="false"
             aria-label="How can I stay informed about BlueDot Impact's latest roles?"
