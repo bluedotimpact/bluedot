@@ -239,11 +239,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             AI Alignment
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -313,11 +313,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             AI Governance
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -387,11 +387,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             Economics of Transformative AI
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -461,11 +461,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             Alignment Fast Track
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -535,11 +535,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             Governance Fast-Track
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -609,11 +609,11 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <h4
-                            class="card__title mb-1"
+                          <p
+                            class="card__title subtitle-sm mb-1"
                           >
                             Writing Intensive
-                          </h4>
+                          </p>
                           <p
                             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >

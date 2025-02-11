@@ -416,11 +416,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Dewi Erwan
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -464,11 +464,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Will Saunter
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -512,11 +512,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Adam Jones
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -560,11 +560,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Josh Landes
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -608,11 +608,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Li-Lian Ang
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -656,11 +656,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Tarin Rickett
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -704,11 +704,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Viorica Gheorghita
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >

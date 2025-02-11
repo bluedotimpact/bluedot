@@ -44,11 +44,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Contextual Constitutional AI
-              </h4>
+              </p>
               <p
                 class="card__subtitle text-base"
               >
@@ -76,11 +76,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
-              </h4>
+              </p>
               <p
                 class="card__subtitle text-base"
               >
@@ -108,11 +108,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Societal Adaptation to AI Human-Labor Automation
-              </h4>
+              </p>
               <p
                 class="card__subtitle text-base"
               >
@@ -140,11 +140,11 @@ exports[`GovernanceProjects > renders as expected 1`] = `
             <div
               class="card__text"
             >
-              <h4
-                class="card__title mb-1"
+              <p
+                class="card__title subtitle-sm mb-1"
               >
                 Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
-              </h4>
+              </p>
               <p
                 class="card__subtitle text-base"
               >

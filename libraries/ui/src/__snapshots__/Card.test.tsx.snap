@@ -20,11 +20,11 @@ exports[`Card > renders default as expected 1`] = `
       <div
         class="card__text"
       >
-        <h4
-          class="card__title mb-1"
+        <p
+          class="card__title subtitle-sm mb-1"
         >
           John Doe
-        </h4>
+        </p>
         <p
           class="card__subtitle "
         >
@@ -72,11 +72,11 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
       <div
         class="card__text"
       >
-        <h4
-          class="card__title mb-1"
+        <p
+          class="card__title subtitle-sm mb-1"
         >
           John Doe
-        </h4>
+        </p>
         <p
           class="card__subtitle "
         >
