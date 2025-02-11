@@ -1,4 +1,4 @@
-import { Section, ValueCard } from '@bluedot/ui';
+import { ValueCard } from '@bluedot/ui';
 
 const CommunityValuesSection = () => {
   return (
