@@ -22,7 +22,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         onClick={() => setIsExpanded(!isExpanded)}
         tabIndex={-1} // Clicking on the header is only for mouse users. Keyboard users will use the native functionality of the button below.
       >
-        <h3 className="collapsible__title">{title}</h3>
+        <p className="collapsible__title subtitle-sm">{title}</p>
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}

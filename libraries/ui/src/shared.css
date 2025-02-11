@@ -30,39 +30,34 @@
 
   --max-width: 1436px;
 
-  --spacing-x-lg: 48px;
-  --spacing-x-md: 48px;
-  --spacing-x-sm: 24px;
-  --spacing-y-lg: 32px;
-  --spacing-y-md: 24px;
-  --spacing-y-sm: 12px;
-  --column-lg: 210px;
-  --column-md: 150px;
-  --column-sm: 80px;
-  --space-between-lg: 16px;
-  --space-between-md: 16px;
-  --space-between-sm: 8px;
+  --spacing-x-lg: 3rem; /* 48px */
+  --spacing-x-md: 3rem; /* 48px */
+  --spacing-x-sm: 1.5rem; /* 24px */
+  --spacing-y-lg: 2rem; /* 32px */
+  --spacing-y-md: 1.5rem; /* 24px */
+  --spacing-y-sm: 0.75rem; /* 12px */
+  --space-between-lg: 1rem; /* 16px */
+  --space-between-md: 1rem; /* 16px */
+  --space-between-sm: 0.5rem; /* 8px */
 
   /* Default breakpoint values */
-  --text-size-xxs: 12px;
-  --text-size-xs: 14px;
-  --text-size-sm: 16px;
-  --text-size-md: 18px;
-  --text-size-lg: 24px;
-  --text-size-xl: 32px;
+  --text-size-xxs: 0.75rem; /* 12px */
+  --text-size-xs: 0.875rem; /* 14px */
+  --text-size-sm: 1rem; /* 16px */
+  --text-size-md: 1.125rem; /* 18px */
+  --text-size-lg: 1.5rem; /* 24px */
+  --text-size-xl: 2rem; /* 32px */
   --spacing-x: var(--spacing-x-sm);
   --spacing-y: var(--spacing-y-sm);
-  --column: var(--column-sm);
   --space-between: var(--space-between-sm);
 }
 
 /* Maps to Tailwind "md" breakpoint */
 @media (width >= 48rem) {
    :root {
-    --text-size-xl: 48px;
+    --text-size-xl: 3rem; /* 48px */
     --spacing-x: var(--spacing-x-md);
     --spacing-y: var(--spacing-y-md);
-    --column: var(--column-md);
     --space-between: var(--space-between-md);
   }
 }
@@ -72,7 +67,6 @@
   :root {
     --spacing-x: var(--spacing-x-lg);
     --spacing-y: var(--spacing-y-lg);
-    --column: var(--column-lg);
     --space-between: var(--space-between-lg);
   }
 }
@@ -141,7 +135,7 @@
   }
   .container-elevated {
     /* RGBA of var(--bluedot-cream-normal) */
-    box-shadow: 0px 4px 20px 0px rgba(30, 30, 30, 0.1);
+    box-shadow: 0px 4px 1.25rem 0px rgba(30, 30, 30, 0.1);
   }
   .container-dialog {
     @apply border border-color-primary rounded-lg;
