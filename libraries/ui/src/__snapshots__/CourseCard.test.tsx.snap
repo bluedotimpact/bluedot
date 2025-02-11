@@ -98,11 +98,11 @@ exports[`CourseCard > renders default as expected 1`] = `
         <div
           class="card__text"
         >
-          <h4
-            class="card__title mb-1"
+          <p
+            class="card__title subtitle-sm mb-1"
           >
             Title
-          </h4>
+          </p>
           <p
             class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
           >

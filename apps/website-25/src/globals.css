@@ -17,10 +17,10 @@
     @apply text-color-secondary-text font-sans text-size-md font-[650];
   }
   p, li, .body {
-    @apply text-color-text font-sans text-size-xs font-normal;
+    @apply text-color-text font-sans text-size-sm font-normal;
   }
   blockquote {
-    @apply text-color-text font-sans text-size-xs font-normal font-[650];
+    @apply text-color-text font-sans text-size-sm font-normal font-[650];
   }
   ul {
     @apply list-inside list-disc;

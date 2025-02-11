@@ -238,11 +238,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   AI Alignment Project Judge
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -279,11 +279,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Course Operations Specialist
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -320,11 +320,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Software Engineering Contractor
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -361,11 +361,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Economics of Transformative AI Teaching Fellow
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
