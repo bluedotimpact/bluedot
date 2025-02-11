@@ -27,6 +27,54 @@
 
   --bluedot-cream-normal: #FFFCF7;
   --bluedot-cream-dark: #D9D6D2;
+
+  --max-width: 1436px;
+
+  --spacing-x-lg: 48px;
+  --spacing-x-md: 48px;
+  --spacing-x-sm: 24px;
+  --spacing-y-lg: 32px;
+  --spacing-y-md: 24px;
+  --spacing-y-sm: 12px;
+  --column-lg: 210px;
+  --column-md: 150px;
+  --column-sm: 80px;
+  --space-between-lg: 16px;
+  --space-between-md: 16px;
+  --space-between-sm: 8px;
+
+  /* Default breakpoint values */
+  --text-size-xxs: 12px;
+  --text-size-xs: 14px;
+  --text-size-sm: 16px;
+  --text-size-md: 18px;
+  --text-size-lg: 24px;
+  --text-size-xl: 32px;
+  --spacing-x: var(--spacing-x-sm);
+  --spacing-y: var(--spacing-y-sm);
+  --column: var(--column-sm);
+  --space-between: var(--space-between-sm);
+}
+
+/* Maps to Tailwind "md" breakpoint */
+@media (width >= 48rem) {
+   :root {
+    --text-size-xl: 48px;
+    --spacing-x: var(--spacing-x-md);
+    --spacing-y: var(--spacing-y-md);
+    --column: var(--column-md);
+    --space-between: var(--space-between-md);
+  }
+}
+
+/* Maps to Tailwind "lg" breakpoint */
+@media (width >= 64rem) {
+  :root {
+    --spacing-x: var(--spacing-x-lg);
+    --spacing-y: var(--spacing-y-lg);
+    --column: var(--column-lg);
+    --space-between: var(--space-between-lg);
+  }
 }
 
 @font-face {
@@ -82,6 +130,10 @@
 @layer utilities {
   .bluedot-base {
     @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+  }
+
+  .section-normal {
+    @apply w-full max-w-max-width mx-auto px-spacing-x;
   }
 
   .container-lined {
