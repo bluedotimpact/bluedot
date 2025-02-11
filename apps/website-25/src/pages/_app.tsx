@@ -3,7 +3,10 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { CookieBanner, Footer, Nav } from '@bluedot/ui';
+import {
+  CookieBanner, Footer, isCurrentPath, Nav,
+} from '@bluedot/ui';
+import clsx from 'clsx';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -29,9 +32,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={courses}
       >
-        <a href="/about">About</a>
-        <a href="/careers">Join us</a>
-        <a href="https://bluedot.org/blog/">Blog</a>
+        <a href="/about" className={clsx('hover:text-bluedot-normal', isCurrentPath('/about') && 'font-bold')}>About</a>
+        <a href="/careers" className={clsx('hover:text-bluedot-normal', isCurrentPath('/careers') && 'font-bold')}>Join us</a>
+        <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />
