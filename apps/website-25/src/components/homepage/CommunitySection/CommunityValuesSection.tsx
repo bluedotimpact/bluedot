@@ -22,7 +22,7 @@ const values = [
     icon: 'icons/world.svg',
     description: 'We run regular in-person events across the world, turning online connections into lasting relationships',
   },
-];
+] as const;
 
 const CommunityValuesSection = () => {
   return (
