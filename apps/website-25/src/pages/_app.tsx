@@ -1,6 +1,5 @@
 import '@bluedot/ui/src/shared.css';
 import '../globals.css';
-import '../styles/infinite-scroll.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
