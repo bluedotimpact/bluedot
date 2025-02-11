@@ -3,10 +3,10 @@
 exports[`BeliefsSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 beliefs-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden beliefs-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -28,7 +28,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start"
         />
         <div
-          class="slide-list__content flex flex-col md:flex-row gap-4"
+          class="slide-list__content flex flex-col md:flex-row gap-space-between"
         >
           <div
             class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
@@ -45,29 +45,37 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <div
-                    class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                  <a
+                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                   >
                     <div
-                      class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                      class="card__image-container w-full mb-3"
                     >
                       <img
                         alt="AGI could arrive soon, and we're unprepared"
-                        class="value-card__icon"
-                        src="icons/fast.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/agi.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      AGI could arrive soon, and we're unprepared
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                    </p>
-                  </div>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-1"
+                        >
+                          AGI could arrive soon, and we're unprepared
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                        </p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
               <div
@@ -77,29 +85,37 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <div
-                    class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                  <a
+                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                   >
                     <div
-                      class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                      class="card__image-container w-full mb-3"
                     >
                       <img
                         alt="What we do now matters"
-                        class="value-card__icon"
-                        src="icons/care.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/matters.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      What we do now matters
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                    </p>
-                  </div>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-1"
+                        >
+                          What we do now matters
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                        </p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
               <div
@@ -109,29 +125,37 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <div
-                    class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                  <a
+                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                   >
                     <div
-                      class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                      class="card__image-container w-full mb-3"
                     >
                       <img
                         alt="The right people at key moments rewrite history"
-                        class="value-card__icon"
-                        src="icons/solvers.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/key.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      The right people at key moments rewrite history
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                    </p>
-                  </div>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-1"
+                        >
+                          The right people at key moments rewrite history
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                        </p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
               <div
@@ -141,29 +165,37 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 <div
                   class="size-full"
                 >
-                  <div
-                    class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                  <a
+                    class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                   >
                     <div
-                      class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                      class="card__image-container w-full mb-3"
                     >
                       <img
                         alt="We need urgency, wisdom and optimism"
-                        class="value-card__icon"
-                        src="icons/network.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/urgency.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      We need urgency, wisdom and optimism
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                    </p>
-                  </div>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-1"
+                        >
+                          We need urgency, wisdom and optimism
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                        </p>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>

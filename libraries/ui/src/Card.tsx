@@ -60,11 +60,11 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <h4 className="card__title mb-1">{title}</h4>
+          <p className="card__title subtitle-sm mb-1">{title}</p>
           {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         {showBottomSection && (
-          <div className="card__bottom-section mt-auto flex flex-col gap-4">
+          <div className="card__bottom-section mt-auto flex flex-col gap-space-between">
             {!isEntireCardClickable && (
               <CTALinkOrButton
                 className="card__cta"

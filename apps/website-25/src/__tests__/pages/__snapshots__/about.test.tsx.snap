@@ -4,7 +4,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
     >
       <div
         class="hero-section__content max-w-[865px] mt-[82px] py-28"
@@ -17,10 +17,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 intro-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden intro-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -36,7 +36,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-4"
+          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
             class="intro-section__text-container flex flex-col gap-5"
@@ -57,10 +57,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 beliefs-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden beliefs-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -82,7 +82,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start"
           />
           <div
-            class="slide-list__content flex flex-col md:flex-row gap-4"
+            class="slide-list__content flex flex-col md:flex-row gap-space-between"
           >
             <div
               class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
@@ -99,29 +99,37 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <div
-                      class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                    <a
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                     >
                       <div
-                        class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                        class="card__image-container w-full mb-3"
                       >
                         <img
                           alt="AGI could arrive soon, and we're unprepared"
-                          class="value-card__icon"
-                          src="icons/fast.svg"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md "
+                          src="/images/beliefs/agi.png"
                         />
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
+                      <div
+                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                       >
-                        AGI could arrive soon, and we're unprepared
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                      </p>
-                    </div>
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title subtitle-sm mb-1"
+                          >
+                            AGI could arrive soon, and we're unprepared
+                          </p>
+                          <p
+                            class="card__subtitle "
+                          >
+                            Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </div>
                 <div
@@ -131,29 +139,37 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <div
-                      class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                    <a
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                     >
                       <div
-                        class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                        class="card__image-container w-full mb-3"
                       >
                         <img
                           alt="What we do now matters"
-                          class="value-card__icon"
-                          src="icons/care.svg"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md "
+                          src="/images/beliefs/matters.png"
                         />
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
+                      <div
+                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                       >
-                        What we do now matters
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                      </p>
-                    </div>
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title subtitle-sm mb-1"
+                          >
+                            What we do now matters
+                          </p>
+                          <p
+                            class="card__subtitle "
+                          >
+                            The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </div>
                 <div
@@ -163,29 +179,37 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <div
-                      class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                    <a
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                     >
                       <div
-                        class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                        class="card__image-container w-full mb-3"
                       >
                         <img
                           alt="The right people at key moments rewrite history"
-                          class="value-card__icon"
-                          src="icons/solvers.svg"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md "
+                          src="/images/beliefs/key.png"
                         />
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
+                      <div
+                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                       >
-                        The right people at key moments rewrite history
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                      </p>
-                    </div>
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title subtitle-sm mb-1"
+                          >
+                            The right people at key moments rewrite history
+                          </p>
+                          <p
+                            class="card__subtitle "
+                          >
+                            Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </div>
                 <div
@@ -195,29 +219,37 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                   <div
                     class="size-full"
                   >
-                    <div
-                      class="value-card size-full flex flex-col gap-6 py-6 rounded-radius-md bg-color-canvas"
+                    <a
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01]"
                     >
                       <div
-                        class="value-card__icon-wrapper flex items-center justify-center size-[50px]"
+                        class="card__image-container w-full mb-3"
                       >
                         <img
                           alt="We need urgency, wisdom and optimism"
-                          class="value-card__icon"
-                          src="icons/network.svg"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md "
+                          src="/images/beliefs/urgency.png"
                         />
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
+                      <div
+                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                       >
-                        We need urgency, wisdom and optimism
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                      </p>
-                    </div>
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title subtitle-sm mb-1"
+                          >
+                            We need urgency, wisdom and optimism
+                          </p>
+                          <p
+                            class="card__subtitle "
+                          >
+                            The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                          </p>
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -227,10 +259,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 history-section"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -252,7 +284,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -277,7 +309,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -302,7 +334,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -327,7 +359,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -352,7 +384,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             class="history-section__event"
           >
             <div
-              class="history-section__event-container--desktop flex flex-col gap-4"
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
             >
               <div
                 class="history-section__year-container w-full flex gap-2"
@@ -377,10 +409,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 team"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden team"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"
@@ -396,17 +428,17 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="team__grid flex flex-row flex-wrap mx-auto"
+          class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Dewi Erwan"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/dewi.jpg"
               />
             </div>
@@ -416,11 +448,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Dewi Erwan
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -428,7 +460,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -447,14 +479,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Will Saunter"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/will.jpg"
               />
             </div>
@@ -464,11 +496,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Will Saunter
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -476,7 +508,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -495,14 +527,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Adam Jones"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/adam.jpg"
               />
             </div>
@@ -512,11 +544,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Adam Jones
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -524,7 +556,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -543,14 +575,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Josh Landes"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/josh.jpg"
               />
             </div>
@@ -560,11 +592,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Josh Landes
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -572,7 +604,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -591,14 +623,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Li-Lian Ang"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/lilian.jpg"
               />
             </div>
@@ -608,11 +640,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Li-Lian Ang
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -620,7 +652,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -639,14 +671,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Tarin Rickett"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/tarin.jpg"
               />
             </div>
@@ -656,11 +688,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Tarin Rickett
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -668,7 +700,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -687,14 +719,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card ml-4 mb-12"
+            class="card flex flex-col items-start transition-transform duration-200 team__card"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-3"
             >
               <img
                 alt="Viorica Gheorghita"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
                 src="/images/team/vio.jpg"
               />
             </div>
@@ -704,11 +736,11 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Viorica Gheorghita
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -716,7 +748,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -738,10 +770,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="join-us-cta my-8 lg:mx-16 overflow-hidden"
+      class="join-us-cta w-full max-w-max-width mx-auto lg:px-spacing-x my-spacing-y overflow-hidden"
     >
       <div
-        class="join-us-cta__container w-full max-w-max-width lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
+        class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
       >
         <h3
           class="join-us-cta__title max-w-[890px] text-center mb-8"
@@ -771,10 +803,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
+      class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-4"
+        class="section__title-container flex justify-between items-center gap-space-between"
       >
         <div
           class="section__content flex-1"

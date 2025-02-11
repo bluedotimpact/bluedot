@@ -16,8 +16,8 @@ export const Section: React.FC<SectionProps> = ({
 }) => {
   const HeadingTag = titleLevel;
   return (
-    <div className={clsx('section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8', className)}>
-      <div className="section__title-container flex justify-between items-center gap-4">
+    <div className={clsx('section section-normal py-spacing-y border-b border-divider overflow-hidden', className)}>
+      <div className="section__title-container flex justify-between items-center gap-space-between">
         <div className="section__content flex-1">
           {title && (
             <HeadingTag className={clsx(

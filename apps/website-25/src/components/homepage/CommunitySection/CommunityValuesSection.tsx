@@ -1,6 +1,5 @@
 import {
   Card,
-  Section,
   SlideItem,
   SlideList,
 } from '@bluedot/ui';
@@ -26,7 +25,7 @@ const values = [
 
 const CommunityValuesSection = () => {
   return (
-    <Section className="community-values-section">
+    <div className="community-values-section">
       <SlideList
         itemsPerSlide={4}
         slidesWrapperWidth="100%"
@@ -43,7 +42,7 @@ const CommunityValuesSection = () => {
           </SlideItem>
         ))}
       </SlideList>
-    </Section>
+    </div>
   );
 };
 

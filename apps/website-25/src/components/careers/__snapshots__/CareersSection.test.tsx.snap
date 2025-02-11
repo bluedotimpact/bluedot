@@ -3,10 +3,10 @@
 exports[`CareersSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 careers-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden careers-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -205,10 +205,10 @@ exports[`CareersSection > renders default as expected 1`] = `
 exports[`CareersSection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 careers-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden careers-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -230,7 +230,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
           class="careers-section__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] careers-section__card--mobile container-lined p-6 max-w-full"
+            class="card flex flex-col items-start transition-transform duration-200 careers-section__card--mobile container-lined p-6 max-w-full"
           >
             <div
               class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -238,11 +238,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   AI Alignment Project Judge
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -250,7 +250,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -271,7 +271,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
           class="careers-section__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] careers-section__card--mobile container-lined p-6 max-w-full"
+            class="card flex flex-col items-start transition-transform duration-200 careers-section__card--mobile container-lined p-6 max-w-full"
           >
             <div
               class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -279,11 +279,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Course Operations Specialist
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -291,7 +291,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -312,7 +312,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
           class="careers-section__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] careers-section__card--mobile container-lined p-6 max-w-full"
+            class="card flex flex-col items-start transition-transform duration-200 careers-section__card--mobile container-lined p-6 max-w-full"
           >
             <div
               class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -320,11 +320,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Software Engineering Contractor
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -332,7 +332,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -353,7 +353,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
           class="careers-section__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] careers-section__card--mobile container-lined p-6 max-w-full"
+            class="card flex flex-col items-start transition-transform duration-200 careers-section__card--mobile container-lined p-6 max-w-full"
           >
             <div
               class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
@@ -361,11 +361,11 @@ exports[`CareersSection > renders mobile as expected 1`] = `
               <div
                 class="card__text"
               >
-                <h4
-                  class="card__title mb-1"
+                <p
+                  class="card__title subtitle-sm mb-1"
                 >
                   Economics of Transformative AI Teaching Fellow
-                </h4>
+                </p>
                 <p
                   class="card__subtitle "
                 >
@@ -373,7 +373,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-4"
+                class="card__bottom-section mt-auto flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
