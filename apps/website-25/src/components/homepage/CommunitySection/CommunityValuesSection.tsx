@@ -1,26 +1,48 @@
-import { Section, ValueCard } from '@bluedot/ui';
+import {
+  Card,
+  Section,
+  SlideItem,
+  SlideList,
+} from '@bluedot/ui';
+
+const values = [
+  {
+    imageSrc: '/images/beliefs/agi.png', // TODO update
+    title: 'Our online community brings together 4,500+ professionals across 100+ countries',
+  },
+  {
+    imageSrc: '/images/beliefs/agi.png', // TODO update
+    title: 'Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers',
+  },
+  {
+    imageSrc: '/images/beliefs/agi.png', // TODO update
+    title: '40+ independent study groups worldwide have used our materials to run their own courses',
+  },
+  {
+    imageSrc: '/images/beliefs/agi.png', // TODO update
+    title: 'We run regular in-person events across the world, turning online connections into lasting relationships',
+  },
+] as const;
 
 const CommunityValuesSection = () => {
   return (
     <Section className="community-values-section">
-      <div className="community-values-section__container flex sm:flex-row flex-col gap-8 overflow-y-scroll">
-        <ValueCard
-          icon="icons/network.svg"
-          description="Our online community brings together 4,500+ professionals across 100+ countries"
-        />
-        <ValueCard
-          icon="icons/people.svg"
-          description="Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers"
-        />
-        <ValueCard
-          icon="icons/study.svg"
-          description="40+ independent study groups worldwide have used our materials to run their own courses"
-        />
-        <ValueCard
-          icon="icons/world.svg"
-          description="We run regular in-person events across the world, turning online connections into lasting relationships"
-        />
-      </div>
+      <SlideList
+        itemsPerSlide={4}
+        slidesWrapperWidth="100%"
+        slideClassName="px-2"
+      >
+        {values.map((value) => (
+          <SlideItem key={value.title}>
+            <Card
+              imageSrc={value.imageSrc}
+              title={value.title}
+              className="community-values-section__value"
+              isEntireCardClickable
+            />
+          </SlideItem>
+        ))}
+      </SlideList>
     </Section>
   );
 };

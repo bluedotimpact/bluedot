@@ -1,26 +1,26 @@
-import { Section, ValueCard } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { SlideList, SlideItem } from '@bluedot/ui/src/SlideList';
 
 const beliefs = [
   {
-    icon: 'icons/fast.svg',
+    imageSrc: '/images/beliefs/agi.png',
     title: 'AGI could arrive soon, and we\'re unprepared',
-    description: 'Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.',
+    subtitle: 'Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.',
   },
   {
-    icon: 'icons/care.svg',
+    imageSrc: '/images/beliefs/matters.png',
     title: 'What we do now matters',
-    description: 'The future of AI isn\'t set in stone. Our choices today will determine whether this technology helps or harms humanity.',
+    subtitle: 'The future of AI isn\'t set in stone. Our choices today will determine whether this technology helps or harms humanity.',
   },
   {
-    icon: 'icons/solvers.svg',
+    imageSrc: '/images/beliefs/key.png',
     title: 'The right people at key moments rewrite history',
-    description: 'Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.',
+    subtitle: 'Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.',
   },
   {
-    icon: 'icons/network.svg',
+    imageSrc: '/images/beliefs/urgency.png',
     title: 'We need urgency, wisdom and optimism',
-    description: 'The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.',
+    subtitle: 'The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.',
   },
 ] as const;
 
@@ -34,10 +34,11 @@ const BeliefsSection = () => {
       >
         {beliefs.map((belief) => (
           <SlideItem key={belief.title}>
-            <ValueCard
-              icon={belief.icon}
+            <Card
+              imageSrc={belief.imageSrc}
               title={belief.title}
-              description={belief.description}
+              subtitle={belief.subtitle}
+              isEntireCardClickable // TODO drop requirement
             />
           </SlideItem>
         ))}

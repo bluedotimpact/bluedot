@@ -1,9 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="44" height="30" viewBox="0 0 44 30" fill="none">
-  <rect x="22" y="1" width="21" height="28" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
-  <rect x="1" y="1" width="21" height="28" stroke="#00114D" stroke-width="2" stroke-linejoin="round"/>
-  <line x1="5" y1="9" x2="18" y2="9" stroke="#00114D" stroke-width="2"/>
-  <line x1="5" y1="17" x2="18" y2="17" stroke="#00114D" stroke-width="2"/>
-  <line x1="5" y1="21" x2="18" y2="21" stroke="#00114D" stroke-width="2"/>
-  <line x1="5" y1="13" x2="18" y2="13" stroke="#00114D" stroke-width="2"/>
-  
+<svg width="84" height="70" viewBox="0 0 84 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 49">
+<g id="Group 45">
+<rect id="Rectangle 30" x="1" y="30" width="30" height="32" stroke="#6687FF" stroke-width="2" stroke-linejoin="round"/>
+<line id="Line 38" x1="8" y1="37" x2="24" y2="37" stroke="#FFFCF7" stroke-width="2"/>
+<line id="Line 41" x1="8" y1="49" x2="24" y2="49" stroke="#FFFCF7" stroke-width="2"/>
+<line id="Line 42" x1="8" y1="53" x2="24" y2="53" stroke="#FFFCF7" stroke-width="2"/>
+<line id="Line 40" x1="8" y1="45" x2="24" y2="45" stroke="#FFFCF7" stroke-width="2"/>
+</g>
+<g id="Group 46">
+<rect id="Rectangle 30_2" x="43" y="40.7739" width="40" height="28" stroke="#FFFCF7" stroke-width="2" stroke-linejoin="round"/>
+<path id="Polygon 5" d="M69 54.7739L60 59.9701L60 49.5778L69 54.7739Z" fill="#6687FF"/>
+</g>
+<g id="Group 48">
+<path id="Rectangle 33" d="M43 2.50598C43 2.07014 43.2822 1.68363 43.6991 1.55634C50.4599 -0.508325 54.5422 -0.528842 61.3038 1.55509C61.7192 1.68314 62 2.06894 62 2.50368V25.5691C62 26.1952 61.4295 26.6665 60.8128 26.5586C54.503 25.4545 50.4966 25.4522 44.1877 26.5581C43.5708 26.6662 43 26.1949 43 25.5686V2.50598Z" fill="#6687FF"/>
+<path id="Rectangle 34" d="M63 2.50598C63 2.07014 63.2822 1.68363 63.6991 1.55634C70.4599 -0.508325 74.5422 -0.528842 81.3038 1.55509C81.7192 1.68314 82 2.06894 82 2.50368V25.5691C82 26.1952 81.4295 26.6665 80.8128 26.5586C74.503 25.4545 70.4966 25.4522 64.1877 26.5581C63.5708 26.6662 63 26.1949 63 25.5686V2.50598Z" fill="#6687FF"/>
+</g>
+<g id="Group 47">
+<path id="Rectangle 38" d="M15.5 1L30 6.5L15.5 12L1 6.5L15.5 1Z" stroke="#FFFCF7" stroke-width="2" stroke-linejoin="round"/>
+<path id="Rectangle 39" d="M26 18L26.191 18.9816C26.6609 18.8901 27 18.4786 27 18H26ZM5 18H4C4 18.4728 4.3311 18.881 4.7937 18.9785L5 18ZM28.5 21.5C28.5 22.0523 28.9477 22.5 29.5 22.5C30.0523 22.5 30.5 22.0523 30.5 21.5H28.5ZM25 8V18H27V8H25ZM25.809 17.0184C17.4741 18.6407 13.0071 18.6662 5.2063 17.0215L4.7937 18.9785C12.8795 20.6832 17.6179 20.6502 26.191 18.9816L25.809 17.0184ZM6 18V8H4V18H6ZM28.5 7V21.5H30.5V7H28.5Z" fill="#FFFCF7"/>
+</g>
+</g>
 </svg>

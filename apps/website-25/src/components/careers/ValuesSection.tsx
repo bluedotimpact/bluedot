@@ -1,21 +1,21 @@
-import { Section, ValueCard } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { SlideList, SlideItem } from '@bluedot/ui/src/SlideList';
 
 const values = [
   {
-    icon: 'icons/fast.svg',
+    imageSrc: '/images/values/think.png',
     title: 'Think hard, act fast, fail faster',
-    description: 'We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.',
+    subtitle: 'We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.',
   },
   {
-    icon: 'icons/care.svg',
+    imageSrc: '/images/values/care.png',
     title: 'Care personally, challenge directly',
-    description: 'We care about our team and our community, and we hold everyone to high standards.',
+    subtitle: 'We care about our team and our community, and we hold everyone to high standards.',
   },
   {
-    icon: 'icons/solvers.svg',
+    imageSrc: '/images/values/powering.png',
     title: 'Obsessed with empowering problem-solvers',
-    description: 'We exist to support others to solve the world\'s biggest problems. We go above and beyond to accelerate our community\'s impact.',
+    subtitle: 'We exist to support others to solve the world\'s biggest problems. We go above and beyond to accelerate our community\'s impact.',
   },
 ] as const;
 
@@ -29,10 +29,11 @@ const ValuesSection = () => {
       >
         {values.map((value) => (
           <SlideItem key={value.title}>
-            <ValueCard
-              icon={value.icon}
+            <Card
+              imageSrc={value.imageSrc}
               title={value.title}
-              description={value.description}
+              subtitle={value.subtitle}
+              isEntireCardClickable // TODO drop requirement
             />
           </SlideItem>
         ))}

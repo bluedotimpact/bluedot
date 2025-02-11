@@ -35,7 +35,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
-    'card flex flex-col items-start transition-transform duration-200 max-w-[323px]',
+    'card flex flex-col items-start transition-transform duration-200',
     isEntireCardClickable && 'hover:scale-[1.01]',
     className,
   );
@@ -49,9 +49,9 @@ export const Card: React.FC<CardProps> = ({
       className={wrapperClassName}
     >
       {imageSrc && (
-        <div className="card__image-container max-h-[223px] w-full mb-3">
+        <div className="card__image-container w-full mb-3">
           <img
-            className={`card__image w-full max-h-full object-cover rounded-2xl ${imageClassName}`}
+            className={`card__image w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
             src={imageSrc}
             alt={`${title}`}
           />
