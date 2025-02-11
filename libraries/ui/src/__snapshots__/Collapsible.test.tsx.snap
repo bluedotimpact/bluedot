@@ -9,11 +9,11 @@ exports[`Collapsible > renders correctly 1`] = `
       class="collapsible__header flex justify-between w-full cursor-pointer"
       tabindex="-1"
     >
-      <h3
-        class="collapsible__title text-color-text text-2xl font-normal"
+      <p
+        class="collapsible__title subtitle-sm"
       >
         Test Collapsible
-      </h3>
+      </p>
       <button
         aria-expanded="false"
         aria-label="Test Collapsible"

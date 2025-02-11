@@ -6,10 +6,10 @@ exports[`Footer > renders default as expected 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker text-white min-h-[397] p-12 flex flex-col"
+      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
     >
       <div
-        class="footer__content flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col mb-24"
       >
         <nav
           class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
@@ -100,7 +100,7 @@ exports[`Footer > renders default as expected 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 BlueDot Impact
               </h3>
@@ -153,7 +153,7 @@ exports[`Footer > renders default as expected 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 Explore
               </h3>
@@ -206,7 +206,7 @@ exports[`Footer > renders default as expected 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 Resources
               </h3>
@@ -341,10 +341,10 @@ exports[`Footer > renders with optional args 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker text-white min-h-[397] p-12 flex flex-col"
+      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
     >
       <div
-        class="footer__content flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col mb-24"
       >
         <nav
           class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
@@ -435,7 +435,7 @@ exports[`Footer > renders with optional args 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 BlueDot Impact
               </h3>
@@ -488,7 +488,7 @@ exports[`Footer > renders with optional args 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 Explore
               </h3>
@@ -541,7 +541,7 @@ exports[`Footer > renders with optional args 1`] = `
               class="footer__section"
             >
               <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-m"
+                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
               >
                 Resources
               </h3>

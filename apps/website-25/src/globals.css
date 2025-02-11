@@ -5,19 +5,22 @@
 
 @layer base {
   h1 {
-    @apply text-color-secondary-text font-sans text-size-xl font-bold leading-tight;
+    @apply text-color-secondary-text font-sans text-size-xl font-bold;
   }
   h2, .title {
-    @apply text-color-secondary-text font-sans text-size-xl font-bold leading-normal;
+    @apply text-color-secondary-text font-sans text-size-xl font-bold;
   }
   h3, .subtitle {
-    @apply text-color-secondary-text font-sans text-size-l font-[650] leading-normal;
+    @apply text-color-secondary-text font-sans text-size-lg font-[650];
   }
-  h4 {
-    @apply text-color-secondary-text font-sans text-xl font-[650];
+  h4, .subtitle-sm {
+    @apply text-color-secondary-text font-sans text-size-md font-[650];
   }
   p, li, .body {
-    @apply text-color-text font-sans text-size-m font-normal leading-normal;
+    @apply text-color-text font-sans text-size-xs font-normal;
+  }
+  blockquote {
+    @apply text-color-text font-sans text-size-xs font-normal font-[650];
   }
   ul {
     @apply list-inside list-disc;

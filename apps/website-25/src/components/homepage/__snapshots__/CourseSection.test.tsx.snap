@@ -3,10 +3,10 @@
 exports[`CourseSection > renders desktop view as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -19,13 +19,13 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
         class="slide-list w-full"
       >
         <div
-          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8"
+          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between"
         >
           <div
             class="slide-list__header-content mb-6 md:mb-0"
           >
             <h2
-              class="slide-list__title text-2xl font-bold"
+              class="slide-list__title"
             >
               Our courses
             </h2>
@@ -36,7 +36,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
             </p>
           </div>
           <div
-            class="slide-list__nav hidden md:flex items-center gap-2 pt-2 md:ml-auto"
+            class="slide-list__nav hidden md:flex items-center gap-2 md:ml-auto"
           >
             <button
               aria-label="Previous slide"
@@ -80,7 +80,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
           </div>
         </div>
         <div
-          class="slide-list__content flex flex-col md:flex-row gap-4 gap-4"
+          class="slide-list__content flex flex-col md:flex-row gap-space-between gap-4"
         >
           <div
             class="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden"
