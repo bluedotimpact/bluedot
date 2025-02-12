@@ -221,8 +221,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -295,8 +293,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -369,8 +365,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/economics-of-tai/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -443,8 +437,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment-fast-track/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -517,8 +509,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance-fast-track/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -591,8 +581,6 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     <a
                       class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/writing/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
                         class="card__image-container w-full mb-4"
