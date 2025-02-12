@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import { Analytics } from '../components/Analytics';
 
 if (typeof window !== 'undefined') {
-  posthog.init('phc_yZ6zilX74HsRDdqv4JXMzF3o0fEtQvvSGHEfrONN5MH', {
+  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
     api_host: 'https://eu.i.posthog.com',
   });
 }
