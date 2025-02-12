@@ -6,6 +6,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_PUBLIC_GA_MEASUREMENT_ID G-C5L967C9M1
 
 # Set the correct permission for prerender cache
 RUN mkdir dist
