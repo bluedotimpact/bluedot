@@ -137,7 +137,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isExternalUrl
         className={clsx(
           'course-card course-card--regular container-lined p-5',
-          'flex flex-col max-w-full h-[466px] hover:container-elevated',
+          'flex flex-col max-w-full h-[520px] hover:container-elevated',
           className,
         )}
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"

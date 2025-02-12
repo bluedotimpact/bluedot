@@ -74,7 +74,6 @@ const CourseSection = () => {
             className="h-full"
           />
         )}
-        containerClassName="gap-4"
       >
         {courses.map((course) => (
           <CourseCard key={course.title} {...course} className="size-full" />

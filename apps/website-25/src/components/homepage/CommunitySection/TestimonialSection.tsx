@@ -8,7 +8,7 @@ type Testimonial = {
   imageSrc: string;
 };
 
-const testimonials: Testimonial[] = [
+export const testimonials: Testimonial[] = [
   {
     quote: "This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.",
     name: 'Kendrea Beers',
@@ -34,7 +34,7 @@ const TestimonialSection = () => {
     <SlideList
       subtitle="What our graduates say"
       maxItemsPerSlide={3}
-      containerClassName="justify-center"
+      minItemWidth={300}
     >
       {testimonials.map((testimonial) => (
         <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">

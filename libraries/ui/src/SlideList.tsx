@@ -11,7 +11,6 @@ export type SlideListProps = {
   children: React.ReactNode;
   featuredSlot?: React.ReactNode;
   maxItemsPerSlide?: number;
-  containerClassName?: string;
   minItemWidth?: number;
 };
 
@@ -23,8 +22,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   children,
   featuredSlot,
   maxItemsPerSlide = 1,
-  containerClassName,
-  minItemWidth = 300,
+  minItemWidth = 260,
 }) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
@@ -57,33 +55,6 @@ export const SlideList: React.FC<SlideListProps> = ({
   const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
   const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
 
-  // Handle scroll events -> update progress bar
-  useEffect(() => {
-    function handleScroll() {
-      const container = slidesRef.current;
-      if (!container) return;
-
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      const maxScrollLeft = scrollWidth - clientWidth;
-      if (maxScrollLeft <= 0) {
-        setScrollPercent(0);
-        return;
-      }
-      const percent = (scrollLeft / maxScrollLeft) * 100;
-      setScrollPercent(percent);
-    }
-
-    const cleanup = () => {
-      container?.removeEventListener('scroll', handleScroll);
-    };
-
-    const container = slidesRef.current;
-    if (!container) return cleanup;
-
-    container.addEventListener('scroll', handleScroll);
-    return cleanup;
-  }, []);
-
   const scrollTo = useCallback((direction: 'next' | 'previous') => {
     const container = slidesRef.current;
     if (!container) return;
@@ -93,8 +64,8 @@ export const SlideList: React.FC<SlideListProps> = ({
 
     // Scroll to align the left edge of the next (previous) element with the start of the container
     const targetChild = direction === 'next'
-      ? childArray.find((c) => c.offsetLeft > scrollLeft)
-      : [...childArray].reverse().find((c) => c.offsetLeft < scrollLeft);
+      ? childArray.find((c) => c.offsetLeft > scrollLeft + 1)
+      : [...childArray].reverse().find((c) => c.offsetLeft < scrollLeft - 1);
 
     if (targetChild) {
       container.scrollTo({ left: targetChild.offsetLeft, behavior: 'smooth' });
@@ -147,14 +118,9 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
       </div>
 
-      <div
-        className={clsx(
-          'slide-list__content flex flex-col lg:flex-row gap-space-between',
-          containerClassName,
-        )}
-      >
+      <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
         {featuredSlot && (
-          <div className="slide-list__featured w-full lg:w-[600px] flex-shrink-0 overflow-hidden">
+          <div className="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
@@ -191,19 +157,6 @@ export const SlideList: React.FC<SlideListProps> = ({
               </div>
             ))}
           </div>
-
-          {!allChildrenFit && (
-            <div className="slide-list__progress w-full">
-              <div className="slide-list__progress-track h-1 bg-charcoal-normal">
-                <div
-                  className="slide-list__progress-bar h-full bg-bluedot-normal"
-                  style={{
-                    width: `${scrollPercent}%`,
-                  }}
-                />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </section>
