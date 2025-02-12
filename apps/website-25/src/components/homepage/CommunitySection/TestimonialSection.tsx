@@ -39,11 +39,11 @@ const TestimonialSection = () => {
         containerClassName="justify-center"
       >
         {testimonials.map((testimonial) => (
-          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">
-            <blockquote className="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center">
+          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8 mr-space-between">
+            <blockquote className="testimonial__quote mb-space-between flex-grow">
               "{testimonial.quote}"
             </blockquote>
-            <div className="testimonial__footer flex items-center gap-4 mt-auto">
+            <div className="testimonial__footer flex items-center gap-space-between mt-auto">
               <div className="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0">
                 <img
                   src={testimonial.imageSrc}
@@ -55,7 +55,7 @@ const TestimonialSection = () => {
                 <div className="testimonial__name font-semibold text-bluedot-black">
                   {testimonial.name}
                 </div>
-                <div className="testimonial__role text-size-s text-bluedot-darker">
+                <div className="testimonial__role text-size-sm text-bluedot-darker">
                   {testimonial.role}
                 </div>
               </div>

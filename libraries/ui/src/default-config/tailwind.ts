@@ -73,17 +73,19 @@ export const withDefaultBlueDotTailwindConfig = (config: Partial<Config> & { con
         },
         fontSize: {
           /* Design System Font Sizes */
-          'size-s': ['0.75rem' /* 12px */, { lineHeight: '1rem' /* 16px */ }], // equivalent to xs
-          'size-m': ['0.875rem' /* 14px */, { lineHeight: '1.25rem' /* 20px */ }], // equivalent to sm
-          'size-l': ['1.5rem' /* 24px */, { lineHeight: '2rem' /* 32px */ }], // equivalent to 2xl
-          'size-xl': ['3rem' /* 48px */, { lineHeight: '1' }], // equivalent to 5xl
+          'size-xxs': ['var(--text-size-xxs)', { lineHeight: '1.2' }],
+          'size-xs': ['var(--text-size-xs)', { lineHeight: '1.2' }],
+          'size-sm': ['var(--text-size-sm)', { lineHeight: '1.2' }],
+          'size-md': ['var(--text-size-md)', { lineHeight: '1.2' }],
+          'size-lg': ['var(--text-size-lg)', { lineHeight: '1.2' }],
+          'size-xl': ['var(--text-size-xl)', { lineHeight: '1.2' }],
           ...config.theme?.extend?.fontSize,
         },
         spacing: {
-          'max-width': '1440px',
-          'min-width': '388px',
-          gutter: '16px',
-          'gutter-sm': '8px',
+          'max-width': 'var(--max-width)',
+          'spacing-x': 'var(--spacing-x)',
+          'spacing-y': 'var(--spacing-y)',
+          'space-between': 'var(--space-between)',
           ...config.theme?.extend?.spacing,
         },
       },

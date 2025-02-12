@@ -15,7 +15,7 @@ const values = [
   {
     icon: 'icons/solvers.svg',
     title: 'Obsessed with empowering problem-solvers',
-    description: "We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.",
+    description: 'We exist to support others to solve the world\'s biggest problems. We go above and beyond to accelerate our community\'s impact.',
   },
 ] as const;
 

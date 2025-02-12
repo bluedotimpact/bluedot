@@ -15,6 +15,7 @@ export type CourseCardProps = React.PropsWithChildren<{
   cardType?: 'Featured' | 'Regular',
   // eslint-disable-next-line react/no-unused-prop-types
   courseType?: CourseType,
+  imageClassName?: string,
 }>;
 
 type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
@@ -43,6 +44,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   ctaUrl,
   applicationDeadline,
   imageSrc,
+  imageClassName,
   children,
 }) => {
   const wrapperClassName = clsx(
@@ -56,7 +58,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       href={ctaUrl}
       className={wrapperClassName}
     >
-      <div className="course-card__content flex gap-4">
+      <div className="course-card__content block md:flex gap-space-between w-full">
         <div className="course-card__text">
           <p className="course-card__featured-label uppercase font-[650] text-xs mb-3">
             Featured course
@@ -77,9 +79,9 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
         </div>
-        <div className="course-card__image-container flex-shrink-0 max-w-[60%] mb-6">
+        <div className={clsx('course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
           <img
-            className="course-card__image w-[319px] h-full object-cover"
+            className="course-card__image size-full md:w-[319px] object-cover"
             src={imageSrc}
             alt={`${title}`}
           />
@@ -99,6 +101,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   cardType = 'Regular',
   courseType = 'Crash course',
   imageSrc,
+  imageClassName,
 }) => {
   const CourseCardFooter = (
     <div className="course-card__footer flex justify-between w-full">
@@ -118,6 +121,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         ctaUrl={ctaUrl}
         applicationDeadline={applicationDeadline}
         imageSrc={imageSrc}
+        imageClassName={imageClassName}
       >
         {CourseCardFooter}
       </FeaturedCourseCard>
@@ -133,6 +137,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isExternalUrl
         className={clsx(
           'course-card course-card--regular container-lined p-5',
+          // TODO check
           'flex flex-col max-w-full h-[466px] hover:container-elevated',
           className,
         )}

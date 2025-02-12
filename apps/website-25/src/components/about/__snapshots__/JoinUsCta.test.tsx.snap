@@ -3,10 +3,10 @@
 exports[`JoinUsCta > renders default as expected 1`] = `
 <div>
   <div
-    class="join-us-cta mx-16 my-8 max-w-full overflow-hidden"
+    class="join-us-cta w-full max-w-max-width mx-auto lg:px-spacing-x my-spacing-y overflow-hidden"
   >
     <div
-      class="join-us-cta__container container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
+      class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
     >
       <h3
         class="join-us-cta__title max-w-[890px] text-center mb-8"

@@ -3,9 +3,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Nav } from './Nav';
 import imgSrc from '../public/BlueDot_Impact_Logo.svg';
 
+/**
+ * Wrapper to add a min-height so the viewport doesn't collapse completely
+ */
+const NavWrapper: React.FC<React.ComponentProps<typeof Nav>> = (props) => (
+  <div className="min-h-96">
+    <Nav {...props} />
+  </div>
+);
+
 const meta = {
   title: 'ui/Nav',
-  component: Nav,
+  component: NavWrapper,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -14,11 +23,11 @@ const meta = {
   },
   args: {
     courses: [
-      { title: 'Course 1', href: '#' },
-      { title: 'Course 2', href: '#' },
+      { title: 'Course 1', href: '#1' },
+      { title: 'Course 2', href: '#2' },
     ],
   },
-} satisfies Meta<typeof Nav>;
+} satisfies Meta<typeof NavWrapper>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

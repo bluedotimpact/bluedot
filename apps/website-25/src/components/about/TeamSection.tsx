@@ -2,16 +2,22 @@ import { Card, Section } from '@bluedot/ui';
 
 const teamMembers = [
   {
+    imageSrc: '/images/team/dewi.jpg',
+    name: 'Dewi Erwan',
+    role: 'Co-founder & CEO',
+    linkedInUrl: 'https://www.linkedin.com/in/dewierwan/',
+  },
+  {
+    imageSrc: '/images/team/will.jpg',
+    name: 'Will Saunter',
+    role: 'Co-founder',
+    linkedInUrl: 'https://linkedin.com/in/will-saunter',
+  },
+  {
     imageSrc: '/images/team/adam.jpg',
     name: 'Adam Jones',
     role: 'AI Safety',
     linkedInUrl: 'https://www.linkedin.com/in/domdomegg/',
-  },
-  {
-    imageSrc: '/images/team/dewi.jpg',
-    name: 'Dewi Erwan',
-    role: 'CEO',
-    linkedInUrl: 'https://www.linkedin.com/in/dewierwan/',
   },
   {
     imageSrc: '/images/team/josh.jpg',
@@ -37,18 +43,12 @@ const teamMembers = [
     role: 'Product',
     linkedInUrl: 'https://www.linkedin.com/in/vioricagheorghita/',
   },
-  {
-    imageSrc: '/images/team/will.jpg',
-    name: 'Will Saunter',
-    role: 'Co-founder',
-    linkedInUrl: 'https://linkedin.com/in/will-saunter',
-  },
 ];
 
 const TeamSection = () => {
   return (
     <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mx-auto">
+      <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
         {teamMembers.map((member) => (
           <Card
             key={member.name}
@@ -58,7 +58,7 @@ const TeamSection = () => {
             ctaUrl={member.linkedInUrl}
             ctaText="LinkedIn"
             isExternalUrl
-            className="team__card ml-4 mb-12"
+            className="team__card"
             imageClassName="team__card-image"
           />
         ))}

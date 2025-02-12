@@ -3,10 +3,10 @@
 exports[`TestimonialSection > renders as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -19,24 +19,109 @@ exports[`TestimonialSection > renders as expected 1`] = `
         class="slide-list w-full"
       >
         <div
-          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8"
+          class="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start mb-space-between"
         >
           <div
-            class="slide-list__header-content mb-6 md:mb-0"
+            class="slide-list__header-content mb-6 lg:mb-0"
           >
             <h3
-              class="slide-list__subtitle text-xl"
+              class="slide-list__subtitle"
             >
               What our graduates say
             </h3>
           </div>
+          <div
+            class="slide-list__nav hidden lg:flex items-center gap-2 lg:ml-auto"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <div
-          class="slide-list__content flex flex-col md:flex-row gap-4 justify-center"
+          class="slide-list__content flex flex-col lg:flex-row gap-space-between justify-center"
         >
           <div
-            class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
-            style="width: 100%;"
+            class="slide-list__nav lg:hidden flex items-center justify-end gap-2 mt-4"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-6"
           >
             <div
               class="slide-list__slides flex transition-transform duration-300"
@@ -44,20 +129,20 @@ exports[`TestimonialSection > renders as expected 1`] = `
             >
               <div
                 class="slide-list__slide flex-shrink-0 w-full px-2"
-                style="width: 33.333333333333336%;"
+                style="width: 100%;"
               >
                 <div
-                  class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+                  class="testimonial flex flex-col h-full border rounded-radius-md p-8 mr-space-between"
                 >
                   <blockquote
-                    class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
+                    class="testimonial__quote mb-space-between flex-grow"
                   >
                     "
                     This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
                     "
                   </blockquote>
                   <div
-                    class="testimonial__footer flex items-center gap-4 mt-auto"
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
                   >
                     <div
                       class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
@@ -77,7 +162,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                         Kendrea Beers
                       </div>
                       <div
-                        class="testimonial__role text-size-s text-bluedot-darker"
+                        class="testimonial__role text-size-sm text-bluedot-darker"
                       >
                         Horizon Junior Fellow at the Center for Security and Emerging Technology
                       </div>
@@ -87,20 +172,20 @@ exports[`TestimonialSection > renders as expected 1`] = `
               </div>
               <div
                 class="slide-list__slide flex-shrink-0 w-full px-2"
-                style="width: 33.333333333333336%;"
+                style="width: 100%;"
               >
                 <div
-                  class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+                  class="testimonial flex flex-col h-full border rounded-radius-md p-8 mr-space-between"
                 >
                   <blockquote
-                    class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
+                    class="testimonial__quote mb-space-between flex-grow"
                   >
                     "
                     I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
                     "
                   </blockquote>
                   <div
-                    class="testimonial__footer flex items-center gap-4 mt-auto"
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
                   >
                     <div
                       class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
@@ -120,7 +205,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                         Sarah Cogan
                       </div>
                       <div
-                        class="testimonial__role text-size-s text-bluedot-darker"
+                        class="testimonial__role text-size-sm text-bluedot-darker"
                       >
                         Software Engineer at Google DeepMind
                       </div>
@@ -130,20 +215,20 @@ exports[`TestimonialSection > renders as expected 1`] = `
               </div>
               <div
                 class="slide-list__slide flex-shrink-0 w-full px-2"
-                style="width: 33.333333333333336%;"
+                style="width: 100%;"
               >
                 <div
-                  class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+                  class="testimonial flex flex-col h-full border rounded-radius-md p-8 mr-space-between"
                 >
                   <blockquote
-                    class="testimonial__quote text-size-l text-bluedot-darker mb-8 flex-grow text-center"
+                    class="testimonial__quote mb-space-between flex-grow"
                   >
                     "
                     This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
                     "
                   </blockquote>
                   <div
-                    class="testimonial__footer flex items-center gap-4 mt-auto"
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
                   >
                     <div
                       class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
@@ -163,13 +248,25 @@ exports[`TestimonialSection > renders as expected 1`] = `
                         Matthew Bradbury
                       </div>
                       <div
-                        class="testimonial__role text-size-s text-bluedot-darker"
+                        class="testimonial__role text-size-sm text-bluedot-darker"
                       >
                         Senior AI Risk Analyst in the UK Government
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__progress w-full"
+            >
+              <div
+                class="slide-list__progress-track h-1 bg-charcoal-normal"
+              >
+                <div
+                  class="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
+                  style="width: 33.33333333333333%;"
+                />
               </div>
             </div>
           </div>

@@ -3,7 +3,10 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { CookieBanner, Footer, Nav } from '@bluedot/ui';
+import {
+  CookieBanner, Footer, isCurrentPath, Nav,
+} from '@bluedot/ui';
+import clsx from 'clsx';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -19,14 +22,19 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>BlueDot Impact</title>
+        <link rel="icon" type="image/png" href="images/logo/favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="images/logo/favicon/favicon.svg" />
+        <link rel="shortcut icon" href="images/logo/favicon/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
+        <link rel="manifest" href="images/logo/favicon/site.webmanifest" />
       </Head>
       <Nav
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={courses}
       >
-        <a href="/about">About</a>
-        <a href="/careers">Join us</a>
-        <a href="https://bluedot.org/blog/">Blog</a>
+        <a href="/about" className={clsx('hover:text-bluedot-normal', isCurrentPath('/about') && 'font-bold')}>About</a>
+        <a href="/careers" className={clsx('hover:text-bluedot-normal', isCurrentPath('/careers') && 'font-bold')}>Join us</a>
+        <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />

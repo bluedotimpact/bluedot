@@ -41,17 +41,17 @@ const projects: Project[] = [
 
 const GovernanceProjects = () => {
   return (
-    <section className="governance-projects p-6 container-lined">
+    <div className="governance-projects p-6 container-lined">
       <div className="governance-projects__container mx-auto max-w-[1750px] flex flex-col gap-12">
         <div className="governance-projects__title-container flex flex-col gap-2">
           <h3 className="governance-projects__title">
-            AI Governance Projects
+            Featured Course Projects
           </h3>
           <p className="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black">
             Competition winners
           </p>
         </div>
-        <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-4 overflow-visible mb-3">
+        <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-space-between overflow-visible mb-3">
           {projects.map((project) => (
             <Card
               key={project.title}
@@ -74,7 +74,7 @@ const GovernanceProjects = () => {
           Explore more projects
         </CTALinkOrButton>
       </div>
-    </section>
+    </div>
   );
 };
 

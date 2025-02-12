@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import {
-  FaXTwitter, FaYoutube, FaFacebook, FaInstagram, FaLinkedin,
+  FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
 import { EXTERNAL_LINK_PROPS } from './utils';
 
@@ -18,7 +18,7 @@ type FooterSectionProps = {
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links }) => (
   <div className="footer__section">
-    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-m">{title}</h3>}
+    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md">{title}</h3>}
     {links && (
       <ul className="footer__list space-y-2 mb-auto font-normal list-none p-0">
         {links.map((link) => (
@@ -45,13 +45,6 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
     <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="YouTube">
       <FaYoutube className="size-6" />
     </a>
-    <a href="https://www.facebook.com/bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Facebook">
-      <FaFacebook className="size-6" />
-    </a>
-    <a href="#" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Instagram">
-      <FaInstagram className="size-6" />
-    </a>
-    {/* TODO: 01/27 Add Instagram link */}
     <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="LinkedIn">
       <FaLinkedin className="size-6" />
     </a>
@@ -64,8 +57,8 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
   return (
     <div className="footer">
-      <footer className={clsx('footer__main bg-bluedot-darker text-white min-h-[397] p-12 flex flex-col', className)}>
-        <div className="footer__content flex flex-col mb-24">
+      <footer className={clsx('footer__main bg-bluedot-darker py-spacing-y flex flex-col', className)}>
+        <div className="footer__content section-normal flex flex-col mb-24">
           <nav className="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
               {logo ? (

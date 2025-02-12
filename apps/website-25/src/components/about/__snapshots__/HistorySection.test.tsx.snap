@@ -3,10 +3,10 @@
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 history-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
@@ -28,7 +28,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -53,7 +53,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -78,7 +78,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -103,7 +103,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -128,7 +128,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-4"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -158,10 +158,10 @@ exports[`HistorySection > renders desktop as expected 1`] = `
 exports[`HistorySection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="section w-full max-w-max-width min-w-min-width mx-auto overflow-y-scroll md:px-gutter px-gutter-sm my-8 history-section"
+    class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-4"
+      class="section__title-container flex justify-between items-center gap-space-between"
     >
       <div
         class="section__content flex-1"
