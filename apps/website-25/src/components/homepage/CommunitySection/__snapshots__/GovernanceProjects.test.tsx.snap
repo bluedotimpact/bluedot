@@ -26,15 +26,15 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-space-between overflow-visible mb-3"
       >
         <a
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
           href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
         >
           <div
-            class="card__image-container max-h-[223px] w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Contextual Constitutional AI"
-              class="card__image w-full max-h-full object-cover rounded-2xl "
+              class="card__image w-full max-h-full object-cover rounded-radius-md "
               src="/images/project-winners/akshat-naik.png"
             />
           </div>
@@ -45,7 +45,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Contextual Constitutional AI
               </p>
@@ -58,15 +58,15 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
           href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
         >
           <div
-            class="card__image-container max-h-[223px] w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
-              class="card__image w-full max-h-full object-cover rounded-2xl "
+              class="card__image w-full max-h-full object-cover rounded-radius-md "
               src="/images/project-winners/ella-duus.png"
             />
           </div>
@@ -77,7 +77,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
               </p>
@@ -90,15 +90,15 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
           href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
         >
           <div
-            class="card__image-container max-h-[223px] w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Societal Adaptation to AI Human-Labor Automation"
-              class="card__image w-full max-h-full object-cover rounded-2xl "
+              class="card__image w-full max-h-full object-cover rounded-radius-md "
               src="/images/project-winners/yuval-rymon.png"
             />
           </div>
@@ -109,7 +109,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Societal Adaptation to AI Human-Labor Automation
               </p>
@@ -122,15 +122,15 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </a>
         <a
-          class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] governance-projects__project"
+          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
           href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
         >
           <div
-            class="card__image-container max-h-[223px] w-full mb-3"
+            class="card__image-container w-full mb-4"
           >
             <img
               alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
-              class="card__image w-full max-h-full object-cover rounded-2xl "
+              class="card__image w-full max-h-full object-cover rounded-radius-md "
               src="/images/project-winners/naci-cankaya.png"
             />
           </div>
@@ -141,7 +141,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
               class="card__text"
             >
               <p
-                class="card__title subtitle-sm mb-1"
+                class="card__title subtitle-sm mb-2"
               >
                 Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
               </p>

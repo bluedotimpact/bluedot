@@ -60,7 +60,7 @@ const GovernanceProjects = () => {
               subtitleClassName="text-base"
               imageSrc={project.imageSrc}
               ctaUrl={project.ctaUrl}
-              className="governance-projects__project"
+              className="governance-projects__project max-w-[323px]"
               isEntireCardClickable
             />
           ))}

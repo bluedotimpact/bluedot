@@ -55,9 +55,9 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   return (
     <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between">
+      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start">
         {(title || subtitle || description) && (
-          <div className="slide-list__header-content mb-6 md:mb-0">
+          <div className="slide-list__header-content pb-6 md:pb-0 mb-space-between">
             {title && (
               <h2 className="slide-list__title">{title}</h2>
             )}

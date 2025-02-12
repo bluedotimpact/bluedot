@@ -25,7 +25,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
         class="slide-list w-full"
       >
         <div
-          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between"
+          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start"
         />
         <div
           class="slide-list__content flex flex-col md:flex-row gap-space-between"
@@ -46,27 +46,35 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   class="size-full"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 values-section__value"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="Think hard, act fast, fail faster"
-                        class="value-card__icon"
-                        src="icons/fast.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/values/think.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      Think hard, act fast, fail faster
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-                    </p>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          Think hard, act fast, fail faster
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -78,27 +86,35 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   class="size-full"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 values-section__value"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="Care personally, challenge directly"
-                        class="value-card__icon"
-                        src="icons/care.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/values/care.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      Care personally, challenge directly
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We care about our team and our community, and we hold everyone to high standards.
-                    </p>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          Care personally, challenge directly
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          We care about our team and our community, and we hold everyone to high standards.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -110,27 +126,35 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   class="size-full"
                 >
                   <div
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 values-section__value"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="Obsessed with empowering problem-solvers"
-                        class="value-card__icon"
-                        src="icons/solvers.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/values/powering.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
+                    <div
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
-                      Obsessed with empowering problem-solvers
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
-                    </p>
+                      <div
+                        class="card__text"
+                      >
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          Obsessed with empowering problem-solvers
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

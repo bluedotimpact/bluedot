@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CommunityValuesSection > renders default as expected 1`] = `
+exports[`CommunityValuesSection > renders as expected 1`] = `
 <div>
   <div
     class="community-values-section mt-4"

@@ -19,10 +19,10 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
         class="slide-list w-full"
       >
         <div
-          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between"
+          class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start"
         >
           <div
-            class="slide-list__header-content mb-6 md:mb-0"
+            class="slide-list__header-content pb-6 md:pb-0 mb-space-between"
           >
             <h2
               class="slide-list__title"
@@ -219,17 +219,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="AI Alignment"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/alignment-course.png"
                         />
                       </div>
@@ -240,7 +238,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             AI Alignment
                           </p>
@@ -251,7 +249,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -293,17 +291,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="AI Governance"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/governance-course.jpg"
                         />
                       </div>
@@ -314,7 +310,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             AI Governance
                           </p>
@@ -325,7 +321,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -367,17 +363,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/economics-of-tai/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Economics of Transformative AI"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/economics-course.png"
                         />
                       </div>
@@ -388,7 +382,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Economics of Transformative AI
                           </p>
@@ -399,7 +393,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -441,17 +435,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/alignment-fast-track/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Alignment Fast Track"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/intro-course.png"
                         />
                       </div>
@@ -462,7 +454,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Alignment Fast Track
                           </p>
@@ -473,7 +465,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -515,17 +507,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/governance-fast-track/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Governance Fast-Track"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/governance-course.jpg"
                         />
                       </div>
@@ -536,7 +526,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Governance Fast-Track
                           </p>
@@ -547,7 +537,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
@@ -589,17 +579,15 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                     class="p-[2px]"
                   >
                     <a
-                      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated w-full md:w-[323px]"
                       href="https://aisafetyfundamentals.com/writing/"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
                       <div
-                        class="card__image-container max-h-[223px] w-full mb-3"
+                        class="card__image-container w-full mb-4"
                       >
                         <img
                           alt="Writing Intensive"
-                          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+                          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                           src="/images/writing-intensive.png"
                         />
                       </div>
@@ -610,7 +598,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           class="card__text"
                         >
                           <p
-                            class="card__title subtitle-sm mb-1"
+                            class="card__title subtitle-sm mb-2"
                           >
                             Writing Intensive
                           </p>
@@ -621,7 +609,7 @@ exports[`CourseSection > renders desktop view as expected 1`] = `
                           </p>
                         </div>
                         <div
-                          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                          class="card__bottom-section flex flex-col gap-space-between"
                         >
                           <div
                             class="card__footer flex items-center justify-between w-full"
