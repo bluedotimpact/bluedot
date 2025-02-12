@@ -431,14 +431,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Dewi Erwan"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/dewi.jpg"
               />
             </div>
@@ -479,14 +479,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Will Saunter"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/will.jpg"
               />
             </div>
@@ -527,14 +527,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Adam Jones"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/adam.jpg"
               />
             </div>
@@ -575,14 +575,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Josh Landes"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/josh.jpg"
               />
             </div>
@@ -623,14 +623,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Li-Lian Ang"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/lilian.jpg"
               />
             </div>
@@ -671,14 +671,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Tarin Rickett"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/tarin.jpg"
               />
             </div>
@@ -719,14 +719,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
               class="card__image-container w-full mb-4"
             >
               <img
                 alt="Viorica Gheorghita"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/vio.jpg"
               />
             </div>
