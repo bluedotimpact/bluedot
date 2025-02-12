@@ -74,9 +74,9 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                 title="BlueDot Impact"
                 links={[
                   { href: '/about', label: 'About us' },
-                  { href: '/support-us', label: 'Support us' },
+                  { href: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
                   { href: '/careers', label: 'Join us' },
-                  { href: '/contact', label: 'Contact us' },
+                  { href: 'mailto:team@bluedot.org', label: 'Contact us' },
                 ]}
               />
 
@@ -88,6 +88,8 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                   { href: 'https://aisafetyfundamentals.com/alignment-fast-track/', label: 'AI Alignment Fast Track' },
                   { href: 'https://aisafetyfundamentals.com/alignment/', label: 'AI Alignment In-Depth' },
                   { href: 'https://aisafetyfundamentals.com/governance/', label: 'AI Governance In-Depth' },
+                  { href: 'https://aisafetyfundamentals.com/economics-of-tai/', label: 'Economics of Transformative AI' },
+                  { href: 'https://aisafetyfundamentals.com/writing/', label: 'Writing Intensive' },
                 ]}
               />
 
