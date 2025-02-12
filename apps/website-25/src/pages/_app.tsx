@@ -15,6 +15,7 @@ const courses = [
   { title: 'AI Alignment Fast-Track', href: 'https://aisafetyfundamentals.com/alignment-fast-track/' },
   { title: 'AI Alignment In-Depth', href: 'https://aisafetyfundamentals.com/alignment/' },
   { title: 'AI Governance Fast-Track', href: 'https://aisafetyfundamentals.com/governance-fast-track/' },
+  { title: 'AI Governance In-Depth', href: 'https://aisafetyfundamentals.com/governance/' },
   { title: 'Economics of Transformative AI Fast-Track', href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/', isNew: true },
 ];
 
