@@ -7,6 +7,7 @@ import {
   CookieBanner, Footer, isCurrentPath, Nav,
 } from '@bluedot/ui';
 import clsx from 'clsx';
+import { Analytics } from '../components/Analytics';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -41,6 +42,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       </main>
       <CookieBanner />
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+      <Analytics />
     </>
   );
 };
