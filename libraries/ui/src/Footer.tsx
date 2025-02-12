@@ -69,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
               <FooterSocial className="hidden sm:flex" />
             </div>
 
-            <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5">
+            <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={[
