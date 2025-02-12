@@ -7,6 +7,7 @@ import {
   CookieBanner, Footer, isCurrentPath, Nav,
 } from '@bluedot/ui';
 import clsx from 'clsx';
+import { Analytics } from '../components/Analytics';
 
 // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai
 const courses = [
@@ -14,6 +15,7 @@ const courses = [
   { title: 'AI Alignment Fast-Track', href: 'https://aisafetyfundamentals.com/alignment-fast-track/' },
   { title: 'AI Alignment In-Depth', href: 'https://aisafetyfundamentals.com/alignment/' },
   { title: 'AI Governance Fast-Track', href: 'https://aisafetyfundamentals.com/governance-fast-track/' },
+  { title: 'AI Governance In-Depth', href: 'https://aisafetyfundamentals.com/governance/' },
   { title: 'Economics of Transformative AI Fast-Track', href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/', isNew: true },
 ];
 
@@ -41,6 +43,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       </main>
       <CookieBanner />
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+      <Analytics />
     </>
   );
 };

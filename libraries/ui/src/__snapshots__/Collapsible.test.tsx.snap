@@ -37,11 +37,15 @@ exports[`Collapsible > renders correctly 1`] = `
     </div>
     <div
       aria-hidden="true"
-      class="collapsible__content collapsible__content--collapsed h-0 opacity-0"
+      class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
     >
-      <p>
-        Test Content
-      </p>
+      <div
+        role="region"
+      >
+        <p>
+          Test Content
+        </p>
+      </div>
     </div>
   </div>
 </div>
