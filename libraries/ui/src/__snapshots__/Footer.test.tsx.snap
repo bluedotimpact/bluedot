@@ -94,7 +94,7 @@ exports[`Footer > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5"
+            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
           >
             <div
               class="footer__section"
@@ -449,7 +449,7 @@ exports[`Footer > renders with optional args 1`] = `
             </div>
           </div>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5"
+            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
           >
             <div
               class="footer__section"
