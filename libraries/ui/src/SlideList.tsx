@@ -55,6 +55,33 @@ export const SlideList: React.FC<SlideListProps> = ({
   const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
   const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
 
+  // Handle scroll events -> update progress bar
+  useEffect(() => {
+    function handleScroll() {
+      const container = slidesRef.current;
+      if (!container) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScrollLeft = scrollWidth - clientWidth;
+      if (maxScrollLeft <= 0) {
+        setScrollPercent(0);
+        return;
+      }
+      const percent = (scrollLeft / maxScrollLeft) * 100;
+      setScrollPercent(percent);
+    }
+
+    const cleanup = () => {
+      container?.removeEventListener('scroll', handleScroll);
+    };
+
+    const container = slidesRef.current;
+    if (!container) return cleanup;
+
+    container.addEventListener('scroll', handleScroll);
+    return cleanup;
+  }, []);
+
   const scrollTo = useCallback((direction: 'next' | 'previous') => {
     const container = slidesRef.current;
     if (!container) return;
@@ -94,6 +121,22 @@ export const SlideList: React.FC<SlideListProps> = ({
       ariaLabel="Next slide"
       direction="next"
     />
+  );
+
+  const scrollBarWidth = `${100 * (itemsPerSlide / childrenArray.length)}%`;
+  const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
+
+  const ScrollBar = (
+    <div className="slide-list__progress w-full relative h-1">
+      <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
+      <div
+        className="slide-list__progress-track absolute h-full bg-bluedot-normal"
+        style={{
+          width: scrollBarWidth,
+          left: scrollBarLeft,
+        }}
+      />
+    </div>
   );
 
   return (
@@ -157,6 +200,8 @@ export const SlideList: React.FC<SlideListProps> = ({
               </div>
             ))}
           </div>
+
+          {!allChildrenFit && itemsPerSlide > 1 && ScrollBar}
         </div>
       </div>
     </section>
