@@ -127,7 +127,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       </FeaturedCourseCard>
     </div>
   ) : (
-    <div className="p-[2px]">
+    <div className="p-[3px]">
       <Card
         imageSrc={imageSrc}
         title={title}
@@ -137,7 +137,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isExternalUrl
         className={clsx(
           'course-card course-card--regular container-lined p-5',
-          // TODO check
           'flex flex-col max-w-full h-[466px] hover:container-elevated',
           className,
         )}

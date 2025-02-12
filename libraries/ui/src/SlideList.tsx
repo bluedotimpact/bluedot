@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
 import clsx from 'clsx';
 
 export type SlideListProps = {
@@ -9,7 +11,6 @@ export type SlideListProps = {
   children: React.ReactNode;
   featuredSlot?: React.ReactNode;
   maxItemsPerSlide?: number;
-  slideClassName?: string;
   containerClassName?: string;
   minItemWidth?: number;
 };
@@ -22,26 +23,25 @@ export const SlideList: React.FC<SlideListProps> = ({
   children,
   featuredSlot,
   maxItemsPerSlide = 1,
-  slideClassName,
   containerClassName,
-  minItemWidth = 340,
+  minItemWidth = 300,
 }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
-  const containerWidth = measuredContainerWidth ?? 800; // Fall back to a guess that will usually make the whole list display on desktop
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollPercent, setScrollPercent] = useState(0);
 
+  // Use a ResizeObserver to set the number of slides based on the width of the container
   useEffect(() => {
     const cleanup = () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      if (slidesRef.current) {
+        resizeObserver.unobserve(slidesRef.current);
       }
     };
 
-    if (!containerRef.current) return cleanup;
+    if (!slidesRef.current) return cleanup;
 
-    if (measuredContainerWidth === null && containerRef.current) {
-      setMeasuredContainerWidth(containerRef.current.getBoundingClientRect().width);
+    if (measuredContainerWidth === null && slidesRef.current) {
+      setMeasuredContainerWidth(slidesRef.current.getBoundingClientRect().width);
     }
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -49,168 +49,156 @@ export const SlideList: React.FC<SlideListProps> = ({
         setMeasuredContainerWidth(entry.contentRect.width);
       });
     });
-    resizeObserver.observe(containerRef.current);
+    resizeObserver.observe(slidesRef.current);
 
     return cleanup;
   }, []);
 
-  const itemsFit = Math.max(1, Math.floor(containerWidth / minItemWidth));
+  const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
   const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
 
+  // Handle scroll events -> update progress bar
+  useEffect(() => {
+    function handleScroll() {
+      const container = slidesRef.current;
+      if (!container) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScrollLeft = scrollWidth - clientWidth;
+      if (maxScrollLeft <= 0) {
+        setScrollPercent(0);
+        return;
+      }
+      const percent = (scrollLeft / maxScrollLeft) * 100;
+      setScrollPercent(percent);
+    }
+
+    const cleanup = () => {
+      container?.removeEventListener('scroll', handleScroll);
+    };
+
+    const container = slidesRef.current;
+    if (!container) return cleanup;
+
+    container.addEventListener('scroll', handleScroll);
+    return cleanup;
+  }, []);
+
+  const scrollTo = useCallback((direction: 'next' | 'previous') => {
+    const container = slidesRef.current;
+    if (!container) return;
+
+    const { scrollLeft } = container;
+    const childArray = Array.from(container.children) as HTMLDivElement[];
+
+    // Scroll to align the left edge of the next (previous) element with the start of the container
+    const targetChild = direction === 'next'
+      ? childArray.find((c) => c.offsetLeft > scrollLeft)
+      : [...childArray].reverse().find((c) => c.offsetLeft < scrollLeft);
+
+    if (targetChild) {
+      container.scrollTo({ left: targetChild.offsetLeft, behavior: 'smooth' });
+    }
+  }, []);
+
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const totalSlides = Math.ceil(childrenArray.length / itemsPerSlide);
+  const allChildrenFit = childrenArray.length <= itemsPerSlide;
 
-  const handlePrevious = () => {
-    setCurrentSlide((prev) => Math.max(0, prev - 1));
-  };
+  // If there are multiple slides, show 15% of the next card to signal that the section is scrollable
+  const peekAdjustment = allChildrenFit ? '1' : `(1 - ${0.15 / itemsPerSlide})`;
+  const itemWidth = `calc((${100 / itemsPerSlide}% - var(--space-between) * ${(itemsPerSlide - 1) / itemsPerSlide}) * ${peekAdjustment})`;
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
-  };
-
-  const isFirstSlide = currentSlide === 0;
-  const isLastSlide = currentSlide === totalSlides - 1;
+  const PrevButton = (
+    <SlideListBtn
+      onClick={() => scrollTo('previous')}
+      disabled={scrollPercent === 0}
+      ariaLabel="Previous slide"
+      direction="previous"
+    />
+  );
+  const NextButton = (
+    <SlideListBtn
+      onClick={() => scrollTo('next')}
+      disabled={scrollPercent === 100}
+      ariaLabel="Next slide"
+      direction="next"
+    />
+  );
 
   return (
-    <section className={clsx('slide-list w-full', className)}>
+    <section className={clsx('slide-list w-full relative', className)}>
       <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start mb-space-between">
         {(title || subtitle || description) && (
           <div className="slide-list__header-content mb-6 lg:mb-0">
-            {title && (
-              <h2 className="slide-list__title">{title}</h2>
-            )}
-            {subtitle && (
-              <h3 className="slide-list__subtitle">{subtitle}</h3>
-            )}
+            {title && <h2 className="slide-list__title">{title}</h2>}
+            {subtitle && <h3 className="slide-list__subtitle">{subtitle}</h3>}
             {description && (
-              <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">{description}</p>
+              <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">
+                {description}
+              </p>
             )}
           </div>
         )}
-        {totalSlides > 1 && (
+        {!allChildrenFit && (
           <div className="slide-list__nav hidden lg:flex items-center gap-2 lg:ml-auto">
-            <SlideListBtn
-              onClick={handlePrevious}
-              disabled={isFirstSlide}
-              ariaLabel="Previous slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </SlideListBtn>
-            <SlideListBtn
-              onClick={handleNext}
-              disabled={currentSlide === totalSlides - 1}
-              ariaLabel="Next slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </SlideListBtn>
+            {PrevButton}
+            {NextButton}
           </div>
         )}
       </div>
 
-      <div className={clsx('slide-list__content flex flex-col lg:flex-row gap-space-between', containerClassName)}>
+      <div
+        className={clsx(
+          'slide-list__content flex flex-col lg:flex-row gap-space-between',
+          containerClassName,
+        )}
+      >
         {featuredSlot && (
           <div className="slide-list__featured w-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
 
-        {totalSlides > 1 && (
+        {!allChildrenFit && (
           <div className="slide-list__nav lg:hidden flex items-center justify-end gap-2 mt-4">
-            <SlideListBtn
-              onClick={handlePrevious}
-              disabled={currentSlide === 0}
-              ariaLabel="Previous slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </SlideListBtn>
-            <SlideListBtn
-              onClick={handleNext}
-              disabled={currentSlide === totalSlides - 1}
-              ariaLabel="Next slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </SlideListBtn>
+            {PrevButton}
+            {NextButton}
           </div>
         )}
 
-        <div
-          ref={containerRef}
-          className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-6"
-        >
+        <div className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between">
+          {!allChildrenFit && (
+            <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
+              {scrollPercent > 1 && (
+                <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-cream-normal to-transparent opacity-50" />
+              )}
+              {scrollPercent < 99 && (
+                <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50" />
+              )}
+            </div>
+          )}
+
           <div
-            className="slide-list__slides flex transition-transform duration-300"
-            style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
-            }}
+            ref={slidesRef}
+            className="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
           >
             {React.Children.map(children, (child) => (
               <div
-                className={clsx(
-                  'slide-list__slide flex-shrink-0 w-full',
-                  slideClassName,
-                )}
-                style={{ width: `${100 / itemsPerSlide}%` }}
+                className="slide-list__slide flex-shrink-0"
+                style={{ width: itemWidth }}
               >
                 {child}
               </div>
             ))}
           </div>
 
-          {(!isFirstSlide || !isLastSlide) && (
+          {!allChildrenFit && (
             <div className="slide-list__progress w-full">
               <div className="slide-list__progress-track h-1 bg-charcoal-normal">
                 <div
-                  className="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
+                  className="slide-list__progress-bar h-full bg-bluedot-normal"
                   style={{
-                    width: `${((currentSlide + 1) / totalSlides) * 100}%`,
+                    width: `${scrollPercent}%`,
                   }}
                 />
               </div>
@@ -226,9 +214,9 @@ export const SlideListBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
   ariaLabel: string;
-  children: React.ReactNode;
+  direction: 'previous' | 'next';
 }> = ({
-  onClick, disabled, ariaLabel, children,
+  onClick, disabled, ariaLabel, direction,
 }) => (
   <button
     type="button"
@@ -245,6 +233,34 @@ export const SlideListBtn: React.FC<{
     )}
     aria-label={ariaLabel}
   >
-    {children}
+    {direction === 'previous' ? (
+      <svg
+        className="slide-list__nav-icon size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    ) : (
+      <svg
+        className="slide-list__nav-icon size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    )}
   </button>
 );

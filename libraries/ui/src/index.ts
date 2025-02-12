@@ -23,7 +23,7 @@ export { Nav, isCurrentPath } from './Nav';
 
 export { Section } from './Section';
 
-export { SlideList, SlideItem } from './SlideList';
+export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 

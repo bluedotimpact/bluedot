@@ -24,7 +24,6 @@ const ValuesSection = () => {
     <Section className="values-section" title="Our values">
       <SlideList
         maxItemsPerSlide={3}
-        slideClassName="px-2"
       >
         {values.map((value) => (
           <ValueCard

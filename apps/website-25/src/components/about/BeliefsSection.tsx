@@ -29,7 +29,6 @@ const BeliefsSection = () => {
     <Section className="beliefs-section" title="Our core beliefs">
       <SlideList
         maxItemsPerSlide={4}
-        slideClassName="px-2"
       >
         {beliefs.map((belief) => (
           <ValueCard
