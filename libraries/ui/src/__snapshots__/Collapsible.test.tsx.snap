@@ -1,27 +1,23 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Collapsible > renders correctly 1`] = `
+exports[`Collapsible > renders to snapshot 1`] = `
 <div>
-  <div
-    class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6"
+  <details
+    class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group"
   >
-    <div
-      class="collapsible__header flex justify-between w-full cursor-pointer"
-      tabindex="-1"
+    <summary
+      class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
     >
-      <p
+      <span
         class="collapsible__title subtitle-sm"
       >
         Test Collapsible
-      </p>
-      <button
-        aria-expanded="false"
-        aria-label="Test Collapsible"
+      </span>
+      <span
         class="collapsible__button flex items-center"
-        type="button"
       >
         <svg
-          class="collapsible__button-icon size-6 transition-transform"
+          class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -33,20 +29,15 @@ exports[`Collapsible > renders correctly 1`] = `
             stroke-width="2"
           />
         </svg>
-      </button>
-    </div>
+      </span>
+    </summary>
     <div
-      aria-hidden="true"
-      class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+      class="collapsible__content pb-6"
     >
-      <div
-        role="region"
-      >
-        <p>
-          Test Content
-        </p>
-      </div>
+      <p>
+        Test Content
+      </p>
     </div>
-  </div>
+  </details>
 </div>
 `;

@@ -1,16 +1,17 @@
 {
-  "name": "storybook",
-  "version": "0.1.0",
+  "name": "@bluedot/storybook",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
+    "start": "storybook dev -p 6006",
+    "build": "storybook build --output-dir dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "storybook dev -p 6006",
-    "build:storybook": "storybook build"
+    "deploy:prod": "tools/deployDocker.sh"
   },
   "dependencies": {
     "@bluedot/ui": "*",
+    "@bluedot/website-25": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -34,7 +35,6 @@
     "postcss": "^8",
     "storybook": "^8.5.2",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "vitest": "^1.5.0"
+    "typescript": "^5"
   }
 }

@@ -7,6 +7,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
   >
     <a
       class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px]"
+      href="https://bluedot.org/courses/what-the-fish"
     >
       <div
         class="course-card__content block md:flex gap-space-between w-full"
@@ -78,17 +79,18 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <div
-    class="p-[2px]"
+    class="p-[3px]"
   >
     <a
-      class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-[466px] hover:container-elevated"
+      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-[520px] hover:container-elevated"
+      href="https://bluedot.org/courses/what-the-fish"
     >
       <div
-        class="card__image-container max-h-[223px] w-full mb-3"
+        class="card__image-container w-full mb-4"
       >
         <img
           alt="Title"
-          class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+          class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
           src="/images/courses/course.jpg"
         />
       </div>
@@ -99,7 +101,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           class="card__text"
         >
           <p
-            class="card__title subtitle-sm mb-1"
+            class="card__title subtitle-sm mb-2"
           >
             Title
           </p>
@@ -110,7 +112,7 @@ exports[`CourseCard > renders default as expected 1`] = `
           </p>
         </div>
         <div
-          class="card__bottom-section mt-auto flex flex-col gap-space-between"
+          class="card__bottom-section flex flex-col gap-space-between"
         >
           <div
             class="card__footer flex items-center justify-between w-full"
@@ -153,7 +155,7 @@ exports[`CourseCard > renders with optional args 1`] = `
 exports[`CourseCard > renders with optional args 2`] = `
 <img
   alt="Title"
-  class="card__image w-full max-h-full object-cover rounded-2xl course-card__image w-full h-[165px] object-cover rounded-none"
+  class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
   src="/images/team/custom-size.jpg"
 />
 `;

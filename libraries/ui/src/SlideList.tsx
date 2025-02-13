@@ -140,13 +140,17 @@ export const SlideList: React.FC<SlideListProps> = ({
   );
 
   return (
-    <section className={clsx('slide-list w-full relative', className)}>
-      {/* TODO handle mb-space-between better */}
-      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start lg:mb-space-between">
+    <section className={clsx('slide-list w-full', className)}>
+      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start">
         {(title || subtitle || description) && (
-          <div className="slide-list__header-content">
-            {title && <h2 className="slide-list__title">{title}</h2>}
-            {subtitle && <h3 className="slide-list__subtitle">{subtitle}</h3>}
+          // TODO mb-space-between here is ugly, but we are refactoring anyway
+          <div className="slide-list__header-content pb-6 lg:pb-0 mb-space-between">
+            {title && (
+              <h2 className="slide-list__title">{title}</h2>
+            )}
+            {subtitle && (
+              <h3 className="slide-list__subtitle">{subtitle}</h3>
+            )}
             {description && (
               <p className="slide-list__description mt-2 max-w-[600px] text-gray-700">
                 {description}

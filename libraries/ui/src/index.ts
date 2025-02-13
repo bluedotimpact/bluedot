@@ -27,11 +27,10 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
-export { ValueCard } from './ValueCard';
-
 // Utils
 
 export { EXTERNAL_LINK_PROPS } from './utils';
+export * as constants from './constants';
 
 // Legacy Components
 

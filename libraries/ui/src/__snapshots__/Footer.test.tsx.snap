@@ -6,22 +6,26 @@ exports[`Footer > renders default as expected 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
+      class="footer__main bg-bluedot-darker py-10 flex flex-col"
     >
       <div
-        class="footer__content section-normal flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col"
       >
         <nav
-          class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
+          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
         >
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
           >
-            <p
-              class="footer__logo h-8 text-xl text-white"
+            <a
+              href="/"
             >
-              BlueDot Impact
-            </p>
+              <p
+                class="footer__logo h-8 text-xl text-white"
+              >
+                BlueDot Impact
+              </p>
+            </a>
             <div
               class="footer__social flex gap-6 hidden sm:flex"
             >
@@ -94,7 +98,7 @@ exports[`Footer > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5"
+            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
           >
             <div
               class="footer__section"
@@ -105,7 +109,7 @@ exports[`Footer > renders default as expected 1`] = `
                 BlueDot Impact
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -122,7 +126,7 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/support-us"
+                    href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   >
                     Support us
                   </a>
@@ -142,7 +146,7 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/contact"
+                    href="mailto:team@bluedot.org"
                   >
                     Contact us
                   </a>
@@ -158,7 +162,7 @@ exports[`Footer > renders default as expected 1`] = `
                 Explore
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -167,7 +171,7 @@ exports[`Footer > renders default as expected 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/intro-to-tai/"
                   >
-                    Intro to Transformative AI
+                    AI Safety: Intro to Transformative AI
                   </a>
                 </li>
                 <li
@@ -177,7 +181,27 @@ exports[`Footer > renders default as expected 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/alignment-fast-track/"
                   >
-                    AI Alignment Fast Track
+                    Alignment Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/governance-fast-track/"
+                  >
+                    Governance Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
+                  >
+                    Economics of Transformative AI Fast-Track
                   </a>
                 </li>
                 <li
@@ -187,7 +211,7 @@ exports[`Footer > renders default as expected 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/alignment/"
                   >
-                    AI Alignment In-Depth
+                    AI Alignment
                   </a>
                 </li>
                 <li
@@ -197,7 +221,27 @@ exports[`Footer > renders default as expected 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/governance/"
                   >
-                    AI Governance In-Depth
+                    AI Governance
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/economics-of-tai/"
+                  >
+                    Economics of Transformative AI
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/writing/"
+                  >
+                    Writing Intensive
                   </a>
                 </li>
               </ul>
@@ -211,7 +255,7 @@ exports[`Footer > renders default as expected 1`] = `
                 Resources
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -297,39 +341,39 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
           </div>
         </nav>
+        <p
+          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        >
+          © 
+          2025
+           
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://bluedot.org/"
+          >
+            BlueDot Impact
+          </a>
+           is primarily funded by 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://www.openphilanthropy.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Open Philanthropy
+          </a>
+          , and is a non-profit based in the UK (company number 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            14964572
+          </a>
+          ).
+        </p>
       </div>
-      <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter"
-      >
-        © 
-        2025
-         
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://bluedot.org/"
-        >
-          BlueDot Impact
-        </a>
-         is primarily funded by 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          14964572
-        </a>
-        ).
-      </p>
     </footer>
   </div>
 </div>
@@ -341,22 +385,26 @@ exports[`Footer > renders with optional args 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
+      class="footer__main bg-bluedot-darker py-10 flex flex-col"
     >
       <div
-        class="footer__content section-normal flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col"
       >
         <nav
-          class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
+          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
         >
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
           >
-            <img
-              alt="BlueDot Impact Logo"
-              class="footer__logo h-6 mr-auto"
-              src="https://www.bluedot.com/test-logo.jpg"
-            />
+            <a
+              href="/"
+            >
+              <img
+                alt="BlueDot Impact Logo"
+                class="footer__logo h-8 mr-auto"
+                src="https://www.bluedot.com/test-logo.jpg"
+              />
+            </a>
             <div
               class="footer__social flex gap-6 hidden sm:flex"
             >
@@ -429,7 +477,7 @@ exports[`Footer > renders with optional args 1`] = `
             </div>
           </div>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5"
+            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
           >
             <div
               class="footer__section"
@@ -440,7 +488,7 @@ exports[`Footer > renders with optional args 1`] = `
                 BlueDot Impact
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -457,7 +505,7 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/support-us"
+                    href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   >
                     Support us
                   </a>
@@ -477,7 +525,7 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/contact"
+                    href="mailto:team@bluedot.org"
                   >
                     Contact us
                   </a>
@@ -493,7 +541,7 @@ exports[`Footer > renders with optional args 1`] = `
                 Explore
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -502,7 +550,7 @@ exports[`Footer > renders with optional args 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/intro-to-tai/"
                   >
-                    Intro to Transformative AI
+                    AI Safety: Intro to Transformative AI
                   </a>
                 </li>
                 <li
@@ -512,7 +560,27 @@ exports[`Footer > renders with optional args 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/alignment-fast-track/"
                   >
-                    AI Alignment Fast Track
+                    Alignment Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/governance-fast-track/"
+                  >
+                    Governance Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
+                  >
+                    Economics of Transformative AI Fast-Track
                   </a>
                 </li>
                 <li
@@ -522,7 +590,7 @@ exports[`Footer > renders with optional args 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/alignment/"
                   >
-                    AI Alignment In-Depth
+                    AI Alignment
                   </a>
                 </li>
                 <li
@@ -532,7 +600,27 @@ exports[`Footer > renders with optional args 1`] = `
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
                     href="https://aisafetyfundamentals.com/governance/"
                   >
-                    AI Governance In-Depth
+                    AI Governance
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/economics-of-tai/"
+                  >
+                    Economics of Transformative AI
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/writing/"
+                  >
+                    Writing Intensive
                   </a>
                 </li>
               </ul>
@@ -546,7 +634,7 @@ exports[`Footer > renders with optional args 1`] = `
                 Resources
               </h3>
               <ul
-                class="footer__list space-y-2 mb-auto font-normal list-none p-0"
+                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
               >
                 <li
                   class="footer__item"
@@ -632,39 +720,39 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
           </div>
         </nav>
+        <p
+          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        >
+          © 
+          2025
+           
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://bluedot.org/"
+          >
+            BlueDot Impact
+          </a>
+           is primarily funded by 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://www.openphilanthropy.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Open Philanthropy
+          </a>
+          , and is a non-profit based in the UK (company number 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            14964572
+          </a>
+          ).
+        </p>
       </div>
-      <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter"
-      >
-        © 
-        2025
-         
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://bluedot.org/"
-        >
-          BlueDot Impact
-        </a>
-         is primarily funded by 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          14964572
-        </a>
-        ).
-      </p>
     </footer>
   </div>
 </div>

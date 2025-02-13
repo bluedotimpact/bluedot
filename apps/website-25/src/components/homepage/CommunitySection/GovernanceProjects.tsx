@@ -1,5 +1,4 @@
 import { Card, CTALinkOrButton, SlideList } from '@bluedot/ui';
-import { testimonials } from './TestimonialSection';
 
 interface Project {
   id: number;
@@ -42,7 +41,7 @@ const projects: Project[] = [
 
 const GovernanceProjects = () => {
   return (
-    <div className="governance-projects p-6 container-lined">
+    <div className="governance-projects p-6 container-lined flex flex-col gap-space-between">
       <SlideList
         subtitle="AI Governance Projects"
         description="Competition winners"
@@ -63,6 +62,15 @@ const GovernanceProjects = () => {
           />
         ))}
       </SlideList>
+      {/* TODO visual audit */}
+      <CTALinkOrButton
+        className="governance-projects__link h-fit py-3"
+        url="https://aisafetyfundamentals.com/projects/"
+        variant="secondary"
+        withChevron
+      >
+        Explore more projects
+      </CTALinkOrButton>
     </div>
   );
 };

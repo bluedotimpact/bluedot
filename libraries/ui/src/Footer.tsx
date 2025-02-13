@@ -4,6 +4,7 @@ import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
 import { EXTERNAL_LINK_PROPS } from './utils';
+import { COURSES } from './constants';
 
 export type FooterProps = React.PropsWithChildren<{
   // Optional
@@ -20,7 +21,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links }) => (
   <div className="footer__section">
     {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md">{title}</h3>}
     {links && (
-      <ul className="footer__list space-y-2 mb-auto font-normal list-none p-0">
+      <ul className="footer__list space-y-4 mb-auto font-normal list-none p-0">
         {links.map((link) => (
           <li key={link.href} className="footer__item">
             <a href={link.href} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">
@@ -57,38 +58,34 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
   return (
     <div className="footer">
-      <footer className={clsx('footer__main bg-bluedot-darker py-spacing-y flex flex-col', className)}>
-        <div className="footer__content section-normal flex flex-col mb-24">
-          <nav className="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4">
+      <footer className={clsx('footer__main bg-bluedot-darker py-10 flex flex-col', className)}>
+        <div className="footer__content section-normal flex flex-col">
+          <nav className="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
-              {logo ? (
-                <img className="footer__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" />
-              ) : (
-                <p className="footer__logo h-8 text-xl text-white">BlueDot Impact</p>
-              )}
+              <a href="/">
+                {logo ? (
+                  <img className="footer__logo h-8 mr-auto" src={logo} alt="BlueDot Impact Logo" />
+                ) : (
+                  <p className="footer__logo h-8 text-xl text-white">BlueDot Impact</p>
+                )}
+              </a>
               <FooterSocial className="hidden sm:flex" />
             </div>
 
-            <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-5">
+            <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={[
                   { href: '/about', label: 'About us' },
-                  { href: '/support-us', label: 'Support us' },
+                  { href: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
                   { href: '/careers', label: 'Join us' },
-                  { href: '/contact', label: 'Contact us' },
+                  { href: 'mailto:team@bluedot.org', label: 'Contact us' },
                 ]}
               />
 
-              {/* // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai */}
               <FooterLinksSection
                 title="Explore"
-                links={[
-                  { href: 'https://aisafetyfundamentals.com/intro-to-tai/', label: 'Intro to Transformative AI' },
-                  { href: 'https://aisafetyfundamentals.com/alignment-fast-track/', label: 'AI Alignment Fast Track' },
-                  { href: 'https://aisafetyfundamentals.com/alignment/', label: 'AI Alignment In-Depth' },
-                  { href: 'https://aisafetyfundamentals.com/governance/', label: 'AI Governance In-Depth' },
-                ]}
+                links={COURSES.map((course) => ({ href: course.href, label: course.title }))}
               />
 
               <FooterLinksSection
@@ -104,10 +101,10 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
             <FooterSocial className="sm:hidden" />
           </nav>
+          <p className="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8">
+            &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={footerLinkClassNames}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>14964572</a>).
+          </p>
         </div>
-        <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={footerLinkClassNames}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>14964572</a>).
-        </p>
       </footer>
     </div>
   );

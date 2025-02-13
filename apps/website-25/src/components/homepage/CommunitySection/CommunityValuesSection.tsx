@@ -1,25 +1,33 @@
-import { SlideList, ValueCard } from '@bluedot/ui';
+import { Card, SlideList } from "@bluedot/ui";
+
+const values = [
+  {
+    imageSrc: '/images/community-values/network.png',
+    title: 'Our online community brings together 4,500+ professionals across 100+ countries',
+  },
+  {
+    imageSrc: '/images/community-values/people.png',
+    title: 'Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers',
+  },
+  {
+    imageSrc: '/images/community-values/study.png',
+    title: '40+ independent study groups worldwide have used our materials to run their own courses',
+  },
+  {
+    imageSrc: '/images/community-values/world.png',
+    title: 'We run regular in-person events across the world, turning online connections into lasting relationships',
+  },
+] as const;
 
 const CommunityValuesSection = () => {
   return (
-    <SlideList maxItemsPerSlide={4}>
-      <ValueCard
-        icon="icons/network.svg"
-        description="Our online community brings together 4,500+ professionals across 100+ countries"
-      />
-      <ValueCard
-        icon="icons/people.svg"
-        description="Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers"
-      />
-      <ValueCard
-        icon="icons/study.svg"
-        description="40+ independent study groups worldwide have used our materials to run their own courses"
-      />
-      <ValueCard
-        icon="icons/world.svg"
-        description="We run regular in-person events across the world, turning online connections into lasting relationships"
-      />
-    </SlideList>
+    <div className="community-values-section mt-4">
+      <SlideList maxItemsPerSlide={4}>
+        {values.map((value) => (
+          <Card {...value} className="community-values-section__value" />
+        ))}
+      </SlideList>
+    </div>
   );
 };
 

@@ -8,8 +8,8 @@ export type CourseCardProps = React.PropsWithChildren<{
   title: string,
   description: string,
   imageSrc: string,
+  href: string,
   className?: string,
-  ctaUrl?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
   // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
@@ -41,7 +41,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  ctaUrl,
+  href: ctaUrl,
   applicationDeadline,
   imageSrc,
   imageClassName,
@@ -96,7 +96,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  ctaUrl,
+  href: ctaUrl,
   applicationDeadline,
   cardType = 'Regular',
   courseType = 'Crash course',
@@ -118,7 +118,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         className={className}
         title={title}
         description={description}
-        ctaUrl={ctaUrl}
+        href={ctaUrl}
         applicationDeadline={applicationDeadline}
         imageSrc={imageSrc}
         imageClassName={imageClassName}
@@ -134,7 +134,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         subtitle={description}
         ctaUrl={ctaUrl}
         isEntireCardClickable
-        isExternalUrl
         className={clsx(
           'course-card course-card--regular container-lined p-5',
           'flex flex-col max-w-full h-[520px] hover:container-elevated',

@@ -21,26 +21,22 @@ exports[`FAQSection > renders default as expected 1`] = `
     <div
       class="section__body"
     >
-      <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
-        <div
-          class="collapsible__header flex justify-between w-full cursor-pointer"
-          tabindex="-1"
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
-          <p
+          <span
             class="collapsible__title subtitle-sm"
           >
             How can I maximise my chances of getting accepted onto the courses?
-          </p>
-          <button
-            aria-expanded="false"
-            aria-label="How can I maximise my chances of getting accepted onto the courses?"
+          </span>
+          <span
             class="collapsible__button flex items-center"
-            type="button"
           >
             <svg
-              class="collapsible__button-icon size-6 transition-transform"
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -52,52 +48,43 @@ exports[`FAQSection > renders default as expected 1`] = `
                 stroke-width="2"
               />
             </svg>
-          </button>
-        </div>
+          </span>
+        </summary>
         <div
-          aria-hidden="true"
-          class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+          class="collapsible__content pb-6"
         >
-          <div
-            role="region"
-          >
-            <p>
-              Check you are the 
-              <a
-                href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
-              >
-                right fit
-              </a>
-               and read our tips for making a 
-              <a
-                href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
-              >
-                great application.
-              </a>
-            </p>
-          </div>
+          <p>
+            Check you are the 
+            <a
+              href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
+            >
+              right fit
+            </a>
+             and read our tips for making a 
+            <a
+              href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
+            >
+              great application.
+            </a>
+          </p>
         </div>
-      </div>
-      <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
-        <div
-          class="collapsible__header flex justify-between w-full cursor-pointer"
-          tabindex="-1"
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
-          <p
+          <span
             class="collapsible__title subtitle-sm"
           >
             I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?
-          </p>
-          <button
-            aria-expanded="false"
-            aria-label="I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?"
+          </span>
+          <span
             class="collapsible__button flex items-center"
-            type="button"
           >
             <svg
-              class="collapsible__button-icon size-6 transition-transform"
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -109,53 +96,44 @@ exports[`FAQSection > renders default as expected 1`] = `
                 stroke-width="2"
               />
             </svg>
-          </button>
-        </div>
+          </span>
+        </summary>
         <div
-          aria-hidden="true"
-          class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+          class="collapsible__content pb-6"
         >
-          <div
-            role="region"
-          >
-            <p>
-              We are excited that you want to 
-              <a
-                href="https://bluedot.org/running-versions-of-our-courses/"
-              >
-                run a version of our courses
-              </a>
-               and will support you in any way we can. A good place to start is by looking through our 
-              <a
-                href="https://course.bluedot.org/home/facilitator-training"
-              >
-                facilitator training course
-              </a>
-               curriculum.
-            </p>
-          </div>
+          <p>
+            We are excited that you want to 
+            <a
+              href="https://bluedot.org/running-versions-of-our-courses/"
+            >
+              run a version of our courses
+            </a>
+             and will support you in any way we can. A good place to start is by looking through our 
+            <a
+              href="https://course.bluedot.org/home/facilitator-training"
+            >
+              facilitator training course
+            </a>
+             curriculum.
+          </p>
         </div>
-      </div>
-      <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
-        <div
-          class="collapsible__header flex justify-between w-full cursor-pointer"
-          tabindex="-1"
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
-          <p
+          <span
             class="collapsible__title subtitle-sm"
           >
             Who funds your work?
-          </p>
-          <button
-            aria-expanded="false"
-            aria-label="Who funds your work?"
+          </span>
+          <span
             class="collapsible__button flex items-center"
-            type="button"
           >
             <svg
-              class="collapsible__button-icon size-6 transition-transform"
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -167,59 +145,50 @@ exports[`FAQSection > renders default as expected 1`] = `
                 stroke-width="2"
               />
             </svg>
-          </button>
-        </div>
+          </span>
+        </summary>
         <div
-          aria-hidden="true"
-          class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+          class="collapsible__content pb-6"
         >
-          <div
-            role="region"
-          >
-            <p>
-              BlueDot Impact is primarily funded by 
-              <a
-                href="https://www.openphilanthropy.org/"
-              >
-                Open Philanthropy
-              </a>
-              , and is a non-profit based in the UK (company number 
-              <a
-                href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-              >
-                14964572
-              </a>
-              ). Our courses are free but upon course completion we give our participants the opportunity to 
-              <a
-                href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-              >
-                Support Us
-              </a>
-              .
-            </p>
-          </div>
+          <p>
+            BlueDot Impact is primarily funded by 
+            <a
+              href="https://www.openphilanthropy.org/"
+            >
+              Open Philanthropy
+            </a>
+            , and is a non-profit based in the UK (company number 
+            <a
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            >
+              14964572
+            </a>
+            ). Our courses are free but upon course completion we give our participants the opportunity to 
+            <a
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+            >
+              Support Us
+            </a>
+            .
+          </p>
         </div>
-      </div>
-      <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
-        <div
-          class="collapsible__header flex justify-between w-full cursor-pointer"
-          tabindex="-1"
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
-          <p
+          <span
             class="collapsible__title subtitle-sm"
           >
             How can I collaborate/partner with BlueDot Impact on AI safety initiatives?
-          </p>
-          <button
-            aria-expanded="false"
-            aria-label="How can I collaborate/partner with BlueDot Impact on AI safety initiatives?"
+          </span>
+          <span
             class="collapsible__button flex items-center"
-            type="button"
           >
             <svg
-              class="collapsible__button-icon size-6 transition-transform"
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -231,47 +200,38 @@ exports[`FAQSection > renders default as expected 1`] = `
                 stroke-width="2"
               />
             </svg>
-          </button>
-        </div>
+          </span>
+        </summary>
         <div
-          aria-hidden="true"
-          class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+          class="collapsible__content pb-6"
         >
-          <div
-            role="region"
-          >
-            <p>
-              We love to hear from potential collaborators so please 
-              <a
-                href="https://bluedot.org/contact/"
-              >
-                reach out
-              </a>
-              .
-            </p>
-          </div>
+          <p>
+            We love to hear from potential collaborators so please 
+            <a
+              href="https://bluedot.org/contact/"
+            >
+              reach out
+            </a>
+            .
+          </p>
         </div>
-      </div>
-      <div
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 faq-section__item"
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
-        <div
-          class="collapsible__header flex justify-between w-full cursor-pointer"
-          tabindex="-1"
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
-          <p
+          <span
             class="collapsible__title subtitle-sm"
           >
             How can I stay informed about BlueDot Impact's latest roles?
-          </p>
-          <button
-            aria-expanded="false"
-            aria-label="How can I stay informed about BlueDot Impact's latest roles?"
+          </span>
+          <span
             class="collapsible__button flex items-center"
-            type="button"
           >
             <svg
-              class="collapsible__button-icon size-6 transition-transform"
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -283,33 +243,28 @@ exports[`FAQSection > renders default as expected 1`] = `
                 stroke-width="2"
               />
             </svg>
-          </button>
-        </div>
+          </span>
+        </summary>
         <div
-          aria-hidden="true"
-          class="collapsible__content collapsible__content--collapsed h-0 opacity-0 pointer-events-none"
+          class="collapsible__content pb-6"
         >
-          <div
-            role="region"
-          >
-            <p>
-              Please see more information about our job openings 
-              <a
-                href="/careers"
-              >
-                here
-              </a>
-               including an 
-              <a
-                href="https://airtable.com/appB9rItpTpWkNqEI/shrulKbUxr7NhgnKJ"
-              >
-                expression of interest form
-              </a>
-              .
-            </p>
-          </div>
+          <p>
+            Please see more information about our job openings 
+            <a
+              href="/careers"
+            >
+              here
+            </a>
+             including an 
+            <a
+              href="https://airtable.com/appB9rItpTpWkNqEI/shrulKbUxr7NhgnKJ"
+            >
+              expression of interest form
+            </a>
+            .
+          </p>
         </div>
-      </div>
+      </details>
     </div>
   </div>
 </div>

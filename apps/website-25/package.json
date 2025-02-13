@@ -8,13 +8,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest --run",
-    "test:update": "turbo run test -- -u",
+    "test:update": "npm run test -- -u",
     "test:watch": "vitest",
     "deploy:prod": "tools/deployDocker.sh"
   },
   "dependencies": {
     "@bluedot/backend-contract": "*",
     "@bluedot/ui": "*",
+    "@next/third-parties": "^15.1.7",
     "@tanstack/react-query": "^5.29.0",
     "@ts-rest/core": "^3.41.1",
     "@ts-rest/react-query": "^3.41.1",

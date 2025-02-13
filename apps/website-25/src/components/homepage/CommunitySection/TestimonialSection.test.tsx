@@ -8,6 +8,7 @@ describe('TestimonialSection', () => {
     expect(container).toMatchSnapshot();
   });
 
+  // TODO fix
   test('displays testimonials not in a slide list', () => {
     render(<TestimonialSection />);
 

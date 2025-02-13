@@ -79,248 +79,253 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="slide-list w-full"
         >
           <div
-<<<<<<< HEAD
-            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-8"
-          />
-          <div
-            class="slide-list__content flex flex-col md:flex-row gap-4"
-=======
-            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start mb-space-between"
-          />
-          <div
-            class="slide-list__content flex flex-col md:flex-row gap-space-between"
->>>>>>> ac4ade7f8de63617c4ab976a723dd5600393608a
+            class="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start"
           >
             <div
-              class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
-              style="width: 100%;"
+              class="slide-list__nav hidden lg:flex items-center gap-2 ml-auto mt-auto"
+            >
+              <button
+                aria-label="Previous slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+                disabled=""
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <button
+                aria-label="Next slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div
+            class="slide-list__content flex flex-col lg:flex-row gap-space-between"
+          >
+            <div
+              class="slide-list__nav lg:hidden flex items-center justify-end gap-2"
+            >
+              <button
+                aria-label="Previous slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+                disabled=""
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <button
+                aria-label="Next slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
             >
               <div
-                class="slide-list__slides flex transition-transform duration-300"
-                style="transform: translateX(-0%);"
+                class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
               >
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50"
+                />
+              </div>
+              <div
+                class="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
+              >
+                <div
+                  class="slide-list__slide flex-shrink-0"
+                  style=""
                 >
                   <div
-<<<<<<< HEAD
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="AGI could arrive soon, and we're unprepared"
-                        class="value-card__icon"
-                        src="icons/fast.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/agi.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      AGI could arrive soon, and we're unprepared
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                    </p>
-=======
-                    class="size-full"
-                  >
                     <div
-                      class="value-card w-full flex flex-col gap-6 py-6"
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
                       <div
-                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                        class="card__text"
                       >
-                        <img
-                          alt="AGI could arrive soon, and we're unprepared"
-                          class="value-card__icon"
-                          src="icons/fast.svg"
-                        />
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          AGI could arrive soon, and we're unprepared
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                        </p>
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
-                      >
-                        AGI could arrive soon, and we're unprepared
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                      </p>
                     </div>
->>>>>>> ac4ade7f8de63617c4ab976a723dd5600393608a
                   </div>
                 </div>
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="slide-list__slide flex-shrink-0"
+                  style=""
                 >
                   <div
-<<<<<<< HEAD
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="What we do now matters"
-                        class="value-card__icon"
-                        src="icons/care.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/matters.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      What we do now matters
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                    </p>
-=======
-                    class="size-full"
-                  >
                     <div
-                      class="value-card w-full flex flex-col gap-6 py-6"
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
                       <div
-                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                        class="card__text"
                       >
-                        <img
-                          alt="What we do now matters"
-                          class="value-card__icon"
-                          src="icons/care.svg"
-                        />
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          What we do now matters
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                        </p>
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
-                      >
-                        What we do now matters
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                      </p>
                     </div>
->>>>>>> ac4ade7f8de63617c4ab976a723dd5600393608a
                   </div>
                 </div>
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="slide-list__slide flex-shrink-0"
+                  style=""
                 >
                   <div
-<<<<<<< HEAD
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="The right people at key moments rewrite history"
-                        class="value-card__icon"
-                        src="icons/solvers.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/key.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      The right people at key moments rewrite history
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                    </p>
-=======
-                    class="size-full"
-                  >
                     <div
-                      class="value-card w-full flex flex-col gap-6 py-6"
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
                       <div
-                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                        class="card__text"
                       >
-                        <img
-                          alt="The right people at key moments rewrite history"
-                          class="value-card__icon"
-                          src="icons/solvers.svg"
-                        />
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          The right people at key moments rewrite history
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                        </p>
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
-                      >
-                        The right people at key moments rewrite history
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                      </p>
                     </div>
->>>>>>> ac4ade7f8de63617c4ab976a723dd5600393608a
                   </div>
                 </div>
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="slide-list__slide flex-shrink-0"
+                  style=""
                 >
                   <div
-<<<<<<< HEAD
-                    class="value-card w-full flex flex-col gap-6 py-6"
+                    class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
                   >
                     <div
-                      class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                      class="card__image-container w-full mb-4"
                     >
                       <img
                         alt="We need urgency, wisdom and optimism"
-                        class="value-card__icon"
-                        src="icons/network.svg"
+                        class="card__image w-full max-h-full object-cover rounded-radius-md "
+                        src="/images/beliefs/urgency.png"
                       />
                     </div>
-                    <h3
-                      class="value-card__title min-h-[60px]"
-                    >
-                      We need urgency, wisdom and optimism
-                    </h3>
-                    <p
-                      class="value-card__description "
-                    >
-                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                    </p>
-=======
-                    class="size-full"
-                  >
                     <div
-                      class="value-card w-full flex flex-col gap-6 py-6"
+                      class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                     >
                       <div
-                        class="value-card__icon-wrapper size-[50px] flex items-center justify-center"
+                        class="card__text"
                       >
-                        <img
-                          alt="We need urgency, wisdom and optimism"
-                          class="value-card__icon"
-                          src="icons/network.svg"
-                        />
+                        <p
+                          class="card__title subtitle-sm mb-2"
+                        >
+                          We need urgency, wisdom and optimism
+                        </p>
+                        <p
+                          class="card__subtitle "
+                        >
+                          The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                        </p>
                       </div>
-                      <h3
-                        class="value-card__title min-h-[60px]"
-                      >
-                        We need urgency, wisdom and optimism
-                      </h3>
-                      <p
-                        class="value-card__description "
-                      >
-                        The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                      </p>
                     </div>
->>>>>>> ac4ade7f8de63617c4ab976a723dd5600393608a
                   </div>
                 </div>
               </div>
@@ -502,14 +507,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Dewi Erwan"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/dewi.jpg"
               />
             </div>
@@ -520,7 +525,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Dewi Erwan
                 </p>
@@ -531,7 +536,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -550,14 +555,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Will Saunter"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/will.jpg"
               />
             </div>
@@ -568,7 +573,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Will Saunter
                 </p>
@@ -579,7 +584,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -598,14 +603,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Adam Jones"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/adam.jpg"
               />
             </div>
@@ -616,7 +621,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Adam Jones
                 </p>
@@ -627,7 +632,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -646,14 +651,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Josh Landes"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/josh.jpg"
               />
             </div>
@@ -664,7 +669,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Josh Landes
                 </p>
@@ -675,7 +680,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -694,14 +699,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Li-Lian Ang"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/lilian.jpg"
               />
             </div>
@@ -712,7 +717,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Li-Lian Ang
                 </p>
@@ -723,7 +728,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -742,14 +747,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Tarin Rickett"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/tarin.jpg"
               />
             </div>
@@ -760,7 +765,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Tarin Rickett
                 </p>
@@ -771,7 +776,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
@@ -790,14 +795,14 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </div>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 max-w-[323px] team__card"
+            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
           >
             <div
-              class="card__image-container max-h-[223px] w-full mb-3"
+              class="card__image-container w-full mb-4"
             >
               <img
                 alt="Viorica Gheorghita"
-                class="card__image w-full max-h-full object-cover rounded-2xl team__card-image"
+                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
                 src="/images/team/vio.jpg"
               />
             </div>
@@ -808,7 +813,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 class="card__text"
               >
                 <p
-                  class="card__title subtitle-sm mb-1"
+                  class="card__title subtitle-sm mb-2"
                 >
                   Viorica Gheorghita
                 </p>
@@ -819,7 +824,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
                 </p>
               </div>
               <div
-                class="card__bottom-section mt-auto flex flex-col gap-space-between"
+                class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"

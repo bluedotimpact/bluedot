@@ -1,4 +1,3 @@
-import { Section } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
 
 type Testimonial = {
