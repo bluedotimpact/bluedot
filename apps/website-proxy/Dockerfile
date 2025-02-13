@@ -5,4 +5,4 @@ ARG VERSION_TAG
 RUN envsubst '$VERSION_TAG' < /etc/nginx/nginx.template.conf > /etc/nginx/nginx.conf
 RUN nginx -t
 
-EXPOSE 80
+EXPOSE 8080
