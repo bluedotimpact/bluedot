@@ -6,13 +6,13 @@ exports[`Footer > renders default as expected 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
+      class="footer__main bg-bluedot-darker py-10 flex flex-col"
     >
       <div
-        class="footer__content section-normal flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col"
       >
         <nav
-          class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
+          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
         >
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
@@ -341,39 +341,39 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
           </div>
         </nav>
+        <p
+          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        >
+          © 
+          2025
+           
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://bluedot.org/"
+          >
+            BlueDot Impact
+          </a>
+           is primarily funded by 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://www.openphilanthropy.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Open Philanthropy
+          </a>
+          , and is a non-profit based in the UK (company number 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            14964572
+          </a>
+          ).
+        </p>
       </div>
-      <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter"
-      >
-        © 
-        2025
-         
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://bluedot.org/"
-        >
-          BlueDot Impact
-        </a>
-         is primarily funded by 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          14964572
-        </a>
-        ).
-      </p>
     </footer>
   </div>
 </div>
@@ -385,13 +385,13 @@ exports[`Footer > renders with optional args 1`] = `
     class="footer"
   >
     <footer
-      class="footer__main bg-bluedot-darker py-spacing-y flex flex-col"
+      class="footer__main bg-bluedot-darker py-10 flex flex-col"
     >
       <div
-        class="footer__content section-normal flex flex-col mb-24"
+        class="footer__content section-normal flex flex-col"
       >
         <nav
-          class="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4"
+          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
         >
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
@@ -401,7 +401,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <img
                 alt="BlueDot Impact Logo"
-                class="footer__logo h-6 mr-auto"
+                class="footer__logo h-8 mr-auto"
                 src="https://www.bluedot.com/test-logo.jpg"
               />
             </a>
@@ -720,39 +720,39 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
           </div>
         </nav>
+        <p
+          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        >
+          © 
+          2025
+           
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://bluedot.org/"
+          >
+            BlueDot Impact
+          </a>
+           is primarily funded by 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://www.openphilanthropy.org/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Open Philanthropy
+          </a>
+          , and is a non-profit based in the UK (company number 
+          <a
+            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            14964572
+          </a>
+          ).
+        </p>
       </div>
-      <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter"
-      >
-        © 
-        2025
-         
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://bluedot.org/"
-        >
-          BlueDot Impact
-        </a>
-         is primarily funded by 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          14964572
-        </a>
-        ).
-      </p>
     </footer>
   </div>
 </div>
