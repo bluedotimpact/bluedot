@@ -89,15 +89,18 @@ export const SlideList: React.FC<SlideListProps> = ({
     const { scrollLeft } = container;
     const childArray = Array.from(container.children) as HTMLDivElement[];
 
-    // Scroll to align the left edge of the next (previous) element with the start of the container
-    const targetChild = direction === 'next'
-      ? childArray.find((c) => c.offsetLeft > scrollLeft + 1)
-      : [...childArray].reverse().find((c) => c.offsetLeft < scrollLeft - 1);
+    // Jump forward/back by itemsPerSlide
+    const currentIndex = childArray.findIndex((c) => c.offsetLeft >= scrollLeft);
+    const targetIndex = direction === 'next'
+      ? Math.min(currentIndex + itemsPerSlide, childArray.length - 1)
+      : Math.max(currentIndex - itemsPerSlide, 0);
+
+    const targetChild = childArray[targetIndex];
 
     if (targetChild) {
       container.scrollTo({ left: targetChild.offsetLeft, behavior: 'smooth' });
     }
-  }, []);
+  }, [itemsPerSlide]);
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
   const allChildrenFit = childrenArray.length <= itemsPerSlide;
