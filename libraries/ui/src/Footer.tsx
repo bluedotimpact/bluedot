@@ -83,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
               <FooterLinksSection
                 title="Explore"
-                links={COURSES.map(course => ({ href: course.href, label: course.title }))}
+                links={COURSES.map((course) => ({ href: course.href, label: course.title }))}
               />
 
               <FooterLinksSection

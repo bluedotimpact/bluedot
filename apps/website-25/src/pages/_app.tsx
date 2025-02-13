@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import {
-  CookieBanner, Footer, isCurrentPath, Nav, constants
+  CookieBanner, Footer, isCurrentPath, Nav, constants,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { Analytics } from '../components/Analytics';
