@@ -43,7 +43,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           </p>
         </div>
         <div
-          class="course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6"
+          class="course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6"
         >
           <img
             alt="Title"
@@ -106,7 +106,7 @@ exports[`CourseCard > renders default as expected 1`] = `
             Title
           </p>
           <p
-            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+            class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
           >
             Description
           </p>

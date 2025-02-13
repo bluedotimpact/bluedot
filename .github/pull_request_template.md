@@ -23,3 +23,9 @@ Fixes # (issue)
 | 📕 | <!-- Include a **Storybook** screenshot or screen recording demonstrating your change--> |
 | 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
 | 📱  | <!-- Include a **Mobile** screenshot or screen recording demonstrating your change--> |
+
+## Testing
+```
+$ npm run test:update
+<!-- Run `npm run test` from the base `bluedot` dir and include the output here -->
+```

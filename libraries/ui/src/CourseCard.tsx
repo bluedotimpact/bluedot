@@ -79,7 +79,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
         </div>
-        <div className={clsx('course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
+        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
           <img
             className="course-card__image size-full md:w-[319px] object-cover"
             src={imageSrc}
@@ -140,7 +140,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           className,
         )}
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
-        subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+        subtitleClassName="grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
       >
         {CourseCardFooter}
       </Card>
