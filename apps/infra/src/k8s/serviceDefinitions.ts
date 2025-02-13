@@ -31,6 +31,17 @@ export const services: ServiceDefinition[] = [
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-website-proxy',
+    targetPort: 80,
+    spec: {
+      containers: [{
+        name: 'bluedot-website-proxy',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-website-proxy:latest',
+      }],
+    },
+    hosts: ['website-proxy.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-website-25',
     targetPort: 8080,
     spec: {

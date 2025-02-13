@@ -18,7 +18,7 @@
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "http-errors": "^2.0.0",
-    "next": "^15.0.1",
+    "next": "^15.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
@@ -28,9 +28,9 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "@tailwindcss/postcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.6",
     "@testing-library/react": "^15.0.2",
-    "@types/node": "^20.12.12",
+    "@types/node": "^22.13.2",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^4.2.1",
@@ -40,7 +40,7 @@
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",
     "shx": "^0.3.4",
-    "tailwindcss": "^4.0.0",
+    "tailwindcss": "^4.0.6",
     "typescript": "^5.3.2",
     "vitest": "^1.5.0"
   }
