@@ -1,6 +1,5 @@
 import {
   HeroSection,
-  Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import IntroSection from '../components/about/IntroSection';
