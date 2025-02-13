@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run dev",
+    "start": "storybook dev -p 6006",
+    "build": "storybook build --output-dir dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "storybook dev -p 6006",
-    "build:storybook": "storybook build"
+    "deploy:prod": "tools/deployDocker.sh"
   },
   "dependencies": {
     "@bluedot/ui": "*",
+    "@bluedot/website-25": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

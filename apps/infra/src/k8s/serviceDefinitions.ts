@@ -47,6 +47,17 @@ export const services: ServiceDefinition[] = [
     hosts: ['website-25.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-storybook',
+    targetPort: 80,
+    spec: {
+      containers: [{
+        name: 'bluedot-storybook',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-storybook:latest',
+      }],
+    },
+    hosts: ['storybook.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-miniextensions-proxy',
     targetPort: 80,
     spec: {

@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest --run",
-    "test:update": "turbo run test -- -u",
+    "test:update": "npm run test -- -u",
     "test:watch": "vitest",
     "deploy:prod": "tools/deployDocker.sh"
   },
