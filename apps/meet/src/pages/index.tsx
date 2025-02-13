@@ -2,8 +2,6 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { Page } from '../components/Page';
 import { H1 } from '../components/Text';
-import MeetingView from '../components/MeetingView';
-import CustomNameView from '../components/CustomNameView';
 import SelectPersonView from '../components/SelectPersonView';
 import { PageState } from '../lib/client/pageState';
 import AppJoinView from '../components/AppJoinView';
@@ -30,10 +28,6 @@ const Home: React.FC = () => {
   switch (pageName) {
     case 'select':
       return <SelectPersonView page={{ ...page, cohortId }} setPage={setPage} />;
-    case 'custom':
-      return <CustomNameView page={page} setPage={setPage} />;
-    case 'room':
-      return <MeetingView page={page} />;
     case 'appJoin':
       return <AppJoinView page={page} />;
     default: {

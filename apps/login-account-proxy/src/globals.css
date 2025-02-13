@@ -1,1 +1,2 @@
-/* Try to avoid adding styles here. Instead, use tailwind inline styles or add them to @bluedot/ui's global.css (if they're relevant to other apps) */
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';

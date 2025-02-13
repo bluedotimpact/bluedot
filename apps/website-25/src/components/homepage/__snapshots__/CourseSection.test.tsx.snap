@@ -27,7 +27,7 @@ exports[`CourseSection > renders as expected 1`] = `
       >
         <button
           aria-label="Previous slide"
-          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           disabled=""
           type="button"
         >
@@ -47,7 +47,7 @@ exports[`CourseSection > renders as expected 1`] = `
         </button>
         <button
           aria-label="Next slide"
-          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           type="button"
         >
           <svg
@@ -70,7 +70,7 @@ exports[`CourseSection > renders as expected 1`] = `
       class="slide-list__content flex flex-col lg:flex-row gap-space-between"
     >
       <div
-        class="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden"
+        class="slide-list__featured size-full lg:w-[600px] shrink-0 overflow-hidden"
       >
         <div
           class="p-[3px]"
@@ -113,7 +113,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 </p>
               </div>
               <div
-                class="course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6"
+                class="course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6"
               >
                 <img
                   alt="AI Safety: Intro to Transformative AI"
@@ -152,7 +152,7 @@ exports[`CourseSection > renders as expected 1`] = `
         >
           <button
             aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             disabled=""
             type="button"
           >
@@ -172,7 +172,7 @@ exports[`CourseSection > renders as expected 1`] = `
           </button>
           <button
             aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             type="button"
           >
             <svg
@@ -194,14 +194,14 @@ exports[`CourseSection > renders as expected 1`] = `
           class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
         >
           <div
-            class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50"
+            class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
           />
         </div>
         <div
           class="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
         >
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -232,7 +232,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       Alignment Fast-Track
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       AI systems are rapidly becoming more capable and more general. Despite AI's potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
                     </p>
@@ -269,7 +269,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -300,7 +300,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       Governance Fast-Track
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       Despite AI's potential to radically improve human society, there are still active debates about how we will wield the AI systems of today and tomorrow. The rise of this powerful technology demands a thoughtful approach to its governance and regulation.
                     </p>
@@ -337,7 +337,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -368,7 +368,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       Economics of Transformative AI Fast-Track
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.
                     </p>
@@ -405,7 +405,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -436,7 +436,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       AI Alignment
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       AI systems are rapidly becoming more capable and more general. Despite AI's potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
                     </p>
@@ -473,7 +473,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -504,7 +504,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       AI Governance
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
                     </p>
@@ -541,7 +541,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -572,7 +572,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       Economics of Transformative AI
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.
                     </p>
@@ -609,7 +609,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -640,7 +640,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       Writing Intensive
                     </p>
                     <p
-                      class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                      class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                     >
                       This is a 5-day intensive writing course where you\`ll transform your AI safety course learnings into a published article.
                     </p>
