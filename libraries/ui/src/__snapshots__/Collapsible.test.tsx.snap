@@ -3,10 +3,10 @@
 exports[`Collapsible > renders to snapshot 1`] = `
 <div>
   <details
-    class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group"
+    class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group"
   >
     <summary
-      class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+      class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
     >
       <span
         class="collapsible__title subtitle-sm"
@@ -32,7 +32,7 @@ exports[`Collapsible > renders to snapshot 1`] = `
       </span>
     </summary>
     <div
-      class="collapsible__content mt-6"
+      class="collapsible__content pb-6"
     >
       <p>
         Test Content

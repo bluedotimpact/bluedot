@@ -22,10 +22,10 @@ exports[`FAQSection > renders default as expected 1`] = `
       class="section__body"
     >
       <details
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -51,7 +51,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           </span>
         </summary>
         <div
-          class="collapsible__content mt-6"
+          class="collapsible__content pb-6"
         >
           <p>
             Check you are the 
@@ -70,10 +70,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -99,7 +99,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           </span>
         </summary>
         <div
-          class="collapsible__content mt-6"
+          class="collapsible__content pb-6"
         >
           <p>
             We are excited that you want to 
@@ -119,10 +119,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -148,7 +148,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           </span>
         </summary>
         <div
-          class="collapsible__content mt-6"
+          class="collapsible__content pb-6"
         >
           <p>
             BlueDot Impact is primarily funded by 
@@ -174,10 +174,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -203,7 +203,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           </span>
         </summary>
         <div
-          class="collapsible__content mt-6"
+          class="collapsible__content pb-6"
         >
           <p>
             We love to hear from potential collaborators so please 
@@ -217,10 +217,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none"
+          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -246,7 +246,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           </span>
         </summary>
         <div
-          class="collapsible__content mt-6"
+          class="collapsible__content pb-6"
         >
           <p>
             Please see more information about our job openings 
