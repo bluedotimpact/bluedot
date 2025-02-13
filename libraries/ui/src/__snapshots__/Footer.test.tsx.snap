@@ -146,7 +146,7 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="mailto:team@bluedot.org"
+                    href="/contact"
                   >
                     Contact us
                   </a>
@@ -525,7 +525,7 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="mailto:team@bluedot.org"
+                    href="/contact"
                   >
                     Contact us
                   </a>
