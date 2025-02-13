@@ -55,6 +55,9 @@ jobs:
             frontend-example:
               paths:
                 - 'apps/frontend-example/**'
+            website-proxy:
+              paths:
+                - 'apps/website-proxy/**'
             website-25:
               paths:
                 - 'apps/website-25/**'
@@ -139,6 +142,36 @@ jobs:
           VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
       - name: Deploy
         run: npm run deploy:prod --workspace apps/frontend-example
+
+  cd_website-proxy:
+    needs: ci
+    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).website-proxy.should_skip) }}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: cd_website-proxy
+    timeout-minutes: 20
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Configure for deployment
+        run: |
+          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
+
+          mkdir -p ~/.kube
+          echo "$K8S_KUBECONFIG" > ~/.kube/config
+        env:
+          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
+          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
+      - name: Deploy
+        run: npm run deploy:prod --workspace apps/website-proxy
 
   cd_website-25:
     needs: ci
