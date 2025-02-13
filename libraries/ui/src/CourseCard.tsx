@@ -14,24 +14,13 @@ export type CourseCardProps = React.PropsWithChildren<{
   // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
   // eslint-disable-next-line react/no-unused-prop-types
-  courseType?: CourseType,
+  courseType: CourseType,
+  // eslint-disable-next-line react/no-unused-prop-types
+  courseLength: string, // Expected format: "5 days"
   imageClassName?: string,
 }>;
 
 type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
-
-const courseLength = (courseType: CourseType) => {
-  switch (courseType) {
-    case 'Crash course':
-      return '5 days';
-    case 'Self-paced':
-      return '12 weeks';
-    case 'In-depth course':
-      return '12 weeks';
-    default:
-      throw new Error(`Invalid course type: ${courseType satisfies never}`);
-  }
-};
 
 const applyByText = (applicationDeadline: string | undefined) => {
   return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
@@ -41,7 +30,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  href: ctaUrl,
+  href,
   applicationDeadline,
   imageSrc,
   imageClassName,
@@ -55,7 +44,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <a
-      href={ctaUrl}
+      href={href}
       className={wrapperClassName}
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
@@ -96,17 +85,18 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  href: ctaUrl,
+  href,
   applicationDeadline,
   cardType = 'Regular',
-  courseType = 'Crash course',
+  courseType,
+  courseLength,
   imageSrc,
   imageClassName,
 }) => {
-  const CourseCardFooter = (
+  const courseCardFooter = (
     <div className="course-card__footer flex justify-between w-full">
       <p className="course-card__footer-left text-left text-xs text-bluedot-black">
-        <span className="course-card__length font-medium">{courseLength(courseType)}</span>
+        <span className="course-card__length font-medium">{courseLength}</span>
       </p>
       <Tag className="course-card__type">{courseType}</Tag>
     </div>
@@ -118,12 +108,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         className={className}
         title={title}
         description={description}
-        href={ctaUrl}
+        href={href}
         applicationDeadline={applicationDeadline}
         imageSrc={imageSrc}
         imageClassName={imageClassName}
+        courseType={courseType}
+        courseLength={courseLength}
       >
-        {CourseCardFooter}
+        {courseCardFooter}
       </FeaturedCourseCard>
     </div>
   ) : (
@@ -132,7 +124,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         imageSrc={imageSrc}
         title={title}
         subtitle={description}
-        ctaUrl={ctaUrl}
+        ctaUrl={href}
         isEntireCardClickable
         className={clsx(
           'course-card course-card--regular container-lined p-5',
@@ -142,7 +134,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
         subtitleClassName="grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
       >
-        {CourseCardFooter}
+        {courseCardFooter}
       </Card>
     </div>
   );
