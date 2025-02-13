@@ -9,16 +9,42 @@ import {
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { Analytics } from '../components/Analytics';
+import { useEffect } from 'react';
+import { Router } from 'next/router';
 
 if (typeof window !== 'undefined') {
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-    api_host: 'https://eu.i.posthog.com',
-  });
+  if (!process.env.NEXT_PUBLIC_DEV_POSTHOG_KEY) {
+    console.error('PostHog key is missing! Check your .env.local file');
+  } else {
+    console.log('Initializing PostHog...');
+    posthog.init(process.env.NEXT_PUBLIC_DEV_POSTHOG_KEY!, {
+      api_host: 'https://eu.i.posthog.com',
+      person_profiles: 'always',
+      // TODO: Do we want this to be "identified_only" or "always"?
+      loaded: (posthog) => {
+        if (process.env.NODE_ENV === 'development') posthog.debug();
+        if (localStorage.getItem('cookies') === 'rejected') {
+          posthog.opt_out_capturing();
+        }
+      }
+    });
+    console.log('PostHog initialized!');
+  }
 }
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    // Setup page view tracking
+    const handleRouteChange = () => posthog?.capture('$pageview');
+    Router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      Router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, []);
+
   return (
-    <PostHogProvider>
+    <PostHogProvider client={posthog}>
       <Head>
         <title>BlueDot Impact</title>
         <link rel="icon" type="image/png" href="images/logo/favicon/favicon-96x96.png" sizes="96x96" />
