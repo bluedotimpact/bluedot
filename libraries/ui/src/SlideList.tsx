@@ -200,7 +200,7 @@ export const SlideList: React.FC<SlideListProps> = ({
 
           <div
             ref={slidesRef}
-            className="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
+            className="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
           >
             {React.Children.map(children, (child) => (
               <div
