@@ -58,13 +58,13 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
 
   return (
     <div className="footer">
-      <footer className={clsx('footer__main bg-bluedot-darker py-spacing-y flex flex-col', className)}>
-        <div className="footer__content section-normal flex flex-col mb-24">
-          <nav className="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4">
+      <footer className={clsx('footer__main bg-bluedot-darker py-10 flex flex-col', className)}>
+        <div className="footer__content section-normal flex flex-col">
+          <nav className="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
               <a href="/">
                 {logo ? (
-                  <img className="footer__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" />
+                  <img className="footer__logo h-8 mr-auto" src={logo} alt="BlueDot Impact Logo" />
                 ) : (
                   <p className="footer__logo h-8 text-xl text-white">BlueDot Impact</p>
                 )}
@@ -101,10 +101,10 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
             </div>
             <FooterSocial className="sm:hidden" />
           </nav>
+          <p className="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8">
+            &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={footerLinkClassNames}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>14964572</a>).
+          </p>
         </div>
-        <p className="footer__copyright text-sm text-center text-bluedot-lighter">
-          &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className={footerLinkClassNames}>BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className={footerLinkClassNames}>14964572</a>).
-        </p>
       </footer>
     </div>
   );
