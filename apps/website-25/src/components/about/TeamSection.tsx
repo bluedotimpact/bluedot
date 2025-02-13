@@ -1,4 +1,4 @@
-import { Card, Section } from '@bluedot/ui';
+import { Card, Section, SlideList } from '@bluedot/ui';
 
 const teamMembers = [
   {
@@ -47,9 +47,8 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    // TODO use SlideList, currently having problems with images
     <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
+      <SlideList maxItemsPerSlide={4}>
         {teamMembers.map((member) => (
           <Card
             key={member.name}
@@ -59,11 +58,11 @@ const TeamSection = () => {
             ctaUrl={member.linkedInUrl}
             ctaText="LinkedIn"
             isExternalUrl
-            className="team__card w-[323px]"
+            className="team__card"
             imageClassName="team__card-image h-[300px]"
           />
         ))}
-      </div>
+      </SlideList>
     </Section>
   );
 };
