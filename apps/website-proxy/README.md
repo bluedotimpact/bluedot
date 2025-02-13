@@ -16,4 +16,8 @@ To deploy a new version, simply commit to the master branch. GitHub Actions auto
 
 ## How it works
 
-The app hosts an nginx server which proxies requests between the old Wordpress website and the [new website](../website-25/).
+The app hosts an nginx server which proxies requests between the old Wordpress website and the [new website](../website-25/). All the logic is in [nginx.template.conf](./src/nginx.template.conf).
+
+In short:
+- routes to specific pages (homepage, about, careers, privacy policy) and the affiliated assets (e.g. images, icons) are routed to the new site
+- everything else is routed to the old site
