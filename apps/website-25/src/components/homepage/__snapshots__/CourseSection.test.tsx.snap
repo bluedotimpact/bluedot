@@ -388,14 +388,14 @@ exports[`CourseSection > renders as expected 1`] = `
                           <span
                             class="course-card__length font-medium"
                           >
-                            12 weeks
+                            5 days
                           </span>
                         </p>
                         <span
                           class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
                           role="status"
                         >
-                          In-depth course
+                          Crash course
                         </span>
                       </div>
                     </div>
@@ -592,7 +592,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           <span
                             class="course-card__length font-medium"
                           >
-                            12 weeks
+                            9 weeks
                           </span>
                         </p>
                         <span
