@@ -3,7 +3,7 @@
   "include": [
     "next-env.d.ts",
     "src/**/*",
-    "tailwind.config.ts",
+    "tailwind.config.ts", "../../libraries/ui/src/constants.ts",
   ],
   "exclude": ["node_modules"]
 }

@@ -4,6 +4,7 @@ import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
 import { EXTERNAL_LINK_PROPS } from './utils';
+import { COURSES } from './constants';
 
 export type FooterProps = React.PropsWithChildren<{
   // Optional
@@ -80,17 +81,9 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                 ]}
               />
 
-              {/* // TODO: 01/27 add routing to courses when AISafetyFundamentals course is integrated, i.e.'/courses/intro-transformative-ai */}
               <FooterLinksSection
                 title="Explore"
-                links={[
-                  { href: 'https://aisafetyfundamentals.com/intro-to-tai/', label: 'Intro to Transformative AI' },
-                  { href: 'https://aisafetyfundamentals.com/alignment-fast-track/', label: 'AI Alignment Fast Track' },
-                  { href: 'https://aisafetyfundamentals.com/alignment/', label: 'AI Alignment In-Depth' },
-                  { href: 'https://aisafetyfundamentals.com/governance/', label: 'AI Governance In-Depth' },
-                  { href: 'https://aisafetyfundamentals.com/economics-of-tai/', label: 'Economics of Transformative AI' },
-                  { href: 'https://aisafetyfundamentals.com/writing/', label: 'Writing Intensive' },
-                ]}
+                links={COURSES.map((course) => ({ href: course.href, label: course.title }))}
               />
 
               <FooterLinksSection
