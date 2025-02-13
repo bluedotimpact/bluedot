@@ -16,17 +16,17 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         </h1>
       </div>
     </div>
-    <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden intro-section"
+    <section
+      class="section section-body intro-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="section__content flex-1"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section__title mb-4 relative after:w-full"
+            class="section-heading__title relative"
           >
             Why do we exist?
           </h2>
@@ -55,220 +55,284 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           />
         </div>
       </div>
-    </div>
+    </section>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden beliefs-section"
+      class="slide-list w-full flex flex-col gap-spacing-y beliefs-section section-body"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="section__content flex-1"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section__title mb-4 relative after:w-full"
+            class="section-heading__title relative"
           >
             Our core beliefs
           </h2>
         </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
       <div
-        class="section__body"
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between"
       >
-        <section
-          class="slide-list w-full"
+        <div
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
         >
           <div
-            class="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start"
-          />
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
           <div
-            class="slide-list__content flex flex-col md:flex-row gap-space-between"
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
           >
             <div
-              class="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
-              style="width: 100%;"
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50"
+            />
+          </div>
+          <div
+            class="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
+          >
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
             >
               <div
-                class="slide-list__slides flex transition-transform duration-300"
-                style="transform: translateX(-0%);"
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
               >
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="card__image-container w-full mb-4"
                 >
-                  <div
-                    class="size-full"
-                  >
-                    <div
-                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
-                    >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="AGI could arrive soon, and we're unprepared"
-                          class="card__image w-full max-h-full object-cover rounded-radius-md "
-                          src="/images/beliefs/agi.png"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title subtitle-sm mb-2"
-                          >
-                            AGI could arrive soon, and we're unprepared
-                          </p>
-                          <p
-                            class="card__subtitle "
-                          >
-                            Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <img
+                    alt="AGI could arrive soon, and we're unprepared"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/agi.png"
+                  />
                 </div>
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                 >
                   <div
-                    class="size-full"
+                    class="card__text"
                   >
-                    <div
-                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                    <p
+                      class="card__title subtitle-sm mb-2"
                     >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="What we do now matters"
-                          class="card__image w-full max-h-full object-cover rounded-radius-md "
-                          src="/images/beliefs/matters.png"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title subtitle-sm mb-2"
-                          >
-                            What we do now matters
-                          </p>
-                          <p
-                            class="card__subtitle "
-                          >
-                            The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      AGI could arrive soon, and we're unprepared
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                    </p>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="card__image-container w-full mb-4"
                 >
-                  <div
-                    class="size-full"
-                  >
-                    <div
-                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
-                    >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="The right people at key moments rewrite history"
-                          class="card__image w-full max-h-full object-cover rounded-radius-md "
-                          src="/images/beliefs/key.png"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title subtitle-sm mb-2"
-                          >
-                            The right people at key moments rewrite history
-                          </p>
-                          <p
-                            class="card__subtitle "
-                          >
-                            Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <img
+                    alt="What we do now matters"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/matters.png"
+                  />
                 </div>
                 <div
-                  class="slide-list__slide flex-shrink-0 w-full px-2"
-                  style="width: 25%;"
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                 >
                   <div
-                    class="size-full"
+                    class="card__text"
                   >
-                    <div
-                      class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                    <p
+                      class="card__title subtitle-sm mb-2"
                     >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="We need urgency, wisdom and optimism"
-                          class="card__image w-full max-h-full object-cover rounded-radius-md "
-                          src="/images/beliefs/urgency.png"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title subtitle-sm mb-2"
-                          >
-                            We need urgency, wisdom and optimism
-                          </p>
-                          <p
-                            class="card__subtitle "
-                          >
-                            The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      What we do now matters
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="The right people at key moments rewrite history"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/key.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      The right people at key moments rewrite history
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="We need urgency, wisdom and optimism"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/urgency.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      We need urgency, wisdom and optimism
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
-    <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
+    <section
+      class="section section-body history-section"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="section__content flex-1"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section__title mb-4 relative after:w-full"
+            class="section-heading__title relative"
           >
             Our history
           </h2>
@@ -407,362 +471,494 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           </div>
         </div>
       </div>
-    </div>
+    </section>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden team"
+      class="slide-list w-full flex flex-col gap-spacing-y team-section section-body"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="section__content flex-1"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section__title mb-4 relative after:w-full"
+            class="section-heading__title relative"
           >
             Our team
           </h2>
         </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
       <div
-        class="section__body"
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between"
       >
         <div
-          class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
           >
-            <div
-              class="card__image-container w-full mb-4"
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
             >
-              <img
-                alt="Dewi Erwan"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/dewi.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              type="button"
             >
-              <div
-                class="card__text"
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <p
-                  class="card__title subtitle-sm mb-2"
-                >
-                  Dewi Erwan
-                </p>
-                <p
-                  class="card__subtitle "
-                >
-                  Co-founder & CEO
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://www.linkedin.com/in/dewierwan/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
-                  >
-                    LinkedIn
-                  </span>
-                </a>
-              </div>
-            </div>
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
           >
             <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Will Saunter"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/will.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-            >
-              <div
-                class="card__text"
-              >
-                <p
-                  class="card__title subtitle-sm mb-2"
-                >
-                  Will Saunter
-                </p>
-                <p
-                  class="card__subtitle "
-                >
-                  Co-founder
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://linkedin.com/in/will-saunter"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
-                  >
-                    LinkedIn
-                  </span>
-                </a>
-              </div>
-            </div>
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50"
+            />
           </div>
           <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
+            class="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
           >
             <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Adam Jones"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/adam.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              class="slide-list__slide flex-shrink-0"
+              style=""
             >
               <div
-                class="card__text"
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
               >
-                <p
-                  class="card__title subtitle-sm mb-2"
+                <div
+                  class="card__image-container w-full mb-4"
                 >
-                  Adam Jones
-                </p>
-                <p
-                  class="card__subtitle "
+                  <img
+                    alt="Dewi Erwan"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/dewi.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                 >
-                  AI Safety
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://www.linkedin.com/in/domdomegg/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
+                  <div
+                    class="card__text"
                   >
-                    LinkedIn
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
-          >
-            <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Josh Landes"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/josh.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-            >
-              <div
-                class="card__text"
-              >
-                <p
-                  class="card__title subtitle-sm mb-2"
-                >
-                  Josh Landes
-                </p>
-                <p
-                  class="card__subtitle "
-                >
-                  Community Manager
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://linkedin.com/in/josh-landes12"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Dewi Erwan
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Co-founder & CEO
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
                   >
-                    LinkedIn
-                  </span>
-                </a>
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/dewierwan/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
-          >
             <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Li-Lian Ang"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/lilian.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              class="slide-list__slide flex-shrink-0"
+              style=""
             >
               <div
-                class="card__text"
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
               >
-                <p
-                  class="card__title subtitle-sm mb-2"
+                <div
+                  class="card__image-container w-full mb-4"
                 >
-                  Li-Lian Ang
-                </p>
-                <p
-                  class="card__subtitle "
+                  <img
+                    alt="Will Saunter"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/will.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                 >
-                  Product
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://linkedin.com/in/anglilian"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
+                  <div
+                    class="card__text"
                   >
-                    LinkedIn
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
-          >
-            <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Tarin Rickett"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/tarin.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-            >
-              <div
-                class="card__text"
-              >
-                <p
-                  class="card__title subtitle-sm mb-2"
-                >
-                  Tarin Rickett
-                </p>
-                <p
-                  class="card__subtitle "
-                >
-                  Engineering
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://linkedin.com/in/tarinrickett/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Will Saunter
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Co-founder
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
                   >
-                    LinkedIn
-                  </span>
-                </a>
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/will-saunter"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="card flex flex-col items-start transition-transform duration-200 team__card w-[323px]"
-          >
             <div
-              class="card__image-container w-full mb-4"
-            >
-              <img
-                alt="Viorica Gheorghita"
-                class="card__image w-full max-h-full object-cover rounded-radius-md team__card-image h-[300px]"
-                src="/images/team/vio.jpg"
-              />
-            </div>
-            <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              class="slide-list__slide flex-shrink-0"
+              style=""
             >
               <div
-                class="card__text"
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
               >
-                <p
-                  class="card__title subtitle-sm mb-2"
+                <div
+                  class="card__image-container w-full mb-4"
                 >
-                  Viorica Gheorghita
-                </p>
-                <p
-                  class="card__subtitle "
+                  <img
+                    alt="Adam Jones"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/adam.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
                 >
-                  Product
-                </p>
-              </div>
-              <div
-                class="card__bottom-section flex flex-col gap-space-between"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
-                  href="https://www.linkedin.com/in/vioricagheorghita/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span
-                    class="cta-button__text"
+                  <div
+                    class="card__text"
                   >
-                    LinkedIn
-                  </span>
-                </a>
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Adam Jones
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      AI Safety
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/domdomegg/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Josh Landes"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/josh.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Josh Landes
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Community Manager
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/josh-landes12"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Li-Lian Ang"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/lilian.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Li-Lian Ang
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Product
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/anglilian"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Tarin Rickett"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/tarin.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Tarin Rickett
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Engineering
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/tarinrickett/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide flex-shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Viorica Gheorghita"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/vio.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Viorica Gheorghita
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Product
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/vioricagheorghita/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -802,22 +998,22 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         </a>
       </div>
     </div>
-    <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
+    <section
+      class="section section-body"
     >
       <div
-        class="section__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="section__content flex-1"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section__title mb-4 relative after:w-full"
+            class="section-heading__title relative"
           >
             Contact us
           </h2>
           <p
-            class="section__subtitle text-bluedot-darker text-md mb-4"
+            class="section-heading__subtitle text-bluedot-darker text-md"
           >
             We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
             <br />
@@ -835,7 +1031,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       <div
         class="section__body"
       />
-    </div>
+    </section>
   </div>
 </div>
 `;

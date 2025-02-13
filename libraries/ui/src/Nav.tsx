@@ -154,7 +154,7 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <div className="nav__container section-normal">
+      <div className="nav__container section-base">
         <div className="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]">
           <a href="/" className="nav__logo-link shrink-0 w-[200px]">
             {logo ? (

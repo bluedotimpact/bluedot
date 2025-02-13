@@ -21,9 +21,9 @@ export { Footer } from './Footer';
 
 export { Nav, isCurrentPath } from './Nav';
 
-export { Section } from './Section';
+export { Section, SectionHeading } from './Section';
 
-export { SlideList, SlideItem } from './SlideList';
+export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 

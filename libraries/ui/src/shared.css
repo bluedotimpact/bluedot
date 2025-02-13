@@ -126,8 +126,14 @@
     @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
   }
 
-  .section-normal {
+  /* Base section class that just applies padding and centering, suitable for nav, footer etc */
+  .section-base {
     @apply w-full max-w-max-width mx-auto px-spacing-x;
+  }
+
+  /* Class for titled sections in the body of the page */
+  .section-body {
+    @apply section-base py-spacing-y border-b border-color-divider overflow-hidden flex flex-col gap-spacing-y;
   }
 
   .container-lined {

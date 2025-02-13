@@ -1,4 +1,4 @@
-import { Card, Section } from '@bluedot/ui';
+import { Card, SlideList } from '@bluedot/ui';
 
 const teamMembers = [
   {
@@ -47,23 +47,25 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    <Section className="team" title="Our team">
-      <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
-        {teamMembers.map((member) => (
-          <Card
-            key={member.name}
-            imageSrc={member.imageSrc}
-            title={member.name}
-            subtitle={member.role}
-            ctaUrl={member.linkedInUrl}
-            ctaText="LinkedIn"
-            isExternalUrl
-            className="team__card w-[323px]"
-            imageClassName="team__card-image h-[300px]"
-          />
-        ))}
-      </div>
-    </Section>
+    <SlideList
+      title="Our team"
+      maxItemsPerSlide={5}
+      className="team-section section-body"
+    >
+      {teamMembers.map((member) => (
+        <Card
+          key={member.name}
+          imageSrc={member.imageSrc}
+          title={member.name}
+          subtitle={member.role}
+          ctaUrl={member.linkedInUrl}
+          ctaText="LinkedIn"
+          isExternalUrl
+          className="team-section__card"
+          imageClassName="team-section__card-image h-[300px]"
+        />
+      ))}
+    </SlideList>
   );
 };
 

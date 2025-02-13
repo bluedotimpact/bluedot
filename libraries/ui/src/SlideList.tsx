@@ -1,230 +1,231 @@
-import React, { useState } from 'react';
+import React, {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
 import clsx from 'clsx';
+import { type SectionHeadingProps, SectionHeading } from './Section';
 
 export type SlideListProps = {
   className?: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
   children: React.ReactNode;
   featuredSlot?: React.ReactNode;
-  itemsPerSlide?: number;
-  slideClassName?: string;
-  containerClassName?: string;
-  slidesWrapperWidth?: string | { mobile: string; desktop: string };
-};
+  maxItemsPerSlide?: number;
+  minItemWidth?: number;
+} & SectionHeadingProps;
 
 export const SlideList: React.FC<SlideListProps> = ({
   className,
-  title,
-  subtitle,
-  description,
   children,
   featuredSlot,
-  itemsPerSlide = 1,
-  slideClassName,
-  containerClassName,
-  slidesWrapperWidth = { mobile: '100%', desktop: '800px' },
+  maxItemsPerSlide = 1,
+  minItemWidth = 260,
+  title,
+  titleLevel,
+  subtitle,
+  subtitleLevel,
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const slidesRef = useRef<HTMLDivElement | null>(null);
+  const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
+  const [scrollPercent, setScrollPercent] = useState(0);
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+  // Use a ResizeObserver to set the number of slides based on the width of the container
+  useEffect(() => {
+    const cleanup = () => {
+      if (slidesRef.current) {
+        resizeObserver.unobserve(slidesRef.current);
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if (!slidesRef.current) return cleanup;
+
+    if (measuredContainerWidth === null && slidesRef.current) {
+      setMeasuredContainerWidth(slidesRef.current.getBoundingClientRect().width);
+    }
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        setMeasuredContainerWidth(entry.contentRect.width);
+      });
+    });
+    resizeObserver.observe(slidesRef.current);
+
+    return cleanup;
   }, []);
 
-  const effectiveItemsPerSlide = isMobile ? 1 : itemsPerSlide;
+  const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
+  const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
+
+  // Handle scroll events -> update progress bar
+  useEffect(() => {
+    function handleScroll() {
+      const container = slidesRef.current;
+      if (!container) return;
+
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScrollLeft = scrollWidth - clientWidth;
+      if (maxScrollLeft <= 0) {
+        setScrollPercent(0);
+        return;
+      }
+      const percent = (scrollLeft / maxScrollLeft) * 100;
+      setScrollPercent(percent);
+    }
+
+    const cleanup = () => {
+      container?.removeEventListener('scroll', handleScroll);
+    };
+
+    const container = slidesRef.current;
+    if (!container) return cleanup;
+
+    container.addEventListener('scroll', handleScroll);
+    return cleanup;
+  }, []);
+
+  const scrollTo = useCallback((direction: 'next' | 'previous') => {
+    const container = slidesRef.current;
+    if (!container) return;
+
+    const { scrollLeft } = container;
+    const childArray = Array.from(container.children) as HTMLDivElement[];
+
+    // Jump forward/back by itemsPerSlide
+    const currentIndex = childArray.findIndex((c) => c.offsetLeft >= scrollLeft);
+    const targetIndex = direction === 'next'
+      ? Math.min(currentIndex + itemsPerSlide, childArray.length - 1)
+      : Math.max(currentIndex - itemsPerSlide, 0);
+
+    const targetChild = childArray[targetIndex];
+
+    if (targetChild) {
+      container.scrollTo({ left: targetChild.offsetLeft, behavior: 'smooth' });
+    }
+  }, [itemsPerSlide]);
+
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const totalSlides = Math.ceil(childrenArray.length / effectiveItemsPerSlide);
+  const allChildrenFit = childrenArray.length <= itemsPerSlide;
 
-  const handlePrevious = () => {
-    setCurrentSlide((prev) => Math.max(0, prev - 1));
-  };
+  // If there are multiple slides, show 15% of the next card to signal that the section is scrollable
+  const peekAdjustment = allChildrenFit ? '1' : `(1 - ${0.15 / itemsPerSlide})`;
+  const itemWidth = `calc((${100 / itemsPerSlide}% - var(--space-between) * ${(itemsPerSlide - 1) / itemsPerSlide}) * ${peekAdjustment})`;
 
-  const handleNext = () => {
-    setCurrentSlide((prev) => Math.min(totalSlides - 1, prev + 1));
-  };
+  const PrevButton = (
+    <SlideListBtn
+      onClick={() => scrollTo('previous')}
+      disabled={scrollPercent === 0}
+      ariaLabel="Previous slide"
+      direction="previous"
+    />
+  );
+  const NextButton = (
+    <SlideListBtn
+      onClick={() => scrollTo('next')}
+      disabled={scrollPercent === 100}
+      ariaLabel="Next slide"
+      direction="next"
+    />
+  );
 
-  const isFirstSlide = currentSlide === 0;
-  const isLastSlide = currentSlide === totalSlides - 1;
+  const scrollBarWidth = `${100 * (itemsPerSlide / childrenArray.length)}%`;
+  const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
+
+  const ScrollBar = (
+    <div className="slide-list__progress w-full relative h-1">
+      <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
+      <div
+        className="slide-list__progress-track absolute h-full bg-bluedot-normal"
+        style={{
+          width: scrollBarWidth,
+          left: scrollBarLeft,
+        }}
+      />
+    </div>
+  );
 
   return (
-    <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex flex-col md:flex-row md:justify-between md:items-start">
-        {(title || subtitle || description) && (
-          <div className="slide-list__header-content pb-6 md:pb-0 mb-space-between">
-            {title && (
-              <h2 className="slide-list__title">{title}</h2>
-            )}
-            {subtitle && (
-              <h3 className="slide-list__subtitle">{subtitle}</h3>
-            )}
-            {description && (
-              <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">{description}</p>
-            )}
-          </div>
-        )}
-        {totalSlides > 1 && (
-          <div className="slide-list__nav hidden md:flex items-center gap-2 md:ml-auto">
-            <SlideListBtn
-              onClick={handlePrevious}
-              disabled={isFirstSlide}
-              ariaLabel="Previous slide"
+    <div
+      className={clsx(
+        'slide-list w-full flex flex-col gap-spacing-y',
+        className,
+      )}
+    >
+      <SectionHeading
+        title={title}
+        titleLevel={titleLevel}
+        subtitle={subtitle}
+        subtitleLevel={subtitleLevel}
+        rightNode={
+          !allChildrenFit && (
+            <div
+              className={clsx(
+                'slide-list__nav--header items-center gap-2 ml-auto mt-auto',
+                // Hide if there is a featuredSlot directly underneath
+                featuredSlot ? 'hidden lg:flex' : 'flex',
+              )}
             >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </SlideListBtn>
-            <SlideListBtn
-              onClick={handleNext}
-              disabled={currentSlide === totalSlides - 1}
-              ariaLabel="Next slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </SlideListBtn>
-          </div>
-        )}
-      </div>
-
-      <div className={clsx('slide-list__content flex flex-col md:flex-row gap-space-between', containerClassName)}>
+              {PrevButton}
+              {NextButton}
+            </div>
+          )
+        }
+      />
+      <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
         {featuredSlot && (
-          <div className="slide-list__featured w-full md:w-[600px] flex-shrink-0 overflow-hidden">
+          <div className="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
 
-        {/* Mobile navigation buttons - shown below featured slot */}
-        {totalSlides > 1 && (
-          <div className="slide-list__nav md:hidden flex items-center justify-end gap-2 mt-4">
-            <SlideListBtn
-              onClick={handlePrevious}
-              disabled={currentSlide === 0}
-              ariaLabel="Previous slide"
+        <div className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between">
+          {!allChildrenFit && (
+            <div
+              className={clsx(
+                'slide-list__nav--container items-center justify-end gap-2',
+                featuredSlot ? 'lg:hidden flex' : 'hidden',
+              )}
             >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </SlideListBtn>
-            <SlideListBtn
-              onClick={handleNext}
-              disabled={currentSlide === totalSlides - 1}
-              ariaLabel="Next slide"
-            >
-              <svg
-                className="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </SlideListBtn>
-          </div>
-        )}
+              {PrevButton}
+              {NextButton}
+            </div>
+          )}
+          {!allChildrenFit && (
+            <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
+              {scrollPercent > 1 && (
+                <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-cream-normal to-transparent opacity-50" />
+              )}
+              {scrollPercent < 99 && (
+                <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50" />
+              )}
+            </div>
+          )}
 
-        <div
-          className="slide-list__container relative overflow-hidden flex-shrink-0 w-full"
-          style={{
-            width: typeof slidesWrapperWidth === 'string'
-              ? slidesWrapperWidth
-              : `min(100%, ${slidesWrapperWidth.desktop})`,
-          }}
-        >
           <div
-            className="slide-list__slides flex transition-transform duration-300"
-            style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
-            }}
+            ref={slidesRef}
+            className="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
           >
             {React.Children.map(children, (child) => (
               <div
-                className={clsx(
-                  'slide-list__slide flex-shrink-0 w-full',
-                  slideClassName,
-                )}
-                style={{ width: `${100 / effectiveItemsPerSlide}%` }}
+                className="slide-list__slide flex-shrink-0"
+                style={{ width: itemWidth }}
               >
                 {child}
               </div>
             ))}
           </div>
 
-          {(!isFirstSlide || !isLastSlide) && (
-            <div className="slide-list__progress absolute bottom-0 left-0 w-full">
-              <div className="slide-list__progress-track h-1 bg-charcoal-normal">
-                <div
-                  className="slide-list__progress-bar h-full bg-bluedot-normal transition-all duration-300"
-                  style={{
-                    width: `${((currentSlide + 1) / totalSlides) * 100}%`,
-                  }}
-                />
-              </div>
-            </div>
-          )}
+          {!allChildrenFit && itemsPerSlide > 1 && ScrollBar}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
-
-export const SlideItem: React.FC<{
-  className?: string;
-  children: React.ReactNode;
-}> = ({ className, children }) => (
-  <div className={clsx('size-full', className)}>
-    {children}
-  </div>
-);
 
 export const SlideListBtn: React.FC<{
   onClick: () => void;
   disabled: boolean;
   ariaLabel: string;
-  children: React.ReactNode;
+  direction: 'previous' | 'next';
 }> = ({
-  onClick, disabled, ariaLabel, children,
+  onClick, disabled, ariaLabel, direction,
 }) => (
   <button
     type="button"
@@ -241,6 +242,34 @@ export const SlideListBtn: React.FC<{
     )}
     aria-label={ariaLabel}
   >
-    {children}
+    {direction === 'previous' ? (
+      <svg
+        className="slide-list__nav-icon size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    ) : (
+      <svg
+        className="slide-list__nav-icon size-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    )}
   </button>
 );
