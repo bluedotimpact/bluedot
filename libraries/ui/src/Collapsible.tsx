@@ -13,8 +13,8 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
   children, className, title,
 }) => {
   return (
-    <details className={clsx('collapsible max-w-max-width border-b border-color-divider pb-10 my-10 last:border-none last:pb-0 last:my-6 group', className)}>
-      <summary className="collapsible__header flex justify-between w-full cursor-pointer list-none">
+    <details className={clsx('collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group', className)}>
+      <summary className="collapsible__header flex justify-between w-full cursor-pointer list-none py-6">
         <span className="collapsible__title subtitle-sm">{title}</span>
         <span className="collapsible__button flex items-center">
           <svg
@@ -27,7 +27,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
           </svg>
         </span>
       </summary>
-      <div className="collapsible__content mt-6">
+      <div className="collapsible__content pb-6">
         {children}
       </div>
     </details>
