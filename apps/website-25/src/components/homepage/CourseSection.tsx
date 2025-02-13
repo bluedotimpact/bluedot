@@ -9,12 +9,12 @@ const utmParams: UTMParams = {
   source: 'website',
   content: 'course_section',
   campaign: 'relaunch',
-}
+};
 
 const coursesWithUtm = constants.COURSES.map((course) => ({
   ...course,
   href: addUtmParams(course.href, utmParams),
-}))
+}));
 
 const featuredCourse = coursesWithUtm.find((course) => course.title === 'AI Safety: Intro to Transformative AI')!;
 

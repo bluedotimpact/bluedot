@@ -1,5 +1,5 @@
-import { addUtmParams, type UTMParams } from './utmParams';
 import { describe, expect, it } from 'vitest';
+import { addUtmParams, type UTMParams } from './utmParams';
 
 describe('UTM Parameters', () => {
   it('should add UTM parameters to a URL without existing parameters', () => {
@@ -7,13 +7,13 @@ describe('UTM Parameters', () => {
     const utmParams: UTMParams = {
       source: 'website',
       content: 'course_section',
-      campaign: 'relaunch'
+      campaign: 'relaunch',
     };
 
     const result = addUtmParams(baseUrl, utmParams);
-    
+
     expect(result).toBe(
-      'https://example.com/?utm_source=website&utm_content=course_section&utm_campaign=relaunch'
+      'https://example.com/?utm_source=website&utm_content=course_section&utm_campaign=relaunch',
     );
   });
 
@@ -22,13 +22,13 @@ describe('UTM Parameters', () => {
     const utmParams: UTMParams = {
       source: 'website',
       content: 'course_section',
-      campaign: 'relaunch'
+      campaign: 'relaunch',
     };
 
     const result = addUtmParams(baseUrl, utmParams);
-    
+
     expect(result).toBe(
-      'https://example.com/?existing=param&utm_source=website&utm_content=course_section&utm_campaign=relaunch'
+      'https://example.com/?existing=param&utm_source=website&utm_content=course_section&utm_campaign=relaunch',
     );
   });
 
@@ -37,13 +37,13 @@ describe('UTM Parameters', () => {
     const utmParams: UTMParams = {
       source: 'website',
       content: 'course_section',
-      campaign: 'relaunch'
+      campaign: 'relaunch',
     };
 
     const result = addUtmParams(baseUrl, utmParams);
-    
+
     expect(result).toBe(
-      'https://example.com/?utm_source=website&utm_campaign=relaunch&utm_content=course_section'
+      'https://example.com/?utm_source=website&utm_campaign=relaunch&utm_content=course_section',
     );
   });
 });
