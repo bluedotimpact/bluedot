@@ -20,5 +20,6 @@
     ],
     "cSpell.ignoreRegExpList": [
         "(rec|tbl|app|viw|bli)[0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]{14}"
-    ]
+    ],
+    "eslint.useFlatConfig": false,
 }
