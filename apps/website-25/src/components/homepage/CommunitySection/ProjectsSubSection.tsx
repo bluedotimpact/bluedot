@@ -39,11 +39,11 @@ const projects: Project[] = [
   },
 ];
 
-const GovernanceProjects = () => {
+const ProjectsSubSection = () => {
   return (
-    <div className="governance-projects p-6 container-lined flex flex-col my-spacing-y">
+    <div className="projects p-6 container-lined flex flex-col my-spacing-y">
       <SlideList
-        title="AI Governance Projects"
+        title="Course Projects"
         titleLevel="h3"
         subtitle="Competition winners"
         maxItemsPerSlide={4}
@@ -57,13 +57,13 @@ const GovernanceProjects = () => {
             subtitleClassName="text-base"
             imageSrc={project.imageSrc}
             ctaUrl={project.ctaUrl}
-            className="governance-projects__project"
+            className="projects__project"
             isEntireCardClickable
           />
         ))}
       </SlideList>
       <CTALinkOrButton
-        className="governance-projects__link h-fit py-3"
+        className="projects__link h-fit py-3"
         url="https://aisafetyfundamentals.com/projects/"
         variant="secondary"
         withChevron
@@ -74,4 +74,4 @@ const GovernanceProjects = () => {
   );
 };
 
-export default GovernanceProjects;
+export default ProjectsSubSection;

@@ -1,6 +1,6 @@
 // import { CommunityStats } from './CommunityStats';
 import { Section } from '@bluedot/ui';
-import GovernanceProjects from './GovernanceProjects';
+import ProjectsSubSection from './ProjectsSubSection';
 import TestimonialSection from './TestimonialSection';
 import CommunityValuesSection from './CommunityValuesSection';
 
@@ -9,7 +9,7 @@ const CommunitySection = () => {
     <Section className="community-section">
       <div className="community-section__sub-sections flex flex-col">
         <CommunityValuesSection />
-        <GovernanceProjects />
+        <ProjectsSubSection />
         <TestimonialSection />
       </div>
     </Section>
