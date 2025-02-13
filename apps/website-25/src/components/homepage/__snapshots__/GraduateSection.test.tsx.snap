@@ -3,7 +3,7 @@
 exports[`GraduateSection > renders default as expected 1`] = `
 <div>
   <section
-    class="section section-body graduate-section"
+    class="section section-body graduate-section !py-8"
   >
     <div
       class="section__body"

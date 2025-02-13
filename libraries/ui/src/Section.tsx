@@ -21,7 +21,7 @@ export const SectionHeading: React.FC<BaseProps> = ({
   const HeadingTag = titleLevel;
   const SubtitleTag = subtitleLevel;
   return (
-    <div className={clsx('section-heading__title-container flex justify-between items-center gap-space-between', className)}>
+    <div className={clsx('section-heading__title-container flex justify-between items-center gap-space-between mb-6', className)}>
       <div className="section-heading__content flex-1 flex flex-col gap-2">
         {title && (
           <HeadingTag className="section-heading__title relative">

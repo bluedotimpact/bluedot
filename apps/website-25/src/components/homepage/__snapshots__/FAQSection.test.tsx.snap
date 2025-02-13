@@ -6,7 +6,7 @@ exports[`FAQSection > renders default as expected 1`] = `
     class="section section-body faq-section !overflow-visible"
   >
     <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
     >
       <div
         class="section-heading__content flex-1 flex flex-col gap-2"

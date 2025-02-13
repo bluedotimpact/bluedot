@@ -3,10 +3,10 @@
 exports[`CommunityValuesSection > renders as expected 1`] = `
 <div>
   <div
-    class="slide-list w-full flex flex-col gap-spacing-y community-values-section"
+    class="slide-list w-full flex flex-col community-values-section pb-spacing-y"
   >
     <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
     >
       <div
         class="section-heading__content flex-1 flex flex-col gap-2"

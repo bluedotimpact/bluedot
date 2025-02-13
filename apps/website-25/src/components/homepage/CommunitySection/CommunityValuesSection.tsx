@@ -21,7 +21,7 @@ const values = [
 
 const CommunityValuesSection = () => {
   return (
-    <SlideList title="Our community" maxItemsPerSlide={4} className="community-values-section">
+    <SlideList title="Our community" maxItemsPerSlide={4} className="community-values-section pb-spacing-y">
       {values.map((value) => (
         <Card {...value} className="community-values-section__value" />
       ))}

@@ -144,7 +144,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   return (
     <div
       className={clsx(
-        'slide-list w-full flex flex-col gap-spacing-y',
+        'slide-list w-full flex flex-col',
         className,
       )}
     >

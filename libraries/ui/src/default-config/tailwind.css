@@ -111,7 +111,7 @@
   
     /* Class for titled sections in the body of the page */
     .section-body {
-        @apply w-full max-w-max-width mx-auto px-spacing-x py-spacing-y border-b border-color-divider overflow-hidden flex flex-col gap-spacing-y;
+        @apply w-full max-w-max-width mx-auto px-spacing-x py-spacing-y border-b border-color-divider overflow-hidden flex flex-col;
     }
 }
 
@@ -122,33 +122,33 @@
     --bluedot-dark: #002199;
     --bluedot-darker: #00114D;
     --bluedot-black: #1E1E1E;
-
+  
     --bluedot-charcoal-light: #CCCCCC;
     --bluedot-charcoal-normal: #1E1E1E;
-
+  
     --bluedot-aisf-lighter: #E6B3FF;
     --bluedot-aisf-light: #D680FF;
     --bluedot-aisf-normal: #C64EFF;
     --bluedot-aisf-dark: #9C00E5;
     --bluedot-aisf-darker: #560080;
-
+  
     --bluedot-pandemics-lighter: #C7F7C0;
     --bluedot-pandemics-light: #78EB66;
     --bluedot-pandemics-normal: #34CE1B;
     --bluedot-pandemics-dark: #1D7510;
     --bluedot-pandemics-darker: #11430A;
-
+  
     --bluedot-cream-normal: #FFFCF7;
     --bluedot-cream-dark: #D9D6D2;
-
+  
     --max-width: 1436px;
-
+  
     --spacing-x-lg: 3rem; /* 48px */
     --spacing-x-md: 3rem; /* 48px */
     --spacing-x-sm: 1.5rem; /* 24px */
-    --spacing-y-lg: 2rem; /* 32px */
+    --spacing-y-lg: 1.5rem; /* 24px */
     --spacing-y-md: 1.5rem; /* 24px */
-    --spacing-y-sm: 0.75rem; /* 12px */
+    --spacing-y-sm: 1.5rem; /* 24px */
     --space-between-lg: 1rem; /* 16px */
     --space-between-md: 1rem; /* 16px */
     --space-between-sm: 0.5rem; /* 8px */
@@ -160,30 +160,29 @@
     --text-size-md: 1.125rem; /* 18px */
     --text-size-lg: 1.5rem; /* 24px */
     --text-size-xl: 2rem; /* 32px */
-    --spacing-x: var(--spacing-x-sm);
-    --spacing-y: var(--spacing-y-sm);
-    --space-between: var(--space-between-sm);
+    --spacing-x: var(--spacing-x-sm); /* For horizontal section padding */
+    --spacing-y: var(--spacing-y-sm); /* For vertical section padding */
+    --space-between: var(--space-between-sm); /* For space between items */
 }
 
 /* Maps to Tailwind "md" breakpoint */
-@media (width >=48rem) {
+@media (width >= 48rem) {
     :root {
-        --text-size-xl: 3rem;
-        /* 48px */
-        --spacing-x: var(--spacing-x-md);
-        --spacing-y: var(--spacing-y-md);
-        --space-between: var(--space-between-md);
+        --text-size-xl: 3rem; /* 48px */
+        --spacing-x: var(--spacing-x-md); /* For horizontal section padding */
+        --spacing-y: var(--spacing-y-md); /* For vertical section padding */
+        --space-between: var(--space-between-md); /* For space between items */
     }
-}
-
-/* Maps to Tailwind "lg" breakpoint */
-@media (width >=64rem) {
+ }
+ 
+ /* Maps to Tailwind "lg" breakpoint */
+ @media (width >= 64rem) {
     :root {
-        --spacing-x: var(--spacing-x-lg);
-        --spacing-y: var(--spacing-y-lg);
-        --space-between: var(--space-between-lg);
+        --spacing-x: var(--spacing-x-lg); /* For horizontal section padding */
+        --spacing-y: var(--spacing-y-lg); /* For vertical section padding */
+        --space-between: var(--space-between-lg); /* For space between items */
     }
-}
+ }
 
 @font-face {
     font-family: "Reckless Neue";
