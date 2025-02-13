@@ -8,7 +8,7 @@ const faces = [
 
 const GraduateSection = () => {
   return (
-    <Section className="graduate-section">
+    <Section className="graduate-section !py-8">
       <div className="graduate-section__container flex flex-col md:flex-row gap-6 items-center">
         <div className="graduate-section__header flex items-center gap-2 shrink-0">
           <FaceTiles faces={faces} />

@@ -41,7 +41,7 @@ const projects: Project[] = [
 
 const GovernanceProjects = () => {
   return (
-    <div className="governance-projects p-6 container-lined flex flex-col gap-spacing-y">
+    <div className="governance-projects p-6 container-lined flex flex-col my-spacing-y">
       <SlideList
         title="AI Governance Projects"
         titleLevel="h3"
