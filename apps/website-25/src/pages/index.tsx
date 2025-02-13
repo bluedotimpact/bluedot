@@ -18,7 +18,7 @@ const HomePage = () => {
         <title>BlueDot Impact | Industry-leading free AI courses and career support</title>
         <meta name="description" content="Learn for free about AI safety and how to ensure humanity safely navigates the transition to transformative AI. Join 4,000+ professionals building careers at organizations like Anthropic, OpenAI, and the UK’s AI Safety Institute." />
       </Head>
-      <HeroSection>
+      <HeroSection className="py-12">
         <div className="hero-section__logo-container flex flex-col items-center gap-7 mb-3">
           <img className="hero-section__logo-icon w-20 mb-20" src="/images/logo/BlueDot_Impact_Icon_White.svg" alt="BlueDot Impact" />
         </div>
