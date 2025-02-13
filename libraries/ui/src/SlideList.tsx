@@ -170,7 +170,7 @@ export const SlideList: React.FC<SlideListProps> = ({
       />
       <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
         {featuredSlot && (
-          <div className="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden">
+          <div className="slide-list__featured size-full lg:w-[600px] shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
@@ -190,21 +190,21 @@ export const SlideList: React.FC<SlideListProps> = ({
           {!allChildrenFit && (
             <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
               {scrollPercent > 1 && (
-                <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-cream-normal to-transparent opacity-50" />
+                <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-linear-to-r from-cream-normal to-transparent opacity-50" />
               )}
               {scrollPercent < 99 && (
-                <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50" />
+                <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50" />
               )}
             </div>
           )}
 
           <div
             ref={slidesRef}
-            className="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
+            className="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
           >
             {React.Children.map(children, (child) => (
               <div
-                className="slide-list__slide flex-shrink-0"
+                className="slide-list__slide shrink-0"
                 style={{ width: itemWidth }}
               >
                 {child}
@@ -238,7 +238,7 @@ export const SlideListBtn: React.FC<{
       'hover:bg-gray-50',
       'active:bg-gray-100',
       'disabled:opacity-50 disabled:cursor-not-allowed',
-      'focus:outline-none focus:ring-2 focus:ring-bluedot-light',
+      'focus:outline-hidden focus:ring-2 focus:ring-bluedot-light',
     )}
     aria-label={ariaLabel}
   >

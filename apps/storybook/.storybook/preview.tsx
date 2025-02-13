@@ -1,4 +1,4 @@
-import '@bluedot/ui/src/shared.css';
+import './globals.css'
 import '../../website-25/src/globals.css'
 
 import React from 'react';
