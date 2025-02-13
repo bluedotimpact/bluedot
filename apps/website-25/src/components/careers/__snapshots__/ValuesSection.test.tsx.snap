@@ -22,7 +22,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
       >
         <button
           aria-label="Previous slide"
-          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           disabled=""
           type="button"
         >
@@ -42,7 +42,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
         </button>
         <button
           aria-label="Next slide"
-          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+          class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           type="button"
         >
           <svg
@@ -72,7 +72,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
         >
           <button
             aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             disabled=""
             type="button"
           >
@@ -92,7 +92,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
           </button>
           <button
             aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             type="button"
           >
             <svg
@@ -114,14 +114,14 @@ exports[`ValuesSection > renders default as expected 1`] = `
           class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
         >
           <div
-            class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-cream-normal to-transparent opacity-50"
+            class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
           />
         </div>
         <div
           class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
         >
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -157,7 +157,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div
@@ -193,7 +193,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide flex-shrink-0"
+            class="slide-list__slide shrink-0"
             style=""
           >
             <div

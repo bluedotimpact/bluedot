@@ -9,7 +9,7 @@ exports[`Nav > renders with courses 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"
+        class="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -134,7 +134,7 @@ exports[`Nav > renders with courses 1`] = `
           </div>
         </div>
         <div
-          class="nav__drawer-content--mobile-tablet flex flex-col flex-grow font-medium pb-8 pt-2 lg:hidden"
+          class="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
         >
           <div
             class="nav-links flex gap-9 nav__links--mobile-tablet flex-col"
@@ -224,7 +224,7 @@ exports[`Nav > renders with optional yield 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"
+        class="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -343,7 +343,7 @@ exports[`Nav > renders with optional yield 1`] = `
           </div>
         </div>
         <div
-          class="nav__drawer-content--mobile-tablet flex flex-col flex-grow font-medium pb-8 pt-2 lg:hidden"
+          class="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
         >
           <div
             class="nav-links flex gap-9 nav__links--mobile-tablet flex-col"

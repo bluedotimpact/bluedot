@@ -1,7 +1,14 @@
-/* Try to avoid adding styles here. Instead, use tailwind inline styles or add them to @bluedot/ui's shared.css (if they're relevant to other apps) */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';
+
+@theme {
+  --animate-infinite-scroll: infinite-scroll 25s linear infinite;
+
+  @keyframes infinite-scroll {
+    0% { transform: translateX(0) }
+    100% { transform: translateX(-50%) }
+  }
+}
 
 @layer base {
   h1 {
