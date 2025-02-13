@@ -13,7 +13,7 @@ const PrivacyPolicyPage = () => {
       />
       <Section>
         <p className="my-2">
-          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via <a href="mailto:team@bluedot.org" {...EXTERNAL_LINK_PROPS}>team@bluedot.org</a>.
+          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via <a href="/contact">the details on our contact page</a>.
         </p>
         <p className="my-2">
           We are a data controller. This means we make decisions about how your information is used, and have a responsibility to protect your rights when we do so.

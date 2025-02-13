@@ -79,7 +79,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
                   { href: '/about', label: 'About us' },
                   { href: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
                   { href: '/careers', label: 'Join us' },
-                  { href: 'mailto:team@bluedot.org', label: 'Contact us' },
+                  { href: '/contact', label: 'Contact us' },
                 ]}
               />
 
