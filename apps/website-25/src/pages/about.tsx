@@ -1,4 +1,5 @@
 import {
+  HeroH1,
   HeroSection,
   Section,
 } from '@bluedot/ui';
@@ -16,9 +17,9 @@ const AboutPage = () => {
         <title>Join our team | BlueDot Impact</title>
         <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
-      <HeroSection
-        title="Our mission is to ensure humanity safely navigates the transition to transformative AI."
-      />
+      <HeroSection>
+        <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+      </HeroSection>
       <IntroSection title="Why do we exist?" />
       <BeliefsSection />
       <HistorySection />

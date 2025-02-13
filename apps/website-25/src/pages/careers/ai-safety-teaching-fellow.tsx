@@ -1,6 +1,9 @@
 import {
   CTALinkOrButton,
   HeroSection,
+  HeroH1,
+  HeroH2,
+  HeroCTAContainer,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -12,11 +15,11 @@ const JobPostingPage = () => {
         <title>AI Safety Teaching Fellow | BlueDot Impact</title>
       </Head>
       <HeroSection>
-        <h1 className="hero-section__title text-on-dark text-center">AI Safety Teaching Fellow</h1>
-        <h2 className="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4">Lead expert discussions on AI safety</h2>
-        <div className="flex justify-center mt-8">
+        <HeroH1>AI Safety Teaching Fellow</HeroH1>
+        <HeroH2>Lead expert discussions on AI safety</HeroH2>
+        <HeroCTAContainer>
           <CTALinkOrButton url="https://forms.bluedot.org/D2vOoKG53VRR4HIedgcz?prefill_Role=recUVhfgJJRZVAQDw">Express interest</CTALinkOrButton>
-        </div>
+        </HeroCTAContainer>
       </HeroSection>
       <Section className="prose">
         <h2>Who we are</h2>

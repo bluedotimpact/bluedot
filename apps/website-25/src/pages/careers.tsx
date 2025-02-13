@@ -1,5 +1,6 @@
 import {
   HeroSection,
+  HeroH1,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import IntroSection from '../components/about/IntroSection';
@@ -13,9 +14,9 @@ const CareersPage = () => {
         <title>Join the team at BlueDot Impact</title>
         <meta name="description" content="Join us in our mission to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
-      <HeroSection
-        title="Join us in our mission to ensure humanity safely navigates the transition to transformative AI."
-      />
+      <HeroSection>
+        <HeroH1>Join us in our mission to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+      </HeroSection>
       <IntroSection title="Our culture" />
       <ValuesSection />
       <CareersSection />

@@ -13,7 +13,9 @@ export { CourseCard } from './CourseCard';
 
 export { CTALinkOrButton } from './CTALinkOrButton';
 
-export { HeroSection } from './HeroSection';
+export {
+  HeroSection, HeroH1, HeroH2, HeroCTAContainer,
+} from './HeroSection';
 
 export { FaceTiles } from './FaceTiles';
 

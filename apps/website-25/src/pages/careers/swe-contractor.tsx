@@ -1,6 +1,9 @@
 import {
   CTALinkOrButton,
   HeroSection,
+  HeroH1,
+  HeroH2,
+  HeroCTAContainer,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -12,11 +15,11 @@ const JobPostingPage = () => {
         <title>Software Engineering Contractor | BlueDot Impact</title>
       </Head>
       <HeroSection>
-        <h1 className="hero-section__title text-on-dark text-center">Software Engineering Contractor</h1>
-        <h2 className="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4">We’re building a database of high-trust, agile software engineers to help us out on future contractor work.</h2>
-        <div className="flex justify-center mt-8">
+        <HeroH1>Software Engineering Contractor</HeroH1>
+        <HeroH2>We’re building a database of high-trust, agile software engineers to help us out on future contractor work.</HeroH2>
+        <HeroCTAContainer>
           <CTALinkOrButton url="https://web.miniextensions.com/4XjNSRhWiAUBc1UTDZS3?prefill_Role=recuN8LCYMMsZZmNC">Join our hiring pool</CTALinkOrButton>
-        </div>
+        </HeroCTAContainer>
       </HeroSection>
       <Section className="prose">
         <h2>About BlueDot Impact</h2>
