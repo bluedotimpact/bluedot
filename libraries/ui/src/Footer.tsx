@@ -62,11 +62,13 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
         <div className="footer__content section-normal flex flex-col mb-24">
           <nav className="footer__nav flex flex-col justify-between lg:flex-row gap-24 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
-              {logo ? (
-                <img className="footer__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" />
-              ) : (
-                <p className="footer__logo h-8 text-xl text-white">BlueDot Impact</p>
-              )}
+              <a href="/">
+                {logo ? (
+                  <img className="footer__logo h-6 mr-auto" src={logo} alt="BlueDot Impact Logo" />
+                ) : (
+                  <p className="footer__logo h-8 text-xl text-white">BlueDot Impact</p>
+                )}
+              </a>
               <FooterSocial className="hidden sm:flex" />
             </div>
 
