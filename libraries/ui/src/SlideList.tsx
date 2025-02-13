@@ -2,27 +2,26 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import clsx from 'clsx';
+import { type SectionHeadingProps, SectionHeading } from './Section';
 
 export type SlideListProps = {
   className?: string;
-  title?: string;
-  subtitle?: string;
-  description?: string;
   children: React.ReactNode;
   featuredSlot?: React.ReactNode;
   maxItemsPerSlide?: number;
   minItemWidth?: number;
-};
+} & SectionHeadingProps;
 
 export const SlideList: React.FC<SlideListProps> = ({
   className,
-  title,
-  subtitle,
-  description,
   children,
   featuredSlot,
   maxItemsPerSlide = 1,
   minItemWidth = 260,
+  title,
+  titleLevel,
+  subtitle,
+  subtitleLevel,
 }) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
@@ -143,48 +142,51 @@ export const SlideList: React.FC<SlideListProps> = ({
   );
 
   return (
-    <section className={clsx('slide-list w-full', className)}>
-      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start">
-        {(title || subtitle || description) && (
-          // TODO mb-space-between here is ugly, but we are refactoring anyway
-          <div className="slide-list__header-content pb-6 lg:pb-0 mb-space-between">
-            {title && (
-              <h2 className="slide-list__title">{title}</h2>
-            )}
-            {subtitle && (
-              <h3 className="slide-list__subtitle">{subtitle}</h3>
-            )}
-            {description && (
-              <p className="slide-list__description mt-2 max-w-[600px] text-gray-700">
-                {description}
-              </p>
-            )}
-          </div>
-        )}
-        {!allChildrenFit && (
-          <div className="slide-list__nav hidden lg:flex items-center gap-2 ml-auto mt-auto">
-            {PrevButton}
-            {NextButton}
-          </div>
-        )}
-      </div>
-
+    <div
+      className={clsx(
+        'slide-list w-full flex flex-col gap-spacing-y',
+        className,
+      )}
+    >
+      <SectionHeading
+        title={title}
+        titleLevel={titleLevel}
+        subtitle={subtitle}
+        subtitleLevel={subtitleLevel}
+        rightNode={
+          !allChildrenFit && (
+            <div
+              className={clsx(
+                'slide-list__nav items-center gap-2 ml-auto mt-auto',
+                // Hide if there is a featuredSlot directly underneath
+                featuredSlot ? 'hidden lg:flex' : 'flex',
+              )}
+            >
+              {PrevButton}
+              {NextButton}
+            </div>
+          )
+        }
+      />
       <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
-        {/* TODO factor out featuredSlot entirely */}
         {featuredSlot && (
           <div className="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
           </div>
         )}
 
-        {!allChildrenFit && (
-          <div className="slide-list__nav lg:hidden flex items-center justify-end gap-2">
-            {PrevButton}
-            {NextButton}
-          </div>
-        )}
-
         <div className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between">
+          {!allChildrenFit && (
+            <div
+              className={clsx(
+                'slide-list__nav items-center justify-end gap-2',
+                featuredSlot ? 'lg:hidden flex' : 'hidden',
+              )}
+            >
+              {PrevButton}
+              {NextButton}
+            </div>
+          )}
           {!allChildrenFit && (
             <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
               {scrollPercent > 1 && (
@@ -213,7 +215,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           {!allChildrenFit && itemsPerSlide > 1 && ScrollBar}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

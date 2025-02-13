@@ -3,7 +3,7 @@
 exports[`GraduateSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden graduate-section"
+    class="section section-base py-spacing-y border-b border-divider overflow-hidden graduate-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-space-between"

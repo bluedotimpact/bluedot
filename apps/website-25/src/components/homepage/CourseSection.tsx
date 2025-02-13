@@ -9,25 +9,25 @@ const featuredCourse = constants.COURSES.find((course) => course.title === 'AI S
 
 const CourseSection = () => {
   return (
-    <Section>
-      <SlideList
-        title="Our courses"
-        description="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
-        maxItemsPerSlide={2}
-        minItemWidth={300}
-        featuredSlot={(
-          <CourseCard
-            {...featuredCourse}
-            cardType="Featured"
-            className="h-full"
-          />
-        )}
-      >
-        {constants.COURSES.filter((course) => course !== featuredCourse).map((course) => (
-          <CourseCard key={course.title} {...course} className="size-full" />
-        ))}
-      </SlideList>
-    </Section>
+    <SlideList
+      title="Our courses"
+      subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
+      subtitleLevel='p'
+      className="course-section section-body"
+      maxItemsPerSlide={2}
+      minItemWidth={300}
+      featuredSlot={(
+        <CourseCard
+          {...featuredCourse}
+          cardType="Featured"
+          className="h-full"
+        />
+      )}
+    >
+      {constants.COURSES.filter((course) => course !== featuredCourse).map((course) => (
+        <CourseCard key={course.title} {...course} />
+      ))}
+    </SlideList>
   );
 };
 

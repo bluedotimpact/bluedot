@@ -3,7 +3,7 @@
 exports[`CareersSection > renders default as expected 1`] = `
 <div>
   <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden careers-section"
+    class="section section-base py-spacing-y border-b border-divider overflow-hidden careers-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-space-between"
@@ -205,7 +205,7 @@ exports[`CareersSection > renders default as expected 1`] = `
 exports[`CareersSection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden careers-section"
+    class="section section-base py-spacing-y border-b border-divider overflow-hidden careers-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-space-between"

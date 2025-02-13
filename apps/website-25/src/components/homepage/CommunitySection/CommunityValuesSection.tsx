@@ -21,13 +21,11 @@ const values = [
 
 const CommunityValuesSection = () => {
   return (
-    <div className="community-values-section mt-4">
-      <SlideList maxItemsPerSlide={4}>
-        {values.map((value) => (
-          <Card {...value} className="community-values-section__value" />
-        ))}
-      </SlideList>
-    </div>
+    <SlideList title="Our community" maxItemsPerSlide={4} className="community-values-section">
+      {values.map((value) => (
+        <Card {...value} className="community-values-section__value" />
+      ))}
+    </SlideList>
   );
 };
 

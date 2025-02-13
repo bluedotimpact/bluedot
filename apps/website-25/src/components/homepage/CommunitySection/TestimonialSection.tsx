@@ -31,7 +31,8 @@ export const testimonials: Testimonial[] = [
 const TestimonialSection = () => {
   return (
     <SlideList
-      subtitle="What our graduates say"
+      title="What our graduates say"
+      titleLevel='h3'
       maxItemsPerSlide={3}
       minItemWidth={300}
     >

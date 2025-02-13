@@ -1,55 +1,57 @@
 import React from 'react';
 import clsx from 'clsx';
-import { CTALinkOrButton } from './CTALinkOrButton';
 
-export type SectionProps = React.PropsWithChildren<{
-  className?: string,
-  title?: string,
-  titleLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
-  subtitle?: string | React.ReactNode,
-  ctaText?: string,
-  ctaUrl?: string,
-}>;
+type BaseProps = {
+  className?: string;
+  title?: React.ReactNode;
+  titleLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  subtitle?: React.ReactNode;
+  subtitleLevel?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  rightNode?: React.ReactNode;
+};
 
-export const Section: React.FC<SectionProps> = ({
-  className, title, titleLevel = 'h2', subtitle, ctaText, ctaUrl, children,
+export type SectionHeadingProps = BaseProps;
+export type SectionProps = React.PropsWithChildren<BaseProps>;
+
+export const SectionHeading: React.FC<BaseProps> = ({
+  title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', rightNode, className,
 }) => {
+  if (!title && !subtitle && !rightNode) return null;
+
   const HeadingTag = titleLevel;
+  const SubtitleTag = subtitleLevel;
   return (
-    <div className={clsx('section section-normal py-spacing-y border-b border-divider overflow-hidden', className)}>
-      <div className="section__title-container flex justify-between items-center gap-space-between">
-        <div className="section__content flex-1">
-          {title && (
-            <HeadingTag className={clsx(
-              'section__title mb-4 relative',
-              ctaText && ctaUrl
-                ? 'after:w-4/5'
-                : 'after:w-full',
-            )}
-            >
-              {title}
-            </HeadingTag>
-          )}
-          {subtitle && (
-            <p className="section__subtitle text-bluedot-darker text-md mb-4">{subtitle}</p>
-          )}
-        </div>
-        {ctaText && ctaUrl && (
-          <CTALinkOrButton
-            variant="secondary"
-            url={ctaUrl}
-            withChevron
-            className="section__cta shrink-0"
-          >
-            {ctaText}
-          </CTALinkOrButton>
+    <div className={clsx('section-heading__title-container flex justify-between items-center gap-space-between', className)}>
+      <div className="section-heading__content flex-1 flex flex-col gap-2">
+        {title && (
+          <HeadingTag className="section-heading__title relative">
+            {title}
+          </HeadingTag>
+        )}
+        {subtitle && (
+          <SubtitleTag className="section-heading__subtitle text-bluedot-darker text-md">{subtitle}</SubtitleTag>
         )}
       </div>
-      <div className="section__body">
-        {children}
-      </div>
+      {rightNode}
     </div>
   );
 };
 
-export default Section;
+export const Section: React.FC<SectionProps> = ({
+  className, title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', rightNode, children,
+}) => {
+  return (
+    <section className={clsx('section section-body', className)}>
+      <SectionHeading
+        title={title}
+        titleLevel={titleLevel}
+        subtitle={subtitle}
+        subtitleLevel={subtitleLevel}
+        rightNode={rightNode}
+      />
+      <div className="section__body">
+        {children}
+      </div>
+    </section>
+  );
+};

@@ -47,23 +47,25 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    <Section className="team" title="Our team">
-      <SlideList maxItemsPerSlide={4}>
-        {teamMembers.map((member) => (
-          <Card
-            key={member.name}
-            imageSrc={member.imageSrc}
-            title={member.name}
-            subtitle={member.role}
-            ctaUrl={member.linkedInUrl}
-            ctaText="LinkedIn"
-            isExternalUrl
-            className="team__card"
-            imageClassName="team__card-image h-[300px]"
-          />
-        ))}
-      </SlideList>
-    </Section>
+    <SlideList
+      title="Our team"
+      maxItemsPerSlide={5}
+      className="team-section section-body"
+    >
+      {teamMembers.map((member) => (
+        <Card
+          key={member.name}
+          imageSrc={member.imageSrc}
+          title={member.name}
+          subtitle={member.role}
+          ctaUrl={member.linkedInUrl}
+          ctaText="LinkedIn"
+          isExternalUrl
+          className="team__card"
+          imageClassName="team__card-image h-[300px]"
+        />
+      ))}
+    </SlideList>
   );
 };
 

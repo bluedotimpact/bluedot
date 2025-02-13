@@ -1,4 +1,4 @@
-import { Card, Section } from '@bluedot/ui';
+import { Card } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const beliefs = [
@@ -26,15 +26,15 @@ const beliefs = [
 
 const BeliefsSection = () => {
   return (
-    <Section className="beliefs-section" title="Our core beliefs">
-      <SlideList
-        maxItemsPerSlide={4}
-      >
-        {beliefs.map((belief) => (
-          <Card {...belief} className="beliefs-section__belief" />
-        ))}
-      </SlideList>
-    </Section>
+    <SlideList
+      title="Our core beliefs"
+      maxItemsPerSlide={4}
+      className="beliefs-section section-body"
+    >
+      {beliefs.map((belief) => (
+        <Card {...belief} className="beliefs-section__belief" />
+      ))}
+    </SlideList>
   );
 };
 

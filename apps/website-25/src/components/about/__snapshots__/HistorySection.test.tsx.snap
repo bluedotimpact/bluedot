@@ -3,7 +3,7 @@
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
   <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
+    class="section section-base py-spacing-y border-b border-divider overflow-hidden history-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-space-between"
@@ -158,7 +158,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
 exports[`HistorySection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
+    class="section section-base py-spacing-y border-b border-divider overflow-hidden history-section"
   >
     <div
       class="section__title-container flex justify-between items-center gap-space-between"

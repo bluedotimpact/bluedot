@@ -41,11 +41,11 @@ const projects: Project[] = [
 
 const GovernanceProjects = () => {
   return (
-    <div className="governance-projects p-6 container-lined flex flex-col gap-space-between">
+    <div className="governance-projects p-6 container-lined flex flex-col gap-spacing-y">
       <SlideList
-        subtitle="AI Governance Projects"
-        description="Competition winners"
-        // TODO uppercase font
+        title="AI Governance Projects"
+        titleLevel='h3'
+        subtitle="Competition winners"
         maxItemsPerSlide={4}
         minItemWidth={260}
       >
@@ -62,7 +62,6 @@ const GovernanceProjects = () => {
           />
         ))}
       </SlideList>
-      {/* TODO visual audit */}
       <CTALinkOrButton
         className="governance-projects__link h-fit py-3"
         url="https://aisafetyfundamentals.com/projects/"

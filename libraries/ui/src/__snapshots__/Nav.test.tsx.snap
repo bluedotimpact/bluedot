@@ -6,7 +6,7 @@ exports[`Nav > renders with courses 1`] = `
     class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
-      class="nav__container section-normal"
+      class="nav__container section-base"
     >
       <div
         class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"
@@ -221,7 +221,7 @@ exports[`Nav > renders with optional yield 1`] = `
     class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
-      class="nav__container section-normal"
+      class="nav__container section-base"
     >
       <div
         class="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]"

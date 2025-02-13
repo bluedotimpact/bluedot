@@ -17,7 +17,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden intro-section"
+      class="section section-base py-spacing-y border-b border-divider overflow-hidden intro-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-space-between"
@@ -57,7 +57,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden beliefs-section"
+      class="section section-base py-spacing-y border-b border-divider overflow-hidden beliefs-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-space-between"
@@ -335,7 +335,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden history-section"
+      class="section section-base py-spacing-y border-b border-divider overflow-hidden history-section"
     >
       <div
         class="section__title-container flex justify-between items-center gap-space-between"
@@ -485,7 +485,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden team"
+      class="section section-base py-spacing-y border-b border-divider overflow-hidden team"
     >
       <div
         class="section__title-container flex justify-between items-center gap-space-between"
@@ -879,7 +879,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
+      class="section section-base py-spacing-y border-b border-divider overflow-hidden"
     >
       <div
         class="section__title-container flex justify-between items-center gap-space-between"
