@@ -39,7 +39,7 @@ const BlogPost = ({
 }) => {
   return (
     <a
-      className="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider"
+      className="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider sm:gap-6"
       href={url}
     >
       <p className="blog-section__blog-post-date basis-[16%] uppercase mb-6">{date}</p>
