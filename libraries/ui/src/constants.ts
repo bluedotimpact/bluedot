@@ -36,7 +36,7 @@ export const COURSES: Course[] = [
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.',
     courseType: 'In-depth course',
     imageSrc: '/images/economics-course.png',
-    href: 'https://aisafetyfundamentals.com/economics-of-tai/',
+    href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/',
     isNew: true,
   },
   {
