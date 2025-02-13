@@ -47,6 +47,7 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
+    // TODO use SlideList, currently having problems with images
     <Section className="team" title="Our team">
       <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
         {teamMembers.map((member) => (

@@ -44,8 +44,9 @@ const GovernanceProjects = () => {
   return (
     <div className="governance-projects p-6 container-lined">
       <SlideList
-        subtitle="AI Governance projects"
-        // TODO competition winners
+        subtitle="AI Governance Projects"
+        description="Competition winners"
+        // TODO uppercase font
         maxItemsPerSlide={4}
         minItemWidth={260}
       >

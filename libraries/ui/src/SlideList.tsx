@@ -141,20 +141,21 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   return (
     <section className={clsx('slide-list w-full relative', className)}>
-      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start mb-space-between">
+      {/* TODO handle mb-space-between better */}
+      <div className="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start lg:mb-space-between">
         {(title || subtitle || description) && (
-          <div className="slide-list__header-content mb-6 lg:mb-0">
+          <div className="slide-list__header-content">
             {title && <h2 className="slide-list__title">{title}</h2>}
             {subtitle && <h3 className="slide-list__subtitle">{subtitle}</h3>}
             {description && (
-              <p className="slide-list__description mt-4 max-w-[600px] text-gray-700">
+              <p className="slide-list__description mt-2 max-w-[600px] text-gray-700">
                 {description}
               </p>
             )}
           </div>
         )}
         {!allChildrenFit && (
-          <div className="slide-list__nav hidden lg:flex items-center gap-2 lg:ml-auto">
+          <div className="slide-list__nav hidden lg:flex items-center gap-2 ml-auto mt-auto">
             {PrevButton}
             {NextButton}
           </div>
@@ -162,6 +163,7 @@ export const SlideList: React.FC<SlideListProps> = ({
       </div>
 
       <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
+        {/* TODO factor out featuredSlot entirely */}
         {featuredSlot && (
           <div className="slide-list__featured size-full lg:w-[600px] flex-shrink-0 overflow-hidden">
             {featuredSlot}
@@ -169,7 +171,7 @@ export const SlideList: React.FC<SlideListProps> = ({
         )}
 
         {!allChildrenFit && (
-          <div className="slide-list__nav lg:hidden flex items-center justify-end gap-2 mt-4">
+          <div className="slide-list__nav lg:hidden flex items-center justify-end gap-2">
             {PrevButton}
             {NextButton}
           </div>
