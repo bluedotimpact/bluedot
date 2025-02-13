@@ -20,7 +20,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       class="section section-body intro-section"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
       >
         <div
           class="section-heading__content flex-1 flex flex-col gap-2"
@@ -57,10 +57,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </section>
     <div
-      class="slide-list w-full flex flex-col gap-spacing-y beliefs-section section-body"
+      class="slide-list w-full flex flex-col beliefs-section section-body"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
       >
         <div
           class="section-heading__content flex-1 flex flex-col gap-2"
@@ -326,7 +326,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       class="section section-body history-section"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
       >
         <div
           class="section-heading__content flex-1 flex flex-col gap-2"
@@ -473,10 +473,10 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </section>
     <div
-      class="slide-list w-full flex flex-col gap-spacing-y team-section section-body"
+      class="slide-list w-full flex flex-col team-section section-body"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
       >
         <div
           class="section-heading__content flex-1 flex flex-col gap-2"
@@ -1002,7 +1002,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       class="section section-body"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between"
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
       >
         <div
           class="section-heading__content flex-1 flex flex-col gap-2"
