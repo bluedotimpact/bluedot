@@ -14,6 +14,30 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         >
           Our mission is to ensure humanity safely navigates the transition to transformative AI.
         </h1>
+        <div
+          class="flex justify-center mt-8"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            data-testid="cta-link"
+            href="/careers"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Join the team
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_white.svg"
+              />
+            </span>
+          </a>
+        </div>
       </div>
     </div>
     <section

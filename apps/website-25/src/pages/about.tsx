@@ -1,6 +1,8 @@
 import {
-  HeroH1,
+  CTALinkOrButton,
   HeroSection,
+  HeroH1,
+  HeroCTAContainer,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -19,6 +21,9 @@ const AboutPage = () => {
       </Head>
       <HeroSection>
         <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+        <HeroCTAContainer>
+          <CTALinkOrButton url="/careers" withChevron>Join the team</CTALinkOrButton>
+        </HeroCTAContainer>
       </HeroSection>
       <IntroSection title="Why do we exist?" />
       <BeliefsSection />

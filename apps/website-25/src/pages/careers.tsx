@@ -1,6 +1,8 @@
 import {
   HeroSection,
   HeroH1,
+  HeroCTAContainer,
+  CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import IntroSection from '../components/about/IntroSection';
@@ -16,6 +18,9 @@ const CareersPage = () => {
       </Head>
       <HeroSection>
         <HeroH1>Join us in our mission to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+        <HeroCTAContainer>
+          <CTALinkOrButton url="#open-roles-anchor" withChevron>See open roles</CTALinkOrButton>
+        </HeroCTAContainer>
       </HeroSection>
       <IntroSection title="Our culture" />
       <ValuesSection />
