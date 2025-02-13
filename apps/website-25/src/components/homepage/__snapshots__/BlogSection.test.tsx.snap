@@ -2,17 +2,17 @@
 
 exports[`BlogSection > renders default as expected 1`] = `
 <div>
-  <div
-    class="section section-base py-spacing-y border-b border-divider overflow-hidden blog-section"
+  <section
+    class="section section-body blog-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           Our blog
         </h2>
@@ -139,6 +139,6 @@ exports[`BlogSection > renders default as expected 1`] = `
         </span>
       </a>
     </div>
-  </div>
+  </section>
 </div>
 `;

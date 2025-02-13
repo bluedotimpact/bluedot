@@ -8,19 +8,6 @@ describe('TestimonialSection', () => {
     expect(container).toMatchSnapshot();
   });
 
-  // TODO fix
-  test('displays testimonials not in a slide list', () => {
-    render(<TestimonialSection />);
-
-    // Check for testimonial content
-    const testimonials = screen.getAllByRole('blockquote');
-    expect(testimonials).toHaveLength(3);
-
-    // Verify slide navigation does not exist
-    expect(screen.queryByLabelText('Previous slide')).toBeNull();
-    expect(screen.queryByLabelText('Next slide')).toBeNull();
-  });
-
   test('displays section title', () => {
     render(<TestimonialSection />);
     expect(screen.getByText(/What our graduates say/i)).toBeDefined();

@@ -2,17 +2,17 @@
 
 exports[`FAQSection > renders default as expected 1`] = `
 <div>
-  <div
-    class="section section-base py-spacing-y border-b border-divider overflow-hidden faq-section !overflow-visible"
+  <section
+    class="section section-body faq-section !overflow-visible"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           Frequently asked questions
         </h2>
@@ -266,6 +266,6 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
     </div>
-  </div>
+  </section>
 </div>
 `;

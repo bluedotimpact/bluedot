@@ -2,17 +2,17 @@
 
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
-  <div
-    class="section section-base py-spacing-y border-b border-divider overflow-hidden history-section"
+  <section
+    class="section section-body history-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           Our history
         </h2>
@@ -151,23 +151,23 @@ exports[`HistorySection > renders desktop as expected 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;
 
 exports[`HistorySection > renders mobile as expected 1`] = `
 <div>
-  <div
-    class="section section-base py-spacing-y border-b border-divider overflow-hidden history-section"
+  <section
+    class="section section-body history-section"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           Our history
         </h2>
@@ -276,6 +276,6 @@ exports[`HistorySection > renders mobile as expected 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
 `;

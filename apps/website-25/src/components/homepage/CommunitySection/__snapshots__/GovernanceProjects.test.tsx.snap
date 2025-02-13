@@ -3,30 +3,30 @@
 exports[`GovernanceProjects > renders as expected 1`] = `
 <div>
   <div
-    class="governance-projects p-6 container-lined flex flex-col gap-space-between"
+    class="governance-projects p-6 container-lined flex flex-col gap-spacing-y"
   >
-    <section
-      class="slide-list w-full"
+    <div
+      class="slide-list w-full flex flex-col gap-spacing-y"
     >
       <div
-        class="slide-list__header flex flex-col lg:flex-row lg:justify-between lg:items-start"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
         <div
-          class="slide-list__header-content pb-6 lg:pb-0 mb-space-between"
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h3
-            class="slide-list__subtitle"
+            class="section-heading__title relative"
           >
             AI Governance Projects
           </h3>
           <p
-            class="slide-list__description mt-2 max-w-[600px] text-gray-700"
+            class="section-heading__subtitle text-bluedot-darker text-md"
           >
             Competition winners
           </p>
         </div>
         <div
-          class="slide-list__nav hidden lg:flex items-center gap-2 ml-auto mt-auto"
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
         >
           <button
             aria-label="Previous slide"
@@ -73,51 +73,51 @@ exports[`GovernanceProjects > renders as expected 1`] = `
         class="slide-list__content flex flex-col lg:flex-row gap-space-between"
       >
         <div
-          class="slide-list__nav lg:hidden flex items-center justify-end gap-2"
-        >
-          <button
-            aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
-            disabled=""
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-          <button
-            aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-        </div>
-        <div
           class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
         >
+          <div
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
           <div
             class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
           >
@@ -279,7 +279,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
           </div>
         </div>
       </div>
-    </section>
+    </div>
     <a
       class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
       data-testid="cta-link"

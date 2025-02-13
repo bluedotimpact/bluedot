@@ -157,7 +157,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           !allChildrenFit && (
             <div
               className={clsx(
-                'slide-list__nav items-center gap-2 ml-auto mt-auto',
+                'slide-list__nav--header items-center gap-2 ml-auto mt-auto',
                 // Hide if there is a featuredSlot directly underneath
                 featuredSlot ? 'hidden lg:flex' : 'flex',
               )}
@@ -179,7 +179,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           {!allChildrenFit && (
             <div
               className={clsx(
-                'slide-list__nav items-center justify-end gap-2',
+                'slide-list__nav--container items-center justify-end gap-2',
                 featuredSlot ? 'lg:hidden flex' : 'hidden',
               )}
             >
