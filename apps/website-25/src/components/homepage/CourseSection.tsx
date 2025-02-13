@@ -1,6 +1,5 @@
 import {
   CourseCard,
-  Section,
   constants,
 } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
@@ -12,7 +11,7 @@ const CourseSection = () => {
     <SlideList
       title="Our courses"
       subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
-      subtitleLevel='p'
+      subtitleLevel="p"
       className="course-section section-body"
       maxItemsPerSlide={2}
       minItemWidth={300}

@@ -44,7 +44,7 @@ const GovernanceProjects = () => {
     <div className="governance-projects p-6 container-lined flex flex-col gap-spacing-y">
       <SlideList
         title="AI Governance Projects"
-        titleLevel='h3'
+        titleLevel="h3"
         subtitle="Competition winners"
         maxItemsPerSlide={4}
         minItemWidth={260}

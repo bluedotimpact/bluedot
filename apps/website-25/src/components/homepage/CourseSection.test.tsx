@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import {
-  describe, expect, test
+  describe, expect, test,
 } from 'vitest';
 import CourseSection from './CourseSection';
 

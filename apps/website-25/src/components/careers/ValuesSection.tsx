@@ -1,4 +1,4 @@
-import { Card, Section } from '@bluedot/ui';
+import { Card } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const values = [

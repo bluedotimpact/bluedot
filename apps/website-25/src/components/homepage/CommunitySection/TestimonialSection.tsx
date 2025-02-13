@@ -32,7 +32,7 @@ const TestimonialSection = () => {
   return (
     <SlideList
       title="What our graduates say"
-      titleLevel='h3'
+      titleLevel="h3"
       maxItemsPerSlide={3}
       minItemWidth={300}
     >

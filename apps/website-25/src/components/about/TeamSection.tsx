@@ -1,4 +1,4 @@
-import { Card, Section, SlideList } from '@bluedot/ui';
+import { Card, SlideList } from '@bluedot/ui';
 
 const teamMembers = [
   {
