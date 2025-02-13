@@ -3,20 +3,13 @@ import {
   constants,
 } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
-import { addUtmParams, UTMParams } from '../../lib/utmParams';
+import { withClickTracking } from '../../lib/withClickTracking';
 
-const utmParams: UTMParams = {
-  source: 'website',
-  content: 'course_section',
-  campaign: 'relaunch',
-};
+const featuredCourse = constants.COURSES.find((course) => course.title === 'AI Safety: Intro to Transformative AI')!;
 
-const coursesWithUtm = constants.COURSES.map((course) => ({
-  ...course,
-  href: addUtmParams(course.href, utmParams),
-}));
-
-const featuredCourse = coursesWithUtm.find((course) => course.title === 'AI Safety: Intro to Transformative AI')!;
+const CourseCardWithTracking = withClickTracking(CourseCard, {
+  eventName: 'course_card_click',
+});
 
 const CourseSection = () => {
   return (
@@ -28,15 +21,16 @@ const CourseSection = () => {
       maxItemsPerSlide={2}
       minItemWidth={300}
       featuredSlot={(
-        <CourseCard
+        <CourseCardWithTracking
+          trackingEventParams={{ course_title: featuredCourse.title, course_url: featuredCourse.href }}
           {...featuredCourse}
           cardType="Featured"
           className="h-full"
         />
       )}
     >
-      {coursesWithUtm.filter((course) => course !== featuredCourse).map((course) => (
-        <CourseCard key={course.title} {...course} />
+      {constants.COURSES.filter((course) => course !== featuredCourse).map((course) => (
+        <CourseCardWithTracking trackingEventParams={{ course_title: course.title, course_url: course.href }} key={course.title} {...course} />
       ))}
     </SlideList>
   );
