@@ -17,11 +17,15 @@ exports[`Footer > renders default as expected 1`] = `
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
           >
-            <p
-              class="footer__logo h-8 text-xl text-white"
+            <a
+              href="/"
             >
-              BlueDot Impact
-            </p>
+              <p
+                class="footer__logo h-8 text-xl text-white"
+              >
+                BlueDot Impact
+              </p>
+            </a>
             <div
               class="footer__social flex gap-6 hidden sm:flex"
             >
@@ -372,11 +376,15 @@ exports[`Footer > renders with optional args 1`] = `
           <div
             class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
           >
-            <img
-              alt="BlueDot Impact Logo"
-              class="footer__logo h-6 mr-auto"
-              src="https://www.bluedot.com/test-logo.jpg"
-            />
+            <a
+              href="/"
+            >
+              <img
+                alt="BlueDot Impact Logo"
+                class="footer__logo h-6 mr-auto"
+                src="https://www.bluedot.com/test-logo.jpg"
+              />
+            </a>
             <div
               class="footer__social flex gap-6 hidden sm:flex"
             >
