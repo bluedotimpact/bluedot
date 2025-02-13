@@ -126,7 +126,7 @@ exports[`GovernanceProjects > renders as expected 1`] = `
             />
           </div>
           <div
-            class="slide-list__slides flex overflow-x-scroll transition-transform duration-300 gap-space-between"
+            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
           >
             <div
               class="slide-list__slide shrink-0"
