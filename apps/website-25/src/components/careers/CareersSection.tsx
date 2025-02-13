@@ -4,6 +4,7 @@ import { isMobile } from 'react-device-detect';
 const CareersSection = () => {
   return (
     <Section className="careers-section" title="Careers at BlueDot Impact">
+      <div id="open-roles-anchor" className="invisible relative bottom-48" />
       <div className="careers-section__container flex flex-col gap-8">
         <JobListing title="Software Engineering Contractor" url="/careers/swe-contractor/" />
         <JobListing title="AI Safety Teaching Fellow" url="/careers/ai-safety-teaching-fellow/" />

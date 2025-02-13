@@ -22,6 +22,10 @@ exports[`CareersSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
+        class="invisible relative bottom-48"
+        id="open-roles-anchor"
+      />
+      <div
         class="careers-section__container flex flex-col gap-8"
       >
         <div
@@ -137,6 +141,10 @@ exports[`CareersSection > renders mobile as expected 1`] = `
     <div
       class="section__body"
     >
+      <div
+        class="invisible relative bottom-48"
+        id="open-roles-anchor"
+      />
       <div
         class="careers-section__container flex flex-col gap-8"
       >

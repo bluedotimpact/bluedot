@@ -1,5 +1,8 @@
 import {
+  CTALinkOrButton,
   HeroSection,
+  HeroH1,
+  HeroCTAContainer,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -16,9 +19,12 @@ const AboutPage = () => {
         <title>Join our team | BlueDot Impact</title>
         <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
-      <HeroSection
-        title="Our mission is to ensure humanity safely navigates the transition to transformative AI."
-      />
+      <HeroSection>
+        <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+        <HeroCTAContainer>
+          <CTALinkOrButton url="/careers" withChevron>Join the team</CTALinkOrButton>
+        </HeroCTAContainer>
+      </HeroSection>
       <IntroSection title="Why do we exist?" />
       <BeliefsSection />
       <HistorySection />

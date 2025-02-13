@@ -1,16 +1,18 @@
 import {
   EXTERNAL_LINK_PROPS,
   HeroSection,
+  HeroH1,
+  HeroH2,
   Section,
 } from '@bluedot/ui';
 
 const PrivacyPolicyPage = () => {
   return (
     <div>
-      <HeroSection
-        title="Privacy Policy"
-        subtitle="Effective date: 30 August, 2024"
-      />
+      <HeroSection>
+        <HeroH1>Privacy Policy</HeroH1>
+        <HeroH2>Effective date: 30 August, 2024</HeroH2>
+      </HeroSection>
       <Section>
         <p className="my-2">
           BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via <a href="mailto:team@bluedot.org" {...EXTERNAL_LINK_PROPS}>team@bluedot.org</a>.
