@@ -2,15 +2,14 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
 import {
   CookieBanner, Footer, isCurrentPath, Nav, constants,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import { Analytics } from '../components/Analytics';
 import { useEffect } from 'react';
 import { Router } from 'next/router';
+import { Analytics } from '../components/Analytics';
 
 if (typeof window !== 'undefined') {
   if (!process.env.NEXT_PUBLIC_DEV_POSTHOG_KEY) {
@@ -22,11 +21,11 @@ if (typeof window !== 'undefined') {
       person_profiles: 'always',
       // TODO: Do we want this to be "identified_only" or "always"?
       loaded: (posthog) => {
-        if (process.env.NODE_ENV === 'development') posthog.debug();
+        if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') posthog.debug();
         if (localStorage.getItem('cookies') === 'rejected') {
           posthog.opt_out_capturing();
         }
-      }
+      },
     });
     console.log('PostHog initialized!');
   }

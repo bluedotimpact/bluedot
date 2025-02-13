@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
 type CookieBannerProps = {
@@ -17,13 +16,10 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
 
   const setCookieConsent = useCallback(
     (value: 'accepted' | 'rejected') => {
-      console.log(`Setting cookie consent to: ${value}`);
       localStorage.setItem('cookies', value);
       if (value === 'accepted') {
-        console.log('Opting in to PostHog via button click...');
         posthog.opt_in_capturing();
       } else {
-        console.log('Opting out of PostHog via button click...');
         posthog.opt_out_capturing();
       }
       setShowBanner(false);
@@ -33,16 +29,12 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
 
   useEffect(() => {
     const cookieConsent = localStorage.getItem('cookies');
-    console.log('Initial cookie consent value:', cookieConsent);
 
     if (cookieConsent === 'accepted') {
-      console.log('Opting in to PostHog on initial load...');
       posthog.opt_in_capturing();
     } else if (cookieConsent === 'rejected') {
-      console.log('Opting out of PostHog on initial load...');
       posthog.opt_out_capturing();
     } else {
-      console.log('No cookie consent found, showing banner...');
       setShowBanner(true);
     }
   }, []);
