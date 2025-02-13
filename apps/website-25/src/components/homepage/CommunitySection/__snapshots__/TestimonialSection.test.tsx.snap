@@ -3,7 +3,7 @@
 exports[`TestimonialSection > renders as expected 1`] = `
 <div>
   <div
-    class="slide-list w-full flex flex-col gap-spacing-y"
+    class="slide-list w-full flex flex-col gap-spacing-y testimonial-section"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between"
