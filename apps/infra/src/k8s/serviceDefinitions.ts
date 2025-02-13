@@ -32,7 +32,7 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-website-proxy',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-website-proxy',
@@ -59,7 +59,7 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-storybook',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-storybook',
@@ -70,7 +70,7 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-miniextensions-proxy',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-miniextensions-proxy',
@@ -81,7 +81,7 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-posthog-proxy',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-posthog-proxy',
@@ -143,7 +143,7 @@ export const services: ServiceDefinition[] = [
   },
   // {
   //   name: 'bluedot-bubble-proxy',
-  //   targetPort: 80,
+  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-bubble-proxy',
@@ -157,7 +157,7 @@ export const services: ServiceDefinition[] = [
   // },
   // {
   //   name: 'bluedot-backend',
-  //   targetPort: 8001,
+  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-backend',
