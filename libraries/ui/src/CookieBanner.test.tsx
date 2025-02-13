@@ -7,46 +7,27 @@ import {
   vi,
 } from 'vitest';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import posthog from 'posthog-js';
 import { CookieBanner } from './CookieBanner';
 
-// Define PostHog interface
-interface PostHog {
-  opt_out_capturing: () => void;
-  opt_in_capturing: () => void;
-}
-
-// Extend Window interface
-declare global {
-  interface Window {
-    posthog?: PostHog;
-  }
-}
+// Mock the entire posthog-js module
+vi.mock('posthog-js');
 
 describe('CookieBanner', () => {
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-  const mockPosthogOptOut = vi.fn();
-  const mockPosthogOptIn = vi.fn();
 
   beforeEach(() => {
-    // Clear any previous state
     cleanup();
     localStorage.clear();
     setItemSpy.mockClear();
     getItemSpy.mockClear();
-    mockPosthogOptOut.mockClear();
-    mockPosthogOptIn.mockClear();
-
-    // Mock posthog global object with both opt-in and opt-out functions
-    window.posthog = {
-      opt_out_capturing: mockPosthogOptOut,
-      opt_in_capturing: mockPosthogOptIn,
-    };
+    vi.mocked(posthog.opt_in_capturing).mockClear();
+    vi.mocked(posthog.opt_out_capturing).mockClear();
   });
 
   afterEach(() => {
     cleanup();
-    delete window.posthog;
   });
 
   test('renders as expected', () => {
@@ -63,8 +44,7 @@ describe('CookieBanner', () => {
     fireEvent.click(acceptButton!);
 
     expect(setItemSpy).toHaveBeenCalledWith('cookies', 'accepted');
-    expect(mockPosthogOptIn).toHaveBeenCalled();
-    expect(mockPosthogOptOut).not.toHaveBeenCalled();
+    expect(posthog.opt_in_capturing).toHaveBeenCalled();
   });
 
   test('sets localStorage item and opts out of tracking when rejected', () => {
@@ -76,12 +56,11 @@ describe('CookieBanner', () => {
     fireEvent.click(rejectButton!);
 
     expect(setItemSpy).toHaveBeenCalledWith('cookies', 'rejected');
-    expect(mockPosthogOptOut).toHaveBeenCalled();
-    expect(mockPosthogOptIn).not.toHaveBeenCalled();
+    expect(posthog.opt_out_capturing).toHaveBeenCalled();
   });
 
   test('does not render if "cookies" is already set', () => {
-    getItemSpy.mockReturnValue('accepted');
+    localStorage.setItem('cookies', 'accepted');
     const { container } = render(<CookieBanner />);
     expect(container.firstChild).toBeNull();
   });

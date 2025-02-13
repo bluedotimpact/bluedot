@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
+import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
 type CookieBannerProps = {
