@@ -7,13 +7,37 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
     >
       <div
-        class="hero-section__content max-w-[865px] mt-[82px] py-28"
+        class="hero-section__content max-w-[865px] mt-[82px] py-16"
       >
         <h1
           class="hero-section__title text-on-dark text-center"
         >
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h1>
+        <div
+          class="flex justify-center mt-8"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            data-testid="cta-link"
+            href="#open-roles-anchor"
+          >
+            <span
+              class="cta-button__text"
+            >
+              See open roles
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_white.svg"
+              />
+            </span>
+          </a>
+        </div>
       </div>
     </div>
     <section
@@ -305,6 +329,10 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       <div
         class="section__body"
       >
+        <div
+          class="invisible relative bottom-48"
+          id="open-roles-anchor"
+        />
         <div
           class="careers-section__container flex flex-col gap-8"
         >
