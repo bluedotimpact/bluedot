@@ -59,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => {
   return (
     <div className="footer">
       <footer className={clsx('footer__main bg-bluedot-darker py-10 flex flex-col', className)}>
-        <div className="footer__content section-normal flex flex-col">
+        <div className="footer__content section-base flex flex-col">
           <nav className="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4">
             <div className="footer__section footer__section--brand flex flex-row lg:flex-col justify-between">
               <a href="/">

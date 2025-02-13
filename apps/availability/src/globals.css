@@ -1,5 +1,7 @@
-/* TODO: move these styles out of here */
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';
 
+/* TODO: inline these styles with the code */
 .timezone-select.solid-select-container {
   @apply w-32;
 }

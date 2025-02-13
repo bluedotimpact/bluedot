@@ -3,10 +3,10 @@
 exports[`Collapsible > renders to snapshot 1`] = `
 <div>
   <details
-    class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group"
+    class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden"
   >
     <summary
-      class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+      class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
     >
       <span
         class="collapsible__title subtitle-sm"

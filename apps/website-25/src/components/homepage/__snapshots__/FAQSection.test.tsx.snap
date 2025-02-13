@@ -2,17 +2,17 @@
 
 exports[`FAQSection > renders default as expected 1`] = `
 <div>
-  <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden faq-section !overflow-visible"
+  <section
+    class="section section-body faq-section !overflow-visible"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           Frequently asked questions
         </h2>
@@ -22,10 +22,10 @@ exports[`FAQSection > renders default as expected 1`] = `
       class="section__body"
     >
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -70,10 +70,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -119,10 +119,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -174,10 +174,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -217,10 +217,10 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
-          class="collapsible__header flex justify-between w-full cursor-pointer list-none py-6"
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
             class="collapsible__title subtitle-sm"
@@ -266,6 +266,6 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
     </div>
-  </div>
+  </section>
 </div>
 `;

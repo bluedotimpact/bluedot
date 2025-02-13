@@ -6,7 +6,7 @@ import CommunityValuesSection from './CommunityValuesSection';
 
 const CommunitySection = () => {
   return (
-    <Section title="Our community" className="community-section">
+    <Section className="community-section">
       <div className="community-section__sub-sections flex flex-col gap-spacing-y">
         <CommunityValuesSection />
         <GovernanceProjects />

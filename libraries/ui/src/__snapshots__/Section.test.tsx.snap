@@ -2,17 +2,17 @@
 
 exports[`Section > renders default as expected 1`] = `
 <div>
-  <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
+  <section
+    class="section section-body"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-full"
+          class="section-heading__title relative"
         >
           This is the title
         </h2>
@@ -21,52 +21,37 @@ exports[`Section > renders default as expected 1`] = `
     <div
       class="section__body"
     />
-  </div>
+  </section>
 </div>
 `;
 
 exports[`Section > renders with all optional props 1`] = `
 <div>
-  <div
-    class="section section-normal py-spacing-y border-b border-divider overflow-hidden"
+  <section
+    class="section section-body"
   >
     <div
-      class="section__title-container flex justify-between items-center gap-space-between"
+      class="section-heading__title-container flex justify-between items-center gap-space-between"
     >
       <div
-        class="section__content flex-1"
+        class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section__title mb-4 relative after:w-4/5"
+          class="section-heading__title relative"
         >
           This is the title
         </h2>
         <p
-          class="section__subtitle text-bluedot-darker text-md mb-4"
+          class="section-heading__subtitle text-bluedot-darker text-md"
         >
           This is the subtitle
         </p>
       </div>
-      <a
-        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter section__cta shrink-0"
-        data-testid="cta-link"
-        href="/some-path"
+      <div
+        class="right-node"
       >
-        <span
-          class="cta-button__text"
-        >
-          Click me
-        </span>
-        <span
-          class="cta-button__chevron ml-3"
-        >
-          <img
-            alt="→"
-            class="cta-button__chevron-icon size-2"
-            src="/icons/chevron_blue.svg"
-          />
-        </span>
-      </a>
+        This is the rightNode
+      </div>
     </div>
     <div
       class="section__body"
@@ -75,6 +60,6 @@ exports[`Section > renders with all optional props 1`] = `
         This is the yield
       </p>
     </div>
-  </div>
+  </section>
 </div>
 `;

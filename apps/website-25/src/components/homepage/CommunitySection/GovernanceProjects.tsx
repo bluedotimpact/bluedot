@@ -1,4 +1,4 @@
-import { Card, CTALinkOrButton } from '@bluedot/ui';
+import { Card, CTALinkOrButton, SlideList } from '@bluedot/ui';
 
 interface Project {
   id: number;
@@ -41,39 +41,35 @@ const projects: Project[] = [
 
 const GovernanceProjects = () => {
   return (
-    <div className="governance-projects p-6 container-lined">
-      <div className="governance-projects__container mx-auto max-w-[1750px] flex flex-col gap-12">
-        <div className="governance-projects__title-container flex flex-col gap-2">
-          <h3 className="governance-projects__title">
-            Featured Course Projects
-          </h3>
-          <p className="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black">
-            Competition winners
-          </p>
-        </div>
-        <div className="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-space-between overflow-visible mb-3">
-          {projects.map((project) => (
-            <Card
-              key={project.title}
-              title={project.title}
-              subtitle={`by ${project.authorName}`}
-              subtitleClassName="text-base"
-              imageSrc={project.imageSrc}
-              ctaUrl={project.ctaUrl}
-              className="governance-projects__project max-w-[323px]"
-              isEntireCardClickable
-            />
-          ))}
-        </div>
-        <CTALinkOrButton
-          className="governance-projects__link h-fit py-3"
-          url="https://aisafetyfundamentals.com/projects/"
-          variant="secondary"
-          withChevron
-        >
-          Explore more projects
-        </CTALinkOrButton>
-      </div>
+    <div className="governance-projects p-6 container-lined flex flex-col gap-spacing-y">
+      <SlideList
+        title="AI Governance Projects"
+        titleLevel="h3"
+        subtitle="Competition winners"
+        maxItemsPerSlide={4}
+        minItemWidth={260}
+      >
+        {projects.map((project) => (
+          <Card
+            key={project.title}
+            title={project.title}
+            subtitle={`by ${project.authorName}`}
+            subtitleClassName="text-base"
+            imageSrc={project.imageSrc}
+            ctaUrl={project.ctaUrl}
+            className="governance-projects__project"
+            isEntireCardClickable
+          />
+        ))}
+      </SlideList>
+      <CTALinkOrButton
+        className="governance-projects__link h-fit py-3"
+        url="https://aisafetyfundamentals.com/projects/"
+        variant="secondary"
+        withChevron
+      >
+        Explore more projects
+      </CTALinkOrButton>
     </div>
   );
 };

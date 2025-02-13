@@ -79,7 +79,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
         </div>
-        <div className={clsx('course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
+        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
           <img
             className="course-card__image size-full md:w-[319px] object-cover"
             src={imageSrc}
@@ -127,7 +127,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       </FeaturedCourseCard>
     </div>
   ) : (
-    <div className="p-[2px]">
+    <div className="p-[3px]">
       <Card
         imageSrc={imageSrc}
         title={title}
@@ -136,11 +136,11 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isEntireCardClickable
         className={clsx(
           'course-card course-card--regular container-lined p-5',
-          'flex flex-col w-[323px] h-[466px] hover:container-elevated',
+          'flex flex-col max-w-full h-[520px] hover:container-elevated',
           className,
         )}
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
-        subtitleClassName="flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+        subtitleClassName="grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
       >
         {CourseCardFooter}
       </Card>

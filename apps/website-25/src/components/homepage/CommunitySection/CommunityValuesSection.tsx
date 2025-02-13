@@ -1,8 +1,4 @@
-import {
-  Card,
-  SlideItem,
-  SlideList,
-} from '@bluedot/ui';
+import { Card, SlideList } from '@bluedot/ui';
 
 const values = [
   {
@@ -25,19 +21,11 @@ const values = [
 
 const CommunityValuesSection = () => {
   return (
-    <div className="community-values-section mt-4">
-      <SlideList
-        itemsPerSlide={4}
-        slidesWrapperWidth="100%"
-        slideClassName="px-2"
-      >
-        {values.map((value) => (
-          <SlideItem key={value.title}>
-            <Card {...value} className="community-values-section__value" />
-          </SlideItem>
-        ))}
-      </SlideList>
-    </div>
+    <SlideList title="Our community" maxItemsPerSlide={4} className="community-values-section">
+      {values.map((value) => (
+        <Card {...value} className="community-values-section__value" />
+      ))}
+    </SlideList>
   );
 };
 

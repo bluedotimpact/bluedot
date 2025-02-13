@@ -3,178 +3,303 @@
 exports[`GovernanceProjects > renders as expected 1`] = `
 <div>
   <div
-    class="governance-projects p-6 container-lined"
+    class="governance-projects p-6 container-lined flex flex-col gap-spacing-y"
   >
     <div
-      class="governance-projects__container mx-auto max-w-[1750px] flex flex-col gap-12"
+      class="slide-list w-full flex flex-col gap-spacing-y"
     >
       <div
-        class="governance-projects__title-container flex flex-col gap-2"
+        class="section-heading__title-container flex justify-between items-center gap-space-between"
       >
-        <h3
-          class="governance-projects__title"
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
         >
-          Featured Course Projects
-        </h3>
-        <p
-          class="governance-projects__featured-label text-size-xs font-[650] uppercase text-bluedot-black"
+          <h3
+            class="section-heading__title relative"
+          >
+            AI Governance Projects
+          </h3>
+          <p
+            class="section-heading__subtitle text-bluedot-darker text-md"
+          >
+            Competition winners
+          </p>
+        </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
         >
-          Competition winners
-        </p>
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
       <div
-        class="governance-projects__grid grid grid-cols-[repeat(auto-fit,minmax(300px,max-content))] gap-space-between overflow-visible mb-3"
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between"
       >
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
-          href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
+        <div
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
         >
           <div
-            class="card__image-container w-full mb-4"
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
           >
-            <img
-              alt="Contextual Constitutional AI"
-              class="card__image w-full max-h-full object-cover rounded-radius-md "
-              src="/images/project-winners/akshat-naik.png"
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          >
+            <div
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
             />
           </div>
           <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
           >
             <div
-              class="card__text"
+              class="slide-list__slide shrink-0"
+              style=""
             >
-              <p
-                class="card__title subtitle-sm mb-2"
+              <a
+                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project"
+                href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
               >
-                Contextual Constitutional AI
-              </p>
-              <p
-                class="card__subtitle text-base"
-              >
-                by Akshat Naik
-              </p>
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Contextual Constitutional AI"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/project-winners/akshat-naik.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Contextual Constitutional AI
+                    </p>
+                    <p
+                      class="card__subtitle text-base"
+                    >
+                      by Akshat Naik
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
-          href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
-        >
-          <div
-            class="card__image-container w-full mb-4"
-          >
-            <img
-              alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
-              class="card__image w-full max-h-full object-cover rounded-radius-md "
-              src="/images/project-winners/ella-duus.png"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-          >
             <div
-              class="card__text"
+              class="slide-list__slide shrink-0"
+              style=""
             >
-              <p
-                class="card__title subtitle-sm mb-2"
+              <a
+                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project"
+                href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
               >
-                Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
-              </p>
-              <p
-                class="card__subtitle text-base"
-              >
-                by Ella Duus
-              </p>
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/project-winners/ella-duus.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
+                    </p>
+                    <p
+                      class="card__subtitle text-base"
+                    >
+                      by Ella Duus
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
-          href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
-        >
-          <div
-            class="card__image-container w-full mb-4"
-          >
-            <img
-              alt="Societal Adaptation to AI Human-Labor Automation"
-              class="card__image w-full max-h-full object-cover rounded-radius-md "
-              src="/images/project-winners/yuval-rymon.png"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-          >
             <div
-              class="card__text"
+              class="slide-list__slide shrink-0"
+              style=""
             >
-              <p
-                class="card__title subtitle-sm mb-2"
+              <a
+                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project"
+                href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
               >
-                Societal Adaptation to AI Human-Labor Automation
-              </p>
-              <p
-                class="card__subtitle text-base"
-              >
-                by Yuval Rymon
-              </p>
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Societal Adaptation to AI Human-Labor Automation"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/project-winners/yuval-rymon.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Societal Adaptation to AI Human-Labor Automation
+                    </p>
+                    <p
+                      class="card__subtitle text-base"
+                    >
+                      by Yuval Rymon
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-        <a
-          class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project max-w-[323px]"
-          href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
-        >
-          <div
-            class="card__image-container w-full mb-4"
-          >
-            <img
-              alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
-              class="card__image w-full max-h-full object-cover rounded-radius-md "
-              src="/images/project-winners/naci-cankaya.png"
-            />
-          </div>
-          <div
-            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-          >
             <div
-              class="card__text"
+              class="slide-list__slide shrink-0"
+              style=""
             >
-              <p
-                class="card__title subtitle-sm mb-2"
+              <a
+                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] governance-projects__project"
+                href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
               >
-                Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
-              </p>
-              <p
-                class="card__subtitle text-base"
-              >
-                by Naci Cankaya
-              </p>
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/project-winners/naci-cankaya.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
+                    </p>
+                    <p
+                      class="card__subtitle text-base"
+                    >
+                      by Naci Cankaya
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
-        </a>
+        </div>
       </div>
-      <a
-        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
-        data-testid="cta-link"
-        href="https://aisafetyfundamentals.com/projects/"
-      >
-        <span
-          class="cta-button__text"
-        >
-          Explore more projects
-        </span>
-        <span
-          class="cta-button__chevron ml-3"
-        >
-          <img
-            alt="→"
-            class="cta-button__chevron-icon size-2"
-            src="/icons/chevron_blue.svg"
-          />
-        </span>
-      </a>
     </div>
+    <a
+      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter governance-projects__link h-fit py-3"
+      data-testid="cta-link"
+      href="https://aisafetyfundamentals.com/projects/"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Explore more projects
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <img
+          alt="→"
+          class="cta-button__chevron-icon size-2"
+          src="/icons/chevron_blue.svg"
+        />
+      </span>
+    </a>
   </div>
 </div>
 `;

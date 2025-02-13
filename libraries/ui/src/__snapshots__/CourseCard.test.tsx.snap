@@ -43,7 +43,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           </p>
         </div>
         <div
-          class="course-card__image-container flex-shrink-0 md:max-w-[60%] w-full mb-6"
+          class="course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6"
         >
           <img
             alt="Title"
@@ -79,10 +79,10 @@ exports[`CourseCard > renders Featured as expected 1`] = `
 exports[`CourseCard > renders default as expected 1`] = `
 <div>
   <div
-    class="p-[2px]"
+    class="p-[3px]"
   >
     <a
-      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col w-[323px] h-[466px] hover:container-elevated"
+      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-[520px] hover:container-elevated"
       href="https://bluedot.org/courses/what-the-fish"
     >
       <div
@@ -106,7 +106,7 @@ exports[`CourseCard > renders default as expected 1`] = `
             Title
           </p>
           <p
-            class="card__subtitle flex-grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+            class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
           >
             Description
           </p>

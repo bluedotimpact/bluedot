@@ -150,12 +150,12 @@ export const Nav: React.FC<NavProps> = ({
       className={clsx(
         'nav fixed z-50 w-full container-elevated transition-all duration-300',
         isScrolled ? 'bg-color-canvas-dark' : 'bg-color-canvas',
-        isScrolled && '[&_*]:text-white [&_a:hover]:text-bluedot-lighter [&_button:hover]:text-bluedot-lighter',
+        isScrolled && '**:text-white [&_a:hover]:text-bluedot-lighter [&_button:hover]:text-bluedot-lighter',
         className,
       )}
     >
-      <div className="nav__container section-normal">
-        <div className="nav__bar flex flex-grow justify-between items-center h-[72px] sm:h-[100px]">
+      <div className="nav__container section-base">
+        <div className="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]">
           <a href="/" className="nav__logo-link shrink-0 w-[200px]">
             {logo ? (
               <img
@@ -202,7 +202,7 @@ export const Nav: React.FC<NavProps> = ({
             innerClassName="pb-10 hidden lg:flex mx-auto"
           />
           {/* Mobile & Tablet content (including Explore) */}
-          <div className="nav__drawer-content--mobile-tablet flex flex-col flex-grow font-medium pb-8 pt-2 lg:hidden">
+          <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
             <NavLinks
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
