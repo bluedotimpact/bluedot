@@ -2,7 +2,7 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { PostHogProvider } from 'posthog-js/react';
+import { PostHogProvider } from 'posthog-js-react';
 import {
   CookieBanner, Footer, isCurrentPath, Nav, constants,
 } from '@bluedot/ui';
@@ -12,11 +12,11 @@ import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
 
 if (typeof window !== 'undefined') {
-  if (!process.env.NEXT_PUBLIC_DEV_POSTHOG_KEY) {
+  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     console.error('PostHog key is missing! Check your .env.local file');
   } else {
     console.log('Initializing PostHog...');
-    posthog.init(process.env.NEXT_PUBLIC_DEV_POSTHOG_KEY!, {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: 'https://eu.i.posthog.com',
       person_profiles: 'always',
       // TODO: Do we want this to be "identified_only" or "always"?

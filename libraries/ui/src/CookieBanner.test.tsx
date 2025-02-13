@@ -9,6 +9,19 @@ import {
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { CookieBanner } from './CookieBanner';
 
+// Define PostHog interface
+interface PostHog {
+  opt_out_capturing: () => void;
+  opt_in_capturing: () => void;
+}
+
+// Extend Window interface
+declare global {
+  interface Window {
+    posthog?: PostHog;
+  }
+}
+
 describe('CookieBanner', () => {
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
   const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
@@ -25,7 +38,7 @@ describe('CookieBanner', () => {
     mockPosthogOptIn.mockClear();
 
     // Mock posthog global object with both opt-in and opt-out functions
-    (window as any).posthog = {
+    window.posthog = {
       opt_out_capturing: mockPosthogOptOut,
       opt_in_capturing: mockPosthogOptIn,
     };
@@ -33,7 +46,7 @@ describe('CookieBanner', () => {
 
   afterEach(() => {
     cleanup();
-    delete (window as any).posthog;
+    delete window.posthog;
   });
 
   test('renders as expected', () => {
