@@ -30,6 +30,7 @@ export { Tag } from './Tag';
 // Utils
 
 export { EXTERNAL_LINK_PROPS } from './utils';
+export * as constants from './constants';
 
 // Legacy Components
 
