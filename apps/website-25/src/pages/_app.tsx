@@ -2,6 +2,7 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+/* eslint-disable import/no-extraneous-dependencies */
 import { PostHogProvider } from 'posthog-js/react';
 import {
   CookieBanner, Footer, isCurrentPath, Nav, constants,
@@ -10,7 +11,6 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
-import posthog from 'posthog-js';
 
 if (typeof window !== 'undefined') {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {

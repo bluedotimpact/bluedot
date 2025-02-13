@@ -7,6 +7,7 @@ import {
   vi,
 } from 'vitest';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+/* eslint-disable import/no-extraneous-dependencies */
 import posthog from 'posthog-js';
 import { CookieBanner } from './CookieBanner';
 
