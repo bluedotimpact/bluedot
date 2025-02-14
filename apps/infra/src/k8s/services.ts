@@ -32,7 +32,7 @@ services.forEach((service) => {
       ports: [{
         name: 'default',
         port: 80,
-        targetPort: service.targetPort,
+        targetPort: service.targetPort ?? 8080,
       }],
     },
     metadata: {

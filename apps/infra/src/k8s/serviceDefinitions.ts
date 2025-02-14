@@ -5,7 +5,6 @@ import { getConnectionDetails, keycloakPg } from './postgres';
 export const services: ServiceDefinition[] = [
   {
     name: 'hello',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'hello',
@@ -16,7 +15,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-frontend-example',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-frontend-example',
@@ -32,7 +30,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-website-proxy',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-website-proxy',
@@ -43,7 +40,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-website-25',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-website-25',
@@ -59,7 +55,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-storybook',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-storybook',
@@ -70,7 +65,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-miniextensions-proxy',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-miniextensions-proxy',
@@ -81,7 +75,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-posthog-proxy',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-posthog-proxy',
@@ -92,7 +85,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-meet',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-meet',
@@ -110,7 +102,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-availability',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-availability',
@@ -126,7 +117,6 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-login-account-proxy',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-login-account-proxy',
@@ -143,7 +133,6 @@ export const services: ServiceDefinition[] = [
   },
   // {
   //   name: 'bluedot-bubble-proxy',
-  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-bubble-proxy',
@@ -157,7 +146,6 @@ export const services: ServiceDefinition[] = [
   // },
   // {
   //   name: 'bluedot-backend',
-  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-backend',
@@ -172,7 +160,6 @@ export const services: ServiceDefinition[] = [
   // },
   {
     name: 'bluedot-login',
-    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-login',
@@ -203,9 +190,43 @@ export const services: ServiceDefinition[] = [
 ];
 
 interface ServiceDefinition {
+  /**
+   * A name for the service. It should be unique and kebab case.
+   * This gets used in the names of Pulumi and Kubernetes resources.
+   *
+   * @example my-cool-app
+   * */
   name: string,
-  targetPort: number,
+
+  /**
+   * Kubernetes pod specification, which generally describes what container(s) you want and configures them e.g. with environment variables. @see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+   *
+   * @example {
+   *   containers: [{
+   *     name: 'bluedot-my-cool-app',
+   *     image: 'sjc.vultrcr.com/bluedot/bluedot-my-cool-app:latest',
+   *     env: [
+   *       { name: 'SOME_USEFUL_ENV_VAR', value: 'my not secret value' },
+   *       { name: 'SOME_SECRET_ENV_VAR', valueFrom: envVarSources.mySecret },
+   *     ],
+   *   }],
+   * }
+   * */
   spec: core.v1.PodSpec,
-  /** If you are not using a *.k8s.bluedot.org domain, you'll also need to add this in Porkbun */
+
+  /**
+   * What hostnames you want to your application on.
+   * If you are not using a *.k8s.bluedot.org domain, you'll need to add this in Porkbun: add an A record pointing at the IP of the Kubernetes cluster (see the entry for *.k8s.bluedot.org in Porkbun and copy that).
+   *
+   * @example ['my-cool-app.k8s.bluedot.org']
+   * */
   hosts?: string[],
+
+  /**
+   * The port the container serves requests on.
+   * For most apps this should be 8080 (update your Dockerfile if not), and you can leave this out.
+   *
+   * @default 8080
+   * */
+  targetPort?: number,
 }
