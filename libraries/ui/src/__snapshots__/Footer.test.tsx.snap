@@ -179,29 +179,9 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                    href="https://aisafetyfundamentals.com/economics-of-tai/"
                   >
-                    Alignment Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance-fast-track/"
-                  >
-                    Governance Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
-                  >
-                    Economics of Transformative AI Fast-Track
+                    Economics of Transformative AI
                   </a>
                 </li>
                 <li
@@ -229,9 +209,9 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai/"
+                    href="https://aisafetyfundamentals.com/writing/"
                   >
-                    Economics of Transformative AI
+                    Writing Intensive
                   </a>
                 </li>
                 <li
@@ -239,9 +219,29 @@ exports[`Footer > renders default as expected 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/writing/"
+                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
                   >
-                    Writing Intensive
+                    Economics of Transformative AI Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                  >
+                    Alignment Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/governance-fast-track/"
+                  >
+                    Governance Fast-Track
                   </a>
                 </li>
               </ul>
@@ -558,29 +558,9 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                    href="https://aisafetyfundamentals.com/economics-of-tai/"
                   >
-                    Alignment Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance-fast-track/"
-                  >
-                    Governance Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
-                  >
-                    Economics of Transformative AI Fast-Track
+                    Economics of Transformative AI
                   </a>
                 </li>
                 <li
@@ -608,9 +588,9 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai/"
+                    href="https://aisafetyfundamentals.com/writing/"
                   >
-                    Economics of Transformative AI
+                    Writing Intensive
                   </a>
                 </li>
                 <li
@@ -618,9 +598,29 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   <a
                     class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/writing/"
+                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
                   >
-                    Writing Intensive
+                    Economics of Transformative AI Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                  >
+                    Alignment Fast-Track
+                  </a>
+                </li>
+                <li
+                  class="footer__item"
+                >
+                  <a
+                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                    href="https://aisafetyfundamentals.com/governance-fast-track/"
+                  >
+                    Governance Fast-Track
                   </a>
                 </li>
               </ul>
