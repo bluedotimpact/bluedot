@@ -9,7 +9,7 @@ exports[`Nav > renders with courses 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]"
+        class="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -22,7 +22,7 @@ exports[`Nav > renders with courses 1`] = `
           />
         </a>
         <div
-          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex"
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
         >
           <div>
             <button
@@ -47,7 +47,7 @@ exports[`Nav > renders with courses 1`] = `
           </div>
         </div>
         <div
-          class="nav__actions flex gap-space-between"
+          class="nav__actions flex gap-space-between ml-auto"
         >
           <div
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
@@ -224,7 +224,7 @@ exports[`Nav > renders with optional yield 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]"
+        class="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]"
       >
         <a
           class="nav__logo-link shrink-0 w-[200px]"
@@ -237,7 +237,7 @@ exports[`Nav > renders with optional yield 1`] = `
           </h3>
         </a>
         <div
-          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex"
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
         >
           <div>
             <button
@@ -267,7 +267,7 @@ exports[`Nav > renders with optional yield 1`] = `
           </p>
         </div>
         <div
-          class="nav__actions flex gap-space-between"
+          class="nav__actions flex gap-space-between ml-auto"
         >
           <div
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
