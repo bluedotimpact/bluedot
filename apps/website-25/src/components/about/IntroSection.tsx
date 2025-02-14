@@ -13,7 +13,7 @@ const IntroSection = () => {
             <p>BlueDot Impact Co-Founders</p>
           </span>
         </div>
-        <img className="intro-section__image max-w-[570px] w-full h-auto rounded-2xl" src="/images/team/team_1.jpg" alt="BlueDot Impact team" />
+        <img className="intro-section__image max-w-[570px] w-full h-auto rounded-2xl" src="/images/culture/About-Us_v1.jpg" alt="BlueDot Impact team" />
       </div>
     </Section>
   );

@@ -88,7 +88,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           <img
             alt="BlueDot Impact team"
             class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
-            src="/images/team/team_1.jpg"
+            src="/images/culture/About-Us_v1.jpg"
           />
         </div>
       </div>
