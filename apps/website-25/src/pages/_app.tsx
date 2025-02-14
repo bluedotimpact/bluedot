@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: 'https://analytics.k8s.bluedot.org',
       person_profiles: 'always',
-      // TODO: Do we want this to be "identified_only" or "always"?
+      // TODO:  always is fine for now given we don't actually identify people anywhere
       loaded: (instance) => {
         if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') instance.debug();
         if (localStorage.getItem('cookies') === 'rejected') {

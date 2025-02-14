@@ -12,7 +12,11 @@ import posthog from 'posthog-js';
 import { CookieBanner } from './CookieBanner';
 
 // Mock the entire posthog-js module
-vi.mock('posthog-js');
+vi.mock('posthog-js', () => ({
+  default: {
+    set_config: vi.fn(),
+  },
+}));
 
 describe('CookieBanner', () => {
   const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
@@ -23,8 +27,7 @@ describe('CookieBanner', () => {
     localStorage.clear();
     setItemSpy.mockClear();
     getItemSpy.mockClear();
-    vi.mocked(posthog.opt_in_capturing).mockClear();
-    vi.mocked(posthog.opt_out_capturing).mockClear();
+    vi.mocked(posthog.set_config).mockClear();
   });
 
   afterEach(() => {
@@ -36,7 +39,7 @@ describe('CookieBanner', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('sets localStorage item and allows tracking when accepted', () => {
+  test('sets localStorage item and configures tracking when accepted', () => {
     const { container } = render(<CookieBanner />);
     const acceptButton = container.querySelector('.cookie-banner__button--accept');
 
@@ -45,10 +48,10 @@ describe('CookieBanner', () => {
     fireEvent.click(acceptButton!);
 
     expect(setItemSpy).toHaveBeenCalledWith('cookies', 'accepted');
-    expect(posthog.opt_in_capturing).toHaveBeenCalled();
+    expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'localStorage+cookie' });
   });
 
-  test('sets localStorage item and opts out of tracking when rejected', () => {
+  test('sets localStorage item and configures tracking when rejected', () => {
     const { container } = render(<CookieBanner />);
     const rejectButton = container.querySelector('.cookie-banner__button--reject');
 
@@ -57,12 +60,22 @@ describe('CookieBanner', () => {
     fireEvent.click(rejectButton!);
 
     expect(setItemSpy).toHaveBeenCalledWith('cookies', 'rejected');
-    expect(posthog.opt_out_capturing).toHaveBeenCalled();
+    expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'memory' });
   });
 
   test('does not render if "cookies" is already set', () => {
     localStorage.setItem('cookies', 'accepted');
     const { container } = render(<CookieBanner />);
     expect(container.firstChild).toBeNull();
+  });
+
+  test('initializes tracking based on existing cookie consent', () => {
+    localStorage.setItem('cookies', 'accepted');
+    render(<CookieBanner />);
+    expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'localStorage+cookie' });
+
+    localStorage.setItem('cookies', 'rejected');
+    render(<CookieBanner />);
+    expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'memory' });
   });
 });
