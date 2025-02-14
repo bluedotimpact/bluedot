@@ -117,12 +117,14 @@ exports[`Nav > renders with courses 1`] = `
             <a
               class="nav-explore-section__dropdown-link"
               href="/course1"
+              tabindex="-1"
             >
               Course 1
             </a>
             <a
               class="nav-explore-section__dropdown-link"
               href="/course2"
+              tabindex="-1"
             >
               <span
                 class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
@@ -173,12 +175,14 @@ exports[`Nav > renders with courses 1`] = `
                   <a
                     class="nav-explore-section__dropdown-link"
                     href="/course1"
+                    tabindex="-1"
                   >
                     Course 1
                   </a>
                   <a
                     class="nav-explore-section__dropdown-link"
                     href="/course2"
+                    tabindex="-1"
                   >
                     <span
                       class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
@@ -337,6 +341,7 @@ exports[`Nav > renders with optional yield 1`] = `
             <a
               class="nav-explore-section__dropdown-link"
               href="/course1"
+              tabindex="-1"
             >
               Course 1
             </a>
@@ -382,6 +387,7 @@ exports[`Nav > renders with optional yield 1`] = `
                   <a
                     class="nav-explore-section__dropdown-link"
                     href="/course1"
+                    tabindex="-1"
                   >
                     Course 1
                   </a>
