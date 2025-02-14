@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "deploy:prod": "tools/deployDocker.sh"
+        "deploy:prod": "docker-scripts deploy",
+        "start": "docker-scripts start"
+    },
+    "dependencies": {
+        "@bluedot/docker-scripts": "*"
     }
 }
