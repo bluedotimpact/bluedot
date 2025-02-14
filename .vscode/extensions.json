@@ -3,6 +3,7 @@
         "streetsidesoftware.code-spell-checker",
         "dbaeumer.vscode-eslint",
         "bradlc.vscode-tailwindcss",
-        "figma.figma-vscode-extension"
+        "figma.figma-vscode-extension",
+        "yzhang.markdown-all-in-one",
     ]
 }

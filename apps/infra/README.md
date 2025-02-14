@@ -19,25 +19,43 @@ aws_secret_access_key=
 
 3. In `passphrase.prod.txt` add the contents from [1Password](https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=j3reqistnwqma7zpy5lzdnwvpi&i=fvtnqvlv5mvrer7o5zm4iijsga&h=bluedotimpact.1password.com).
 
+## How it works
+
+This package handles deploying our apps to the internet. Here's how code becomes a live website:
+
+1. Code:
+   - You write code for your app (like availability or meet)
+   - Add a [Dockerfile](https://docs.docker.com/reference/dockerfile/) defining how to package your app into a container
+   - Add your app to infra's [`serviceDefinitions.ts`](./src/k8s/serviceDefinitions.ts) to configure how it should run (environment variables, domain name, etc.)
+
+2. Initial deployment:
+   - When you push code to both your app and infra, CI/CD runs:
+     - your app's `deploy:prod` script, which builds and uploads your container to Vultr using [docker-scripts](../../libraries/docker-scripts/)
+     - the infra package's `deploy:prod` script runs, which uses Pulumi to create/update the Kubernetes resources for your app (e.g. an ingress, deployment, service, SSL certificate)
+
+3. Future deployments:
+   - When you push code to your app, CI/CD:
+     - builds and uploads a new container
+     - rolling restarts your Kubernetes deployment, which causes it to pull the (new) latest image that has just been uploaded
+   - Together, this results in your service running with your new code changes
+
+As a brief description of what infra is doing under the hood:
+- It uses Pulumi, an infrastructure-as-code tool, to manage (create, update, delete):
+  - a [Kubernetes cluster on Vultr](https://www.vultr.com/kubernetes/)
+  - Kubernetes resources on that cluster
+- Key resources include:
+  - Kubernetes deployments, services and ingresses for apps defined in serviceDefinitions.ts
+  - An nginx ingress controller, to recieve and route traffic to the different apps
+  - Cert manager, to generate and manage SSL certificates for apps
+  - Secrets, to store and provide apps with things like API keys
+
 ## Tasks
 
-### Adding a new service
+### Adding a service
 
-For a standard Next.js app:
+See the [main README for details on creating a new app entirely](../../README.md#guide-adding-a-new-app).
 
-1. Copy an existing app folder. `frontend-example` is a good place to start because it is simple.
-2. Verify: does the app now build and run locally?
-3. Add the app to [serviceDefinitions.ts](./src/k8s/serviceDefinitions.ts)
-   - Copy the config for frontend-example, but put your app name in
-   - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
-   - If you need to add a secret, see [below](#adding-a-secret)
-4. Commit your changes to the master branch
-
-CI/CD might fail the first time, because there's a race condition between:
-- the infra being set up and expecting a docker container to pull
-- the docker deploy script wanting infra to deploy to
-
-Just run it again if this is where it fails.
+If you just want to add an existing container, add it to [serviceDefinitions.ts](./src/k8s/serviceDefinitions.ts)
 
 ### Adding a secret
 
