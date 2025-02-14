@@ -157,7 +157,7 @@ export const Nav: React.FC<NavProps> = ({
     >
       <ClickAwayListener onClickAway={() => setExpandedSections('none')}>
         <div className="nav__container section-base">
-          <div className="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]">
+          <div className="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
             <a href="/" className="nav__logo-link shrink-0 w-[200px]">
               {logo ? (
                 <img
@@ -176,11 +176,11 @@ export const Nav: React.FC<NavProps> = ({
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
               courses={courses}
-              className="nav__links--desktop hidden lg:flex"
+              className="nav__links--desktop hidden lg:flex mx-auto"
             >
               {children}
             </NavLinks>
-            <div className="nav__actions flex gap-space-between">
+            <div className="nav__actions flex gap-space-between ml-auto">
               <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
               <HamburgerButton
                 open={navExpanded}
