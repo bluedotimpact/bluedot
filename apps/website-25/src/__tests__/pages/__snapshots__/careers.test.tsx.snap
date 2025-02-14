@@ -52,7 +52,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
           <h2
             class="section-heading__title relative"
           >
-            Our culture
+            Our story
           </h2>
         </div>
       </div>
@@ -66,11 +66,24 @@ exports[`CareersPage > should render the error message correctly 1`] = `
             class="intro-section__text-container flex flex-col gap-5"
           >
             <p>
-              Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+              In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.
             </p>
             <p>
-              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of deep knowledge in how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
+              What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.
             </p>
+            <p>
+              As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.
+            </p>
+            <span
+              class="intro-section__signature"
+            >
+              <p>
+                Dewi and Will,
+              </p>
+              <p>
+                BlueDot Impact Co-Founders
+              </p>
+            </span>
           </div>
           <img
             alt="BlueDot Impact team"

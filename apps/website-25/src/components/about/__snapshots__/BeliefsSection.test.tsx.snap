@@ -131,7 +131,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 class="card__image-container w-full mb-4"
               >
                 <img
-                  alt="AGI could arrive soon, and we're unprepared"
+                  alt="AGI could arrive soon, and society is dangerously unprepared"
                   class="card__image w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/agi.png"
                 />
@@ -145,12 +145,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   <p
                     class="card__title subtitle-sm mb-2"
                   >
-                    AGI could arrive soon, and we're unprepared
+                    AGI could arrive soon, and society is dangerously unprepared
                   </p>
                   <p
                     class="card__subtitle "
                   >
-                    Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                    Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.
                   </p>
                 </div>
               </div>
@@ -203,7 +203,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 class="card__image-container w-full mb-4"
               >
                 <img
-                  alt="The right people at key moments rewrite history"
+                  alt="People at key moments rewrite history"
                   class="card__image w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/key.png"
                 />
@@ -217,12 +217,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   <p
                     class="card__title subtitle-sm mb-2"
                   >
-                    The right people at key moments rewrite history
+                    People at key moments rewrite history
                   </p>
                   <p
                     class="card__subtitle "
                   >
-                    Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                    Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
                   </p>
                 </div>
               </div>
