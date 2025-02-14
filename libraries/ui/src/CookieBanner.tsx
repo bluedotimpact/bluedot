@@ -20,9 +20,9 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     (value: 'accepted' | 'rejected') => {
       localStorage.setItem('cookies', value);
       if (value === 'accepted') {
-        posthog.opt_in_capturing();
+        posthog.set_config({ persistence: 'localStorage+cookie' });
       } else {
-        posthog.opt_out_capturing();
+        posthog.set_config({ persistence: 'memory' });
       }
       setShowBanner(false);
     },
@@ -33,9 +33,9 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     const cookieConsent = localStorage.getItem('cookies');
 
     if (cookieConsent === 'accepted') {
-      posthog.opt_in_capturing();
+      posthog.set_config({ persistence: 'localStorage+cookie' });
     } else if (cookieConsent === 'rejected') {
-      posthog.opt_out_capturing();
+      posthog.set_config({ persistence: 'memory' });
     } else {
       setShowBanner(true);
     }

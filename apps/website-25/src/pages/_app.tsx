@@ -19,13 +19,13 @@ if (typeof window !== 'undefined') {
   } else {
     console.log('Initializing PostHog...');
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: 'https://eu.i.posthog.com',
+      api_host: 'https://analytics.k8s.bluedot.org',
       person_profiles: 'always',
       // TODO: Do we want this to be "identified_only" or "always"?
       loaded: (instance) => {
         if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') instance.debug();
         if (localStorage.getItem('cookies') === 'rejected') {
-          instance.opt_out_capturing();
+          instance.set_config({ persistence: 'memory' });
         }
       },
     });
