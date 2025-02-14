@@ -141,6 +141,27 @@ export const SlideList: React.FC<SlideListProps> = ({
     </div>
   );
 
+  // Handle tab scrolling
+  useEffect(() => {
+    const container = slidesRef.current;
+    if (!container) return;
+
+    const handleFocusIn = (event: FocusEvent) => {
+      const target = event.target as HTMLDivElement;
+      if (container.contains(target)) {
+        const { offsetLeft } = target;
+        container.scrollTo({ left: offsetLeft - 20 });
+      }
+    };
+
+    container.addEventListener('focusin', handleFocusIn);
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      container.removeEventListener('focusin', handleFocusIn);
+    };
+  }, []);
+
   return (
     <div
       className={clsx(
