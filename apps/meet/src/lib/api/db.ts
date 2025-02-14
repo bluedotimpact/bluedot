@@ -31,6 +31,7 @@ export interface CohortClass extends Item {
   'Participants (Expected)': string[],
   'Attendees': string[],
   'Start date/time': number | null,
+  'End date/time': number | null,
   'Cohort': string,
   'Zoom account': string | null,
 }
@@ -44,6 +45,7 @@ export const cohortClassTable: Table<CohortClass> = {
     'Participants (Expected)': 'string[]',
     Attendees: 'string[]',
     'Start date/time': 'number | null',
+    'End date/time': 'number | null',
     Cohort: 'string',
     'Zoom account': 'string | null',
   },
@@ -52,6 +54,7 @@ export const cohortClassTable: Table<CohortClass> = {
     'Participants (Expected)': 'fldEKYwcacAa6nBEE',
     Attendees: 'fldo0xEi6vJKSJlFN',
     'Start date/time': 'flduTqIxS6OEHNr4H',
+    'End date/time': 'flda1ONwG37ROVo8e',
     Cohort: 'fldjISs1XFGAwT5k5',
     'Zoom account': 'fldH0pKnEELPI65Qs',
   },
