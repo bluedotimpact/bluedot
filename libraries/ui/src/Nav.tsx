@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, {
   useCallback, useState, useEffect,
 } from 'react';
+import ClickAwayListener from 'react-click-away-listener';
 
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { HamburgerButton } from './HamburgerButton';
@@ -154,68 +155,70 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <div className="nav__container section-base">
-        <div className="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]">
-          <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-            {logo ? (
-              <img
-                className={clsx(
-                  'nav__logo h-6 mr-auto transition-all duration-300',
-                  isScrolled && 'brightness-0 invert',
-                )}
-                src={logo}
-                alt="BlueDot Impact Logo"
-              />
-            ) : (
-              <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
-            )}
-          </a>
-          <NavLinks
-            onToggleExplore={onToggleExplore}
-            exploreExpanded={exploreExpanded}
-            courses={courses}
-            className="nav__links--desktop hidden lg:flex"
-          >
-            {children}
-          </NavLinks>
-          <div className="nav__actions flex">
-            <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
-            <HamburgerButton
-              open={navExpanded}
-              setOpen={onToggleNav}
-              className="nav__menu--mobile-tablet lg:hidden"
-            />
-          </div>
-        </div>
-
-        <div
-          className={clsx(
-            'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
-            navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
-          )}
-        >
-          {/* Desktop Explore section */}
-          <ExploreSection
-            expanded={exploreExpanded}
-            courses={courses}
-            className="nav__drawer-content--desktop"
-            innerClassName="pb-10 hidden lg:flex mx-auto"
-          />
-          {/* Mobile & Tablet content (including Explore) */}
-          <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
+      <ClickAwayListener onClickAway={() => setExpandedSections('none')}>
+        <div className="nav__container section-base">
+          <div className="nav__bar flex grow justify-between items-center h-[72px] sm:h-[100px]">
+            <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+              {logo ? (
+                <img
+                  className={clsx(
+                    'nav__logo h-6 mr-auto transition-all duration-300',
+                    isScrolled && 'brightness-0 invert',
+                  )}
+                  src={logo}
+                  alt="BlueDot Impact Logo"
+                />
+              ) : (
+                <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
+              )}
+            </a>
             <NavLinks
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
-              exploreSectionInline
               courses={courses}
-              className="nav__links--mobile-tablet flex-col"
+              className="nav__links--desktop hidden lg:flex"
             >
               {children}
             </NavLinks>
-            <CTAButtons className="nav__login--mobile justify-between mt-20 flex sm:hidden" />
+            <div className="nav__actions flex gap-space-between">
+              <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
+              <HamburgerButton
+                open={navExpanded}
+                setOpen={onToggleNav}
+                className="nav__menu--mobile-tablet lg:hidden"
+              />
+            </div>
+          </div>
+
+          <div
+            className={clsx(
+              'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
+              navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
+            )}
+          >
+            {/* Desktop Explore section */}
+            <ExploreSection
+              expanded={exploreExpanded}
+              courses={courses}
+              className="nav__drawer-content--desktop"
+              innerClassName="pb-10 hidden lg:flex mx-auto"
+            />
+            {/* Mobile & Tablet content (including Explore) */}
+            <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
+              <NavLinks
+                onToggleExplore={onToggleExplore}
+                exploreExpanded={exploreExpanded}
+                exploreSectionInline
+                courses={courses}
+                className="nav__links--mobile-tablet flex-col"
+              >
+                {children}
+              </NavLinks>
+              <CTAButtons className="nav__login--mobile justify-between mt-20 flex sm:hidden" />
+            </div>
           </div>
         </div>
-      </div>
+      </ClickAwayListener>
     </nav>
   );
 };

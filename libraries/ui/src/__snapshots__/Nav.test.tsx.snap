@@ -47,7 +47,7 @@ exports[`Nav > renders with courses 1`] = `
           </div>
         </div>
         <div
-          class="nav__actions flex"
+          class="nav__actions flex gap-space-between"
         >
           <div
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
@@ -267,7 +267,7 @@ exports[`Nav > renders with optional yield 1`] = `
           </p>
         </div>
         <div
-          class="nav__actions flex"
+          class="nav__actions flex gap-space-between"
         >
           <div
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"

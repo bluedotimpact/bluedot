@@ -53,4 +53,30 @@ describe('Nav', () => {
       expect(navDrawer!.className).not.toMatch(/max-h-0/);
     });
   });
+
+  test('clicking outside the nav closes the drawer', async () => {
+    const { container } = render(
+      <Nav courses={[{ title: 'Course 1', href: '/course1' }]} />,
+    );
+
+    const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
+    expect(hamburgerButton).not.toBeNull();
+
+    const navDrawer = container.querySelector('.nav__drawer');
+    expect(navDrawer).not.toBeNull();
+
+    fireEvent.click(hamburgerButton!);
+
+    await waitFor(() => {
+      expect(navDrawer!.className).not.toMatch(/max-h-0/);
+    });
+
+    // Simulate clicking outside the nav drawer
+    fireEvent.click(document.body);
+
+    // Ensure the nav drawer is closed
+    await waitFor(() => {
+      expect(navDrawer!.className).toMatch(/max-h-0/);
+    });
+  });
 });
