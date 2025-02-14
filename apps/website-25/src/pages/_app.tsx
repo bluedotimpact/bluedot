@@ -23,7 +23,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={constants.COURSES}
       >
-        <a href="/about" className={clsx('hover:text-bluedot-normal', isCurrentPath('/about') && 'font-bold')}>About</a>
+        <a href="/about" className={clsx('hover:text-bluedot-normal', isCurrentPath('/about') && 'font-bold')}>About us</a>
         <a href="/careers" className={clsx('hover:text-bluedot-normal', isCurrentPath('/careers') && 'font-bold')}>Join us</a>
         <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
       </Nav>

@@ -25,7 +25,7 @@ const AboutPage = () => {
           <CTALinkOrButton url="/careers" withChevron>Join the team</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
-      <IntroSection title="Why do we exist?" />
+      <IntroSection />
       <BeliefsSection />
       <HistorySection />
       <TeamSection />
