@@ -12,7 +12,7 @@ const CultureSection = () => {
         </div>
         <div className="culture-section__image-grid grid mt-8 grid-cols-2 gap-x-2 gap-y-4 sm:mt-0 sm:grid-cols-3 sm:gap-4">
           <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_dewi_v1.jpeg" alt="BlueDot Impact team" />
-          <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_talking_v1.jpeg" alt="BlueDot Impact team" />
+          <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_talking_v2.jpeg" alt="BlueDot Impact team" />
           <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_happy_v1.jpeg" alt="BlueDot Impact team" />
           <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_will_v1.jpeg" alt="BlueDot Impact team" />
           <img className="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm" src="/images/culture/culture_prod-eng_v1.jpeg" alt="BlueDot Impact team" />
