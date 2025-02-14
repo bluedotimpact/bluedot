@@ -48,7 +48,7 @@ exports[`CultureSection > renders default as expected 1`] = `
           <img
             alt="BlueDot Impact team"
             class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
-            src="/images/culture/culture_talking_v1.jpeg"
+            src="/images/culture/culture_talking_v2.jpeg"
           />
           <img
             alt="BlueDot Impact team"
