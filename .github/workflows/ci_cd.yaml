@@ -40,34 +40,36 @@ jobs:
       - name: Test
         run: npm run test --if-present
 
-      # Get paths that apps are dependent on, e.g. availability depends on apps/availability/** and libaries/ui/**
-      - id: get_paths_filter
+      - name: Get paths that apps are dependent on
+        # e.g. availability depends on apps/availability/** and libaries/ui/**
+        id: get_paths_filter
         run: |
           node .github/workflows/create-paths-filter.js > paths-filter.json
           FILTER=$(cat paths-filter.json)
           echo "paths_filter=$FILTER" >> $GITHUB_OUTPUT
 
-      # Figure out what apps have changed files in their paths
-      - id: modified_paths_check
+      - name: Figure out what apps have changed files in their paths
+        id: modified_paths_check
         uses: fkirc/skip-duplicate-actions@v5
         with:
           paths_filter: ${{ steps.get_paths_filter.outputs.paths_filter }}
           paths: '["package-lock.json"]'
           paths_ignore: '["**/README.md"]'
 
-      # Arrange output into one array for CD matrix
-      - id: get_apps_to_deploy
+      - name: Arrange output into one array for CD matrix
+        id: get_apps_to_deploy
         run: |
           # Get all apps
           APPS=$(ls -d apps/*/ | cut -d'/' -f2 | jq -R -s -c 'split("\n")[:-1]')
           
-          # If should_skip is false, all apps need deployment
-          if [[ "${{ steps.modified_paths_check.outputs.should_skip }}" != "true" ]]; then
+          # If should_skip is false, it means package-lock.json changed
+          if [[ "${{ steps.modified_paths_check.outputs.should_skip }}" == "false" ]]; then
+            # Deploy all apps since common files changed
             echo "apps=$APPS" >> $GITHUB_OUTPUT
             exit 0
           fi
-          
-          # Otherwise, filter for apps that need deployment
+
+          # Otherwise get only apps that had path changes
           PATHS_RESULT='${{ steps.modified_paths_check.outputs.paths_result }}'
           APPS_TO_DEPLOY=$(echo "$APPS" | jq -c "[.[] | select(
             . as \$app |

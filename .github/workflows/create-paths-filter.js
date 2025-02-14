@@ -52,7 +52,7 @@ try {
   });
 
   // Write the paths filter to stdout
-  const result = JSON.stringify(pathsFilter, null, 2);
+  const result = JSON.stringify(pathsFilter);
   console.log(result);
 } catch (error) {
   console.error('Error:', error);
