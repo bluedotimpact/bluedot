@@ -61,20 +61,21 @@ jobs:
         run: |
           # Get all apps
           APPS=$(ls -d apps/*/ | cut -d'/' -f2 | jq -R -s -c 'split("\n")[:-1]')
+          echo "👀 Found apps: $APPS"
           
-          # If should_skip is false, it means package-lock.json changed
           if [[ "${{ steps.modified_paths_check.outputs.should_skip }}" == "false" ]]; then
-            # Deploy all apps since common files changed
+            echo "📦 ALL apps will need to be deployed because package-lock.json changed"
             echo "apps=$APPS" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          # Otherwise get only apps that had path changes
+          echo "🔍 Checking for apps with path changes..."
           PATHS_RESULT='${{ steps.modified_paths_check.outputs.paths_result }}'
           APPS_TO_DEPLOY=$(echo "$APPS" | jq -c "[.[] | select(
             . as \$app |
             ($PATHS_RESULT | .[\$app].should_skip) != true
           )]")
+          echo "🚀 Apps needing deployment: $APPS_TO_DEPLOY"
           echo "apps=$APPS_TO_DEPLOY" >> $GITHUB_OUTPUT
     outputs:
       apps_to_deploy: ${{ steps.get_apps_to_deploy.outputs.apps }}
