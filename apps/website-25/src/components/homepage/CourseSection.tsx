@@ -22,7 +22,7 @@ const CourseSection = () => {
   return (
     <SlideList
       title="Our courses"
-      subtitle="We run inclusive, blended learning courses that cater to various expertise levels and time availability"
+      subtitle="Our courses combine self-paced study with guided discussions, deepening your learning while fostering connections in the field"
       subtitleLevel="p"
       className="course-section section-body"
       maxItemsPerSlide={2}

@@ -19,7 +19,7 @@ exports[`CourseSection > renders as expected 1`] = `
         <p
           class="section-heading__subtitle text-bluedot-darker text-md"
         >
-          We run inclusive, blended learning courses that cater to various expertise levels and time availability
+          Our courses combine self-paced study with guided discussions, deepening your learning while fostering connections in the field
         </p>
       </div>
       <div
@@ -67,82 +67,78 @@ exports[`CourseSection > renders as expected 1`] = `
       </div>
     </div>
     <div
-      class="slide-list__content flex flex-col lg:flex-row gap-space-between"
+      class="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch"
     >
       <div
-        class="slide-list__featured size-full lg:w-[600px] shrink-0 overflow-hidden"
+        class="p-[3px]"
       >
-        <div
-          class="p-[3px]"
+        <a
+          class="course-card course-card--featured card flex flex-col items-start justify-between container-lined p-6 max-w-[600px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated h-full"
+          href="https://aisafetyfundamentals.com/intro-to-tai/?utm_source=website&utm_content=course_section&utm_campaign=relaunch"
         >
-          <a
-            class="course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated container-lined p-6 max-w-[656px] h-full"
-            href="https://aisafetyfundamentals.com/intro-to-tai/?utm_source=website&utm_content=course_section&utm_campaign=relaunch"
+          <div
+            class="course-card__content block md:flex gap-space-between w-full"
           >
             <div
-              class="course-card__content block md:flex gap-space-between w-full"
-            >
-              <div
-                class="course-card__text"
-              >
-                <p
-                  class="course-card__featured-label uppercase font-[650] text-xs mb-3"
-                >
-                  Featured course
-                </p>
-                <h3
-                  class="course-card__title mb-6"
-                >
-                  AI Safety: Intro to Transformative AI
-                </h3>
-                <button
-                  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
-                  data-testid="cta-button"
-                  type="button"
-                >
-                  <span
-                    class="cta-button__text"
-                  >
-                    Apply now
-                  </span>
-                </button>
-                <p
-                  class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
-                >
-                  The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.
-                </p>
-              </div>
-              <div
-                class="course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6"
-              >
-                <img
-                  alt="AI Safety: Intro to Transformative AI"
-                  class="course-card__image size-full md:w-[319px] object-cover"
-                  src="/images/alignment-course.png"
-                />
-              </div>
-            </div>
-            <div
-              class="course-card__footer flex justify-between w-full"
+              class="course-card__text"
             >
               <p
-                class="course-card__footer-left text-left text-xs text-bluedot-black"
+                class="course-card__featured-label uppercase font-[650] text-xs mb-3"
+              >
+                Featured course
+              </p>
+              <h3
+                class="course-card__title mb-6"
+              >
+                AI Safety: Intro to Transformative AI
+              </h3>
+              <button
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+                data-testid="cta-button"
+                type="button"
               >
                 <span
-                  class="course-card__length font-medium"
+                  class="cta-button__text"
                 >
-                  5 days
+                  Apply now
                 </span>
-              </p>
-              <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                role="status"
+              </button>
+              <p
+                class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
               >
-                Crash course
-              </span>
+                The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.
+              </p>
             </div>
-          </a>
-        </div>
+            <div
+              class="course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6"
+            >
+              <img
+                alt="AI Safety: Intro to Transformative AI"
+                class="course-card__image size-full md:w-[319px] object-cover"
+                src="/images/alignment-course.png"
+              />
+            </div>
+          </div>
+          <div
+            class="course-card__footer flex justify-between w-full"
+          >
+            <p
+              class="course-card__footer-left text-left text-xs text-bluedot-black"
+            >
+              <span
+                class="course-card__length font-medium"
+              >
+                5 days
+              </span>
+            </p>
+            <span
+              class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+              role="status"
+            >
+              Crash course
+            </span>
+          </div>
+        </a>
       </div>
       <div
         class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"

@@ -23,7 +23,7 @@ const HomePage = () => {
           <img className="hero-section__logo-icon w-20 mb-20" src="/images/logo/BlueDot_Impact_Icon_White.svg" alt="BlueDot Impact" />
         </div>
         <HeroH1>The expertise you need to shape safe AI</HeroH1>
-        <HeroH2>We run the world's most trusted AI Safety educational courses, career services and support community. Our programs are developed in collaboration with AI Safety world experts.</HeroH2>
+        <HeroH2>Learn alongside thousands of professionals through comprehensive courses designed with leading AI safety experts.</HeroH2>
       </HeroSection>
       <GraduateSection />
       <CourseSection />

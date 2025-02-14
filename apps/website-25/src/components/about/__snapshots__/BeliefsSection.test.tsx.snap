@@ -62,7 +62,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
       </div>
     </div>
     <div
-      class="slide-list__content flex flex-col lg:flex-row gap-space-between"
+      class="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch"
     >
       <div
         class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
