@@ -4,16 +4,6 @@ import { getConnectionDetails, keycloakPg } from './postgres';
 
 export const services: ServiceDefinition[] = [
   {
-    name: 'hello',
-    spec: {
-      containers: [{
-        name: 'hello',
-        image: 'paulbouwer/hello-kubernetes:1@sha256:2ad94733189b30844049caed7e17711bf11ed9d1116eaf10000586081451690b',
-      }],
-    },
-    hosts: ['hello.k8s.bluedot.org'],
-  },
-  {
     name: 'bluedot-frontend-example',
     spec: {
       containers: [{
