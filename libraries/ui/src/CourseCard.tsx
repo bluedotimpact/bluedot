@@ -37,8 +37,8 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   children,
 }) => {
   const wrapperClassName = clsx(
-    'course-card course-card--featured card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
-    'container-lined p-6 max-w-[656px]',
+    'course-card course-card--featured card flex flex-col items-start justify-between',
+    'container-lined p-6 max-w-[600px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
     className,
   );
 
