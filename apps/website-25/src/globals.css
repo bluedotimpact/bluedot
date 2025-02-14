@@ -4,11 +4,11 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --animate-infinite-scroll: infinite-scroll 25s linear infinite;
+  --animate-infinite-scroll: infinite-scroll 50s linear infinite;
 
   @keyframes infinite-scroll {
     0% { transform: translateX(0) }
-    100% { transform: translateX(-50%) }
+    100% { transform: translateX(-100%) }
   }
 }
 
