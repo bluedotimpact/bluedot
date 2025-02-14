@@ -32,7 +32,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
     return (
       <Page>
         <H1 className="flex-1">Error: {errorMessage ?? 'Unknown error'}</H1>
-        <p>If this error persists, please contact us at software@bluedot.org.</p>
+        <p>If this error persists, please contact us at team@bluedot.org.</p>
       </Page>
     );
   }
