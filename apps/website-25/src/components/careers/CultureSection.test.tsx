@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import IntroSection from './IntroSection';
+import CultureSection from './CultureSection';
 
-describe('IntroSection', () => {
+describe('CultureSection', () => {
   test('renders default as expected', () => {
-    const { container } = render(<IntroSection />);
+    const { container } = render(<CultureSection />);
     expect(container).toMatchSnapshot();
   });
 });

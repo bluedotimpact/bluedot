@@ -222,7 +222,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   <p
                     class="card__subtitle "
                   >
-                    We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+                    We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
                   </p>
                 </div>
               </div>

@@ -5,8 +5,8 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import IntroSection from '../components/about/IntroSection';
 import CareersSection from '../components/careers/CareersSection';
+import CultureSection from '../components/careers/CultureSection';
 import ValuesSection from '../components/careers/ValuesSection';
 
 const CareersPage = () => {
@@ -22,7 +22,7 @@ const CareersPage = () => {
           <CTALinkOrButton url="#open-roles-anchor" withChevron>See open roles</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
-      <IntroSection title="Our culture" />
+      <CultureSection />
       <ValuesSection />
       <CareersSection />
     </div>

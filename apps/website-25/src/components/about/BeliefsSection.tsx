@@ -4,8 +4,8 @@ import { SlideList } from '@bluedot/ui/src/SlideList';
 const beliefs = [
   {
     imageSrc: '/images/beliefs/agi.png',
-    title: 'AGI could arrive soon, and we\'re unprepared',
-    subtitle: 'Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.',
+    title: 'AGI could arrive soon, and society is dangerously unprepared',
+    subtitle: 'Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.',
   },
   {
     imageSrc: '/images/beliefs/matters.png',
@@ -14,8 +14,8 @@ const beliefs = [
   },
   {
     imageSrc: '/images/beliefs/key.png',
-    title: 'The right people at key moments rewrite history',
-    subtitle: 'Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.',
+    title: 'People at key moments rewrite history',
+    subtitle: 'Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.',
   },
   {
     imageSrc: '/images/beliefs/urgency.png',

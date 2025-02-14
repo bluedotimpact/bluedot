@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CultureSection > renders default as expected 1`] = `
+<div>
+  <section
+    class="section section-body culture-section"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative"
+        >
+          Our culture
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="culture-section__container flex lg:flex-row flex-col gap-space-between"
+      >
+        <div
+          class="culture-section__text-container flex flex-col gap-5"
+        >
+          <p>
+            At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
+          </p>
+          <p>
+            But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
+          </p>
+          <p>
+            We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
+          </p>
+        </div>
+        <img
+          alt="BlueDot Impact team"
+          class="culture-section__image max-w-[570px] w-full h-auto rounded-2xl"
+          src="/images/team/team_1.jpg"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+`;

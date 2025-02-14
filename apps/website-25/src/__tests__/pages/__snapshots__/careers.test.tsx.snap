@@ -41,7 +41,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <section
-      class="section section-body intro-section"
+      class="section section-body culture-section"
     >
       <div
         class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -60,21 +60,24 @@ exports[`CareersPage > should render the error message correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
+          class="culture-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
-            class="intro-section__text-container flex flex-col gap-5"
+            class="culture-section__text-container flex flex-col gap-5"
           >
             <p>
-              Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+              At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
             </p>
             <p>
-              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of deep knowledge in how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
+              But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
+            </p>
+            <p>
+              We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
             </p>
           </div>
           <img
             alt="BlueDot Impact team"
-            class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
+            class="culture-section__image max-w-[570px] w-full h-auto rounded-2xl"
             src="/images/team/team_1.jpg"
           />
         </div>
@@ -300,7 +303,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
                     <p
                       class="card__subtitle "
                     >
-                      We exist to support others to solve the world's biggest problems. We go above and beyond to accelerate our community's impact.
+                      We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
                     </p>
                   </div>
                 </div>
