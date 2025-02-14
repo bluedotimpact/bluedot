@@ -51,7 +51,12 @@ const ExploreSection: React.FC<{
     >
       <h3 className="nav-explore-section__dropdown-title font-bold">Our courses</h3>
       {courses?.map((course) => (
-        <a key={course.href} href={course.href} className="nav-explore-section__dropdown-link">
+        <a
+          key={course.href}
+          href={course.href}
+          className="nav-explore-section__dropdown-link"
+          tabIndex={expanded ? 0 : -1}
+        >
           {course.isNew && (
             <span className="nav-explore-section__new-badge text-bluedot-normal font-black pr-2">
               New!
