@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
+/* eslint-disable import/no-extraneous-dependencies */
+import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
 type CookieBannerProps = {
@@ -17,6 +19,11 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
   const setCookieConsent = useCallback(
     (value: 'accepted' | 'rejected') => {
       localStorage.setItem('cookies', value);
+      if (value === 'accepted') {
+        posthog.set_config({ persistence: 'localStorage+cookie' });
+      } else {
+        posthog.set_config({ persistence: 'memory' });
+      }
       setShowBanner(false);
     },
     [],
@@ -24,7 +31,12 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
 
   useEffect(() => {
     const cookieConsent = localStorage.getItem('cookies');
-    if (cookieConsent !== 'accepted' && cookieConsent !== 'rejected') {
+
+    if (cookieConsent === 'accepted') {
+      posthog.set_config({ persistence: 'localStorage+cookie' });
+    } else if (cookieConsent === 'rejected') {
+      posthog.set_config({ persistence: 'memory' });
+    } else {
       setShowBanner(true);
     }
   }, []);
