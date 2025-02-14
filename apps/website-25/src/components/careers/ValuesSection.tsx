@@ -15,7 +15,7 @@ const values = [
   {
     imageSrc: '/images/values/powering.png',
     title: 'Obsessed with empowering problem-solvers',
-    subtitle: 'We exist to support others to solve the world\'s biggest problems. We go above and beyond to accelerate our community\'s impact.',
+    subtitle: 'We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community\'s impact.',
   },
 ] as const;
 
