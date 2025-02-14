@@ -2,6 +2,7 @@ import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import posthog from 'posthog-js';
 /* eslint-disable import/no-extraneous-dependencies */
 import { PostHogProvider } from 'posthog-js/react';
 import {
@@ -21,10 +22,10 @@ if (typeof window !== 'undefined') {
       api_host: 'https://eu.i.posthog.com',
       person_profiles: 'always',
       // TODO: Do we want this to be "identified_only" or "always"?
-      loaded: (posthog) => {
-        if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') posthog.debug();
+      loaded: (instance) => {
+        if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') instance.debug();
         if (localStorage.getItem('cookies') === 'rejected') {
-          posthog.opt_out_capturing();
+          instance.opt_out_capturing();
         }
       },
     });
