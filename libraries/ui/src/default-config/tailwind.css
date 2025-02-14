@@ -76,43 +76,41 @@
     }
 }
 
-@layer utilities {
-    .bluedot-base {
-         @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
-    }
-  
-    .container-lined {
-        @apply border border-color-divider rounded-lg;
-    }
-  
-    .container-elevated {
-        /* RGBA of var(--bluedot-cream-normal) */
-        box-shadow: 0px 4px 1.25rem 0px rgba(30, 30, 30, 0.1);
-    }
-  
-    .container-dialog {
-        @apply border border-color-primary rounded-lg;
-        box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
-    }
-  
-    .scrollbar-hidden {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-  
-    .scrollbar-hidden::-webkit-scrollbar {
+@utility bluedot-base {
+    @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+}
+
+@utility container-lined {
+    @apply border border-color-divider rounded-lg;
+}
+
+@utility container-elevated {
+    /* RGBA of var(--bluedot-cream-normal) */
+    box-shadow: 0px 4px 1.25rem 0px rgba(30, 30, 30, 0.1);
+}
+
+@utility container-dialog {
+    @apply border border-color-primary rounded-lg;
+    box-shadow: 0px 0px 32px 0px rgba(0, 0, 0, 0.25);
+}
+
+@utility scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
         display: none;
     }
-  
-    /* Base section class that just applies padding and centering, suitable for nav, footer etc */
-    .section-base {
-        @apply w-full max-w-max-width mx-auto px-spacing-x;
-    }
-  
-    /* Class for titled sections in the body of the page */
-    .section-body {
-        @apply w-full max-w-max-width mx-auto px-spacing-x pt-6 pb-10 border-b border-color-divider overflow-hidden flex flex-col;
-    }
+}
+
+/* Base section class that just applies padding and centering, suitable for nav, footer etc */
+@utility section-base {
+    @apply w-full max-w-max-width mx-auto px-spacing-x;
+}
+
+/* Class for titled sections in the body of the page */
+@utility section-body {
+    @apply w-full max-w-max-width mx-auto px-spacing-x pt-6 pb-10 border-b border-color-divider overflow-hidden flex flex-col;
 }
 
 :root {
