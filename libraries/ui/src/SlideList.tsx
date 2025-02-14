@@ -129,7 +129,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
 
   const ScrollBar = (
-    <div className="slide-list__progress w-full relative h-1">
+    <div className="slide-list__progress w-full relative h-1 mb-1">
       <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
       <div
         className="slide-list__progress-track absolute h-full bg-bluedot-normal"
@@ -189,12 +189,8 @@ export const SlideList: React.FC<SlideListProps> = ({
           )
         }
       />
-      <div className="slide-list__content flex flex-col lg:flex-row gap-space-between">
-        {featuredSlot && (
-          <div className="slide-list__featured size-full lg:w-[600px] shrink-0 overflow-hidden">
-            {featuredSlot}
-          </div>
-        )}
+      <div className="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch">
+        {featuredSlot}
 
         <div className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between">
           {!allChildrenFit && (
