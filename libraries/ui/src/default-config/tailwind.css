@@ -111,7 +111,7 @@
   
     /* Class for titled sections in the body of the page */
     .section-body {
-        @apply w-full max-w-max-width mx-auto px-spacing-x py-spacing-y border-b border-color-divider overflow-hidden flex flex-col;
+        @apply w-full max-w-max-width mx-auto px-spacing-x pt-6 pb-10 border-b border-color-divider overflow-hidden flex flex-col;
     }
 }
 
