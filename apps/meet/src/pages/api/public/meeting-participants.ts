@@ -24,7 +24,10 @@ export type MeetingParticipantsResponse = {
   meetingNumber: string,
   meetingPassword: string,
   meetingHostKey: string,
-  arrivedOverOneHourEarly: boolean,
+  /* unix time in seconds */
+  meetingStartTime: number,
+  /* unix time in seconds */
+  meetingEndTime: number,
 } | {
   type: 'redirect',
   to: string,
@@ -50,10 +53,12 @@ export default apiRoute(async (
     cohort.cohortSessions
       .map((cohortClassId) => db.get(cohortClassTable, cohortClassId)),
   );
-  const cohortClassesWithDistance = cohortClasses.map((cohortClass) => ({
-    cohortClass,
-    distance: Math.abs((Date.now() / 1000) - cohortClass['Start date/time']!),
-  }));
+  const cohortClassesWithDistance = cohortClasses
+    .filter((cohortClass) => !!cohortClass['Start date/time'] && !!cohortClass['End date/time'])
+    .map((cohortClass) => ({
+      cohortClass,
+      distance: Math.abs((Date.now() / 1000) - cohortClass['Start date/time']!),
+    }));
   if (cohortClassesWithDistance.length === 0) {
     res.status(404).json({
       type: 'error',
@@ -69,7 +74,6 @@ export default apiRoute(async (
     }
   });
   const { cohortClass } = nearestCohortClassWithDistance;
-  const arrivedOverOneHourEarly = cohortClass['Start date/time']! - (Date.now() / 1000) > 60 * 60;
 
   if (!cohortClass['Zoom account']) {
     throw new createHttpError.InternalServerError(`Cohort class ${cohortClass.id} missing Zoom account`);
@@ -94,7 +98,8 @@ export default apiRoute(async (
     meetingNumber,
     meetingPassword,
     meetingHostKey,
-    arrivedOverOneHourEarly,
+    meetingStartTime: cohortClass['Start date/time']!,
+    meetingEndTime: cohortClass['End date/time']!,
   });
 }, 'insecure_no_auth');
 

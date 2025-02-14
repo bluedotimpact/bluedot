@@ -46,21 +46,25 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
     );
   }
 
-  if (data.arrivedOverOneHourEarly) {
-    return (
-      <Page>
-        <H1>
-          This session doesn't start for over an hour. Come back closer to the time.
-        </H1>
-      </Page>
-    );
-  }
-
   return (
     <Page>
       <div className="flex">
         <H1 className="flex-1">Hey there! Who are you?</H1>
       </div>
+      {(data.meetingStartTime > (Date.now() / 1000) + 10 * 60)
+          && (
+            <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
+              <p className="font-bold mb-1">Heads up, you're a little early.</p>
+              <p>Your next session is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
+            </div>
+          )}
+      {(data.meetingEndTime + 10 * 60 < (Date.now() / 1000))
+          && (
+            <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
+              <p className="font-bold mb-1">Heads up, your session has passed its scheduled end time.</p>
+              <p>Your session ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
+            </div>
+          )}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
           <Button
