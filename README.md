@@ -1,8 +1,21 @@
+<!-- omit from toc -->
 # bluedot
 
 This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s custom software. [Reading this README carefully can save you a lot of time](https://twitter.com/jcsrb/status/1392459191353286656).
 
-This includes:
+<!-- omit from toc -->
+## Table of contents
+
+- [What's included](#whats-included)
+- [Get started](#get-started)
+- [Background knowledge to contribute](#background-knowledge-to-contribute)
+- [Developer setup instructions](#developer-setup-instructions)
+- [Guide: Adding a new app](#guide-adding-a-new-app)
+- [Reference: General package structure](#reference-general-package-structure)
+
+## What's included
+
+This repository has the code for:
 
 - [availability](./apps/availability/): Collect time availability information from users
 - [meet](./apps/meet/): Record meeting attendance, and host meetings with the Zoom Web SDK
@@ -10,14 +23,17 @@ This includes:
 - [login-account-proxy](./apps/login-account-proxy/): An app for setting up users in Keycloak from Bubble
 - [miniextensions-proxy](./apps/miniextensions-proxy/) (forms.bluedot.org): Host forms on a custom domain
 - [posthog-proxy](./apps/posthog-proxy/) (analytics.k8s.bluedot.org): Reverse proxy to send analytics to PostHog
+- [storybook](./apps/storybook/) (storybook.k8s.bluedot.org): App to demo and document design system components
+- [website-25](./apps/website-25/) (website-25.k8s.bluedot.org): New public website for 2025
+- [website-proxy](./apps/website-proxy/) (bluedot.org): Reverse proxy to split traffic between the new and old website during migration
 - [infra](./apps/infra/): Deploying the above applications on Kubernetes
 
 The following key parts of our software are _not_ in this repository because they are built in 3rd party services that are hard to open-source the code for:
 
-- Public website ([bluedot.org](https://bluedot.org/), [aisafetyfundamentals.com](https://aisafetyfundamentals.com/), [biosecurityfundamentals.com](https://biosecurityfundamentals.com/) etc.): Wordpress
+- Other public websites (parts of [bluedot.org](https://bluedot.org/), [aisafetyfundamentals.com](https://aisafetyfundamentals.com/), [biosecurityfundamentals.com](https://biosecurityfundamentals.com/) etc.): Wordpress
 - Course hub: [Bubble](https://bubble.io/)
 - Application forms: [MiniExtensions](https://miniextensions.com/)
-- Apply short links: [Short.io](https://short.io/)
+- Application form short links: [Short.io](https://short.io/)
 - Primary database: [Airtable](https://www.airtable.com/)
 
 The following key parts of our software are _not_ in this repository because they use substantially different toolchains, and are a pain to set up in a monorepo:
@@ -83,40 +99,40 @@ We recommend most contributors learn how to:
       curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs
       ```
 4. Install [Docker client](https://docs.docker.com/engine/install/). NB: NOT Docker Desktop.
-   - On macOS with Homebrew: 
+   - On macOS with Homebrew:
       ```
       brew install docker
       ```
    - On Ubuntu Linux: [instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
 5. Install and configure a container runtime.
-   - On macOS with Homebrew: 
+   - On macOS with Homebrew:
       ```
       brew install colima && brew services start colima && docker context use colima
       ```
    - On Ubuntu Linux: already installed with client
-   - Other platforms: [Docker Engine](https://docs.docker.com/engine/install/) (NB: NOT Docker Desktop) or [Podman](https://podman.io/docs/installation)
+   - Other platforms: [Docker Engine](https://docs.docker.com/engine/install/) (NB: NOT Docker Desktop)
 6. Install kubectl.
-   - On macOS with Homebrew: 
+   - On macOS with Homebrew:
       ```
       brew install kubectl
       ```
    - On Ubuntu Linux: [instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
 7. (recommended) Install [Visual Studio Code](https://code.visualstudio.com/)
-   - On macOS with Homebrew: 
+   - On macOS with Homebrew:
       ```
       brew install --cask visual-studio-code
       ```
 8. [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-   - To clone the main repo (not a fork): 
+   - To clone the main repo (you might want your fork instead):
       ```
       git clone git@github.com:bluedotimpact/bluedot.git
       ```
-9.  Change directory into the cloned repository, and run 
+9.  Change directory into the cloned repository, and install dependencies with: 
       ```
       npm install
       ```
 
-Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), before editing code in `src`, run
+Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#reference-general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), edit code in `src`, and run
 ```
 npm run start
 ```
@@ -132,13 +148,29 @@ Over time other people will make changes to the repository. Usually to get up to
 npm install
 ```
 
-## General package structure
+## Guide: Adding a new app
+
+The above should be enough to edit existing applications. To create a new Next.js app (which is _usually_ what you'll want):
+
+1. Copy an existing app folder. `frontend-example` is a good place to start because it is simple.
+2. Rename the copied folder, and the name of the app in its `package.json`, then run `npm install`
+3. Add the app to infra's [serviceDefinitions.ts](./apps/infra/src/k8s/serviceDefinitions.ts)
+   - Copy the config for frontend-example, but put your app name in
+   - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
+   - If you need to add a secret, see [infra's README](./apps/infra/README.md#adding-a-secret)
+4. Commit your changes to the master branch
+
+CI/CD might fail the first time. If so, just [re-run the failed jobs](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/re-running-workflows-and-jobs#re-running-failed-jobs-in-a-workflow). This happens because there's a race condition between:
+- the infra being set up and expecting a docker container to pull
+- the docker deploy script wanting infra to deploy to
+
+## Reference: General package structure
 
 This repository is split up into _packages_ in the folders:
 - `libraries`: code that is reused or shared across applications
 - `apps`: final products that actually get deployed, usually as web services
 
-For example, the shared UI code for common components like buttons is a library. This would be consumed by multiple apps, such as the time availability form.
+For example, the [shared UI code for common components](./libraries/ui/) like buttons is a library. This would be consumed by multiple apps, such as the time availability form.
 
 Inside each package folder, the common files you'll find are:
 - (always) `package.json`: defines the NPM scripts, dependencies, and sometimes other package configuration. The `package.json` should usually identify the entrypoint (for libraries) or have at least a start script (for apps). Common scripts include:
