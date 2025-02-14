@@ -35,7 +35,7 @@ const TestimonialSection = () => {
       titleLevel="h3"
       maxItemsPerSlide={3}
       minItemWidth={300}
-      className="testimonial-section py-spacing-y"
+      className="testimonial-section pt-spacing-y"
     >
       {testimonials.map((testimonial) => (
         <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">

@@ -52,7 +52,7 @@ const TeamSection = () => {
       <SlideList
         title="Our team"
         maxItemsPerSlide={5}
-        className="team-section team-section--mobile section-body"
+        className="team-section team-section--mobile section-body !border-b-0"
       >
         {teamMembers.map((member) => (
           <Card
@@ -69,7 +69,7 @@ const TeamSection = () => {
         ))}
       </SlideList>
     ) : (
-      <Section className="team-section team-section--desktop" title="Our team">
+      <Section className="team-section team-section--desktop !border-b-0" title="Our team">
         <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
           {teamMembers.map((member) => (
             <Card
