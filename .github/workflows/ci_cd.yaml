@@ -85,6 +85,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         app: ${{ fromJson(needs.ci.outputs.apps_to_deploy) }}
     concurrency:
