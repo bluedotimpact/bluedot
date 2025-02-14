@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Collapsible > renders to snapshot 1`] = `
+<div>
+  <details
+    class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+  >
+    <summary
+      class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+    >
+      <span
+        class="collapsible__title subtitle-sm"
+      >
+        Test Collapsible
+      </span>
+      <span
+        class="collapsible__button flex items-center"
+      >
+        <svg
+          class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 9l-7 7-7-7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </span>
+    </summary>
+    <div
+      class="collapsible__content pb-6"
+    >
+      <p>
+        Test Content
+      </p>
+    </div>
+  </details>
+</div>
+`;

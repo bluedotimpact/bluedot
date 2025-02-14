@@ -31,8 +31,46 @@ export const services: ServiceDefinition[] = [
     hosts: ['frontend-example.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-website-proxy',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-website-proxy',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-website-proxy:latest',
+      }],
+    },
+    hosts: ['website-proxy.k8s.bluedot.org', 'bluedot.org'],
+  },
+  {
+    name: 'bluedot-website-25',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-website-25',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-website-25:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['website-25.k8s.bluedot.org'],
+  },
+  {
+    name: 'bluedot-storybook',
+    targetPort: 8080,
+    spec: {
+      containers: [{
+        name: 'bluedot-storybook',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-storybook:latest',
+      }],
+    },
+    hosts: ['storybook.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-miniextensions-proxy',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-miniextensions-proxy',
@@ -43,7 +81,7 @@ export const services: ServiceDefinition[] = [
   },
   {
     name: 'bluedot-posthog-proxy',
-    targetPort: 80,
+    targetPort: 8080,
     spec: {
       containers: [{
         name: 'bluedot-posthog-proxy',
@@ -105,7 +143,7 @@ export const services: ServiceDefinition[] = [
   },
   // {
   //   name: 'bluedot-bubble-proxy',
-  //   targetPort: 80,
+  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-bubble-proxy',
@@ -119,7 +157,7 @@ export const services: ServiceDefinition[] = [
   // },
   // {
   //   name: 'bluedot-backend',
-  //   targetPort: 8001,
+  //   targetPort: 8080,
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-backend',

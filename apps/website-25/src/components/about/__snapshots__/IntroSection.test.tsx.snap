@@ -1,0 +1,46 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`IntroSection > renders default as expected 1`] = `
+<div>
+  <section
+    class="section section-body intro-section"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative"
+        >
+          Hello, World
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="intro-section__container flex lg:flex-row flex-col gap-space-between"
+      >
+        <div
+          class="intro-section__text-container flex flex-col gap-5"
+        >
+          <p>
+            Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+          </p>
+          <p>
+            BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of deep knowledge in how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
+          </p>
+        </div>
+        <img
+          alt="BlueDot Impact team"
+          class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
+          src="/images/team/team_1.jpg"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+`;

@@ -1,0 +1,271 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FAQSection > renders default as expected 1`] = `
+<div>
+  <section
+    class="section section-body faq-section !overflow-visible"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative"
+        >
+          Frequently asked questions
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+      >
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+        >
+          <span
+            class="collapsible__title subtitle-sm"
+          >
+            How can I maximise my chances of getting accepted onto the courses?
+          </span>
+          <span
+            class="collapsible__button flex items-center"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div
+          class="collapsible__content pb-6"
+        >
+          <p>
+            Check you are the 
+            <a
+              href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
+            >
+              right fit
+            </a>
+             and read our tips for making a 
+            <a
+              href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
+            >
+              great application.
+            </a>
+          </p>
+        </div>
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+      >
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+        >
+          <span
+            class="collapsible__title subtitle-sm"
+          >
+            I'd like to run your course for my work/university/ local AIS group… can you help with training and materials?
+          </span>
+          <span
+            class="collapsible__button flex items-center"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div
+          class="collapsible__content pb-6"
+        >
+          <p>
+            We are excited that you want to 
+            <a
+              href="https://bluedot.org/running-versions-of-our-courses/"
+            >
+              run a version of our courses
+            </a>
+             and will support you in any way we can. A good place to start is by looking through our 
+            <a
+              href="https://course.bluedot.org/home/facilitator-training"
+            >
+              facilitator training course
+            </a>
+             curriculum.
+          </p>
+        </div>
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+      >
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+        >
+          <span
+            class="collapsible__title subtitle-sm"
+          >
+            Who funds your work?
+          </span>
+          <span
+            class="collapsible__button flex items-center"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div
+          class="collapsible__content pb-6"
+        >
+          <p>
+            BlueDot Impact is primarily funded by 
+            <a
+              href="https://www.openphilanthropy.org/"
+            >
+              Open Philanthropy
+            </a>
+            , and is a non-profit based in the UK (company number 
+            <a
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            >
+              14964572
+            </a>
+            ). Our courses are free but upon course completion we give our participants the opportunity to 
+            <a
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+            >
+              Support Us
+            </a>
+            .
+          </p>
+        </div>
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+      >
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+        >
+          <span
+            class="collapsible__title subtitle-sm"
+          >
+            How can I collaborate/partner with BlueDot Impact on AI safety initiatives?
+          </span>
+          <span
+            class="collapsible__button flex items-center"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div
+          class="collapsible__content pb-6"
+        >
+          <p>
+            We love to hear from potential collaborators so please 
+            <a
+              href="https://bluedot.org/contact/"
+            >
+              reach out
+            </a>
+            .
+          </p>
+        </div>
+      </details>
+      <details
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+      >
+        <summary
+          class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+        >
+          <span
+            class="collapsible__title subtitle-sm"
+          >
+            How can I stay informed about BlueDot Impact's latest roles?
+          </span>
+          <span
+            class="collapsible__button flex items-center"
+          >
+            <svg
+              class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 9l-7 7-7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </summary>
+        <div
+          class="collapsible__content pb-6"
+        >
+          <p>
+            Please see more information about our job openings 
+            <a
+              href="/careers"
+            >
+              here
+            </a>
+             including an 
+            <a
+              href="https://airtable.com/appB9rItpTpWkNqEI/shrulKbUxr7NhgnKJ"
+            >
+              expression of interest form
+            </a>
+            .
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+</div>
+`;

@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tag > renders default as expected 1`] = `
+<div>
+  <span
+    class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+    role="status"
+  >
+    Basic tag
+  </span>
+</div>
+`;
+
+exports[`Tag > renders with optional args 1`] = `
+<span
+  class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text custom-class"
+  role="status"
+>
+  Custom tag
+</span>
+`;

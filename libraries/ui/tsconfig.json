@@ -1,7 +1,10 @@
 {
   "extends": "@bluedot/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "jsx": "react"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

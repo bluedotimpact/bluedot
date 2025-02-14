@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`StorySection > renders default as expected 1`] = `
+<div>
+  <section
+    class="section section-body story-section"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative"
+        >
+          Our story
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="story-section__container flex lg:flex-row flex-col gap-space-between"
+      >
+        <img
+          alt="BlueDot Impact team"
+          class="story-section__image max-w-[570px] w-full max-h-[365px] rounded-2xl"
+          src="/images/team/team_1.jpg"
+        />
+        <div
+          class="story-section__text-container flex flex-col gap-5"
+        >
+          <p>
+            BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this 
+            <a
+              href="https://hearthisidea.com/episodes/erwan/"
+            >
+              podcast interview
+            </a>
+             and our 
+            <a
+              href="https://bluedot.org/blog"
+            >
+              blog
+            </a>
+            .
+          </p>
+          <p>
+            Over the past 2 years, we've supported 2,500 people to learn about AI safety and pandemic preparedness, and our alumni work in critical roles across government and industry. In 2024, we will train ~3x more people than 2023 by running each of our three existing courses every four months (AI Alignment, AI Governance, Pandemics).
+          </p>
+          <h3>
+            Our commitment to AI Safety
+          </h3>
+          <p>
+            BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.
+          </p>
+          <a
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            data-testid="cta-link"
+            href="/about"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Learn more about us
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_blue.svg"
+              />
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;

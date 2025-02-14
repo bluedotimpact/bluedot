@@ -5,9 +5,13 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**", "!dist/cache/**"]
     },
     "lint": {},
+    "lint:fix": {
+      "cache": false
+    },
     "test": {},
     "start": {
       "cache": false,

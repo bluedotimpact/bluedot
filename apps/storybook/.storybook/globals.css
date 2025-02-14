@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';
+
+@source '../../website-25/src/**/*.{js,ts,jsx,tsx}';

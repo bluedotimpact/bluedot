@@ -4,14 +4,16 @@
     "private": true,
     "scripts": {
         "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
+        "start:docker": "docker-scripts start",
         "build": "tsc && tsup && cp ../../package-lock.json dist_tools",
-        "deploy:prod": "tools/deployDocker.sh",
+        "deploy:prod": "docker-scripts deploy",
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",
         "resetdb": "dropdb --host=localhost --port=5432 --force postgres && createdb --host=localhost --port=5432 postgres",
         "createLock": "tsup tools/createLock.ts --outDir dist_tools --external @npmcli/arborist && NODE_ENV=development node dist_tools/createLock.js",
         "test": "vitest --run",
         "test:watch": "vitest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@bluedot/backend-contract": "*",
@@ -28,10 +30,11 @@
         "zod": "^3.22.4"
     },
     "devDependencies": {
+        "@bluedot/docker-scripts": "*",
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
         "@types/http-errors": "^2.0.4",
-        "@types/node": "^20.12.12",
+        "@types/node": "^22.13.2",
         "@types/pg": "^8.10.9",
         "eslint": "^8.57.0",
         "kanel": "^3.8.2",

@@ -1,20 +1,91 @@
+import React from 'react';
 import clsx from 'clsx';
-import { LinkOrButton, LinkOrButtonProps } from './LinkOrButton';
+import { CTALinkOrButton } from './CTALinkOrButton';
+import { EXTERNAL_LINK_PROPS } from './utils';
 
-export type CardProps = React.PropsWithChildren<{
-  className?: string
-}>;
+type CardProps = {
+  // Required
+  title: string;
+  // Optional
+  imageSrc?: string;
+  subtitle?: string;
+  ctaUrl?: string;
+  ctaText?: string;
+  isEntireCardClickable?: boolean;
+  isExternalUrl?: boolean;
+  className?: string;
+  imageClassName?: string;
+  subtitleClassName?: string;
+  children?: React.ReactNode;
+};
 
-export const Card: React.FC<CardProps> = ({ children, className }) => {
+export const Card: React.FC<CardProps> = ({
+  imageSrc,
+  title,
+  subtitle,
+  ctaUrl,
+  ctaText,
+  isEntireCardClickable = false,
+  isExternalUrl = false,
+  className = '',
+  imageClassName = '',
+  subtitleClassName = '',
+  children,
+}) => {
+  const Wrapper = isEntireCardClickable ? 'a' : 'div';
+  const wrapperClassName = clsx(
+    'card flex flex-col items-start transition-transform duration-200',
+    isEntireCardClickable && 'hover:scale-[1.01]',
+    className,
+  );
+
+  const showCTA = !isEntireCardClickable && ctaUrl;
+  const showBottomSection = !!(showCTA || children);
+
   return (
-    <div className={clsx('border border-neutral-500 rounded px-8 pb-4', className)}>
-      {children}
-    </div>
+    <Wrapper
+      href={isEntireCardClickable ? ctaUrl : undefined}
+      {...(isEntireCardClickable && isExternalUrl && EXTERNAL_LINK_PROPS)}
+      className={wrapperClassName}
+    >
+      {imageSrc && (
+        <div className="card__image-container w-full mb-4">
+          <img
+            className={`card__image w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
+            src={imageSrc}
+            alt={`${title}`}
+          />
+        </div>
+      )}
+
+      <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
+        <div className="card__text">
+          <p className="card__title subtitle-sm mb-2">{title}</p>
+          {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
+        </div>
+        {showBottomSection && (
+          <div className="card__bottom-section flex flex-col gap-space-between">
+            {showCTA && (
+              <CTALinkOrButton
+                className="card__cta"
+                url={ctaUrl}
+                variant="secondary"
+                withChevron={false}
+                isExternalUrl={isExternalUrl}
+              >
+                {ctaText}
+              </CTALinkOrButton>
+            )}
+            {children && (
+              <div className="card__footer flex items-center justify-between w-full">
+                {children}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </Wrapper>
   );
 };
 
-export const CardButton: React.FC<LinkOrButtonProps> = ({ className, ...rest }) => {
-  return (
-    <LinkOrButton className={clsx('border border-neutral-500 rounded px-8 pb-4 text-bluedot-black transition-all duration-200 inline-block cursor-pointer data-[hovered]:border-bluedot-normal data-[hovered]:bg-bluedot-lighter data-[focus-visible]:border-bluedot-normal data-[focus-visible]:bg-bluedot-lighter data-[pressed]:border-bluedot-normal data-[pressed=true]:bg-bluedot-normal data-[pressed=true]:text-white outline-none [text-align:inherit]', className)} {...rest} />
-  );
-};
+export default Card;

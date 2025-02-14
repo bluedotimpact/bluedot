@@ -1,0 +1,419 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Nav > renders with courses 1`] = `
+<div>
+  <nav
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
+  >
+    <div
+      class="nav__container section-base"
+    >
+      <div
+        class="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]"
+      >
+        <a
+          class="nav__logo-link shrink-0 w-[200px]"
+          href="/"
+        >
+          <img
+            alt="BlueDot Impact Logo"
+            class="nav__logo h-6 mr-auto transition-all duration-300"
+            src="logo.png"
+          />
+        </a>
+        <div
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
+        >
+          <div>
+            <button
+              class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+              type="button"
+            >
+              Explore
+              <svg
+                class="size-4 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          class="nav__actions flex gap-space-between ml-auto"
+        >
+          <div
+            class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
+          >
+            <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Support us
+              </span>
+            </a>
+          </div>
+          <button
+            class="hamburger-button nav__menu--mobile-tablet lg:hidden"
+            type="button"
+          >
+            <svg
+              class="hamburger-icon"
+              fill="none"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 18H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 24H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 30H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3 max-h-0 opacity-0"
+      >
+        <div
+          class="nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 nav__drawer-content--desktop"
+        >
+          <div
+            class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pb-10 hidden lg:flex mx-auto"
+          >
+            <h3
+              class="nav-explore-section__dropdown-title font-bold"
+            >
+              Our courses
+            </h3>
+            <a
+              class="nav-explore-section__dropdown-link"
+              href="/course1"
+            >
+              Course 1
+            </a>
+            <a
+              class="nav-explore-section__dropdown-link"
+              href="/course2"
+            >
+              <span
+                class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
+              >
+                New!
+              </span>
+              Course 2
+            </a>
+          </div>
+        </div>
+        <div
+          class="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+        >
+          <div
+            class="nav-links flex gap-9 nav__links--mobile-tablet flex-col"
+          >
+            <div>
+              <button
+                class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+                type="button"
+              >
+                Explore
+                <svg
+                  class="size-4 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 nav-links__explore-section"
+              >
+                <div
+                  class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pl-6 pt-6"
+                >
+                  <h3
+                    class="nav-explore-section__dropdown-title font-bold"
+                  >
+                    Our courses
+                  </h3>
+                  <a
+                    class="nav-explore-section__dropdown-link"
+                    href="/course1"
+                  >
+                    Course 1
+                  </a>
+                  <a
+                    class="nav-explore-section__dropdown-link"
+                    href="/course2"
+                  >
+                    <span
+                      class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
+                    >
+                      New!
+                    </span>
+                    Course 2
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
+          >
+            <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Support us
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`Nav > renders with optional yield 1`] = `
+<div>
+  <nav
+    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
+  >
+    <div
+      class="nav__container section-base"
+    >
+      <div
+        class="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]"
+      >
+        <a
+          class="nav__logo-link shrink-0 w-[200px]"
+          href="/"
+        >
+          <h3
+            class="nav_logo--placeholder h-8 mr-auto"
+          >
+            BlueDot Impact
+          </h3>
+        </a>
+        <div
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
+        >
+          <div>
+            <button
+              class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+              type="button"
+            >
+              Explore
+              <svg
+                class="size-4 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 9l-7 7-7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <p
+            id="yield-element"
+          >
+            This is the yield
+          </p>
+        </div>
+        <div
+          class="nav__actions flex gap-space-between ml-auto"
+        >
+          <div
+            class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
+          >
+            <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Support us
+              </span>
+            </a>
+          </div>
+          <button
+            class="hamburger-button nav__menu--mobile-tablet lg:hidden"
+            type="button"
+          >
+            <svg
+              class="hamburger-icon"
+              fill="none"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 18H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 24H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 30H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3 max-h-0 opacity-0"
+      >
+        <div
+          class="nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 nav__drawer-content--desktop"
+        >
+          <div
+            class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pb-10 hidden lg:flex mx-auto"
+          >
+            <h3
+              class="nav-explore-section__dropdown-title font-bold"
+            >
+              Our courses
+            </h3>
+            <a
+              class="nav-explore-section__dropdown-link"
+              href="/course1"
+            >
+              Course 1
+            </a>
+          </div>
+        </div>
+        <div
+          class="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+        >
+          <div
+            class="nav-links flex gap-9 nav__links--mobile-tablet flex-col"
+          >
+            <div>
+              <button
+                class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+                type="button"
+              >
+                Explore
+                <svg
+                  class="size-4 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 9l-7 7-7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 nav-links__explore-section"
+              >
+                <div
+                  class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pl-6 pt-6"
+                >
+                  <h3
+                    class="nav-explore-section__dropdown-title font-bold"
+                  >
+                    Our courses
+                  </h3>
+                  <a
+                    class="nav-explore-section__dropdown-link"
+                    href="/course1"
+                  >
+                    Course 1
+                  </a>
+                </div>
+              </div>
+            </div>
+            <p
+              id="yield-element"
+            >
+              This is the yield
+            </p>
+          </div>
+          <div
+            class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
+          >
+            <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              data-testid="cta-link"
+              href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Support us
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+`;

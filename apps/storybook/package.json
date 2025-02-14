@@ -1,0 +1,43 @@
+{
+  "name": "@bluedot/storybook",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "storybook dev -p 6006",
+    "start:docker": "docker-scripts start",
+    "build": "storybook build --output-dir dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "deploy:prod": "docker-scripts deploy"
+  },
+  "dependencies": {
+    "@bluedot/ui": "*",
+    "@bluedot/website-25": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@bluedot/docker-scripts": "*",
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
+    "@storybook/addon-designs": "^8.1.0",
+    "@storybook/addon-essentials": "^8.5.2",
+    "@storybook/addon-interactions": "^8.5.2",
+    "@storybook/addon-styling-webpack": "^1.0.1",
+    "@storybook/blocks": "^8.5.2",
+    "@storybook/nextjs": "^8.5.3",
+    "@storybook/react": "^8.5.2",
+    "@storybook/react-vite": "^8.5.2",
+    "@storybook/test": "^8.5.2",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-plugin-storybook": "^0.11.2",
+    "postcss": "^8",
+    "storybook": "^8.5.2",
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5"
+  }
+}

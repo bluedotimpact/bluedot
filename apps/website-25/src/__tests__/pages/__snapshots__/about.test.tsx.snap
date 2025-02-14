@@ -1,0 +1,1061 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AboutPage > should render the error message correctly 1`] = `
+<div>
+  <div>
+    <div
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+    >
+      <div
+        class="hero-section__content max-w-[865px] mt-[82px] py-16"
+      >
+        <h1
+          class="hero-section__title text-on-dark text-center"
+        >
+          Our mission is to ensure humanity safely navigates the transition to transformative AI.
+        </h1>
+        <div
+          class="flex justify-center mt-8"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            data-testid="cta-link"
+            href="/careers"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Join the team
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_white.svg"
+              />
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <section
+      class="section section-body intro-section"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative"
+          >
+            Why do we exist?
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
+        >
+          <div
+            class="intro-section__text-container flex flex-col gap-5"
+          >
+            <p>
+              Humanity faces unprecedented challenges from transformative AI (TAI) which could profoundly reshape our future. Current AI systems already exhibit concerning behaviours, and as they become more powerful, misalignment between their actions, human intentions and societal values could lead to catastrophic outcomes.
+            </p>
+            <p>
+              BlueDot Impact exists to safeguard humanity from these risks by building and accelerating the AI safety field.  We’ve trained over 4,000 professionals and helped hundreds land roles at organisations like Anthropic and the UK’s AI Safety Institute. We’ve built a strong foundation of deep knowledge in how to communicate complex concepts, close relationships across the field, and expertise in talent development. However, urgency and the magnitude of AI risk demands we do much more.
+            </p>
+          </div>
+          <img
+            alt="BlueDot Impact team"
+            class="intro-section__image max-w-[570px] w-full h-auto rounded-2xl"
+            src="/images/team/team_1.jpg"
+          />
+        </div>
+      </div>
+    </section>
+    <div
+      class="slide-list w-full flex flex-col beliefs-section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative"
+          >
+            Our core beliefs
+          </h2>
+        </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between"
+      >
+        <div
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
+        >
+          <div
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          >
+            <div
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
+            />
+          </div>
+          <div
+            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
+          >
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="AGI could arrive soon, and we're unprepared"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/agi.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      AGI could arrive soon, and we're unprepared
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely, and the default path leads to catastrophic outcomes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="What we do now matters"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/matters.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      What we do now matters
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="The right people at key moments rewrite history"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/key.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      The right people at key moments rewrite history
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Throughout history, capable individuals in key positions have steered powerful technologies toward better outcomes. By identifying, training, and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="We need urgency, wisdom and optimism"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/beliefs/urgency.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      We need urgency, wisdom and optimism
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section
+      class="section section-body history-section"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative"
+          >
+            Our history
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8"
+        >
+          <div
+            class="history-section__event"
+          >
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
+            >
+              <div
+                class="history-section__year-container w-full flex gap-2"
+              >
+                <p
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                >
+                  2021
+                </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
+              </div>
+              <p
+                class="history-section__event-title mr-12"
+              >
+                Before BlueDot, we began as a University of Cambridge student group, hosting discussions on transformative emerging technologies.
+              </p>
+            </div>
+          </div>
+          <div
+            class="history-section__event"
+          >
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
+            >
+              <div
+                class="history-section__year-container w-full flex gap-2"
+              >
+                <p
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                >
+                  2022
+                </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
+              </div>
+              <p
+                class="history-section__event-title mr-12"
+              >
+                Launched our first AI Safety course with 400+ participants, founded BlueDot Impact, and established our London headquarters.
+              </p>
+            </div>
+          </div>
+          <div
+            class="history-section__event"
+          >
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
+            >
+              <div
+                class="history-section__year-container w-full flex gap-2"
+              >
+                <p
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                >
+                  2023
+                </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
+              </div>
+              <p
+                class="history-section__event-title mr-12"
+              >
+                Delivered a new course every four months, training 800+ people in AI Alignment, Governance, and Biosecurity.
+              </p>
+            </div>
+          </div>
+          <div
+            class="history-section__event"
+          >
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
+            >
+              <div
+                class="history-section__year-container w-full flex gap-2"
+              >
+                <p
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                >
+                  2024
+                </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
+              </div>
+              <p
+                class="history-section__event-title mr-12"
+              >
+                Accelerated to monthly courses, reaching 3,000+ participants worldwide. Over 400 of our course graduates now work in AI Safety.
+              </p>
+            </div>
+          </div>
+          <div
+            class="history-section__event"
+          >
+            <div
+              class="history-section__event-container--desktop flex flex-col gap-space-between"
+            >
+              <div
+                class="history-section__year-container w-full flex gap-2"
+              >
+                <p
+                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                >
+                  2025
+                </p>
+                <div
+                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+                />
+              </div>
+              <p
+                class="history-section__event-title mr-12"
+              >
+                Launching multiple courses weekly and expanding a world-class team to scale our global impact.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="slide-list w-full flex flex-col team-section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative"
+          >
+            Our team
+          </h2>
+        </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between"
+      >
+        <div
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
+        >
+          <div
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          >
+            <div
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
+            />
+          </div>
+          <div
+            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
+          >
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Dewi Erwan"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/dewi.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Dewi Erwan
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Co-founder & CEO
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/dewierwan/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Will Saunter"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/will.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Will Saunter
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Co-founder
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/will-saunter"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Adam Jones"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/adam.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Adam Jones
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      AI Safety
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/domdomegg/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Josh Landes"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/josh.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Josh Landes
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Community Manager
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/josh-landes12"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Li-Lian Ang"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/lilian.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Li-Lian Ang
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Product
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/anglilian"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Tarin Rickett"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/tarin.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Tarin Rickett
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Engineering
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://linkedin.com/in/tarinrickett/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0"
+              style=""
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Viorica Gheorghita"
+                    class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+                    src="/images/team/vio.jpg"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Viorica Gheorghita
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      Product
+                    </p>
+                  </div>
+                  <div
+                    class="card__bottom-section flex flex-col gap-space-between"
+                  >
+                    <a
+                      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      data-testid="cta-link"
+                      href="https://www.linkedin.com/in/vioricagheorghita/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <span
+                        class="cta-button__text"
+                      >
+                        LinkedIn
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="join-us-cta w-full max-w-max-width mx-auto lg:px-spacing-x my-spacing-y overflow-hidden"
+    >
+      <div
+        class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
+      >
+        <h3
+          class="join-us-cta__title max-w-[890px] text-center mb-8"
+        >
+          Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+        </h3>
+        <a
+          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+          data-testid="cta-link"
+          href="/careers"
+        >
+          <span
+            class="cta-button__text"
+          >
+            View our careers
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon size-2"
+              src="/icons/chevron_white.svg"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    <section
+      class="section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative"
+          >
+            Contact us
+          </h2>
+          <p
+            class="section-heading__subtitle text-bluedot-darker text-md"
+          >
+            We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
+            <br />
+            <br />
+            Email us at 
+            <a
+              href="mailto:team@bluedot.org"
+            >
+              team@bluedot.org
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      />
+    </section>
+  </div>
+</div>
+`;

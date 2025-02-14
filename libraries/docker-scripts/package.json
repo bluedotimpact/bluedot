@@ -1,0 +1,9 @@
+{
+  "name": "@bluedot/docker-scripts",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.js",
+  "bin": {
+    "docker-scripts": "src/index.js"
+  }
+}

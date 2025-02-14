@@ -1,6 +1,12 @@
 name: ci_cd
 
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 env:
   TURBO_CACHE_DIR: .turbo
@@ -33,217 +39,89 @@ jobs:
         run: npm run build --if-present
       - name: Test
         run: npm run test --if-present
-      - id: modified_paths_check
+
+      - name: Get paths that apps are dependent on
+        # e.g. availability depends on apps/availability/** and libaries/ui/**
+        id: get_paths_filter
+        run: |
+          node .github/workflows/create-paths-filter.js > paths-filter.json
+          FILTER=$(cat paths-filter.json)
+          echo "paths_filter=$FILTER" >> $GITHUB_OUTPUT
+
+      - name: Figure out what apps have changed files in their paths
+        id: modified_paths_check
         uses: fkirc/skip-duplicate-actions@v5
         with:
-          paths_filter: |
-            availability:
-              paths:
-                - 'apps/availability/**'
-            backend:
-              paths:
-                - 'apps/backend/**'
-            bubble-proxy:
-              paths:
-                - 'apps/bubble-proxy/**'
-            frontend-example:
-              paths:
-                - 'apps/frontend-example/**'
-            infra:
-              paths:
-                - 'apps/infra/**'
-            login:
-              paths:
-                - 'apps/login/**'
-            meet:
-              paths:
-                - 'apps/meet/**'
-            miniextensions-proxy:
-              paths:
-                - 'apps/miniextensions-proxy/**'
+          paths_filter: ${{ steps.get_paths_filter.outputs.paths_filter }}
           paths: '["package-lock.json"]'
           paths_ignore: '["**/README.md"]'
-    outputs:
-      should_skip: ${{ steps.modified_paths_check.outputs.should_skip }}
-      paths_result: ${{ steps.modified_paths_check.outputs.paths_result }}
 
-  cd_infra:
+      - name: Arrange output into one array for CD matrix
+        id: get_apps_to_deploy
+        run: |
+          # Get all apps
+          APPS=$(ls -d apps/*/ | cut -d'/' -f2 | jq -R -s -c 'split("\n")[:-1]')
+          echo "👀 Found apps: $APPS"
+          
+          if [[ "${{ steps.modified_paths_check.outputs.should_skip }}" == "false" ]]; then
+            echo "📦 ALL apps will need to be deployed because package-lock.json changed"
+            echo "apps=$APPS" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "🔍 Checking for apps with path changes..."
+          PATHS_RESULT='${{ steps.modified_paths_check.outputs.paths_result }}'
+          APPS_TO_DEPLOY=$(echo "$APPS" | jq -c "[.[] | select(
+            . as \$app |
+            ($PATHS_RESULT | .[\$app].should_skip) != true
+          )]")
+          echo "🚀 Apps needing deployment: $APPS_TO_DEPLOY"
+          echo "apps=$APPS_TO_DEPLOY" >> $GITHUB_OUTPUT
+    outputs:
+      apps_to_deploy: ${{ steps.get_apps_to_deploy.outputs.apps }}
+
+  cd:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).infra.should_skip) }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.ci.outputs.apps_to_deploy) }}
     concurrency:
-      group: cd_infra
+      group: cd_${{ matrix.app }}
     timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
+
       - name: Install NPM dependencies
         run: npm ci
 
-      - name: Configure for deployment
+      - name: Configure infra deployment
+        if: matrix.app == 'infra'
         run: |
           echo "$INFRA_PULUMI_PASSPHRASE" > apps/infra/passphrase.prod.txt
-
           mkdir -p ~/.aws
           echo "$INFRA_AWS_CREDENTIALS" > ~/.aws/credentials
         env:
           INFRA_PULUMI_PASSPHRASE: ${{ secrets.INFRA_PULUMI_PASSPHRASE }}
-          # See the infra README - these should actually have details for Vultr Object Storage
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
-      - name: Deploy
-        run: npm run deploy:prod --workspace apps/infra
 
-  cd_frontend-example:
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).frontend-example.should_skip) }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: cd_frontend-example
-    timeout-minutes: 20
-    steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Configure for deployment
+      - name: Configure k8s deployment
+        if: matrix.app != 'infra'
         run: |
           docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
-
           mkdir -p ~/.kube
           echo "$K8S_KUBECONFIG" > ~/.kube/config
         env:
           K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
           VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
+
       - name: Deploy
-        run: npm run deploy:prod --workspace apps/frontend-example
-
-  cd_availability:
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).availability.should_skip) }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: cd_availability
-    timeout-minutes: 20
-    steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Configure for deployment
-        run: |
-          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
-
-          mkdir -p ~/.kube
-          echo "$K8S_KUBECONFIG" > ~/.kube/config
-        env:
-          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
-          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
-      - name: Deploy
-        run: npm run deploy:prod --workspace apps/availability
-
-  cd_login:
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).login.should_skip) }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: cd_login
-    timeout-minutes: 20
-    steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Configure for deployment
-        run: |
-          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
-
-          mkdir -p ~/.kube
-          echo "$K8S_KUBECONFIG" > ~/.kube/config
-        env:
-          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
-          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
-      - name: Deploy
-        run: npm run deploy:prod --workspace apps/login
-
-  cd_meet:
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).meet.should_skip) }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: cd_meet
-    timeout-minutes: 20
-    steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Configure for deployment
-        run: |
-          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
-
-          mkdir -p ~/.kube
-          echo "$K8S_KUBECONFIG" > ~/.kube/config
-        env:
-          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
-          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
-      - name: Deploy
-        run: npm run deploy:prod --workspace apps/meet
-
-  cd_miniextensions-proxy:
-    needs: ci
-    if: ${{ github.ref == 'refs/heads/master' && (needs.ci.outputs.should_skip != 'true' || !fromJSON(needs.ci.outputs.paths_result).miniextensions-proxy.should_skip) }}
-    runs-on: ubuntu-latest
-    concurrency:
-      group: cd_miniextensions-proxy
-    timeout-minutes: 20
-    steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Configure for deployment
-        run: |
-          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
-
-          mkdir -p ~/.kube
-          echo "$K8S_KUBECONFIG" > ~/.kube/config
-        env:
-          K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
-          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
-      - name: Deploy
-        run: npm run deploy:prod --workspace apps/miniextensions-proxy
+        run: npm run deploy:prod --workspace apps/${{ matrix.app }}

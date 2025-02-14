@@ -1,0 +1,90 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HeroSection > renders default as expected 1`] = `
+<div>
+  <div
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+  >
+    <div
+      class="hero-section__content max-w-[865px] mt-[82px] py-16"
+    />
+  </div>
+</div>
+`;
+
+exports[`HeroSection > renders with buttons 1`] = `
+<div>
+  <div
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+  >
+    <div
+      class="hero-section__content max-w-[865px] mt-[82px] py-16"
+    >
+      <h1
+        class="hero-section__title text-on-dark text-center"
+      >
+        This is the title
+      </h1>
+      <h2
+        class="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4"
+      >
+        This is the subtitle
+      </h2>
+      <div
+        class="flex justify-center mt-8"
+      >
+        <a
+          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+          data-testid="cta-link"
+          href="https://example.com"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Do a thing
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroSection > renders with optional yield 1`] = `
+<div>
+  <div
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+  >
+    <div
+      class="hero-section__content max-w-[865px] mt-[82px] py-16"
+    >
+      <p>
+        This is the yield
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`HeroSection > renders with titles 1`] = `
+<div>
+  <div
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+  >
+    <div
+      class="hero-section__content max-w-[865px] mt-[82px] py-16"
+    >
+      <h1
+        class="hero-section__title text-on-dark text-center"
+      >
+        This is the title
+      </h1>
+      <h2
+        class="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4"
+      >
+        This is the subtitle
+      </h2>
+    </div>
+  </div>
+</div>
+`;

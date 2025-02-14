@@ -183,8 +183,8 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
                     dragStart(coord);
                   }}
                 >
-                  <div className="w-full h-full" draggable={false} />
-                  {isInDraggedOverArea && <div className={clsx('w-full h-full opacity-75 absolute inset-0 pointer-events-none', dragState.dragging === 'pos' ? 'bg-green-400' : 'bg-purple-400')} />}
+                  <div className="size-full" draggable={false} />
+                  {isInDraggedOverArea && <div className={clsx('size-full opacity-75 absolute inset-0 pointer-events-none', dragState.dragging === 'pos' ? 'bg-green-400' : 'bg-purple-400')} />}
                 </div>
               );
             })}
