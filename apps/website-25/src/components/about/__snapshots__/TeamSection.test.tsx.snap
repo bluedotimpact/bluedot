@@ -3,7 +3,7 @@
 exports[`TeamSection > renders desktop as expected 1`] = `
 <div>
   <section
-    class="section section-body team-section team-section--desktop"
+    class="section section-body team-section team-section--desktop !border-b-0"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -369,7 +369,7 @@ exports[`TeamSection > renders desktop as expected 1`] = `
 exports[`TeamSection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="slide-list w-full flex flex-col team-section team-section--mobile section-body"
+    class="slide-list w-full flex flex-col team-section team-section--mobile section-body !border-b-0"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"

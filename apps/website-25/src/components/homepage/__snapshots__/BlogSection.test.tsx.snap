@@ -25,7 +25,7 @@ exports[`BlogSection > renders default as expected 1`] = `
         class="blog-section__container flex flex-col mb-6"
       >
         <a
-          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider sm:gap-6"
+          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
           href="https://bluedot.org/blog/teach-swap-explain-activity/"
         >
           <p
@@ -54,7 +54,7 @@ exports[`BlogSection > renders default as expected 1`] = `
           </div>
         </a>
         <a
-          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider sm:gap-6"
+          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
           href="https://bluedot.org/blog/why-we-run-our-ai-safety-courses/"
         >
           <p
@@ -83,7 +83,7 @@ exports[`BlogSection > renders default as expected 1`] = `
           </div>
         </a>
         <a
-          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 border-b border-color-divider sm:gap-6"
+          class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
           href="https://bluedot.org/blog/ai-alignment-june-2024-retro/"
         >
           <p
