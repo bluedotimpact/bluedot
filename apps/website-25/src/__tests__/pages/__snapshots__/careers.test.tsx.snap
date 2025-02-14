@@ -44,27 +44,27 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       class="section section-body culture-section"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative"
-          >
-            Our culture
-          </h2>
-        </div>
-      </div>
-      <div
         class="section__body"
       >
         <div
           class="culture-section__container flex lg:flex-row flex-col gap-space-between"
         >
           <div
-            class="culture-section__text-container flex flex-col gap-5"
+            class="culture-section__text-container flex flex-col gap-5 max-w-[436px]"
           >
+            <div
+              class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+            >
+              <div
+                class="section-heading__content flex-1 flex flex-col gap-2"
+              >
+                <h2
+                  class="section-heading__title relative"
+                >
+                  Our culture
+                </h2>
+              </div>
+            </div>
             <p>
               At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
             </p>
@@ -75,11 +75,40 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
             </p>
           </div>
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image max-w-[570px] w-full h-auto rounded-2xl"
-            src="/images/team/team_1.jpg"
-          />
+          <div
+            class="culture-section__image-grid grid grid-cols-3 gap-4"
+          >
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_dewi_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_talking_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_happy_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_will_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_prod-eng_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_keyboard_v1.jpeg"
+            />
+          </div>
         </div>
       </div>
     </section>
