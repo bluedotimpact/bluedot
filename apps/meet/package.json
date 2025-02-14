@@ -5,12 +5,13 @@
   "scripts": {
     "postinstall": "shx cp -n .env.local.template .env.local",
     "start": "next dev -p 8000",
+    "start:docker": "docker-scripts start",
     "build": "next build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "deploy:prod": "tools/deployDocker.sh"
+    "deploy:prod": "docker-scripts deploy"
   },
   "dependencies": {
     "@bluedot/ui": "*",
@@ -28,6 +29,7 @@
     "tailwindcss-scoped-preflight": "^3.2.6"
   },
   "devDependencies": {
+    "@bluedot/docker-scripts": "*",
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@tailwindcss/postcss": "^4.0.6",
