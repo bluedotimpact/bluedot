@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import React, {
   useCallback, useState, useEffect,
 } from 'react';
+import ClickAwayListener from 'react-click-away-listener';
 
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { HamburgerButton } from './HamburgerButton';
-import ClickAwayListener from 'react-click-away-listener';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string;
