@@ -1,9 +1,375 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`TeamSection > renders default as expected 1`] = `
+exports[`TeamSection > renders desktop as expected 1`] = `
+<div>
+  <section
+    class="section section-body team-section team-section--desktop"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative"
+        >
+          Our team
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12"
+      >
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Dewi Erwan"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/dewi.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Dewi Erwan
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Co-founder & CEO
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://www.linkedin.com/in/dewierwan/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Will Saunter"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/will.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Will Saunter
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Co-founder
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://linkedin.com/in/will-saunter"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Adam Jones"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/adam.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Adam Jones
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                AI Safety
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://www.linkedin.com/in/domdomegg/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Josh Landes"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/josh.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Josh Landes
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Community Manager
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://linkedin.com/in/josh-landes12"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Li-Lian Ang"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/lilian.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Li-Lian Ang
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Product
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://linkedin.com/in/anglilian"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Tarin Rickett"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/tarin.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Tarin Rickett
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Engineering
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://linkedin.com/in/tarinrickett/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+        >
+          <div
+            class="card__image-container w-full mb-4"
+          >
+            <img
+              alt="Viorica Gheorghita"
+              class="card__image w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px]"
+              src="/images/team/vio.jpg"
+            />
+          </div>
+          <div
+            class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+          >
+            <div
+              class="card__text"
+            >
+              <p
+                class="card__title subtitle-sm mb-2"
+              >
+                Viorica Gheorghita
+              </p>
+              <p
+                class="card__subtitle "
+              >
+                Product
+              </p>
+            </div>
+            <div
+              class="card__bottom-section flex flex-col gap-space-between"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                data-testid="cta-link"
+                href="https://www.linkedin.com/in/vioricagheorghita/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  LinkedIn
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;
+
+exports[`TeamSection > renders mobile as expected 1`] = `
 <div>
   <div
-    class="slide-list w-full flex flex-col team-section section-body"
+    class="slide-list w-full flex flex-col team-section team-section--mobile section-body"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"

@@ -318,7 +318,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
         >
           <div
             class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8
-          container-lined"
+          border bg-bluedot-lighter border-bluedot-light rounded-xl"
           >
             <strong
               class="history-section__year"
