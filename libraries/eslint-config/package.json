@@ -4,6 +4,7 @@
   "private": true,
   "main": "src/index.js",
   "devDependencies": {
+    "@bluedot/eslint-plugin-bluedot-custom": "*",
     "@types/eslint": "^8.44.8",
     "eslint-config-domdomegg": "^1.2.3",
     "eslint-config-turbo": "^2.2.3",

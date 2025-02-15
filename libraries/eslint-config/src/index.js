@@ -87,7 +87,10 @@ const tsOnlyRules = {
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  plugins: ['tailwindcss'],
+  plugins: [
+    'eslint-plugin-tailwindcss',
+    '@bluedot/eslint-plugin-custom',
+  ],
   extends: [
     'eslint-config-domdomegg',
     'eslint-config-turbo',
