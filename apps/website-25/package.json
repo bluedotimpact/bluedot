@@ -47,7 +47,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
-    "eslint-plugin-local-rules": "^3.0.2",
     "happy-dom": "^14.7.1",
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",

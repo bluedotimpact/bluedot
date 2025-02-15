@@ -1,8 +1,5 @@
 module.exports = {
-  plugins: [
-    'local-rules'
-  ],
   rules: {
-    'local-rules/no-default-tailwind-tokens': 'warn',
+    '@bluedot/custom/no-default-tailwind-tokens': 'warn',
   }
-}; 
+};
