@@ -2,276 +2,30 @@
 
 exports[`Footer > renders default as expected 1`] = `
 <div>
-  <div
-    class="footer"
+  <footer
+    class="footer bg-bluedot-darker py-10"
   >
-    <footer
-      class="footer__main bg-bluedot-darker py-10 flex flex-col"
+    <div
+      class="footer__container section-base"
     >
-      <div
-        class="footer__content section-base flex flex-col"
+      <nav
+        class="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
       >
-        <nav
-          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
+        <div
+          class="footer__brand flex flex-row lg:flex-col justify-between"
         >
-          <div
-            class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
+          <a
+            class="footer__logo"
+            href="/"
           >
-            <a
-              href="/"
+            <p
+              class="h-8 text-xl text-white"
             >
-              <p
-                class="footer__logo h-8 text-xl text-white"
-              >
-                BlueDot Impact
-              </p>
-            </a>
-            <div
-              class="footer__social flex gap-6 hidden sm:flex"
-            >
-              <a
-                aria-label="Twitter"
-                class="footer__social-link link-on-dark"
-                href="https://twitter.com/BlueDotImpact"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                  />
-                </svg>
-              </a>
-              <a
-                aria-label="YouTube"
-                class="footer__social-link link-on-dark"
-                href="https://youtube.com/@bluedotimpact"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 576 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                  />
-                </svg>
-              </a>
-              <a
-                aria-label="LinkedIn"
-                class="footer__social-link link-on-dark"
-                href="https://www.linkedin.com/company/bluedotimpact/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 448 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
+              BlueDot Impact
+            </p>
+          </a>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
-          >
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                BlueDot Impact
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/about"
-                  >
-                    About us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  >
-                    Support us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/careers"
-                  >
-                    Join us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="mailto:team@bluedot.org"
-                  >
-                    Contact us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                Explore
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/intro-to-tai/"
-                  >
-                    AI Safety: Intro to Transformative AI
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai/"
-                  >
-                    Economics of Transformative AI
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment/"
-                  >
-                    AI Alignment
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance/"
-                  >
-                    AI Governance
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/writing/"
-                  >
-                    Writing Intensive
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
-                  >
-                    Economics of Transformative AI Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
-                  >
-                    Alignment Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance-fast-track/"
-                  >
-                    Governance Fast-Track
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                Resources
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/privacy-policy"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            class="footer__social flex gap-6 sm:hidden"
+            class="footer__social flex gap-6 hidden sm:flex"
           >
             <a
               aria-label="Twitter"
@@ -340,317 +94,314 @@ exports[`Footer > renders default as expected 1`] = `
               </svg>
             </a>
           </div>
-        </nav>
-        <p
-          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        </div>
+        <div
+          class="footer__links grid grid-cols-1 gap-12 sm:grid-cols-[1fr_auto_1fr] sm:gap-16"
         >
-          © 
-          2025
-           
-          <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://bluedot.org/"
+          <div
+            class="footer__section min-w-0 whitespace-nowrap"
           >
-            BlueDot Impact
-          </a>
-           is primarily funded by 
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/about"
+                >
+                  About us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                >
+                  Support us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/careers"
+                >
+                  Join us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="mailto:team@bluedot.org"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="footer__section min-w-0 flex-1"
+          >
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              Explore
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/intro-to-tai/"
+                >
+                  AI Safety: Intro to Transformative AI
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/economics-of-tai/"
+                >
+                  Economics of Transformative AI
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/alignment/"
+                >
+                  AI Alignment
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/governance/"
+                >
+                  AI Governance
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/writing/"
+                >
+                  Writing Intensive
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
+                >
+                  Economics of Transformative AI Fast-Track
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                >
+                  Alignment Fast-Track
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/governance-fast-track/"
+                >
+                  Governance Fast-Track
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="footer__section"
+          >
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              Resources
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/privacy-policy"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="footer__social flex gap-6 sm:hidden"
+        >
           <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://www.openphilanthropy.org/"
+            aria-label="Twitter"
+            class="footer__social-link link-on-dark"
+            href="https://twitter.com/BlueDotImpact"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Open Philanthropy
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+              />
+            </svg>
           </a>
-          , and is a non-profit based in the UK (company number 
           <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            aria-label="YouTube"
+            class="footer__social-link link-on-dark"
+            href="https://youtube.com/@bluedotimpact"
             rel="noopener noreferrer"
             target="_blank"
           >
-            14964572
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 576 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+              />
+            </svg>
           </a>
-          ).
-        </p>
-      </div>
-    </footer>
-  </div>
+          <a
+            aria-label="LinkedIn"
+            class="footer__social-link link-on-dark"
+            href="https://www.linkedin.com/company/bluedotimpact/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+              />
+            </svg>
+          </a>
+        </div>
+      </nav>
+      <p
+        class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+      >
+        © 
+        2025
+         
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://bluedot.org/"
+        >
+          BlueDot Impact
+        </a>
+         is primarily funded by 
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://www.openphilanthropy.org/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Open Philanthropy
+        </a>
+        , and is a non-profit based in the UK (company number 
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          14964572
+        </a>
+        ).
+      </p>
+    </div>
+  </footer>
 </div>
 `;
 
 exports[`Footer > renders with optional args 1`] = `
 <div>
-  <div
-    class="footer"
+  <footer
+    class="footer bg-bluedot-darker py-10"
   >
-    <footer
-      class="footer__main bg-bluedot-darker py-10 flex flex-col"
+    <div
+      class="footer__container section-base"
     >
-      <div
-        class="footer__content section-base flex flex-col"
+      <nav
+        class="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
       >
-        <nav
-          class="footer__nav flex flex-col justify-between gap-20 lg:grid lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4"
+        <div
+          class="footer__brand flex flex-row lg:flex-col justify-between"
         >
-          <div
-            class="footer__section footer__section--brand flex flex-row lg:flex-col justify-between"
+          <a
+            class="footer__logo"
+            href="/"
           >
-            <a
-              href="/"
-            >
-              <img
-                alt="BlueDot Impact Logo"
-                class="footer__logo h-8 mr-auto"
-                src="https://www.bluedot.com/test-logo.jpg"
-              />
-            </a>
-            <div
-              class="footer__social flex gap-6 hidden sm:flex"
-            >
-              <a
-                aria-label="Twitter"
-                class="footer__social-link link-on-dark"
-                href="https://twitter.com/BlueDotImpact"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 512 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                  />
-                </svg>
-              </a>
-              <a
-                aria-label="YouTube"
-                class="footer__social-link link-on-dark"
-                href="https://youtube.com/@bluedotimpact"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 576 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                  />
-                </svg>
-              </a>
-              <a
-                aria-label="LinkedIn"
-                class="footer__social-link link-on-dark"
-                href="https://www.linkedin.com/company/bluedotimpact/"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 448 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
+            <img
+              alt="BlueDot Impact Logo"
+              class="h-8"
+              src="https://www.bluedot.com/test-logo.jpg"
+            />
+          </a>
           <div
-            class="grid grid-cols-1 gap-12 sm:grid-cols-3 sm:gap-16"
-          >
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                BlueDot Impact
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/about"
-                  >
-                    About us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  >
-                    Support us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/careers"
-                  >
-                    Join us
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="mailto:team@bluedot.org"
-                  >
-                    Contact us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                Explore
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/intro-to-tai/"
-                  >
-                    AI Safety: Intro to Transformative AI
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai/"
-                  >
-                    Economics of Transformative AI
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment/"
-                  >
-                    AI Alignment
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance/"
-                  >
-                    AI Governance
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/writing/"
-                  >
-                    Writing Intensive
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
-                  >
-                    Economics of Transformative AI Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/alignment-fast-track/"
-                  >
-                    Alignment Fast-Track
-                  </a>
-                </li>
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="https://aisafetyfundamentals.com/governance-fast-track/"
-                  >
-                    Governance Fast-Track
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="footer__section"
-            >
-              <h3
-                class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
-              >
-                Resources
-              </h3>
-              <ul
-                class="footer__list space-y-4 mb-auto font-normal list-none p-0"
-              >
-                <li
-                  class="footer__item"
-                >
-                  <a
-                    class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                    href="/privacy-policy"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            class="footer__social flex gap-6 sm:hidden"
+            class="footer__social flex gap-6 hidden sm:flex"
           >
             <a
               aria-label="Twitter"
@@ -719,41 +470,284 @@ exports[`Footer > renders with optional args 1`] = `
               </svg>
             </a>
           </div>
-        </nav>
-        <p
-          class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+        </div>
+        <div
+          class="footer__links grid grid-cols-1 gap-12 sm:grid-cols-[1fr_auto_1fr] sm:gap-16"
         >
-          © 
-          2025
-           
-          <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://bluedot.org/"
+          <div
+            class="footer__section min-w-0 whitespace-nowrap"
           >
-            BlueDot Impact
-          </a>
-           is primarily funded by 
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/about"
+                >
+                  About us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                >
+                  Support us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/careers"
+                >
+                  Join us
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="mailto:team@bluedot.org"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="footer__section min-w-0 flex-1"
+          >
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              Explore
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/intro-to-tai/"
+                >
+                  AI Safety: Intro to Transformative AI
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/economics-of-tai/"
+                >
+                  Economics of Transformative AI
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/alignment/"
+                >
+                  AI Alignment
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/governance/"
+                >
+                  AI Governance
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/writing/"
+                >
+                  Writing Intensive
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/economics-of-tai-fast-track/"
+                >
+                  Economics of Transformative AI Fast-Track
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/alignment-fast-track/"
+                >
+                  Alignment Fast-Track
+                </a>
+              </li>
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="https://aisafetyfundamentals.com/governance-fast-track/"
+                >
+                  Governance Fast-Track
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="footer__section"
+          >
+            <h3
+              class="footer__heading font-[650] text-on-dark mb-4 text-size-md"
+            >
+              Resources
+            </h3>
+            <ul
+              class="footer__list space-y-4 mb-auto list-none p-0"
+            >
+              <li
+                class="footer__item"
+              >
+                <a
+                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+                  href="/privacy-policy"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="footer__social flex gap-6 sm:hidden"
+        >
           <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://www.openphilanthropy.org/"
+            aria-label="Twitter"
+            class="footer__social-link link-on-dark"
+            href="https://twitter.com/BlueDotImpact"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Open Philanthropy
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 512 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+              />
+            </svg>
           </a>
-          , and is a non-profit based in the UK (company number 
           <a
-            class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-            href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+            aria-label="YouTube"
+            class="footer__social-link link-on-dark"
+            href="https://youtube.com/@bluedotimpact"
             rel="noopener noreferrer"
             target="_blank"
           >
-            14964572
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 576 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+              />
+            </svg>
           </a>
-          ).
-        </p>
-      </div>
-    </footer>
-  </div>
+          <a
+            aria-label="LinkedIn"
+            class="footer__social-link link-on-dark"
+            href="https://www.linkedin.com/company/bluedotimpact/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <svg
+              class="size-6"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+              />
+            </svg>
+          </a>
+        </div>
+      </nav>
+      <p
+        class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8"
+      >
+        © 
+        2025
+         
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://bluedot.org/"
+        >
+          BlueDot Impact
+        </a>
+         is primarily funded by 
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://www.openphilanthropy.org/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Open Philanthropy
+        </a>
+        , and is a non-profit based in the UK (company number 
+        <a
+          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
+          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          14964572
+        </a>
+        ).
+      </p>
+    </div>
+  </footer>
 </div>
 `;
