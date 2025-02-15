@@ -6,6 +6,7 @@ import {
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import IntroSection from '../components/about/IntroSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
@@ -20,6 +21,7 @@ const AboutPage = () => {
         <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
       <HeroSection>
+        <HeroMiniTitle>ABOUT US</HeroMiniTitle>
         <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
         <HeroCTAContainer>
           <CTALinkOrButton url="/careers" withChevron>Join the team</CTALinkOrButton>
