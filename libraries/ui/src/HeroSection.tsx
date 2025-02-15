@@ -1,6 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
 
+export type HeroMiniTitleProps = React.PropsWithChildren<{
+  className?: string,
+}>;
+
+export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
+  children, className,
+}) => {
+  return (
+    <div className={clsx('hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
+  );
+};
+
 export type HeroH1Props = React.PropsWithChildren<{
   className?: string,
 }>;
