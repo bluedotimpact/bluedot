@@ -5,10 +5,10 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import CareersSection from '../components/careers/CareersSection';
 import CultureSection from '../components/careers/CultureSection';
 import ValuesSection from '../components/careers/ValuesSection';
-import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 
 const CareersPage = () => {
   return (
