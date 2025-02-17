@@ -26,7 +26,7 @@ export const services: ServiceDefinition[] = [
         image: 'sjc.vultrcr.com/bluedot/bluedot-website-proxy:latest',
       }],
     },
-    hosts: ['website-proxy.k8s.bluedot.org', 'bluedot.org'],
+    hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org'],
   },
   {
     name: 'bluedot-website-25',
