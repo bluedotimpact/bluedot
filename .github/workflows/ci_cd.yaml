@@ -40,45 +40,13 @@ jobs:
       - name: Test
         run: npm run test --if-present
 
-      - name: Get paths that apps are dependent on
-        # e.g. availability depends on apps/availability/** and libaries/ui/**
-        id: get_paths_filter
+      - name: Get all apps
+        id: get_apps
         run: |
-          node .github/workflows/create-paths-filter.js > paths-filter.json
-          FILTER=$(cat paths-filter.json)
-          echo "paths_filter=$FILTER" >> $GITHUB_OUTPUT
-
-      - name: Figure out what apps have changed files in their paths
-        id: modified_paths_check
-        uses: fkirc/skip-duplicate-actions@v5
-        with:
-          paths_filter: ${{ steps.get_paths_filter.outputs.paths_filter }}
-          paths: '["package-lock.json"]'
-          paths_ignore: '["**/README.md"]'
-
-      - name: Arrange output into one array for CD matrix
-        id: get_apps_to_deploy
-        run: |
-          # Get all apps
           APPS=$(ls -d apps/*/ | cut -d'/' -f2 | jq -R -s -c 'split("\n")[:-1]')
-          echo "👀 Found apps: $APPS"
-          
-          if [[ "${{ steps.modified_paths_check.outputs.should_skip }}" == "false" ]]; then
-            echo "📦 ALL apps will need to be deployed because package-lock.json changed"
-            echo "apps=$APPS" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          echo "🔍 Checking for apps with path changes..."
-          PATHS_RESULT='${{ steps.modified_paths_check.outputs.paths_result }}'
-          APPS_TO_DEPLOY=$(echo "$APPS" | jq -c "[.[] | select(
-            . as \$app |
-            ($PATHS_RESULT | .[\$app].should_skip) != true
-          )]")
-          echo "🚀 Apps needing deployment: $APPS_TO_DEPLOY"
-          echo "apps=$APPS_TO_DEPLOY" >> $GITHUB_OUTPUT
+          echo "apps=$APPS" >> $GITHUB_OUTPUT
     outputs:
-      apps_to_deploy: ${{ steps.get_apps_to_deploy.outputs.apps }}
+      apps: ${{ steps.get_apps.outputs.apps }}
 
   cd:
     needs: ci
@@ -87,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.ci.outputs.apps_to_deploy) }}
+        app: ${{ fromJson(needs.ci.outputs.apps) }}
     concurrency:
       group: cd_${{ matrix.app }}
     timeout-minutes: 20
@@ -104,8 +72,27 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
+      - name: Get app dependency paths
+        id: get_paths
+        run: |
+          PATHS=$(node .github/workflows/get-app-paths.js ${{ matrix.app }})
+          echo "paths=$PATHS" >> $GITHUB_OUTPUT
+
+      - name: Check if app needs deployment
+        id: check_deployment
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          paths: ${{ steps.get_paths.outputs.paths }}
+          paths_ignore: '["**/README.md"]'
+
+      - name: Skip deployment
+        if: steps.check_deployment.outputs.should_skip == 'true'
+        run: |
+          echo "Skipping deployment - no relevant changes detected"
+          exit 0
+
       - name: Configure infra deployment
-        if: matrix.app == 'infra'
+        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app == 'infra'
         run: |
           echo "$INFRA_PULUMI_PASSPHRASE" > apps/infra/passphrase.prod.txt
           mkdir -p ~/.aws
@@ -115,7 +102,7 @@ jobs:
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
 
       - name: Configure k8s deployment
-        if: matrix.app != 'infra'
+        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app != 'infra'
         run: |
           docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
           mkdir -p ~/.kube
@@ -125,4 +112,5 @@ jobs:
           VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
 
       - name: Deploy
+        if: steps.check_deployment.outputs.should_skip != 'true'
         run: npm run deploy:prod --workspace apps/${{ matrix.app }}
