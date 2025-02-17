@@ -9,6 +9,11 @@ exports[`CareersPage > should render the error message correctly 1`] = `
       <div
         class="hero-section__content max-w-[865px] mt-[82px] py-16"
       >
+        <div
+          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+        >
+          Join Us
+        </div>
         <h1
           class="hero-section__title text-on-dark text-center"
         >

@@ -17,11 +17,11 @@ const AboutPage = () => {
   return (
     <div>
       <Head>
-        <title>Join our team | BlueDot Impact</title>
+        <title>About us | BlueDot Impact</title>
         <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
       <HeroSection>
-        <HeroMiniTitle>ABOUT US</HeroMiniTitle>
+        <HeroMiniTitle>About Us</HeroMiniTitle>
         <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
         <HeroCTAContainer>
           <CTALinkOrButton url="/careers" withChevron>Join the team</CTALinkOrButton>
