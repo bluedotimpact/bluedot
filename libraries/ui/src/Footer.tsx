@@ -56,7 +56,7 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
   <footer className={clsx('footer bg-bluedot-darker py-10', className)}>
     <div className="footer__container section-base">
-      <nav className="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-[1fr_2fr] xl:grid-cols-2 lg:gap-4">
+      <nav className="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-4">
         <div className="footer__brand flex flex-row lg:flex-col justify-between">
           <a href="/" className="footer__logo">
             {logo ? (
@@ -68,7 +68,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
           <FooterSocial className="hidden sm:flex" />
         </div>
 
-        <div className="footer__links grid grid-cols-1 gap-12 sm:grid-cols-[1fr_auto_1fr] sm:gap-16">
+        <div className="footer__links grid grid-cols-1 sm:grid-cols-[auto_auto] gap-spacing-x">
           <FooterLinksSection
             title="BlueDot Impact"
             links={[
@@ -76,6 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
               { href: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
               { href: '/careers', label: 'Join us' },
               { href: 'mailto:team@bluedot.org', label: 'Contact us' },
+              { href: '/privacy-policy', label: 'Privacy Policy' },
             ]}
             className="min-w-0 whitespace-nowrap"
           />
@@ -84,13 +85,6 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
             title="Explore"
             links={COURSES.map((course) => ({ href: course.href, label: course.title }))}
             className="min-w-0 flex-1"
-          />
-
-          <FooterLinksSection
-            title="Resources"
-            links={[
-              { href: '/privacy-policy', label: 'Privacy Policy' },
-            ]}
           />
         </div>
         <FooterSocial className="sm:hidden" />
