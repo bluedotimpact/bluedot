@@ -12,7 +12,7 @@ exports[`TeamSection > renders desktop as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           Our team
         </h2>
@@ -378,7 +378,7 @@ exports[`TeamSection > renders mobile as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           Our team
         </h2>
