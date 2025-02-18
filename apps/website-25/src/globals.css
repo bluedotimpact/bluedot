@@ -49,6 +49,9 @@
   a, .link {
     @apply text-color-secondary-text hover:text-color-primary-accent hover:cursor-pointer;
   }
+  button {
+    @apply hover:cursor-pointer;
+  }
   p > a {
     @apply underline;
   }
