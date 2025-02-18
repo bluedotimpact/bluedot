@@ -16,16 +16,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: "Current heading",
-    subtitle: "Text starts with a more blocky letter"
+    title: 'Current heading',
+    subtitle: 'Text starts with a more blocky letter',
   },
 };
 
 export const WithCustomHeadingLevels: Story = {
   args: {
-    title: "Current heading",
-    titleLevel: "h3",
-    subtitle: "Text starts with a more blocky letter",
-    subtitleLevel: "h3"
+    title: 'Current heading',
+    titleLevel: 'h3',
+    subtitle: 'Text starts with a more blocky letter',
+    subtitleLevel: 'h3',
   },
 };
