@@ -12,7 +12,7 @@ exports[`Section > renders default as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           This is the title
         </h2>
@@ -37,7 +37,7 @@ exports[`Section > renders with all optional props 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           This is the title
         </h2>
