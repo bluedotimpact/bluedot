@@ -15,34 +15,34 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/will-saunter',
   },
   {
-    imageSrc: '/images/team/adam.jpg',
-    name: 'Adam Jones',
-    role: 'AI Safety',
-    linkedInUrl: 'https://www.linkedin.com/in/domdomegg/',
-  },
-  {
-    imageSrc: '/images/team/josh.jpg',
-    name: 'Josh Landes',
-    role: 'Community Manager',
-    linkedInUrl: 'https://linkedin.com/in/josh-landes12',
-  },
-  {
     imageSrc: '/images/team/lilian.jpg',
     name: 'Li-Lian Ang',
     role: 'Product',
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
-    imageSrc: '/images/team/tarin.jpg',
-    name: 'Tarin Rickett',
-    role: 'Engineering',
-    linkedInUrl: 'https://linkedin.com/in/tarinrickett/',
-  },
-  {
     imageSrc: '/images/team/vio.jpg',
     name: 'Viorica Gheorghita',
     role: 'Product',
     linkedInUrl: 'https://www.linkedin.com/in/vioricagheorghita/',
+  },
+  {
+    imageSrc: '/images/team/adam.jpg',
+    name: 'Adam Jones',
+    role: 'AI Safety',
+    linkedInUrl: 'https://www.linkedin.com/in/domdomegg/',
+  },
+  {
+    imageSrc: '/images/team/josh_v2.jpeg',
+    name: 'Josh Landes',
+    role: 'Community Manager',
+    linkedInUrl: 'https://linkedin.com/in/josh-landes12',
+  },
+  {
+    imageSrc: '/images/team/tarin.jpg',
+    name: 'Tarin Rickett',
+    role: 'Engineering',
+    linkedInUrl: 'https://linkedin.com/in/tarinrickett/',
   },
 ];
 
@@ -64,7 +64,7 @@ const TeamSection = () => {
             ctaText="LinkedIn"
             isExternalUrl
             className="team-section__card"
-            imageClassName="team-section__card-image h-[300px]"
+            imageClassName="team-section__card-image h-[300px] w-[300px]"
           />
         ))}
       </SlideList>
@@ -81,7 +81,7 @@ const TeamSection = () => {
               ctaText="LinkedIn"
               isExternalUrl
               className="team-section__card"
-              imageClassName="team-section__card-image h-[300px]"
+              imageClassName="team-section__card-image h-[300px] w-[300px]"
             />
           ))}
         </div>

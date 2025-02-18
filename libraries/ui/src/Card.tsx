@@ -51,7 +51,7 @@ export const Card: React.FC<CardProps> = ({
       {imageSrc && (
         <div className="card__image-container w-full mb-4">
           <img
-            className={`card__image w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
+            className={`card__image max-w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
             src={imageSrc}
             alt={`${title}`}
           />

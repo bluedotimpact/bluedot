@@ -133,7 +133,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
               >
                 <img
                   alt="AGI could arrive soon, and society is dangerously unprepared"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/agi.png"
                 />
               </div>
@@ -169,7 +169,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
               >
                 <img
                   alt="What we do now matters"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/matters.png"
                 />
               </div>
@@ -205,7 +205,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
               >
                 <img
                   alt="People at key moments rewrite history"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/key.png"
                 />
               </div>
@@ -241,7 +241,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
               >
                 <img
                   alt="We need urgency, wisdom and optimism"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/beliefs/urgency.png"
                 />
               </div>
