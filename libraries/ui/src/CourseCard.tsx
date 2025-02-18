@@ -37,8 +37,9 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   children,
 }) => {
   const wrapperClassName = clsx(
-    'course-card course-card--featured card flex flex-col items-start justify-between',
-    'container-lined p-6 max-w-[600px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
+    // TODO add comment about m-[3px]
+    'course-card course-card--featured card flex flex-col items-start justify-between m-[3px]',
+    'container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
     className,
   );
 
@@ -68,9 +69,9 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
         </div>
-        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-full mb-6', imageClassName)}>
+        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6', imageClassName)}>
           <img
-            className="course-card__image size-full md:w-[319px] object-cover"
+            className="course-card__image size-full object-cover"
             src={imageSrc}
             alt={`${title}`}
           />
@@ -103,23 +104,21 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   );
 
   return cardType === 'Featured' ? (
-    <div className="p-[3px]">
-      <FeaturedCourseCard
-        className={className}
-        title={title}
-        description={description}
-        href={href}
-        applicationDeadline={applicationDeadline}
-        imageSrc={imageSrc}
-        imageClassName={imageClassName}
-        courseType={courseType}
-        courseLength={courseLength}
-      >
-        {courseCardFooter}
-      </FeaturedCourseCard>
-    </div>
+    <FeaturedCourseCard
+      className={className}
+      title={title}
+      description={description}
+      href={href}
+      applicationDeadline={applicationDeadline}
+      imageSrc={imageSrc}
+      imageClassName={imageClassName}
+      courseType={courseType}
+      courseLength={courseLength}
+    >
+      {courseCardFooter}
+    </FeaturedCourseCard>
   ) : (
-    <div className="p-[3px]">
+    <div className="p-[3px] h-full">
       <Card
         imageSrc={imageSrc}
         title={title}
@@ -128,7 +127,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         isEntireCardClickable
         className={clsx(
           'course-card course-card--regular container-lined p-5',
-          'flex flex-col max-w-full h-[520px] hover:container-elevated',
+          'flex flex-col max-w-full h-full hover:container-elevated',
           className,
         )}
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
