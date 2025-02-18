@@ -104,6 +104,23 @@ export const SlideList: React.FC<SlideListProps> = ({
   // Threshold for scrolling to the next item when tabbing through the list, only needs to be approximate
   const scrollPaddingPx = `${(measuredContainerWidth ?? minItemWidth * itemsPerSlide) * 0.15}px`;
 
+
+  const scrollBarWidth = `${100 * (itemsPerSlide / childrenArray.length)}%`;
+  const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
+
+  const ScrollBar = (
+    <div className="slide-list__progress w-full relative h-1">
+      <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
+      <div
+        className="slide-list__progress-track absolute h-full bg-bluedot-normal"
+        style={{
+          width: scrollBarWidth,
+          left: scrollBarLeft,
+        }}
+      />
+    </div>
+  );
+
   return (
     <div className={clsx('slide-list relative overflow-hidden flex flex-col gap-space-between', className)}>
       <div className="slide-list__gradient-wrapper relative flex-1">
@@ -139,14 +156,14 @@ export const SlideList: React.FC<SlideListProps> = ({
 
       {/* TODO do we still want to hide on mobile? */}
       {!allChildrenFit && (
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center gap-space-between">
           <SlideListBtn
             onClick={() => scrollTo('previous')}
             disabled={scrollPercent === 0}
             ariaLabel="Previous slide"
             direction="previous"
           />
-          {/* TODO scroll thing */}
+          {/* {ScrollBar} */}
           <SlideListBtn
             onClick={() => scrollTo('next')}
             disabled={scrollPercent === 100}
