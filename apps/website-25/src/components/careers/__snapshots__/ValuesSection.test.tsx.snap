@@ -132,7 +132,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="Think hard, act fast, fail faster"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/values/think.png"
                 />
               </div>
@@ -168,7 +168,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="Care personally, challenge directly"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/values/care.png"
                 />
               </div>
@@ -204,7 +204,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="Obsessed with empowering problem-solvers"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/values/powering.png"
                 />
               </div>

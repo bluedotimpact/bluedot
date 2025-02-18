@@ -132,7 +132,7 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="Our online community brings together 4,500+ professionals across 100+ countries"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/community-values/network.png"
                 />
               </div>
@@ -163,7 +163,7 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/community-values/people.png"
                 />
               </div>
@@ -194,7 +194,7 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="40+ independent study groups worldwide have used our materials to run their own courses"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/community-values/study.png"
                 />
               </div>
@@ -225,7 +225,7 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
               >
                 <img
                   alt="We run regular in-person events across the world, turning online connections into lasting relationships"
-                  class="card__image w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
                   src="/images/community-values/world.png"
                 />
               </div>

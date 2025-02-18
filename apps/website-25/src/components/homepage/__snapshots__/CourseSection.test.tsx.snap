@@ -215,7 +215,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="Economics of Transformative AI"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/econ.jpg"
                     />
                   </div>
@@ -285,7 +285,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="AI Alignment"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/alignment.jpg"
                     />
                   </div>
@@ -355,7 +355,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="AI Governance"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/gov.jpg"
                     />
                   </div>
@@ -425,7 +425,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="Writing Intensive"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/writing.jpg"
                     />
                   </div>
@@ -495,7 +495,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="Economics of Transformative AI Fast-Track"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/econ-fasttrack.jpg"
                     />
                   </div>
@@ -565,7 +565,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="Alignment Fast-Track"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/alignment-fasttrack.jpg"
                     />
                   </div>
@@ -635,7 +635,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <img
                       alt="Governance Fast-Track"
-                      class="card__image w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
                       src="/images/courses/gov-fasttrack.jpg"
                     />
                   </div>
