@@ -29,6 +29,8 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
+export { Breadcrumbs } from './Breadcrumbs';
+
 // Utils
 
 export { EXTERNAL_LINK_PROPS } from './utils';
