@@ -11,6 +11,8 @@ type BreadcrumbsProps = {
 
 // TODO: flag that py-space-between and default font is also an option
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) => {
+  if (!items.length) return null;
+
   return (
     <div className={clsx('breadcrumbs border-b border-color-divider w-full py-3', className)}>
       <nav
