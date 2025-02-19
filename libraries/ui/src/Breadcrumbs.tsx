@@ -3,8 +3,8 @@ import clsx from 'clsx';
 
 type BreadcrumbsProps = {
   items: Array<{
-    label: string;
-    href: string;
+    title: string;
+    url: string;
   }>;
   className?: string;
 };
@@ -19,8 +19,8 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) =>
       >
         <ol className="breadcrumbs__list flex">
           {items.map((item, index) => (
-            <li key={item.href} className="breadcrumbs__item flex items-center text-size-xs">
-              <a className="breadcrumbs__link" href={item.href}>{item.label}</a>
+            <li key={item.url} className="breadcrumbs__item flex items-center text-size-xs">
+              <a className="breadcrumbs__link" href={item.url}>{item.title}</a>
               {index < items.length - 1 && (
                 <span className="breadcrumbs__separator mx-2">{'>'}</span>
               )}

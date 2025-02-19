@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
+import { ROUTES } from '../lib/routes';
 
 if (typeof window !== 'undefined') {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -58,14 +59,14 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         logo="/images/logo/BlueDot_Impact_Logo.svg"
         courses={constants.COURSES}
       >
-        <a href="/about" className={clsx('hover:text-bluedot-normal', isCurrentPath('/about') && 'font-bold')}>About us</a>
-        <a href="/careers" className={clsx('hover:text-bluedot-normal', isCurrentPath('/careers') && 'font-bold')}>Join us</a>
+        <a href={ROUTES.about.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
+        <a href={ROUTES.careers.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
         <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
       </Nav>
       <main className="bluedot-base">
         <Component {...pageProps} />
       </main>
-      <CookieBanner />
+      <CookieBanner cookiePolicyUrl={ROUTES.privacyPolicy.url} />
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
       <Analytics />
     </PostHogProvider>

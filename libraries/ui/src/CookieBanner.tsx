@@ -5,6 +5,7 @@ import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
 type CookieBannerProps = {
+  cookiePolicyUrl: string,
   // Optional
   className?: string
 };
@@ -13,7 +14,7 @@ type CookieBannerProps = {
  * Sets a localStorage item called 'cookies' to 'accepted' or
  * 'rejected' when dismissed via one of the buttons.
  */
-export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
+export const CookieBanner: React.FC<CookieBannerProps> = ({ className, cookiePolicyUrl }) => {
   const [showBanner, setShowBanner] = useState(false);
 
   const setCookieConsent = useCallback(
@@ -52,7 +53,7 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     <div className={rootClassName}>
       <p className="cookie-banner__text text-pretty">
         We use analytics cookies to improve our website and measure ad performance.{' '}
-        <a href="/privacy-policy">Cookie Policy</a>.
+        <a href={cookiePolicyUrl}>Cookie Policy</a>.
       </p>
       <div className="cookie-banner__buttons flex flex-wrap gap-space-between justify-center">
         <CTALinkOrButton
