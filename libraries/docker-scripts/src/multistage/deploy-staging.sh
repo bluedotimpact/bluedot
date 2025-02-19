@@ -9,10 +9,11 @@ VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 # Use the corresponding env file for staging environment.
 cp .env.staging.template .env.production
 
+# TODO: Commented out for now because staging == production. See "Rollout" on #460.
 # Add no index robots.txt to the public folder.
-mkdir -p public
-echo "User-agent: *
-Disallow: /" > public/robots.txt
+# mkdir -p public
+#echo "User-agent: *
+#Disallow: /" > public/robots.txt
 
 # Build
 APP_NAME=$APP_NAME VERSION_TAG=$VERSION_TAG npm run build --if-present
