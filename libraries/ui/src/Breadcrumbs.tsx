@@ -9,7 +9,6 @@ type BreadcrumbsProps = {
   className?: string;
 };
 
-// TODO: flag that py-space-between and default font is also an option
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) => {
   if (!items.length) return null;
 
