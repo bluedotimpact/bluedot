@@ -60,21 +60,10 @@ jobs:
       group: cd_${{ matrix.app }}
     timeout-minutes: 20
     steps:
-      - name: Checkout ${{ github.sha }}
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
-
-      - name: Install NPM dependencies
-        run: npm ci
-
       - name: Get app dependency paths
         id: get_paths
         run: |
+          npm install --global turbo
           PATHS=$(node .github/workflows/get-app-paths.js ${{ matrix.app }})
           echo "paths=$PATHS" >> $GITHUB_OUTPUT
 
@@ -90,6 +79,21 @@ jobs:
         run: |
           echo "Skipping deployment - no relevant changes detected"
           exit 0
+
+      - name: Checkout ${{ github.sha }}
+        if: steps.check_deployment.outputs.should_skip != 'true'
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        if: steps.check_deployment.outputs.should_skip != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install NPM dependencies
+        if: steps.check_deployment.outputs.should_skip != 'true'
+        run: npm ci
 
       - name: Configure infra deployment
         if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app == 'infra'
