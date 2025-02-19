@@ -60,6 +60,12 @@ jobs:
       group: cd_${{ matrix.app }}
     timeout-minutes: 20
     steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+
       - name: Get app dependency paths
         id: get_paths
         run: |
@@ -83,13 +89,6 @@ jobs:
       - name: Checkout ${{ github.sha }}
         if: steps.check_deployment.outputs.should_skip != 'true'
         uses: actions/checkout@v4
-
-      - name: Use Node.js
-        if: steps.check_deployment.outputs.should_skip != 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: https://registry.npmjs.org/
 
       - name: Install NPM dependencies
         if: steps.check_deployment.outputs.should_skip != 'true'
