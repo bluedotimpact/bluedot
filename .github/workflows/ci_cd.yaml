@@ -60,6 +60,9 @@ jobs:
       group: cd_${{ matrix.app }}
     timeout-minutes: 20
     steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -85,10 +88,6 @@ jobs:
         run: |
           echo "Skipping deployment - no relevant changes detected"
           exit 0
-
-      - name: Checkout ${{ github.sha }}
-        if: steps.check_deployment.outputs.should_skip != 'true'
-        uses: actions/checkout@v4
 
       - name: Install NPM dependencies
         if: steps.check_deployment.outputs.should_skip != 'true'
