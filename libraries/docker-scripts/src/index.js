@@ -9,8 +9,8 @@ const command = process.argv[2] || '<blank>';
 
 // Map commands to script files
 const scriptMap = {
-  'multistage:deploy:production': 'multistage/deploy-production.sh',
-  'multistage:deploy:staging': 'multistage/deploy-staging.sh',
+  'multistage-deploy-production': 'multistage/deploy-production.sh',
+  'multistage-deploy-staging': 'multistage/deploy-staging.sh',
   start: 'start.sh',
   deploy: 'deploy.sh',
 };
