@@ -11,6 +11,7 @@
     "test": "vitest --run",
     "test:update": "npm run test -- -u",
     "test:watch": "vitest",
+    "deploy:cd": "npm run deploy:multistage:staging",
     "deploy:multistage:production": "docker-scripts multistage-deploy-production",
     "deploy:multistage:staging": "docker-scripts multistage-deploy-staging"
   },

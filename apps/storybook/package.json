@@ -8,7 +8,7 @@
     "build": "storybook build --output-dir dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "deploy:prod": "docker-scripts deploy"
+    "deploy:cd": "docker-scripts deploy"
   },
   "dependencies": {
     "@bluedot/ui": "*",

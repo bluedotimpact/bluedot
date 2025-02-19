@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "deploy:prod": "docker-scripts deploy"
+    "deploy:cd": "docker-scripts deploy"
   },
   "dependencies": {
     "@bluedot/ui": "*",

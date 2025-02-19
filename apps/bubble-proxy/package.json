@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "deploy:prod": "echo \"warn: app is deprecated, not deploying\"",
+        "deploy:cd": "echo \"warn: app is deprecated, not deploying\"",
         "start": "docker-scripts start"
     },
     "dependencies": {
