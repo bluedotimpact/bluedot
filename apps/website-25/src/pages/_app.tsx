@@ -66,7 +66,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <main className="bluedot-base">
         <Component {...pageProps} />
       </main>
-      <CookieBanner cookiePolicyUrl={ROUTES.privacyPolicy.url} />
+      <CookieBanner />
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
       <Analytics />
     </PostHogProvider>

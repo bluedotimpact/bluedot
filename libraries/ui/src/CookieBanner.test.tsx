@@ -35,12 +35,12 @@ describe('CookieBanner', () => {
   });
 
   test('renders as expected', () => {
-    const { container } = render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    const { container } = render(<CookieBanner />);
     expect(container).toMatchSnapshot();
   });
 
   test('sets localStorage item and configures tracking when accepted', () => {
-    const { container } = render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    const { container } = render(<CookieBanner />);
     const acceptButton = container.querySelector('.cookie-banner__button--accept');
 
     expect(acceptButton).not.toBeNull();
@@ -52,7 +52,7 @@ describe('CookieBanner', () => {
   });
 
   test('sets localStorage item and configures tracking when rejected', () => {
-    const { container } = render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    const { container } = render(<CookieBanner />);
     const rejectButton = container.querySelector('.cookie-banner__button--reject');
 
     expect(rejectButton).not.toBeNull();
@@ -65,17 +65,17 @@ describe('CookieBanner', () => {
 
   test('does not render if "cookies" is already set', () => {
     localStorage.setItem('cookies', 'accepted');
-    const { container } = render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    const { container } = render(<CookieBanner />);
     expect(container.firstChild).toBeNull();
   });
 
   test('initializes tracking based on existing cookie consent', () => {
     localStorage.setItem('cookies', 'accepted');
-    render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    render(<CookieBanner />);
     expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'localStorage+cookie' });
 
     localStorage.setItem('cookies', 'rejected');
-    render(<CookieBanner cookiePolicyUrl="/privacy-policy" />);
+    render(<CookieBanner />);
     expect(posthog.set_config).toHaveBeenCalledWith({ persistence: 'memory' });
   });
 });
