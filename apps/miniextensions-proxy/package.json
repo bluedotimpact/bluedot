@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "deploy:prod": "docker-scripts deploy",
+        "deploy:cd": "docker-scripts deploy",
         "start": "docker-scripts start"
     },
     "dependencies": {

@@ -5,7 +5,7 @@
     "scripts": {
         "start:docker": "docker-scripts start",
         "build": "tools/getBluedotKeycloakTheme.sh",
-        "deploy:prod": "docker-scripts deploy"
+        "deploy:cd": "docker-scripts deploy"
     },
     "dependencies": {
         "@bluedot/docker-scripts": "*"

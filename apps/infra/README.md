@@ -30,8 +30,8 @@ This package handles deploying our apps to the internet. Here's how code becomes
 
 2. Initial deployment:
    - When you push code to both your app and infra, CI/CD runs:
-     - your app's `deploy:prod` script, which builds and uploads your container to Vultr using [docker-scripts](../../libraries/docker-scripts/)
-     - the infra package's `deploy:prod` script runs, which uses Pulumi to create/update the Kubernetes resources for your app (e.g. an ingress, deployment, service, SSL certificate)
+     - your app's `deploy:cd` script, which builds and uploads your container to Vultr using [docker-scripts](../../libraries/docker-scripts/)
+     - the infra package's `deploy:cd` script runs, which uses Pulumi to create/update the Kubernetes resources for your app (e.g. an ingress, deployment, service, SSL certificate)
 
 3. Future deployments:
    - When you push code to your app, CI/CD:

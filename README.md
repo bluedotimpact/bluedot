@@ -180,7 +180,7 @@ Inside each package folder, the common files you'll find are:
   - `npm run lint`: Check for lint issues. Visual Studio Code should usually highlight these for you already.
   - `npm run build`: Build the application. This usually finds any type errors, which Visual Studio Code should usually highlight for you already.
   - `npm run postinstall`: Perform any extra steps to setup the application for development. Usually things like creating configuration files for local development. You usually don't need to run this manually, as it runs when you run `npm install`.
-  - `npm run deploy:prod`: Actually deploy the app into the production (real-world) environment. You usually don't need to run this manually, as it is run by CD tooling when you merge your changes into the master branch.
+  - `npm run deploy:cd`: Actually deploy the app, usually into the production (real-world) environment. You usually don't need to run this manually, as it is run by CD tooling when you merge your changes into the master branch.
 - `README.md`: documentation to explain what the package does, how to use it, and how to contribute
 - `src`: most of the code usually lives here. You usually want to edit files in this folder.
   - `pages`: pages in the web app. For example `pages/some-page.tsx` usually corresponds to `app.bluedot.org/some-page`. The `api` folder contains API routes rather than webpages ([learn more in the Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)).

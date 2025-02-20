@@ -115,4 +115,4 @@ jobs:
 
       - name: Deploy
         if: steps.check_deployment.outputs.should_skip != 'true'
-        run: npm run deploy:prod --workspace apps/${{ matrix.app }}
+        run: npm run deploy:cd --workspace apps/${{ matrix.app }}
