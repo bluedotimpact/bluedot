@@ -104,7 +104,7 @@ jobs:
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
 
       - name: Configure k8s deployment
-        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app != 'infra'
+        if: matrix.app == 'website-proxy'
         run: |
           docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
           mkdir -p ~/.kube
