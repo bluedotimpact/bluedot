@@ -108,12 +108,12 @@ exports[`BlogSection > renders default as expected 1`] = `
                 By 
                 Adam Jones, AI Safety Lead at BlueDot Impact
               </p>
-              <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text blog-section__blog-post-tag self-end"
-                role="status"
+              <div
+                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold rounded border border-[#CCD7FF] cursor-pointer hover:bg-blue-50"
+                role="button"
               >
                 AI alignment
-              </span>
+              </div>
             </div>
           </div>
         </a>

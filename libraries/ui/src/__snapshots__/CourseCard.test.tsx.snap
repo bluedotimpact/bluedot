@@ -62,9 +62,8 @@ exports[`CourseCard > renders Featured as expected 1`] = `
             class="course-card__length font-medium"
           />
         </p>
-        <span
-          class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-          role="status"
+        <div
+          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900"
         />
       </div>
     </a>
@@ -123,9 +122,8 @@ exports[`CourseCard > renders default as expected 1`] = `
                   class="course-card__length font-medium"
                 />
               </p>
-              <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                role="status"
+              <div
+                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900"
               />
             </div>
           </div>

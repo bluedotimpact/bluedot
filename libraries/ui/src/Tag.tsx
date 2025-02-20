@@ -1,25 +1,27 @@
 import React from 'react';
 import clsx from 'clsx';
 
-export type TagProps = {
-  className?: string,
+interface TagProps {
   children: React.ReactNode;
-};
+  onClick?: () => void;
+}
 
-export const Tag: React.FC<TagProps> = ({
-  className,
-  children,
-}) => {
+export const Tag = ({ children, onClick }: TagProps) => {
+  const isClickable = !!onClick;
+
+  const baseStyles = 'tag inline-flex items-center px-4 py-2 text-xs font-semibold';
+  const variantStyles = isClickable
+    ? 'rounded border border-[#CCD7FF] cursor-pointer hover:bg-blue-50'
+    : 'text-gray-900';
+
   return (
-    <span
-      role="status"
-      className={clsx(
-        'tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text',
-        className,
-      )}
+    <div
+      className={clsx(baseStyles, variantStyles)}
+      onClick={onClick}
+      role={isClickable ? 'button' : undefined}
     >
       {children}
-    </span>
+    </div>
   );
 };
 
