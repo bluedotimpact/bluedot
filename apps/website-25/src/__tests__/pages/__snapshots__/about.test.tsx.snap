@@ -46,7 +46,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
       </div>
     </div>
     <div
-      class="breadcrumbs border-b border-color-divider w-full py-3"
+      class="breadcrumbs border-b border-color-divider w-full py-space-between"
     >
       <nav
         aria-label="Breadcrumbs"
@@ -56,7 +56,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           class="breadcrumbs__list flex"
         >
           <li
-            class="breadcrumbs__item flex items-center text-size-xs"
+            class="breadcrumbs__item flex items-center"
           >
             <a
               class="breadcrumbs__link"
@@ -71,7 +71,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
             </span>
           </li>
           <li
-            class="breadcrumbs__item flex items-center text-size-xs"
+            class="breadcrumbs__item flex items-center"
           >
             <a
               class="breadcrumbs__link"

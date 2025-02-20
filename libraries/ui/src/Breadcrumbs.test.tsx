@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import Breadcrumbs from './Breadcrumbs';
+import { Breadcrumbs } from './Breadcrumbs';
 
 describe('Breadcrumbs', () => {
   test('returns null if no items are given', () => {
