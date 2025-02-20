@@ -8,6 +8,7 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Set the correct permission for prerender cache
+# Add a new line to trigger a deploy :)
 RUN mkdir dist
 RUN chown node:node dist
 
