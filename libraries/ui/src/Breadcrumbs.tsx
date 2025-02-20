@@ -13,14 +13,14 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) =>
   if (!items.length) return null;
 
   return (
-    <div className={clsx('breadcrumbs border-b border-color-divider w-full py-3', className)}>
+    <div className={clsx('breadcrumbs border-b border-color-divider w-full py-space-between', className)}>
       <nav
         className="breadcrumbs__nav section-base"
         aria-label="Breadcrumbs"
       >
         <ol className="breadcrumbs__list flex">
           {items.map((item, index) => (
-            <li key={item.url} className="breadcrumbs__item flex items-center text-size-xs">
+            <li key={item.url} className="breadcrumbs__item flex items-center">
               <a className="breadcrumbs__link" href={item.url}>{item.title}</a>
               {index < items.length - 1 && (
                 <span className="breadcrumbs__separator mx-2">{'>'}</span>
