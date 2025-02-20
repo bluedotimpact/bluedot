@@ -118,11 +118,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
           />
         </div>
         <div
-          class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
+          class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
+          style="scroll-padding-inline: 0px;"
         >
           <div
-            class="slide-list__slide shrink-0"
-            style=""
+            class="slide-list__slide shrink-0 snap-start"
+            style="scroll-margin-left: -0px;"
           >
             <div
               class="testimonial flex flex-col h-full border rounded-radius-md p-8"
@@ -164,8 +165,8 @@ exports[`TestimonialSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide shrink-0"
-            style=""
+            class="slide-list__slide shrink-0 snap-start"
+            style="scroll-margin-left: -0px;"
           >
             <div
               class="testimonial flex flex-col h-full border rounded-radius-md p-8"
@@ -207,8 +208,8 @@ exports[`TestimonialSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="slide-list__slide shrink-0"
-            style=""
+            class="slide-list__slide shrink-0 snap-start"
+            style="scroll-margin-left: -0px;"
           >
             <div
               class="testimonial flex flex-col h-full border rounded-radius-md p-8"

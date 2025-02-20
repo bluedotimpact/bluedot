@@ -89,7 +89,8 @@ export const SlideList: React.FC<SlideListProps> = ({
     const childArray = Array.from(container.children) as HTMLDivElement[];
 
     // Jump forward/back by itemsPerSlide
-    const currentIndex = childArray.findIndex((c) => c.offsetLeft >= scrollLeft);
+    const tolerancePx = 5;
+    const currentIndex = childArray.findIndex((c) => c.offsetLeft >= scrollLeft - tolerancePx);
     const targetIndex = direction === 'next'
       ? Math.min(currentIndex + itemsPerSlide, childArray.length - 1)
       : Math.max(currentIndex - itemsPerSlide, 0);
@@ -107,6 +108,8 @@ export const SlideList: React.FC<SlideListProps> = ({
   // If there are multiple slides, show 15% of the next card to signal that the section is scrollable
   const peekAdjustment = allChildrenFit ? '1' : `(1 - ${0.15 / itemsPerSlide})`;
   const itemWidth = `calc((${100 / itemsPerSlide}% - var(--space-between) * ${(itemsPerSlide - 1) / itemsPerSlide}) * ${peekAdjustment})`;
+  // Threshold for scrolling to the next item when tabbing through the list, only needs to be approximate
+  const scrollPaddingPx = `${(measuredContainerWidth ?? minItemWidth * itemsPerSlide) * 0.15}px`;
 
   const PrevButton = (
     <SlideListBtn
@@ -140,27 +143,6 @@ export const SlideList: React.FC<SlideListProps> = ({
       />
     </div>
   );
-
-  // Handle tab scrolling
-  useEffect(() => {
-    const container = slidesRef.current;
-    if (!container) return;
-
-    const handleFocusIn = (event: FocusEvent) => {
-      const target = event.target as HTMLDivElement;
-      if (container.contains(target)) {
-        const { offsetLeft } = target;
-        container.scrollTo({ left: offsetLeft - 20 });
-      }
-    };
-
-    container.addEventListener('focusin', handleFocusIn);
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-      container.removeEventListener('focusin', handleFocusIn);
-    };
-  }, []);
 
   return (
     <div
@@ -217,12 +199,16 @@ export const SlideList: React.FC<SlideListProps> = ({
 
           <div
             ref={slidesRef}
-            className="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between"
+            className="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
+            style={{ scrollPaddingInline: scrollPaddingPx }}
           >
             {React.Children.map(children, (child) => (
               <div
-                className="slide-list__slide shrink-0"
-                style={{ width: itemWidth }}
+                className="slide-list__slide shrink-0 snap-start"
+                style={{
+                  width: itemWidth,
+                  scrollMarginLeft: `-${scrollPaddingPx}`,
+                }}
               >
                 {child}
               </div>
