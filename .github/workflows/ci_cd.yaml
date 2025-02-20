@@ -84,13 +84,13 @@ jobs:
           paths_ignore: '["**/README.md"]'
 
       - name: Skip deployment
-        if: steps.check_deployment.outputs.should_skip == 'true' && matrix.app != 'website-proxy'
+        if: steps.check_deployment.outputs.should_skip == 'true'
         run: |
           echo "Skipping deployment - no relevant changes detected"
           exit 0
 
       - name: Install NPM dependencies
-        if: steps.check_deployment.outputs.should_skip != 'true' || matrix.app == 'website-proxy'
+        if: steps.check_deployment.outputs.should_skip != 'true'
         run: npm ci
 
       - name: Configure infra deployment
@@ -104,7 +104,7 @@ jobs:
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
 
       - name: Configure k8s deployment
-        if: matrix.app == 'website-proxy'
+        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app != 'infra'
         run: |
           docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
           mkdir -p ~/.kube
@@ -114,5 +114,5 @@ jobs:
           VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
 
       - name: Deploy
-        if: steps.check_deployment.outputs.should_skip != 'true' || matrix.app == 'website-proxy'
+        if: steps.check_deployment.outputs.should_skip != 'true'
         run: npm run deploy:cd --workspace apps/${{ matrix.app }}
