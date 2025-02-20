@@ -6,9 +6,10 @@ import {
   HeroCTAContainer,
   Section,
   Breadcrumbs,
+  BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { BluedotRoute, ROUTES } from '../../lib/routes';
+import { ROUTES } from '../../lib/routes';
 
 export const CURRENT_ROUTE: BluedotRoute = {
   title: 'AI Safety Teaching Fellow',
