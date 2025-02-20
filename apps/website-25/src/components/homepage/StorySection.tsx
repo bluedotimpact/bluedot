@@ -1,4 +1,5 @@
 import { CTALinkOrButton, Section } from '@bluedot/ui';
+import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
   return (
@@ -11,7 +12,7 @@ const StorySection = () => {
           <p>Working closely with leading organisations, we rapidly develop new courses to address emerging challenges and help talented people find roles where they can have the greatest impact.</p>
           <CTALinkOrButton
             variant="secondary"
-            url="/about"
+            url={ROUTES.about.url}
             withChevron
           >
             Learn more about us

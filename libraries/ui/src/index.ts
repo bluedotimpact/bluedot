@@ -29,9 +29,11 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
+export { Breadcrumbs } from './Breadcrumbs';
+
 // Utils
 
-export { EXTERNAL_LINK_PROPS } from './utils';
+export { EXTERNAL_LINK_PROPS, type BluedotRoute } from './utils';
 export * as constants from './constants';
 
 // Legacy Components
