@@ -28,7 +28,7 @@ const CareersPage = () => {
           <CTALinkOrButton url="#open-roles-anchor" withChevron>See open roles</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
-      <Breadcrumbs items={[ROUTES.home, CURRENT_ROUTE]} />
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <CultureSection />
       <ValuesSection />
       <CareersSection />

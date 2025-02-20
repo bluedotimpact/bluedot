@@ -1,16 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
+import type { BluedotRoute } from './utils';
 
 type BreadcrumbsProps = {
-  items: Array<{
-    title: string;
-    url: string;
-  }>;
+  route: BluedotRoute;
   className?: string;
 };
-
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, className }) => {
-  if (!items.length) return null;
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => {
+  const items = [...(route.parentPages ?? []), route];
 
   return (
     <div className={clsx('breadcrumbs border-b border-color-divider w-full py-space-between', className)}>

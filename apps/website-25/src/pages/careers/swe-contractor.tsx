@@ -6,13 +6,15 @@ import {
   HeroCTAContainer,
   Section,
   Breadcrumbs,
+  BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { BluedotRoute, ROUTES } from '../../lib/routes';
+import { ROUTES } from '../../lib/routes';
 
 export const CURRENT_ROUTE: BluedotRoute = {
   title: 'Software Engineering Contractor',
   url: `${ROUTES.careers.url}/swe-contractor`,
+  parentPages: [...(ROUTES.careers.parentPages ?? []), ROUTES.careers],
 };
 
 const JobPostingPage = () => {
@@ -28,7 +30,7 @@ const JobPostingPage = () => {
           <CTALinkOrButton url="https://web.miniextensions.com/4XjNSRhWiAUBc1UTDZS3?prefill_Role=recuN8LCYMMsZZmNC">Join our hiring pool</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
-      <Breadcrumbs items={[ROUTES.home, ROUTES.careers, CURRENT_ROUTE]} />
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="prose">
         <h2>About BlueDot Impact</h2>
         <p>We're a startup non-profit helping people create a better future for humanity by designing and running courses on some of the world's most pressing problems. We find people who could have enormous impact, motivate and equip them via our courses, and connect them with impactful opportunities.</p>

@@ -3,21 +3,18 @@ import { describe, expect, test } from 'vitest';
 import { Breadcrumbs } from './Breadcrumbs';
 
 describe('Breadcrumbs', () => {
-  test('returns null if no items are given', () => {
-    const { container } = render(<Breadcrumbs items={[]} />);
-    expect(container.firstChild).toBeNull();
-  });
-
   test('renders all urls and titles in the document', () => {
-    const items = [
-      { title: 'HomePage', url: '/' },
-      { title: 'AboutPage', url: '/about' },
-    ];
+    const route = {
+      title: 'AboutPage',
+      url: '/about',
+      parentPages: [{ title: 'HomePage', url: '/' }],
+    };
 
-    const { container } = render(<Breadcrumbs items={items} />);
+    const { container } = render(<Breadcrumbs route={route} />);
 
     expect(container).toMatchSnapshot();
 
+    const items = [...(route.parentPages ?? []), route];
     items.forEach((item) => {
       const linkElement = screen.getByText(item.title);
       expect(linkElement).not.toBeNull();

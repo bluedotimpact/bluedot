@@ -31,7 +31,7 @@ const AboutPage = () => {
           <CTALinkOrButton url={ROUTES.careers.url} withChevron>Join the team</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
-      <Breadcrumbs items={[ROUTES.home, ROUTES.about]} />
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <IntroSection />
       <BeliefsSection />
       <HistorySection />

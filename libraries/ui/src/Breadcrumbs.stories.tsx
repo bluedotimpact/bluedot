@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Breadcrumbs } from './Breadcrumbs';
+import type { BluedotRoute } from './utils';
 
 const meta = {
   title: 'ui/Breadcrumbs',
@@ -8,17 +9,19 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  args: {
-    items: [
-      { title: 'Home', url: '/' },
-      { title: 'About us', url: '/about' },
-    ],
-  },
 } satisfies Meta<typeof Breadcrumbs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const route: BluedotRoute = {
+  title: 'About us',
+  url: '/about',
+  parentPages: [{ title: 'Home', url: '/' }],
+};
+
 export const Default: Story = {
-  args: {},
+  args: {
+    route,
+  },
 };
