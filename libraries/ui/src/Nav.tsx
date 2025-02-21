@@ -79,7 +79,7 @@ const NavLinks: React.FC<{
       <button
         type="button"
         onClick={onToggleExplore}
-        className="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+        className="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
       >
         Explore
         <DropdownIcon expanded={exploreExpanded} />
@@ -176,7 +176,10 @@ export const Nav: React.FC<NavProps> = ({
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
               courses={courses}
-              className="nav__links--desktop hidden lg:flex mx-auto"
+              className={clsx(
+                'nav__links--desktop hidden lg:flex mx-auto [&>a]:nav-link-animation',
+                isScrolled && '[&>a]:nav-link-animation-dark [&_button]:nav-link-animation-dark',
+              )}
             >
               {children}
             </NavLinks>

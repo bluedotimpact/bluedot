@@ -113,6 +113,34 @@
     @apply w-full max-w-max-width mx-auto px-spacing-x pt-6 pb-10 border-b border-color-divider overflow-hidden flex flex-col;
 }
 
+@utility nav-link-animation {
+    @apply relative transition-[translate,text-underline-offset] duration-200;
+
+    &:hover {
+        @apply text-current -translate-y-[4px];
+    }
+
+    &::after {
+        content: "";
+        @apply invisible absolute bg-bluedot-normal transition-[translate] duration-200 left-0 bottom-0 w-full h-[2px];
+    }
+
+    &:hover::after {
+        @apply visible translate-y-[4px];
+    }
+}
+/* Note: This is essentially part of the `nav-link` class, defined separately for specificity */
+a.nav-link-animation:hover,
+button.nav-link-animation:hover {
+    @apply text-current;
+}
+
+@utility nav-link-animation-dark {
+    &::after {
+        @apply bg-bluedot-lighter;
+    }
+}
+
 :root {
     --bluedot-lighter: #CCD7FF;
     --bluedot-light: #6687FF;
