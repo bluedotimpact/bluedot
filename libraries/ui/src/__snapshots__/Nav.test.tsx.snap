@@ -22,11 +22,11 @@ exports[`Nav > renders with courses 1`] = `
           />
         </a>
         <div
-          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto [&>a]:nav-link-animation"
         >
           <div>
             <button
-              class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+              class="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
               type="button"
             >
               Explore
@@ -141,7 +141,7 @@ exports[`Nav > renders with courses 1`] = `
           >
             <div>
               <button
-                class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+                class="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
                 type="button"
               >
                 Explore
@@ -237,11 +237,11 @@ exports[`Nav > renders with optional yield 1`] = `
           </h3>
         </a>
         <div
-          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto"
+          class="nav-links flex gap-9 nav__links--desktop hidden lg:flex mx-auto [&>a]:nav-link-animation"
         >
           <div>
             <button
-              class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+              class="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
               type="button"
             >
               Explore
@@ -350,7 +350,7 @@ exports[`Nav > renders with optional yield 1`] = `
           >
             <div>
               <button
-                class="nav-links__dropdown-button flex items-center gap-2 hover:text-bluedot-normal"
+                class="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
                 type="button"
               >
                 Explore
