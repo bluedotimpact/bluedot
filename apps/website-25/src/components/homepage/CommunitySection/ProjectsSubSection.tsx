@@ -1,4 +1,4 @@
-import { Card, CTALinkOrButton, SlideList } from '@bluedot/ui';
+import { Card, CTALinkOrButton, SectionHeading, SlideList } from '@bluedot/ui';
 
 interface Project {
   id: number;
@@ -42,34 +42,36 @@ const projects: Project[] = [
 const ProjectsSubSection = () => {
   return (
     <div className="projects p-6 container-lined flex flex-col my-spacing-y">
-      <SlideList
+      <SectionHeading
         title="Course Projects"
         titleLevel="h3"
         subtitle="Competition winners"
-        maxItemsPerSlide={4}
-        minItemWidth={260}
-      >
-        {projects.map((project) => (
-          <Card
-            key={project.title}
-            title={project.title}
-            subtitle={`by ${project.authorName}`}
-            subtitleClassName="text-base"
-            imageSrc={project.imageSrc}
-            ctaUrl={project.ctaUrl}
-            className="projects__project"
-            isEntireCardClickable
-          />
-        ))}
-      </SlideList>
-      <CTALinkOrButton
-        className="projects__link h-fit py-3"
-        url="https://aisafetyfundamentals.com/projects/"
-        variant="secondary"
-        withChevron
-      >
-        Explore more projects
-      </CTALinkOrButton>
+        className="projects__heading"
+      />
+      <div className="projects__body flex flex-col gap-space-between">
+        <SlideList maxItemsPerSlide={4} minItemWidth={260} className="projects__projects">
+          {projects.map((project) => (
+            <Card
+              key={project.title}
+              title={project.title}
+              subtitle={`by ${project.authorName}`}
+              subtitleClassName="text-base"
+              imageSrc={project.imageSrc}
+              ctaUrl={project.ctaUrl}
+              className="projects__project"
+              isEntireCardClickable
+            />
+          ))}
+        </SlideList>
+        <CTALinkOrButton
+          className="projects__link h-fit py-3"
+          url="https://aisafetyfundamentals.com/projects/"
+          variant="secondary"
+          withChevron
+        >
+          Explore more projects
+        </CTALinkOrButton>
+      </div>
     </div>
   );
 };

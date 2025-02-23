@@ -47,7 +47,7 @@ export const Section: React.FC<SectionProps> = ({
         titleLevel={titleLevel}
         subtitle={subtitle}
         subtitleLevel={subtitleLevel}
-        rightNode={rightNode}
+        rightNode={rightNode} // TODO remove
       />
       <div className="section__body">
         {children}

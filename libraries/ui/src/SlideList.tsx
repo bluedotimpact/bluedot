@@ -15,6 +15,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   children,
   maxItemsPerSlide = 1,
   minItemWidth = 260,
+  // TODO make a separate PR to set a max number of rows
 }) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
