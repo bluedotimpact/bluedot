@@ -17,19 +17,17 @@ interface TrackingProps {
 type WithClick<P> = P & { onClick?: (e: React.MouseEvent) => void };
 
 // HOC function
-// TODO WH: Pull this out into its own PR
 export const withClickTracking = <P extends object>(
   WrappedComponent: React.ComponentType<WithClick<P>>,
   defaultConfig: TrackingConfig = { eventName: 'click', eventParams: {} },
 ) => {
   // Return wrapped component that accepts both original props and tracking props
   const ClickTrackingComponent = (
-    props: WithClick<P> & TrackingProps,
+    props: P & TrackingProps,
   ) => {
     const {
       trackingEventName,
       trackingEventParams,
-      onClick,
       ...componentProps
     } = props;
 
@@ -42,12 +40,12 @@ export const withClickTracking = <P extends object>(
       },
     };
 
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = () => {
       sendGAEvent('event', eventConfig.eventName, eventConfig.eventParams);
-      if (onClick) onClick(e);
     };
 
-    return <WrappedComponent {...componentProps as P} onClick={handleClick} />;
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    return <span onClick={handleClick}><WrappedComponent {...componentProps as P} /></span>;
   };
   return ClickTrackingComponent;
 };

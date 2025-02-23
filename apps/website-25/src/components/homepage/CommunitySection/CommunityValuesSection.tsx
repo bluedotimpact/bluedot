@@ -25,7 +25,7 @@ const CommunityValuesSection = () => {
       <SectionHeading title="Our community" className="community-values-section__heading" />
       <SlideList maxItemsPerSlide={4} className="community-values-section__values">
         {values.map((value) => (
-          <Card {...value} className="community-values-section__value" />
+          <Card key={value.title} {...value} className="community-values-section__value" />
         ))}
       </SlideList>
     </div>

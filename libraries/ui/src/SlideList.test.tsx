@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@testing-library/jest-dom';
 import {
@@ -8,15 +8,17 @@ import { SlideList } from './SlideList';
 
 describe('SlideList', () => {
   it('renders correctly', () => {
-    render(
-      <SlideList title="Our courses">
+    const { container } = render(
+      <SlideList>
         <div>Slide 1</div>
         <div>Slide 2</div>
         <div>Slide 3</div>
       </SlideList>,
     );
 
-    expect(screen.getByText('Our courses')).toBeInTheDocument();
-    expect(screen.getAllByLabelText(/(Previous|Next) slide/)).toHaveLength(4);
+    expect(container).toMatchSnapshot();
   });
+
+  // TODO test isMobile vs not
+  // TODO test resize observer
 });

@@ -32,7 +32,7 @@ const BeliefsSection = () => {
         className="beliefs-section__beliefs"
       >
         {beliefs.map((belief) => (
-          <Card {...belief} className="beliefs-section__belief" />
+          <Card key={belief.title} {...belief} className="beliefs-section__belief" />
         ))}
       </SlideList>
     </Section>

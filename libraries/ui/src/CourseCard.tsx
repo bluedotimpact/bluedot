@@ -37,13 +37,12 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   children,
 }) => {
   const wrapperClassName = clsx(
-    // TODO add comment about m-[3px]
+    // m-[3px] is here to allow the card to expand on hover
     'course-card course-card--featured card flex flex-col items-start justify-between m-[3px]',
     'container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
     className,
   );
 
-  // TODO handle responsiveness via flex-wrap rather than media queries (for separate PR)
   return (
     <a
       href={href}

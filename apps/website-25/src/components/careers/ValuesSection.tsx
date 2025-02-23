@@ -27,7 +27,7 @@ const ValuesSection = () => {
         className="values-section__values"
       >
         {values.map((value) => (
-          <Card {...value} className="values-section__value" />
+          <Card key={value.title} {...value} className="values-section__value" />
         ))}
       </SlideList>
     </Section>
