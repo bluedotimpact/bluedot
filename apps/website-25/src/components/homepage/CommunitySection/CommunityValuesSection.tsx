@@ -1,8 +1,4 @@
-import {
-  Card, Section, SectionHeading, SlideList,
-} from '@bluedot/ui';
-import clsx from 'clsx';
-import React from 'react';
+import { Card, SectionHeading, SlideList } from '@bluedot/ui';
 
 const values = [
   {

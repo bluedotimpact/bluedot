@@ -1,4 +1,6 @@
-import { Card, CTALinkOrButton, SectionHeading, SlideList } from '@bluedot/ui';
+import {
+  Card, CTALinkOrButton, SectionHeading, SlideList,
+} from '@bluedot/ui';
 
 interface Project {
   id: number;

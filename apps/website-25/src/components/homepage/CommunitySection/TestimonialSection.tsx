@@ -1,6 +1,5 @@
 import { SectionHeading } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
-import React from 'react';
 
 type Testimonial = {
   quote: string;
