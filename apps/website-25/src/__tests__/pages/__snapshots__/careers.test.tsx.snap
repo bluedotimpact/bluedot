@@ -62,7 +62,7 @@ exports[`CareersPage > should render the error message correctly 1`] = `
               class="breadcrumbs__link"
               href="/"
             >
-              BlueDot Impact
+              Home
             </a>
             <span
               class="breadcrumbs__separator mx-2"
