@@ -21,8 +21,6 @@ export { FaceTiles } from './FaceTiles';
 
 export { Footer } from './Footer';
 
-export { Nav, isCurrentPath } from './Nav';
-
 export { Section, SectionHeading } from './Section';
 
 export { SlideList } from './SlideList';

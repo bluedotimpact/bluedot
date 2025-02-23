@@ -4,8 +4,9 @@ import React, {
 } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 
-import { CTALinkOrButton } from './CTALinkOrButton';
-import { HamburgerButton } from './HamburgerButton';
+import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
+import { HamburgerButton } from '@bluedot/ui/src/HamburgerButton';
+import { ROUTES } from '../lib/routes';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string;
@@ -66,36 +67,47 @@ const ExploreSection: React.FC<{
 
 const NavLinks: React.FC<{
   exploreSectionInline?: boolean;
-  children: React.ReactNode;
   courses: Array<{ title: string; href: string; isNew?: boolean }>;
   exploreExpanded: boolean;
   onToggleExplore: () => void;
   className?: string;
+  isScrolled: boolean;
 }> = ({
-  exploreSectionInline, children, courses, exploreExpanded, onToggleExplore, className,
-}) => (
-  <div className={clsx('nav-links flex gap-9', className)}>
-    <div>
-      <button
-        type="button"
-        onClick={onToggleExplore}
-        className="nav-links__dropdown-button flex items-center gap-2 nav-link-animation"
-      >
-        Explore
-        <DropdownIcon expanded={exploreExpanded} />
-      </button>
-      {exploreSectionInline && (
-        <ExploreSection
-          expanded={exploreExpanded}
-          courses={courses}
-          className="nav-links__explore-section"
-          innerClassName="pl-6 pt-6"
-        />
-      )}
+  exploreSectionInline,
+  courses,
+  exploreExpanded,
+  onToggleExplore,
+  className,
+  isScrolled,
+}) => {
+  const hoverClasses = clsx('nav-link-animation', isScrolled && 'nav-link-animation-dark');
+
+  return (
+    <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
+      <div>
+        <button
+          type="button"
+          onClick={onToggleExplore}
+          className={clsx('nav-links__dropdown-button flex items-center gap-2', hoverClasses)}
+        >
+          Explore
+          <DropdownIcon expanded={exploreExpanded} />
+        </button>
+        {exploreSectionInline && (
+          <ExploreSection
+            expanded={exploreExpanded}
+            courses={courses}
+            className="nav-links__explore-section"
+            innerClassName="pl-6 pt-6"
+          />
+        )}
+      </div>
+      <a href={ROUTES.about.url} className={clsx(hoverClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
+      <a href={ROUTES.careers.url} className={clsx(hoverClasses, isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
+      <a href="https://bluedot.org/blog/" className={hoverClasses}>Blog</a>
     </div>
-    {children}
-  </div>
-);
+  );
+};
 
 const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
   <div className={clsx('nav__cta-container', className)}>
@@ -121,7 +133,7 @@ export const isCurrentPath = (href: string): boolean => {
 };
 
 export const Nav: React.FC<NavProps> = ({
-  children, className, logo, courses,
+  className, logo, courses,
 }) => {
   const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore'>('none');
   const navExpanded = expandedSections === 'nav' || expandedSections === 'nav-and-explore';
@@ -151,7 +163,7 @@ export const Nav: React.FC<NavProps> = ({
       className={clsx(
         'nav fixed z-50 w-full container-elevated transition-all duration-300',
         isScrolled ? 'bg-color-canvas-dark' : 'bg-color-canvas',
-        isScrolled && '**:text-white [&_a:hover]:text-bluedot-lighter [&_button:hover]:text-bluedot-lighter',
+        isScrolled && '**:text-white [&_a:hover]:text-bluedot-lighter',
         className,
       )}
     >
@@ -176,13 +188,9 @@ export const Nav: React.FC<NavProps> = ({
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
               courses={courses}
-              className={clsx(
-                'nav__links--desktop hidden lg:flex mx-auto [&>a]:nav-link-animation',
-                isScrolled && '[&>a]:nav-link-animation-dark [&_button]:nav-link-animation-dark',
-              )}
-            >
-              {children}
-            </NavLinks>
+              isScrolled={isScrolled}
+              className="nav__links--desktop hidden lg:flex mx-auto"
+            />
             <div className="nav__actions flex gap-space-between ml-auto">
               <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
               <HamburgerButton
@@ -213,10 +221,9 @@ export const Nav: React.FC<NavProps> = ({
                 exploreExpanded={exploreExpanded}
                 exploreSectionInline
                 courses={courses}
+                isScrolled={isScrolled}
                 className="nav__links--mobile-tablet flex-col"
-              >
-                {children}
-              </NavLinks>
+              />
               <CTAButtons className="nav__login--mobile justify-between mt-20 flex sm:hidden" />
             </div>
           </div>

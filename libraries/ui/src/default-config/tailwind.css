@@ -114,7 +114,7 @@
 }
 
 @utility nav-link-animation {
-    @apply relative transition-[translate,text-underline-offset] duration-200;
+    @apply relative transition-[translate] duration-200;
 
     &:hover {
         @apply text-current -translate-y-[4px];
