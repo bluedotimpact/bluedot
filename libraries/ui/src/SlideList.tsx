@@ -2,12 +2,14 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import clsx from 'clsx';
+import { isMobile } from 'react-device-detect';
 
 export type SlideListProps = {
   className?: string;
   children: React.ReactNode;
   maxItemsPerSlide?: number;
   minItemWidth?: number;
+  maxRows?: number;
 };
 
 export const SlideList: React.FC<SlideListProps> = ({
@@ -15,7 +17,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   children,
   maxItemsPerSlide = 1,
   minItemWidth = 260,
-  // TODO make a separate PR to set a max number of rows
+  maxRows = 2,
 }) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
@@ -45,8 +47,8 @@ export const SlideList: React.FC<SlideListProps> = ({
     return cleanup;
   }, []);
 
-  const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
-  const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
+  const itemsFitPerRow = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
+  const itemsPerSlide = Math.max(1, Math.min(itemsFitPerRow, maxItemsPerSlide));
 
   // Handle scroll events -> update progress bar
   useEffect(() => {
@@ -97,7 +99,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   }, [itemsPerSlide]);
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const allChildrenFit = childrenArray.length <= itemsPerSlide;
+  const allChildrenFit = childrenArray.length <= itemsPerSlide * maxRows;
 
   // If there are multiple slides, show 15% of the next card to signal that the section is scrollable
   const peekAdjustment = allChildrenFit ? '1' : `(1 - ${0.15 / itemsPerSlide})`;
@@ -126,18 +128,22 @@ export const SlideList: React.FC<SlideListProps> = ({
       <div className="slide-list__gradient-wrapper relative flex-1">
         {!allChildrenFit && (
           <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
-            {scrollPercent > 1 && (
-              <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-linear-to-r from-cream-normal to-transparent opacity-50" />
-            )}
-            {scrollPercent < 99 && (
-              <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50" />
-            )}
+            <div
+              className={clsx(
+                'slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50',
+                scrollPercent < 95 ? 'right-0 bg-linear-to-l' : 'left-0 bg-linear-to-r',
+              )}
+            />
           </div>
         )}
 
         <div
           ref={slidesRef}
-          className="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
+          className={clsx(
+            'slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y',
+            'scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory',
+            allChildrenFit && 'flex-wrap',
+          )}
           style={{ scrollPaddingInline: scrollPaddingPx }}
         >
           {React.Children.map(children, (child) => (
@@ -154,8 +160,7 @@ export const SlideList: React.FC<SlideListProps> = ({
         </div>
       </div>
 
-      {/* TODO do we still want to hide on mobile? */}
-      {!allChildrenFit && (
+      {!allChildrenFit && !isMobile && (
         <div className="flex justify-between items-center gap-space-between">
           <SlideListBtn
             onClick={() => scrollTo('previous')}

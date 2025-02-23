@@ -43,14 +43,14 @@ const projects: Project[] = [
 
 const ProjectsSubSection = () => {
   return (
-    <div className="projects p-6 container-lined flex flex-col my-spacing-y">
+    <div className="projects p-6 container-lined flex flex-col">
       <SectionHeading
         title="Course Projects"
         titleLevel="h3"
         subtitle="Competition winners"
         className="projects__heading"
       />
-      <div className="projects__body flex flex-col gap-space-between">
+      <div className="projects__body flex flex-col gap-spacing-y">
         <SlideList maxItemsPerSlide={4} minItemWidth={260} className="projects__projects">
           {projects.map((project) => (
             <Card

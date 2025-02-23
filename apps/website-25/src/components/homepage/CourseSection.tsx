@@ -31,7 +31,8 @@ const CourseSection = () => {
           className="course-section__featured"
         />
         <SlideList
-          maxItemsPerSlide={2}
+          maxItemsPerSlide={4}
+          maxRows={1}
           minItemWidth={300}
           className="course-section__carousel"
         >

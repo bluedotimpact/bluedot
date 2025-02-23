@@ -35,6 +35,7 @@ const TestimonialSection = () => {
       <SectionHeading title="What our graduates say" className="testimonial-section__heading" />
       <SlideList
         maxItemsPerSlide={3}
+        maxRows={1}
         minItemWidth={300}
         className="testimonial-section__testimonials"
       >
