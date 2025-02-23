@@ -104,7 +104,6 @@ export const SlideList: React.FC<SlideListProps> = ({
   // Threshold for scrolling to the next item when tabbing through the list, only needs to be approximate
   const scrollPaddingPx = `${(measuredContainerWidth ?? minItemWidth * itemsPerSlide) * 0.15}px`;
 
-
   const scrollBarWidth = `${100 * (itemsPerSlide / childrenArray.length)}%`;
   const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
 
@@ -163,7 +162,7 @@ export const SlideList: React.FC<SlideListProps> = ({
             ariaLabel="Previous slide"
             direction="previous"
           />
-          {/* {ScrollBar} */}
+          {ScrollBar}
           <SlideListBtn
             onClick={() => scrollTo('next')}
             disabled={scrollPercent === 100}

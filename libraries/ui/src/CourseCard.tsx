@@ -43,6 +43,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
     className,
   );
 
+  // TODO handle responsiveness via flex-wrap rather than media queries (for separate PR)
   return (
     <a
       href={href}
