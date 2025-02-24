@@ -8,7 +8,7 @@ import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/
 
 const RecordAttendance: React.FC = () => {
   const searchParams = useSearchParams();
-  const cohortClassId = searchParams.get('cohortClassId') ?? '';
+  const cohortClassId = searchParams.get('groupClassId') ?? '';
   const participantId = searchParams.get('participantId') ?? '';
 
   if (!cohortClassId || !participantId) {
