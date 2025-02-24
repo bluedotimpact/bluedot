@@ -46,7 +46,7 @@ const teamMembers = [
 ];
 const TeamSection = () => {
   return (
-    <Section title="Our team" className="team-section">
+    <Section title="Our team" className="team-section !border-b-0">
       <SlideList
         maxItemsPerSlide={4}
         className="team-section__team"
