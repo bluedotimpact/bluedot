@@ -4,15 +4,24 @@ import {
   HeroH1,
   HeroH2,
   Section,
+  Breadcrumbs,
 } from '@bluedot/ui';
+import Head from 'next/head';
+import { ROUTES } from '../lib/routes';
+
+const CURRENT_ROUTE = ROUTES.privacyPolicy;
 
 const PrivacyPolicyPage = () => {
   return (
     <div>
+      <Head>
+        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
+      </Head>
       <HeroSection>
         <HeroH1>Privacy Policy</HeroH1>
         <HeroH2>Effective date: 30 August, 2024</HeroH2>
       </HeroSection>
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="prose">
         <p>
           BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via <a href="mailto:team@bluedot.org" {...EXTERNAL_LINK_PROPS}>team@bluedot.org</a>.

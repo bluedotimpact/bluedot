@@ -1,5 +1,5 @@
 import { Button, H1, P } from '@bluedot/ui';
-import { UserManager, UserManagerSettings } from 'oidc-client-ts';
+import { UserManager, UserManagerSettings } from 'oidc-client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';

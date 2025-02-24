@@ -12,7 +12,7 @@ exports[`CareersSection > renders default as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           Careers at BlueDot Impact
         </h2>
@@ -52,7 +52,7 @@ exports[`CareersSection > renders default as expected 1`] = `
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
-              href="/careers/swe-contractor/"
+              href="/careers/swe-contractor"
             >
               <span
                 class="cta-button__text"
@@ -95,7 +95,7 @@ exports[`CareersSection > renders default as expected 1`] = `
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
-              href="/careers/ai-safety-teaching-fellow/"
+              href="/careers/ai-safety-teaching-fellow"
             >
               <span
                 class="cta-button__text"
@@ -132,7 +132,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative"
+          class="section-heading__title relative ml-[-0.08em]"
         >
           Careers at BlueDot Impact
         </h2>
@@ -177,7 +177,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
-                  href="/careers/swe-contractor/"
+                  href="/careers/swe-contractor"
                 >
                   <span
                     class="cta-button__text"
@@ -218,7 +218,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
-                  href="/careers/ai-safety-teaching-fellow/"
+                  href="/careers/ai-safety-teaching-fellow"
                 >
                   <span
                     class="cta-button__text"

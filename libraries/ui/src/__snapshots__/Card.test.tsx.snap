@@ -10,7 +10,7 @@ exports[`Card > renders default as expected 1`] = `
     >
       <img
         alt="John Doe"
-        class="card__image w-full max-h-full object-cover rounded-radius-md "
+        class="card__image max-w-full max-h-full object-cover rounded-radius-md "
         src="/images/team/member.jpg"
       />
     </div>
@@ -62,7 +62,7 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
     >
       <img
         alt="John Doe"
-        class="card__image w-full max-h-full object-cover rounded-radius-md "
+        class="card__image max-w-full max-h-full object-cover rounded-radius-md "
         src="/images/team/member.jpg"
       />
     </div>

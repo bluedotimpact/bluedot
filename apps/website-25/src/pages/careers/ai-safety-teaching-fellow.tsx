@@ -5,22 +5,32 @@ import {
   HeroH2,
   HeroCTAContainer,
   Section,
+  Breadcrumbs,
+  BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import { ROUTES } from '../../lib/routes';
+
+export const CURRENT_ROUTE: BluedotRoute = {
+  title: 'AI Safety Teaching Fellow',
+  url: `${ROUTES.careers.url}/ai-safety-teaching-fellow`,
+  parentPages: [...(ROUTES.careers.parentPages ?? []), ROUTES.careers],
+};
 
 const JobPostingPage = () => {
   return (
     <div>
       <Head>
-        <title>AI Safety Teaching Fellow | BlueDot Impact</title>
+        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
       </Head>
       <HeroSection>
-        <HeroH1>AI Safety Teaching Fellow</HeroH1>
+        <HeroH1>{CURRENT_ROUTE.title}</HeroH1>
         <HeroH2>Lead expert discussions on AI safety</HeroH2>
         <HeroCTAContainer>
           <CTALinkOrButton url="https://forms.bluedot.org/D2vOoKG53VRR4HIedgcz?prefill_Role=recUVhfgJJRZVAQDw">Express interest</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
+      <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="prose">
         <h2>Who we are</h2>
         <p>We're a non-profit that runs courses on some of the world's most pressing problems. We're looking for Teaching Fellows to guide discussions with students on our 5-day AI safety courses.</p>

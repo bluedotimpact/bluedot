@@ -1,13 +1,15 @@
 import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
+import { CURRENT_ROUTE as SWE_CONTRACTOR } from '../../pages/careers/swe-contractor';
+import { CURRENT_ROUTE as AIS_TEACHING_FELLOW } from '../../pages/careers/ai-safety-teaching-fellow';
 
 const CareersSection = () => {
   return (
     <Section className="careers-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
       <div className="careers-section__container flex flex-col gap-8">
-        <JobListing title="Software Engineering Contractor" url="/careers/swe-contractor/" />
-        <JobListing title="AI Safety Teaching Fellow" url="/careers/ai-safety-teaching-fellow/" />
+        <JobListing {...SWE_CONTRACTOR} />
+        <JobListing {...AIS_TEACHING_FELLOW} />
       </div>
     </Section>
   );

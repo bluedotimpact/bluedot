@@ -52,7 +52,7 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     <div className={rootClassName}>
       <p className="cookie-banner__text text-pretty">
         We use analytics cookies to improve our website and measure ad performance.{' '}
-        <a href="/privacy-policy">Cookie Policy</a>.
+        <a href="https://bluedot.org/privacy-policy">Cookie Policy</a>.
       </p>
       <div className="cookie-banner__buttons flex flex-wrap gap-space-between justify-center">
         <CTALinkOrButton

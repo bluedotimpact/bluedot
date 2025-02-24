@@ -1,5 +1,5 @@
 import { H1 } from '@bluedot/ui';
-import { UserManager } from 'oidc-client-ts';
+import { UserManager } from 'oidc-client';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ErrorPage } from '../../components/ErrorPage';
