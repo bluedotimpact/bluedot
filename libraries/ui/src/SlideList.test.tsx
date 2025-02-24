@@ -14,6 +14,7 @@ import { SlideList } from './SlideList';
 
 /**
  * Mocks the ResizeObserver API for testing purposes.
+ * Based on this article: https://greenonsoftware.com/articles/testing/testing-and-mocking-resize-observer-in-java-script/
  *
  * @returns {Object} An object containing:
  *  - resizeCallback: A function to manually trigger resize events.
