@@ -1,7 +1,7 @@
 import type { BluedotRoute } from '@bluedot/ui';
 
 const home: BluedotRoute = {
-  title: 'BlueDot Impact',
+  title: 'Home',
   url: '/',
 };
 
