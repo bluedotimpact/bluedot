@@ -423,7 +423,7 @@ exports[`TeamSection > renders as expected 1`] = `
         >
           <button
             aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             disabled=""
             type="button"
           >
@@ -454,7 +454,7 @@ exports[`TeamSection > renders as expected 1`] = `
           </div>
           <button
             aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             type="button"
           >
             <svg

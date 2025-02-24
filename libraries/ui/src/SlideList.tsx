@@ -196,7 +196,7 @@ export const SlideListBtn: React.FC<{
     disabled={disabled}
     className={clsx(
       'slide-list__nav-button',
-      'p-3 border rounded-lg transition-colors',
+      'p-3 border rounded-lg transition-colors m-[3px] mt-0',
       'border-charcoal-light text-black',
       'hover:bg-gray-50 hover:cursor-pointer',
       'active:bg-gray-100',
