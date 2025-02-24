@@ -149,6 +149,7 @@ export const SlideList: React.FC<SlideListProps> = ({
           {React.Children.map(children, (child) => (
             <div
               className="slide-list__slide shrink-0 snap-start"
+              data-width={itemWidth} // style.width can't be picked up in tests, so add it as an attr that can be read
               style={{
                 width: itemWidth,
                 scrollMarginLeft: `-${scrollPaddingPx}`,

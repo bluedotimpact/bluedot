@@ -45,6 +45,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
           >
             <div
               class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
               <a
@@ -82,6 +83,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             </div>
             <div
               class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
               <a
@@ -119,6 +121,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             </div>
             <div
               class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
               <a
@@ -156,6 +159,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             </div>
             <div
               class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
               <a
