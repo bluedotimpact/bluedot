@@ -132,12 +132,11 @@ exports[`CourseSection > renders as expected 1`] = `
                   5 days
                 </span>
               </p>
-              <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                role="status"
+              <div
+                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
               >
                 Crash course
-              </span>
+              </div>
             </div>
           </a>
         </div>
@@ -255,12 +254,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               9 weeks
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             In-depth course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -325,12 +323,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               12 weeks
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             In-depth course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -395,12 +392,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               12 weeks
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             In-depth course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -465,12 +461,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               5 days
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             Crash course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -535,12 +530,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               5 days
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             Crash course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -605,12 +599,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               5 days
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             Crash course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -675,12 +668,11 @@ exports[`CourseSection > renders as expected 1`] = `
                               5 days
                             </span>
                           </p>
-                          <span
-                            class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
-                            role="status"
+                          <div
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold text-gray-900 course-card__type"
                           >
                             Crash course
-                          </span>
+                          </div>
                         </div>
                       </div>
                     </div>

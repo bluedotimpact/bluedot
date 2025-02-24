@@ -47,7 +47,7 @@ const BlogPost = ({
         <h3 className="blog-section__blog-post-title">{title}</h3>
         <div className="blog-section__blog-post-metadata w-full flex flex-col sm:flex-row mt-6 gap-6">
           <p className="blog-section__blog-post-author flex-grow">By {author}</p>
-          {tag && <Tag className="blog-section__blog-post-tag self-end">{tag}</Tag>}
+          {tag && <Tag className="blog-section__blog-post-tag self-end" onClick={() => {}}>{tag}</Tag>}
         </div>
       </div>
     </a>

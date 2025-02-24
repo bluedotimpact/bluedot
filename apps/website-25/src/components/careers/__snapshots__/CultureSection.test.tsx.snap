@@ -42,32 +42,32 @@ exports[`CultureSection > renders default as expected 1`] = `
         >
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_dewi_v1.jpeg"
           />
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_talking_v2.jpeg"
           />
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_happy_v1.jpeg"
           />
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_will_v1.jpeg"
           />
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_prod-eng_v1.jpeg"
           />
           <img
             alt="BlueDot Impact team"
-            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+            class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-radius-sm"
             src="/images/culture/culture_keyboard_v1.jpeg"
           />
         </div>
