@@ -46,19 +46,19 @@ exports[`Nav > renders with courses 1`] = `
             </button>
           </div>
           <a
-            class="nav-link-animation"
+            class="nav-links__link nav-link-animation"
             href="/about"
           >
             About us
           </a>
           <a
-            class="nav-link-animation"
+            class="nav-links__link nav-link-animation"
             href="/careers"
           >
             Join us
           </a>
           <a
-            class="nav-link-animation"
+            class="nav-links__link nav-link-animation"
             href="https://bluedot.org/blog/"
           >
             Blog
@@ -209,19 +209,19 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="nav-link-animation"
+              class="nav-links__link nav-link-animation"
               href="/about"
             >
               About us
             </a>
             <a
-              class="nav-link-animation"
+              class="nav-links__link nav-link-animation"
               href="/careers"
             >
               Join us
             </a>
             <a
-              class="nav-link-animation"
+              class="nav-links__link nav-link-animation"
               href="https://bluedot.org/blog/"
             >
               Blog

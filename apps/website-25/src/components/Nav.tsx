@@ -80,7 +80,7 @@ const NavLinks: React.FC<{
   className,
   isScrolled,
 }) => {
-  const hoverClasses = clsx('nav-link-animation', isScrolled && 'nav-link-animation-dark');
+  const navLinkClasses = clsx('nav-link-animation', isScrolled && 'nav-link-animation-dark');
 
   return (
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
@@ -88,7 +88,7 @@ const NavLinks: React.FC<{
         <button
           type="button"
           onClick={onToggleExplore}
-          className={clsx('nav-links__dropdown-button flex items-center gap-2', hoverClasses)}
+          className={clsx('nav-links__dropdown-button flex items-center gap-2', navLinkClasses)}
         >
           Explore
           <DropdownIcon expanded={exploreExpanded} />
@@ -97,14 +97,14 @@ const NavLinks: React.FC<{
           <ExploreSection
             expanded={exploreExpanded}
             courses={courses}
-            className="nav-links__explore-section"
+            className={clsx('nav-links__explore-section', isScrolled && '[&_a]:link-on-dark')}
             innerClassName="pl-6 pt-6"
           />
         )}
       </div>
-      <a href={ROUTES.about.url} className={clsx(hoverClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
-      <a href={ROUTES.careers.url} className={clsx(hoverClasses, isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
-      <a href="https://bluedot.org/blog/" className={hoverClasses}>Blog</a>
+      <a href={ROUTES.about.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
+      <a href={ROUTES.careers.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
+      <a href="https://bluedot.org/blog/" className={clsx('nav-links__link', navLinkClasses)}>Blog</a>
     </div>
   );
 };
@@ -162,8 +162,7 @@ export const Nav: React.FC<NavProps> = ({
     <nav
       className={clsx(
         'nav fixed z-50 w-full container-elevated transition-all duration-300',
-        isScrolled ? 'bg-color-canvas-dark' : 'bg-color-canvas',
-        isScrolled && '**:text-white [&_a:hover]:text-bluedot-lighter',
+        isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-color-canvas',
         className,
       )}
     >
@@ -211,7 +210,7 @@ export const Nav: React.FC<NavProps> = ({
             <ExploreSection
               expanded={exploreExpanded}
               courses={courses}
-              className="nav__drawer-content--desktop"
+              className={clsx('nav__drawer-content--desktop', isScrolled && '[&_a:hover]:link-on-dark')}
               innerClassName="pb-10 hidden lg:flex mx-auto"
             />
             {/* Mobile & Tablet content (including Explore) */}
