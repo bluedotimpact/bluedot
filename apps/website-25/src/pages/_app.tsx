@@ -6,13 +6,12 @@ import posthog from 'posthog-js';
 /* eslint-disable import/no-extraneous-dependencies */
 import { PostHogProvider } from 'posthog-js/react';
 import {
-  CookieBanner, Footer, isCurrentPath, Nav, constants,
+  CookieBanner, Footer, constants,
 } from '@bluedot/ui';
-import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
-import { ROUTES } from '../lib/routes';
+import { Nav } from '../components/Nav';
 
 if (typeof window !== 'undefined') {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -55,14 +54,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="images/logo/favicon/site.webmanifest" />
       </Head>
-      <Nav
-        logo="/images/logo/BlueDot_Impact_Logo.svg"
-        courses={constants.COURSES}
-      >
-        <a href={ROUTES.about.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
-        <a href={ROUTES.careers.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
-        <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
-      </Nav>
+      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
       <main className="bluedot-base">
         <Component {...pageProps} />
       </main>

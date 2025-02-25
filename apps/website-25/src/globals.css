@@ -18,6 +18,10 @@
   }
 }
 
+@utility link-on-dark {
+  @apply text-color-text-on-dark hover:text-color-secondary-accent hover:cursor-pointer;
+}
+
 @layer base {
   h1 {
     @apply text-color-secondary-text font-sans text-size-xl font-bold;
@@ -54,8 +58,5 @@
   }
   p > a {
     @apply underline;
-  }
-  .link-on-dark {
-    @apply text-color-text-on-dark hover:text-color-secondary-accent hover:cursor-pointer;
   }
 }

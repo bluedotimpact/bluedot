@@ -16,22 +16,6 @@ describe('Nav', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders with optional yield', () => {
-    const { container } = render(
-      <Nav
-        courses={[
-          { title: 'Course 1', href: '/course1' },
-        ]}
-      >
-        <p id="yield-element">This is the yield</p>
-      </Nav>,
-    );
-    const yieldElement = container.querySelector('#yield-element');
-    expect(yieldElement).not.toBeNull();
-
-    expect(container).toMatchSnapshot();
-  });
-
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
     const { container } = render(
       <Nav courses={[{ title: 'Course 1', href: '/course1' }]} />,
