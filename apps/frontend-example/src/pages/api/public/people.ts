@@ -1,6 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 import db from '../../../lib/api/db';
-import { apiRoute } from '../../../lib/api/apiRoute';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import { Person, personTable } from '../../../lib/api/db/tables';
 
 export type GetPeopleResponse = {
@@ -8,15 +8,18 @@ export type GetPeopleResponse = {
   persons: Person[],
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<GetPeopleResponse>,
-) => {
+export default makeApiRoute({
+  requireAuth: false,
+  responseBody: z.object({
+    type: z.literal('success'),
+    persons: z.array(z.any()),
+  }),
+}, async () => {
   const allPeople = await db.scan(personTable);
   const publicPeople = allPeople.filter((p) => p.isProfilePublic);
 
-  res.status(200).json({
-    type: 'success',
+  return {
+    type: 'success' as const,
     persons: publicPeople,
-  });
-}, 'insecure_no_auth');
+  };
+});

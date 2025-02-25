@@ -3,7 +3,7 @@ import React from 'react';
 import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
-import { EXTERNAL_LINK_PROPS } from './utils';
+import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 import { COURSES } from './constants';
 
 export type FooterProps = React.PropsWithChildren<{

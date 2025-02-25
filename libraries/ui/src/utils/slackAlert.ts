@@ -1,17 +1,21 @@
 import axios from 'axios';
-import env from './env';
 
-export const slackAlert = async (messages: string[]): Promise<void> => {
+export type SlackAlertEnv = {
+  APP_NAME: string;
+  ALERTS_SLACK_BOT_TOKEN: string;
+  ALERTS_SLACK_CHANNEL_ID: string;
+};
+
+export const slackAlert = async (env: SlackAlertEnv, messages: string[]): Promise<void> => {
   if (messages.length === 0) return;
-  const res = await sendSingleSlackMessage(messages[0]!);
+  const res = await sendSingleSlackMessage(env, messages[0]!);
   for (let i = 1; i < messages.length; i++) {
     // eslint-disable-next-line no-await-in-loop
-    await sendSingleSlackMessage(messages[i]!, res.ts);
+    await sendSingleSlackMessage(env, messages[i]!, res.ts);
   }
 };
 
-const sendSingleSlackMessage = async (message: string, threadTs?: string): Promise<{ ts: string }> => {
-  console.log(`Sending Slack (thread: ${threadTs ?? 'none'}): ${message}`);
+const sendSingleSlackMessage = async (env: SlackAlertEnv, message: string, threadTs?: string): Promise<{ ts: string }> => {
   return axios({
     method: 'post',
     baseURL: 'https://slack.com/api/',
@@ -22,7 +26,7 @@ const sendSingleSlackMessage = async (message: string, threadTs?: string): Promi
     },
     data: {
       channel: env.ALERTS_SLACK_CHANNEL_ID,
-      text: `frontend-example: ${message}`,
+      text: `${env.APP_NAME}: ${message}`,
       thread_ts: threadTs,
     },
   }).then((res) => {
