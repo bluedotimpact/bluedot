@@ -1,4 +1,4 @@
-// TODO: Remove this file once the 301 redirect to /join-the-team is live
+// TODO: Remove this file once the 301 redirect to /join-us is live
 import {
   CTALinkOrButton,
   HeroSection,
@@ -14,8 +14,8 @@ import { ROUTES } from '../../lib/routes';
 
 export const CURRENT_ROUTE: BluedotRoute = {
   title: 'AI Safety Teaching Fellow',
-  url: `${ROUTES.careers.url}/ai-safety-teaching-fellow`,
-  parentPages: [...(ROUTES.careers.parentPages ?? []), ROUTES.careers],
+  url: `${ROUTES.joinUs.url}/ai-safety-teaching-fellow`,
+  parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
 };
 
 const JobPostingPage = () => {
@@ -23,7 +23,7 @@ const JobPostingPage = () => {
     <div>
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
-        <meta name="canonical" content="https://bluedot.org/join-the-team/ai-safety-teaching-fellow" />
+        <meta name="canonical" content="https://bluedot.org/join-us/ai-safety-teaching-fellow" />
       </Head>
       <HeroSection>
         <HeroH1>{CURRENT_ROUTE.title}</HeroH1>

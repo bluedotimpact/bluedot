@@ -1,4 +1,4 @@
-// TODO: Remove this file once the 301 redirect to /join-the-team is live
+// TODO: Remove this file once the 301 redirect to /join-us is live
 import {
   HeroSection,
   HeroH1,
@@ -8,12 +8,12 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
-import CareersSection from '../components/join-the-team/CareersSection';
-import CultureSection from '../components/join-the-team/CultureSection';
-import ValuesSection from '../components/join-the-team/ValuesSection';
+import CareersSection from '../components/join-us/CareersSection';
+import CultureSection from '../components/join-us/CultureSection';
+import ValuesSection from '../components/join-us/ValuesSection';
 import { ROUTES } from '../lib/routes';
 
-const CURRENT_ROUTE = ROUTES.careers;
+const CURRENT_ROUTE = ROUTES.joinUs;
 
 const CareersPage = () => {
   return (
@@ -21,7 +21,7 @@ const CareersPage = () => {
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
         <meta name="description" content="Join us in our mission to ensure humanity safely navigates the transition to transformative AI." />
-        <meta name="canonical" content="https://bluedot.com/join-the-team" />
+        <meta name="canonical" content="https://bluedot.com/join-us" />
       </Head>
       <HeroSection>
         <HeroMiniTitle>Join Us</HeroMiniTitle>
