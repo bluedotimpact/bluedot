@@ -44,6 +44,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
     ) => {
       try {
         if (opts.requestBody?.isOptional()) {
+          // eslint-disable-next-line no-param-reassign
           opts.requestBody = z.union([opts.requestBody, EmptyBodySchema]) as ZodType as ReqZT;
         }
 
