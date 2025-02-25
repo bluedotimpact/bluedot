@@ -1,35 +1,19 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
+import createHttpError from 'http-errors';
 import db from '../../../lib/api/db';
-import { apiRoute } from '../../../lib/api/apiRoute';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import { personTable } from '../../../lib/api/db/tables';
 
-export type UpdateNameRequest = {
-  personId: string,
-  newFirstName: string,
-};
-
-export type UpdateNameResponse = {
-  type: 'success',
-} | {
-  type: 'error',
-  message: string,
-};
-
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<UpdateNameResponse>,
-) => {
-  if (!req.body.personId) {
-    res.status(400).json({ type: 'error', message: 'Missing person id.' });
-    return;
-  }
-  if (!req.body.newFirstName) {
-    res.status(400).json({ type: 'error', message: 'Missing new name.' });
-    return;
+export default makeApiRoute({
+  requireAuth: false,
+  requestBody: z.object({
+    personId: z.string(),
+    newFirstName: z.string(),
+  }),
+}, async (body) => {
+  if (!body.newFirstName) {
+    throw new createHttpError.BadRequest('First name cannot be blank.');
   }
 
-  await db.update(personTable, { id: req.body.personId, firstName: req.body.newFirstName });
-  res.status(200).json({
-    type: 'success',
-  });
-}, 'insecure_no_auth');
+  await db.update(personTable, { id: body.personId, firstName: body.newFirstName });
+});

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import {
-  Button, CardButton, H1, H2, Link, P,
+  Button, CardButton, H1, H2, Link, P, withAuth,
 } from '@bluedot/ui';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useQueryClient } from '@tanstack/react-query';
-import { withAuth } from '../lib/withAuth';
 import { client } from '../lib/queryClient';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
@@ -50,6 +49,7 @@ const CourseListView: React.FC = () => {
   return (
     <div className="grid md:grid-cols-4 gap-4">
       {data?.body.map((course) => (
+        // eslint-disable-next-line no-alert
         <CardButton key={course.courseId} onPress={() => alert('test')}>
           <H2>{course.name}</H2>
         </CardButton>

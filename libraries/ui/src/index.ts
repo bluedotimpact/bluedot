@@ -29,12 +29,22 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
-export { Breadcrumbs } from './Breadcrumbs';
+export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
 
 // Utils
 
-export { EXTERNAL_LINK_PROPS, type BluedotRoute } from './utils';
+export { asError } from './utils/asError';
+export { useAuthStore, withAuth, type Auth } from './utils/auth';
+export { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
+export {
+  makeMakeApiRoute, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
+} from './utils/makeMakeApiRoute';
+export { slackAlert } from './utils/slackAlert';
+export { validateEnv } from './utils/validateEnv';
 export * as constants from './constants';
+
+export { Navigate } from './legacy/Navigate';
+export type { NavigateProps } from './legacy/Navigate';
 
 // Legacy Components
 
@@ -51,6 +61,9 @@ export type { InputProps } from './legacy/Input';
 
 export { Link } from './legacy/Link';
 export type { LinkProps } from './legacy/Link';
+
+export { LoginRedirectPage, LoginOauthCallbackPage, loginPresets } from './legacy/Login';
+export type { LoginPageProps } from './legacy/Login';
 
 export {
   H1, H2, HPrefix, P,
