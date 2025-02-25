@@ -13,8 +13,8 @@ import { ROUTES } from '../../lib/routes';
 
 export const CURRENT_ROUTE: BluedotRoute = {
   title: 'AI Safety Teaching Fellow',
-  url: `${ROUTES.careers.url}/ai-safety-teaching-fellow`,
-  parentPages: [...(ROUTES.careers.parentPages ?? []), ROUTES.careers],
+  url: `${ROUTES.joinUs.url}/ai-safety-teaching-fellow`,
+  parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
 };
 
 const JobPostingPage = () => {

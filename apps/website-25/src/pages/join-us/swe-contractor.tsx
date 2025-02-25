@@ -13,8 +13,8 @@ import { ROUTES } from '../../lib/routes';
 
 export const CURRENT_ROUTE: BluedotRoute = {
   title: 'Software Engineering Contractor',
-  url: `${ROUTES.careers.url}/swe-contractor`,
-  parentPages: [...(ROUTES.careers.parentPages ?? []), ROUTES.careers],
+  url: `${ROUTES.joinUs.url}/swe-contractor`,
+  parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
 };
 
 const JobPostingPage = () => {
