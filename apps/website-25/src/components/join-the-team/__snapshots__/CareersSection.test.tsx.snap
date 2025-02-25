@@ -52,7 +52,7 @@ exports[`CareersSection > renders default as expected 1`] = `
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
-              href="/careers/swe-contractor"
+              href="/join-the-team/swe-contractor"
             >
               <span
                 class="cta-button__text"
@@ -95,7 +95,7 @@ exports[`CareersSection > renders default as expected 1`] = `
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               data-testid="cta-link"
-              href="/careers/ai-safety-teaching-fellow"
+              href="/join-the-team/ai-safety-teaching-fellow"
             >
               <span
                 class="cta-button__text"
@@ -177,7 +177,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
-                  href="/careers/swe-contractor"
+                  href="/join-the-team/swe-contractor"
                 >
                   <span
                     class="cta-button__text"
@@ -218,7 +218,7 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 <a
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   data-testid="cta-link"
-                  href="/careers/ai-safety-teaching-fellow"
+                  href="/join-the-team/ai-safety-teaching-fellow"
                 >
                   <span
                     class="cta-button__text"

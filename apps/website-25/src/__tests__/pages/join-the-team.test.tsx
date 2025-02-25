@@ -1,11 +1,10 @@
-// TODO: Remove this file once the 301 redirect to /join-the-team is live
 import { render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import CareersPage from '../../pages/careers';
+import JoinTheTeamPage from '../../pages/join-the-team';
 
-describe('CareersPage', () => {
+describe('JoinTheTeamPage', () => {
   test('should render the error message correctly', () => {
-    const { container } = render(<CareersPage />);
+    const { container } = render(<JoinTheTeamPage />);
     expect(container).toMatchSnapshot();
   });
 });

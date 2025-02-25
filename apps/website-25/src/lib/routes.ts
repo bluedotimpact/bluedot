@@ -18,8 +18,8 @@ const privacyPolicy: BluedotRoute = {
 };
 
 const careers: BluedotRoute = {
-  title: 'Join our team',
-  url: '/careers',
+  title: 'Join the team',
+  url: '/join-the-team',
   parentPages: [home],
 };
 
