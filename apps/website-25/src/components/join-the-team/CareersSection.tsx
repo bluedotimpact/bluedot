@@ -1,7 +1,7 @@
 import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
-import { CURRENT_ROUTE as SWE_CONTRACTOR } from '../../pages/careers/swe-contractor';
-import { CURRENT_ROUTE as AIS_TEACHING_FELLOW } from '../../pages/careers/ai-safety-teaching-fellow';
+import { CURRENT_ROUTE as SWE_CONTRACTOR } from '../../pages/join-the-team/swe-contractor';
+import { CURRENT_ROUTE as AIS_TEACHING_FELLOW } from '../../pages/join-the-team/ai-safety-teaching-fellow';
 
 const CareersSection = () => {
   return (

@@ -1,4 +1,3 @@
-// TODO: Remove this file once the 301 redirect to /join-the-team is live
 import {
   HeroSection,
   HeroH1,
@@ -15,13 +14,12 @@ import { ROUTES } from '../lib/routes';
 
 const CURRENT_ROUTE = ROUTES.careers;
 
-const CareersPage = () => {
+const JoinTheTeamPage = () => {
   return (
     <div>
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
         <meta name="description" content="Join us in our mission to ensure humanity safely navigates the transition to transformative AI." />
-        <meta name="canonical" content="https://bluedot.com/join-the-team" />
       </Head>
       <HeroSection>
         <HeroMiniTitle>Join Us</HeroMiniTitle>
@@ -38,4 +36,4 @@ const CareersPage = () => {
   );
 };
 
-export default CareersPage;
+export default JoinTheTeamPage;
