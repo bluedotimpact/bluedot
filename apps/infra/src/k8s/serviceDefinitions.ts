@@ -136,6 +136,21 @@ export const services: ServiceDefinition[] = [
     hosts: ['availability.bluedot.org'],
   },
   {
+    name: 'bluedot-room',
+    spec: {
+      containers: [{
+        name: 'bluedot-room',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-room:latest',
+        env: [
+          { name: 'DISPLAY_BEARER_TOKEN', valueFrom: envVarSources.roomDisplayBearerToken },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['room.bluedot.org'],
+  },
+  {
     name: 'bluedot-login-account-proxy',
     spec: {
       containers: [{

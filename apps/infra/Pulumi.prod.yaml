@@ -16,3 +16,5 @@ config:
     secure: v1:jPYJIQX1CoHF/Zmm:KTKen2BLFJ2UpCuIOXE5kdUh0OynxG/UbVbTD4h0Ft5X2UFFRYPp1iSVGd8Rxd+o
   vultr:apiKey:
     secure: v1:V4H9p6vQNMJM4KEQ:G/T2vskLJtn5ZtO9Ry7TfstCV0lwGmCQIwb6twGs9j9VJq5FWG249dYKg/RuJFOXl6eDZg==
+  infra:roomDisplayBearerToken:
+    secure: v1:VXpFjSn3K8mTozrk:vP2CQtDCU4pXImGX0giTNGJUCQ7jE39V
