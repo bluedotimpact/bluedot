@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { EXTERNAL_LINK_PROPS } from './utils';
+import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 
 type CardProps = {
   // Required

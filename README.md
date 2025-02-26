@@ -152,10 +152,10 @@ npm install
 
 The above should be enough to edit existing applications. To create a new Next.js app (which is _usually_ what you'll want):
 
-1. Copy an existing app folder. `frontend-example` is a good place to start because it is simple.
+1. Copy the [`app-template`](./apps/app-template/) folder.
 2. Rename the copied folder, and the name of the app in its `package.json`, then run `npm install`
 3. Add the app to infra's [serviceDefinitions.ts](./apps/infra/src/k8s/serviceDefinitions.ts)
-   - Copy the config for frontend-example, but put your app name in
+   - Copy the config for app-template, but put your app name in
    - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
    - If you need to add a secret, see [infra's README](./apps/infra/README.md#adding-a-secret)
 4. Commit your changes to the master branch

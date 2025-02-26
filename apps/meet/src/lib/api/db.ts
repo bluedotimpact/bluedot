@@ -7,37 +7,37 @@ export default new AirtableTs({
 
 const airtableBaseId = 'appPs3sb9BrYZN69z';
 
-export interface Cohort extends Item {
-  'cohortSessions': string[],
-  'iteration': string,
+export interface Group extends Item {
+  'groupDiscussions': string[],
+  'round': string,
 }
 
-export const cohortTable: Table<Cohort> = {
-  name: 'cohort',
+export const groupTable: Table<Group> = {
+  name: 'group',
   baseId: airtableBaseId,
   tableId: 'tblyiJSPoniwhi17T',
   schema: {
-    cohortSessions: 'string[]',
-    iteration: 'string',
+    groupDiscussions: 'string[]',
+    round: 'string',
   },
   mappings: {
-    cohortSessions: 'fldwEeC65sHvGGRGb',
-    iteration: 'fldtzy3nSP0piVApO',
+    groupDiscussions: 'fldwEeC65sHvGGRGb',
+    round: 'fldtzy3nSP0piVApO',
   },
 };
 
-export interface CohortClass extends Item {
+export interface GroupDiscussion extends Item {
   'Facilitators': string[],
   'Participants (Expected)': string[],
   'Attendees': string[],
   'Start date/time': number | null,
   'End date/time': number | null,
-  'Cohort': string,
+  'Group': string,
   'Zoom account': string | null,
 }
 
-export const cohortClassTable: Table<CohortClass> = {
-  name: 'cohort class',
+export const groupDiscussionTable: Table<GroupDiscussion> = {
+  name: 'group discussion',
   baseId: airtableBaseId,
   tableId: 'tblDNME0bA9OoApTk',
   schema: {
@@ -46,7 +46,7 @@ export const cohortClassTable: Table<CohortClass> = {
     Attendees: 'string[]',
     'Start date/time': 'number | null',
     'End date/time': 'number | null',
-    Cohort: 'string',
+    Group: 'string',
     'Zoom account': 'string | null',
   },
   mappings: {
@@ -55,7 +55,7 @@ export const cohortClassTable: Table<CohortClass> = {
     Attendees: 'fldo0xEi6vJKSJlFN',
     'Start date/time': 'flduTqIxS6OEHNr4H',
     'End date/time': 'flda1ONwG37ROVo8e',
-    Cohort: 'fldjISs1XFGAwT5k5',
+    Group: 'fldjISs1XFGAwT5k5',
     'Zoom account': 'fldH0pKnEELPI65Qs',
   },
 };
@@ -95,12 +95,12 @@ export const zoomAccountTable: Table<ZoomAccount> = {
   },
 };
 
-export interface Iteration extends Item {
+export interface Round extends Item {
   'Course': string,
 }
 
-export const iterationTable: Table<Iteration> = {
-  name: 'iteration',
+export const roundTable: Table<Round> = {
+  name: 'round',
   baseId: airtableBaseId,
   tableId: 'tblu6u7F2NHfCMgsk',
   schema: {

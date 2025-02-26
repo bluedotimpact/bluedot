@@ -4,6 +4,21 @@ import { getConnectionDetails, keycloakPg } from './postgres';
 
 export const services: ServiceDefinition[] = [
   {
+    name: 'bluedot-app-template',
+    spec: {
+      containers: [{
+        name: 'bluedot-app-template',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-app-template:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['app-template.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-frontend-example',
     spec: {
       containers: [{
@@ -119,6 +134,21 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['availability.bluedot.org'],
+  },
+  {
+    name: 'bluedot-room',
+    spec: {
+      containers: [{
+        name: 'bluedot-room',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-room:latest',
+        env: [
+          { name: 'DISPLAY_BEARER_TOKEN', valueFrom: envVarSources.roomDisplayBearerToken },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['room.bluedot.org'],
   },
   {
     name: 'bluedot-login-account-proxy',

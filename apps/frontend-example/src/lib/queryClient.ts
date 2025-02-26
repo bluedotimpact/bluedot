@@ -1,7 +1,7 @@
 import { initQueryClient } from '@ts-rest/react-query';
 import { ApiFetcherArgs, tsRestFetchApi } from '@ts-rest/core';
 import { contract } from '@bluedot/backend-contract';
-import { useAuthStore } from './authStore';
+import { useAuthStore } from '@bluedot/ui';
 
 export const client = initQueryClient(contract, {
   baseUrl: 'http://localhost:8080',
