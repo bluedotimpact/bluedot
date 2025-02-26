@@ -22,9 +22,9 @@ const Error404Page = () => {
       <Head>
         <title>{currentRoute.title} | BlueDot Impact</title>
       </Head>
-      <HeroSection className="w-full overflow-hidden">
+      <HeroSection className="404__hero overflow-hidden">
         <div
-          className="w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
+          className="404__animation-container w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
         >
           <Rive
             src="/animations/herobluedot_hero.riv"

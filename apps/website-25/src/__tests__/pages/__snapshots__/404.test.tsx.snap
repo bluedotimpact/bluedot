@@ -4,13 +4,13 @@ exports[`Error404Page > should render correctly 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x w-full overflow-hidden"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x 404__hero overflow-hidden"
     >
       <div
         class="hero-section__content max-w-[865px] mt-[82px] py-16"
       >
         <div
-          class="w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
+          class="404__animation-container w-[400px] max-w-[80vw] aspect-2/1 shadow-[0_0_120px_120px_#011664]"
         >
           <div
             class=""
@@ -58,7 +58,7 @@ exports[`Error404Page > should render correctly 1`] = `
           >
             <a
               class="breadcrumbs__link"
-              href="1234"
+              href="/an-invalid-path"
             >
               Error 404
             </a>
