@@ -1,4 +1,3 @@
-// TODO: Remove this file once the 301 redirect to /join-us is live
 import {
   CTALinkOrButton,
   HeroSection,
@@ -23,7 +22,6 @@ const JobPostingPage = () => {
     <div>
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
-        <meta name="canonical" content="https://bluedot.org/join-us/ai-safety-teaching-fellow" />
       </Head>
       <HeroSection>
         <HeroH1>{CURRENT_ROUTE.title}</HeroH1>

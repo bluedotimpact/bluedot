@@ -60,7 +60,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         courses={constants.COURSES}
       >
         <a href={ROUTES.about.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
-        <a href={ROUTES.careers.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.careers.url) && 'font-bold')}>Join us</a>
+        <a href={ROUTES.joinUs.url} className={clsx('hover:text-bluedot-normal', isCurrentPath(ROUTES.joinUs.url) && 'font-bold')}>Join us</a>
         <a href="https://bluedot.org/blog/" className="hover:text-bluedot-normal">Blog</a>
       </Nav>
       <main className="bluedot-base">
