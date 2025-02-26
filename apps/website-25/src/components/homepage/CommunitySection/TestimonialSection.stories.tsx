@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import TestimonialSection from './TestimonialSection';
 
 const meta = {
-  title: 'Homepage/TestimonialSection',
+  title: 'Website/TestimonialSection',
   component: TestimonialSection,
   parameters: {
     layout: 'fullscreen',
