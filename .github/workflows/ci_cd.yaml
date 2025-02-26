@@ -82,6 +82,7 @@ jobs:
         with:
           paths: ${{ steps.get_paths.outputs.paths }}
           paths_ignore: '["**/README.md"]'
+          skip_after_successful_duplicate: false
 
       - name: Skip deployment
         if: steps.check_deployment.outputs.should_skip == 'true'
