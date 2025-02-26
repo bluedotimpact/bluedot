@@ -136,7 +136,7 @@ const Form: React.FC<{
         <div className="m-12">
           <H1 className="!text-5xl">{title}</H1>
           <div className="space-y-2 mt-4">
-            <p>Submit your availability so we can schedule your discussion sessions at times that suit you.</p>
+            <p>Submit your availability so we can schedule your discussions at times that suit you.</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
             <label className="text-xs text-stone-500 block">Email<br />
@@ -150,7 +150,7 @@ const Form: React.FC<{
             <TimeOffsetSelector control={control} name="timezone" />
           </div>
           <div className="text-xs text-stone-500 mt-6 mb-4 space-y-2">
-            <p>Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch cohort for weeks where you can’t make your usual time.</p>
+            <p>Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch group for weeks where you can’t make your usual time.</p>
           </div>
           <TimeAvailabilityInput control={control} name="timeAv" />
           <label className="text-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
