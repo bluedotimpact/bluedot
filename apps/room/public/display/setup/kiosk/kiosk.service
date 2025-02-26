@@ -1,0 +1,19 @@
+# Place this in /lib/systemd/system/kiosk.service
+
+[Unit]
+Description=Chromium Kiosk
+Wants=graphical.target
+After=graphical.target
+
+[Service]
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+Type=simple
+ExecStart=/bin/bash /home/pi/kiosk.sh
+Restart=always
+RestartSec=15s
+User=pi
+Group=pi
+
+[Install]
+WantedBy=graphical.target
