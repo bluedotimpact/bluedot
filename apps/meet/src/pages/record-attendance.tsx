@@ -8,30 +8,32 @@ import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/
 
 const RecordAttendance: React.FC = () => {
   const searchParams = useSearchParams();
-  const cohortClassId = searchParams.get('groupClassId') ?? '';
+  const groupDiscussionId = searchParams.get('groupDiscussionId')
+    // Legacy params names for backwards compatibility
+    ?? searchParams.get('groupClassId') ?? searchParams.get('cohortClassId') ?? '';
   const participantId = searchParams.get('participantId') ?? '';
 
-  if (!cohortClassId || !participantId) {
+  if (!groupDiscussionId || !participantId) {
     return (
       <Page>
-        <H1 className="flex-1">Error: Missing cohort class or participant id.</H1>
+        <H1 className="flex-1">Error: Missing group discussion or participant id.</H1>
         <p className="mb-2">Ensure you've navigated to the correct link, or try asking the person who gave the link to check it's correct.</p>
         <p>If you're still having difficulties, drop us a line at team@bluedot.org.</p>
       </Page>
     );
   }
 
-  return <RecordAttendancePage cohortClassId={cohortClassId} participantId={participantId} />;
+  return <RecordAttendancePage groupDiscussionId={groupDiscussionId} participantId={participantId} />;
 };
 
-const RecordAttendancePage: React.FC<{ cohortClassId: string, participantId: string }> = ({ cohortClassId, participantId }) => {
+const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId: string }> = ({ groupDiscussionId, participantId }) => {
   const [{ data, loading }, _recordAttendance] = useAxios<RecordAttendanceResponse, RecordAttendanceRequest>({
     method: 'post',
     url: '/api/public/record-attendance',
-    data: { cohortClassId, participantId },
+    data: { groupDiscussionId, participantId },
   }, { manual: true });
   const recordAttendance = ({ reason }: { reason: string }) => _recordAttendance({
-    data: { cohortClassId, participantId, reason },
+    data: { groupDiscussionId, participantId, reason },
   });
 
   const [otherReason, setOtherReason] = useState('');
