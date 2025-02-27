@@ -3,19 +3,19 @@ import createHttpError from 'http-errors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AirtableError from 'airtable/lib/airtable_error';
 import db, {
-  Cohort,
-  cohortClassTable, cohortTable, personTable, zoomAccountTable,
+  Group,
+  groupDiscussionTable, groupTable, personTable, zoomAccountTable,
 } from '../../../lib/api/db';
 import { apiRoute } from '../../../lib/api/apiRoute';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingParticipantsRequest = {
-  cohortId: string,
+  groupId: string,
 };
 
 export type MeetingParticipantsResponse = {
   type: 'success',
-  cohortClassId: string,
+  groupDiscussionId: string,
   participants: {
     id: string,
     name: string,
@@ -40,48 +40,48 @@ export default apiRoute(async (
   req: NextApiRequest,
   res: NextApiResponse<MeetingParticipantsResponse>,
 ) => {
-  let cohort: Cohort;
+  let group: Group;
   try {
-    cohort = await db.get(cohortTable, req.body.cohortId);
+    group = await db.get(groupTable, req.body.groupId);
   } catch (err) {
     if (err instanceof AirtableError && err.statusCode === 404) {
-      throw new createHttpError.NotFound(`Cohort ${req.body.cohortId} not found`);
+      throw new createHttpError.NotFound(`Group ${req.body.groupId} not found`);
     }
     throw err;
   }
-  const cohortClasses = await Promise.all(
-    cohort.cohortSessions
-      .map((cohortClassId) => db.get(cohortClassTable, cohortClassId)),
+  const groupDiscussions = await Promise.all(
+    group.groupDiscussions
+      .map((groupDiscussionId) => db.get(groupDiscussionTable, groupDiscussionId)),
   );
-  const cohortClassesWithDistance = cohortClasses
-    .filter((cohortClass) => !!cohortClass['Start date/time'] && !!cohortClass['End date/time'])
-    .map((cohortClass) => ({
-      cohortClass,
-      distance: Math.abs((Date.now() / 1000) - cohortClass['Start date/time']!),
+  const groupDiscussionsWithDistance = groupDiscussions
+    .filter((groupDiscussion) => !!groupDiscussion['Start date/time'] && !!groupDiscussion['End date/time'])
+    .map((groupDiscussion) => ({
+      groupDiscussion,
+      distance: Math.abs((Date.now() / 1000) - groupDiscussion['Start date/time']!),
     }));
-  if (cohortClassesWithDistance.length === 0) {
+  if (groupDiscussionsWithDistance.length === 0) {
     res.status(404).json({
       type: 'error',
-      message: 'No cohort classes found for this cohort.',
+      message: 'No discussions found for this group.',
     });
     return;
   }
 
-  let nearestCohortClassWithDistance = cohortClassesWithDistance[0]!;
-  cohortClassesWithDistance.forEach((cohortClassWithDistance) => {
-    if (cohortClassWithDistance.distance < nearestCohortClassWithDistance.distance) {
-      nearestCohortClassWithDistance = cohortClassWithDistance;
+  let nearestGroupDiscussionWithDistance = groupDiscussionsWithDistance[0]!;
+  groupDiscussionsWithDistance.forEach((groupDiscussionWithDistance) => {
+    if (groupDiscussionWithDistance.distance < nearestGroupDiscussionWithDistance.distance) {
+      nearestGroupDiscussionWithDistance = groupDiscussionWithDistance;
     }
   });
-  const { cohortClass } = nearestCohortClassWithDistance;
+  const { groupDiscussion } = nearestGroupDiscussionWithDistance;
 
-  if (!cohortClass['Zoom account']) {
-    throw new createHttpError.InternalServerError(`Cohort class ${cohortClass.id} missing Zoom account`);
+  if (!groupDiscussion['Zoom account']) {
+    throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
   }
-  const zoomAccount = await db.get(zoomAccountTable, cohortClass['Zoom account']);
-  const facilitators = await Promise.all(cohortClass.Facilitators.map((facilitatorId) => db.get(personTable, facilitatorId)));
+  const zoomAccount = await db.get(zoomAccountTable, groupDiscussion['Zoom account']);
+  const facilitators = await Promise.all(groupDiscussion.Facilitators.map((facilitatorId) => db.get(personTable, facilitatorId)));
   const participants = await Promise.all(
-    cohortClass['Participants (Expected)']
+    groupDiscussion['Participants (Expected)']
       .map((participantId) => db.get(personTable, participantId)),
   );
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount['Meeting link']);
@@ -89,7 +89,7 @@ export default apiRoute(async (
 
   res.status(200).json({
     type: 'success',
-    cohortClassId: cohortClass.id,
+    groupDiscussionId: groupDiscussion.id,
     participants: [
       ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
       ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
@@ -98,8 +98,8 @@ export default apiRoute(async (
     meetingNumber,
     meetingPassword,
     meetingHostKey,
-    meetingStartTime: cohortClass['Start date/time']!,
-    meetingEndTime: cohortClass['End date/time']!,
+    meetingStartTime: groupDiscussion['Start date/time']!,
+    meetingEndTime: groupDiscussion['End date/time']!,
   });
 }, 'insecure_no_auth');
 

@@ -53,7 +53,7 @@ exports[`Nav > renders with courses 1`] = `
           </a>
           <a
             class="nav-links__link nav-link-animation"
-            href="/careers"
+            href="/join-us"
           >
             Join us
           </a>
@@ -216,7 +216,7 @@ exports[`Nav > renders with courses 1`] = `
             </a>
             <a
               class="nav-links__link nav-link-animation"
-              href="/careers"
+              href="/join-us"
             >
               Join us
             </a>

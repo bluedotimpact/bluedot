@@ -1,5 +1,7 @@
 # backend
 
+> **Note**: This backend is not currently used or deployed. The code is kept here for future reference when we need to implement functionality requiring a dedicated backend service.
+
 A fastify backend that is used as a bit of a scratchpad for testing different things out.
 
 Note that anything here is still public (both the code and resulting web service).

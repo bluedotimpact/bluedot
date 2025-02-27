@@ -1,0 +1,187 @@
+import { ColorPalette, ColorItem, Unstyled } from '@storybook/blocks';
+
+# Getting Started
+
+Welcome to BlueDot Impact's Storybook! What's included here is:
+
+1. Our **Design System** - The foundational styles, colors, typography and patterns that create a consistent look and feel across our applications
+2. **Website Components** - The React components used to build our public-facing website [bluedot.org](https://bluedot.org/)
+3. **UI Components** - Our core ui library of reusable React components that power functionality across multiple BlueDot applications
+
+Use the navigation on the left to explore our components, or continue reading below for an overview of our design system.
+
+## Design System
+
+Our design system aims to be the single source of truth for designing BlueDot Impact applications. While we are just getting started, this system will grow to provide comprehensive guidance on our visual language, interaction patterns, and component usage to ensure consistency across our digital products.
+
+
+### Table of Contents
+
+- [Colors](#colors)
+- [Typography](#typography)
+- [Border Radius](#border-radius)
+- [Elevation](#elevation)
+- [Resources](#resources)
+
+### Colors
+
+Our color tokens are built to be used with Tailwind CSS utility classes. Here are some common patterns:
+
+- Text colors: `text-color-text`, `text-color-secondary-text`, `text-color-text-on-dark`
+- Background colors: `bg-color-canvas`, `bg-color-canvas-dark`
+- Border colors: `border-color-divider`
+- Accent colors (for interactive elements):
+  - Primary: `text-color-primary-accent`, `bg-color-primary-accent`
+  - Secondary: `text-color-secondary-accent`, `bg-color-secondary-accent`
+
+#### Color Palette
+  
+{(() => {
+  const colorItems = [
+    {
+      title: "Primary text",
+      subtitle: "",
+      colors: {
+        "color-text": 'var(--color-color-text)',
+        "color-text-on-dark": 'var(--color-color-text-on-dark)'
+      }
+    },
+    {
+      title: "Secondary text",
+      subtitle: "For titles",
+      colors: {
+        "color-secondary-text": 'var(--color-color-secondary-text)'
+      }
+    },
+    {
+      title: "Background",
+      subtitle: "",
+      colors: {
+        "color-canvas": 'var(--color-color-canvas)',
+        "color-canvas-dark": 'var(--color-color-canvas-dark)'
+      }
+    },
+    {
+      title: "Accent", 
+      subtitle: "For buttons & links",
+      colors: {
+        "color-primary-accent": 'var(--color-color-primary-accent)',
+        "color-secondary-accent": 'var(--color-color-secondary-accent)'
+      }
+    },
+    {
+      title: "Divider",
+      subtitle: "For borders & dividers", 
+      colors: {
+        "color-divider": 'var(--color-color-divider)'
+      }
+    }
+  ];
+
+  return (
+    <ColorPalette>
+      {colorItems.map((item, index) => (
+        <ColorItem
+          key={index}
+          title={item.title}
+          subtitle={item.subtitle}
+          colors={item.colors}
+        />
+      ))}
+    </ColorPalette>
+  );
+})()}
+
+### Typography
+
+You may use `text-size-` classes for different text sizes, from `text-size-xxs` for the smallest text to `text-size-xl` for the largest text.
+
+For convenience we also ship prestyled `<h1>` through `<h4>`, `<p>`, `<blockquote>`, `<a>` tags that you can use in your React components. 
+
+Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `.subtitle-sm`, `.body` & `.link` utility classes.
+
+```jsx
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<div className="title">Title</div> <!-- Same as h2 -->
+<h3>Heading 3</h3>
+<div className="subtitle">Subtitle</div> <!-- Same as h3 -->
+<h4>Heading 4</h4>
+<div className="subtitle-sm">Subtitle Small</div> <!-- Same as h4 -->
+<p>Paragraph</p>
+<div className="body">Body</div> <!-- Same as p -->
+<a href="#">Link</a>
+<span className="link">Link</span> <!-- Same as a -->
+<blockquote>Blockquote</blockquote>
+```
+
+#### Text Sizes
+{(() => {
+  return (
+    <Unstyled>
+      <div className="flex flex-col gap-2 space-y-2">
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xl</div>
+          <div className="text-size-xl">Our work</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">lg</div>
+          <div className="text-size-lg">Our commitment to AI Safety</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">md</div>
+          <div className="text-size-md">When do your courses run?</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">sm</div>
+          <div className="text-size-sm">Our online community brings together 4,500+ professionals across 100+ countries</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xs</div>
+          <div className="text-size-xs">BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xxs</div>
+          <div className="text-size-xxs">Start your AI safety journey with our Intro to Transformative AI course, designed by experts to accelerate your understanding of key AI safety concepts.</div>
+        </div>
+      </div>
+    </Unstyled>
+  );
+})()}
+
+### Border Radius
+
+We have two border radius tokens: `radius-sm` and `radius-md`. 
+
+You can use `rounded-` Tailwind CSS utility classes to create rounded corners on your components.
+
+<Unstyled>
+  <p className="p-8 max-w-64 bg-color-canvas rounded-radius-md border-color-divider border-1">
+    <p className="mb-4 text-color-text">rounded-radius-md</p>
+    <p className="p-4 max-w-48 bg-color-canvas-dark text-color-text-on-dark rounded-radius-sm border-color-divider border-1">
+      <p className="text-color-text-on-dark">rounded-radius-sm</p>
+    </p>
+  </p>
+</Unstyled>
+
+### Elevation
+
+Use `container-lined`, `container-elevated`, `container-dialog` classes to create containers with different elevations.
+
+<Unstyled>
+  <div className="bg-color-canvas m-10 min-h-24 container-lined flex justify-center items-center max-w-64">
+    <p className="text-color-text text-center">container-lined</p>
+  </div>
+  <div className="bg-color-canvas m-10 min-h-24 container-elevated flex justify-center items-center max-w-64">
+    <p className="text-color-text text-center">container-elevated</p>
+  </div>
+  <div className="bg-color-canvas m-10 min-h-24 container-dialog flex justify-center items-center max-w-64">
+    <p className="text-color-text">container-dialog</p>
+  </div>
+</Unstyled>
+
+### Resources
+
+- [Figma Design System](https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File?node-id=879-4824&p=f&t=yE5UK7Td8Q18PE37-0)
+- [Github/tailwind.css](https://github.com/bluedotimpact/bluedot/blob/master/libraries/ui/src/default-config/tailwind.css)
+- [Github/globals.css](https://github.com/bluedotimpact/bluedot/blob/master/apps/website-25/src/globals.css)

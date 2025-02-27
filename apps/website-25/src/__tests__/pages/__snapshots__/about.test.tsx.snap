@@ -25,12 +25,12 @@ exports[`AboutPage > should render the error message correctly 1`] = `
           <a
             class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
             data-testid="cta-link"
-            href="/careers"
+            href="/join-us"
           >
             <span
               class="cta-button__text"
             >
-              Join the team
+              Join us
             </span>
             <span
               class="cta-button__chevron ml-3"
@@ -62,7 +62,7 @@ exports[`AboutPage > should render the error message correctly 1`] = `
               class="breadcrumbs__link"
               href="/"
             >
-              BlueDot Impact
+              Home
             </a>
             <span
               class="breadcrumbs__separator mx-2"

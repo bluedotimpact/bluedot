@@ -11,6 +11,7 @@ const toK8s = [
   'keycloakAdminPassword',
   'loginProxySharedSecret',
   'loginProxyKeycloakClientSecret',
+  'roomDisplayBearerToken',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

@@ -1,6 +1,8 @@
 # frontend-example
 
-An example frontend app that is used as a bit of a scratchpad for testing different things out.
+An example frontend app that is used as a scratchpad for testing different things out.
+
+Because different weird things are tested out here, it can be a bit chaotic and non-standard. If you're looking to start building a new app, use [`app-template`](../app-template/) as a base instead.
 
 Note that anything here is still public (both the code and resulting web app).
 

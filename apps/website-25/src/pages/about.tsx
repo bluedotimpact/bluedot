@@ -28,7 +28,7 @@ const AboutPage = () => {
         <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
         <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
         <HeroCTAContainer>
-          <CTALinkOrButton url={ROUTES.careers.url} withChevron>Join the team</CTALinkOrButton>
+          <CTALinkOrButton url={ROUTES.joinUs.url} withChevron>Join us</CTALinkOrButton>
         </HeroCTAContainer>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />

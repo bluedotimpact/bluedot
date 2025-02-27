@@ -8,16 +8,18 @@ import AppJoinView from '../components/AppJoinView';
 
 const Home: React.FC = () => {
   const searchParams = useSearchParams();
-  const cohortId = searchParams.get('cohortId') ?? '';
+  const groupId = searchParams.get('groupId')
+    // Legacy params names for backwards compatibility
+    ?? searchParams.get('cohortId') ?? '';
   // TODO: use this to skip first page? or at least somehow highlight?
   // const participantId = searchParams.get('participantId') ?? undefined;
 
-  const [page, setPage] = useState<PageState>({ name: 'select', cohortId });
+  const [page, setPage] = useState<PageState>({ name: 'select', groupId });
 
-  if (!cohortId) {
+  if (!groupId) {
     return (
       <Page>
-        <H1 className="flex-1">Error: Missing cohort id.</H1>
+        <H1 className="flex-1">Error: Missing group id.</H1>
         <p className="mb-2">Ensure you've navigated to the correct link, or try asking the person who gave the link to check it's correct.</p>
         <p>If you're still having difficulties, drop us a line at team@bluedot.org.</p>
       </Page>
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
   const pageName = page.name;
   switch (pageName) {
     case 'select':
-      return <SelectPersonView page={{ ...page, cohortId }} setPage={setPage} />;
+      return <SelectPersonView page={{ ...page, groupId }} setPage={setPage} />;
     case 'appJoin':
       return <AppJoinView page={page} />;
     default: {

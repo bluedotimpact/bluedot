@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CommunityValuesSection from './CommunityValuesSection';
 
 const meta = {
-  title: 'Homepage/CommunityValuesSection',
+  title: 'Website/CommunityValuesSection',
   component: CommunityValuesSection,
   parameters: {
     layout: 'fullscreen',

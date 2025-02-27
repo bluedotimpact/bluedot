@@ -24,7 +24,7 @@ This repository has the code for:
 - [miniextensions-proxy](./apps/miniextensions-proxy/) (forms.bluedot.org): Host forms on a custom domain
 - [posthog-proxy](./apps/posthog-proxy/) (analytics.k8s.bluedot.org): Reverse proxy to send analytics to PostHog
 - [storybook](./apps/storybook/) (storybook.k8s.bluedot.org): App to demo and document design system components
-- [website-25](./apps/website-25/) (website-25.k8s.bluedot.org): New public website for 2025
+- [website-25](./apps/website-25/) (website-25-production.k8s.bluedot.org): New public website for 2025
 - [website-proxy](./apps/website-proxy/) (bluedot.org): Reverse proxy to split traffic between the new and old website during migration
 - [infra](./apps/infra/): Deploying the above applications on Kubernetes
 
@@ -152,10 +152,10 @@ npm install
 
 The above should be enough to edit existing applications. To create a new Next.js app (which is _usually_ what you'll want):
 
-1. Copy an existing app folder. `frontend-example` is a good place to start because it is simple.
+1. Copy the [`app-template`](./apps/app-template/) folder.
 2. Rename the copied folder, and the name of the app in its `package.json`, then run `npm install`
 3. Add the app to infra's [serviceDefinitions.ts](./apps/infra/src/k8s/serviceDefinitions.ts)
-   - Copy the config for frontend-example, but put your app name in
+   - Copy the config for app-template, but put your app name in
    - You can remove secrets your app doesn't need (e.g. if it doesn't need to talk to Airtable or Slack)
    - If you need to add a secret, see [infra's README](./apps/infra/README.md#adding-a-secret)
 4. Commit your changes to the master branch
@@ -180,7 +180,7 @@ Inside each package folder, the common files you'll find are:
   - `npm run lint`: Check for lint issues. Visual Studio Code should usually highlight these for you already.
   - `npm run build`: Build the application. This usually finds any type errors, which Visual Studio Code should usually highlight for you already.
   - `npm run postinstall`: Perform any extra steps to setup the application for development. Usually things like creating configuration files for local development. You usually don't need to run this manually, as it runs when you run `npm install`.
-  - `npm run deploy:cd`: Actually deploy the app, usually into the production (real-world) environment. You usually don't need to run this manually, as it is run by CD tooling when you merge your changes into the master branch.
+  - `npm run deploy:cd`: Actually deploy the app, usually into the production (real-world) environment. You usually don't need to run this manually, as it is run by CD tooling when you merge your changes into the master branch. An exception is the [website-25](./apps/website-25/) app, which is deployed manually to production, see [its README](./apps/website-25/README.md) for more details.
 - `README.md`: documentation to explain what the package does, how to use it, and how to contribute
 - `src`: most of the code usually lives here. You usually want to edit files in this folder.
   - `pages`: pages in the web app. For example `pages/some-page.tsx` usually corresponds to `app.bluedot.org/some-page`. The `api` folder contains API routes rather than webpages ([learn more in the Next.js docs](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)).
@@ -217,6 +217,7 @@ In terms of tools and external libraries, we usually use:
 - Infrastructure management: [Pulumi](https://www.pulumi.com/)
 - Reverse proxies: [nginx](https://nginx.org/)
 - CI and CD: GitHub Actions via [.github](./.github/workflows/ci_cd.yaml)
+- Multistage deployments (for [website-25](./apps/website-25/README.md)): [docker-scripts](./libraries/docker-scripts/README.md) & [.github/workflows/website_deploy_production.yaml](./.github/workflows/website_deploy_production.yaml)
 - Deployment: Docker on K8s via [infra](./apps/infra/)
 
 In general, we try to keep to the above structure and tools as much as possible between packages. This reduces the mental effort required to switch between working on different packages, and eases maintenance burden. We're fans of [boring technology](https://boringtechnology.club/).
