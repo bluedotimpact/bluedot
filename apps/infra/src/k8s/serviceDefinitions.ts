@@ -166,33 +166,6 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['login-account-proxy.k8s.bluedot.org'],
   },
-  // {
-  //   name: 'bluedot-bubble-proxy',
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-bubble-proxy',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-bubble-proxy:latest',
-  //     }],
-  //   },
-  //   hosts: [
-  //     'course.aisafetyfundamentals.com',
-  //     'course.biosecurityfundamentals.com',
-  //   ],
-  // },
-  // {
-  //   name: 'bluedot-backend',
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-backend',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-backend:latest',
-  //       env: [{
-  //         name: 'DATABASE_CONNECTION_STRING',
-  //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}:5432/postgres?sslmode=no-verify`),
-  //       }],
-  //     }],
-  //   },
-  //   hosts: ['backend.bluedot.org'],
-  // },
   {
     name: 'bluedot-login',
     spec: {
