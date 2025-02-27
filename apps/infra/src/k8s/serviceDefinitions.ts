@@ -56,7 +56,7 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['website-25.k8s.bluedot.org'],
+    hosts: ['website-25-staging.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-website-25-production',
