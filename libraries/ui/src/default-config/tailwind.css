@@ -224,6 +224,16 @@
 
 @font-face {
     font-family: "Roobert";
+    src: url("/fonts/Roobert-SemiBold.woff2") format("woff2");
+    font-weight: 650;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal
+}
+
+@font-face {
+    font-family: "Roobert";
     src: url("/fonts/Roobert-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;

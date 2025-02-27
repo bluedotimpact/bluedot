@@ -17,9 +17,9 @@ const privacyPolicy: BluedotRoute = {
   parentPages: [home],
 };
 
-const careers: BluedotRoute = {
-  title: 'Join our team',
-  url: '/careers',
+const joinUs: BluedotRoute = {
+  title: 'Join us',
+  url: '/join-us',
   parentPages: [home],
 };
 
@@ -27,5 +27,5 @@ export const ROUTES = {
   home,
   about,
   privacyPolicy,
-  careers,
+  joinUs,
 } as const;

@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
-import CareersPage from '../../pages/careers';
+import JoinUsPage from '../../pages/join-us';
 
-describe('CareersPage', () => {
+describe('JoinUsPage', () => {
   test('should render correctly', () => {
-    const { container } = render(<CareersPage />);
+    const { container } = render(<JoinUsPage />);
     expect(container).toMatchSnapshot();
   });
 });

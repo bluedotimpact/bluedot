@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CareersPage > should render correctly 1`] = `
+exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
 <div>
   <div>
     <div
@@ -75,9 +75,9 @@ exports[`CareersPage > should render correctly 1`] = `
           >
             <a
               class="breadcrumbs__link"
-              href="/join-us"
+              href="/join-the-team"
             >
-              Join us
+              Join the team
             </a>
           </li>
         </ol>
@@ -436,7 +436,7 @@ exports[`CareersPage > should render correctly 1`] = `
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
                 data-testid="cta-link"
-                href="/join-us/swe-contractor"
+                href="/join-the-team/swe-contractor"
               >
                 <span
                   class="cta-button__text"
@@ -479,7 +479,7 @@ exports[`CareersPage > should render correctly 1`] = `
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
                 data-testid="cta-link"
-                href="/join-us/ai-safety-teaching-fellow"
+                href="/join-the-team/ai-safety-teaching-fellow"
               >
                 <span
                   class="cta-button__text"

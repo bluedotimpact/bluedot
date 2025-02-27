@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CareersPage > should render correctly 1`] = `
+exports[`JoinUsPage > should render correctly 1`] = `
 <div>
   <div>
     <div

@@ -7,14 +7,14 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
-import CareersSection from '../components/careers/CareersSection';
-import CultureSection from '../components/careers/CultureSection';
-import ValuesSection from '../components/careers/ValuesSection';
+import CareersSection from '../components/join-us/CareersSection';
+import CultureSection from '../components/join-us/CultureSection';
+import ValuesSection from '../components/join-us/ValuesSection';
 import { ROUTES } from '../lib/routes';
 
-const CURRENT_ROUTE = ROUTES.careers;
+const CURRENT_ROUTE = ROUTES.joinUs;
 
-const CareersPage = () => {
+const JoinUsPage = () => {
   return (
     <div>
       <Head>
@@ -36,4 +36,4 @@ const CareersPage = () => {
   );
 };
 
-export default CareersPage;
+export default JoinUsPage;
