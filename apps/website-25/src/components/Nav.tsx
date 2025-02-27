@@ -34,13 +34,15 @@ const ExploreSection: React.FC<{
   innerClassName?: string;
   className?: string;
   courses: Array<{ title: string; href: string; isNew?: boolean }>;
+  isScrolled?: boolean;
 }> = ({
-  expanded, innerClassName, className, courses,
+  expanded, innerClassName, className, courses, isScrolled,
 }) => (
   <div
     className={clsx(
       'nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300',
       expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+      isScrolled && '[&_a]:link-on-dark',
       className,
     )}
   >
@@ -97,8 +99,9 @@ const NavLinks: React.FC<{
           <ExploreSection
             expanded={exploreExpanded}
             courses={courses}
-            className={clsx('nav-links__explore-section', isScrolled && '[&_a]:link-on-dark')}
+            className="nav-links__explore-section"
             innerClassName="pl-6 pt-6"
+            isScrolled={isScrolled}
           />
         )}
       </div>
@@ -210,8 +213,9 @@ export const Nav: React.FC<NavProps> = ({
             <ExploreSection
               expanded={exploreExpanded}
               courses={courses}
-              className={clsx('nav__drawer-content--desktop', isScrolled && '[&_a:hover]:link-on-dark')}
+              className="nav__drawer-content--desktop"
               innerClassName="pb-10 hidden lg:flex mx-auto"
+              isScrolled={isScrolled}
             />
             {/* Mobile & Tablet content (including Explore) */}
             <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
