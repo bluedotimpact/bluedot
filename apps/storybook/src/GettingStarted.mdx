@@ -1,0 +1,86 @@
+# Getting Started
+
+Welcome to BlueDot Impact's Storybook! What's included here is:
+
+1. Our **Design System** - The foundational styles, colors, typography and patterns that create a consistent look and feel across our applications
+2. **Website Components** - The React components used to build our public-facing website [bluedot.org](https://bluedot.org/)
+3. **UI Components** - Our core ui library of reusable React components that power functionality across multiple BlueDot applications
+
+Use the navigation on the left to explore our components, or continue reading below for an overview of our design system.
+
+## Design System
+
+Our design system aims to be the single source of truth for designing BlueDot Impact applications. While we are just getting started, this system will grow to provide comprehensive guidance on our visual language, interaction patterns, and component usage to ensure consistency across our digital products.
+
+### Colors
+
+#### Usage
+
+Our color tokens can be used with Tailwind CSS utility classes. Here are some common patterns:
+
+- Text colors: `text-color-text`, `text-color-secondary-text`, `text-color-text-on-dark`
+- Background colors: `bg-color-canvas`, `bg-color-canvas-dark`
+- Border colors: `border-color-divider`
+- Accent colors (for interactive elements):
+  - Primary: `text-color-primary-accent`, `bg-color-primary-accent`
+  - Secondary: `text-color-secondary-accent`, `bg-color-secondary-accent`
+
+#### Color Palette
+
+import { ColorPalette, ColorItem } from '@storybook/blocks';
+  
+{(() => {
+  const colorItems = [
+    {
+      title: "Primary text",
+      subtitle: "",
+      colors: {
+        "color-text": 'var(--color-color-text)',
+        "color-text-on-dark": 'var(--color-color-text-on-dark)'
+      }
+    },
+    {
+      title: "Secondary text",
+      subtitle: "For titles",
+      colors: {
+        "color-secondary-text": 'var(--color-color-secondary-text)'
+      }
+    },
+    {
+      title: "Background",
+      subtitle: "",
+      colors: {
+        "color-canvas": 'var(--color-color-canvas)',
+        "color-canvas-dark": 'var(--color-color-canvas-dark)'
+      }
+    },
+    {
+      title: "Accent", 
+      subtitle: "For buttons & links",
+      colors: {
+        "color-primary-accent": 'var(--color-color-primary-accent)',
+        "color-secondary-accent": 'var(--color-color-secondary-accent)'
+      }
+    },
+    {
+      title: "Divider",
+      subtitle: "For borders & dividers", 
+      colors: {
+        "color-divider": 'var(--color-color-divider)'
+      }
+    }
+  ];
+
+  return (
+    <ColorPalette>
+      {colorItems.map((item, index) => (
+        <ColorItem
+          key={index}
+          title={item.title}
+          subtitle={item.subtitle}
+          colors={item.colors}
+        />
+      ))}
+    </ColorPalette>
+  );
+})()}
