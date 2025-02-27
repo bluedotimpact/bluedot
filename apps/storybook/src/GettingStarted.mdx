@@ -141,3 +141,40 @@ Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `
     </Unstyled>
   );
 })()}
+
+### Border Radius
+
+We have two border radius tokens: `radius-sm` and `radius-md`. 
+
+You can use `rounded-` Tailwind CSS utility classes to create rounded corners on your components.
+
+<Unstyled>
+  <p className="p-8 max-w-64 bg-color-canvas rounded-radius-md border-color-divider border-1">
+    <p className="mb-4 text-color-text">rounded-radius-md</p>
+    <p className="p-4 max-w-48 bg-color-canvas-dark text-color-text-on-dark rounded-radius-sm border-color-divider border-1">
+      <p className="text-color-text-on-dark">rounded-radius-sm</p>
+    </p>
+  </p>
+</Unstyled>
+
+### Elevation
+
+Use `container-lined`, `container-elevated`, `container-dialog` classes to create containers with different elevations.
+
+<Unstyled>
+  <div className="bg-color-canvas m-10 min-h-24 container-lined flex justify-center items-center max-w-64">
+    <p className="text-color-text text-center">container-lined</p>
+  </div>
+  <div className="bg-color-canvas m-10 min-h-24 container-elevated flex justify-center items-center max-w-64">
+    <p className="text-color-text text-center">container-elevated</p>
+  </div>
+  <div className="bg-color-canvas m-10 min-h-24 container-dialog flex justify-center items-center max-w-64">
+    <p className="text-color-text">container-dialog</p>
+  </div>
+</Unstyled>
+
+### Resources
+
+- [Figma Design System](https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File?node-id=879-4824&p=f&t=yE5UK7Td8Q18PE37-0)
+- [Github/tailwind.css](https://github.com/bluedotimpact/bluedot/blob/master/libraries/ui/src/default-config/tailwind.css)
+- [Github/globals.css](https://github.com/bluedotimpact/bluedot/blob/master/apps/website-25/src/globals.css)
