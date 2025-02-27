@@ -167,19 +167,6 @@ export const services: ServiceDefinition[] = [
     hosts: ['login-account-proxy.k8s.bluedot.org'],
   },
   // {
-  //   name: 'bluedot-bubble-proxy',
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-bubble-proxy',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-bubble-proxy:latest',
-  //     }],
-  //   },
-  //   hosts: [
-  //     'course.aisafetyfundamentals.com',
-  //     'course.biosecurityfundamentals.com',
-  //   ],
-  // },
-  // {
   //   name: 'bluedot-backend',
   //   spec: {
   //     containers: [{
