@@ -84,3 +84,26 @@ import { ColorPalette, ColorItem } from '@storybook/blocks';
     </ColorPalette>
   );
 })()}
+
+### Typography
+
+You may use `text-size-` classes for different text sizes, from `text-size-xxs` for the smallest text to `text-size-xl` for the largest text.
+
+For convenience we also ship prestyled `<h1>` through `<h4>`, `<p>`, `<blockquote>`, `<a>` tags that you can use in your React components. 
+
+Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `.subtitle-sm`, `.body` & `.link` utility classes.
+
+```jsx
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<div class="title">Title</div> <!-- Same as h2 -->
+<h3>Heading 3</h3>
+<div class="subtitle">Subtitle</div> <!-- Same as h3 -->
+<h4>Heading 4</h4>
+<div class="subtitle-sm">Subtitle Small</div> <!-- Same as h4 -->
+<p>Paragraph</p>
+<div class="body">Body</div> <!-- Same as p -->
+<blockquote>Blockquote</blockquote>
+<a href="#">Link</a>
+<span class="link">Link</span> <!-- Same as a -->
+```
