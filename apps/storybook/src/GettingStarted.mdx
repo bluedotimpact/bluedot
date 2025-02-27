@@ -1,3 +1,5 @@
+import { ColorPalette, ColorItem, Unstyled } from '@storybook/blocks';
+
 # Getting Started
 
 Welcome to BlueDot Impact's Storybook! What's included here is:
@@ -26,8 +28,6 @@ Our color tokens are built to be used with Tailwind CSS utility classes. Here ar
   - Secondary: `text-color-secondary-accent`, `bg-color-secondary-accent`
 
 #### Color Palette
-
-import { ColorPalette, ColorItem } from '@storybook/blocks';
   
 {(() => {
   const colorItems = [
@@ -96,14 +96,48 @@ Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `
 ```jsx
 <h1>Heading 1</h1>
 <h2>Heading 2</h2>
-<div class="title">Title</div> <!-- Same as h2 -->
+<div className="title">Title</div> <!-- Same as h2 -->
 <h3>Heading 3</h3>
-<div class="subtitle">Subtitle</div> <!-- Same as h3 -->
+<div className="subtitle">Subtitle</div> <!-- Same as h3 -->
 <h4>Heading 4</h4>
-<div class="subtitle-sm">Subtitle Small</div> <!-- Same as h4 -->
+<div className="subtitle-sm">Subtitle Small</div> <!-- Same as h4 -->
 <p>Paragraph</p>
-<div class="body">Body</div> <!-- Same as p -->
-<blockquote>Blockquote</blockquote>
+<div className="body">Body</div> <!-- Same as p -->
 <a href="#">Link</a>
-<span class="link">Link</span> <!-- Same as a -->
+<span className="link">Link</span> <!-- Same as a -->
+<blockquote>Blockquote</blockquote>
 ```
+
+#### Text Sizes
+{(() => {
+  return (
+    <Unstyled>
+      <div className="flex flex-col gap-2 space-y-2">
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xl</div>
+          <div className="text-size-xl">Our work</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">lg</div>
+          <div className="text-size-lg">Our commitment to AI Safety</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">md</div>
+          <div className="text-size-md">When do your courses run?</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">sm</div>
+          <div className="text-size-sm">Our online community brings together 4,500+ professionals across 100+ countries</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xs</div>
+          <div className="text-size-xs">BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xxs</div>
+          <div className="text-size-xxs">Start your AI safety journey with our Intro to Transformative AI course, designed by experts to accelerate your understanding of key AI safety concepts.</div>
+        </div>
+      </div>
+    </Unstyled>
+  );
+})()}
