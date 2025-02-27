@@ -3,7 +3,6 @@ import {
   HeroSection,
   HeroH1,
   HeroCTAContainer,
-  Section,
   Breadcrumbs,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -37,10 +36,6 @@ const AboutPage = () => {
       <HistorySection />
       <TeamSection />
       <JoinUsCta />
-      <Section
-        title="Contact us"
-        subtitle={<>We love hearing from people, and are keen for people to reach out to us with any questions or feedback!<br /><br />Email us at <a href="mailto:team@bluedot.org">team@bluedot.org</a>.</>}
-      />
     </div>
   );
 };
