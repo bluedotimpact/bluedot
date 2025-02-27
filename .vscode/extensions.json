@@ -5,5 +5,6 @@
         "bradlc.vscode-tailwindcss",
         "figma.figma-vscode-extension",
         "yzhang.markdown-all-in-one",
+        "unifiedjs.vscode-mdx",
     ]
 }
