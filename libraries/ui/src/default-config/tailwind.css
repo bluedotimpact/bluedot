@@ -113,6 +113,18 @@
     @apply w-full max-w-max-width mx-auto px-spacing-x pt-6 pb-10 border-b border-color-divider overflow-hidden flex flex-col;
 }
 
+@utility nav-link-animation {
+    @apply relative transition-[translate] duration-200;
+    @apply hover:text-current hover:-translate-y-[4px];
+    /* underline is applied by ::after psuedoelement for consistency across text and incorporated SVGs */
+    @apply after:content-[""] after:invisible after:absolute after:bg-bluedot-normal after:transition-[translate] after:duration-200 after:left-0 after:bottom-0 after:w-full after:h-[2px];
+    @apply hover:after:visible hover:after:translate-y-[4px];
+}
+
+@utility nav-link-animation-dark {
+    @apply after:bg-bluedot-lighter;
+}
+
 :root {
     --bluedot-lighter: #CCD7FF;
     --bluedot-light: #6687FF;
