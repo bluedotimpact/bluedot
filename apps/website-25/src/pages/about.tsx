@@ -4,6 +4,7 @@ import {
   HeroH1,
   HeroCTAContainer,
   Breadcrumbs,
+  Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
@@ -36,6 +37,10 @@ const AboutPage = () => {
       <HistorySection />
       <TeamSection />
       <JoinUsCta />
+      <Section title="Contact us">
+        <p>We love hearing from people, and are keen for people to reach out to us with any questions or feedback!</p>
+        <CTALinkOrButton url={ROUTES.contact.url} variant="secondary" withChevron className="mt-5">Contact us</CTALinkOrButton>
+      </Section>
     </div>
   );
 };
