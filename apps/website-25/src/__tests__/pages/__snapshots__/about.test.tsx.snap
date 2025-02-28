@@ -978,6 +978,50 @@ exports[`AboutPage > should render the error message correctly 1`] = `
         </a>
       </div>
     </div>
+    <section
+      class="section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em]"
+          >
+            Contact us
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <p>
+          We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
+        </p>
+        <a
+          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
+          data-testid="cta-link"
+          href="/contact"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Contact us
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <img
+              alt="→"
+              class="cta-button__chevron-icon size-2"
+              src="/icons/chevron_blue.svg"
+            />
+          </span>
+        </a>
+      </div>
+    </section>
   </div>
 </div>
 `;
