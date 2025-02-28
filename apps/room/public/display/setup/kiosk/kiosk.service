@@ -8,6 +8,8 @@ After=graphical.target
 [Service]
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+Environment=XDG_RUNTIME_DIR=/run/user/1000
 Type=simple
 ExecStart=/bin/bash /home/pi/kiosk.sh
 Restart=always
