@@ -43,16 +43,11 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
       res,
     ) => {
       try {
-        if (opts.requestBody?.isOptional()) {
-          // eslint-disable-next-line no-param-reassign
-          opts.requestBody = z.union([opts.requestBody, EmptyBodySchema]) as ZodType as ReqZT;
-        }
-
         const optsFull: Required<RouteOptions<ReqZT, ResZT, RequiresAuth>> = {
-          requestBody: EmptyBodySchema as ZodType as ReqZT,
           responseBody: z.literal(undefined) as ZodType as ResZT,
           requireAuth: true as RequiresAuth,
           ...opts,
+          requestBody: (opts.requestBody?.isOptional() ? z.union([opts.requestBody, EmptyBodySchema]) : EmptyBodySchema) as ZodType as ReqZT,
         };
 
         const auth = await getAuth(req, optsFull.requireAuth, verifyAndDecodeToken);
