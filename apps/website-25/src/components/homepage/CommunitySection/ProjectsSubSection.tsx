@@ -43,7 +43,7 @@ const projects: Project[] = [
 
 const ProjectsSubSection = () => {
   return (
-    <div className="projects p-6 container-lined flex flex-col">
+    <div className="projects p-6 container-lined flex flex-col mb-spacing-y">
       <SectionHeading
         title="Course Projects"
         titleLevel="h3"

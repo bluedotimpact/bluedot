@@ -47,7 +47,10 @@ export const SlideList: React.FC<SlideListProps> = ({
     return cleanup;
   }, []);
 
-  const itemsFitPerRow = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
+  // On the first render, we won't have a `measuredContainerWidth`. Fall back
+  // to 1400px as a value close to the max column width, so that the first render will tend to
+  // start of un-collapsed (to avoid layout shift)
+  const itemsFitPerRow = Math.max(1, Math.floor((measuredContainerWidth ?? 1400) / minItemWidth));
   const itemsPerSlide = Math.max(1, Math.min(itemsFitPerRow, maxItemsPerSlide));
 
   // Handle scroll events -> update progress bar

@@ -31,8 +31,8 @@ const testimonials: Testimonial[] = [
 
 const TestimonialSection = () => {
   return (
-    <div className="testimonial-section">
-      <SectionHeading title="What our graduates say" className="testimonial-section__heading" />
+    <div className="testimonial-section pb-spacing-y">
+      <SectionHeading title="What our graduates say" titleLevel="h3" className="testimonial-section__heading" />
       <SlideList
         maxItemsPerSlide={3}
         maxRows={1}

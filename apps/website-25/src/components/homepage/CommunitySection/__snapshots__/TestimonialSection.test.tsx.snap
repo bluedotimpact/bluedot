@@ -3,7 +3,7 @@
 exports[`TestimonialSection > renders as expected 1`] = `
 <div>
   <div
-    class="testimonial-section"
+    class="testimonial-section pb-spacing-y"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6 testimonial-section__heading"
@@ -11,11 +11,11 @@ exports[`TestimonialSection > renders as expected 1`] = `
       <div
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
-        <h2
+        <h3
           class="section-heading__title relative ml-[-0.08em]"
         >
           What our graduates say
-        </h2>
+        </h3>
       </div>
     </div>
     <div

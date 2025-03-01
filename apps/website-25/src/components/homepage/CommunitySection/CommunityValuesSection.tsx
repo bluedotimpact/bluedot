@@ -21,7 +21,7 @@ const values = [
 
 const CommunityValuesSection = () => {
   return (
-    <div className="community-values-section">
+    <div className="community-values-section pb-spacing-y">
       <SectionHeading title="Our community" className="community-values-section__heading" />
       <SlideList maxItemsPerSlide={4} className="community-values-section__values">
         {values.map((value) => (

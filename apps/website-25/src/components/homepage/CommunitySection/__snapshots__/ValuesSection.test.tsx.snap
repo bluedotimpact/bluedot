@@ -3,7 +3,7 @@
 exports[`CommunityValuesSection > renders default as expected 1`] = `
 <div>
   <div
-    class="community-values-section"
+    class="community-values-section pb-spacing-y"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6 community-values-section__heading"

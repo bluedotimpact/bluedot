@@ -3,7 +3,7 @@
 exports[`ProjectsSubSection > renders as expected 1`] = `
 <div>
   <div
-    class="projects p-6 container-lined flex flex-col"
+    class="projects p-6 container-lined flex flex-col mb-spacing-y"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6 projects__heading"
