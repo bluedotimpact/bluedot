@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { cohortClassTable, zoomAccountTable } from '../../../lib/api/db';
+import db, { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db';
 import env from '../../../lib/api/env';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingJwtRequest = {
-  cohortClassId: string,
+  groupDiscussionId: string,
   participantId?: string,
 };
 
@@ -30,14 +30,14 @@ export default apiRoute(async (
   req: NextApiRequest,
   res: NextApiResponse<MeetingJwtResponse>,
 ) => {
-  const cohortClass = await db.get(cohortClassTable, req.body.cohortClassId);
-  if (req.body.participantId && !cohortClass.Attendees.includes(req.body.participantId)) {
-    await db.update(cohortClassTable, { ...cohortClass, Attendees: [...cohortClass.Attendees, req.body.participantId] });
+  const groupDiscussion = await db.get(groupDiscussionTable, req.body.groupDiscussionId);
+  if (req.body.participantId && !groupDiscussion.Attendees.includes(req.body.participantId)) {
+    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, req.body.participantId] });
   }
-  if (!cohortClass['Zoom account']) {
-    throw new createHttpError.InternalServerError(`Cohort class ${cohortClass.id} missing Zoom account`);
+  if (!groupDiscussion['Zoom account']) {
+    throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
   }
-  const zoomAccount = await db.get(zoomAccountTable, cohortClass['Zoom account']);
+  const zoomAccount = await db.get(zoomAccountTable, groupDiscussion['Zoom account']);
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount['Meeting link']);
 
   const issuedAt = Math.round(Date.now() / 1000);
@@ -45,7 +45,7 @@ export default apiRoute(async (
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,
-    role: cohortClass.Facilitators.includes(req.body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
+    role: groupDiscussion.Facilitators.includes(req.body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
     iat: issuedAt,
     exp: expiresAt,
     tokenExp: expiresAt,

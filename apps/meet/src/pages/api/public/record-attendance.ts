@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { cohortClassTable } from '../../../lib/api/db';
+import db, { groupDiscussionTable } from '../../../lib/api/db';
 
 export type RecordAttendanceRequest = {
-  cohortClassId: string,
+  groupDiscussionId: string,
   participantId: string,
   reason?: string,
 };
@@ -19,8 +19,8 @@ export default apiRoute(async (
   req: NextApiRequest,
   res: NextApiResponse<RecordAttendanceResponse>,
 ) => {
-  if (!req.body.cohortClassId) {
-    res.status(400).json({ type: 'error', message: 'Missing cohort class id.' });
+  if (!req.body.groupDiscussionId) {
+    res.status(400).json({ type: 'error', message: 'Missing group discussion id.' });
     return;
   }
   if (!req.body.participantId) {
@@ -28,9 +28,9 @@ export default apiRoute(async (
     return;
   }
 
-  const cohortClass = await db.get(cohortClassTable, req.body.cohortClassId);
-  if (!cohortClass.Attendees.includes(req.body.participantId)) {
-    await db.update(cohortClassTable, { ...cohortClass, Attendees: [...cohortClass.Attendees, req.body.participantId] });
+  const groupDiscussion = await db.get(groupDiscussionTable, req.body.groupDiscussionId);
+  if (!groupDiscussion.Attendees.includes(req.body.participantId)) {
+    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, req.body.participantId] });
   }
 
   res.status(200).json({

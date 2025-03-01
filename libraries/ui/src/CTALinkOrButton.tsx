@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import { EXTERNAL_LINK_PROPS } from './utils';
+import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 
 export type CTAProps = {
   className?: string;

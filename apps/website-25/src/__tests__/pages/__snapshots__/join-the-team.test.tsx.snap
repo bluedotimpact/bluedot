@@ -1,0 +1,506 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
+<div>
+  <div>
+    <div
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+    >
+      <div
+        class="hero-section__content max-w-[865px] mt-[82px] py-16"
+      >
+        <div
+          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+        >
+          Join Us
+        </div>
+        <h1
+          class="hero-section__title text-on-dark text-center"
+        >
+          Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+        </h1>
+        <div
+          class="flex justify-center mt-8"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            data-testid="cta-link"
+            href="#open-roles-anchor"
+          >
+            <span
+              class="cta-button__text"
+            >
+              See open roles
+            </span>
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <img
+                alt="→"
+                class="cta-button__chevron-icon size-2"
+                src="/icons/chevron_white.svg"
+              />
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="breadcrumbs border-b border-color-divider w-full py-space-between"
+    >
+      <nav
+        aria-label="Breadcrumbs"
+        class="breadcrumbs__nav section-base"
+      >
+        <ol
+          class="breadcrumbs__list flex"
+        >
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/"
+            >
+              Home
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/join-the-team"
+            >
+              Join the team
+            </a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <section
+      class="section section-body culture-section"
+    >
+      <div
+        class="section__body"
+      >
+        <div
+          class="culture-section__container flex lg:flex-row flex-col gap-space-between"
+        >
+          <div
+            class="culture-section__text-container flex flex-col gap-5 max-w-[436px]"
+          >
+            <div
+              class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+            >
+              <div
+                class="section-heading__content flex-1 flex flex-col gap-2"
+              >
+                <h2
+                  class="section-heading__title relative ml-[-0.08em]"
+                >
+                  Our culture
+                </h2>
+              </div>
+            </div>
+            <p>
+              At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
+            </p>
+            <p>
+              But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
+            </p>
+            <p>
+              We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
+            </p>
+          </div>
+          <div
+            class="culture-section__image-grid grid mt-6 grid-cols-2 gap-x-2 gap-y-4 sm:mt-0 sm:grid-cols-3 sm:gap-4"
+          >
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_dewi_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_talking_v2.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_happy_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_will_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_prod-eng_v1.jpeg"
+            />
+            <img
+              alt="BlueDot Impact team"
+              class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
+              src="/images/culture/culture_keyboard_v1.jpeg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="slide-list w-full flex flex-col values-section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em]"
+          >
+            Our values
+          </h2>
+        </div>
+        <div
+          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div
+        class="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch"
+      >
+        <div
+          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
+        >
+          <div
+            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+          <div
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          >
+            <div
+              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
+            />
+          </div>
+          <div
+            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
+            style="scroll-padding-inline: 0px;"
+          >
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Think hard, act fast, fail faster"
+                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/values/think.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Think hard, act fast, fail faster
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Care personally, challenge directly"
+                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/values/care.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Care personally, challenge directly
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      We care about our team and our community, and we hold everyone to high standards.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Obsessed with empowering problem-solvers"
+                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    src="/images/values/powering.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title subtitle-sm mb-2"
+                    >
+                      Obsessed with empowering problem-solvers
+                    </p>
+                    <p
+                      class="card__subtitle "
+                    >
+                      We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section
+      class="section section-body careers-section"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em]"
+          >
+            Careers at BlueDot Impact
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="invisible relative bottom-48"
+          id="open-roles-anchor"
+        />
+        <div
+          class="careers-section__container flex flex-col gap-8"
+        >
+          <div
+            class="careers-section__listing"
+          >
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
+            >
+              <strong
+                class="careers-section__title basis-[33%]"
+              >
+                Software Engineering Contractor
+              </strong>
+              <p
+                class="careers-section__location"
+              >
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="/join-the-team/swe-contractor"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="careers-section__listing"
+          >
+            <div
+              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
+            >
+              <strong
+                class="careers-section__title basis-[33%]"
+              >
+                AI Safety Teaching Fellow
+              </strong>
+              <p
+                class="careers-section__location"
+              >
+                London, Remote
+              </p>
+              <p
+                class="careers-section__type"
+              >
+                Permanent
+              </p>
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                data-testid="cta-link"
+                href="/join-the-team/ai-safety-teaching-fellow"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Apply now
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_blue.svg"
+                  />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;

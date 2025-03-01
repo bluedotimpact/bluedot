@@ -12,11 +12,11 @@ export type SelectPersonViewProps = {
   setPage: (page: PageState) => void,
 };
 
-const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId }, setPage }) => {
+const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, setPage }) => {
   const [{ data, loading, error }] = useAxios<MeetingParticipantsResponse, MeetingParticipantsRequest>({
     method: 'post',
     url: '/api/public/meeting-participants',
-    data: { cohortId },
+    data: { groupId },
   });
 
   if (loading) {
@@ -55,14 +55,14 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
           && (
             <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
               <p className="font-bold mb-1">Heads up, you're a little early.</p>
-              <p>Your next session is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
+              <p>Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
             </div>
           )}
       {(data.meetingEndTime + 10 * 60 < (Date.now() / 1000))
           && (
             <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
-              <p className="font-bold mb-1">Heads up, your session has passed its scheduled end time.</p>
-              <p>Your session ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
+              <p className="font-bold mb-1">Heads up, your discussion has passed its scheduled end time.</p>
+              <p>Your discussion ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
             </div>
           )}
       <div className="grid gap-2 sm:w-1/2">
@@ -73,7 +73,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { cohortId },
               await axios<RecordAttendanceResponse, AxiosResponse<MeetingParticipantsResponse>, RecordAttendanceRequest>({
                 method: 'POST',
                 url: '/api/public/record-attendance',
-                data: { cohortClassId: data.cohortClassId, participantId: participant.id },
+                data: { groupDiscussionId: data.groupDiscussionId, participantId: participant.id },
               });
               setPage({
                 name: 'appJoin',
