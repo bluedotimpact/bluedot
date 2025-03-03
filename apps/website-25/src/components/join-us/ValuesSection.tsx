@@ -1,4 +1,4 @@
-import { Card } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const values = [
@@ -21,15 +21,16 @@ const values = [
 
 const ValuesSection = () => {
   return (
-    <SlideList
-      title="Our values"
-      maxItemsPerSlide={3}
-      className="values-section section-body"
-    >
-      {values.map((value) => (
-        <Card {...value} className="values-section__value" />
-      ))}
-    </SlideList>
+    <Section title="Our values" className="values-section">
+      <SlideList
+        maxItemsPerSlide={3}
+        className="values-section__values"
+      >
+        {values.map((value) => (
+          <Card key={value.title} {...value} className="values-section__value" />
+        ))}
+      </SlideList>
+    </Section>
   );
 };
 

@@ -7,16 +7,15 @@ type BaseProps = {
   titleLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   subtitle?: React.ReactNode;
   subtitleLevel?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  rightNode?: React.ReactNode;
 };
 
 export type SectionHeadingProps = BaseProps;
 export type SectionProps = React.PropsWithChildren<BaseProps>;
 
 export const SectionHeading: React.FC<BaseProps> = ({
-  title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', rightNode, className,
+  title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', className,
 }) => {
-  if (!title && !subtitle && !rightNode) return null;
+  if (!title && !subtitle) return null;
 
   const HeadingTag = titleLevel;
   const SubtitleTag = subtitleLevel;
@@ -34,13 +33,12 @@ export const SectionHeading: React.FC<BaseProps> = ({
           <SubtitleTag className="section-heading__subtitle text-bluedot-darker text-md">{subtitle}</SubtitleTag>
         )}
       </div>
-      {rightNode}
     </div>
   );
 };
 
 export const Section: React.FC<SectionProps> = ({
-  className, title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', rightNode, children,
+  className, title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', children,
 }) => {
   return (
     <section className={clsx('section section-body', className)}>
@@ -49,7 +47,6 @@ export const Section: React.FC<SectionProps> = ({
         titleLevel={titleLevel}
         subtitle={subtitle}
         subtitleLevel={subtitleLevel}
-        rightNode={rightNode}
       />
       <div className="section__body">
         {children}

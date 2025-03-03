@@ -2,26 +2,22 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import clsx from 'clsx';
-import { type SectionHeadingProps, SectionHeading } from './Section';
+import { isMobile } from 'react-device-detect';
 
 export type SlideListProps = {
   className?: string;
   children: React.ReactNode;
-  featuredSlot?: React.ReactNode;
   maxItemsPerSlide?: number;
   minItemWidth?: number;
-} & SectionHeadingProps;
+  maxRows?: number;
+};
 
 export const SlideList: React.FC<SlideListProps> = ({
   className,
   children,
-  featuredSlot,
   maxItemsPerSlide = 1,
   minItemWidth = 260,
-  title,
-  titleLevel,
-  subtitle,
-  subtitleLevel,
+  maxRows = 2,
 }) => {
   const slidesRef = useRef<HTMLDivElement | null>(null);
   const [measuredContainerWidth, setMeasuredContainerWidth] = useState<number | null>(null);
@@ -51,8 +47,11 @@ export const SlideList: React.FC<SlideListProps> = ({
     return cleanup;
   }, []);
 
-  const itemsFit = Math.max(1, Math.floor((measuredContainerWidth ?? 800) / minItemWidth));
-  const itemsPerSlide = Math.max(1, Math.min(itemsFit, maxItemsPerSlide));
+  // On the first render, we won't have a `measuredContainerWidth`. Fall back
+  // to 1400px as a value close to the max column width, so that the first render will tend to
+  // start of un-collapsed (to avoid layout shift)
+  const itemsFitPerRow = Math.max(1, Math.floor((measuredContainerWidth ?? 1400) / minItemWidth));
+  const itemsPerSlide = Math.max(1, Math.min(itemsFitPerRow, maxItemsPerSlide));
 
   // Handle scroll events -> update progress bar
   useEffect(() => {
@@ -103,7 +102,7 @@ export const SlideList: React.FC<SlideListProps> = ({
   }, [itemsPerSlide]);
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement[];
-  const allChildrenFit = childrenArray.length <= itemsPerSlide;
+  const allChildrenFit = childrenArray.length <= itemsPerSlide * maxRows;
 
   // If there are multiple slides, show 15% of the next card to signal that the section is scrollable
   const peekAdjustment = allChildrenFit ? '1' : `(1 - ${0.15 / itemsPerSlide})`;
@@ -111,28 +110,11 @@ export const SlideList: React.FC<SlideListProps> = ({
   // Threshold for scrolling to the next item when tabbing through the list, only needs to be approximate
   const scrollPaddingPx = `${(measuredContainerWidth ?? minItemWidth * itemsPerSlide) * 0.15}px`;
 
-  const PrevButton = (
-    <SlideListBtn
-      onClick={() => scrollTo('previous')}
-      disabled={scrollPercent === 0}
-      ariaLabel="Previous slide"
-      direction="previous"
-    />
-  );
-  const NextButton = (
-    <SlideListBtn
-      onClick={() => scrollTo('next')}
-      disabled={scrollPercent === 100}
-      ariaLabel="Next slide"
-      direction="next"
-    />
-  );
-
   const scrollBarWidth = `${100 * (itemsPerSlide / childrenArray.length)}%`;
   const scrollBarLeft = `calc((100% - ${scrollBarWidth}) * ${scrollPercent / 100})`;
 
   const ScrollBar = (
-    <div className="slide-list__progress w-full relative h-1 mb-1">
+    <div className="slide-list__progress w-full relative h-1">
       <div className="slide-list__progress-track absolute h-px top-px w-full bg-color-divider" />
       <div
         className="slide-list__progress-track absolute h-full bg-bluedot-normal"
@@ -145,79 +127,60 @@ export const SlideList: React.FC<SlideListProps> = ({
   );
 
   return (
-    <div
-      className={clsx(
-        'slide-list w-full flex flex-col',
-        className,
-      )}
-    >
-      <SectionHeading
-        title={title}
-        titleLevel={titleLevel}
-        subtitle={subtitle}
-        subtitleLevel={subtitleLevel}
-        rightNode={
-          !allChildrenFit && (
+    <div className={clsx('slide-list relative overflow-hidden flex flex-col gap-space-between', className)}>
+      <div className="slide-list__gradient-wrapper relative flex-1">
+        {!allChildrenFit && (
+          <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
             <div
               className={clsx(
-                'slide-list__nav--header items-center gap-2 ml-auto mt-auto',
-                // Hide if there is a featuredSlot directly underneath
-                featuredSlot ? 'hidden lg:flex' : 'flex',
+                'slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50',
+                scrollPercent < 95 ? 'right-0 bg-linear-to-l' : 'left-0 bg-linear-to-r',
               )}
-            >
-              {PrevButton}
-              {NextButton}
-            </div>
-          )
-        }
-      />
-      <div className="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch">
-        {featuredSlot}
-
-        <div className="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between">
-          {!allChildrenFit && (
-            <div
-              className={clsx(
-                'slide-list__nav--container items-center justify-end gap-2',
-                featuredSlot ? 'lg:hidden flex' : 'hidden',
-              )}
-            >
-              {PrevButton}
-              {NextButton}
-            </div>
-          )}
-          {!allChildrenFit && (
-            <div className="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex">
-              {scrollPercent > 1 && (
-                <div className="slide-list__gradient-left absolute inset-y-0 left-0 w-8 bg-linear-to-r from-cream-normal to-transparent opacity-50" />
-              )}
-              {scrollPercent < 99 && (
-                <div className="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50" />
-              )}
-            </div>
-          )}
-
-          <div
-            ref={slidesRef}
-            className="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
-            style={{ scrollPaddingInline: scrollPaddingPx }}
-          >
-            {React.Children.map(children, (child) => (
-              <div
-                className="slide-list__slide shrink-0 snap-start"
-                style={{
-                  width: itemWidth,
-                  scrollMarginLeft: `-${scrollPaddingPx}`,
-                }}
-              >
-                {child}
-              </div>
-            ))}
+            />
           </div>
+        )}
 
-          {!allChildrenFit && itemsPerSlide > 1 && ScrollBar}
+        <div
+          ref={slidesRef}
+          className={clsx(
+            'slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y',
+            'scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory',
+            allChildrenFit && 'flex-wrap',
+          )}
+          style={{ scrollPaddingInline: scrollPaddingPx }}
+        >
+          {React.Children.map(children, (child) => (
+            <div
+              className="slide-list__slide shrink-0 snap-start"
+              data-width={itemWidth} // style.width can't be picked up in tests, so add it as an attr that can be read
+              style={{
+                width: itemWidth,
+                scrollMarginLeft: `-${scrollPaddingPx}`,
+              }}
+            >
+              {child}
+            </div>
+          ))}
         </div>
       </div>
+
+      {!allChildrenFit && !isMobile && (
+        <div className="flex justify-between items-center gap-space-between">
+          <SlideListBtn
+            onClick={() => scrollTo('previous')}
+            disabled={scrollPercent === 0}
+            ariaLabel="Previous slide"
+            direction="previous"
+          />
+          {ScrollBar}
+          <SlideListBtn
+            onClick={() => scrollTo('next')}
+            disabled={scrollPercent === 100}
+            ariaLabel="Next slide"
+            direction="next"
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -236,9 +199,9 @@ export const SlideListBtn: React.FC<{
     disabled={disabled}
     className={clsx(
       'slide-list__nav-button',
-      'p-3 border rounded-lg transition-colors',
+      'p-3 border rounded-lg transition-colors m-[3px] mt-0',
       'border-charcoal-light text-black',
-      'hover:bg-gray-50',
+      'hover:bg-gray-50 hover:cursor-pointer',
       'active:bg-gray-100',
       'disabled:opacity-50 disabled:cursor-not-allowed',
       'focus:outline-hidden focus:ring-2 focus:ring-bluedot-light',

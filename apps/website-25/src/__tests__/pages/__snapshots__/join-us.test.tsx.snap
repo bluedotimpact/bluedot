@@ -155,8 +155,8 @@ exports[`JoinUsPage > should render correctly 1`] = `
         </div>
       </div>
     </section>
-    <div
-      class="slide-list w-full flex flex-col values-section section-body"
+    <section
+      class="section section-body values-section"
     >
       <div
         class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -170,62 +170,146 @@ exports[`JoinUsPage > should render correctly 1`] = `
             Our values
           </h2>
         </div>
-        <div
-          class="slide-list__nav--header items-center gap-2 ml-auto mt-auto flex"
-        >
-          <button
-            aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            disabled=""
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-          <button
-            aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-        </div>
       </div>
       <div
-        class="slide-list__content flex flex-col lg:flex-row gap-space-between items-stretch"
+        class="section__body"
       >
         <div
-          class="slide-list__container relative overflow-hidden flex-1 flex flex-col gap-space-between"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between values-section__values"
         >
           <div
-            class="slide-list__nav--container items-center justify-end gap-2 hidden"
+            class="slide-list__gradient-wrapper relative flex-1"
+          >
+            <div
+              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+            >
+              <div
+                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+              />
+            </div>
+            <div
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              style="scroll-padding-inline: 0px;"
+            >
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                >
+                  <div
+                    class="card__image-container w-full mb-4"
+                  >
+                    <img
+                      alt="Think hard, act fast, fail faster"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      src="/images/values/think.png"
+                    />
+                  </div>
+                  <div
+                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  >
+                    <div
+                      class="card__text"
+                    >
+                      <p
+                        class="card__title subtitle-sm mb-2"
+                      >
+                        Think hard, act fast, fail faster
+                      </p>
+                      <p
+                        class="card__subtitle "
+                      >
+                        We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                >
+                  <div
+                    class="card__image-container w-full mb-4"
+                  >
+                    <img
+                      alt="Care personally, challenge directly"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      src="/images/values/care.png"
+                    />
+                  </div>
+                  <div
+                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  >
+                    <div
+                      class="card__text"
+                    >
+                      <p
+                        class="card__title subtitle-sm mb-2"
+                      >
+                        Care personally, challenge directly
+                      </p>
+                      <p
+                        class="card__subtitle "
+                      >
+                        We care about our team and our community, and we hold everyone to high standards.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                >
+                  <div
+                    class="card__image-container w-full mb-4"
+                  >
+                    <img
+                      alt="Obsessed with empowering problem-solvers"
+                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      src="/images/values/powering.png"
+                    />
+                  </div>
+                  <div
+                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  >
+                    <div
+                      class="card__text"
+                    >
+                      <p
+                        class="card__title subtitle-sm mb-2"
+                      >
+                        Obsessed with empowering problem-solvers
+                      </p>
+                      <p
+                        class="card__subtitle "
+                      >
+                        We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between items-center gap-space-between"
           >
             <button
               aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
               disabled=""
               type="button"
             >
@@ -243,9 +327,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 />
               </svg>
             </button>
+            <div
+              class="slide-list__progress w-full relative h-1"
+            >
+              <div
+                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+              />
+              <div
+                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
+                style="width: 33.33333333333333%;"
+              />
+            </div>
             <button
               aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors border-charcoal-light text-black hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
               type="button"
             >
               <svg
@@ -263,129 +358,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
               </svg>
             </button>
           </div>
-          <div
-            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
-          >
-            <div
-              class="slide-list__gradient-right absolute inset-y-0 right-0 w-8 bg-linear-to-l from-cream-normal to-transparent opacity-50"
-            />
-          </div>
-          <div
-            class="slide-list__slides flex overflow-x-scroll scrollbar-hidden transition-transform duration-300 gap-space-between snap-x snap-mandatory"
-            style="scroll-padding-inline: 0px;"
-          >
-            <div
-              class="slide-list__slide shrink-0 snap-start"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Think hard, act fast, fail faster"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
-                    src="/images/values/think.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title subtitle-sm mb-2"
-                    >
-                      Think hard, act fast, fail faster
-                    </p>
-                    <p
-                      class="card__subtitle "
-                    >
-                      We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Care personally, challenge directly"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
-                    src="/images/values/care.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title subtitle-sm mb-2"
-                    >
-                      Care personally, challenge directly
-                    </p>
-                    <p
-                      class="card__subtitle "
-                    >
-                      We care about our team and our community, and we hold everyone to high standards.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Obsessed with empowering problem-solvers"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
-                    src="/images/values/powering.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title subtitle-sm mb-2"
-                    >
-                      Obsessed with empowering problem-solvers
-                    </p>
-                    <p
-                      class="card__subtitle "
-                    >
-                      We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
+    </section>
     <section
       class="section section-body careers-section"
     >
