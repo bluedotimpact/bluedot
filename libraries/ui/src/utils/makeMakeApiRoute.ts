@@ -30,12 +30,12 @@ export type MakeMakeApiRouteEnv = {
   ALERTS_SLACK_CHANNEL_ID: string;
 };
 
-const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal('')]).transform(() => null);
+const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
 
 export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verifyAndDecodeToken }: {
   env: MakeMakeApiRouteEnv,
   verifyAndDecodeToken?: (bearerToken: string) => AuthResult | Promise<AuthResult>,
-}) => <ReqZT extends ZodType, ResZT extends ZodType, RequiresAuth extends boolean>(
+}) => <ReqZT extends ZodType = typeof EmptyBodySchema, ResZT extends ZodType = typeof EmptyBodySchema, RequiresAuth extends boolean = true>(
     opts: RouteOptions<ReqZT, ResZT, RequiresAuth>,
     handler: Handler<ReqZT, ResZT, RequiresAuth, AuthResult>,
   ): NextApiHandler => async (
@@ -44,10 +44,9 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
     ) => {
       try {
         const optsFull: Required<RouteOptions<ReqZT, ResZT, RequiresAuth>> = {
-          responseBody: z.literal(undefined) as ZodType as ResZT,
-          requireAuth: true as RequiresAuth,
-          ...opts,
-          requestBody: (opts.requestBody?.isOptional() ? z.union([opts.requestBody, EmptyBodySchema]) : EmptyBodySchema) as ZodType as ReqZT,
+          requireAuth: opts.requireAuth ?? true as RequiresAuth,
+          responseBody: (opts.responseBody?.isOptional() ? z.union([opts.responseBody, EmptyBodySchema]) : opts.responseBody ?? EmptyBodySchema) as ZodType as ResZT,
+          requestBody: (opts.requestBody?.isOptional() ? z.union([opts.requestBody, EmptyBodySchema]) : opts.requestBody ?? EmptyBodySchema) as ZodType as ReqZT,
         };
 
         const auth = await getAuth(req, optsFull.requireAuth, verifyAndDecodeToken);
