@@ -73,20 +73,19 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
         }
       } catch (err: unknown) {
         if (createHttpError.isHttpError(err) && err.expose) {
-          console.warn(`Error handling request on route ${req.method} ${req.url}:`);
-          console.warn(err);
           res.status(err.statusCode).json({ error: err.message });
           return;
         }
 
-        console.error(`Internal error handling request on route ${req.method} ${req.url}:`);
-        console.error(err);
+        // eslint-disable-next-line no-console
+        console.error(`Internal error handling request on route ${req.method} ${req.url}:`, err);
         try {
           await slackAlert(env, [
             `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
             ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
           ]);
         } catch (slackError) {
+          // eslint-disable-next-line no-console
           console.error('Failed to send Slack', slackError);
         }
         res.status(createHttpError.isHttpError(err) ? err.statusCode : 500).json({
