@@ -29,7 +29,7 @@ type ArrowProps = {
   end: ArrowTerminus;
 };
 
-const Arc = ({ radius, angle, ...otherProps }: {
+const Corner = ({ radius, angle, ...otherProps }: {
   radius: number;
   /** Rotation angle in degrees */
   angle: number;
@@ -38,7 +38,7 @@ const Arc = ({ radius, angle, ...otherProps }: {
     <g
       {...otherProps}
       style={{
-        // TODO note abuse of clsx
+        // Note abuse of clsx to join something other than classNames
         transform: clsx(otherProps.style?.transform, `rotate(${angle}deg)`),
         transformOrigin: `${radius / 2}px ${radius / 2}px`,
       }}
@@ -83,7 +83,7 @@ const Arrow = ({
 
   const secondLineYEnd = hasThirdLine ? end.y - ARROW_RADIUS : end.y;
 
-  // Achieve the effect of mirroring the arcs along their left edge when `isMirrorCase`
+  // Achieve the effect of mirroring the arcs along their left edge through a combination of translation and scale(-1, 1)
   const arcTransformStart = isMirrorCase
     ? `translate(calc(${firstLineXEnd} - ${ARROW_RADIUS}px), ${start.y}px) scale(-1, 1)`
     : `translate(${firstLineXEnd}, ${start.y}px)`;
@@ -95,14 +95,17 @@ const Arrow = ({
     <svg className="arrow absolute size-full text-bluedot-normal">
       {defs}
       <line x1={start.x} y1={start.y} x2={hasSecondLine ? firstLineXEnd : end.x} y2={start.y} stroke="currentColor" strokeWidth="2px" {...(!hasSecondLine && { markerEnd: 'url(#arrowhead)' })} />
-      {hasSecondLine && <Arc style={{ transform: arcTransformStart }} radius={ARROW_RADIUS} angle={0} />}
+      {hasSecondLine && <Corner style={{ transform: arcTransformStart }} radius={ARROW_RADIUS} angle={0} />}
       {hasSecondLine && <line x1={secondLineX} y1={start.y + ARROW_RADIUS} x2={secondLineX} y2={secondLineYEnd} stroke="currentColor" strokeWidth="2px" {...(!hasThirdLine && { markerEnd: 'url(#arrowhead)' })} />}
-      {hasThirdLine && <Arc style={{ transform: arcTransformEnd }} radius={ARROW_RADIUS} angle={90} />}
+      {hasThirdLine && <Corner style={{ transform: arcTransformEnd }} radius={ARROW_RADIUS} angle={90} />}
       {hasThirdLine && <line x1={firstLineXEnd} y1={end.y} x2={end.x} y2={end.y} stroke="currentColor" strokeWidth="2px" markerEnd="url(#arrowhead)" />}
     </svg>
   );
 };
 
+/**
+ * Calculate the grid-space coordinates (row, col) of the event with this index
+ */
 const calculateGridPosition = ({ index, itemsPerRow }: { index: number; itemsPerRow: number; }) => {
   // To allow space for the arrows, skip the leftmost cell every other line
   const effectiveIndex = itemsPerRow > 1 ? index + Math.floor((index + 1) / (itemsPerRow * 2)) : index;
@@ -117,6 +120,10 @@ const calculateGridPosition = ({ index, itemsPerRow }: { index: number; itemsPer
   };
 };
 
+/**
+ * Calculate the positions where this arrow should connect in container-space coordinates
+ * of the event with this index (x, y, relative to top left of history-section element)
+ */
 const calculateConnectPosition = ({ rect, relativeTo, connect }: { rect: DOMRect; relativeTo: DOMRect; connect: ConnectPosition; }): ArrowTerminus => {
   const calculateXY = () => {
     if (connect === 'top') {
@@ -161,7 +168,7 @@ const HistorySection = () => {
     const calculatePositions = () => {
       if (!container) return;
 
-      // Solution to MIN_WIDTH*N + (N−1)*MAX_GAP < container.offsetWidth
+      // Solution to the equation MIN_WIDTH*N + (N−1)*MAX_GAP < container.offsetWidth
       const newItemsPerRow = Math.max(1, Math.floor((container.offsetWidth + MAX_GAP) / (MIN_WIDTH + MAX_GAP)));
       setItemsPerRow(newItemsPerRow);
 
@@ -170,9 +177,9 @@ const HistorySection = () => {
         setEventPositions(newEventPositions);
       }
 
-      console.log('Calculating arrow positions...');
       const yearElements = container?.querySelectorAll('.history-event__year');
       if (!yearElements || yearElements.length !== newEventPositions.length) {
+        // eslint-disable-next-line no-console
         console.error('Unexpected error in calculating event positions');
         return;
       }
@@ -180,24 +187,24 @@ const HistorySection = () => {
       const containerRect = container.getBoundingClientRect();
       const newArrows: ArrowProps[] = [];
 
-      // TODO improve readability
       for (let i = 1; i < newEventPositions.length; i++) {
-        const prevPos = newEventPositions[i - 1]!;
+        const prevGridCoords = newEventPositions[i - 1]!;
         const prevRect = yearElements[i - 1]!.getBoundingClientRect();
-        const currentPos = newEventPositions[i]!;
+        const currentGridCoords = newEventPositions[i]!;
         const currentRect = yearElements[i]!.getBoundingClientRect();
 
-        const startConnect = prevPos.row % 2 === 0 ? 'right' : 'left';
+        const startConnect = prevGridCoords.row % 2 === 0 ? 'right' : 'left';
         const start = calculateConnectPosition({
           rect: prevRect,
           relativeTo: containerRect,
-          connect: prevPos.row % 2 === 0 ? 'right' : 'left',
+          connect: prevGridCoords.row % 2 === 0 ? 'right' : 'left',
         });
         const getEndConnect = () => {
-          if (prevPos.row === currentPos.row) {
+          if (prevGridCoords.row === currentGridCoords.row) {
             return startConnect === 'right' ? 'left' : 'right';
           }
-          return (newItemsPerRow === 1 || prevPos.row % 2 === 1) ? 'top' : startConnect;
+          // Connect to the top of the next year if we're on the far left OR there is only 1 column
+          return (newItemsPerRow === 1 || prevGridCoords.row % 2 === 1) ? 'top' : startConnect;
         };
         const end = calculateConnectPosition({
           rect: currentRect,
@@ -208,7 +215,6 @@ const HistorySection = () => {
         newArrows.push({ start, end });
       }
 
-      console.log('New arrows calculated:', newArrows);
       setArrows(newArrows);
     };
 
@@ -219,18 +225,24 @@ const HistorySection = () => {
 
   return (
     <Section title="Our history" titleLevel="h3">
-      <div ref={containerRef} className="history-section w-full relative grid grid-cols-subgrid gap-space-between">
+      <div ref={containerRef} className="history-section w-full relative grid grid-cols-[auto] gap-space-between justify-items-center">
         {EVENTS.map((event, index) => {
           const { row, col } = eventPositions[index] || { row: 0, col: 0 };
           return (
-            <HistoryEvent key={event.year} year={event.year} row={row} col={col} zigZag={itemsPerRow === 1}>
+            <HistoryEvent
+              key={event.year}
+              year={event.year}
+              row={row}
+              col={col}
+              zigZag={itemsPerRow === 1}
+              animate={event.year === '2025'}
+            >
               {event.description}
             </HistoryEvent>
           );
         })}
         {arrows.map((arrow, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Arrow key={index} {...arrow} />
+          <Arrow key={EVENTS[index]?.year} {...arrow} />
         ))}
       </div>
     </Section>
@@ -243,27 +255,71 @@ const HistoryEvent = ({
   row,
   col,
   zigZag,
+  animate,
 }: {
   year: string;
   children: React.ReactNode;
   row: number;
   col: number;
   zigZag: boolean;
+  animate?: boolean;
 }) => {
-  console.log({ year, row, col });
   const alignRight = zigZag && row % 2 === 1 && 'ml-auto';
+  const [animationActive, setAnimationActive] = useState(false);
+  const eventRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!animate) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry && entry.isIntersecting !== animationActive) {
+          setAnimationActive(entry.isIntersecting);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (eventRef.current) {
+      observer.observe(eventRef.current);
+    }
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      if (eventRef.current) {
+        observer.unobserve(eventRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div
-      className={`history-event flex flex-col gap-space-between min-w-[${MIN_WIDTH}px] max-w-[430px]`}
+      ref={eventRef}
+      className={`history-event flex flex-col gap-space-between min-w-[${MIN_WIDTH}px] max-w-[430px] w-full`}
       style={{
         gridRow: row + 1,
         gridColumn: col + 1,
       }}
     >
-      <div className={clsx('history-event__year bg-bluedot-normal text-color-text-on-dark', CTA_BASE_STYLES, alignRight && 'ml-auto')}>
+      <div
+        className={clsx(
+          'history-event__year bg-bluedot-normal text-color-text-on-dark duration-500',
+          CTA_BASE_STYLES,
+          alignRight && 'ml-auto',
+          !animationActive && 'outline-transparent',
+          animationActive && 'outline-2 outline-bluedot-normal outline-offset-2',
+        )}
+      >
         {year}
       </div>
-      <p className={clsx('history-event__description max-w-[250px] text-balanced', alignRight && 'text-right ml-auto')}>{children}</p>
+      <p
+        className={clsx(
+          'history-event__description max-w-[250px] text-balanced',
+          alignRight && 'text-right ml-auto',
+        )}
+      >
+        {children}
+      </p>
     </div>
   );
 };
