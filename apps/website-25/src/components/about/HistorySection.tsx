@@ -11,16 +11,17 @@ const EVENTS = [
   { year: '2025', description: <><b>Launching multiple courses weekly</b> and expanding a world-class team to scale our global impact.</> },
 ];
 
-const MIN_WIDTH = 300;
+const MIN_WIDTH = 330;
 const ARROW_OFFSET = 12;
 const ARROW_RADIUS = 16;
+const MAX_GAP = 16; // The max value of --spacing-space-between
 
-type ConnectPosition = 'left' | 'right' | 'top' | 'bottom';
+type ConnectPosition = 'left' | 'right' | 'top';
 
 type ArrowTerminus = {
   x: number;
   y: number;
-  connect: 'left' | 'right' | 'top' | 'bottom';
+  connect: ConnectPosition;
 };
 
 type ArrowProps = {
@@ -71,34 +72,43 @@ const Arrow = ({
     </defs>
   );
 
-  // if ((start.connect === 'right' && end.connect === 'left') || (start.connect === 'left' && end.connect === 'right')) {
-  //   return (
-  //     <svg className="arrow absolute size-full text-bluedot-normal">
-  //       {defs}
-  //       <line x1={start.x} y1={start.y} x2={end.x} y2={end.y} stroke="currentColor" strokeWidth="2px" markerEnd="url(#arrowhead)" />
-  //     </svg>
-  //   );
-  // }
-
   const hasSecondLine = end.connect === 'top' || end.connect === start.connect;
   const hasThirdLine = end.connect === start.connect;
+
+  const isMirrorCase = start.connect === 'left';
+  const spaceForArc = isMirrorCase ? `${ARROW_RADIUS}px` : `${-ARROW_RADIUS}px`;
+  const farEdgeX = isMirrorCase ? '1%' : '99%';
+  const secondLineX = end.connect === 'top' ? `${end.x}px` : farEdgeX;
+  const firstLineXEnd = `calc(${secondLineX} + ${spaceForArc})`;
+
+  const secondLineYEnd = hasThirdLine ? end.y - ARROW_RADIUS : end.y;
+
+  // Achieve the effect of mirroring the arcs along their left edge when `isMirrorCase`
+  const arcTransformStart = isMirrorCase
+    ? `translate(calc(${firstLineXEnd} - ${ARROW_RADIUS}px), ${start.y}px) scale(-1, 1)`
+    : `translate(${firstLineXEnd}, ${start.y}px)`;
+  const arcTransformEnd = isMirrorCase
+    ? `translate(calc(${firstLineXEnd} - ${ARROW_RADIUS}px), calc(${end.y}px - ${ARROW_RADIUS}px)) scale(-1, 1)`
+    : `translate(${firstLineXEnd}, calc(${end.y}px - ${ARROW_RADIUS}px))`;
 
   return (
     <svg className="arrow absolute size-full text-bluedot-normal">
       {defs}
-      <line x1={start.x} y1={start.y} x2={hasSecondLine ? `calc(99% - ${ARROW_RADIUS}px)` : end.x} y2={start.y} stroke="currentColor" strokeWidth="2px" />
-      {/* <Arc style={{ transform: `translate(calc(99% - ${ARROW_RADIUS}px), ${start.y}px)` }} radius={ARROW_RADIUS} angle={0} /> */}
-      {hasSecondLine && <line x1="99%" y1={start.y + ARROW_RADIUS} x2="99%" y2={end.y - ARROW_RADIUS} stroke="currentColor" strokeWidth="2px" />}
-      {/* <Arc style={{ transform: `translate(calc(99% - ${ARROW_RADIUS}px), calc(${end.y}px - ${ARROW_RADIUS}px))` }} radius={ARROW_RADIUS} angle={90} /> */}
-      {hasThirdLine && <line x1={`calc(99% - ${ARROW_RADIUS}px)`} y1={end.y} x2={end.x} y2={end.y} stroke="currentColor" strokeWidth="2px" />}
+      <line x1={start.x} y1={start.y} x2={hasSecondLine ? firstLineXEnd : end.x} y2={start.y} stroke="currentColor" strokeWidth="2px" {...(!hasSecondLine && { markerEnd: 'url(#arrowhead)' })} />
+      {hasSecondLine && <Arc style={{ transform: arcTransformStart }} radius={ARROW_RADIUS} angle={0} />}
+      {hasSecondLine && <line x1={secondLineX} y1={start.y + ARROW_RADIUS} x2={secondLineX} y2={secondLineYEnd} stroke="currentColor" strokeWidth="2px" {...(!hasThirdLine && { markerEnd: 'url(#arrowhead)' })} />}
+      {hasThirdLine && <Arc style={{ transform: arcTransformEnd }} radius={ARROW_RADIUS} angle={90} />}
+      {hasThirdLine && <line x1={firstLineXEnd} y1={end.y} x2={end.x} y2={end.y} stroke="currentColor" strokeWidth="2px" markerEnd="url(#arrowhead)" />}
     </svg>
   );
-  return null;
 };
 
 const calculateGridPosition = ({ index, itemsPerRow }: { index: number; itemsPerRow: number; }) => {
-  const row = Math.floor(index / itemsPerRow);
-  const colOffset = index % itemsPerRow;
+  // To allow space for the arrows, skip the leftmost cell every other line
+  const effectiveIndex = itemsPerRow > 1 ? index + Math.floor((index + 1) / (itemsPerRow * 2)) : index;
+
+  const row = Math.floor(effectiveIndex / itemsPerRow);
+  const colOffset = effectiveIndex % itemsPerRow;
   const col = row % 2 === 0 ? colOffset : itemsPerRow - 1 - colOffset;
 
   return {
@@ -112,7 +122,7 @@ const calculateConnectPosition = ({ rect, relativeTo, connect }: { rect: DOMRect
     if (connect === 'top') {
       return {
         x: rect.left + rect.width / 2,
-        y: rect.top + ARROW_OFFSET,
+        y: rect.top - ARROW_OFFSET,
       };
     }
 
@@ -120,13 +130,6 @@ const calculateConnectPosition = ({ rect, relativeTo, connect }: { rect: DOMRect
       return {
         x: rect.right + ARROW_OFFSET,
         y: rect.top + rect.height / 2,
-      };
-    }
-
-    if (connect === 'bottom') {
-      return {
-        x: rect.left + rect.width / 2,
-        y: rect.bottom - ARROW_OFFSET,
       };
     }
 
@@ -150,6 +153,7 @@ const HistorySection = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [eventPositions, setEventPositions] = useState<{ row: number, col: number }[]>([]);
   const [arrows, setArrows] = useState<ArrowProps[]>([]);
+  const [itemsPerRow, setItemsPerRow] = useState<number>(1);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -157,9 +161,11 @@ const HistorySection = () => {
     const calculatePositions = () => {
       if (!container) return;
 
-      // Calculate event rows/cols
-      const itemsPerRow = Math.floor(container.offsetWidth / MIN_WIDTH);
-      const newEventPositions = EVENTS.map((_, index) => calculateGridPosition({ index, itemsPerRow }));
+      // Solution to MIN_WIDTH*N + (N−1)*MAX_GAP < container.offsetWidth
+      const newItemsPerRow = Math.max(1, Math.floor((container.offsetWidth + MAX_GAP) / (MIN_WIDTH + MAX_GAP)));
+      setItemsPerRow(newItemsPerRow);
+
+      const newEventPositions = EVENTS.map((_, index) => calculateGridPosition({ index, itemsPerRow: newItemsPerRow }));
       if (JSON.stringify(newEventPositions) !== JSON.stringify(eventPositions)) {
         setEventPositions(newEventPositions);
       }
@@ -191,7 +197,7 @@ const HistorySection = () => {
           if (prevPos.row === currentPos.row) {
             return startConnect === 'right' ? 'left' : 'right';
           }
-          return itemsPerRow === 1 ? 'top' : startConnect;
+          return (newItemsPerRow === 1 || prevPos.row % 2 === 1) ? 'top' : startConnect;
         };
         const end = calculateConnectPosition({
           rect: currentRect,
@@ -213,11 +219,11 @@ const HistorySection = () => {
 
   return (
     <Section title="Our history" titleLevel="h3">
-      <div ref={containerRef} className="history-section relative grid grid-cols-subgrid gap-space-between">
+      <div ref={containerRef} className="history-section w-full relative grid grid-cols-subgrid gap-space-between">
         {EVENTS.map((event, index) => {
           const { row, col } = eventPositions[index] || { row: 0, col: 0 };
           return (
-            <HistoryEvent key={event.year} year={event.year} row={row} col={col}>
+            <HistoryEvent key={event.year} year={event.year} row={row} col={col} zigZag={itemsPerRow === 1}>
               {event.description}
             </HistoryEvent>
           );
@@ -236,25 +242,28 @@ const HistoryEvent = ({
   children,
   row,
   col,
+  zigZag,
 }: {
   year: string;
   children: React.ReactNode;
   row: number;
   col: number;
+  zigZag: boolean;
 }) => {
+  console.log({ year, row, col });
+  const alignRight = zigZag && row % 2 === 1 && 'ml-auto';
   return (
     <div
-      className="history-event flex flex-col gap-space-between"
+      className={`history-event flex flex-col gap-space-between min-w-[${MIN_WIDTH}px] max-w-[430px]`}
       style={{
-        minWidth: `${MIN_WIDTH}px`,
         gridRow: row + 1,
         gridColumn: col + 1,
       }}
     >
-      <div className={clsx('history-event__year bg-bluedot-normal text-color-text-on-dark', CTA_BASE_STYLES)}>
+      <div className={clsx('history-event__year bg-bluedot-normal text-color-text-on-dark', CTA_BASE_STYLES, alignRight && 'ml-auto')}>
         {year}
       </div>
-      <p className="history-event__description max-w-[250px] text-balanced">{children}</p>
+      <p className={clsx('history-event__description max-w-[250px] text-balanced', alignRight && 'text-right ml-auto')}>{children}</p>
     </div>
   );
 };
