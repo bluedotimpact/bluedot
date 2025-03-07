@@ -1,21 +1,43 @@
-import { z } from 'zod';
-import axios from 'axios';
-import { makeApiRoute } from '../../lib/api/makeApiRoute';
-import env from '../../lib/api/env';
+import { anthropic } from '@ai-sdk/anthropic';
+import { pipeDataStreamToResponse, streamText } from 'ai';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default makeApiRoute({
-  requireAuth: false,
-  requestBody: z.object({
-    userPrompt: z.string().min(1),
-  }),
-  responseBody: z.object({
-    code: z.string(),
-  }),
-}, async (body) => {
-  return {
-    code: await getClaudeResponse(getPromptForUserPrompt(body.userPrompt))
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
-});
+
+  try {
+    const { prompt } = req.body;
+    
+    console.log(req.body)
+
+    if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
+      return res.status(400).json({ error: 'Valid userPrompt is required' });
+    }
+
+    const fullPrompt = getPromptForUserPrompt(prompt);
+    
+    pipeDataStreamToResponse(res, {
+      status: 200,
+      execute: async (dataStream) => {
+        const result = streamText({
+          model: anthropic('claude-3-7-sonnet-20250219'),
+          messages: [{
+            role: 'user',
+            content: fullPrompt,
+          }],
+          maxTokens: 10_000,
+        });
+        result.mergeIntoDataStream(dataStream);
+      },
+      onError: (error: any) => `Error generating component: ${error}`,
+    });
+  } catch (error) {
+    console.error('Error in generate-react-component API:', error);
+    res.status(500).json({ error: 'Failed to generate component' });
+  }
+}
 
 /**
  * Enhances the user's prompt with specific instructions for Claude
@@ -44,39 +66,4 @@ const Component = () => {
     <button onClick={() => setCount(count + 1)}>+</button>
   </>)
 }`;
-};
-
-const getClaudeResponse = async (prompt: string): Promise<string> => {
-  const response = await axios<{ content: { type: string, text?: string }[] }>({
-    method: 'POST',
-    url: 'https://api.anthropic.com/v1/messages',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    data: {
-      model: 'claude-3-7-sonnet-20250219',
-      // thinking: {
-      //   type: 'enabled',
-      //   budget_tokens: 1024,
-      // },
-      max_tokens: 8196,
-      messages: [{
-        role: 'user',
-        content: prompt,
-      }],
-    },
-  });
-
-  if (!Array.isArray(response.data.content)) {
-    throw new Error('Got non-content response from Claude');
-  }
-
-  const textContent = response.data.content.filter((content) => content.type === 'text').map((content) => content.text).join('');
-  if (textContent.length === 0) {
-    throw new Error('Got non-text response from Claude');
-  }
-
-  return textContent;
 };
