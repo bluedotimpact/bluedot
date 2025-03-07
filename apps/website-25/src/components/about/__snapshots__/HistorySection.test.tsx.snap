@@ -25,7 +25,7 @@ exports[`HistorySection > renders as expected 1`] = `
         class="history-section w-full relative grid grid-cols-[auto] gap-space-between justify-items-center"
       >
         <div
-          class="history-event flex flex-col gap-space-between min-w-[330px] max-w-[430px] w-full"
+          class="history-event flex flex-col gap-space-between max-w-[430px] w-full min-w-[330px]"
           style="grid-row: 1; grid-column: 1;"
         >
           <div
@@ -44,7 +44,7 @@ exports[`HistorySection > renders as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-event flex flex-col gap-space-between min-w-[330px] max-w-[430px] w-full"
+          class="history-event flex flex-col gap-space-between max-w-[430px] w-full min-w-[330px]"
           style="grid-row: 2; grid-column: 1;"
         >
           <div
@@ -63,7 +63,7 @@ exports[`HistorySection > renders as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-event flex flex-col gap-space-between min-w-[330px] max-w-[430px] w-full"
+          class="history-event flex flex-col gap-space-between max-w-[430px] w-full min-w-[330px]"
           style="grid-row: 3; grid-column: 1;"
         >
           <div
@@ -81,7 +81,7 @@ exports[`HistorySection > renders as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-event flex flex-col gap-space-between min-w-[330px] max-w-[430px] w-full"
+          class="history-event flex flex-col gap-space-between max-w-[430px] w-full min-w-[330px]"
           style="grid-row: 4; grid-column: 1;"
         >
           <div
@@ -99,7 +99,7 @@ exports[`HistorySection > renders as expected 1`] = `
           </p>
         </div>
         <div
-          class="history-event flex flex-col gap-space-between min-w-[330px] max-w-[430px] w-full"
+          class="history-event flex flex-col gap-space-between max-w-[430px] w-full min-w-[330px]"
           style="grid-row: 5; grid-column: 1;"
         >
           <div

@@ -11,9 +11,9 @@ const EVENTS = [
   { year: '2025', description: <><b>Launching multiple courses weekly</b> and expanding a world-class team to scale our global impact.</> },
 ];
 
-const MIN_WIDTH = 330;
+const MIN_EVENT_WIDTH = 330;
 const ARROW_OFFSET = 12;
-const ARROW_RADIUS = 16;
+const CORNER_RADIUS = 16;
 const MAX_GAP = 16; // The max value of --spacing-space-between
 
 type ConnectPosition = 'left' | 'right' | 'top';
@@ -29,8 +29,7 @@ type ArrowProps = {
   end: ArrowTerminus;
 };
 
-const Corner = ({ radius, angle, ...otherProps }: {
-  radius: number;
+const Corner = ({ angle, ...otherProps }: {
   /** Rotation angle in degrees */
   angle: number;
 } & React.SVGProps<SVGGElement>) => {
@@ -40,11 +39,11 @@ const Corner = ({ radius, angle, ...otherProps }: {
       style={{
         // Note abuse of clsx to join something other than classNames
         transform: clsx(otherProps.style?.transform, `rotate(${angle}deg)`),
-        transformOrigin: `${radius / 2}px ${radius / 2}px`,
+        transformOrigin: `${CORNER_RADIUS / 2}px ${CORNER_RADIUS / 2}px`,
       }}
     >
       <path
-        d={`M0,0 A${radius},${radius} 0 0,1 ${radius},${radius}`}
+        d={`M0,0 A${CORNER_RADIUS},${CORNER_RADIUS} 0 0,1 ${CORNER_RADIUS},${CORNER_RADIUS}`}
         fill="none"
         stroke="currentColor"
         strokeWidth="2px"
@@ -76,28 +75,28 @@ const Arrow = ({
   const hasThirdLine = end.connect === start.connect;
 
   const isMirrorCase = start.connect === 'left';
-  const spaceForArc = isMirrorCase ? `${ARROW_RADIUS}px` : `${-ARROW_RADIUS}px`;
+  const spaceForArc = isMirrorCase ? `${CORNER_RADIUS}px` : `${-CORNER_RADIUS}px`;
   const farEdgeX = isMirrorCase ? '1%' : '99%';
   const secondLineX = end.connect === 'top' ? `${end.x}px` : farEdgeX;
   const firstLineXEnd = `calc(${secondLineX} + ${spaceForArc})`;
 
-  const secondLineYEnd = hasThirdLine ? end.y - ARROW_RADIUS : end.y;
+  const secondLineYEnd = hasThirdLine ? end.y - CORNER_RADIUS : end.y;
 
   // Achieve the effect of mirroring the arcs along their left edge through a combination of translation and scale(-1, 1)
   const arcTransformStart = isMirrorCase
-    ? `translate(calc(${firstLineXEnd} - ${ARROW_RADIUS}px), ${start.y}px) scale(-1, 1)`
+    ? `translate(calc(${firstLineXEnd} - ${CORNER_RADIUS}px), ${start.y}px) scale(-1, 1)`
     : `translate(${firstLineXEnd}, ${start.y}px)`;
   const arcTransformEnd = isMirrorCase
-    ? `translate(calc(${firstLineXEnd} - ${ARROW_RADIUS}px), calc(${end.y}px - ${ARROW_RADIUS}px)) scale(-1, 1)`
-    : `translate(${firstLineXEnd}, calc(${end.y}px - ${ARROW_RADIUS}px))`;
+    ? `translate(calc(${firstLineXEnd} - ${CORNER_RADIUS}px), calc(${end.y}px - ${CORNER_RADIUS}px)) scale(-1, 1)`
+    : `translate(${firstLineXEnd}, calc(${end.y}px - ${CORNER_RADIUS}px))`;
 
   return (
     <svg className="arrow absolute size-full text-bluedot-normal">
       {defs}
       <line x1={start.x} y1={start.y} x2={hasSecondLine ? firstLineXEnd : end.x} y2={start.y} stroke="currentColor" strokeWidth="2px" {...(!hasSecondLine && { markerEnd: 'url(#arrowhead)' })} />
-      {hasSecondLine && <Corner style={{ transform: arcTransformStart }} radius={ARROW_RADIUS} angle={0} />}
-      {hasSecondLine && <line x1={secondLineX} y1={start.y + ARROW_RADIUS} x2={secondLineX} y2={secondLineYEnd} stroke="currentColor" strokeWidth="2px" {...(!hasThirdLine && { markerEnd: 'url(#arrowhead)' })} />}
-      {hasThirdLine && <Corner style={{ transform: arcTransformEnd }} radius={ARROW_RADIUS} angle={90} />}
+      {hasSecondLine && <Corner style={{ transform: arcTransformStart }} angle={0} />}
+      {hasSecondLine && <line x1={secondLineX} y1={start.y + CORNER_RADIUS} x2={secondLineX} y2={secondLineYEnd} stroke="currentColor" strokeWidth="2px" {...(!hasThirdLine && { markerEnd: 'url(#arrowhead)' })} />}
+      {hasThirdLine && <Corner style={{ transform: arcTransformEnd }} angle={90} />}
       {hasThirdLine && <line x1={firstLineXEnd} y1={end.y} x2={end.x} y2={end.y} stroke="currentColor" strokeWidth="2px" markerEnd="url(#arrowhead)" />}
     </svg>
   );
@@ -122,7 +121,7 @@ const calculateGridPosition = ({ index, itemsPerRow }: { index: number; itemsPer
 
 /**
  * Calculate the positions where this arrow should connect in container-space coordinates
- * of the event with this index (x, y, relative to top left of history-section element)
+ * (x, y, relative to top left of history-section element)
  */
 const calculateConnectPosition = ({ rect, relativeTo, connect }: { rect: DOMRect; relativeTo: DOMRect; connect: ConnectPosition; }): ArrowTerminus => {
   const calculateXY = () => {
@@ -169,7 +168,7 @@ const HistorySection = () => {
       if (!container) return;
 
       // Solution to the equation MIN_WIDTH*N + (N−1)*MAX_GAP < container.offsetWidth
-      const newItemsPerRow = Math.max(1, Math.floor((container.offsetWidth + MAX_GAP) / (MIN_WIDTH + MAX_GAP)));
+      const newItemsPerRow = Math.max(1, Math.floor((container.offsetWidth + MAX_GAP) / (MIN_EVENT_WIDTH + MAX_GAP)));
       setItemsPerRow(newItemsPerRow);
 
       const newEventPositions = EVENTS.map((_, index) => calculateGridPosition({ index, itemsPerRow: newItemsPerRow }));
@@ -249,6 +248,10 @@ const HistorySection = () => {
   );
 };
 
+// Workaround to use a static class name while still deriving it from MIN_EVENT_WIDTH
+// See: https://tailwindcss.com/docs/detecting-classes-in-source-files#dynamic-class-names
+const MIN_EVENT_WIDTH_CLASS: `min-w-[${typeof MIN_EVENT_WIDTH}px]` = 'min-w-[330px]';
+
 const HistoryEvent = ({
   year,
   children,
@@ -295,7 +298,7 @@ const HistoryEvent = ({
   return (
     <div
       ref={eventRef}
-      className={`history-event flex flex-col gap-space-between min-w-[${MIN_WIDTH}px] max-w-[430px] w-full`}
+      className={clsx('history-event flex flex-col gap-space-between max-w-[430px] w-full', MIN_EVENT_WIDTH_CLASS)}
       style={{
         gridRow: row + 1,
         gridColumn: col + 1,
