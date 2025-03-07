@@ -1,56 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Button, H2, P } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
-import { SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider } from '@codesandbox/sandpack-react';
+import {
+  SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
+} from '@codesandbox/sandpack-react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
-
-const FakeProgressBar: React.FC<{ durationMs?: number }> = ({ durationMs = 60_000 }) => {
-  const [progress, setProgress] = useState(0);
-  
-  useEffect(() => {
-    setProgress(0);
-    const updateInterval = 250;
-    const steps = durationMs / updateInterval;
-    const increment = 96 / steps;
-    
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        const randomNudgedIncrement = increment * 1 + (Math.random() - 0.5)
-        const newProgress = prev + randomNudgedIncrement;
-        return newProgress >= 96 ? 96 : newProgress;
-      });
-    }, updateInterval);
-    
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <>
-      <div className="w-4/5 h-2 bg-gray-200 rounded-full mx-auto overflow-hidden">
-        <div 
-          className="h-full bg-bluedot-normal rounded-full transition-all duration-300 ease-in"
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
-    </>
-  );
-};
 
 const ProgressDots: React.FC = () => {
   return (
     <div className="flex justify-center space-x-2 my-6">
-      <span className="h-2 w-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-      <span className="h-2 w-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-      <span className="h-2 w-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
     </div>
-  )
-}
+  );
+};
 
 const DemoPage: React.FC = () => {
-  const [view, setView] = useState<'prompt' | 'display'>('prompt')
+  const [view, setView] = useState<'prompt' | 'display'>('prompt');
   const [userPrompt, setUserPrompt] = useState('');
-  
-  const { completion: generatedCode, complete, isLoading: loading, error } = useCompletion({
+
+  const {
+    completion: generatedCode, complete, isLoading: loading, error,
+  } = useCompletion({
     api: '/api/generate-react-component',
     onResponse: () => {
       setView('display');
@@ -62,12 +34,8 @@ const DemoPage: React.FC = () => {
       setUserPrompt(submittedUserPrompt);
     }
     if (!submittedUserPrompt.trim()) return;
-    try {
-      setView('display');
-      complete(submittedUserPrompt);
-    } catch (err) {
-      console.error('Error generating component:', err);
-    }
+    setView('display');
+    complete(submittedUserPrompt);
   };
 
   const EXAMPLES = [
@@ -81,46 +49,51 @@ const DemoPage: React.FC = () => {
     '🧘 Meditation timer',
     '✏️ Whiteboard drawing canvas',
     '💪 Workout routine builder',
-  ]
+  ];
 
   if (view === 'prompt' || error || (!loading && !generatedCode)) {
     return (
       <main className="mx-auto px-4">
         <div className="mb-4">
-          <H2 className='!mt-4'>What do you want to build?</H2>
+          <H2 className="!mt-4">What do you want to build?</H2>
           <textarea
             placeholder="A website about..."
             value={userPrompt}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setUserPrompt(e.target.value)}
             onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
               if (e.key === 'Enter' && !e.shiftKey) {
-                handleSubmit()
+                handleSubmit();
               }
             }}
             className="w-full p-4 border border-gray-400 rounded-lg shadow-md"
             rows={1}
-            autoFocus
           />
           <Button
             onPress={() => handleSubmit()}
             disabled={loading || !userPrompt.trim()}
-            className='float-right bottom-12.5 right-4 relative'
+            className="float-right bottom-12.5 right-4 relative"
           >
             {loading ? 'Creating...' : 'Create'}
           </Button>
           <p>
-            Examples: 
+            Examples:
             {EXAMPLES.map((example) => (
-              <LinkOrButton className='cursor-pointer text-sm border rounded p-1 m-1 hover:bg-stone-200' key={example} onPress={() => {
-                setUserPrompt(example);
-                return handleSubmit(example)
-              }}>{example}</LinkOrButton>
+              <LinkOrButton
+                className="cursor-pointer text-sm border rounded p-1 m-1 hover:bg-stone-200"
+                key={example}
+                onPress={() => {
+                  setUserPrompt(example);
+                  return handleSubmit(example);
+                }}
+              >{example}
+              </LinkOrButton>
             ))}
           </p>
         </div>
 
-        {error && (<>
-          <H2 className='text-red-500'>Something went wrong</H2>
+        {error && (
+        <>
+          <H2 className="text-red-500">Something went wrong</H2>
           <P>
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
           </P>
@@ -128,9 +101,10 @@ const DemoPage: React.FC = () => {
             Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton href="https://web.lmarena.ai/">WebDev Arena</LinkOrButton> to see a similar demo.
           </P>
           <Button onPress={() => handleSubmit()}>Try again</Button>
-          </>)}
+        </>
+        )}
       </main>
-    )
+    );
   }
 
   if (view === 'display' && loading) {
@@ -141,7 +115,7 @@ const DemoPage: React.FC = () => {
           <P className="mb-6">Brief: {userPrompt}</P>
           <ProgressDots />
         </div>
-        <CodeRenderer code={generatedCode} height={'calc(100vh - 150px)'} hidePreview />
+        <CodeRenderer code={generatedCode} height="calc(100vh - 150px)" hidePreview />
       </main>
     );
   }
@@ -150,7 +124,7 @@ const DemoPage: React.FC = () => {
     return (
       <main className="mx-auto px-4">
         <div className="flex flex-col gap-4 mt-2">
-          <CodeRenderer code={generatedCode} height={'calc(100vh - 70px)'} />
+          <CodeRenderer code={generatedCode} height="calc(100vh - 70px)" />
           <Button className="relative bottom-12.5 -mb-8" onPress={() => { setView('prompt'); setUserPrompt(''); }}>← Start over<span className="hidden md:inline"> to create something new</span></Button>
         </div>
       </main>
@@ -161,7 +135,7 @@ const DemoPage: React.FC = () => {
   return null;
 };
 
-const CodeRenderer: React.FC<{ code: string, height?: string, hidePreview?: boolean }> = ({ code, height, hidePreview = false }) => {  
+const CodeRenderer: React.FC<{ code: string, height?: string, hidePreview?: boolean }> = ({ code, height, hidePreview = false }) => {
   const files = {
     '/App.js': {
       code: `import React from 'react';
@@ -175,7 +149,7 @@ export default function App() {
 }
 `,
       readOnly: true,
-    }
+    },
   };
 
   const [view, setView] = useState<'code' | 'load_preview' | 'preview'>(hidePreview ? 'code' : 'preview');
@@ -184,28 +158,35 @@ export default function App() {
     if (view === 'load_preview') {
       setView('preview');
     }
-  }, [view])
+  }, [view]);
 
-  return (<>
-    {view !== 'load_preview' &&
+  return (
+    <>
+      {view !== 'load_preview'
+    && (
     <SandpackProvider
       template="react"
       files={files}
       options={{
-        externalResources: ["https://cdn.tailwindcss.com"],
-      }}>
+        externalResources: ['https://cdn.tailwindcss.com'],
+      }}
+    >
       <SandpackLayout>
         {view === 'preview' && <SandpackPreview showOpenInCodeSandbox={false} style={{ height }} />}
         {view === 'code' && <SandpackCodeEditor showRunButton={false} style={{ height }} />}
       </SandpackLayout>
-    </SandpackProvider>}
-    {view === 'load_preview' && <div style={{ height, margin: '0 1px' }}></div>}
-    {!hidePreview && <nav className='justify-end items-center flex gap-2'>
-      <P className="!my-0">Show:</P>
-      <Button className={view === 'code' ? "bg-bluedot-lighter" : ""} onPress={() => setView('code')}>Code</Button>
-      <Button className={view === 'preview' ? "bg-bluedot-lighter" : ""} onPress={() => setView('load_preview')}>Preview</Button>
-    </nav>}
-  </>);
+    </SandpackProvider>
+    )}
+      {view === 'load_preview' && <div style={{ height, margin: '0 1px' }} />}
+      {!hidePreview && (
+      <nav className="justify-end items-center flex gap-2">
+        <P className="!my-0">Show:</P>
+        <Button className={view === 'code' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('code')}>Code</Button>
+        <Button className={view === 'preview' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('load_preview')}>Preview</Button>
+      </nav>
+      )}
+    </>
+  );
 };
 
 export default DemoPage;

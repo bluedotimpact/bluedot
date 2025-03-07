@@ -1,23 +1,25 @@
 import { anthropic } from '@ai-sdk/anthropic';
+import { asError, slackAlert } from '@bluedot/ui';
 import { pipeDataStreamToResponse, streamText } from 'ai';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import env from '../../lib/api/env';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
   }
 
   try {
     const { prompt } = req.body;
-    
-    console.log(req.body)
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
-      return res.status(400).json({ error: 'Valid userPrompt is required' });
+      res.status(400).json({ error: 'Valid userPrompt is required' });
+      return;
     }
 
     const fullPrompt = getPromptForUserPrompt(prompt);
-    
+
     pipeDataStreamToResponse(res, {
       status: 200,
       execute: async (dataStream) => {
@@ -31,10 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
         result.mergeIntoDataStream(dataStream);
       },
-      onError: (error: any) => `Error generating component: ${error}`,
+      onError: (error: unknown) => `Error generating component: ${asError(error).message}`,
     });
   } catch (error) {
-    console.error('Error in generate-react-component API:', error);
+    const coercedError = asError(error);
+    slackAlert(env, [`Error in generate-react-component API: ${coercedError.message}`, `Stack: ${coercedError.stack}`]);
     res.status(500).json({ error: 'Failed to generate component' });
   }
 }
