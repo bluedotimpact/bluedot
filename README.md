@@ -19,6 +19,7 @@ This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s
 This repository has the code for:
 
 - [availability](./apps/availability/): Collect time availability information from users
+- [course-demos](./apps/course-demos/): Interactive demos to be embedded on our courses
 - [meet](./apps/meet/): Record meeting attendance, and host meetings with the Zoom Web SDK
 - [login](./apps/login/): A custom build of Keycloak
 - [login-account-proxy](./apps/login-account-proxy/): An app for setting up users in Keycloak from Bubble

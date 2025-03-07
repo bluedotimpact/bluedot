@@ -1,8 +1,6 @@
-# app-template
+# course-demos
 
-A template Next.js app that you can copy and paste to start a new project.
-
-See the [main README for details on creating a new app](../../README.md#guide-adding-a-new-app).
+A Next.js app that contains demos for our courses. These will often be used as embeds in iframes in another webpage.
 
 ## Developer setup
 
