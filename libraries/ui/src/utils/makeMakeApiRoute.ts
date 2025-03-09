@@ -32,6 +32,9 @@ export type MakeMakeApiRouteEnv = {
 
 const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
 
+const streamingPlaceholder = Symbol('streamingPlaceholder');
+export const StreamingResponseSchema = EmptyBodySchema.transform(() => streamingPlaceholder as unknown as null | undefined | void);
+
 export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verifyAndDecodeToken }: {
   env: MakeMakeApiRouteEnv,
   verifyAndDecodeToken?: (bearerToken: string) => AuthResult | Promise<AuthResult>,
@@ -66,7 +69,9 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
           throw new createHttpError.InternalServerError('Invalid response body');
         }
 
-        if (responseParseResult.data === null) {
+        if (responseParseResult.data === streamingPlaceholder) {
+          // noop, handler should deal with streaming response to client
+        } else if (responseParseResult.data === null) {
           res.status(204).end();
         } else {
           res.status(200).json(responseParseResult.data);
