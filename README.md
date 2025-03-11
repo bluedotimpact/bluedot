@@ -12,12 +12,14 @@ This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s
 - [Developer setup instructions](#developer-setup-instructions)
 - [Guide: Adding a new app](#guide-adding-a-new-app)
 - [Reference: General package structure](#reference-general-package-structure)
+- [Instructions for LLMs](#instructions-for-llms)
 
 ## What's included
 
 This repository has the code for:
 
 - [availability](./apps/availability/): Collect time availability information from users
+- [course-demos](./apps/course-demos/): Interactive demos to be embedded on our courses
 - [meet](./apps/meet/): Record meeting attendance, and host meetings with the Zoom Web SDK
 - [login](./apps/login/): A custom build of Keycloak
 - [login-account-proxy](./apps/login-account-proxy/): An app for setting up users in Keycloak from Bubble
@@ -201,14 +203,14 @@ In terms of tools and external libraries, we usually use:
 - Coding language: [TypeScript](https://www.typescriptlang.org/)
 - Script management: [NPM](https://docs.npmjs.com/cli/v10/using-npm/scripts)
 - Custom dev tooling: Node.js or Bash (in the `tools` folder)
-- Databases: Airtable (via [airtable-ts](https://www.npmjs.com/package/airtable-ts)) or Postgres (via [kysely](https://www.npmjs.com/package/kysely) and [kanel](https://www.npmjs.com/package/kanel))
+- Databases: Usually Airtable (via [airtable-ts](https://www.npmjs.com/package/airtable-ts)). Sometimes Postgres (via [kysely](https://www.npmjs.com/package/kysely) and [kanel](https://www.npmjs.com/package/kanel)).
 - APIs: JSON via REST. Use path parameters and request bodies to send information. Web services should respond with an X-BlueDot-Version header in the format `yyyyMMdd.hhmmss.git_short_hash` (via environment variable `VERSION_TAG`).
-- Authentication: JSON web tokens, with sign-in via Open ID Connect (OIDC)
+- Authentication: JSON web tokens (JWTs), with sign-in via Open ID Connect (OIDC)
 - Linting tool: [eslint](https://eslint.org/)
 - Testing framework: [vitest](https://vitest.dev/)
 - Web applications
   - Front-end library: [React.js](https://react.dev/)
-  - Framework: [Next.js](https://nextjs.org/), usually using the path router and avoiding SSR
+  - Framework: [Next.js](https://nextjs.org/), with the pages router and usually without SSR
   - Styling: [Tailwind CSS](https://tailwindcss.com/)
   - Components: Our own [ui](./libraries/ui/) or [@adobe/react-spectrum](https://react-spectrum.adobe.com/react-spectrum/#components)
   - `className` util: [clsx](https://www.npmjs.com/package/clsx)
@@ -221,3 +223,14 @@ In terms of tools and external libraries, we usually use:
 - Deployment: Docker on K8s via [infra](./apps/infra/)
 
 In general, we try to keep to the above structure and tools as much as possible between packages. This reduces the mental effort required to switch between working on different packages, and eases maintenance burden. We're fans of [boring technology](https://boringtechnology.club/).
+
+## Instructions for LLMs
+
+After reading this README file, you should read all the other READMEs in this repository. If you can't find them, run this bash command to read them all:
+
+```bash
+git ls-files --cached --others --exclude-standard | grep -i 'README' | grep -v '^README.md$' | while read file; do
+    echo "\n===== $file =====\n"
+    cat "$file"
+done
+```

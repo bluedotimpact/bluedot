@@ -18,3 +18,7 @@ config:
     secure: v1:V4H9p6vQNMJM4KEQ:G/T2vskLJtn5ZtO9Ry7TfstCV0lwGmCQIwb6twGs9j9VJq5FWG249dYKg/RuJFOXl6eDZg==
   infra:roomDisplayBearerToken:
     secure: v1:VXpFjSn3K8mTozrk:vP2CQtDCU4pXImGX0giTNGJUCQ7jE39V
+  infra:anthropicApiKey:
+    secure: v1:mwnIoUKiWGZ/TBJq:vDafrC8p5HRZBJybQ0CXIKxI8zj9aRUNFsNRf/ZWNlCCmigW+s5gZckEubcQsyl9z7vyel+Xg0qk6RlZlWDsnV+uUtoiW8i+yvsUP16qVKqI6loF8v44z4wnd3gWVV24RgOI22/bsJG847juWJOJ21OdAp807cV+1tirxQ==
+  infra:openaiApiKey:
+    secure: v1:wEOLyThtjmoElKYI:ltM/NR0dcyawXqmJn0W+WRApcb9juTn375xwBiTXJB9UIfCTW6voehZwnF/IHoenKpk3DHwMwf2fdXx5tahNYEe4d0gkzTUXSzjyX1eOkk5QNirZ02l1ErOvj+ooXuM3/6vxitMyT6tlOACoxKLrl+R7VKr+1vDRUtXgNQ==

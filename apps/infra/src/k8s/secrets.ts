@@ -7,6 +7,8 @@ import { config } from '../config';
 const toK8s = [
   'airtablePat',
   'alertsSlackBotToken',
+  'anthropicApiKey',
+  'openaiApiKey',
   'meetZoomClientSecret',
   'keycloakAdminPassword',
   'loginProxySharedSecret',
