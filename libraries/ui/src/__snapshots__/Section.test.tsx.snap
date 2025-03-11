@@ -47,11 +47,6 @@ exports[`Section > renders with all optional props 1`] = `
           This is the subtitle
         </p>
       </div>
-      <div
-        class="right-node"
-      >
-        This is the rightNode
-      </div>
     </div>
     <div
       class="section__body"

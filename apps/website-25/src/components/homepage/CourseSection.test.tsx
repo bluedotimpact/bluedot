@@ -20,11 +20,8 @@ describe('CourseSection', () => {
 
     // Verify featured course is present
     expect(screen.getByText('AI Safety: Intro to Transformative AI')).toBeDefined();
-
-    // Verify navigation is present in header
-    // TODO Make this check the desktop vs mobile behaviour
-    const header = container.querySelector('.slide-list__nav--header');
-    expect(header?.querySelector('[aria-label="Previous slide"]')).toBeDefined();
+    // Verify the first of the other courses is present
+    expect(screen.getByText('Economics of Transformative AI')).toBeDefined();
   });
 
   test('tracks clicks on course cards', () => {

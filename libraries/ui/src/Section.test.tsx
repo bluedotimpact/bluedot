@@ -18,7 +18,6 @@ describe('Section', () => {
       <Section
         title="This is the title"
         subtitle="This is the subtitle"
-        rightNode={<div className="right-node">This is the rightNode</div>}
       >
         <p>This is the yield</p>
       </Section>,
@@ -28,7 +27,6 @@ describe('Section', () => {
 
     expect(getByText('This is the title')).not.toBeNull();
     expect(getByText('This is the subtitle')).not.toBeNull();
-    expect(getByText('This is the rightNode')).not.toBeNull();
     expect(getByText('This is the yield')).not.toBeNull();
   });
 });
