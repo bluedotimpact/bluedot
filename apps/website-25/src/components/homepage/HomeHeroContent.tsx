@@ -6,7 +6,7 @@ import Rive, { Fit, Layout } from '@rive-app/react-canvas';
 import clsx from 'clsx';
 
 const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
-  <div className={clsx('home-hero-content pb-5', className)}>
+  <div className={clsx('home-hero-content pb-5 bg-bluedot-darker', className)}>
     <div className="home-hero-content__animation-container w-[350px] max-w-[80vw] aspect-4/3 mx-auto">
       <Rive
         src="/animations/herobluedot_hero.riv"

@@ -14,7 +14,5 @@ export default meta;
 type Story = StoryObj<typeof HomeHeroContent>;
 
 export const Default: Story = {
-  args: {
-    className: 'bg-bluedot-darker',
-  },
+  args: {},
 };
