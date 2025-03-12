@@ -20,6 +20,14 @@ export const COURSES: Course[] = [
     href: 'https://aisafetyfundamentals.com/intro-to-tai/',
   },
   {
+    title: 'The AI Impact',
+    description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
+    courseType: 'Self-paced',
+    courseLength: '',
+    imageSrc: '/images/courses/ai-impact.png',
+    href: 'https://aisafetyfundamentals.com/ai-impact/',
+  },
+  {
     title: 'Economics of Transformative AI',
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.',
     courseType: 'In-depth course',
