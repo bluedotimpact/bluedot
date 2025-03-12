@@ -17,7 +17,7 @@ export const COURSES: Course[] = [
     courseType: 'Self-paced',
     courseLength: '',
     imageSrc: '/images/courses/ai-impact.png',
-    href: 'https://aisafetyfundamentals.com/ai-impact/',
+    href: 'https://course.bluedot.org/ai-impact/',
     isNew: true,
   },
   {
