@@ -39,8 +39,5 @@ export const Default: Story = {
 export const Customized: Story = {
   args: {
     logo: imgSrc,
-    children: [
-      <><a href="#">Support Us</a><a href="#">About</a><a href="#">Join us</a><a href="#">Blog</a></>,
-    ],
   },
 };
