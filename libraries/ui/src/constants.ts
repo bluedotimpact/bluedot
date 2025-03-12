@@ -12,6 +12,15 @@ export type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 export const COURSES: Course[] = [
   {
+    title: 'The AI Impact',
+    description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
+    courseType: 'Self-paced',
+    courseLength: '',
+    imageSrc: '/images/courses/ai-impact.png',
+    href: 'https://aisafetyfundamentals.com/ai-impact/',
+    isNew: true,
+  },
+  {
     title: 'AI Safety: Intro to Transformative AI',
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.',
     courseType: 'Crash course',
@@ -20,21 +29,12 @@ export const COURSES: Course[] = [
     href: 'https://aisafetyfundamentals.com/intro-to-tai/',
   },
   {
-    title: 'The AI Impact',
-    description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
-    courseType: 'Self-paced',
-    courseLength: '',
-    imageSrc: '/images/courses/ai-impact.png',
-    href: 'https://aisafetyfundamentals.com/ai-impact/',
-  },
-  {
     title: 'Economics of Transformative AI',
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.',
     courseType: 'In-depth course',
     courseLength: '9 weeks',
     imageSrc: '/images/courses/econ.jpg',
     href: 'https://aisafetyfundamentals.com/economics-of-tai/',
-    isNew: true,
   },
   {
     title: 'AI Alignment',
