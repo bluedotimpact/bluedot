@@ -29,7 +29,6 @@ export const COURSES: Course[] = [
     courseLength: '5 days',
     imageSrc: '/images/courses/intro.jpg',
     href: 'https://aisafetyfundamentals.com/intro-to-tai/',
-    isFeatured: false,
   },
   {
     title: 'Economics of Transformative AI',
@@ -38,7 +37,6 @@ export const COURSES: Course[] = [
     courseLength: '9 weeks',
     imageSrc: '/images/courses/econ.jpg',
     href: 'https://aisafetyfundamentals.com/economics-of-tai/',
-    isFeatured: false,
   },
   {
     title: 'AI Alignment',
@@ -47,7 +45,6 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/alignment.jpg',
     href: 'https://aisafetyfundamentals.com/alignment/',
-    isFeatured: false,
   },
   {
     title: 'AI Governance',
@@ -56,7 +53,6 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
     href: 'https://aisafetyfundamentals.com/governance/',
-    isFeatured: false,
   },
   {
     title: 'Writing Intensive',
@@ -65,7 +61,6 @@ export const COURSES: Course[] = [
     courseLength: '5 days',
     imageSrc: '/images/courses/writing.jpg',
     href: 'https://aisafetyfundamentals.com/writing/',
-    isFeatured: false,
   },
   {
     title: 'Economics of Transformative AI Fast-Track',
@@ -74,7 +69,6 @@ export const COURSES: Course[] = [
     courseLength: '5 days',
     imageSrc: '/images/courses/econ-fasttrack.jpg',
     href: 'https://aisafetyfundamentals.com/economics-of-tai-fast-track/',
-    isFeatured: false,
   },
   {
     title: 'Alignment Fast-Track',
@@ -83,7 +77,6 @@ export const COURSES: Course[] = [
     courseLength: '5 days',
     imageSrc: '/images/courses/alignment-fasttrack.jpg',
     href: 'https://aisafetyfundamentals.com/alignment-fast-track/',
-    isFeatured: false,
   },
   {
     title: 'Governance Fast-Track',
@@ -92,6 +85,5 @@ export const COURSES: Course[] = [
     courseLength: '5 days',
     imageSrc: '/images/courses/gov-fasttrack.jpg',
     href: 'https://aisafetyfundamentals.com/governance-fast-track/',
-    isFeatured: false,
   },
 ] as const;
