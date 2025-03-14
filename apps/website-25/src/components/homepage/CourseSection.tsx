@@ -6,7 +6,7 @@ import {
 import { SlideList } from '@bluedot/ui/src/SlideList';
 import { withClickTracking } from '../../lib/withClickTracking';
 
-const featuredCourse = constants.COURSES.find((course) => course.title === 'AI Safety: Intro to Transformative AI')!;
+const featuredCourse = constants.COURSES.find((course) => course.isFeatured)!;
 
 const CourseCardWithTracking = withClickTracking(CourseCard, {
   eventName: 'course_card_click',
