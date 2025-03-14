@@ -12,7 +12,7 @@ export type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 export const COURSES: Course[] = [
   {
-    title: 'The AI Impact',
+    title: 'The AI Impacts',
     description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
     courseType: 'Self-paced',
     courseLength: '',
