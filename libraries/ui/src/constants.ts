@@ -45,5 +45,5 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
     href: 'https://aisafetyfundamentals.com/governance/',
-  }
+  },
 ] as const;
