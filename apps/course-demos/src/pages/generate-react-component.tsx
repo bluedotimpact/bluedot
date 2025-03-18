@@ -40,7 +40,6 @@ const DemoPage: React.FC = () => {
     '😌 Satisfying interactive simulation',
     '📚 Reading speed measuring tool',
     '🧘 Meditation timer',
-    '✏️ Whiteboard drawing canvas',
     '💪 Workout routine builder',
   ];
 
