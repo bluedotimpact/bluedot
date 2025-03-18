@@ -7,7 +7,7 @@ import { makeApiRoute } from '../../lib/api/makeApiRoute';
 export default makeApiRoute({
   requireAuth: false,
   requestBody: z.object({
-    prompt: z.string().min(1),
+    prompt: z.string().min(1).max(2_000),
   }),
   responseBody: StreamingResponseSchema,
 }, async (body, { raw: { res } }) => {

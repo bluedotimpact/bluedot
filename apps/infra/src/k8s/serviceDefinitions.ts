@@ -157,6 +157,7 @@ export const services: ServiceDefinition[] = [
         name: 'bluedot-course-demos',
         image: 'sjc.vultrcr.com/bluedot/bluedot-course-demos:latest',
         env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
           { name: 'OPENAI_API_KEY', valueFrom: envVarSources.openaiApiKey },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },

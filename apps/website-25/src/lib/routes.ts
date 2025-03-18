@@ -23,9 +23,16 @@ const joinUs: BluedotRoute = {
   parentPages: [home],
 };
 
+const contact: BluedotRoute = {
+  title: 'Contact us',
+  url: '/contact',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   home,
   about,
   privacyPolicy,
   joinUs,
+  contact,
 } as const;
