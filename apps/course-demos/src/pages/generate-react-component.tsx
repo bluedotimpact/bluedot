@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Button, H2, P } from '@bluedot/ui';
-import { useCompletion } from '@ai-sdk/react';
+import React, { useState } from 'react';
 import {
-  SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
-} from '@codesandbox/sandpack-react';
+  Button, H2, Link, P,
+} from '@bluedot/ui';
+import { useCompletion } from '@ai-sdk/react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { ShareButton } from '../components/ShareButton';
-
-const ProgressDots: React.FC = () => {
-  return (
-    <div className="flex justify-center space-x-2 my-6">
-      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-      <span className="size-2 bg-bluedot-normal rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-    </div>
-  );
-};
+import { CodeRenderer } from '../components/CodeRenderer';
+import { ProgressDots } from '../components/ProgressDots';
+import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 
 const DemoPage: React.FC = () => {
   const [view, setView] = useState<'prompt' | 'display'>('prompt');
@@ -113,7 +105,7 @@ const DemoPage: React.FC = () => {
       <main className="mx-auto px-4">
         <div className="text-center">
           <P className="text-xl font-medium mt-4 mb-2">AI is creating your webpage...</P>
-          <P className="mb-6">Brief: {userPrompt}</P>
+          <P className="mb-6">Prompt: {userPrompt}</P>
           <ProgressDots />
         </div>
         <CodeRenderer code={generatedCode} height="calc(100vh - 150px)" hidePreview />
@@ -139,57 +131,19 @@ const DemoPage: React.FC = () => {
   return null;
 };
 
-const CodeRenderer: React.FC<{ code: string, height?: string, hidePreview?: boolean }> = ({ code, height, hidePreview = false }) => {
-  const files = {
-    '/App.js': {
-      code: `import React from 'react';
-
-${code}
-
-export default function App() {
-  return (
-    <Component />
-  );
-}
-`,
-      readOnly: true,
-    },
-  };
-
-  const [view, setView] = useState<'code' | 'load_preview' | 'preview'>(hidePreview ? 'code' : 'preview');
-  // This is a hack to refresh the SandpackProvider so the preview refreshes
-  useEffect(() => {
-    if (view === 'load_preview') {
-      setView('preview');
-    }
-  }, [view]);
+export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, courseLink }: { savedDemoOutput: SavedDemoOutput, courseLink: string }) => {
+  const { prompt, code } = JSON.parse(savedDemoOutput.data);
 
   return (
-    <>
-      {view !== 'load_preview'
-    && (
-    <SandpackProvider
-      template="react"
-      files={files}
-      options={{
-        externalResources: ['https://cdn.tailwindcss.com'],
-      }}
-    >
-      <SandpackLayout>
-        {view === 'preview' && <SandpackPreview showOpenInCodeSandbox={false} style={{ height }} />}
-        {view === 'code' && <SandpackCodeEditor showRunButton={false} style={{ height }} />}
-      </SandpackLayout>
-    </SandpackProvider>
-    )}
-      {view === 'load_preview' && <div style={{ height, margin: '0 1px' }} />}
-      {!hidePreview && (
-      <nav className="justify-end items-center flex gap-2">
-        <P className="!my-0">Show:</P>
-        <Button className={view === 'code' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('code')}>Code</Button>
-        <Button className={view === 'preview' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('load_preview')}>Preview</Button>
-      </nav>
-      )}
-    </>
+    <div className="flex flex-col gap-4 mt-2">
+      <div className="bg-gray-100 p-4 rounded-md">
+        <P className="font-medium">The <Link href={courseLink}>AI Impacts course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
+      </div>
+      <CodeRenderer code={code} height="calc(100vh - 250px)" />
+      <div className="flex gap-2 w-fit relative bottom-12.5 mt-1 -mb-10">
+        <Button href={courseLink}>→ Start learning <span className="hidden md:inline">(and try this yourself)</span></Button>
+      </div>
+    </div>
   );
 };
 

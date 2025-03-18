@@ -9,7 +9,7 @@ export default makeApiRoute({
     data: z.string().min(1).max(100_000),
   }),
   responseBody: z.object({
-    shareId: z.string(),
+    savedDemoOutputId: z.string(),
   }),
 }, async (body) => {
   const record = await db.insert(sharedDemoOutputTable, {
@@ -19,6 +19,6 @@ export default makeApiRoute({
   });
 
   return {
-    shareId: record.id,
+    savedDemoOutputId: record.id,
   };
 });

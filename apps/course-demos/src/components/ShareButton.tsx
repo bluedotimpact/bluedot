@@ -74,8 +74,8 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
         throw new Error('Failed to share');
       }
 
-      const { shareId } = await response.json();
-      const url = `${window.location.origin}/s/${shareId}${referralToken ? `?r=${referralToken}` : ''}`;
+      const { savedDemoOutputId } = await response.json();
+      const url = `${window.location.origin}/s/${savedDemoOutputId}${referralToken ? `?r=${referralToken}` : ''}`;
       setShareUrlData(data);
       setShareUrl(url);
       setIsOpen(true);
@@ -153,7 +153,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
         </div>
 
         <div className="mt-10 flex max-w-xs">
-          <p className="w-full px-3 py-2 border rounded-md text-gray-700 select-all mr-2 overflow-scroll">{shareUrl}</p>
+          <p className="w-full px-3 py-2 border rounded-md text-gray-700 select-all mr-2 whitespace-nowrap overflow-scroll">{shareUrl}</p>
           <AriaButton
             onPress={handleCopyToClipboard}
             className={clsx('bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md', isCopied && '!bg-green-100')}
