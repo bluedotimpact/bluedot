@@ -5,6 +5,7 @@ import {
   SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
 } from '@codesandbox/sandpack-react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
+import { ShareButton } from '../components/ShareButton';
 
 const ProgressDots: React.FC = () => {
   return (
@@ -98,7 +99,7 @@ const DemoPage: React.FC = () => {
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
           </P>
           <P>
-            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton href="https://web.lmarena.ai/">WebDev Arena</LinkOrButton> to see a similar demo.
+            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton href="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
           </P>
           <Button onPress={() => handleSubmit()}>Try again</Button>
         </>
@@ -125,7 +126,10 @@ const DemoPage: React.FC = () => {
       <main className="mx-auto px-4">
         <div className="flex flex-col gap-4 mt-2">
           <CodeRenderer code={generatedCode} height="calc(100vh - 70px)" />
-          <Button className="relative bottom-12.5 -mb-8" onPress={() => { setView('prompt'); setUserPrompt(''); }}>← Start over<span className="hidden md:inline"> to create something new</span></Button>
+          <div className="flex gap-2 w-fit relative bottom-12.5 mt-1 -mb-10">
+            <ShareButton type="generate-react-component" data={JSON.stringify({ prompt: userPrompt, code: generatedCode })} />
+            <Button onPress={() => { setView('prompt'); setUserPrompt(''); }}>← Start over</Button>
+          </div>
         </div>
       </main>
     );
