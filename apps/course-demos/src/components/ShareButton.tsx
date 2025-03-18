@@ -34,13 +34,13 @@ const SocialButton: React.FC<SocialButtonProps> = ({
 interface ShareButtonProps {
   type: string;
   data: string;
-  text?: string;
+  text: string;
 }
 
 export const ShareButton: React.FC<ShareButtonProps> = ({
   type,
   data,
-  text = 'Check out what I created!',
+  text,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
@@ -110,7 +110,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
         shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
         break;
       case 'linkedin':
-        shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+        shareLink = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
         break;
       default:
         return;
