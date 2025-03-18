@@ -2,7 +2,7 @@ import React, { useState, ReactNode } from 'react';
 import { Button } from '@bluedot/ui';
 import { Button as AriaButton } from 'react-aria-components';
 import {
-  FaFacebook, FaTwitter, FaLinkedin, FaCheck, FaShare, FaCopy,
+  FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaShare, FaCopy,
 } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -106,8 +106,8 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
       case 'facebook':
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
         break;
-      case 'twitter':
-        shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+      case 'x':
+        shareLink = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
         break;
       case 'linkedin':
         shareLink = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
@@ -136,11 +136,11 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
           </SocialButton>
 
           <SocialButton
-            icon={<FaTwitter size={24} />}
-            color="text-blue-400"
-            onPress={() => shareToSocial('twitter')}
+            icon={<FaXTwitter size={24} />}
+            color="text-black"
+            onPress={() => shareToSocial('x')}
           >
-            Twitter
+            X
           </SocialButton>
 
           <SocialButton
