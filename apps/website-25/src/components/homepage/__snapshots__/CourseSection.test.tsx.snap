@@ -32,7 +32,7 @@ exports[`CourseSection > renders as expected 1`] = `
         <span>
           <a
             class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-section__featured"
-            href="https://aisafetyfundamentals.com/intro-to-tai/"
+            href="https://course.bluedot.org/ai-impact/"
           >
             <div
               class="course-card__content block md:flex gap-space-between w-full"
@@ -48,7 +48,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 <h3
                   class="course-card__title mb-6"
                 >
-                  AI Safety: Intro to Transformative AI
+                  The AI Impacts
                 </h3>
                 <button
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
@@ -64,16 +64,16 @@ exports[`CourseSection > renders as expected 1`] = `
                 <p
                   class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
                 >
-                  The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.
+                  A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.
                 </p>
               </div>
               <div
                 class="course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6"
               >
                 <img
-                  alt="AI Safety: Intro to Transformative AI"
+                  alt="The AI Impacts"
                   class="course-card__image size-full object-cover"
-                  src="/images/courses/intro.jpg"
+                  src="/images/courses/ai-impact.png"
                 />
               </div>
             </div>
@@ -85,15 +85,13 @@ exports[`CourseSection > renders as expected 1`] = `
               >
                 <span
                   class="course-card__length font-medium"
-                >
-                  5 days
-                </span>
+                />
               </p>
               <span
                 class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
                 role="status"
               >
-                Crash course
+                Self-paced
               </span>
             </div>
           </a>
@@ -115,6 +113,77 @@ exports[`CourseSection > renders as expected 1`] = `
               class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
               style="scroll-padding-inline: 0px;"
             >
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <span>
+                  <div
+                    class="p-[3px] h-full"
+                  >
+                    <a
+                      class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
+                      href="https://aisafetyfundamentals.com/intro-to-tai/"
+                    >
+                      <div
+                        class="card__image-container w-full mb-4"
+                      >
+                        <img
+                          alt="AI Safety: Intro to Transformative AI"
+                          class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+                          src="/images/courses/intro.jpg"
+                        />
+                      </div>
+                      <div
+                        class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                      >
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title subtitle-sm mb-2"
+                          >
+                            AI Safety: Intro to Transformative AI
+                          </p>
+                          <p
+                            class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                          >
+                            The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.
+                          </p>
+                        </div>
+                        <div
+                          class="card__bottom-section flex flex-col gap-space-between"
+                        >
+                          <div
+                            class="card__footer flex items-center justify-between w-full"
+                          >
+                            <div
+                              class="course-card__footer flex justify-between w-full"
+                            >
+                              <p
+                                class="course-card__footer-left text-left text-xs text-bluedot-black"
+                              >
+                                <span
+                                  class="course-card__length font-medium"
+                                >
+                                  5 days
+                                </span>
+                              </p>
+                              <span
+                                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                                role="status"
+                              >
+                                Crash course
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </span>
+              </div>
               <div
                 class="slide-list__slide shrink-0 snap-start"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
@@ -645,7 +714,7 @@ exports[`CourseSection > renders as expected 1`] = `
               />
               <div
                 class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 14.285714285714285%;"
+                style="width: 12.5%;"
               />
             </div>
             <button
