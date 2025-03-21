@@ -20,12 +20,6 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
-    imageSrc: '/images/team/vio.jpg',
-    name: 'Viorica Gheorghita',
-    role: 'Product',
-    linkedInUrl: 'https://www.linkedin.com/in/vioricagheorghita/',
-  },
-  {
     imageSrc: '/images/team/adam.jpg',
     name: 'Adam Jones',
     role: 'AI Safety',
