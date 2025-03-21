@@ -32,7 +32,7 @@ exports[`CourseSection > renders as expected 1`] = `
         <span>
           <a
             class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-section__featured"
-            href="https://course.bluedot.org/ai-impact/"
+            href="https://course.bluedot.org/future-of-ai/"
           >
             <div
               class="course-card__content block md:flex gap-space-between w-full"
@@ -48,7 +48,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 <h3
                   class="course-card__title mb-6"
                 >
-                  The AI Impacts Course
+                  The Future of AI Course
                 </h3>
                 <button
                   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
@@ -71,9 +71,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 class="course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6"
               >
                 <img
-                  alt="The AI Impacts Course"
+                  alt="The Future of AI Course"
                   class="course-card__image size-full object-cover"
-                  src="/images/courses/ai-impact.png"
+                  src="/images/courses/future-of-ai.png"
                 />
               </div>
             </div>
