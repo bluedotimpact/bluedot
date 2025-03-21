@@ -34,7 +34,7 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
       <>
         <H2 className="text-red-500">Couldn't interpret your demo</H2>
         <P>This can sometimes happen if the link is invalid or the content has been deleted.</P>
-        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link href={courseLink}>AI Impacts course</Link>.</P>
+        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link href={courseLink}>Future of AI Course</Link>.</P>
         <P>Details: {asError(error).message}</P>
       </>
     );
@@ -51,7 +51,7 @@ const SharePage: React.FC = () => {
     method: 'get',
   });
 
-  const courseLink = `https://course.bluedot.org/ai-impact?utm_source=demo&utm_campaign=${savedDemoOutput ? encodeURIComponent(savedDemoOutput.type) : 'unknown'}${referralToken ? `&r=${referralToken}` : ''}`;
+  const courseLink = `https://course.bluedot.org/future-of-ai?utm_source=demo&utm_campaign=${savedDemoOutput ? encodeURIComponent(savedDemoOutput.type) : 'unknown'}${referralToken ? `&r=${referralToken}` : ''}`;
 
   if (loading || !savedDemoOutputId) {
     return (
@@ -67,7 +67,7 @@ const SharePage: React.FC = () => {
       <main className="mx-auto px-4 py-8">
         <H2 className="text-red-500">Couldn't find your demo</H2>
         <P>This can sometimes happen if the link is invalid or the content has been deleted.</P>
-        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link href={courseLink}>AI Impacts course</Link>.</P>
+        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link href={courseLink}>Future of AI Course</Link>.</P>
         <P>Details: {error?.message || 'Failed to load shared content'}</P>
       </main>
     );

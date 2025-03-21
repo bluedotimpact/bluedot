@@ -19,7 +19,7 @@ describe('CourseSection', () => {
     expect(container).toMatchSnapshot();
 
     // Verify featured course is present
-    expect(screen.getByText('The AI Impacts Course')).toBeDefined();
+    expect(screen.getByText('The Future of AI Course')).toBeDefined();
     // Verify the first of the other courses is present
     expect(screen.getByText('Economics of Transformative AI')).toBeDefined();
   });
@@ -28,13 +28,13 @@ describe('CourseSection', () => {
     render(<CourseSection />);
 
     // Click the featured course card
-    const featuredCard = screen.getByText('The AI Impacts Course');
+    const featuredCard = screen.getByText('The Future of AI Course');
     fireEvent.click(featuredCard);
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
-      course_title: 'The AI Impacts Course',
-      course_url: 'https://course.bluedot.org/ai-impact/',
+      course_title: 'The Future of AI Course',
+      course_url: 'https://course.bluedot.org/future-of-ai/',
     });
 
     // Click another course card
