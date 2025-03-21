@@ -13,12 +13,12 @@ export type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 export const COURSES: Course[] = [
   {
-    title: 'The AI Impacts Course',
+    title: 'The Future of AI Course',
     description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
     courseType: 'Self-paced',
     courseLength: '',
     imageSrc: '/images/courses/ai-impact.png',
-    href: 'https://course.bluedot.org/ai-impact/',
+    href: 'https://course.bluedot.org/future-of-ai/',
     isNew: true,
     isFeatured: true,
   },
