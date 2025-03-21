@@ -17,7 +17,7 @@ export const COURSES: Course[] = [
     description: 'A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.',
     courseType: 'Self-paced',
     courseLength: '',
-    imageSrc: '/images/courses/ai-impact.png',
+    imageSrc: '/images/courses/future-of-ai.png',
     href: 'https://course.bluedot.org/future-of-ai/',
     isNew: true,
     isFeatured: true,
