@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 const landingPages = [
   '/lander/classic',
-  '/lander/another',
   '/lander/fing_awesome',
   '/lander/everyone_voice',
   '/lander/everyone_community',
