@@ -1,4 +1,5 @@
 import {
+  constants,
   CTALinkOrButton,
   Footer,
 } from '@bluedot/ui';
@@ -17,6 +18,7 @@ import CourseUnitsSection, {
 } from './CourseUnitsSection';
 import BlueHeader from './BlueHeader';
 import { getCtaUrl } from './getCtaUrl';
+import { Nav } from '../Nav';
 
 export type LandingPageBaseProps = {
   /** Hero component to render */
@@ -34,10 +36,9 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
         <title>BlueDot Impact | Future-proof your career</title>
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
-      <NewNav>
-        <NewNavItem href="https://course.bluedot.org/login">Login</NewNavItem>
-        <NewNavButton url={ctaUrl}>Start learning</NewNavButton>
-      </NewNav>
+      <div className="relative h-25">
+        <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
+      </div>
       {hero}
 
       <Container className="flex gap-6 sm:gap-12 md:gap-20 items-center">
