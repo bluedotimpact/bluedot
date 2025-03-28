@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 
 interface CourseUnitProps {
