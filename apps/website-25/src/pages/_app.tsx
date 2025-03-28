@@ -54,12 +54,17 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="images/logo/favicon/site.webmanifest" />
       </Head>
-      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
-      <main className="bluedot-base">
-        <Component {...pageProps} />
-      </main>
+      {'rawLayout' in Component && Component.rawLayout
+        ? <Component {...pageProps} />
+        : (
+          <><Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+            <main className="bluedot-base">
+              <Component {...pageProps} />
+            </main>
+            <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+          </>
+        )}
       <CookieBanner />
-      <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
       <Analytics />
     </PostHogProvider>
   );
