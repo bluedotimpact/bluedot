@@ -57,12 +57,12 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Container>
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
-        <SingleTestimonialSection imgSrc="/images/graduates/matthew.png">
+        <SingleTestimonialSection imgSrc="/images/graduates/crystal.jpeg">
           <TestimonialQuote>
-            This is a nice testimonial from someone who said the course is cool and good
+            It didn't just teach me about AI safety; it clarified my purpose.
           </TestimonialQuote>
           <TestimonialAttribution>
-            ~Their Name, Cool Job Title at Organization
+            ~Crystal Isanda, Foresight Fellow @Unicef
           </TestimonialAttribution>
           <TestimonialCTA url={ctaUrl}>
             Start learning with 4000+ others
