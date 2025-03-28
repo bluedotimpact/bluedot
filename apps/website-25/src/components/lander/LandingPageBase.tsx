@@ -16,6 +16,7 @@ import CourseUnitsSection, {
   CourseUnit, CourseUnitTitle, CourseUnitDescription,
 } from './CourseUnitsSection';
 import BlueHeader from './BlueHeader';
+import { getCtaUrl } from './getCtaUrl';
 
 export type LandingPageBaseProps = {
   /** Hero component to render */
@@ -25,9 +26,7 @@ export type LandingPageBaseProps = {
 };
 
 const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
-  const queryParams = new URLSearchParams(window.location.search);
-  queryParams.append('prefill_Variant', variant);
-  const ctaUrl = `https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc?${queryParams.toString()}`;
+  const ctaUrl = getCtaUrl(variant);
 
   return (
     <div className="min-h-screen bg-cream-normal">
