@@ -94,7 +94,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
         <CourseUnitsSection>
           <CourseUnit unitNumber="1">
             <CourseUnitTitle>AI Agents & What They Can Do</CourseUnitTitle>
-            <CourseUnitDescription>See how smart AI assistants are making work-optional futures possible for the first time and how they’re already changing everyday tasks.</CourseUnitDescription>
+            <CourseUnitDescription>See how smart AI assistants are making work-optional futures possible for the first time and how they're already changing everyday tasks.</CourseUnitDescription>
           </CourseUnit>
           <CourseUnit unitNumber="2">
             <CourseUnitTitle>Getting Your Time Back</CourseUnitTitle>
@@ -121,7 +121,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
             We started BlueDot to help others understand and work on challenges from emerging technologies.
           </p>
           <p className="mb-8 text-size-md">
-            Since 2021, we’ve designed our courses with some of the world’s leading experts and helped thousands of talented people build the skills to make a real difference.
+            Since 2021, we've designed our courses with some of the world's leading experts and helped thousands of talented people build the skills to make a real difference.
           </p>
           <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Read about us</CTALinkOrButton>
         </div>
@@ -133,7 +133,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       <Container bgClassname="bg-bluedot-darker" className="py-16">
         {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
         <div className="flex items-start justify-between">
-          <div className="w-3/4 space-y-4">
+          <div className="w-full md:w-3/4 space-y-4">
             <h2 className="text-3xl font-light font-serif text-white">
               Want a f*ing awesome future?
             </h2>
@@ -144,7 +144,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
               <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
             </div>
           </div>
-          <div className="w-1/5">
+          <div className="w-1/5 hidden md:block">
             <img src="/images/lander/bluedot_logo_cream_thin.png" alt="BlueDot logo" className="w-full" />
           </div>
         </div>
