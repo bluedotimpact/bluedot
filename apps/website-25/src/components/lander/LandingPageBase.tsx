@@ -37,7 +37,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Head>
       <NewNav>
         <NewNavItem href="https://course.bluedot.org/login">Login</NewNavItem>
-        <NewNavButton url={ctaUrl}>Start learning</NewNavButton>
+        <NewNavButton url={ctaUrl}>Sign up for free</NewNavButton>
       </NewNav>
       {hero}
 
