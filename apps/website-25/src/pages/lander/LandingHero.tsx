@@ -21,10 +21,10 @@ const LandingHero: React.FC<LandingHeroProps> = ({
       {/* Top margin is nav height (82px) */}
       <div className="landing-hero__content max-w-[865px] mt-[82px] py-16">
         <h1 className="landing-hero__title text-center font-serif flex flex-col items-center">
-          {pretitle && <span className="landing-hero__pretitle text-6xl font-normal">{pretitle}</span>}
-          <span className="landing-hero__title-text text-9xl font-bold text-bluedot-darker">{title}</span>
+          {pretitle && <span className="landing-hero__pretitle text-4xl sm:text-6xl font-normal">{pretitle}</span>}
+          <span className="landing-hero__title-text text-7xl sm:text-9xl font-bold text-bluedot-dark">{title}</span>
         </h1>
-        <p className="landing-hero__subtitle text-center text-size-l mt-6 font-serif">
+        <p className={clsx('landing-hero__subtitle text-center mt-6 font-serif', pretitle ? 'text-xl' : ' text-4xl sm:text-6xl')}>
           {subtitle}
         </p>
         <div className="flex justify-center mt-8">
