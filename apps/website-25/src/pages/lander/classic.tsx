@@ -7,38 +7,25 @@ import {
   Footer,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import React from 'react';
-import { CTAProps } from '@bluedot/ui/src/CTALinkOrButton';
 import {
   FaStar,
   FaStopwatch,
   FaAward,
 } from 'react-icons/fa6';
-import clsx from 'clsx';
 import GraduateSection from '../../components/homepage/GraduateSection';
 import { ROUTES } from '../../lib/routes';
-
-const Container: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ children, className }) => {
-  return <section className={clsx('max-w-5xl mx-auto px-4 sm:px-8', className)}>{children}</section>;
-};
-
-const NewNav: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <nav className="w-full bg-cream-normal sticky top-0 border-b-2 border-color-divider">
-      <Container className="h-16 flex items-center justify-between">
-        <a href="/">
-          <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-4 sm:h-8" />
-        </a>
-        <div className="flex gap-8 items-center">
-          {children}
-        </div>
-      </Container>
-    </nav>
-  );
-};
-
-const NewNavItem: React.FC<React.PropsWithChildren<{ href: string }>> = ({ children, href }) => <a href={href}>{children}</a>;
-const NewNavButton: React.FC<CTAProps> = (props) => <CTALinkOrButton {...props} />;
+import Container from '../../components/lander/Container';
+import NewNav, { NewNavItem, NewNavButton } from '../../components/lander/NewNav';
+import SingleTestimonialSection, {
+  TestimonialQuote,
+  TestimonialAttribution,
+  TestimonialCTA,
+} from '../../components/lander/SingleTestimonialSection';
+import FeaturesSection, { Feature, FeatureTitle, FeatureSubtitle } from '../../components/lander/FeaturesSection';
+import CourseUnitsSection, {
+  CourseUnit, CourseUnitTitle, CourseUnitDescription, CourseUnitsCTA,
+} from '../../components/lander/CourseUnitsSection';
+import BlueHeader from '../../components/lander/BlueHeader';
 
 const LandingPage = (): JSX.Element => {
   return (
@@ -91,112 +78,66 @@ const LandingPage = (): JSX.Element => {
         </div>
       </Container>
 
-      <div className="bg-bluedot-lighter">
-        <Container className="py-16">
-          <div className="flex items-start gap-4 md:gap-8">
-            <img src="/images/graduates/matthew.png" alt="" className="size-24 md:size-50 rounded-full object-cover shrink-0" />
-            <div>
-              {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-              <p className="font-serif text-size-lg md:text-3xl mb-3 md:mr-20">
-                “This is a nice testimonial from someone who said the course is cool and good”
-              </p>
-              <p className="font-serif text-size-sm md:text-size-md text-gray-800 md:mr-20">~Their Name, Cool Job Title at Organization</p>
-              {/* The mr-50 here is to allow centering the CTA button, compared to the size-50 profile pic on the left */}
-              <div className="hidden md:flex justify-center mr-50">
-                <CTALinkOrButton url="https://course.bluedot.org/login" className="mt-7">
-                  Start learning with 4000+ others
-                </CTALinkOrButton>
-              </div>
-            </div>
-          </div>
-          <div className="md:hidden flex justify-center">
-            <CTALinkOrButton url="https://course.bluedot.org/login" className="mt-7">
-              Start learning with 40000+ others
-            </CTALinkOrButton>
-          </div>
-        </Container>
-      </div>
+      <Container bgClassname="bg-bluedot-lighter" className="py-16">
+        <SingleTestimonialSection imgSrc="/images/graduates/matthew.png">
+          <TestimonialQuote>
+            This is a nice testimonial from someone who said the course is cool and good
+          </TestimonialQuote>
+          <TestimonialAttribution>
+            ~Their Name, Cool Job Title at Organization
+          </TestimonialAttribution>
+          <TestimonialCTA url="https://course.bluedot.org/login">
+            Start learning with 4000+ others
+          </TestimonialCTA>
+        </SingleTestimonialSection>
+      </Container>
 
-      {/* Why Take the Course Section */}
       <Container className="py-16">
-        {/* TODO: add reckless neue bold */}
-        <h2 className="text-size-xl font-serif font-bold text-center mb-12 text-bluedot-dark">Why take the course?</h2>
-        <div className="grid md:grid-cols-3 gap-16">
-          <div className="text-center">
-            <div className="size-32 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <img src="/images/lander/icon_interact.svg" alt="" className="size-16" />
-            </div>
-            <h3 className="font-semibold mb-2">Try the latest AI tools</h3>
-            <p className="text-gray-600 text-size-md mx-4">Learn how today’s AI actually works</p>
-          </div>
-          <div className="text-center">
-            <div className="size-32 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <img src="/images/lander/icon_book.svg" alt="" className="size-20" />
-            </div>
-            <h3 className="font-semibold mb-2">Go beyond headlines</h3>
-            <p className="text-gray-600 text-size-md mx-4">Understand the future trajectory of AI</p>
-          </div>
-          <div className="text-center">
-            <div className="size-32 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <img src="/images/lander/icon_globe.svg" alt="" className="size-18" />
-            </div>
-            <h3 className="font-semibold mb-2">Shape AI's development</h3>
-            <p className="text-gray-600 text-size-md mx-4">Use your skills and voice for good</p>
-          </div>
-        </div>
+        <BlueHeader>Why take the course?</BlueHeader>
+        <FeaturesSection>
+          <Feature iconSrc="/images/lander/icon_interact.svg">
+            <FeatureTitle>Try the latest AI tools</FeatureTitle>
+            <FeatureSubtitle>Learn how today's AI actually works</FeatureSubtitle>
+          </Feature>
+          <Feature iconSrc="/images/lander/icon_book.svg">
+            <FeatureTitle>Go beyond headlines</FeatureTitle>
+            <FeatureSubtitle>Understand the future trajectory of AI</FeatureSubtitle>
+          </Feature>
+          <Feature iconSrc="/images/lander/icon_globe.svg">
+            <FeatureTitle>Shape AI's development</FeatureTitle>
+            <FeatureSubtitle>Use your skills and voice for good</FeatureSubtitle>
+          </Feature>
+        </FeaturesSection>
       </Container>
 
       {/* Course Units Section */}
-      <div className="bg-bluedot-lighter">
-        <Container className="py-16">
-          {/* TODO: add reckless neue bold */}
-          <h2 className="text-size-xl font-serif font-bold text-center mb-12 text-bluedot-dark">What's covered?</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <div className="p-6 bg-cream-normal rounded-lg">
-              <p className="uppercase font-semibold text-gray-600">Unit 1</p>
-              <h3 className="text-size-lg font-semibold my-2">Beyond chatbots: the expanding frontier of AI capabilities</h3>
-              <p className="text-gray-600">
-                AI is evolving from helpful ‘tools’ into capable autonomous ‘agents’ capable of independently setting goals, making decisions, and acting on them.
-              </p>
-            </div>
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <div className="p-6 bg-cream-normal rounded-lg">
-              <p className="uppercase font-semibold text-gray-600">Unit 2</p>
-              <h3 className="text-size-lg font-semibold my-2">Artificial general intelligence: on the horizon?</h3>
-              <p className="text-gray-600">
-                Examining what capabilities an AI system would need to match human performance and how close current technology is to achieving this milestone.
-              </p>
-            </div>
+      <Container bgClassname="bg-bluedot-lighter" className="py-16">
+        <BlueHeader>What's covered?</BlueHeader>
+        <CourseUnitsSection>
+          <CourseUnit unitNumber="1">
+            <CourseUnitTitle>Beyond chatbots: the expanding frontier of AI capabilities</CourseUnitTitle>
+            <CourseUnitDescription>AI is evolving from helpful 'tools' into capable autonomous 'agents' capable of independently setting goals, making decisions, and acting on them.</CourseUnitDescription>
+          </CourseUnit>
+          <CourseUnit unitNumber="2">
+            <CourseUnitTitle>Artificial general intelligence: on the horizon?</CourseUnitTitle>
+            <CourseUnitDescription>Examining what capabilities an AI system would need to match human performance and how close current technology is to achieving this milestone.</CourseUnitDescription>
+          </CourseUnit>
+          <CourseUnit unitNumber="3">
+            <CourseUnitTitle>AGI will drastically change how we live</CourseUnitTitle>
+            <CourseUnitDescription>Exploring how AGI could transform society like previous revolutionary technologies, with potentially more profound implications for humanity.</CourseUnitDescription>
+          </CourseUnit>
+          <CourseUnit unitNumber="4">
+            <CourseUnitTitle>What can be done?</CourseUnitTitle>
+            <CourseUnitDescription>Navigating the critical balance between realizing AI's enormous benefits while avoiding potential large-scale harms and maintaining human control.</CourseUnitDescription>
+          </CourseUnit>
+        </CourseUnitsSection>
+        <div className="flex justify-center mt-8">
+          <CTALinkOrButton url="https://course.bluedot.org/login">Start learning from unit 1 today</CTALinkOrButton>
+        </div>
+      </Container>
 
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <div className="p-6 bg-cream-normal rounded-lg">
-              <p className="uppercase font-semibold text-gray-600">Unit 3</p>
-              <h3 className="text-size-lg font-semibold my-2">AGI will drastically change how we live</h3>
-              <p className="text-gray-600">
-                Exploring how AGI could transform society like previous revolutionary technologies, with potentially more profound implications for humanity.
-              </p>
-            </div>
-
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <div className="p-6 bg-cream-normal rounded-lg">
-              <p className="uppercase font-semibold text-gray-600">Unit 4</p>
-              <h3 className="text-size-lg font-semibold my-2">What can be done?</h3>
-              <p className="text-gray-600">
-                Navigating the critical balance between realizing AI's enormous benefits while avoiding potential large-scale harms and maintaining human control.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-center mt-8">
-            <CTALinkOrButton url="https://course.bluedot.org/login">Start learning from unit 1 today</CTALinkOrButton>
-          </div>
-        </Container>
-      </div>
-
-      {/* You're in Good Hands Section */}
       <Container className="py-16">
-        {/* TODO: add reckless neue bold */}
-        <h2 className="text-size-xl font-serif font-bold text-left mb-8 text-bluedot-dark">You're in good hands</h2>
+        <BlueHeader className="!text-left">You're in good hands</BlueHeader>
         <div className="w-3/4">
           <p className="mb-4 text-size-md">
             We started BlueDot to help others understand and work on challenges from emerging technologies.
@@ -211,16 +152,15 @@ const LandingPage = (): JSX.Element => {
         </div>
       </Container>
 
-      {/* Course Units Section */}
-      <div className="bg-bluedot-lighter">
-        <Container className="py-16">
-          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl font-light font-serif text-center">AI will reshape every aspect of society - from jobs and education to science and healthcare. <span className="text-bluedot-normal">We all need to understand what's ahead.</span></h2>
-          <div className="flex justify-center mt-4">
-            <CTALinkOrButton url="https://course.bluedot.org/login">Start learning for free</CTALinkOrButton>
-          </div>
-        </Container>
-      </div>
+      <Container bgClassname="bg-bluedot-lighter" className="py-16">
+        {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
+        <h2 className="text-3xl font-light font-serif text-center ">
+          AI will reshape every aspect of society - from jobs and education to science and healthcare. <span className="text-bluedot-normal">We all need to understand what's ahead.</span>
+        </h2>
+        <div className="flex justify-center mt-4">
+          <CTALinkOrButton url="https://course.bluedot.org/login">Start learning for free</CTALinkOrButton>
+        </div>
+      </Container>
 
       {/* Footer */}
       <Footer />
