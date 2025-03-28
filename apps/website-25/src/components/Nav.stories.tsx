@@ -39,6 +39,8 @@ export const Default: Story = {
 export const Customized: Story = {
   args: {
     logo: imgSrc,
+    primaryCtaText: 'Start learning',
+    primaryCtaUrl: 'https://course.bluedot.org/future-of-ai',
     children: [
       <><a href="#">Support Us</a><a href="#">About</a><a href="#">Join us</a><a href="#">Blog</a></>,
     ],

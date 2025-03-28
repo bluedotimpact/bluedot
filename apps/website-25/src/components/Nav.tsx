@@ -11,6 +11,8 @@ import { ROUTES } from '../lib/routes';
 export type NavProps = React.PropsWithChildren<{
   className?: string;
   logo?: string;
+  primaryCtaText?: string;
+  primaryCtaUrl?: string;
   courses: Array<{
     title: string;
     href: string;
@@ -112,20 +114,26 @@ const NavLinks: React.FC<{
   );
 };
 
-const CTAButtons: React.FC<{ className?: string }> = ({ className }) => (
+const CTAButtons: React.FC<{ className?: string; primaryCtaText?: string; primaryCtaUrl?: string }> = ({
+  className,
+  primaryCtaText = "Support us",
+  primaryCtaUrl = "https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+}) => (
   <div className={clsx('nav__cta-container', className)}>
     <CTALinkOrButton
-      className="nav__primary-cta"
-      url="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-      isExternalUrl
+      className="nav__secondary-cta"
+      variant="secondary"
+      url="https://course.bluedot.org/login"
     >
-      Support us
+      Login
     </CTALinkOrButton>
-    {/*
-      TODO Potentially switch from "Support us" to "Log in"/"Get started for free" for non-MVP site
-      <a className="nav__secondary-cta" href="https://course.aisafetyfundamentals.com/alignment?show=login" {...EXTERNAL_LINK_PROPS}>Log in</a>
-      <CTALinkOrButton className="nav__primary-cta" url="https://aisafetyfundamentals.com/" {...EXTERNAL_LINK_PROPS}>Get started for free</CTALinkOrButton>
-    */}
+    <CTALinkOrButton
+      className="nav__primary-cta"
+      variant="primary"
+      url={primaryCtaUrl}
+    >
+      {primaryCtaText}
+    </CTALinkOrButton>
   </div>
 );
 
@@ -136,7 +144,7 @@ export const isCurrentPath = (href: string): boolean => {
 };
 
 export const Nav: React.FC<NavProps> = ({
-  className, logo, courses,
+  className, logo, courses, primaryCtaText, primaryCtaUrl,
 }) => {
   const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore'>('none');
   const navExpanded = expandedSections === 'nav' || expandedSections === 'nav-and-explore';
@@ -194,7 +202,7 @@ export const Nav: React.FC<NavProps> = ({
               className="nav__links--desktop hidden lg:flex mx-auto"
             />
             <div className="nav__actions flex gap-space-between ml-auto">
-              <CTAButtons className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
+              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
               <HamburgerButton
                 open={navExpanded}
                 setOpen={onToggleNav}
@@ -227,7 +235,7 @@ export const Nav: React.FC<NavProps> = ({
                 isScrolled={isScrolled}
                 className="nav__links--mobile-tablet flex-col"
               />
-              <CTAButtons className="nav__login--mobile justify-between mt-20 flex sm:hidden" />
+              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden" />
             </div>
           </div>
         </div>

@@ -71,11 +71,20 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+              data-testid="cta-link"
+              href="https://course.bluedot.org/login"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Login
+              </span>
+            </a>
+            <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"
@@ -228,14 +237,23 @@ exports[`Nav > renders with courses 1`] = `
             </a>
           </div>
           <div
-            class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
+            class="nav__cta-container nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
           >
+            <a
+              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+              data-testid="cta-link"
+              href="https://course.bluedot.org/login"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Login
+              </span>
+            </a>
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 class="cta-button__text"
