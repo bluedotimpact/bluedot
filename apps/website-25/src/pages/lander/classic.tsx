@@ -16,7 +16,7 @@ import LandingPageBase from '../../components/lander/LandingPageBase';
 
 const VARIANT = 'classic';
 
-const LandingPage: React.FC = () => {
+const LandingPage = () => {
   const queryParams = new URLSearchParams(window.location.search);
   queryParams.append('prefill_Variant', VARIANT);
   const ctaUrl = `https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc?${queryParams.toString()}`;
@@ -57,5 +57,7 @@ const LandingPage: React.FC = () => {
     <LandingPageBase variant="classic" hero={hero} />
   );
 };
+
+LandingPage.rawLayout = true;
 
 export default LandingPage;
