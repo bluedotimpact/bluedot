@@ -69,7 +69,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
             It didn't just teach me about AI safety; it clarified my purpose.
           </TestimonialQuote>
           <TestimonialAttribution>
-            ~Crystal Isanda, Foresight Fellow @Unicef
+            ~Crystal Isanda, Foresight Fellow @ Unicef
           </TestimonialAttribution>
           <TestimonialCTA url={ctaUrl}>
             Start learning with 4000+ others
@@ -80,10 +80,10 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       <Container className="grid md:flex gap-6 md:gap-12 items-center py-10">
         <div>
           {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl font-serif font-bold">our reality</h2>
+          <h2 className="text-3xl font-serif font-bold">Our reality</h2>
           <p className="text-size-md mt-4">Millions spend their days doing tasks they'd rather not, in jobs that drain rather than fulfil them, serving economic structures that benefit few at the expense of many.</p>
           {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl font-serif font-bold mt-10">the opportunity</h2>
+          <h2 className="text-3xl font-serif font-bold mt-10">The opportunity</h2>
           <p className="text-size-md mt-4">Now, AI is about to automate most human jobs — creating an unprecedented opportunity to <span className="italic">make work optional</span>. This technological revolution could free humanity from drudgery while addressing our greatest challenges — but only if we get the transition right.</p>
         </div>
         <div className="mx-auto w-3/4 md:w-100 shrink-0">
