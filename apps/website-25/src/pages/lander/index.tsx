@@ -5,6 +5,10 @@ const landingPages = [
   '/lander/classic',
   '/lander/another',
   '/lander/fing_awesome',
+  '/lander/everyone_voice',
+  '/lander/everyone_community',
+  '/lander/jobs_optional_learn_skills',
+  '/lander/jobs_optional_save_time',
 ];
 
 const LandingPageRouter = () => {
