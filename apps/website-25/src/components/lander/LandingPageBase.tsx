@@ -131,15 +131,16 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Container>
 
       <Container bgClassname="bg-bluedot-darker" className="py-16">
-        {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
         <div className="flex items-start justify-between">
           <div className="w-full md:w-3/4 space-y-4">
-            <h2 className="text-3xl font-light font-serif text-white">
+            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
+            <h2 className="text-3xl font-bold font-serif text-white">
               Want a f*ing awesome future?
             </h2>
-            <h2 className="text-xl font-light font-sans text-white">
-              Join us to explore how we can collectively build a future that's not just survivable but <span className="font-italics">f*ing awesome</span>.
-            </h2>
+            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
+            <p className="text-xl text-white">
+              Join us to explore how we can collectively build a future that's not just survivable but <span className="italic">f*ing awesome</span>.
+            </p>
             <div className="flex mt-4">
               <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
             </div>
