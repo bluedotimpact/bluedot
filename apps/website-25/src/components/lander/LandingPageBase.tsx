@@ -110,7 +110,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
           </CourseUnit>
         </CourseUnitsSection>
         <div className="flex justify-center mt-8">
-          <CTALinkOrButton url={ctaUrl}>Start learning from unit 1 today</CTALinkOrButton>
+          <CTALinkOrButton url={ctaUrl}>Sign up for free</CTALinkOrButton>
         </div>
       </Container>
 
