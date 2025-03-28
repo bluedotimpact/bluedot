@@ -57,12 +57,12 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Container>
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
-        <SingleTestimonialSection imgSrc="/images/graduates/matthew.png">
+        <SingleTestimonialSection imgSrc="/images/graduates/crystal.jpeg">
           <TestimonialQuote>
-            This is a nice testimonial from someone who said the course is cool and good
+            It didn't just teach me about AI safety; it clarified my purpose.
           </TestimonialQuote>
           <TestimonialAttribution>
-            ~Their Name, Cool Job Title at Organization
+            ~Crystal Isanda, Foresight Fellow @Unicef
           </TestimonialAttribution>
           <TestimonialCTA url={ctaUrl}>
             Start learning with 4000+ others
@@ -93,24 +93,24 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
         <BlueHeader>What's covered?</BlueHeader>
         <CourseUnitsSection>
           <CourseUnit unitNumber="1">
-            <CourseUnitTitle>Beyond chatbots: the expanding frontier of AI capabilities</CourseUnitTitle>
-            <CourseUnitDescription>AI is evolving from helpful 'tools' into capable autonomous 'agents' capable of independently setting goals, making decisions, and acting on them.</CourseUnitDescription>
+            <CourseUnitTitle>AI Agents & What They Can Do</CourseUnitTitle>
+            <CourseUnitDescription>See how smart AI assistants are making work-optional futures possible for the first time and how they’re already changing everyday tasks.</CourseUnitDescription>
           </CourseUnit>
           <CourseUnit unitNumber="2">
-            <CourseUnitTitle>Artificial general intelligence: on the horizon?</CourseUnitTitle>
-            <CourseUnitDescription>Examining what capabilities an AI system would need to match human performance and how close current technology is to achieving this milestone.</CourseUnitDescription>
+            <CourseUnitTitle>Getting Your Time Back</CourseUnitTitle>
+            <CourseUnitDescription>Try practical AI tools that can save you 10+ hours every week by handling your most boring tasks, freeing you to do what really matters.</CourseUnitDescription>
           </CourseUnit>
           <CourseUnit unitNumber="3">
-            <CourseUnitTitle>AGI will drastically change how we live</CourseUnitTitle>
-            <CourseUnitDescription>Exploring how AGI could transform society like previous revolutionary technologies, with potentially more profound implications for humanity.</CourseUnitDescription>
+            <CourseUnitTitle>Two Possible Futures</CourseUnitTitle>
+            <CourseUnitDescription>Learn about the key choices that will decide whether technology makes life better for everyone or just benefits a few powerful groups.</CourseUnitDescription>
           </CourseUnit>
           <CourseUnit unitNumber="4">
-            <CourseUnitTitle>What can be done?</CourseUnitTitle>
-            <CourseUnitDescription>Navigating the critical balance between realizing AI's enormous benefits while avoiding potential large-scale harms and maintaining human control.</CourseUnitDescription>
+            <CourseUnitTitle>Be Part of the Change</CourseUnitTitle>
+            <CourseUnitDescription>Discover how you can help shape these technologies in your community and workplace, and join others working toward a better future.</CourseUnitDescription>
           </CourseUnit>
         </CourseUnitsSection>
         <div className="flex justify-center mt-8">
-          <CTALinkOrButton url={ctaUrl}>Start learning from unit 1 today</CTALinkOrButton>
+          <CTALinkOrButton url={ctaUrl}>Sign up for free</CTALinkOrButton>
         </div>
       </Container>
 
