@@ -17,6 +17,7 @@ import {
 import clsx from 'clsx';
 import GraduateSection from '../../components/homepage/GraduateSection';
 import { ROUTES } from '../../lib/routes';
+import LandingHero from './LandingHero';
 
 const Container: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ children, className }) => {
   return <section className={clsx('max-w-5xl mx-auto px-4 sm:px-8', className)}>{children}</section>;
@@ -51,30 +52,11 @@ const LandingPage = (): JSX.Element => {
         <NewNavItem href="https://course.bluedot.org/login">Login</NewNavItem>
         <NewNavButton url="https://course.bluedot.org/login">Start learning</NewNavButton>
       </NewNav>
-      <HeroSection className="-mt-20 text-white bg-[url('/images/logo/logo_hero_background.svg')] bg-cover">
-        <HeroH1 className="font-serif text-5xl sm:text-7xl font-normal">Future-proof your career</HeroH1>
-        <HeroH2 className="text-size-md sm:text-size-lg font-light max-w-2xl mx-auto mt-10">No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world.</HeroH2>
-        <HeroCTAContainer>
-          <CTALinkOrButton>Start learning for free</CTALinkOrButton>
-        </HeroCTAContainer>
-        <div className="flex flex-wrap justify-center gap-6 sm:gap-20 mt-10 uppercase font-bold">
-          <div className="flex items-center gap-2">
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <FaStar className="text-2xl" />
-            <span>4.7/5 rating</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <FaStopwatch className="text-2xl" />
-            <span>2 hours</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-            <FaAward className="text-2xl" />
-            <span>Get certified</span>
-          </div>
-        </div>
-      </HeroSection>
+      <LandingHero 
+        pretitle="The future is going to be" title="f_cking awesome" subtitle="Terms and conditions apply"
+        ctaUrl="https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc?prefill_Topic=Let%27s%20Make%20The%20Future%20Awesome%20Course"
+      />
+      
       <Container>
         <GraduateSection />
       </Container>
