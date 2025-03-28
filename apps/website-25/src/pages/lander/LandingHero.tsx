@@ -17,7 +17,7 @@ const LandingHero: React.FC<LandingHeroProps> = ({
   ctaUrl,
 }) => {
   return (
-    <div className={clsx('landing-hero bg-canvas flex flex-row justify-center items-center w-full px-spacing-x bg-[url("/images/lander/hero-bkg.png")] bg-cover bg-center', className)}>
+    <div className={clsx('landing-hero bg-canvas flex flex-row justify-center items-center w-full px-spacing-x bg-[url("/images/lander/hero-bkg.png")] bg-cover bg-center overflow-hidden', className)}>
       {/* Top margin is nav height (82px) */}
       <div className="landing-hero__content max-w-[865px] mt-[82px] py-16">
         <h1 className="landing-hero__title text-center font-serif flex flex-col items-center">
