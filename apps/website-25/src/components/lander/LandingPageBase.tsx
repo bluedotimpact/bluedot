@@ -17,6 +17,7 @@ import CourseUnitsSection, {
 } from './CourseUnitsSection';
 import BlueHeader from './BlueHeader';
 import { getCtaUrl } from './getCtaUrl';
+import GraduateSection from '../homepage/GraduateSection';
 
 export type LandingPageBaseProps = {
   /** Hero component to render */
@@ -40,6 +41,9 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </NewNav>
       {hero}
 
+      <Container>
+        <GraduateSection />
+      </Container>
       <Container className="flex gap-6 sm:gap-12 md:gap-20 items-center">
         <div>
           {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}

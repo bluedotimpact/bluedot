@@ -44,9 +44,6 @@ const LandingPage = () => {
           </div>
         </div>
       </HeroSection>
-      <Container>
-        <GraduateSection />
-      </Container>
     </>
   );
 
