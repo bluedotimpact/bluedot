@@ -125,7 +125,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
           </p>
           <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Read about us</CTALinkOrButton>
         </div>
-        <div className="flex justify-end -mt-16">
+        <div className="flex justify-end -mt-16 pointer-events-none">
           <img src="/images/lander/signed_dewi_and_will.svg" alt="Dewi and Will, BlueDot Co-Founders" className="w-2/3" />
         </div>
       </Container>
