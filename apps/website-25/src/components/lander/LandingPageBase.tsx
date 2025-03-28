@@ -44,16 +44,23 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       <Container>
         <GraduateSection />
       </Container>
-      <Container className="flex gap-6 sm:gap-12 md:gap-20 items-center">
-        <div>
-          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl mt-10">AI is reshaping our world</h2>
-          <p className="text-size-md mt-6">In 2019, AI could barely write a coherent paragraph. Today, it writes code, creates videos, and helps millions with their daily work.</p>
-          <p className="text-size-md mt-6 mb-16">By 2030, AI systems may match or exceed human performance across most intellectual tasks - transforming every industry and profession.</p>
-        </div>
-        <div className="w-32 sm:w-40 md:w-60 shrink-0">
-          <img src="/images/lander/ai_reshaping_icons.svg" alt="" className="my-10 w-full" />
-        </div>
+
+      <Container className="py-16">
+        <BlueHeader>The vision</BlueHeader>
+        <FeaturesSection>
+          <Feature iconSrc="/images/lander/icon_hands.svg" iconClassName="size-24">
+            <FeatureTitle>Do things you love</FeatureTitle>
+            <FeatureSubtitle>Transform work from necessity to choice</FeatureSubtitle>
+          </Feature>
+          <Feature iconSrc="/images/lander/icon_washing_machine.svg">
+            <FeatureTitle>Beyond the grind</FeatureTitle>
+            <FeatureSubtitle>No more emails and laundry</FeatureSubtitle>
+          </Feature>
+          <Feature iconSrc="/images/lander/icon_time.svg">
+            <FeatureTitle>Reclaim your time</FeatureTitle>
+            <FeatureSubtitle>Take back 40 hours each week</FeatureSubtitle>
+          </Feature>
+        </FeaturesSection>
       </Container>
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
@@ -62,7 +69,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
             It didn't just teach me about AI safety; it clarified my purpose.
           </TestimonialQuote>
           <TestimonialAttribution>
-            ~Crystal Isanda, Foresight Fellow @Unicef
+            ~Crystal Isanda, Foresight Fellow @ Unicef
           </TestimonialAttribution>
           <TestimonialCTA url={ctaUrl}>
             Start learning with 4000+ others
@@ -70,22 +77,18 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
         </SingleTestimonialSection>
       </Container>
 
-      <Container className="py-16">
-        <BlueHeader>Why take the course?</BlueHeader>
-        <FeaturesSection>
-          <Feature iconSrc="/images/lander/icon_interact.svg">
-            <FeatureTitle>Try the latest AI tools</FeatureTitle>
-            <FeatureSubtitle>Learn how today's AI actually works</FeatureSubtitle>
-          </Feature>
-          <Feature iconSrc="/images/lander/icon_book.svg">
-            <FeatureTitle>Go beyond headlines</FeatureTitle>
-            <FeatureSubtitle>Understand the future trajectory of AI</FeatureSubtitle>
-          </Feature>
-          <Feature iconSrc="/images/lander/icon_globe.svg">
-            <FeatureTitle>Shape AI's development</FeatureTitle>
-            <FeatureSubtitle>Use your skills and voice for good</FeatureSubtitle>
-          </Feature>
-        </FeaturesSection>
+      <Container className="grid md:flex gap-6 md:gap-12 items-center py-10">
+        <div>
+          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
+          <h2 className="text-3xl font-serif font-bold">Our reality</h2>
+          <p className="text-size-md mt-4">Millions spend their days doing tasks they'd rather not, in jobs that drain rather than fulfil them, serving economic structures that benefit few at the expense of many.</p>
+          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
+          <h2 className="text-3xl font-serif font-bold mt-10">The opportunity</h2>
+          <p className="text-size-md mt-4">Now, AI is about to automate most human jobs — creating an unprecedented opportunity to <span className="italic">make work optional</span>. This technological revolution could free humanity from drudgery while addressing our greatest challenges — but only if we get the transition right.</p>
+        </div>
+        <div className="mx-auto w-3/4 md:w-100 shrink-0">
+          <img src="/images/lander/future_world_polaroids.png" alt="" className="w-full" />
+        </div>
       </Container>
 
       {/* Course Units Section */}
@@ -115,7 +118,7 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Container>
 
       <Container className="py-16">
-        <BlueHeader className="!text-left">You're in good hands</BlueHeader>
+        <BlueHeader className="!text-left !mb-4 md:!mb-6">You're in good hands</BlueHeader>
         <div className="w-3/4">
           <p className="mb-4 text-size-md">
             We started BlueDot to help others understand and work on challenges from emerging technologies.
@@ -125,8 +128,8 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
           </p>
           <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Read about us</CTALinkOrButton>
         </div>
-        <div className="flex justify-end mt-0 md:-mt-16 pointer-events-none">
-          <img src="/images/lander/signed_dewi_and_will.svg" alt="Dewi and Will, BlueDot Co-Founders" className="w-2/3" />
+        <div className="flex justify-end -mt-8 sm:-mt-16 pointer-events-none">
+          <img src="/images/lander/signed_dewi_and_will.svg" alt="Dewi and Will, BlueDot Co-Founders" className="sm:w-2/3" />
         </div>
       </Container>
 

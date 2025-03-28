@@ -24,7 +24,7 @@ export const NewNavButton: React.FC<CTAProps> = (props) => (
 
 const NewNav: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <nav className="w-full bg-cream-normal sticky top-0 border-b-2 border-color-divider">
+    <nav className="w-full bg-cream-normal sticky top-0 border-b-2 border-color-divider z-10">
       <Container className="h-16 flex items-center justify-between">
         <a href="/">
           <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-4 sm:h-8" />
