@@ -1,18 +1,8 @@
 import {
-  HeroH1,
-  HeroH2,
-  HeroSection,
-  HeroCTAContainer,
   CTALinkOrButton,
   Footer,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import {
-  FaStar,
-  FaStopwatch,
-  FaAward,
-} from 'react-icons/fa6';
-import GraduateSection from '../homepage/GraduateSection';
 import { ROUTES } from '../../lib/routes';
 import Container from './Container';
 import NewNav, { NewNavItem, NewNavButton } from './NewNav';
