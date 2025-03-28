@@ -216,6 +216,16 @@
 }
 
 @font-face {
+    font-family: "Reckless Neue";
+    src: url("/fonts/RecklessNeue-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal
+}
+
+@font-face {
     font-family: "Roobert";
     src: url("/fonts/Roobert-Light.woff2") format("woff2");
     font-weight: 300;
