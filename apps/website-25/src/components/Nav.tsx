@@ -116,8 +116,8 @@ const NavLinks: React.FC<{
 
 const CTAButtons: React.FC<{ className?: string; primaryCtaText?: string; primaryCtaUrl?: string }> = ({
   className,
-  primaryCtaText = "Support us",
-  primaryCtaUrl = "https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+  primaryCtaText = 'Support us',
+  primaryCtaUrl = 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA',
 }) => (
   <div className={clsx('nav__cta-container', className)}>
     <CTALinkOrButton
