@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 const landingPages = [
   '/lander/classic',
   '/lander/another',
+  '/lander/new-hero',
 ];
 
 const LandingPageRouter = () => {
