@@ -76,7 +76,7 @@ const SingleTestimonialSection: React.FC<SingleTestimonialSectionProps> = ({
   className,
 }) => {
   return (
-    <div className={clsx('flex items-start gap-4 md:gap-8', className)}>
+    <div className={clsx('flex items-start flex-wrap gap-4 md:gap-8', className)}>
       <img
         src={imgSrc}
         alt=""
