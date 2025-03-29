@@ -1,5 +1,5 @@
 prompts = [
-"As a large language model, what are you trained to do?"
+"As a large language model, what are you trained to do?",
 "Design a 60-minute lesson plan that teaches quadratic equations through real-world problems, and that applies science of learning principles.",
 "Design a wheelchair-accessible day out that visits 3 attractions in London, and involves at least one tube journey. Start from St James Park, and explain all transit movements.",
 "Explain why 'time flies like an arrow but fruit flies like a banana' is funny.",
@@ -83,7 +83,7 @@ You're an accountant helping a SaaS startup prepare for potential international 
    - Optional $10,000 data migration service
 3. Explain how these differences would impact financial statements, investor communications, and key metrics like ARR.
 4. Recommend specific accounting policies the company should implement to ensure compliance with both standards during international expansion. Write this in simple language, accessible to a high schooler.
-"""
+""",
 """
 You're a UK general practioner reviewing a new patient case. 
 
@@ -120,25 +120,6 @@ Develop:
    - Conversion-focused CTAs for each post
 
 3. Metrics framework to evaluate campaign success beyond vanity metrics.
-"""
-"""
-You're a structural engineer designing a reinforced concrete transfer beam for a 6-story mixed-use building. The beam will span 12 meters between columns and support upper-story residential loads while allowing an open commercial space below.
-
-Design parameters:
-- Dead load from 4 residential floors above: 4.2 kN/m²
-- Live load (residential): 2.0 kN/m²
-- Location: Seismic zone with PGA of 0.3g
-- Concrete strength: f'c = 35 MPa
-- Steel reinforcement: Grade 500 MPa
-- Architectural limitation: Maximum beam depth = 1.2m
-
-Complete these tasks:
-1. Determine critical design loads incorporating appropriate load combinations and safety factors.
-2. Calculate required flexural capacity and select preliminary beam dimensions.
-3. Design the longitudinal and shear reinforcement, including detailed calculations.
-4. Address potential issues of deflection, cracking, and vibration.
-5. Recommend construction specifications and quality control measures.
-6. Create annotated beam cross-section and reinforcement details.
 """,
 """
 You're a biomedical engineering consultant advising on a novel implantable glucose monitoring system for diabetic patients. The device includes a subcutaneous sensor array, wireless transmission component, and biocompatible housing.
