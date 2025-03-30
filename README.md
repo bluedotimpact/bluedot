@@ -100,7 +100,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install git gh docker colima
 brew install --cask visual-studio-code
-brew services start colima
+colima start --memory 8
+brew services restart colima
 docker context use colima
 open https://github.com/login/device
 echo y | gh auth login --git-protocol https --hostname github.com --web --scopes user
