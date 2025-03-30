@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/javascript-node
+FROM mcr.microsoft.com/devcontainers/javascript-node:22
 
 # Update npm
 RUN npm install --global npm@latest
