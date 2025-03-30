@@ -93,25 +93,36 @@ Follow the instructions for your operating system:
 [Open the Terminal app](https://www.youtube.com/watch?v=i21v35DqAYs). Then paste in the following code and follow the on-screen instructions to set everything up:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew install git gh docker colima
 brew install --cask visual-studio-code
 brew services start colima
 docker context use colima
-gh auth login --git-protocol https --hostname github.com --web
+open https://github.com/login/device
+echo y | gh auth login --git-protocol https --hostname github.com --web --scopes user
 
 if [ -z "$(git config --global user.name)" ]; then
   user=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | jq -r .login)
   git config --global user.name "$user"
 fi
 if [ -z "$(git config --global user.email)" ]; then
-  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r ".[1].email")
+  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r '.[] | select(.visibility == "public") | .email')
   git config --global user.email "$email"
 fi
 
 open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
 ```
+
+**Troubleshooting**
+- I got asked for permissions / got some permissions warning and didn't click allow in time, and then the script failed.
+  - Click 'allow' on any remaining popups or notifications
+  - Close and reopen Terminal (click okay to warnings), and paste in the script again
+- GitHub opened and is asking for a code, where do I get this?
+  - It should be on the second to last line in the Terminal
 
 </details>
 
@@ -132,14 +143,15 @@ if ! command -v docker &> /dev/null; then
   sudo usermod -aG docker ${USER}
 fi
 
-gh auth login --git-protocol https --hostname github.com --web
+xdg-open https://github.com/login/device
+echo y | gh auth login --git-protocol https --hostname github.com --web --scopes user
 
 if [ -z "$(git config --global user.name)" ]; then
   user=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | jq -r .login)
   git config --global user.name "$user"
 fi
 if [ -z "$(git config --global user.email)" ]; then
-  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r ".[1].email")
+  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r '.[] | select(.visibility == "public") | .email')
   git config --global user.email "$email"
 fi
 
@@ -170,7 +182,7 @@ P.S. We'd love to improve these docs! If you've figured out how to get it workin
 
 </details>
 
-Once VS Code opens, click "Reopen in Container". If you don't see this button,  It might look like nothing is happening at first, and it'll take a few minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` in the terminal.
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 If you the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
 
