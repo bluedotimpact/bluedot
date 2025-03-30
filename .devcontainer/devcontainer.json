@@ -1,0 +1,29 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
+  ],
+  "remoteUser": "node",
+  // We use base64 encoding so new devs don't see the command itself being run in the terminal and think it's done.
+  "postCreateCommand": "npm install && echo 8J+OifCfjonwn46J8J+OifCfjokKCkNvbmdyYXRzISBZb3VyIHNldHVwIGlzIGNvbXBsZXRlCgrwn46J8J+OifCfjonwn46J8J+OiQo= | base64 --decode",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss",
+        "figma.figma-vscode-extension",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  }
+}

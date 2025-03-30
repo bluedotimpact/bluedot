@@ -8,8 +8,10 @@ This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s
 
 - [What's included](#whats-included)
 - [Get started](#get-started)
-- [Background knowledge to contribute](#background-knowledge-to-contribute)
 - [Developer setup instructions](#developer-setup-instructions)
+  - [Background knowledge to contribute](#background-knowledge-to-contribute)
+  - [\[15 mins\] One-off setup](#15-mins-one-off-setup)
+  - [Making contributions](#making-contributions)
 - [Guide: Adding a new app](#guide-adding-a-new-app)
 - [Reference: General package structure](#reference-general-package-structure)
 - [Instructions for LLMs](#instructions-for-llms)
@@ -70,71 +72,125 @@ Our general principle for reviewing contributions is 'does this make things bett
 When contributing, you agree that we can use your contribution how we see fit, and you relinquish any copyright, patent, moral or other intellectual property rights in your contribution.
 </details>
 
-## Background knowledge to contribute
+## Developer setup instructions
+
+### Background knowledge to contribute
 
 We recommend most contributors learn how to:
 
-- Navigate their [terminal](https://www.youtube.com/watch?v=lZ7Kix9bjPI) and [shell](https://www.youtube.com/watch?v=fhv2dX0axeY)
+- Use [Visual Studio Code](https://www.youtube.com/watch?v=KMxo3T_MTvY) (recommended), or another code editor
 - [Contribute code on GitHub](https://github.com/firstcontributions/first-contributions?tab=readme-ov-file)
 - [Read and write TypeScript code](https://www.typescriptlang.org/docs/handbook/typescript-from-scratch.html)
 - [Use the basics of NPM and Node.js](https://careerfoundry.com/en/blog/web-development/what-is-npm/)
 
-## Developer setup instructions
+### [15 mins] One-off setup
 
-1. (recommended, macOS only) Install [Homebrew](https://brew.sh/)
-2. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-   - On macOS with Homebrew:
-      ```
-      brew install git
-      ```
-   - On Ubuntu Linux:
-      ```
-      sudo apt install -y git-all
-      ```
-3. Install [Node.js 22](https://nodejs.org/)
-   - On macOS with Homebrew:
-      ```
-      brew install node
-      ```
-   - On Ubuntu Linux: 
-      ```
-      curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-get install -y nodejs
-      ```
-4. Install [Docker client](https://docs.docker.com/engine/install/). NB: NOT Docker Desktop.
-   - On macOS with Homebrew:
-      ```
-      brew install docker
-      ```
-   - On Ubuntu Linux: [instructions](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
-5. Install and configure a container runtime.
-   - On macOS with Homebrew:
-      ```
-      brew install colima && brew services start colima && docker context use colima
-      ```
-   - On Ubuntu Linux: already installed with client
-   - Other platforms: [Docker Engine](https://docs.docker.com/engine/install/) (NB: NOT Docker Desktop)
-6. Install kubectl.
-   - On macOS with Homebrew:
-      ```
-      brew install kubectl
-      ```
-   - On Ubuntu Linux: [instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
-7. (recommended) Install [Visual Studio Code](https://code.visualstudio.com/)
-   - On macOS with Homebrew:
-      ```
-      brew install --cask visual-studio-code
-      ```
-8. [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-   - To clone the main repo (you might want your fork instead):
-      ```
-      git clone git@github.com:bluedotimpact/bluedot.git
-      ```
-9.  Change directory into the cloned repository, and install dependencies with: 
-      ```
-      npm install
-      ```
+Follow the instructions for your operating system:
 
-Then find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#reference-general-package-structure). Usually this means you can change directory into the relevant folder, put any necessary values in `.env.local` (if present), edit code in `src`, and run
+<details>
+<summary>macOS</summary>
+
+[Open the Terminal app](https://www.youtube.com/watch?v=i21v35DqAYs). Then paste in the following code and follow the on-screen instructions to set everything up:
+
+```bash
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+brew install git gh docker colima
+brew install --cask visual-studio-code
+brew services start colima
+docker context use colima
+open https://github.com/login/device
+echo y | gh auth login --git-protocol https --hostname github.com --web --scopes user
+
+if [ -z "$(git config --global user.name)" ]; then
+  user=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | jq -r .login)
+  git config --global user.name "$user"
+fi
+if [ -z "$(git config --global user.email)" ]; then
+  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r '.[] | select(.visibility == "public") | .email')
+  git config --global user.email "$email"
+fi
+
+open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
+```
+
+**Troubleshooting**
+- I got asked for permissions / got some permissions warning and didn't click allow in time, and then the script failed.
+  - Click 'allow' on any remaining popups or notifications
+  - Close and reopen Terminal (click okay to warnings), and paste in the script again
+- GitHub opened and is asking for a code, where do I get this?
+  - It should be on the second to last line in the Terminal
+
+</details>
+
+<details>
+<summary>Debian-based linux (including Ubuntu)</summary>
+
+Run the following in your terminal:
+
+```bash
+sudo apt update
+sudo apt install -y git-all gh
+
+if ! command -v docker &> /dev/null; then
+  sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt install -y docker-ce
+  sudo usermod -aG docker ${USER}
+fi
+
+xdg-open https://github.com/login/device
+echo y | gh auth login --git-protocol https --hostname github.com --web --scopes user
+
+if [ -z "$(git config --global user.name)" ]; then
+  user=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user | jq -r .login)
+  git config --global user.name "$user"
+fi
+if [ -z "$(git config --global user.email)" ]; then
+  email=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /user/emails | jq -r '.[] | select(.visibility == "public") | .email')
+  git config --global user.email "$email"
+fi
+
+xdg-open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
+```
+
+</details>
+
+<details>
+<summary>Other</summary>
+
+Install the following software:
+
+1. [Visual Studio Code](https://code.visualstudio.com/)
+2. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+3. A container runtime.
+   - On Linux, you might want to use [Docker Engine](https://docs.docker.com/engine/install/) (recommended) or [Podman](https://podman.io/docs/installation#linux)
+   - On Windows, you might want to use [Podman Desktop](https://podman-desktop.io/) (recommended) or [Docker Engine](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce)
+4. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Then:
+
+1. Open VS Code
+2. Open the Command Palette (`View` > `Command Palette...`) and select `>Dev Containers: Clone Repository in Container Volume`.
+3. Paste in `https://github.com/bluedotimpact/bluedot.git`
+
+P.S. We'd love to improve these docs! If you've figured out how to get it working on your operating system, raise a PR with the instructions added to this README.
+
+</details>
+
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
+
+If you the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
+
+### Making contributions
+
+Find the [app](./apps/) or [library](./libraries/) you want to contribute to. It should follow the [general package structure](#reference-general-package-structure). Usually this means you put any necessary values in `.env.local` (if present), and edit code in `src`.
+
+To run the app, from the app's folder (e.g. `cd apps/app-template` - if you're not familiar with this command, see [this video](https://www.youtube.com/watch?v=id3DGvljhT4)) use the command:
 ```
 npm run start
 ```
@@ -149,6 +205,8 @@ Over time other people will make changes to the repository. Usually to get up to
 ```
 npm install
 ```
+
+If there are changes to the dev container setup or you mess up your configuration, open the VS Code Command Palette and run `Dev Containers: Rebuild Container`. If it's still not working, delete the bluedot folder on your computer (warning: you will lose any changes you haven't pushed to GitHub!) and go through the setup steps from scratch.
 
 ## Guide: Adding a new app
 
