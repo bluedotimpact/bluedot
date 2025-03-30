@@ -7,7 +7,8 @@ const VARIANT = 'jobs_optional_learn_skills';
 const LandingPage = () => {
   const hero = (
     <LandingHero
-      title="Let's make jobs optional"
+      pretitle="Let's make"
+      title="jobs optional"
       subtitle="Learn the skills to navigate the AI transition"
       ctaUrl={getCtaUrl(VARIANT)}
     />
