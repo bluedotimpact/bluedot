@@ -19,7 +19,7 @@ const HomePage = () => {
   return (
     <div className="mx-8">
       <H1>Adam's page!!!</H1>
-      <P>Increment by:</P
+      <P>Increment by:</P>
       <Input type="number" value={incrementBy} onChange={(e) => setIncrementBy(e.target.valueAsNumber)} />
 
       <P className="mt-8">Value is {value}</P>
