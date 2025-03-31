@@ -78,7 +78,7 @@ interface ClassicHeroProps {
   className?: string;
 }
 
-export const ClassicHero = ({ children, className = '' }: ClassicHeroProps) => {
+const ClassicHero = ({ children, className = '' }: ClassicHeroProps) => {
   return (
     <HeroSection className={`-mt-20 text-white bg-[url('/images/logo/logo_hero_background.svg')] bg-cover ${className}`}>
       {children}
