@@ -1,28 +1,35 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
 import { CTAProps } from '@bluedot/ui/src/CTALinkOrButton';
 import Container from './Container';
 
-interface NewNavItemProps {
-  children: React.ReactNode;
+interface ItemProps {
+  children: ReactNode;
   href: string;
 }
 
 /**
  * Text link for the new navigation bar
  */
-export const NewNavItem: React.FC<NewNavItemProps> = ({ children, href }) => (
+const Item = ({ children, href }: ItemProps) => (
   <a href={href}>{children}</a>
 );
 
 /**
  * Button for the new navigation bar
  */
-export const NewNavButton: React.FC<CTAProps> = (props) => (
+const Button = (props: CTAProps) => (
   <CTALinkOrButton {...props} />
 );
 
-const NewNav: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface NavProps {
+  children: ReactNode;
+}
+
+/**
+ * Navigation bar component using compound component pattern
+ */
+const NewNav = ({ children }: NavProps) => {
   return (
     <nav className="w-full bg-cream-normal sticky top-0 border-b-2 border-color-divider z-10">
       <Container className="h-16 flex items-center justify-between">
@@ -37,4 +44,9 @@ const NewNav: React.FC<React.PropsWithChildren> = ({ children }) => {
   );
 };
 
+// Attach subcomponents
+NewNav.Item = Item;
+NewNav.Button = Button;
+
+// Export the component
 export default NewNav;
