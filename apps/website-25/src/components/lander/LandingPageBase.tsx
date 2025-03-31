@@ -5,28 +5,22 @@ import {
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import Container from './Container';
-import NewNav, { NewNavItem, NewNavButton } from './NewNav';
-import SingleTestimonialSection, {
-  TestimonialQuote,
-  TestimonialAttribution,
-  TestimonialCTA,
-} from './SingleTestimonialSection';
-import FeaturesSection, { Feature, FeatureTitle, FeatureSubtitle } from './FeaturesSection';
-import CourseUnitsSection, {
-  CourseUnit, CourseUnitTitle, CourseUnitDescription,
-} from './CourseUnitsSection';
-import BlueHeader from './BlueHeader';
+import NewNav from './NewNav';
+import SingleTestimonial from './SingleTestimonial';
+import Features from './Features';
+import CourseUnits from './CourseUnits';
+import BlueH2 from './BlueH2';
 import { getCtaUrl } from './getCtaUrl';
 import GraduateSection from '../homepage/GraduateSection';
 
-export type LandingPageBaseProps = {
+export interface LandingPageBaseProps {
   /** Hero component to render */
-  hero: React.ReactNode,
+  hero: React.ReactNode;
   /** Variant name, used for analytics */
-  variant: string,
-};
+  variant: string;
+}
 
-const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
+const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
   const ctaUrl = getCtaUrl(variant);
 
   return (
@@ -36,8 +30,8 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
       <NewNav>
-        <NewNavItem href="https://course.bluedot.org/login">Login</NewNavItem>
-        <NewNavButton url={ctaUrl}>Sign up for free</NewNavButton>
+        <NewNav.Item href="https://course.bluedot.org/login">Login</NewNav.Item>
+        <NewNav.Button url={ctaUrl}>Sign up for free</NewNav.Button>
       </NewNav>
       {hero}
 
@@ -46,35 +40,35 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
       </Container>
 
       <Container className="py-16">
-        <BlueHeader>The vision</BlueHeader>
-        <FeaturesSection>
-          <Feature iconSrc="/images/lander/icon_hands.svg" iconClassName="size-24">
-            <FeatureTitle>Do things you love</FeatureTitle>
-            <FeatureSubtitle>Transform work from necessity to choice</FeatureSubtitle>
-          </Feature>
-          <Feature iconSrc="/images/lander/icon_washing_machine.svg">
-            <FeatureTitle>Beyond the grind</FeatureTitle>
-            <FeatureSubtitle>No more emails and laundry</FeatureSubtitle>
-          </Feature>
-          <Feature iconSrc="/images/lander/icon_time.svg">
-            <FeatureTitle>Reclaim your time</FeatureTitle>
-            <FeatureSubtitle>Take back 40 hours each week</FeatureSubtitle>
-          </Feature>
-        </FeaturesSection>
+        <BlueH2>The vision</BlueH2>
+        <Features>
+          <Features.Feature iconSrc="/images/lander/icon_hands.svg" iconClassName="size-24">
+            <Features.Title>Do things you love</Features.Title>
+            <Features.Subtitle>Transform work from necessity to choice</Features.Subtitle>
+          </Features.Feature>
+          <Features.Feature iconSrc="/images/lander/icon_washing_machine.svg">
+            <Features.Title>Beyond the grind</Features.Title>
+            <Features.Subtitle>No more emails and laundry</Features.Subtitle>
+          </Features.Feature>
+          <Features.Feature iconSrc="/images/lander/icon_time.svg">
+            <Features.Title>Reclaim your time</Features.Title>
+            <Features.Subtitle>Take back 40 hours each week</Features.Subtitle>
+          </Features.Feature>
+        </Features>
       </Container>
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
-        <SingleTestimonialSection imgSrc="/images/graduates/crystal.jpeg">
-          <TestimonialQuote>
+        <SingleTestimonial imgSrc="/images/graduates/crystal.jpeg">
+          <SingleTestimonial.Quote>
             It didn't just teach me about AI safety; it clarified my purpose.
-          </TestimonialQuote>
-          <TestimonialAttribution>
+          </SingleTestimonial.Quote>
+          <SingleTestimonial.Attribution>
             ~Crystal Isanda, Foresight Fellow @ Unicef
-          </TestimonialAttribution>
-          <TestimonialCTA url={ctaUrl}>
+          </SingleTestimonial.Attribution>
+          <SingleTestimonial.CTA url={ctaUrl}>
             Start learning with 4000+ others
-          </TestimonialCTA>
-        </SingleTestimonialSection>
+          </SingleTestimonial.CTA>
+        </SingleTestimonial>
       </Container>
 
       <Container className="grid md:flex gap-6 md:gap-12 items-center py-10">
@@ -93,38 +87,38 @@ const LandingPageBase: React.FC<LandingPageBaseProps> = ({ hero, variant }) => {
 
       {/* Course Units Section */}
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
-        <BlueHeader>What's covered?</BlueHeader>
-        <CourseUnitsSection>
-          <CourseUnit unitNumber="1">
-            <CourseUnitTitle>AI Agents & What They Can Do</CourseUnitTitle>
-            <CourseUnitDescription>See how smart AI assistants are making work-optional futures possible for the first time and how they’re already changing everyday tasks.</CourseUnitDescription>
-          </CourseUnit>
-          <CourseUnit unitNumber="2">
-            <CourseUnitTitle>Getting Your Time Back</CourseUnitTitle>
-            <CourseUnitDescription>Try practical AI tools that can save you 10+ hours every week by handling your most boring tasks, freeing you to do what really matters.</CourseUnitDescription>
-          </CourseUnit>
-          <CourseUnit unitNumber="3">
-            <CourseUnitTitle>Two Possible Futures</CourseUnitTitle>
-            <CourseUnitDescription>Learn about the key choices that will decide whether technology makes life better for everyone or just benefits a few powerful groups.</CourseUnitDescription>
-          </CourseUnit>
-          <CourseUnit unitNumber="4">
-            <CourseUnitTitle>Be Part of the Change</CourseUnitTitle>
-            <CourseUnitDescription>Discover how you can help shape these technologies in your community and workplace, and join others working toward a better future.</CourseUnitDescription>
-          </CourseUnit>
-        </CourseUnitsSection>
+        <BlueH2>What's covered?</BlueH2>
+        <CourseUnits>
+          <CourseUnits.Unit unitNumber="1">
+            <CourseUnits.Title>AI Agents & What They Can Do</CourseUnits.Title>
+            <CourseUnits.Description>See how smart AI assistants are making work-optional futures possible for the first time and how they're already changing everyday tasks.</CourseUnits.Description>
+          </CourseUnits.Unit>
+          <CourseUnits.Unit unitNumber="2">
+            <CourseUnits.Title>Getting Your Time Back</CourseUnits.Title>
+            <CourseUnits.Description>Try practical AI tools that can save you 10+ hours every week by handling your most boring tasks, freeing you to do what really matters.</CourseUnits.Description>
+          </CourseUnits.Unit>
+          <CourseUnits.Unit unitNumber="3">
+            <CourseUnits.Title>Two Possible Futures</CourseUnits.Title>
+            <CourseUnits.Description>Learn about the key choices that will decide whether technology makes life better for everyone or just benefits a few powerful groups.</CourseUnits.Description>
+          </CourseUnits.Unit>
+          <CourseUnits.Unit unitNumber="4">
+            <CourseUnits.Title>Be Part of the Change</CourseUnits.Title>
+            <CourseUnits.Description>Discover how you can help shape these technologies in your community and workplace, and join others working toward a better future.</CourseUnits.Description>
+          </CourseUnits.Unit>
+        </CourseUnits>
         <div className="flex justify-center mt-8">
           <CTALinkOrButton url={ctaUrl}>Sign up for free</CTALinkOrButton>
         </div>
       </Container>
 
       <Container className="py-16">
-        <BlueHeader className="!text-left !mb-4 md:!mb-6">You're in good hands</BlueHeader>
+        <BlueH2 className="!text-left !mb-4 md:!mb-6">You're in good hands</BlueH2>
         <div className="w-3/4">
           <p className="mb-4 text-size-md">
             We started BlueDot to help others understand and work on challenges from emerging technologies.
           </p>
           <p className="mb-8 text-size-md">
-            Since 2021, we’ve designed our courses with some of the world’s leading experts and helped thousands of talented people build the skills to make a real difference.
+            Since 2021, we've designed our courses with some of the world's leading experts and helped thousands of talented people build the skills to make a real difference.
           </p>
           <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Read about us</CTALinkOrButton>
         </div>
