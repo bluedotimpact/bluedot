@@ -1,4 +1,3 @@
-import { isMobile } from 'react-device-detect';
 import { Card, Section, SlideList } from '@bluedot/ui';
 
 const teamMembers = [
@@ -21,12 +20,6 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
-    imageSrc: '/images/team/vio.jpg',
-    name: 'Viorica Gheorghita',
-    role: 'Product',
-    linkedInUrl: 'https://www.linkedin.com/in/vioricagheorghita/',
-  },
-  {
     imageSrc: '/images/team/adam.jpg',
     name: 'Adam Jones',
     role: 'AI Safety',
@@ -45,14 +38,13 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/tarinrickett/',
   },
 ];
-
 const TeamSection = () => {
   return (
-    isMobile ? (
+    <Section title="Our team" className="team-section !border-b-0">
       <SlideList
-        title="Our team"
-        maxItemsPerSlide={5}
-        className="team-section team-section--mobile section-body !border-b-0"
+        maxItemsPerSlide={4}
+        maxRows={3}
+        className="team-section__team"
       >
         {teamMembers.map((member) => (
           <Card
@@ -68,25 +60,7 @@ const TeamSection = () => {
           />
         ))}
       </SlideList>
-    ) : (
-      <Section className="team-section team-section--desktop !border-b-0" title="Our team">
-        <div className="team__grid flex flex-row flex-wrap mx-auto gap-x-space-between gap-y-12">
-          {teamMembers.map((member) => (
-            <Card
-              key={member.name}
-              imageSrc={member.imageSrc}
-              title={member.name}
-              subtitle={member.role}
-              ctaUrl={member.linkedInUrl}
-              ctaText="LinkedIn"
-              isExternalUrl
-              className="team-section__card"
-              imageClassName="team-section__card-image h-[300px] w-[300px]"
-            />
-          ))}
-        </div>
-      </Section>
-    )
+    </Section>
   );
 };
 

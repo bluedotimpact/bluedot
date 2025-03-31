@@ -56,7 +56,7 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['website-25.k8s.bluedot.org'],
+    hosts: ['website-25-staging.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-website-25-production',
@@ -151,6 +151,23 @@ export const services: ServiceDefinition[] = [
     hosts: ['room.bluedot.org'],
   },
   {
+    name: 'bluedot-course-demos',
+    spec: {
+      containers: [{
+        name: 'bluedot-course-demos',
+        image: 'sjc.vultrcr.com/bluedot/bluedot-course-demos:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
+          { name: 'OPENAI_API_KEY', valueFrom: envVarSources.openaiApiKey },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['course-demos.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-login-account-proxy',
     spec: {
       containers: [{
@@ -166,19 +183,6 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['login-account-proxy.k8s.bluedot.org'],
   },
-  // {
-  //   name: 'bluedot-bubble-proxy',
-  //   spec: {
-  //     containers: [{
-  //       name: 'bluedot-bubble-proxy',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-bubble-proxy:latest',
-  //     }],
-  //   },
-  //   hosts: [
-  //     'course.aisafetyfundamentals.com',
-  //     'course.biosecurityfundamentals.com',
-  //   ],
-  // },
   // {
   //   name: 'bluedot-backend',
   //   spec: {

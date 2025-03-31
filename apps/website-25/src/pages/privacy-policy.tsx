@@ -24,7 +24,7 @@ const PrivacyPolicyPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="prose">
         <p>
-          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via <a href="mailto:team@bluedot.org" {...EXTERNAL_LINK_PROPS}>team@bluedot.org</a>.
+          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via the details on <a href={ROUTES.contact.url}>our contact page</a>.
         </p>
         <p>
           We are a data controller. This means we make decisions about how your information is used, and have a responsibility to protect your rights when we do so.
@@ -86,6 +86,7 @@ const PrivacyPolicyPage = () => {
         <p>Some information is "special category data" under the UK GDPR. We sometimes collect special category data, for example we ask for your ethnic origin in our course application form for diversity monitoring.</p>
         <p>We'll usually collect this from you directly, and ask for your consent before processing this data. In rare situations we may rely on other legal bases to process it, for example, to protect your vital interests or to obtain legal advice.</p>
         <h3>Automated individual decision-making</h3>
+        <p>We aim to make fair and informed decisions on all applications to our courses. As a small team, we use AI systems to help us review the large volume of applications we receive.</p>
         <p>We begin by considering the intended outcomes of each course. We work backwards to the types of skills, experience and attributes that indicate an applicant is likely to succeed. We translate these into objective numerical rubrics, and then we manually evaluate subsets of randomly selected applications to calibrate and validate these rubrics. Once finalised, we use AI systems such as large language models to score incoming applications. We ensure these scores match the ones given by humans on the sample set, and continue monitoring system performance by doing random checks of application scores.</p>
         <p>After initial scoring, humans review each applicant manually to make the actual application decision, taking into account the scores and other data we have on a candidate. We are careful to ensure outlier applications are appropriately handled, and have systems in place to flag people who might score low on the rubrics but could be a good fit for the course anyway.</p>
         <p>Under data protection legislation, you may have the right to have a human re-review the scoring part of the application process, express your point of view and to contest the decision. To exercise this right contact us via the details at the top of this privacy policy.</p>

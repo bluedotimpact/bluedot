@@ -19,35 +19,32 @@ describe('CourseSection', () => {
     expect(container).toMatchSnapshot();
 
     // Verify featured course is present
-    expect(screen.getByText('AI Safety: Intro to Transformative AI')).toBeDefined();
-
-    // Verify navigation is present in header
-    // TODO Make this check the desktop vs mobile behaviour
-    const header = container.querySelector('.slide-list__nav--header');
-    expect(header?.querySelector('[aria-label="Previous slide"]')).toBeDefined();
+    expect(screen.getByText('The Future of AI Course')).toBeDefined();
+    // Verify the first of the other courses is present
+    expect(screen.getByText('Economics of Transformative AI')).toBeDefined();
   });
 
   test('tracks clicks on course cards', () => {
     render(<CourseSection />);
 
     // Click the featured course card
-    const featuredCard = screen.getByText('AI Safety: Intro to Transformative AI');
+    const featuredCard = screen.getByText('The Future of AI Course');
     fireEvent.click(featuredCard);
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
-      course_title: 'AI Safety: Intro to Transformative AI',
-      course_url: 'https://aisafetyfundamentals.com/intro-to-tai/',
+      course_title: 'The Future of AI Course',
+      course_url: 'https://course.bluedot.org/future-of-ai/',
     });
 
     // Click another course card
-    const other = screen.getByText('Alignment Fast-Track');
+    const other = screen.getByText('AI Alignment');
     fireEvent.click(other);
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
-      course_title: 'Alignment Fast-Track',
-      course_url: 'https://aisafetyfundamentals.com/alignment-fast-track/',
+      course_title: 'AI Alignment',
+      course_url: 'https://aisafetyfundamentals.com/alignment/',
     });
   });
 });

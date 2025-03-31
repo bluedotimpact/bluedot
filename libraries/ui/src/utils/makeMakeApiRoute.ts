@@ -30,12 +30,15 @@ export type MakeMakeApiRouteEnv = {
   ALERTS_SLACK_CHANNEL_ID: string;
 };
 
-const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal('')]).transform(() => null);
+const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
+
+const streamingPlaceholder = Symbol('streamingPlaceholder');
+export const StreamingResponseSchema = EmptyBodySchema.transform(() => streamingPlaceholder as unknown as null | undefined | void);
 
 export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verifyAndDecodeToken }: {
   env: MakeMakeApiRouteEnv,
   verifyAndDecodeToken?: (bearerToken: string) => AuthResult | Promise<AuthResult>,
-}) => <ReqZT extends ZodType, ResZT extends ZodType, RequiresAuth extends boolean>(
+}) => <ReqZT extends ZodType = typeof EmptyBodySchema, ResZT extends ZodType = typeof EmptyBodySchema, RequiresAuth extends boolean = true>(
     opts: RouteOptions<ReqZT, ResZT, RequiresAuth>,
     handler: Handler<ReqZT, ResZT, RequiresAuth, AuthResult>,
   ): NextApiHandler => async (
@@ -43,16 +46,10 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
       res,
     ) => {
       try {
-        if (opts.requestBody?.isOptional()) {
-          // eslint-disable-next-line no-param-reassign
-          opts.requestBody = z.union([opts.requestBody, EmptyBodySchema]) as ZodType as ReqZT;
-        }
-
         const optsFull: Required<RouteOptions<ReqZT, ResZT, RequiresAuth>> = {
-          requestBody: EmptyBodySchema as ZodType as ReqZT,
-          responseBody: z.literal(undefined) as ZodType as ResZT,
-          requireAuth: true as RequiresAuth,
-          ...opts,
+          requireAuth: opts.requireAuth ?? true as RequiresAuth,
+          responseBody: (opts.responseBody?.isOptional() ? z.union([opts.responseBody, EmptyBodySchema]) : opts.responseBody ?? EmptyBodySchema) as ZodType as ResZT,
+          requestBody: (opts.requestBody?.isOptional() ? z.union([opts.requestBody, EmptyBodySchema]) : opts.requestBody ?? EmptyBodySchema) as ZodType as ReqZT,
         };
 
         const auth = await getAuth(req, optsFull.requireAuth, verifyAndDecodeToken);
@@ -72,27 +69,28 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
           throw new createHttpError.InternalServerError('Invalid response body');
         }
 
-        if (responseParseResult.data === null) {
+        if (responseParseResult.data === streamingPlaceholder) {
+          // noop, handler should deal with streaming response to client
+        } else if (responseParseResult.data === null) {
           res.status(204).end();
         } else {
           res.status(200).json(responseParseResult.data);
         }
       } catch (err: unknown) {
         if (createHttpError.isHttpError(err) && err.expose) {
-          console.warn(`Error handling request on route ${req.method} ${req.url}:`);
-          console.warn(err);
           res.status(err.statusCode).json({ error: err.message });
           return;
         }
 
-        console.error(`Internal error handling request on route ${req.method} ${req.url}:`);
-        console.error(err);
+        // eslint-disable-next-line no-console
+        console.error(`Internal error handling request on route ${req.method} ${req.url}:`, err);
         try {
           await slackAlert(env, [
             `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
             ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
           ]);
         } catch (slackError) {
+          // eslint-disable-next-line no-console
           console.error('Failed to send Slack', slackError);
         }
         res.status(createHttpError.isHttpError(err) ? err.statusCode : 500).json({

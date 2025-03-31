@@ -20,6 +20,7 @@
     "@bluedot/docker-scripts": "*",
     "@bluedot/ui": "*",
     "@next/third-parties": "^15.1.7",
+    "@rive-app/react-canvas": "^4.18.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.29.0",
     "@ts-rest/core": "^3.41.1",
@@ -32,8 +33,10 @@
     "next": "^15.1.7",
     "posthog-js": "^1.217.4",
     "react": "^18.2.0",
+    "react-click-away-listener": "^2.3.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

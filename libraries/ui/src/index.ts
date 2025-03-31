@@ -21,8 +21,6 @@ export { FaceTiles } from './FaceTiles';
 
 export { Footer } from './Footer';
 
-export { Nav, isCurrentPath } from './Nav';
-
 export { Section, SectionHeading } from './Section';
 
 export { SlideList } from './SlideList';
@@ -37,7 +35,7 @@ export { asError } from './utils/asError';
 export { useAuthStore, withAuth, type Auth } from './utils/auth';
 export { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 export {
-  makeMakeApiRoute, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
+  makeMakeApiRoute, StreamingResponseSchema, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
 } from './utils/makeMakeApiRoute';
 export { slackAlert } from './utils/slackAlert';
 export { validateEnv } from './utils/validateEnv';
