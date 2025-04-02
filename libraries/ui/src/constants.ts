@@ -9,6 +9,18 @@ export type Course = {
   isFeatured?: boolean;
 };
 
+export type CourseUnit = {
+  title: string;
+  description: string;
+  href: string;
+  chapters?: CourseChapter[];
+};
+
+export type CourseChapter = {
+  type: 'Reading' | 'Demo' | 'Quiz' | 'Exercise';
+  title: string;
+};
+
 export type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 export const COURSES: Course[] = [
@@ -45,5 +57,50 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
     href: 'https://aisafetyfundamentals.com/governance/',
+  },
+] as const;
+
+export const COURSE_UNITS: CourseUnit[] = [
+  {
+    title: 'Unit 1',
+    description: 'Beyond chatbots: the expanding frontier of AI capabilities',
+    href: 'https://course.bluedot.org/future-of-ai/units/1',
+    chapters: [
+      {
+        type: 'Reading',
+        title: 'How current AI systems work',
+      },
+      {
+        type: 'Demo',
+        title: 'They can build things',
+      },
+      {
+        type: 'Reading',
+        title: 'The speed of progress',
+      },
+      {
+        type: 'Reading',
+        title: 'From tools to agents',
+      },
+      {
+        type: 'Exercise',
+        title: '5 years ago, 5 years ahead',
+      },
+    ],
+  },
+  {
+    title: 'Unit 2',
+    description: 'Artificial general intelligence: on the horizon?',
+    href: 'https://course.bluedot.org/future-of-ai/units/2',
+  },
+  {
+    title: 'Unit 3',
+    description: 'AGI will drastically change how we live',
+    href: 'https://course.bluedot.org/future-of-ai/units/3',
+  },
+  {
+    title: 'Unit 4',
+    description: 'What can be done?',
+    href: 'https://course.bluedot.org/future-of-ai/units/4',
   },
 ] as const;
