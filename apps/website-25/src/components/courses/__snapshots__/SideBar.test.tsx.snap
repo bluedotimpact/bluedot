@@ -1,0 +1,194 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SideBar > renders default as expected 1`] = `
+<div>
+  <div
+    class="sidebar w-full md:w-[332px] flex flex-col"
+  >
+    <div
+      class="sidebar__content flex flex-col gap-6"
+    >
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 1
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="https://course.bluedot.org/future-of-ai/units/1"
+          >
+            Beyond chatbots: the expanding frontier of AI capabilities
+          </a>
+        </div>
+        <div
+          class="sidebar__chapters flex flex-col gap-4 border-t-2 border-color-primary pt-4"
+        >
+          <div
+            class="sidebar__chapter"
+          >
+            <p
+              class="sidebar__chapter-detail text-size-xs"
+            >
+              <span
+                class="sidebar__chapter-type font-bold text-color-secondary-text"
+              >
+                Reading
+                :
+              </span>
+               
+              <span
+                class="sidebar__chapter-title"
+              >
+                How current AI systems work
+              </span>
+            </p>
+          </div>
+          <div
+            class="sidebar__chapter"
+          >
+            <p
+              class="sidebar__chapter-detail text-size-xs"
+            >
+              <span
+                class="sidebar__chapter-type font-bold text-color-secondary-text"
+              >
+                Demo
+                :
+              </span>
+               
+              <span
+                class="sidebar__chapter-title"
+              >
+                They can build things
+              </span>
+            </p>
+          </div>
+          <div
+            class="sidebar__chapter"
+          >
+            <p
+              class="sidebar__chapter-detail text-size-xs"
+            >
+              <span
+                class="sidebar__chapter-type font-bold text-color-secondary-text"
+              >
+                Reading
+                :
+              </span>
+               
+              <span
+                class="sidebar__chapter-title"
+              >
+                The speed of progress
+              </span>
+            </p>
+          </div>
+          <div
+            class="sidebar__chapter"
+          >
+            <p
+              class="sidebar__chapter-detail text-size-xs"
+            >
+              <span
+                class="sidebar__chapter-type font-bold text-color-secondary-text"
+              >
+                Reading
+                :
+              </span>
+               
+              <span
+                class="sidebar__chapter-title"
+              >
+                From tools to agents
+              </span>
+            </p>
+          </div>
+          <div
+            class="sidebar__chapter"
+          >
+            <p
+              class="sidebar__chapter-detail text-size-xs"
+            >
+              <span
+                class="sidebar__chapter-type font-bold text-color-secondary-text"
+              >
+                Exercise
+                :
+              </span>
+               
+              <span
+                class="sidebar__chapter-title"
+              >
+                5 years ago, 5 years ahead
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 2
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="https://course.bluedot.org/future-of-ai/units/2"
+          >
+            Artificial general intelligence: on the horizon?
+          </a>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 3
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="https://course.bluedot.org/future-of-ai/units/3"
+          >
+            AGI will drastically change how we live
+          </a>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 4
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="https://course.bluedot.org/future-of-ai/units/4"
+          >
+            What can be done?
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
