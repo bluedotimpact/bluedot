@@ -21,7 +21,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="https://course.bluedot.org/future-of-ai/units/1"
+            href="/courses/future-of-ai/units/1"
           >
             Beyond chatbots: the expanding frontier of AI capabilities
           </a>
@@ -144,7 +144,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="https://course.bluedot.org/future-of-ai/units/2"
+            href="/courses/future-of-ai/units/2"
           >
             Artificial general intelligence: on the horizon?
           </a>
@@ -163,7 +163,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="https://course.bluedot.org/future-of-ai/units/3"
+            href="/courses/future-of-ai/units/3"
           >
             AGI will drastically change how we live
           </a>
@@ -182,7 +182,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="https://course.bluedot.org/future-of-ai/units/4"
+            href="/courses/future-of-ai/units/4"
           >
             What can be done?
           </a>
