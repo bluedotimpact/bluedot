@@ -22,7 +22,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
       </div>
     </div>
     <div
-      class="breadcrumbs border-b border-color-divider w-full py-space-between unit__breadcrumbs"
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
     >
       <nav
         aria-label="Breadcrumbs"

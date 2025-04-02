@@ -44,7 +44,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <HeroMiniTitle>{course}</HeroMiniTitle>
         <HeroH1>{title}</HeroH1>
       </HeroSection>
-      <Breadcrumbs className="unit__breadcrumbs" route={route} />
+      <Breadcrumbs className="unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10" route={route} />
       <Section className="unit__main">
         <div className="unit__content-container flex flex-col md:flex-row gap-12">
           {!isMobile && (

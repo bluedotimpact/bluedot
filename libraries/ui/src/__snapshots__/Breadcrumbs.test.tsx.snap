@@ -3,7 +3,7 @@
 exports[`Breadcrumbs > renders all urls and titles in the document 1`] = `
 <div>
   <div
-    class="breadcrumbs border-b border-color-divider w-full py-space-between"
+    class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
   >
     <nav
       aria-label="Breadcrumbs"
