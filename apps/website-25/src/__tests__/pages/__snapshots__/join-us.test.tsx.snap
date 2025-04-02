@@ -46,7 +46,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="breadcrumbs border-b border-color-divider w-full py-space-between"
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
     >
       <nav
         aria-label="Breadcrumbs"
