@@ -4,6 +4,7 @@ import {
   Breadcrumbs,
   CourseCard,
   Section,
+  constants,
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
@@ -15,24 +16,27 @@ const CoursePage = () => {
   return (
     <div>
       <Head>
-        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
-        <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
+        <title>AI safety courses with certificates</title>
+        <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
       </Head>
       <HeroSection>
         <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
         <HeroH1>The expertise you need to shape safe AI</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section>
-        <CourseCard
-          title="Future of AI"
-          description="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world."
-          imageSrc="/images/courses/future-of-ai.png"
-          href={ROUTES.coursesFutureOfAi.url}
-          courseType="Self-paced"
-          courseLength="2 hours"
-          cardType="Featured"
-        />
+      <Section
+        className="course-serp"
+      >
+        <div className="course-serp__content flex flex-row flex-wrap gap-space-between items-stretch">
+          {constants.COURSES.map((course) => (
+            <div className="max-w-[350px]">
+              <CourseCard
+                key={course.title}
+                {...course}
+              />
+            </div>
+          ))}
+        </div>
       </Section>
     </div>
   );
