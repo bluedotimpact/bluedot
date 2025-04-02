@@ -47,6 +47,24 @@ const coursesFutureOfAiUnit1: BluedotRoute = {
   parentPages: [home, courses, coursesFutureOfAi],
 };
 
+const coursesFutureOfAiUnit2: BluedotRoute = {
+  title: 'Unit 2',
+  url: '/courses/future-of-ai/units/2',
+  parentPages: [home, courses, coursesFutureOfAi],
+};
+
+const coursesFutureOfAiUnit3: BluedotRoute = {
+  title: 'Unit 3',
+  url: '/courses/future-of-ai/units/3',
+  parentPages: [home, courses, coursesFutureOfAi],
+};
+
+const coursesFutureOfAiUnit4: BluedotRoute = {
+  title: 'Unit 4',
+  url: '/courses/future-of-ai/units/4',
+  parentPages: [home, courses, coursesFutureOfAi],
+};
+
 export const ROUTES = {
   home,
   about,
@@ -56,4 +74,7 @@ export const ROUTES = {
   courses,
   coursesFutureOfAi,
   coursesFutureOfAiUnit1,
+  coursesFutureOfAiUnit2,
+  coursesFutureOfAiUnit3,
+  coursesFutureOfAiUnit4,
 } as const;

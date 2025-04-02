@@ -64,7 +64,7 @@ export const COURSE_UNITS: CourseUnit[] = [
   {
     title: 'Unit 1',
     description: 'Beyond chatbots: the expanding frontier of AI capabilities',
-    href: 'https://course.bluedot.org/future-of-ai/units/1',
+    href: '/courses/future-of-ai/units/1',
     chapters: [
       {
         type: 'Reading',
@@ -91,16 +91,66 @@ export const COURSE_UNITS: CourseUnit[] = [
   {
     title: 'Unit 2',
     description: 'Artificial general intelligence: on the horizon?',
-    href: 'https://course.bluedot.org/future-of-ai/units/2',
+    href: '/courses/future-of-ai/units/2',
+    chapters: [
+      {
+        type: 'Reading',
+        title: 'Today\'s AI vs AGI',
+      },
+      {
+        type: 'Quiz',
+        title: 'Knowledge Check',
+      },
+      {
+        type: 'Reading',
+        title: 'How might we build AGI?',
+      },
+      {
+        type: 'Exercise',
+        title: '5 years ahead revisited',
+      },
+    ],
   },
   {
     title: 'Unit 3',
     description: 'AGI will drastically change how we live',
-    href: 'https://course.bluedot.org/future-of-ai/units/3',
+    href: '/courses/future-of-ai/units/3',
+    chapters: [
+      {
+        type: 'Reading',
+        title: 'What benefits could AGI bring?',
+      },
+      {
+        type: 'Exercise',
+        title: 'AGI benefits and distribution',
+      },
+    ],
   },
   {
     title: 'Unit 4',
     description: 'What can be done?',
-    href: 'https://course.bluedot.org/future-of-ai/units/4',
+    href: '/courses/future-of-ai/units/4',
+    chapters: [
+      {
+        type: 'Reading',
+        title: 'The challenge we face',
+      },
+      {
+        type: 'Reading',
+        title: 'The race dynamics make safety harder',
+      },
+      {
+        type: 'Reading',
+        title: 'Who should control AGI?',
+      },
+      {
+        type: 'Reading',
+        title: 'Making a deliberate choice',
+      },
+      {
+        type: 'Exercise',
+        title: 'Add your voice to the conversation',
+      },
+    ],
   },
 ] as const;
