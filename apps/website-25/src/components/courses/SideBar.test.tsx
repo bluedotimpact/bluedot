@@ -5,7 +5,7 @@ import SideBar from './SideBar';
 
 describe('SideBar', () => {
   test('renders default as expected', () => {
-    const { container } = render(<SideBar units={COURSE_UNITS} currentUnit={COURSE_UNITS[0]} />);
+    const { container } = render(<SideBar units={COURSE_UNITS} currentUnit={COURSE_UNITS[0]!} />);
     expect(container).toMatchSnapshot();
   });
 });
