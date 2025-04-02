@@ -2,12 +2,12 @@ import {
   HeroSection,
   HeroCTAContainer,
   HeroH1,
+  HeroH2,
   CTALinkOrButton,
   Breadcrumbs,
 } from '@bluedot/ui';
-import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
-import { ROUTES } from '../../lib/routes';
+import { ROUTES } from '../../../lib/routes';
 
 const CURRENT_ROUTE = ROUTES.coursesFutureOfAi;
 
@@ -16,11 +16,11 @@ const FutureOfAiCoursePage = () => {
     <div>
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
-        <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
+        <meta name="description" content="Future-proof your career" />
       </Head>
       <HeroSection>
-        <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
-        <HeroH1>No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world.</HeroH1>
+        <HeroH1>Future of AI</HeroH1>
+        <HeroH2>No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world.</HeroH2>
         <HeroCTAContainer>
           <CTALinkOrButton url={ROUTES.joinUs.url}>Start learning for free</CTALinkOrButton>
         </HeroCTAContainer>

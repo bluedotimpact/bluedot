@@ -38,7 +38,13 @@ const courses: BluedotRoute = {
 const coursesFutureOfAi: BluedotRoute = {
   title: 'Future of AI',
   url: '/courses/future-of-ai',
-  parentPages: [courses],
+  parentPages: [home, courses],
+};
+
+const coursesFutureOfAiUnit1: BluedotRoute = {
+  title: 'Unit 1',
+  url: '/courses/future-of-ai/units/1',
+  parentPages: [home, courses, coursesFutureOfAi],
 };
 
 export const ROUTES = {
@@ -49,4 +55,5 @@ export const ROUTES = {
   contact,
   courses,
   coursesFutureOfAi,
+  coursesFutureOfAiUnit1,
 } as const;
