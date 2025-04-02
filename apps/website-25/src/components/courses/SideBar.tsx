@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { CourseUnit } from '@bluedot/ui/src/constants';
 
 type SideBarProps = {
@@ -8,7 +7,7 @@ type SideBarProps = {
   currentUnit: CourseUnit;
 };
 
-export const SideBar: React.FC<SideBarProps> = ({
+const SideBar: React.FC<SideBarProps> = ({
   units,
   currentUnit,
 }) => {
