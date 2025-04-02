@@ -28,7 +28,7 @@ const FutureOfAiCourseUnit1Page = () => {
       <Section>
         <div className="unit flex flex-col md:flex-row gap-12">
           {!isMobile && (
-            <SideBar units={COURSE_UNITS} currentUnit={COURSE_UNITS[0]} />
+            <SideBar units={COURSE_UNITS} currentUnit={COURSE_UNITS[0]!} />
           )}
           <div className="unit__content flex flex-col flex-1 gap-4">
             <div className="unit__content-block flex flex-col gap-2">
