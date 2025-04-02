@@ -29,10 +29,24 @@ const contact: BluedotRoute = {
   parentPages: [home],
 };
 
+const courses: BluedotRoute = {
+  title: 'Courses',
+  url: '/courses',
+  parentPages: [home],
+};
+
+const coursesFutureOfAi: BluedotRoute = {
+  title: 'Future of AI',
+  url: '/courses/future-of-ai',
+  parentPages: [courses],
+};
+
 export const ROUTES = {
   home,
   about,
   privacyPolicy,
   joinUs,
   contact,
+  courses,
+  coursesFutureOfAi,
 } as const;
