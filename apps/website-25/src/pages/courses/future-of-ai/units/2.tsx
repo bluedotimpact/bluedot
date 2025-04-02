@@ -2,14 +2,14 @@ import { COURSE_UNITS } from '@bluedot/ui/src/constants';
 import { ROUTES } from '../../../../lib/routes';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 
-const CURRENT_ROUTE = ROUTES.coursesFutureOfAiUnit1;
+const CURRENT_ROUTE = ROUTES.coursesFutureOfAiUnit2;
 
-const FutureOfAiCourseUnit1Page = () => {
+const FutureOfAiCourseUnit2Page = () => {
   return (
     <UnitLayout
       course="Future of AI"
-      unit={1}
-      title="Beyond chatbots: the expanding frontier of AI capabilities"
+      unit={2}
+      title="Artificial general intelligence: on the horizon?"
       route={CURRENT_ROUTE}
       units={COURSE_UNITS}
     >
@@ -37,4 +37,4 @@ const FutureOfAiCourseUnit1Page = () => {
   );
 };
 
-export default FutureOfAiCourseUnit1Page;
+export default FutureOfAiCourseUnit2Page;
