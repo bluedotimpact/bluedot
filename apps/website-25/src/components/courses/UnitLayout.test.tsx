@@ -13,9 +13,8 @@ describe('UnitLayout', () => {
         course="My Test Course"
         unit={1}
         route={{ title: 'Unit 1', url: '/course/my-test-course/unit/1' } as BluedotRoute}
-      >
-        <div>Hello</div>
-      </UnitLayout>,
+        markdown="## Hello World!"
+      />,
     );
     expect(container).toMatchSnapshot();
   });
@@ -28,9 +27,8 @@ describe('UnitLayout', () => {
         course="My Test Course"
         unit={COURSE_UNITS.length}
         route={{ title: 'Last Unit', url: '/course/my-test-course/unit/1' } as BluedotRoute}
-      >
-        <div>Hello</div>
-      </UnitLayout>,
+        markdown="## Hello World!"
+      />,
     );
     expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
   });
