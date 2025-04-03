@@ -5,7 +5,7 @@ import {
   asError,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { ProgressDots } from '../../components/ProgressDots';
+import { ProgressDots } from '@bluedot/ui/src/ProgressDots';
 import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
 

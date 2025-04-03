@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Button, H2, Link, P,
+  Button, H2, Link, P, ProgressDots
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { ShareButton } from '../components/ShareButton';
 import { CodeRenderer } from '../components/CodeRenderer';
-import { ProgressDots } from '../components/ProgressDots';
 import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 
 const DemoPage: React.FC = () => {

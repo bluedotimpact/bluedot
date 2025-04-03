@@ -2,7 +2,7 @@
   "extends": "@bluedot/typescript-config/nextjs.json",
   "include": [
     "next-env.d.ts",
-    "src/**/*",
+    "src/**/*", "../../libraries/ui/src/ProgressDots.tsx",
   ],
   "exclude": ["node_modules"]
 }

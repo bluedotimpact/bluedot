@@ -16,10 +16,10 @@ export default makeApiRoute({
   }),
 }, async () => {
   const allCourses = await db.scan(courseTable);
-  // const courseHubCourses = allCourses.filter((p) => p.isProfilePublic);
+  const courseHubCourses = allCourses.filter((c) => c.displayOnCourseHubIndex);
 
   return {
     type: 'success' as const,
-    courses: allCourses,
+    courses: courseHubCourses,
   };
 });
