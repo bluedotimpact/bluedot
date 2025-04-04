@@ -6,7 +6,7 @@ export interface Course extends Item {
   description: string,
   url: string,
   displayOnCourseHubIndex: boolean,
-  // certificationBadgeImage: string,
+  certificationBadgeImage: string,
   certificatonDescription: string,
   courseUrl: string,
   courseDetailsUrl: string,
@@ -21,7 +21,7 @@ export const courseTable: Table<Course> = {
     description: 'fldCX0bk6SQuXZaI7',
     url: 'fldblKROooVG5p9UW',
     displayOnCourseHubIndex: 'fldf7ppu9kN4blXU9',
-    // certificationBadgeImage: 'fldwOxukk9OyUPWDX',
+    certificationBadgeImage: 'fldwOxukk9OyUPWDX',
     certificatonDescription: 'fldsxyHg4BLouu7XZ',
     courseUrl: 'fldlnWDzZZPZHP6S1',
     courseDetailsUrl: 'fldblKROooVG5p9UW',
@@ -31,7 +31,7 @@ export const courseTable: Table<Course> = {
     description: 'string',
     url: 'string',
     displayOnCourseHubIndex: 'boolean',
-    // certificationBadgeImage: 'string',
+    certificationBadgeImage: 'string',
     certificatonDescription: 'string',
     courseUrl: 'string',
     courseDetailsUrl: 'string',
@@ -120,6 +120,7 @@ export interface User extends Item {
   utmCampaign: string,
   utmContent: string,
   courseSitesVisited: string,
+  completedMoocAt: number,
 }
 
 export const userTable: Table<User> = {
@@ -137,6 +138,7 @@ export const userTable: Table<User> = {
     utmCampaign: 'fldcNcqMxSFpmiGWT',
     utmContent: 'fldlpjcdh7jpZhHhv',
     courseSitesVisited: 'fldgbXANYvYCEw4OV',
+    completedMoocAt: 'fldTCSAIKNs4nPfDn',
   },
   schema: {
     email: 'string',
@@ -149,5 +151,6 @@ export const userTable: Table<User> = {
     utmCampaign: 'string',
     utmContent: 'string',
     courseSitesVisited: 'string',
+    completedMoocAt: 'number',
   },
 };
