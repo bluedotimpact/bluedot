@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Item, Table } from 'airtable-ts';
 
 export interface Course extends Item {
@@ -21,5 +20,31 @@ export const courseTable: Table<Course> = {
     title: 'string',
     description: 'string',
     url: 'string',
+  },
+};
+
+export interface Unit extends Item {
+  id: string,
+  courseId: string,
+  title: string,
+  content: string,
+  duration: number,
+}
+
+export const unitTable: Table<Unit> = {
+  name: 'Unit',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblsDKJ8VCyO619nk',
+  mappings: {
+    courseId: 'fldLmQZ0ISTr7xQUE',
+    title: 'fldN9BV8GGUHFu9sz',
+    content: 'fldpJLWVPh0IXHfmm',
+    duration: 'fldGdibgcMgRbnuvp',
+  },
+  schema: {
+    courseId: 'string',
+    title: 'string',
+    content: 'string',
+    duration: 'number',
   },
 };
