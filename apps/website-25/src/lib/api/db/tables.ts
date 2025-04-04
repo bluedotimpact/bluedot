@@ -6,6 +6,10 @@ export interface Course extends Item {
   description: string,
   url: string,
   displayOnCourseHubIndex: boolean,
+  // certificationBadgeImage: string,
+  certificatonDescription: string,
+  courseUrl: string,
+  courseDetailsUrl: string,
 }
 
 export const courseTable: Table<Course> = {
@@ -17,12 +21,20 @@ export const courseTable: Table<Course> = {
     description: 'fldCX0bk6SQuXZaI7',
     url: 'fldblKROooVG5p9UW',
     displayOnCourseHubIndex: 'fldf7ppu9kN4blXU9',
+    // certificationBadgeImage: 'fldwOxukk9OyUPWDX',
+    certificatonDescription: 'fldsxyHg4BLouu7XZ',
+    courseUrl: 'fldlnWDzZZPZHP6S1',
+    courseDetailsUrl: 'fldblKROooVG5p9UW',
   },
   schema: {
     title: 'string',
     description: 'string',
     url: 'string',
     displayOnCourseHubIndex: 'boolean',
+    // certificationBadgeImage: 'string',
+    certificatonDescription: 'string',
+    courseUrl: 'string',
+    courseDetailsUrl: 'string',
   },
 };
 
@@ -49,5 +61,93 @@ export const unitTable: Table<Unit> = {
     title: 'string',
     content: 'string',
     duration: 'number',
+  },
+};
+
+export interface CourseRegistration extends Item {
+  id: string,
+  userId: string,
+  email: string,
+  firstName: string,
+  lastName: string,
+  fullName: string,
+  courseId: string,
+  decision: string,
+  role: string,
+  certificateId: string,
+  certificateCreatedAt: number,
+}
+
+export const courseRegistrationTable: Table<CourseRegistration> = {
+  name: 'Course registration',
+  baseId: 'appnJbsG1eWbAdEvf',
+  tableId: 'tblXKnWoXK3R63F6D',
+  mappings: {
+    userId: 'fldyVcp78eIfqmai3',
+    email: 'fld0g392xytratknm',
+    firstName: 'fldIhZ4wc5t1Yabgz',
+    lastName: 'fldHa6GR5aBsOBtkz',
+    fullName: 'fld1rOZGAHBRcdJcM',
+    courseId: 'flda4CZqaugyaftyQ',
+    decision: 'fldWVKY5EFAGSRcDT',
+    role: 'fld52Y2AyWV8tECDy',
+    certificateId: 'fld9hQE0EvdKRsp9k',
+    certificateCreatedAt: 'fldQJyVjaiQzsVGD9',
+  },
+  schema: {
+    userId: 'string',
+    email: 'string',
+    firstName: 'string',
+    lastName: 'string',
+    fullName: 'string',
+    courseId: 'string',
+    decision: 'string',
+    role: 'string',
+    certificateId: 'string',
+    certificateCreatedAt: 'number',
+  },
+};
+
+export interface User extends Item {
+  id: string,
+  email: string,
+  createdAt: string,
+  lastSeenAt: string,
+  name: string,
+  referralId: string,
+  referredById: string,
+  utmSource: string,
+  utmCampaign: string,
+  utmContent: string,
+  courseSitesVisited: string,
+}
+
+export const userTable: Table<User> = {
+  name: 'User',
+  baseId: 'appnJbsG1eWbAdEvf',
+  tableId: 'tblCgeKADNDSCXPpR',
+  mappings: {
+    email: 'fldLAGRfn7S6uEVRo',
+    createdAt: 'fld2AGYp0VLOz3Pg6',
+    lastSeenAt: 'fldOFCUM6lD5Mne9Y',
+    name: 'fldULI4CXDWAUmRM2',
+    referralId: 'fldTT0LY0pZsOwQ4w',
+    referredById: 'flditAk6CtQxCfHf8',
+    utmSource: 'fldl1gTMXI44BvCUS',
+    utmCampaign: 'fldcNcqMxSFpmiGWT',
+    utmContent: 'fldlpjcdh7jpZhHhv',
+    courseSitesVisited: 'fldgbXANYvYCEw4OV',
+  },
+  schema: {
+    email: 'string',
+    createdAt: 'string',
+    lastSeenAt: 'string',
+    name: 'string',
+    referralId: 'string',
+    referredById: 'string',
+    utmSource: 'string',
+    utmCampaign: 'string',
+    utmContent: 'string',
+    courseSitesVisited: 'string',
   },
 };
