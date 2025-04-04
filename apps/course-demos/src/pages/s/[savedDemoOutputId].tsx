@@ -1,11 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import {
-  H2, P, Link,
-  asError,
+  H2, P, Link, ProgressDots, asError,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { ProgressDots } from '@bluedot/ui/src/ProgressDots';
 import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
 
