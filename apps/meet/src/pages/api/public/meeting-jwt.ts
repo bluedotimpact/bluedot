@@ -39,7 +39,7 @@ export default makeApiRoute({
     meetingNumber: z.string(),
     meetingPassword: z.string(),
   }),
-}, async (body, { raw }) => {
+}, async (body) => {
   const groupDiscussion = await db.get(groupDiscussionTable, body.groupDiscussionId);
   if (body.participantId && !groupDiscussion.Attendees.includes(body.participantId)) {
     await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, body.participantId] });

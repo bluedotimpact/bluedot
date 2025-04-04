@@ -4,7 +4,9 @@ import createHttpError from 'http-errors';
 import AirtableError from 'airtable/lib/airtable_error';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { Group, groupDiscussionTable, groupTable, personTable, zoomAccountTable } from '../../../lib/api/db/tables';
+import {
+  Group, groupDiscussionTable, groupTable, personTable, zoomAccountTable,
+} from '../../../lib/api/db/tables';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingParticipantsRequest = {
@@ -59,7 +61,7 @@ export default makeApiRoute({
       to: z.string(),
     }),
   ]),
-}, async (body, { raw }) => {
+}, async (body) => {
   let group: Group;
   try {
     group = await db.get(groupTable, body.groupId);

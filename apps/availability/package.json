@@ -24,7 +24,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-select": "^5.8.0",
-    "weekly-availabilities": "^1.0.0"
+    "weekly-availabilities": "^1.0.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",

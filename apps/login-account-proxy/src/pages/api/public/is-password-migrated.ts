@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import axios from 'axios';
 import createHttpError from 'http-errors';
+import { slackAlert } from '@bluedot/ui';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import env from '../../../lib/api/env';
-import { slackAlert } from '@bluedot/ui';
 
 export type IsPasswordMigratedRequest = {
   email: string,
