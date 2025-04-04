@@ -1,9 +1,4 @@
-import { AirtableTs, Table, Item } from 'airtable-ts';
-import env from './env';
-
-export default new AirtableTs({
-  apiKey: env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
-});
+import { Table, Item } from 'airtable-ts';
 
 const airtableBaseId = 'appPs3sb9BrYZN69z';
 

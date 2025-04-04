@@ -1,8 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
+import db from '../../../lib/api/db';
+import { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db/tables';
 import env from '../../../lib/api/env';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
@@ -26,13 +27,22 @@ const ZOOM_ROLE = {
   PARTICIPANT: 0,
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<MeetingJwtResponse>,
-) => {
-  const groupDiscussion = await db.get(groupDiscussionTable, req.body.groupDiscussionId);
-  if (req.body.participantId && !groupDiscussion.Attendees.includes(req.body.participantId)) {
-    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, req.body.participantId] });
+export default makeApiRoute({
+  requireAuth: false,
+  requestBody: z.object({
+    groupDiscussionId: z.string(),
+    participantId: z.string().optional(),
+  }),
+  responseBody: z.object({
+    type: z.literal('success'),
+    meetingSdkJwt: z.string(),
+    meetingNumber: z.string(),
+    meetingPassword: z.string(),
+  }),
+}, async (body) => {
+  const groupDiscussion = await db.get(groupDiscussionTable, body.groupDiscussionId);
+  if (body.participantId && !groupDiscussion.Attendees.includes(body.participantId)) {
+    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, body.participantId] });
   }
   if (!groupDiscussion['Zoom account']) {
     throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
@@ -45,7 +55,7 @@ export default apiRoute(async (
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,
-    role: groupDiscussion.Facilitators.includes(req.body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
+    role: body.participantId && groupDiscussion.Facilitators.includes(body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
     iat: issuedAt,
     exp: expiresAt,
     tokenExp: expiresAt,
@@ -53,12 +63,12 @@ export default apiRoute(async (
 
   const meetingSdkJwt = jsonwebtoken.sign(oPayload, env.ZOOM_CLIENT_SECRET, { algorithm: 'HS256' });
 
-  res.status(200).json({
-    type: 'success',
+  return {
+    type: 'success' as const,
     meetingSdkJwt,
     meetingNumber,
     meetingPassword,
-  });
-}, 'insecure_no_auth');
+  };
+});
 
 export const maxDuration = 60;
