@@ -60,7 +60,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
               class="sidebar__content flex flex-col gap-6"
             >
               <div
-                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+                class="sidebar__unit border border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
               >
                 <div
                   class="sidebar__unit-item flex flex-col gap-2"
