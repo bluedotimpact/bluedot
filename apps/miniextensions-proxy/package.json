@@ -4,7 +4,8 @@
     "private": true,
     "scripts": {
         "deploy:cd": "docker-scripts deploy",
-        "start": "docker-scripts start"
+        "start": "docker-scripts start",
+        "test": "docker-scripts test"
     },
     "dependencies": {
         "@bluedot/docker-scripts": "*"

@@ -13,6 +13,7 @@ const scriptMap = {
   'multistage-deploy-staging': 'multistage/deploy-staging.sh',
   start: 'start.sh',
   deploy: 'deploy.sh',
+  test: 'test.sh',
 };
 
 const scriptFile = scriptMap[command];
