@@ -5,12 +5,13 @@ import {
   ProgressDots,
   Section,
   Footer,
+  ShareButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { FaCircleCheck } from 'react-icons/fa6';
-import { GetCertificateResponse } from './api/certificate/[certificateId]';
+import { GetCertificateResponse } from './api/certificates/[certificateId]';
 import { ROUTES } from '../lib/routes';
 
 const CertificatePage = () => {
@@ -33,7 +34,7 @@ const CertificatePage = () => {
 
   const [{ data, loading, error }] = useAxios<GetCertificateResponse>({
     method: 'get',
-    url: certificateId ? `/api/certificate/${certificateId}` : undefined,
+    url: certificateId ? `/api/certificates/${certificateId}` : undefined,
   });
 
   if (loading) {
@@ -78,7 +79,7 @@ const CertificatePage = () => {
               </div>
               <p className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</p>
             </div>
-            {/* <CTALinkOrButton>Share your achievement</CTALinkOrButton> */}
+            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`https://course.bluedot.org/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
         </div>
 

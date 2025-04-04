@@ -4,9 +4,9 @@ import {
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
-import { ShareButton } from '../components/ShareButton';
 import { CodeRenderer } from '../components/CodeRenderer';
 import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
+import { ShareSavedDemoButton } from '../components/ShareSavedDemoButton';
 
 const DemoPage: React.FC = () => {
   const [view, setView] = useState<'prompt' | 'display'>('prompt');
@@ -117,7 +117,7 @@ const DemoPage: React.FC = () => {
         <div className="flex flex-col gap-4 mt-2">
           <CodeRenderer code={generatedCode} height="calc(100vh - 70px)" />
           <div className="flex gap-2 w-fit relative bottom-12.5 mt-1 -mb-10">
-            <ShareButton type="generate-react-component" data={JSON.stringify({ prompt: userPrompt, code: generatedCode })} text={`I just created an app with AI - using the prompt "${userPrompt}". You can check it out at this link:`} />
+            <ShareSavedDemoButton type="generate-react-component" data={JSON.stringify({ prompt: userPrompt, code: generatedCode })} text={`I just created an app with AI - using the prompt "${userPrompt}". You can check it out at this link:`} />
             <Button onPress={() => { setView('prompt'); setUserPrompt(''); }}>← Start over</Button>
           </div>
         </div>
