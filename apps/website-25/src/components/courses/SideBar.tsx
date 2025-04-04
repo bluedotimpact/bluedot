@@ -19,7 +19,7 @@ const SideBar: React.FC<SideBarProps> = ({
       <div className="sidebar__content flex flex-col gap-6">
         {units.map((unit) => (
           <div
-            className={`sidebar__unit border ${isCurrentUnit(unit) ? 'border-color-primary' : 'border-color-divider'} rounded-radius-md p-4 flex flex-col gap-2`}
+            className={`sidebar__unit border ${isCurrentUnit(unit) ? 'sidebar__unit--active border-color-primary' : 'border-color-divider'} rounded-radius-md p-4 flex flex-col gap-2`}
           >
             <div className="sidebar__unit-item flex flex-col gap-2">
               <p className="sidebar__title uppercase text-size-xs font-bold">{unit.title}</p>

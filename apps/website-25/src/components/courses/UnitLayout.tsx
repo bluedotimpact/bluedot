@@ -47,11 +47,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </HeroSection>
       <Breadcrumbs className="unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10" route={route} />
       <Section className="unit__main">
-        <div className="unit__content-container flex flex-col md:flex-row gap-12">
+        <div className="unit__content-container flex flex-col md:flex-row gap-16">
           {!isMobile && (
             <SideBar units={units} currentUnit={units[unitIndex]!} />
           )}
-          <div className="unit__content flex flex-col flex-1 gap-4">
+          <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-4">
             <ReactMarkdown>
               {markdown}
             </ReactMarkdown>
