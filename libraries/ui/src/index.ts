@@ -23,9 +23,13 @@ export { FaceTiles } from './FaceTiles';
 
 export { Footer } from './Footer';
 
+export { Modal } from './Modal';
+
 export { ProgressDots } from './ProgressDots';
 
 export { Section, SectionHeading } from './Section';
+
+export { ShareButton } from './ShareButton';
 
 export { SlideList } from './SlideList';
 

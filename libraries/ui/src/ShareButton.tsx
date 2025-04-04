@@ -1,12 +1,12 @@
 import React, { useState, ReactNode } from 'react';
-import { Button } from '@bluedot/ui';
 import { Button as AriaButton } from 'react-aria-components';
 import {
-  FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaShare, FaCopy,
+  FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaCopy,
 } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
+import { Button } from './legacy/Button';
 import { Modal } from './Modal';
+import { LinkOrButton } from './legacy/LinkOrButton';
 
 interface SocialButtonProps {
   icon: ReactNode;
@@ -19,7 +19,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
   icon, color, onPress, children,
 }) => {
   return (
-    <AriaButton
+    <LinkOrButton
       onPress={onPress}
       className="flex flex-col items-center cursor-pointer group p-4 -m-4"
     >
@@ -27,57 +27,39 @@ const SocialButton: React.FC<SocialButtonProps> = ({
         {icon}
       </div>
       <span className="mt-2 text-sm">{children}</span>
-    </AriaButton>
+    </LinkOrButton>
   );
 };
 
-interface ShareButtonProps {
-  type: string;
-  data: string;
-  text: string;
-}
+type ShareButtonProps = React.PropsWithChildren<{
+  /** The URL for users to share on social media */
+  url?: string | (() => string | Promise<string>);
+  /** The text for users to share on social media */
+  text?: string;
+}>;
 
 export const ShareButton: React.FC<ShareButtonProps> = ({
-  type,
-  data,
-  text,
+  url = window.location.href,
+  text = '',
+  children = 'Share',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
-  const [shareUrlData, setShareUrlData] = useState<string | null>(null);
-
-  const router = useRouter();
-  const referralToken = typeof router.query.r === 'string' ? router.query.r : null;
 
   const handleShare = async () => {
-    if (data === shareUrlData) {
-      setIsOpen(true);
-      return;
-    }
-
     try {
       setIsSharing(true);
-      const response = await fetch('/api/saved-output', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type,
-          data,
-        }),
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to share');
+      let finalUrl: string;
+      if (typeof url === 'function') {
+        finalUrl = await url();
+      } else {
+        finalUrl = url;
       }
 
-      const { savedDemoOutputId } = await response.json();
-      const url = `${window.location.origin}/s/${savedDemoOutputId}${referralToken ? `?r=${referralToken}` : ''}`;
-      setShareUrlData(data);
-      setShareUrl(url);
+      setShareUrl(finalUrl);
       setIsOpen(true);
     } catch (error) {
       console.error('Error sharing:', error);
@@ -122,7 +104,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
   return (
     <>
       <Button onPress={handleShare} disabled={isSharing}>
-        <FaShare className="inline h-3 -ml-0.5 -mt-1" /> {isSharing ? 'Sharing...' : 'Share'}
+        {isSharing ? 'Sharing...' : children}
       </Button>
 
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Share">
