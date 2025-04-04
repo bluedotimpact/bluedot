@@ -19,7 +19,7 @@ You might also want to see the instructions in [infra](../../apps/infra/README.m
 
 `docker-scripts start`: This will run your docker container. You can then access the web service at [localhost:8000](http://localhost:8000).
 
-`docker-scripts deploy`: This will deploy your app to production, however it's configured in [`infra`](../../apps/infra/). Specifically, it'll build your app and container, tag and push it to Vultr container registry, and bounce the k8s deployment.
+`docker-scripts deploy`: This will deploy your app to production, however it's configured in [`infra`](../../apps/infra/). Specifically, it'll build your app and container, tag and push it to [GitHub container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry), and bounce the k8s deployment.
 
 ### Multistage Deployments
 

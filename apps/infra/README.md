@@ -87,8 +87,6 @@ export KUBECONFIG=$(pwd)/kubeconfig.yaml
 
 In general we try to configure things with [infrastructure-as-code](https://en.wikipedia.org/wiki/Infrastructure_as_code) via Pulumi as far as practical.
 
-However, we initialised these two things manually:
-- Container registry, as this is not currently supported by Pulumi.
-- Object storage, as we need this for the Pulumi state backend so there's a bit of a chicken/egg situation here.
+However, we initialised object storage manually, as we need this for the Pulumi state backend so there's a bit of a chicken/egg situation here.
 
 (this is mainly so we know what isn't Pulumi managed in future, or how to recreate this setup if we need to do so)

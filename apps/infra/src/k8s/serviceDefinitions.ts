@@ -8,7 +8,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-app-template',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-app-template:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-app-template:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -23,7 +23,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-frontend-example',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-frontend-example:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-frontend-example:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -38,7 +38,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-website-proxy',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-website-proxy:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-website-proxy:latest',
       }],
     },
     hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org'],
@@ -48,7 +48,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-website-25',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-website-25:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-website-25:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -63,7 +63,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-website-25-production',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-website-25-production:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-website-25-production:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -78,7 +78,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-storybook',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-storybook:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-storybook:latest',
       }],
     },
     hosts: ['storybook.k8s.bluedot.org'],
@@ -88,7 +88,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-miniextensions-proxy',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-miniextensions-proxy:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-miniextensions-proxy:latest',
       }],
     },
     hosts: ['forms.bluedot.org'],
@@ -98,7 +98,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-posthog-proxy',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-posthog-proxy:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-posthog-proxy:latest',
       }],
     },
     hosts: ['analytics.k8s.bluedot.org'],
@@ -108,7 +108,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-meet',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-meet:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-meet:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'NEXT_PUBLIC_ZOOM_CLIENT_ID', value: 'lX1NBglbQWO2ERYSS1xdfA' },
@@ -125,7 +125,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-availability',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-availability:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-availability:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -140,7 +140,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-room',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-room:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-room:latest',
         env: [
           { name: 'DISPLAY_BEARER_TOKEN', valueFrom: envVarSources.roomDisplayBearerToken },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -155,7 +155,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-course-demos',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-course-demos:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-course-demos:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
@@ -172,7 +172,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-login-account-proxy',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-login-account-proxy:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-login-account-proxy:latest',
         env: [
           { name: 'BUBBLE_SHARED_SECRET', valueFrom: envVarSources.loginProxySharedSecret },
           { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.loginProxyKeycloakClientSecret },
@@ -188,7 +188,7 @@ export const services: ServiceDefinition[] = [
   //   spec: {
   //     containers: [{
   //       name: 'bluedot-backend',
-  //       image: 'sjc.vultrcr.com/bluedot/bluedot-backend:latest',
+  //       image: 'ghcr.io/bluedotimpact/bluedot-backend:latest',
   //       env: [{
   //         name: 'DATABASE_CONNECTION_STRING',
   //         value: pulumi.all([databaseInstance.publicIpAddress, cloudSqlPassword]).apply(([ip, password]) => `postgresql://postgres:${password}@${ip}:5432/postgres?sslmode=no-verify`),
@@ -202,7 +202,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-login',
-        image: 'sjc.vultrcr.com/bluedot/bluedot-login:latest',
+        image: 'ghcr.io/bluedotimpact/bluedot-login:latest',
         env: [
           { name: 'KC_DB_URL', valueFrom: getConnectionDetails(keycloakPg).jdbcUri },
           { name: 'KEYCLOAK_ADMIN_PASSWORD', valueFrom: envVarSources.keycloakAdminPassword },
@@ -243,7 +243,7 @@ interface ServiceDefinition {
    * @example {
    *   containers: [{
    *     name: 'bluedot-my-cool-app',
-   *     image: 'sjc.vultrcr.com/bluedot/bluedot-my-cool-app:latest',
+   *     image: 'ghcr.io/bluedotimpact/bluedot-my-cool-app:latest',
    *     env: [
    *       { name: 'SOME_USEFUL_ENV_VAR', value: 'my not secret value' },
    *       { name: 'SOME_SECRET_ENV_VAR', valueFrom: envVarSources.mySecret },

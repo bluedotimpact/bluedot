@@ -28,12 +28,12 @@ jobs:
 
       - name: Configure k8s deployment
         run: |
-          docker login https://sjc.vultrcr.com/bluedot -u dbaa58f3-01f1-4fcc-9c14-93cc28f524e0 -p $VULTR_CONTAINER_REGISTRY_PASSWORD
+          echo "$GITHUB_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           mkdir -p ~/.kube
           echo "$K8S_KUBECONFIG" > ~/.kube/config
         env:
           K8S_KUBECONFIG: ${{ secrets.K8S_KUBECONFIG }}
-          VULTR_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.VULTR_CONTAINER_REGISTRY_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy production
         run: npm run deploy:multistage:production --workspace apps/website-25
