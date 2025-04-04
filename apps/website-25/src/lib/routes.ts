@@ -29,9 +29,9 @@ const contact: BluedotRoute = {
   parentPages: [home],
 };
 
-const certificate: BluedotRoute = {
-  title: 'Certificate',
-  url: '/certificate',
+const certification: BluedotRoute = {
+  title: 'Certification',
+  url: '/certification',
   parentPages: [home],
 };
 
@@ -77,7 +77,7 @@ export const ROUTES = {
   privacyPolicy,
   joinUs,
   contact,
-  certificate,
+  certification,
   courses,
   coursesFutureOfAi,
   coursesFutureOfAiUnit1,
