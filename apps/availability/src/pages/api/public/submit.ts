@@ -1,7 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 import { parseIntervals } from 'weekly-availabilities';
 import axios from 'axios';
-import { apiRoute } from '../../../lib/api/apiRoute';
+import createHttpError from 'http-errors';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { formConfigurationTable } from '../../../lib/api/db/tables';
 
@@ -21,36 +22,39 @@ const isValidAvailabilityExpression = (availability: string) => {
   }
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-) => {
-  // TODO: schema validation
-  const data = req.body as SubmitRequest;
-
-  if (!isValidAvailabilityExpression(req.body.availability)) {
-    res.status(400).send({ error: 'Invalid time availability expression' });
-    return;
+export default makeApiRoute({
+  requireAuth: false,
+  requestBody: z.object({
+    email: z.string().email(),
+    availability: z.string(),
+    timezone: z.string(),
+    comments: z.string(),
+  }),
+  responseBody: z.object({
+    type: z.literal('success'),
+  }),
+}, async (body, { raw }) => {
+  if (!isValidAvailabilityExpression(body.availability)) {
+    throw new createHttpError.BadRequest('Invalid time availability expression');
   }
 
   const records = await db.scan(formConfigurationTable);
-  const targetRecord = records.find((record) => record.Slug === req.query.slug);
+  const targetRecord = records.find((record) => record.Slug === raw.req.query.slug);
 
   if (!targetRecord) {
-    res.status(404).send({ type: 'error', message: 'Form not found' });
-    return;
+    throw new createHttpError.NotFound('Form not found');
   }
 
   const webhookResponse = await axios.post(targetRecord.Webhook, {
-    Comments: data.comments,
-    Email: data.email,
-    'Time availability in UTC': data.availability,
-    Timezone: data.timezone,
+    Comments: body.comments,
+    Email: body.email,
+    'Time availability in UTC': body.availability,
+    Timezone: body.timezone,
   });
 
   if (webhookResponse.status !== 200) {
     throw new Error(`Unexpected response from form webhook (status ${webhookResponse.status}) for form ${targetRecord.id}`);
   }
 
-  res.status(200).json({ type: 'success' });
-}, 'insecure_no_auth');
+  return { type: 'success' as const };
+});

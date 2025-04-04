@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { apiRoute } from '../../../lib/api/apiRoute';
+import { z } from 'zod';
+import createHttpError from 'http-errors';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { groupDiscussionTable } from '../../../lib/api/db/tables';
 
@@ -16,27 +17,32 @@ export type RecordAttendanceResponse = {
   message: string,
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<RecordAttendanceResponse>,
-) => {
-  if (!req.body.groupDiscussionId) {
-    res.status(400).json({ type: 'error', message: 'Missing group discussion id.' });
-    return;
+export default makeApiRoute({
+  requireAuth: false,
+  requestBody: z.object({
+    groupDiscussionId: z.string(),
+    participantId: z.string(),
+    reason: z.string().optional(),
+  }),
+  responseBody: z.object({
+    type: z.literal('success'),
+  }),
+}, async (body) => {
+  if (!body.groupDiscussionId) {
+    throw new createHttpError.BadRequest('Missing group discussion id.');
   }
-  if (!req.body.participantId) {
-    res.status(400).json({ type: 'error', message: 'Missing participant id.' });
-    return;
+  if (!body.participantId) {
+    throw new createHttpError.BadRequest('Missing participant id.');
   }
 
-  const groupDiscussion = await db.get(groupDiscussionTable, req.body.groupDiscussionId);
-  if (!groupDiscussion.Attendees.includes(req.body.participantId)) {
-    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, req.body.participantId] });
+  const groupDiscussion = await db.get(groupDiscussionTable, body.groupDiscussionId);
+  if (!groupDiscussion.Attendees.includes(body.participantId)) {
+    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, body.participantId] });
   }
 
-  res.status(200).json({
-    type: 'success',
-  });
-}, 'insecure_no_auth');
+  return {
+    type: 'success' as const,
+  };
+});
 
 export const maxDuration = 60;

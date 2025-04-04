@@ -1,8 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
 import createHttpError from 'http-errors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AirtableError from 'airtable/lib/airtable_error';
-import { apiRoute } from '../../../lib/api/makeApiRoute';
+import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { Group, groupDiscussionTable, groupTable, personTable, zoomAccountTable } from '../../../lib/api/db/tables';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
@@ -34,16 +34,38 @@ export type MeetingParticipantsResponse = {
   message: string,
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<MeetingParticipantsResponse>,
-) => {
+export default makeApiRoute({
+  requireAuth: false,
+  requestBody: z.object({
+    groupId: z.string(),
+  }),
+  responseBody: z.union([
+    z.object({
+      type: z.literal('success'),
+      groupDiscussionId: z.string(),
+      participants: z.array(z.object({
+        id: z.string(),
+        name: z.string(),
+        role: z.enum(['host', 'participant']),
+      })),
+      meetingNumber: z.string(),
+      meetingPassword: z.string(),
+      meetingHostKey: z.string(),
+      meetingStartTime: z.number(),
+      meetingEndTime: z.number(),
+    }),
+    z.object({
+      type: z.literal('redirect'),
+      to: z.string(),
+    }),
+  ]),
+}, async (body, { raw }) => {
   let group: Group;
   try {
-    group = await db.get(groupTable, req.body.groupId);
+    group = await db.get(groupTable, body.groupId);
   } catch (err) {
     if (err instanceof AirtableError && err.statusCode === 404) {
-      throw new createHttpError.NotFound(`Group ${req.body.groupId} not found`);
+      throw new createHttpError.NotFound(`Group ${body.groupId} not found`);
     }
     throw err;
   }
@@ -58,11 +80,7 @@ export default apiRoute(async (
       distance: Math.abs((Date.now() / 1000) - groupDiscussion['Start date/time']!),
     }));
   if (groupDiscussionsWithDistance.length === 0) {
-    res.status(404).json({
-      type: 'error',
-      message: 'No discussions found for this group.',
-    });
-    return;
+    throw new createHttpError.NotFound('No discussions found for this group.');
   }
 
   let nearestGroupDiscussionWithDistance = groupDiscussionsWithDistance[0]!;
@@ -85,8 +103,8 @@ export default apiRoute(async (
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount['Meeting link']);
   const meetingHostKey = zoomAccount['Host key'];
 
-  res.status(200).json({
-    type: 'success',
+  return {
+    type: 'success' as const,
     groupDiscussionId: groupDiscussion.id,
     participants: [
       ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
@@ -98,7 +116,7 @@ export default apiRoute(async (
     meetingHostKey,
     meetingStartTime: groupDiscussion['Start date/time']!,
     meetingEndTime: groupDiscussion['End date/time']!,
-  });
-}, 'insecure_no_auth');
+  };
+});
 
 export const maxDuration = 60;
