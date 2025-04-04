@@ -16,7 +16,6 @@
     "deploy:multistage:staging": "docker-scripts multistage-deploy-staging"
   },
   "dependencies": {
-    "@bluedot/backend-contract": "*",
     "@bluedot/docker-scripts": "*",
     "@bluedot/ui": "*",
     "@next/third-parties": "^15.1.7",
