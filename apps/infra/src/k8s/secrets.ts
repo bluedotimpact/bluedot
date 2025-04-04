@@ -30,16 +30,3 @@ export const envVarSources = toK8s.reduce((obj, key) => {
   obj[key] = { secretKeyRef: { name: resource.metadata.name, key: 'value' } };
   return obj;
 }, {} as Record<typeof toK8s[number], core.v1.EnvVarSource>);
-
-export const containerRegistrySecret = new k8s.core.v1.Secret('vultr-cr-secret', {
-  metadata: {
-    name: 'vultr-cr-credentials',
-  },
-  data: {
-    // containerRegistryDockerConfigJson should be a docker config json, e.g.:
-    // {"auths":{"sjc.vultrcr.com":{"auth":"abcd"}}}
-    '.dockerconfigjson': config.requireSecret('containerRegistryDockerConfigJson')
-      .apply((s) => Buffer.from(s).toString('base64')),
-  },
-  type: 'kubernetes.io/dockerconfigjson',
-}, { provider });
