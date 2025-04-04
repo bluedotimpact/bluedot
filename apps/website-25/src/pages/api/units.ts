@@ -16,10 +16,10 @@ export default makeApiRoute({
   }),
 }, async () => {
   const allUnits = await db.scan(unitTable);
-  // how do we use params arg to filter by course and/or unit for more performant fetching?
+  const testUnits = allUnits.filter((u) => u.courseTitle.includes('What the fish'));
 
   return {
     type: 'success' as const,
-    units: allUnits,
+    units: testUnits,
   };
 });

@@ -9,8 +9,8 @@ import {
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import { ROUTES } from '../lib/routes';
-import { GetCoursesResponse } from './api/courses';
+import { ROUTES } from '../../lib/routes';
+import { GetCoursesResponse } from '../api/courses';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
