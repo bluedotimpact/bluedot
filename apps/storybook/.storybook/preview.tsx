@@ -5,7 +5,7 @@ import React from 'react';
 import type { Preview, StoryFn } from '@storybook/react';
 
 const withBluedotBase = (Story: StoryFn) => (
-  <main className="bluedot-base">
+  <main className="text-bluedot-black antialiased p-8">
     <Story />
   </main>
 );
