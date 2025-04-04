@@ -28,10 +28,9 @@ export const courseTable: Table<Course> = {
 
 export interface Unit extends Item {
   id: string,
-  courseId: string,
   title: string,
   content: string,
-  duration: number,
+  displayOnTarinTest: number,
 }
 
 export const unitTable: Table<Unit> = {
@@ -39,15 +38,13 @@ export const unitTable: Table<Unit> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
-    courseId: 'fldLmQZ0ISTr7xQUE',
     title: 'fldN9BV8GGUHFu9sz',
     content: 'fldpJLWVPh0IXHfmm',
-    duration: 'fldGdibgcMgRbnuvp',
+    displayOnTarinTest: 'fld6kMTMs399FQxXl',
   },
   schema: {
-    courseId: 'string',
     title: 'string',
     content: 'string',
-    duration: 'number',
+    displayOnTarinTest: 'number',
   },
 };
