@@ -4,19 +4,19 @@ import {
   Breadcrumbs,
   CourseCard,
   Section,
-  constants,
   ProgressDots,
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
-import { ROUTES } from '../lib/routes';
 import useAxios from 'axios-hooks';
+import { ROUTES } from '../lib/routes';
 import { GetCoursesResponse } from './api/courses';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
+  // TODO: handle error state
+  const [{ data, loading }] = useAxios<GetCoursesResponse>({
     method: 'get',
     url: '/api/courses',
   });
