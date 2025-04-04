@@ -2,7 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { parseIntervals } from 'weekly-availabilities';
 import axios from 'axios';
 import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { formConfigurationTable } from '../../../lib/api/db';
+import db from '../../../lib/api/db';
+import { formConfigurationTable } from '../../../lib/api/db/tables';
 
 export type SubmitRequest = {
   email: string,

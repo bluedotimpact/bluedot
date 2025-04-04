@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { apiRoute } from '../../../lib/api/apiRoute';
 import env from '../../../lib/api/env';
-import { slackAlert } from '../../../lib/api/slackAlert';
+import { slackAlert } from '@bluedot/ui';
 
 export type IsPasswordMigratedRequest = {
   email: string,
@@ -51,7 +51,7 @@ export default apiRoute(async (
   }
 
   if (potentialUsers.length === 0) {
-    slackAlert([`is-password-migrated: User not found in keycloak: ${data.email}`, 'This shouldn\'t happen because we thought we migrated all existing users over, and new users should be migrated they register. You should investigate how this user signed up for an account without a keycloak user.']);
+    slackAlert(env, [`is-password-migrated: User not found in keycloak: ${data.email}`, 'This shouldn\'t happen because we thought we migrated all existing users over, and new users should be migrated they register. You should investigate how this user signed up for an account without a keycloak user.']);
     res.status(200).json({ type: 'success', isMigrated: false });
     return;
   }

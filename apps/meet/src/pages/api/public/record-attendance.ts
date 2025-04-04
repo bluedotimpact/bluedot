@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { groupDiscussionTable } from '../../../lib/api/db';
+import db from '../../../lib/api/db';
+import { groupDiscussionTable } from '../../../lib/api/db/tables';
 
 export type RecordAttendanceRequest = {
   groupDiscussionId: string,

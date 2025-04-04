@@ -3,7 +3,7 @@ import axios from 'axios';
 import createHttpError from 'http-errors';
 import { apiRoute } from '../../../lib/api/apiRoute';
 import env from '../../../lib/api/env';
-import { slackAlert } from '../../../lib/api/slackAlert';
+import { slackAlert } from '@bluedot/ui';
 
 export type SubmitRequest = {
   oldEmail?: string,
@@ -72,7 +72,7 @@ export default apiRoute(async (
     }
 
     if (potentialNewUsers.length >= 1) {
-      slackAlert([`User tried to change email from ${data.oldEmail} to ${data.newEmail}, but only found account for new email. Ignoring this request, because this usually indicates it previously succeeded and they clicked the button in Bubble twice in quick succession.`]);
+      slackAlert(env, [`User tried to change email from ${data.oldEmail} to ${data.newEmail}, but only found account for new email. Ignoring this request, because this usually indicates it previously succeeded and they clicked the button in Bubble twice in quick succession.`]);
       res.status(200).json({ type: 'success' });
       return;
     }

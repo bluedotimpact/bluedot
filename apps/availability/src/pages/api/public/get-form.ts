@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import createHttpError from 'http-errors';
-import db, { formConfigurationTable } from '../../../lib/api/db';
 import { apiRoute } from '../../../lib/api/apiRoute';
+import db from '../../../lib/api/db';
+import { formConfigurationTable } from '../../../lib/api/db/tables';
 
 export type GetFormResponse = {
   type: 'success',

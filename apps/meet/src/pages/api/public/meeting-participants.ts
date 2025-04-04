@@ -2,11 +2,9 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import createHttpError from 'http-errors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import AirtableError from 'airtable/lib/airtable_error';
-import db, {
-  Group,
-  groupDiscussionTable, groupTable, personTable, zoomAccountTable,
-} from '../../../lib/api/db';
-import { apiRoute } from '../../../lib/api/apiRoute';
+import { apiRoute } from '../../../lib/api/makeApiRoute';
+import db from '../../../lib/api/db';
+import { Group, groupDiscussionTable, groupTable, personTable, zoomAccountTable } from '../../../lib/api/db/tables';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingParticipantsRequest = {

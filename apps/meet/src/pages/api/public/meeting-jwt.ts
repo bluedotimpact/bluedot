@@ -2,7 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import { apiRoute } from '../../../lib/api/apiRoute';
-import db, { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db';
+import db from '../../../lib/api/db';
+import { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db/tables';
 import env from '../../../lib/api/env';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
