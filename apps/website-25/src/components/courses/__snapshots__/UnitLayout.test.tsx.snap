@@ -51,7 +51,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
         class="section__body"
       >
         <div
-          class="unit__content-container flex flex-col md:flex-row gap-12"
+          class="unit__content-container flex flex-col md:flex-row gap-16"
         >
           <div
             class="sidebar w-full md:w-[332px] flex flex-col"
@@ -60,7 +60,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
               class="sidebar__content flex flex-col gap-6"
             >
               <div
-                class="sidebar__unit border border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
+                class="sidebar__unit border sidebar__unit--active border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
               >
                 <div
                   class="sidebar__unit-item flex flex-col gap-2"
@@ -242,7 +242,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="unit__content flex flex-col flex-1 gap-4"
+            class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
             <h2>
               Hello World!
