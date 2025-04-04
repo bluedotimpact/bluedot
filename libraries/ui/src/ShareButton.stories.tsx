@@ -17,23 +17,27 @@ export const Default: Story = {
   args: {},
 };
 
-export const WithCustomText: Story = {
-  args: {
-    children: 'Share this content',
-  },
-};
-
-export const WithCustomUrl: Story = {
+export const Customized: Story = {
   args: {
     url: 'https://example.com/custom-page',
     text: 'Check out this awesome page!',
+    children: 'Share this content',
   },
 };
 
 export const WithFunction: Story = {
   args: {
     url: () => 'https://example.com/generated-url',
-    text: 'Share synchronously generated URL',
+    children: 'Share synchronously generated URL',
+  },
+  parameters: {
+    docs: {
+      source: {
+        transform: (source: string) => `const myFunc = () => 'https://example.com/async-generated-url';
+  
+${source.replace('() => {}', 'myFunc')}`,
+      },
+    },
   },
 };
 
@@ -43,5 +47,16 @@ export const WithAsyncFunction: Story = {
       setTimeout(() => resolve('https://example.com/async-generated-url'), 2000);
     }),
     children: 'Share asynchronously generated URL',
+  },
+  parameters: {
+    docs: {
+      source: {
+        transform: (source: string) => `const myFunc = () => new Promise((resolve) => {
+  setTimeout(() => resolve('https://example.com/async-generated-url'), 2000);
+})
+  
+${source.replace('() => {}', 'myFunc')}`,
+      },
+    },
   },
 };
