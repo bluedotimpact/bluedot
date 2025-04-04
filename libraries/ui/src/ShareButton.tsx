@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 import { Button as AriaButton } from 'react-aria-components';
 import {
-  FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaShare, FaCopy,
+  FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaCopy,
 } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { Button } from './legacy/Button';
