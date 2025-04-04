@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, H2, Link, P, ProgressDots
+  Button, H2, Link, P, ProgressDots,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
