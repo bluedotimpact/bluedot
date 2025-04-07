@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import db from '../../../lib/api/db';
-import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { Course, courseTable } from '../../../lib/api/db/tables';
+import db from '../../../../lib/api/db';
+import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
+import { Course, courseTable } from '../../../../lib/api/db/tables';
 
 export type GetCourseResponse = {
   type: 'success',

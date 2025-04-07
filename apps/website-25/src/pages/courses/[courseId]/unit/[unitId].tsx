@@ -3,31 +3,30 @@ import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { ProgressDots } from '@bluedot/ui';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../../api/units';
+import { GetUnitResponse } from '../../../api/courses/[courseId]/[unitId]';
 import { ROUTES } from '../../../../lib/routes';
 
 const CourseUnitPage = () => {
-  const { query: { courseSlug, unitSlug } } = useRouter();
+  const { query: { courseId, unitId } } = useRouter();
 
   const [{ data, loading }] = useAxios<GetUnitResponse>({
     method: 'get',
-    url: `/api/units?courseTitle=${courseSlug}`,
+    url: `/api/courses/${courseId}/${unitId}`,
   });
 
-  const unitNumber = unitSlug ? parseInt(unitSlug as string) : 0;
-  const unitIndex = unitNumber - 1;
+  const unitNumber = unitId ? parseInt(unitId as string) : 0;
 
   return (
-    (courseSlug && unitSlug && data?.units[unitIndex]) ? (
+    (courseId && unitId && data?.unit) ? (
       <>
         {loading && <ProgressDots />}
         <UnitLayout
-          course={data?.units[unitIndex].courseTitle}
+          course={data?.unit.courseTitle}
           unit={unitNumber}
-          title={data?.units[unitIndex].title}
+          title={data?.unit.title}
           route={ROUTES.coursesFutureOfAiUnit1} // TODO: Update to be dynamic
           units={COURSE_UNITS} // TODO: Update to be dynamic
-          markdown={data?.units[unitIndex].content}
+          markdown={data?.unit.content}
         />
       </>
     ) : (
