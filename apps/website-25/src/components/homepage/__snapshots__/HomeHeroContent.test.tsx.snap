@@ -6,16 +6,13 @@ exports[`HomeHeroContent > renders as expected 1`] = `
     class="home-hero-content pb-5 bg-bluedot-darker"
   >
     <div
-      class="home-hero-content__animation-container w-[350px] max-w-[80vw] aspect-4/3 mx-auto"
+      class="home-hero-content__logo-container flex flex-col items-center gap-7 mb-8 slide-up-fade-in"
     >
-      <div
-        class=""
-        style="width: 100%; height: 100%;"
-      >
-        <canvas
-          style="vertical-align: top; width: 0px; height: 0px;"
-        />
-      </div>
+      <img
+        alt="BlueDot Impact"
+        class="home-hero-content__logo-icon w-20"
+        src="/images/logo/BlueDot_Impact_Icon_White.svg"
+      />
     </div>
     <h1
       class="hero-section__title text-on-dark text-center home-hero-content__heading slide-up-fade-in"
