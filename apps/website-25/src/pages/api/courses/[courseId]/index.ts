@@ -25,7 +25,7 @@ export default makeApiRoute({
 
   const units = (await db.scan(unitTable, {
     filterByFormula: `{Course Record ID} = "${courseId}"`,
-  }));
+  })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {
     type: 'success' as const,

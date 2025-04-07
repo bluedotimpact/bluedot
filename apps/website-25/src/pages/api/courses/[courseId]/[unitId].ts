@@ -5,6 +5,7 @@ import { Unit, unitTable } from '../../../../lib/api/db/tables';
 
 export type GetUnitResponse = {
   type: 'success',
+  units: Unit[],
   unit: Unit,
 };
 
@@ -12,16 +13,17 @@ export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
     type: z.literal('success'),
-    unit: z.any(),
+    units: z.array(z.any()),
   }),
 }, async (body, { raw }) => {
   const { courseId, unitId } = raw.req.query;
-  const unit = (await db.scan(unitTable, {
-    filterByFormula: `AND({Course Record ID} = "${courseId}", {Unit number} = "${unitId}")`,
-  }))[0];
+  const units = (await db.scan(unitTable, {
+    filterByFormula: `{Course Record ID} = "${courseId}"`,
+  })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {
     type: 'success' as const,
-    unit,
+    units,
+    unit: units[Number(unitId) - 1],
   };
 });

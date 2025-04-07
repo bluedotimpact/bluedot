@@ -15,18 +15,21 @@ const CourseUnitPage = () => {
   });
 
   const unitNumber = unitId ? parseInt(unitId as string) : 0;
+  const units = data?.units;
+  const unit = units?.[unitNumber - 1];
 
   return (
-    (courseId && unitId && data?.unit) ? (
+    (units && unit) ? (
       <>
         {loading && <ProgressDots />}
         <UnitLayout
-          course={data?.unit.courseTitle}
-          unit={unitNumber}
-          title={data?.unit.title}
+          courseId={courseId}
+          courseTitle={unit.courseTitle}
+          unitNumber={unitNumber}
+          unitTitle={unit.title}
+          unitContent={unit.content}
+          units={units}
           route={ROUTES.coursesFutureOfAiUnit1} // TODO: Update to be dynamic
-          units={COURSE_UNITS} // TODO: Update to be dynamic
-          markdown={data?.unit.content}
         />
       </>
     ) : (
