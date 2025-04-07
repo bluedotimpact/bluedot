@@ -3,23 +3,24 @@ import {
   describe,
   expect,
   test,
-  vi,
+  beforeAll,
+  afterAll,
 } from 'vitest';
-import * as deviceDetect from 'react-device-detect';
 import HistorySection from './HistorySection';
+import { cleanupGlobalMocks, mockIntersectionObserver } from '../../__tests__/utils';
 
 describe('HistorySection', () => {
-  test('renders desktop as expected', () => {
-    const { container } = render(<HistorySection />);
-    expect(container).toMatchSnapshot();
-    expect(container.querySelector('.history-section__event-container--desktop')).not.toBeNull();
+  beforeAll(() => {
+    mockIntersectionObserver();
   });
 
-  test('renders mobile as expected', () => {
-    vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
+  afterAll(() => {
+    cleanupGlobalMocks();
+  });
+
+  test('renders as expected', () => {
     const { container } = render(<HistorySection />);
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.history-section__event-container--mobile')).not.toBeNull();
-    vi.clearAllMocks();
+    expect(container.querySelector('.history-section')).not.toBeNull();
   });
 });
