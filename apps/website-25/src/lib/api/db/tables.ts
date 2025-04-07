@@ -31,6 +31,8 @@ export interface Unit extends Item {
   courseTitle: string,
   title: string,
   content: string,
+  unitNumber: string,
+  duration: number,
 }
 
 export const unitTable: Table<Unit> = {
@@ -41,10 +43,14 @@ export const unitTable: Table<Unit> = {
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     title: 'fldN9BV8GGUHFu9sz',
     content: 'fldpJLWVPh0IXHfmm',
+    duration: 'fldGdibgcMgRbnuvp',
+    unitNumber: 'fldimS5GIqSKuyA9C',
   },
   schema: {
     courseTitle: 'string',
     title: 'string',
     content: 'string',
+    duration: 'number',
+    unitNumber: 'string',
   },
 };

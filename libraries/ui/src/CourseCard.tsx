@@ -6,7 +6,7 @@ import { Tag } from './Tag';
 
 export type CourseCardProps = React.PropsWithChildren<{
   title: string,
-  description: string,
+  description?: string,
   imageSrc: string,
   href: string,
   className?: string,

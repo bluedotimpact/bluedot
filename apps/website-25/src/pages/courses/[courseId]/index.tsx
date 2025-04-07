@@ -6,6 +6,8 @@ import {
   CTALinkOrButton,
   Breadcrumbs,
   ProgressDots,
+  Section,
+  CourseCard,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
@@ -40,6 +42,26 @@ const CoursePage = () => {
             </HeroCTAContainer>
           </HeroSection>
           <Breadcrumbs route={CURRENT_ROUTE} />
+          <Section
+            className="course-serp"
+          >
+            {loading && <ProgressDots />}
+            <div className="course-serp__content grid sm:grid-cols-2 lg:grid-cols-4 gap-space-between items-stretch">
+              {/* Units must be sorted to ensure correct order */}
+              {data?.units?.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber)).map((unit) => (
+                <div className="max-w-[350px]">
+                  <CourseCard
+                    key={unit.title}
+                    title={unit.title}
+                    imageSrc="/images/courses/future-of-ai.png"
+                    href={`/courses/${courseId}/unit/${unit.unitNumber}`}
+                    courseType="Self-paced"
+                    courseLength={`${unit.duration} mins`}
+                  />
+                </div>
+              ))}
+            </div>
+          </Section>
         </>
       )}
     </div>
