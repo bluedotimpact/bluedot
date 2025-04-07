@@ -11,30 +11,30 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { ROUTES } from '../../../lib/routes';
-import { GetCoursesResponse } from '../../api/courses';
+import { GetCourseResponse } from '../../api/courses/[courseId]';
 
 const CURRENT_ROUTE = ROUTES.coursesFutureOfAi;
 
 const CoursePage = () => {
-  const { query: { courseSlug } } = useRouter();
+  const { query: { courseId } } = useRouter();
 
-  const [{ data, loading }] = useAxios<GetCoursesResponse>({
+  const [{ data, loading }] = useAxios<GetCourseResponse>({
     method: 'get',
-    url: `/api/courses?courseTitle=${courseSlug}`,
+    url: `/api/courses/${courseId}`,
   });
 
   return (
     <div>
       {loading && <ProgressDots />}
-      {data?.courses[0] && (
+      {data?.course && (
         <>
           <Head>
-            <title>{data?.courses[0].title} | BlueDot Impact</title>
-            <meta name="description" content={data?.courses[0].description} />
+            <title>{data?.course.title} | BlueDot Impact</title>
+            <meta name="description" content={data?.course.description} />
           </Head>
           <HeroSection>
-            <HeroH1>{data.courses[0].title}</HeroH1>
-            <HeroH2>{data.courses[0].description}</HeroH2>
+            <HeroH1>{data.course.title}</HeroH1>
+            <HeroH2>{data.course.description}</HeroH2>
             <HeroCTAContainer>
               <CTALinkOrButton url={ROUTES.joinUs.url}>Start learning for free</CTALinkOrButton>
             </HeroCTAContainer>
