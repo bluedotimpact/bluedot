@@ -11,14 +11,10 @@ exports[`UnitLayout > renders default as expected 1`] = `
       >
         <div
           class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
-        >
-          My Test Course
-        </div>
+        />
         <h1
           class="hero-section__title text-on-dark text-center"
-        >
-          Unit 1
-        </h1>
+        />
       </div>
     </div>
     <div
@@ -60,126 +56,27 @@ exports[`UnitLayout > renders default as expected 1`] = `
               class="sidebar__content flex flex-col gap-6"
             >
               <div
-                class="sidebar__unit border sidebar__unit--active border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
               >
                 <div
                   class="sidebar__unit-item flex flex-col gap-2"
                 >
                   <p
                     class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/undefined/unit/undefined"
                   >
                     Unit 1
-                  </p>
-                  <a
-                    class="sidebar__description subtitle-sm"
-                    href="/courses/future-of-ai/units/1"
+                  </a>
+                  <p
+                    class="sidebar__description text-sm"
                   >
                     Beyond chatbots: the expanding frontier of AI capabilities
-                  </a>
-                </div>
-                <div
-                  class="sidebar__chapters flex flex-col gap-4 border-t-2 border-color-primary pt-4"
-                >
-                  <div
-                    class="sidebar__chapter"
-                  >
-                    <p
-                      class="sidebar__chapter-detail text-size-xs"
-                    >
-                      <span
-                        class="sidebar__chapter-type font-bold text-color-secondary-text"
-                      >
-                        Reading
-                        :
-                      </span>
-                       
-                      <span
-                        class="sidebar__chapter-title"
-                      >
-                        How current AI systems work
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    class="sidebar__chapter"
-                  >
-                    <p
-                      class="sidebar__chapter-detail text-size-xs"
-                    >
-                      <span
-                        class="sidebar__chapter-type font-bold text-color-secondary-text"
-                      >
-                        Demo
-                        :
-                      </span>
-                       
-                      <span
-                        class="sidebar__chapter-title"
-                      >
-                        They can build things
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    class="sidebar__chapter"
-                  >
-                    <p
-                      class="sidebar__chapter-detail text-size-xs"
-                    >
-                      <span
-                        class="sidebar__chapter-type font-bold text-color-secondary-text"
-                      >
-                        Reading
-                        :
-                      </span>
-                       
-                      <span
-                        class="sidebar__chapter-title"
-                      >
-                        The speed of progress
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    class="sidebar__chapter"
-                  >
-                    <p
-                      class="sidebar__chapter-detail text-size-xs"
-                    >
-                      <span
-                        class="sidebar__chapter-type font-bold text-color-secondary-text"
-                      >
-                        Reading
-                        :
-                      </span>
-                       
-                      <span
-                        class="sidebar__chapter-title"
-                      >
-                        From tools to agents
-                      </span>
-                    </p>
-                  </div>
-                  <div
-                    class="sidebar__chapter"
-                  >
-                    <p
-                      class="sidebar__chapter-detail text-size-xs"
-                    >
-                      <span
-                        class="sidebar__chapter-type font-bold text-color-secondary-text"
-                      >
-                        Exercise
-                        :
-                      </span>
-                       
-                      <span
-                        class="sidebar__chapter-title"
-                      >
-                        5 years ago, 5 years ahead
-                      </span>
-                    </p>
-                  </div>
+                  </p>
                 </div>
               </div>
               <div
@@ -190,15 +87,20 @@ exports[`UnitLayout > renders default as expected 1`] = `
                 >
                   <p
                     class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/undefined/unit/undefined"
                   >
                     Unit 2
-                  </p>
-                  <a
-                    class="sidebar__description subtitle-sm"
-                    href="/courses/future-of-ai/units/2"
+                  </a>
+                  <p
+                    class="sidebar__description text-sm"
                   >
                     Artificial general intelligence: on the horizon?
-                  </a>
+                  </p>
                 </div>
               </div>
               <div
@@ -209,15 +111,20 @@ exports[`UnitLayout > renders default as expected 1`] = `
                 >
                   <p
                     class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/undefined/unit/undefined"
                   >
                     Unit 3
-                  </p>
-                  <a
-                    class="sidebar__description subtitle-sm"
-                    href="/courses/future-of-ai/units/3"
+                  </a>
+                  <p
+                    class="sidebar__description text-sm"
                   >
                     AGI will drastically change how we live
-                  </a>
+                  </p>
                 </div>
               </div>
               <div
@@ -229,14 +136,19 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   <p
                     class="sidebar__title uppercase text-size-xs font-bold"
                   >
-                    Unit 4
+                    Unit 
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/future-of-ai/units/4"
+                    href="/courses/undefined/unit/undefined"
+                  >
+                    Unit 4
+                  </a>
+                  <p
+                    class="sidebar__description text-sm"
                   >
                     What can be done?
-                  </a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -244,18 +156,15 @@ exports[`UnitLayout > renders default as expected 1`] = `
           <div
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
-            <h2>
-              Hello World!
-            </h2>
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
               data-testid="cta-link"
-              href="/courses/future-of-ai/units/2"
+              href="/course/my-test-course/unit/1"
             >
               <span
                 class="cta-button__text"
               >
-                Next unit
+                Claim your certificate!
               </span>
             </a>
           </div>
