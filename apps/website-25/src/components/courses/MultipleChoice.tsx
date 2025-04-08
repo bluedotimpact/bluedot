@@ -16,30 +16,23 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   correctOption,
 }) => {
   const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = React.useState<string | null>(null);
-  const [isIncorrect, setIsIncorrect] = React.useState<string | null>(null);
+  const [submittedOption, setSubmittedOption] = React.useState<string | null>(null);
+
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option);
+    setSubmittedOption(null); // Reset the submitted option when a new option is selected
+  };
 
   const isSelected = (option: string): boolean => {
     return selectedOption === option;
   };
 
-  const isOptionCorrect = (option: string): boolean => {
-    return isCorrect === option;
+  const handleAnswerSubmit = () => {
+    setSubmittedOption(selectedOption);
   };
 
-  const isOptionIncorrect = (option: string): boolean => {
-    return isIncorrect === option;
-  };
-
-  const answerCheck = () => {
-    if (selectedOption === correctOption) {
-      setIsCorrect(selectedOption);
-      setIsIncorrect(null);
-    } else {
-      setIsIncorrect(selectedOption);
-      setIsCorrect(null);
-    }
-  };
+  const isCorrect = submittedOption && submittedOption === correctOption;
+  const isIncorrect = submittedOption && submittedOption !== correctOption;
 
   return (
     <div className="multiple-choice container-lined bg-white p-8 flex flex-col gap-6">
@@ -57,17 +50,17 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           <label
             className={`
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
-              ${isSelected(option) ? 'multiple-choice__option--selected container-active' : 'container-lined'}
-              ${isOptionCorrect(option) ? 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]' : ''}
-              ${isOptionIncorrect(option) ? 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]' : ''}
-            `}
+              ${isSelected(option) ? `multiple-choice__option--selected container-active
+                ${isCorrect && 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]'}
+                ${isIncorrect && 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]'}`
+              : 'container-lined'}`}
           >
             <input
               className="multiple-choice__input"
               type="radio"
               name="multiple-choice"
               value={option}
-              onChange={() => setSelectedOption(option)}
+              onChange={() => handleOptionSelect(option)}
             />
             <span className="multiple-choice__label">{option}</span>
           </label>
@@ -76,10 +69,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       <CTALinkOrButton
         className="multiple-choice__submit"
         variant="primary"
-        onClick={answerCheck}
+        onClick={handleAnswerSubmit}
       >
         Check
       </CTALinkOrButton>
+      {isCorrect && <p className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</p>}
+      {isIncorrect && <p className="multiple-choice__incorrect-msg">Try again. 🤔</p>}
     </div>
   );
 };

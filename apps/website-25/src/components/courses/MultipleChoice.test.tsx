@@ -35,7 +35,9 @@ describe('MultipleChoice', () => {
     optionEl?.click();
     // Expect 'selected' state change
     await waitFor(() => {
-      expect(optionLabelEl.classList.contains('multiple-choice__option--selected')).toBe(true);
+      const selectedOption = container.querySelectorAll('.multiple-choice__option--selected');
+      expect(selectedOption.length).toBe(1);
+      expect(selectedOption[0]).toBe(optionLabelEl);
     });
   });
 
@@ -49,7 +51,6 @@ describe('MultipleChoice', () => {
     // Select the correct option
     const optionEl = container.querySelector(`input[value='${mockArgs.options[0]}']`) as HTMLElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    expect(optionEl).toBeTruthy();
     optionEl?.click();
     // Submit the answer
     const submitEl = container.querySelector('.multiple-choice__submit') as HTMLElement;
@@ -57,7 +58,10 @@ describe('MultipleChoice', () => {
     submitEl?.click();
     // Expect 'correct' state change
     await waitFor(() => {
-      expect(optionLabelEl.classList.contains('multiple-choice__option--correct')).toBe(true);
+      const correctOption = container.querySelectorAll('.multiple-choice__option--correct');
+      expect(correctOption.length).toBe(1);
+      expect(correctOption[0]).toBe(optionLabelEl);
+      expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
     });
   });
 
@@ -71,15 +75,17 @@ describe('MultipleChoice', () => {
     // Select the second option
     const optionEl = container.querySelector(`input[value='${mockArgs.options[1]}']`) as HTMLElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    expect(optionEl).toBeTruthy();
     optionEl?.click();
     // Submit the answer
     const submitEl = container.querySelector('.multiple-choice__submit') as HTMLElement;
     expect(submitEl).toBeTruthy();
     submitEl?.click();
-    // Expect 'incorrect' state change
+    // Expect 'incorrect' state change for the selected option
     await waitFor(() => {
-      expect(optionLabelEl.classList.contains('multiple-choice__option--incorrect')).toBe(true);
+      const incorrectOption = container.querySelectorAll('.multiple-choice__option--incorrect');
+      expect(incorrectOption.length).toBe(1);
+      expect(incorrectOption[0]).toBe(optionLabelEl);
+      expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
     });
   });
 });
