@@ -13,7 +13,6 @@ import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
 import SideBar from './SideBar';
 import { Unit } from '../../lib/api/db/tables';
-import MultipleChoice from './MultipleChoice';
 
 type UnitLayoutProps = {
   // Required

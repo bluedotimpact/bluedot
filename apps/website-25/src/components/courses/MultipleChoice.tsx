@@ -43,23 +43,23 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
   return (
     <div className="multiple-choice container-lined bg-white p-8 flex flex-col gap-6">
-        <div className="multiple-choice__header flex flex-col gap-4">
-            <div className="multiple-choice__header-icon">
-                <img src="/icons/lightning_bolt.svg" className="w-15 h-15" />
-            </div>
-            <div className="multiple-choice__header-content flex flex-col gap-2">
-                <p className="multiple-choice__title subtitle-sm">{title}</p>
-                <p className="multiple-choice__question">{question}</p>
-            </div>
+      <div className="multiple-choice__header flex flex-col gap-4">
+        <div className="multiple-choice__header-icon">
+          <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
+        <div className="multiple-choice__header-content flex flex-col gap-2">
+          <p className="multiple-choice__title subtitle-sm">{title}</p>
+          <p className="multiple-choice__question">{question}</p>
+        </div>
+      </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {options.map((option) => (
           <label className={`
-              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
-              ${isSelected(option) ? 'multiple-choice__option--selected container-active' : 'container-lined'}
-              ${isOptionCorrect(option) ? 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]' : ''}
-              ${isOptionIncorrect(option) ? 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]' : ''}
-            `}>
+            multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+            ${isSelected(option) ? 'multiple-choice__option--selected container-active' : 'container-lined'}
+            ${isOptionCorrect(option) ? 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]' : ''}
+            ${isOptionIncorrect(option) ? 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]' : ''}
+          `}>
             <input
               className="multiple-choice__input"
               type="radio"
@@ -72,7 +72,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         ))}
       </div>
       <CTALinkOrButton
-        className="multiple-choice__submit" variant="primary"
+        className="multiple-choice__submit"
+        variant="primary"
         onClick={answerCheck}
       >
         Check
