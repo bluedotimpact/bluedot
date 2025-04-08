@@ -167,7 +167,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
             <div
-              class="flex flex-col gap-4"
+              class="markdown-extended-renderer flex flex-col gap-4"
             />
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"

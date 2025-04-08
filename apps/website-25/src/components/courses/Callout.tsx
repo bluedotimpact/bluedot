@@ -1,6 +1,7 @@
 import { Collapsible } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
+// eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type CalloutProps = {
