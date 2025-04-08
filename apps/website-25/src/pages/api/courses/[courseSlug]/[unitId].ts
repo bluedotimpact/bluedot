@@ -15,6 +15,7 @@ export default makeApiRoute({
   responseBody: z.object({
     type: z.literal('success'),
     units: z.array(z.any()),
+    unit: z.any(),
   }),
 }, async (body, { raw }) => {
   const { courseSlug, unitId } = raw.req.query;

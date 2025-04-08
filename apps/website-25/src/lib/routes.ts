@@ -41,12 +41,6 @@ const courses: BluedotRoute = {
   parentPages: [home],
 };
 
-const makeCoursePageRoute = (courseSlug: string, courseTitle?: string, unitNumber?: number): BluedotRoute => ({
-  title: unitNumber !== undefined ? `Unit ${unitNumber}` : courseTitle ?? 'Course',
-  url: `/courses/${courseSlug}${unitNumber !== undefined ? `/units/${unitNumber}/` : ''}`,
-  parentPages: [home, courses, ...(unitNumber !== undefined ? [makeCoursePageRoute(courseSlug, courseTitle)] : [])],
-});
-
 export const ROUTES = {
   home,
   about,
@@ -55,5 +49,4 @@ export const ROUTES = {
   contact,
   certification,
   courses,
-  makeCoursePageRoute,
 } as const;
