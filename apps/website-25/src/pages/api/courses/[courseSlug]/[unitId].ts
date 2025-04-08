@@ -1,40 +1,36 @@
 import { z } from 'zod';
+import createHttpError from 'http-errors';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import {
-  Course,
-  courseTable,
-  Unit,
-  unitTable,
-} from '../../../../lib/api/db/tables';
+import { Unit, unitTable } from '../../../../lib/api/db/tables';
 
-export type GetCourseResponse = {
+export type GetUnitResponse = {
   type: 'success',
-  course: Course,
   units: Unit[],
+  unit: Unit,
 };
 
 export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
     type: z.literal('success'),
-    course: z.any(),
     units: z.array(z.any()),
   }),
 }, async (body, { raw }) => {
-  const { courseId } = raw.req.query;
-
-  const course = (await db.scan(courseTable, {
-    filterByFormula: `{Record ID} = "${courseId}"`,
-  }))[0];
-
+  const { courseSlug, unitId } = raw.req.query;
   const units = (await db.scan(unitTable, {
-    filterByFormula: `{Course Record ID} = "${courseId}"`,
+    filterByFormula: `{[>] Course slug} = "${courseSlug}"`,
   })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+
+  const unit = units.find((u) => u.unitNumber === unitId);
+
+  if (!unit) {
+    throw new createHttpError.NotFound('Unit not found');
+  }
 
   return {
     type: 'success' as const,
-    course,
     units,
+    unit,
   };
 });

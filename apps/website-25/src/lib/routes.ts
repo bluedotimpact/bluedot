@@ -41,35 +41,11 @@ const courses: BluedotRoute = {
   parentPages: [home],
 };
 
-const coursesFutureOfAi: BluedotRoute = {
-  title: 'Future of AI',
-  url: '/courses/future-of-ai',
-  parentPages: [home, courses],
-};
-
-const coursesFutureOfAiUnit1: BluedotRoute = {
-  title: 'Unit 1',
-  url: '/courses/future-of-ai/units/1',
-  parentPages: [home, courses, coursesFutureOfAi],
-};
-
-const coursesFutureOfAiUnit2: BluedotRoute = {
-  title: 'Unit 2',
-  url: '/courses/future-of-ai/units/2',
-  parentPages: [home, courses, coursesFutureOfAi],
-};
-
-const coursesFutureOfAiUnit3: BluedotRoute = {
-  title: 'Unit 3',
-  url: '/courses/future-of-ai/units/3',
-  parentPages: [home, courses, coursesFutureOfAi],
-};
-
-const coursesFutureOfAiUnit4: BluedotRoute = {
-  title: 'Unit 4',
-  url: '/courses/future-of-ai/units/4',
-  parentPages: [home, courses, coursesFutureOfAi],
-};
+const makeCoursePageRoute = (courseSlug: string, courseTitle?: string, unitNumber?: number): BluedotRoute => ({
+  title: unitNumber !== undefined ? `Unit ${unitNumber}` : courseTitle ?? 'Course',
+  url: `/courses/${courseSlug}${unitNumber !== undefined ? `/units/${unitNumber}/` : ''}`,
+  parentPages: [home, courses, ...(unitNumber !== undefined ? [makeCoursePageRoute(courseSlug, courseTitle)] : [])],
+});
 
 export const ROUTES = {
   home,
@@ -79,9 +55,5 @@ export const ROUTES = {
   contact,
   certification,
   courses,
-  coursesFutureOfAi,
-  coursesFutureOfAiUnit1,
-  coursesFutureOfAiUnit2,
-  coursesFutureOfAiUnit3,
-  coursesFutureOfAiUnit4,
+  makeCoursePageRoute,
 } as const;

@@ -11,10 +11,14 @@ exports[`UnitLayout > renders default as expected 1`] = `
       >
         <div
           class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
-        />
+        >
+          My Test Course
+        </div>
         <h1
           class="hero-section__title text-on-dark text-center"
-        />
+        >
+          Last Unit
+        </h1>
       </div>
     </div>
     <div
@@ -32,7 +36,52 @@ exports[`UnitLayout > renders default as expected 1`] = `
           >
             <a
               class="breadcrumbs__link"
-              href="/course/my-test-course/unit/1"
+              href="/"
+            >
+              Home
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses"
+            >
+              Courses
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses/my-test-course"
+            >
+              My Test Course
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses/my-test-course/units/1/"
             >
               Unit 1
             </a>
@@ -56,7 +105,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
               class="sidebar__content flex flex-col gap-6"
             >
               <div
-                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+                class="sidebar__unit border sidebar__unit--active border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
               >
                 <div
                   class="sidebar__unit-item flex flex-col gap-2"
@@ -65,17 +114,18 @@ exports[`UnitLayout > renders default as expected 1`] = `
                     class="sidebar__title uppercase text-size-xs font-bold"
                   >
                     Unit 
+                    1
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/undefined/unit/undefined"
+                    href="/courses/my-test-course/units/1/"
                   >
-                    Unit 1
+                    Basic Principles of Fish
                   </a>
                   <p
-                    class="sidebar__description text-sm"
+                    class="sidebar__description text-size-s"
                   >
-                    Beyond chatbots: the expanding frontier of AI capabilities
+                    Master the fundamental concepts of fish biology, behavior, and basic aquatic principles.
                   </p>
                 </div>
               </div>
@@ -89,17 +139,18 @@ exports[`UnitLayout > renders default as expected 1`] = `
                     class="sidebar__title uppercase text-size-xs font-bold"
                   >
                     Unit 
+                    2
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/undefined/unit/undefined"
+                    href="/courses/my-test-course/units/2/"
                   >
-                    Unit 2
+                    What Fish Are People Catching, and Why?
                   </a>
                   <p
-                    class="sidebar__description text-sm"
+                    class="sidebar__description text-size-s"
                   >
-                    Artificial general intelligence: on the horizon?
+                    Explore current trends in fishing technology and the motives behind different fishing approaches.
                   </p>
                 </div>
               </div>
@@ -113,17 +164,18 @@ exports[`UnitLayout > renders default as expected 1`] = `
                     class="sidebar__title uppercase text-size-xs font-bold"
                   >
                     Unit 
+                    3
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/undefined/unit/undefined"
+                    href="/courses/my-test-course/units/3/"
                   >
-                    Unit 3
+                    The Promise of Fish
                   </a>
                   <p
-                    class="sidebar__description text-sm"
+                    class="sidebar__description text-size-s"
                   >
-                    AGI will drastically change how we live
+                    Understand how fish will revolutionize everything from the economy to your social life.
                   </p>
                 </div>
               </div>
@@ -137,17 +189,43 @@ exports[`UnitLayout > renders default as expected 1`] = `
                     class="sidebar__title uppercase text-size-xs font-bold"
                   >
                     Unit 
+                    4
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/undefined/unit/undefined"
+                    href="/courses/my-test-course/units/4/"
                   >
-                    Unit 4
+                    The Risks of Fish
                   </a>
                   <p
-                    class="sidebar__description text-sm"
+                    class="sidebar__description text-size-s"
                   >
-                    What can be done?
+                    Explore what could go wrong when fish gain too much power.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    5
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/my-test-course/units/5/"
+                  >
+                    Contributing to Fish Safety
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Learn how you can help create a better world for fish (and their reluctant human neighbors).
                   </p>
                 </div>
               </div>
@@ -156,15 +234,18 @@ exports[`UnitLayout > renders default as expected 1`] = `
           <div
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
+            <h2>
+              Hello World!
+            </h2>
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
               data-testid="cta-link"
-              href="/course/my-test-course/unit/1"
+              href="/courses/my-test-course/units/2/"
             >
               <span
                 class="cta-button__text"
               >
-                Claim your certificate!
+                Next unit
               </span>
             </a>
           </div>
@@ -179,7 +260,7 @@ exports[`UnitLayout > updates CTA for final unit 1`] = `
 <a
   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
   data-testid="cta-link"
-  href="/course/my-test-course/unit/1"
+  href="/courses/my-test-course/units/1/"
 >
   <span
     class="cta-button__text"

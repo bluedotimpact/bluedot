@@ -9,18 +9,6 @@ export type Course = {
   isFeatured?: boolean;
 };
 
-export type CourseUnit = {
-  title: string;
-  description: string;
-  href: string;
-  chapters?: CourseChapter[];
-};
-
-export type CourseChapter = {
-  type: 'Reading' | 'Demo' | 'Quiz' | 'Exercise';
-  title: string;
-};
-
 export type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 export const COURSES: Course[] = [
@@ -57,100 +45,5 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
     href: 'https://aisafetyfundamentals.com/governance/',
-  },
-] as const;
-
-export const COURSE_UNITS: CourseUnit[] = [
-  {
-    title: 'Unit 1',
-    description: 'Beyond chatbots: the expanding frontier of AI capabilities',
-    href: '/courses/future-of-ai/units/1',
-    chapters: [
-      {
-        type: 'Reading',
-        title: 'How current AI systems work',
-      },
-      {
-        type: 'Demo',
-        title: 'They can build things',
-      },
-      {
-        type: 'Reading',
-        title: 'The speed of progress',
-      },
-      {
-        type: 'Reading',
-        title: 'From tools to agents',
-      },
-      {
-        type: 'Exercise',
-        title: '5 years ago, 5 years ahead',
-      },
-    ],
-  },
-  {
-    title: 'Unit 2',
-    description: 'Artificial general intelligence: on the horizon?',
-    href: '/courses/future-of-ai/units/2',
-    chapters: [
-      {
-        type: 'Reading',
-        title: 'Today\'s AI vs AGI',
-      },
-      {
-        type: 'Quiz',
-        title: 'Knowledge Check',
-      },
-      {
-        type: 'Reading',
-        title: 'How might we build AGI?',
-      },
-      {
-        type: 'Exercise',
-        title: '5 years ahead revisited',
-      },
-    ],
-  },
-  {
-    title: 'Unit 3',
-    description: 'AGI will drastically change how we live',
-    href: '/courses/future-of-ai/units/3',
-    chapters: [
-      {
-        type: 'Reading',
-        title: 'What benefits could AGI bring?',
-      },
-      {
-        type: 'Exercise',
-        title: 'AGI benefits and distribution',
-      },
-    ],
-  },
-  {
-    title: 'Unit 4',
-    description: 'What can be done?',
-    href: '/courses/future-of-ai/units/4',
-    chapters: [
-      {
-        type: 'Reading',
-        title: 'The challenge we face',
-      },
-      {
-        type: 'Reading',
-        title: 'The race dynamics make safety harder',
-      },
-      {
-        type: 'Reading',
-        title: 'Who should control AGI?',
-      },
-      {
-        type: 'Reading',
-        title: 'Making a deliberate choice',
-      },
-      {
-        type: 'Exercise',
-        title: 'Add your voice to the conversation',
-      },
-    ],
   },
 ] as const;

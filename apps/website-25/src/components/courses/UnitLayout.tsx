@@ -13,10 +13,11 @@ import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
 import SideBar from './SideBar';
 import { Unit } from '../../lib/api/db/tables';
+import { ROUTES } from '../../lib/routes';
 
 type UnitLayoutProps = {
   // Required
-  courseId: string;
+  courseSlug: string;
   courseTitle: string;
   unitNumber: number;
   unitTitle: string;
@@ -26,7 +27,7 @@ type UnitLayoutProps = {
 };
 
 const UnitLayout: React.FC<UnitLayoutProps> = ({
-  courseId,
+  courseSlug,
   courseTitle,
   unitNumber,
   unitTitle,
@@ -48,7 +49,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <Section className="unit__main">
         <div className="unit__content-container flex flex-col md:flex-row gap-16">
           {!isMobile && (
-            <SideBar courseId={courseId} units={units} currentUnitNumber={unitNumber} />
+            <SideBar courseSlug={courseSlug} units={units} currentUnitNumber={unitNumber} />
           )}
           <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-4">
             <ReactMarkdown>
@@ -56,7 +57,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </ReactMarkdown>
 
             {unitNumber < units.length ? (
-              <CTALinkOrButton className="unit__cta-link self-end mt-6" url={`/courses/${courseId}/unit/${unitNumber + 1}`}>
+              <CTALinkOrButton className="unit__cta-link self-end mt-6" url={ROUTES.makeCoursePageRoute(courseSlug, courseTitle, unitNumber + 1).url}>
                 Next unit
               </CTALinkOrButton>
             ) : (
