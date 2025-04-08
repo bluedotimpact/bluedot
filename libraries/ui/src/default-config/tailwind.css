@@ -84,6 +84,10 @@
     @apply border border-color-divider rounded-lg;
 }
 
+@utility container-active {
+    @apply border-2 border-color-primary rounded-lg;
+}
+
 @utility container-elevated {
     /* RGBA of var(--bluedot-cream-normal) */
     box-shadow: 0px 4px 1.25rem 0px rgba(30, 30, 30, 0.1);
