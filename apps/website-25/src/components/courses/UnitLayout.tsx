@@ -12,8 +12,9 @@ import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
 import ReactMarkdown from 'react-markdown';
 import SideBar from './SideBar';
-import { Unit } from '../../lib/api/db/tables';
+import { Exercise, Unit } from '../../lib/api/db/tables';
 import { ROUTES } from '../../lib/routes';
+import MultipleChoice from './MultipleChoice';
 
 type UnitLayoutProps = {
   // Required
@@ -24,6 +25,7 @@ type UnitLayoutProps = {
   route: BluedotRoute;
   units: Unit[];
   unitContent: string;
+  unitExercises: Exercise[];
 };
 
 const UnitLayout: React.FC<UnitLayoutProps> = ({
@@ -34,6 +36,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   route,
   units,
   unitContent,
+  unitExercises,
 }) => {
   return (
     <div>
@@ -55,6 +58,19 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <ReactMarkdown>
               {unitContent}
             </ReactMarkdown>
+
+            {unitExercises && unitExercises.map((exercise) => {
+              if (exercise.type === 'multiple-choice') {
+                return (
+                  <MultipleChoice
+                    title={exercise.title}
+                    question={exercise.description}
+                    options={['Option 1', 'Option 2', 'Option 3', 'Option 4']}
+                    correctOption={exercise.answer}
+                />
+              );
+              }
+            })}
 
             {unitNumber < units.length ? (
               <CTALinkOrButton className="unit__cta-link self-end mt-6" url={ROUTES.makeCoursePageRoute(courseSlug, courseTitle, unitNumber + 1).url}>

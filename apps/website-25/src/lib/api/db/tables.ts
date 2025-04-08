@@ -79,6 +79,44 @@ export const unitTable: Table<Unit> = {
   },
 };
 
+export interface Exercise extends Item {
+  id: string,
+  answer: string,
+  courseId: string,
+  exerciseNumber: string,
+  description: string,
+  title: string,
+  type: string,
+  unitId: string,
+  unitNumber: string,
+}
+
+export const exerciseTable: Table<Exercise> = {
+  name: 'Exercise',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tbla7lc2MtSSbWVvS',
+  mappings: {
+    answer: 'fldFcZVVo8Wg4GSmA',
+    courseId: 'fldxcJ5gCihs3iRyE',
+    exerciseNumber: 'fldOoKVFSrToAicfT',
+    description: 'fldsoGDZ4d8Us64f1',
+    title: 'fldVlrg0E4bV2xAcs',
+    type: 'fldGXsdS2o3EnjNg9',
+    unitId: 'fldqHO0BqQQCbxWTm',
+    unitNumber: 'fldL42M2hgchJYIdD',
+  },
+  schema: {
+    answer: 'string',
+    courseId: 'string',
+    exerciseNumber: 'string',
+    description: 'string',
+    title: 'string',
+    type: 'string',
+    unitId: 'string',
+    unitNumber: 'string',
+  },
+};
+
 export interface CourseRegistration extends Item {
   id: string,
   userId: string,
