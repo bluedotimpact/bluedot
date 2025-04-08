@@ -187,7 +187,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="flex flex-col gap-2"
+                  class="multiple-choice__header-content flex flex-col gap-2"
                 >
                   <p
                     class="multiple-choice__title subtitle-sm"
@@ -205,7 +205,12 @@ exports[`UnitLayout > renders default as expected 1`] = `
                 class="multiple-choice__options flex flex-col gap-2"
               >
                 <label
-                  class="multiple-choice__option flex items-center gap-2 p-4 container-lined"
+                  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined
+              false
+              false
+            "
                 >
                   <input
                     class="multiple-choice__input"
@@ -220,7 +225,12 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </span>
                 </label>
                 <label
-                  class="multiple-choice__option flex items-center gap-2 p-4 container-lined"
+                  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined
+              false
+              false
+            "
                 >
                   <input
                     class="multiple-choice__input"
@@ -235,7 +245,12 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </span>
                 </label>
                 <label
-                  class="multiple-choice__option flex items-center gap-2 p-4 container-lined"
+                  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined
+              false
+              false
+            "
                 >
                   <input
                     class="multiple-choice__input"
@@ -251,7 +266,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                 </label>
               </div>
               <button
-                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
                 data-testid="cta-button"
                 type="button"
               >

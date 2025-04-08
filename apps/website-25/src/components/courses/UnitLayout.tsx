@@ -56,17 +56,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {unitContent}
             </ReactMarkdown>
 
-            <MultipleChoice
-              title={"Understanding LLMs"}
-              question={`Why is a language model's ability to predict "the next word" capable of producing complex behaviors like solving maths problems?`}
-              options={[
-                "The training data includes explicit instructions for these tasks",
-                "The training data includes implicit instructions for these tasks",
-                "The training data includes no instructions for these tasks"
-              ]}
-              correctOption={"The training data includes explicit instructions for these tasks"}
-            />
-
             {unitNumber < units.length ? (
               <CTALinkOrButton className="unit__cta-link self-end mt-6" url={`/courses/${courseId}/unit/${unitNumber + 1}`}>
                 Next unit
