@@ -8,9 +8,9 @@ import {
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
-import ReactMarkdown from 'react-markdown';
 import SideBar from './SideBar';
 import { Unit } from '../../lib/api/db/tables';
+import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type UnitLayoutProps = {
   // Required
@@ -48,9 +48,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <SideBar units={units} currentUnitNumber={unitNumber} />
           )}
           <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-4">
-            <ReactMarkdown>
+            <MarkdownExtendedRenderer>
               {unit.content}
-            </ReactMarkdown>
+            </MarkdownExtendedRenderer>
 
             {nextUnit ? (
               <CTALinkOrButton className="unit__cta-link self-end mt-6" url={nextUnit.path}>
