@@ -1,4 +1,4 @@
-import LandingHero from './LandingHero';
+import LandingHero from '../../components/lander/LandingHero';
 import LandingPageBase from '../../components/lander/LandingPageBase';
 import { getCtaUrl } from '../../components/lander/getCtaUrl';
 
