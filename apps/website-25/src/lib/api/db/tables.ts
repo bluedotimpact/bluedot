@@ -10,6 +10,7 @@ export interface Course extends Item {
   certificatonDescription: string,
   courseUrl: string,
   courseDetailsUrl: string,
+  units: string[],
 }
 
 export const courseTable: Table<Course> = {
@@ -25,6 +26,7 @@ export const courseTable: Table<Course> = {
     certificatonDescription: 'fldsxyHg4BLouu7XZ',
     courseUrl: 'fldlnWDzZZPZHP6S1',
     courseDetailsUrl: 'fldblKROooVG5p9UW',
+    units: 'fldxi3h4LD2Bs3efO',
   },
   schema: {
     title: 'string',
@@ -35,6 +37,7 @@ export const courseTable: Table<Course> = {
     certificatonDescription: 'string',
     courseUrl: 'string',
     courseDetailsUrl: 'string',
+    units: 'string[]',
   },
 };
 
@@ -42,6 +45,7 @@ export interface Unit extends Item {
   id: string,
   courseId: string,
   courseTitle: string,
+  courseSlug: string,
   title: string,
   content: string,
   unitNumber: string,
@@ -56,8 +60,9 @@ export const unitTable: Table<Unit> = {
   mappings: {
     courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
+    courseSlug: 'fldr9I5YGRIia8xln',
     title: 'fldN9BV8GGUHFu9sz',
-    content: 'fldpJLWVPh0IXHfmm',
+    content: 'fldF9hjDhZpLbBIUV',
     duration: 'fldGdibgcMgRbnuvp',
     unitNumber: 'fldimS5GIqSKuyA9C',
     description: 'flddCXEeJ9oFOhfNb',
@@ -65,6 +70,7 @@ export const unitTable: Table<Unit> = {
   schema: {
     courseId: 'string',
     courseTitle: 'string',
+    courseSlug: 'string',
     title: 'string',
     content: 'string',
     duration: 'number',

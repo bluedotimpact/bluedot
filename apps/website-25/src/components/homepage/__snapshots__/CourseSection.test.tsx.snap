@@ -71,7 +71,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 class="course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6"
               >
                 <img
-                  alt="The Future of AI Course"
+                  alt=""
                   class="course-card__image size-full object-cover"
                   src="/images/courses/future-of-ai.png"
                 />

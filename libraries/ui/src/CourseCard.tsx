@@ -7,7 +7,7 @@ import { Tag } from './Tag';
 export type CourseCardProps = React.PropsWithChildren<{
   title: string,
   description?: string,
-  imageSrc: string,
+  imageSrc?: string,
   href: string,
   className?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
@@ -69,13 +69,15 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
         </div>
+        {imageSrc && (
         <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6', imageClassName)}>
           <img
             className="course-card__image size-full object-cover"
             src={imageSrc}
-            alt={`${title}`}
+            alt=""
           />
         </div>
+        )}
       </div>
       {children}
     </a>

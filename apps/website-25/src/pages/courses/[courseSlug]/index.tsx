@@ -13,21 +13,22 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { ROUTES } from '../../../lib/routes';
-import { GetCourseResponse } from '../../api/courses/[courseId]';
-
-const CURRENT_ROUTE = ROUTES.coursesFutureOfAi;
+import { GetCourseResponse } from '../../api/courses/[courseSlug]';
 
 const CoursePage = () => {
-  const { query: { courseId } } = useRouter();
+  const { query: { courseSlug } } = useRouter();
 
   const [{ data, loading }] = useAxios<GetCourseResponse>({
     method: 'get',
-    url: `/api/courses/${courseId}`,
+    url: `/api/courses/${courseSlug}`,
   });
+
+  const CURRENT_ROUTE = ROUTES.makeCoursePageRoute(courseSlug as string, data?.course.title);
 
   return (
     <div>
       {loading && <ProgressDots />}
+      {/* TODO: error page */}
       {data?.course && (
         <>
           <Head>
@@ -51,10 +52,9 @@ const CoursePage = () => {
               {data?.units?.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber)).map((unit) => (
                 <div className="max-w-[350px]">
                   <CourseCard
-                    key={unit.title}
-                    title={unit.title}
-                    imageSrc="/images/courses/future-of-ai.png"
-                    href={`/courses/${courseId}/unit/${unit.unitNumber}`}
+                    key={unit.unitNumber}
+                    title={`Unit ${unit.unitNumber}: ${unit.title}`}
+                    href={ROUTES.makeCoursePageRoute(courseSlug as string, data.course.title, Number(unit.unitNumber)).url}
                     courseType="Self-paced"
                     courseLength={`${unit.duration} mins`}
                   />
