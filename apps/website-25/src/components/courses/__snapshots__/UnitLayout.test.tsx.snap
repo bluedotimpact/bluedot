@@ -166,34 +166,9 @@ exports[`UnitLayout > renders default as expected 1`] = `
           <div
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
-            <h2>
-              Welcome to the deep end!
-            </h2>
-            
-
-            <p>
-              This unit explores the core concepts that 
-              <em>
-                every
-              </em>
-               fish enthusiast needs to understand, from basic anatomy to the physics of water movement.
-We'll explore how fish
-[ ] communicate,
-[ ] navigate,
-[ ] and survive in their watery world
-...with special attention to the unique adaptations that make each species special.
-Through hands-on exercises and detailed study materials, you'll develop a strong foundation in 
-              <strong>
-                <em>
-                  <a
-                    href="https://en.wikipedia.org/wiki/Ichthyology"
-                  >
-                    ichthyology
-                  </a>
-                </em>
-              </strong>
-               (that's fish science for those who don't speak fluent marine biologist).
-            </p>
+            <div
+              class="flex flex-col gap-4"
+            />
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
               data-testid="cta-link"

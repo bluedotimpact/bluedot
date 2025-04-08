@@ -1,0 +1,140 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
+import MarkdownExtendedRenderer, { SUPPORTED_COMPONENTS } from './MarkdownExtendedRenderer';
+
+const meta = {
+  title: 'website/MarkdownExtendedRenderer',
+  component: MarkdownExtendedRenderer,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: 'fullscreen',
+  },
+  args: {},
+} satisfies Meta<typeof MarkdownExtendedRenderer>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const BasicMarkdown: Story = {
+  args: {
+    children: `
+# Standard markdown formatting
+
+This component supports standard markdown formatting
+
+## Text
+
+You can use **bold**, *italic*, and ~~strikethrough~~ text.
+
+You can include links to [interesting resources](https://www.youtube.com/watch?v=6MUrF_G7KlM).
+
+Code:
+
+\`\`\`mdx
+You can use **bold**, *italic*, and ~~strikethrough~~ text.
+
+You can include links to [interesting resources](https://www.youtube.com/watch?v=6MUrF_G7KlM).
+\`\`\`
+
+## Images
+
+You can also show images!
+
+![Pale Blue Dot, the first ever portrait of the solar system taken by the Voyager 1 spacecraft](https://upload.wikimedia.org/wikipedia/commons/7/73/Pale_Blue_Dot.png)
+
+Code:
+
+\`\`\`mdx
+![Pale Blue Dot, the first ever portrait of the solar system taken by the Voyager 1 spacecraft](https://upload.wikimedia.org/wikipedia/commons/7/73/Pale_Blue_Dot.png)
+\`\`\`
+
+Tip: To insert an image in the Airtable editor, write text that describe the image that will be used by screenreaders and search engines ([more details](https://accessibility.huit.harvard.edu/describe-content-images)). Then, create a link from that text to the image source. Finally, pop an exclamation mark before the whole thing. It won't render in Airtable, but will in this component.
+
+## Lists
+
+Unordered list:
+- Item 1
+- Item 2
+  - Nested item
+  - Another nested item
+- Item 3
+
+Ordered list:
+1. First item
+2. Second item
+3. Third item
+
+Code:
+
+\`\`\`mdx
+Unordered list:
+- Item 1
+- Item 2
+  - Nested item
+  - Another nested item
+- Item 3
+
+Ordered list:
+1. First item
+2. Second item
+3. Third item
+\`\`\`
+
+## Code
+
+Inline: \`const example = "hello world";\`
+
+Block:
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+\`\`\`
+
+Code:
+
+\`\`\`\`mdx
+Inline: \`const example = "hello world";\`
+
+Block:
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+\`\`\`
+\`\`\`\`
+    `,
+  },
+};
+
+export const WithGreetingComponent: Story = {
+  args: {
+    children: `
+# Using Components
+
+## Example
+
+Below is an example of using the Greeting component:
+
+<Greeting>Storybook User</Greeting>
+
+Code:
+
+\`\`\`mdx
+<Greeting>Storybook User</Greeting>
+\`\`\`
+
+## Supported components
+
+The following components are supported within your markdown content:
+
+${Object.keys(SUPPORTED_COMPONENTS).map((componentName) => `- \`${componentName}\``).join('\n')}
+
+See their Storybook pages for usage details.
+
+(to add to this list, add to \`SUPPORTED_COMPONENTS\` in \`MarkdownExtendedRenderer.tsx\`)
+    `,
+  },
+};

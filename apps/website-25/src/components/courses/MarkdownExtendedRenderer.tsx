@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { evaluateSync } from '@mdx-js/mdx';
+import { evaluate } from '@mdx-js/mdx';
 import { MDXContent } from 'mdx/types';
 import Greeting from './Greeting';
 
-interface MarkdownRendererProps {
+export interface MarkdownRendererProps {
   children?: string;
 }
+
+export const SUPPORTED_COMPONENTS = { Greeting };
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
@@ -14,17 +16,19 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children })
       return;
     }
 
-    const evalResult = evaluateSync(children, {
-      Fragment: React.Fragment,
-      jsx: React.createElement,
-      jsxs: React.createElement,
-    });
-    setComponent(() => evalResult.default);
+    (async () => {
+      const evalResult = await evaluate(children, {
+        Fragment: React.Fragment,
+        jsx: React.createElement,
+        jsxs: React.createElement,
+      });
+      setComponent(() => evalResult.default);
+    })();
   }, [children, setComponent]);
 
   return (
     <div className="flex flex-col gap-4">
-      {Component && <Component components={{ Greeting }} />}
+      {Component && <Component components={SUPPORTED_COMPONENTS} />}
     </div>
   );
 };
