@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Callout from './Callout';
+import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 const meta = {
   title: 'website/Callout',
@@ -29,17 +30,17 @@ export const MdxCallout: Story = {
     title: 'Markdown Example',
     children: `## Formatted Content
 
-Any content passed to the callout is automatically handled as **MDX** so you can use:
+If you use a Callout within a \`MarkdownExtendedRenderer\`, content passed to the callout is automatically handled as **MDX** so you can use:
 
 - Bullet points
 - *Italic text*
 - [Links](https://example.com)
 
-And other components from \`MarkdownExtendedRenderer\`!
+And even other components!
 
-<Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
-    `,
+<Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />`,
   },
+  render: (args) => <MarkdownExtendedRenderer>{`<Callout title="${args.title}" className="${args.className ?? ''}">\n${args.children}\n</Callout>`}</MarkdownExtendedRenderer>,
 };
 
 export const CustomStylesCallout: Story = {

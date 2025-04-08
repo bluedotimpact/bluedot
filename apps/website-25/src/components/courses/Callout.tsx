@@ -1,14 +1,11 @@
 import { Collapsible } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
-// eslint-disable-next-line import/no-cycle
-import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
-type CalloutProps = {
+type CalloutProps = React.PropsWithChildren<{
   title: string;
-  children?: string;
   className?: string;
-};
+}>;
 
 const Callout: React.FC<CalloutProps> = ({
   title,
@@ -17,7 +14,7 @@ const Callout: React.FC<CalloutProps> = ({
 }) => {
   return (
     <Collapsible title={title} className={clsx('callout bg-stone-200 border-l-8 px-8', className)}>
-      <MarkdownExtendedRenderer>{children}</MarkdownExtendedRenderer>
+      {children}
     </Collapsible>
   );
 };
