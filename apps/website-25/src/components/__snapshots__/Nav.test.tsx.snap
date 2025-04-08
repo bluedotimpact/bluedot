@@ -3,7 +3,7 @@
 exports[`Nav > renders with courses 1`] = `
 <div>
   <nav
-    class="nav fixed z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
+    class="nav sticky top-0 z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
       class="nav__container section-base"
