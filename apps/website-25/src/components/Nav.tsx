@@ -15,7 +15,7 @@ export type NavProps = React.PropsWithChildren<{
   primaryCtaUrl?: string;
   courses: Array<{
     title: string;
-    href: string;
+    url: string;
     isNew?: boolean;
   }>;
 }>;
@@ -35,7 +35,7 @@ const ExploreSection: React.FC<{
   expanded: boolean;
   innerClassName?: string;
   className?: string;
-  courses: Array<{ title: string; href: string; isNew?: boolean }>;
+  courses: Array<{ title: string; url: string; isNew?: boolean }>;
   isScrolled?: boolean;
 }> = ({
   expanded, innerClassName, className, courses, isScrolled,
@@ -56,7 +56,7 @@ const ExploreSection: React.FC<{
     >
       <h3 className="nav-explore-section__dropdown-title font-bold">Our courses</h3>
       {courses?.map((course) => (
-        <a key={course.href} href={course.href} className="nav-explore-section__dropdown-link">
+        <a key={course.url} href={course.url} className="nav-explore-section__dropdown-link">
           {course.isNew && (
             <span className="nav-explore-section__new-badge text-bluedot-normal font-black pr-2">
               New!
@@ -71,7 +71,7 @@ const ExploreSection: React.FC<{
 
 const NavLinks: React.FC<{
   exploreSectionInline?: boolean;
-  courses: Array<{ title: string; href: string; isNew?: boolean }>;
+  courses: Array<{ title: string; url: string; isNew?: boolean }>;
   exploreExpanded: boolean;
   onToggleExplore: () => void;
   className?: string;
@@ -137,10 +137,10 @@ const CTAButtons: React.FC<{ className?: string; primaryCtaText?: string; primar
   </div>
 );
 
-export const isCurrentPath = (href: string): boolean => {
+export const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
   const currentPath = window.location.pathname;
-  return href === currentPath || (href !== '/' && currentPath.startsWith(href));
+  return url === currentPath || (url !== '/' && currentPath.startsWith(url));
 };
 
 export const Nav: React.FC<NavProps> = ({

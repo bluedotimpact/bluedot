@@ -89,7 +89,7 @@ const DemoPage: React.FC = () => {
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
           </P>
           <P>
-            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton href="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
+            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton url="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
           </P>
           <Button onPress={() => handleSubmit()}>Try again</Button>
         </>
@@ -135,11 +135,11 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="bg-gray-100 p-4 rounded-md">
-        <P className="font-medium"><Link href={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
+        <P className="font-medium"><Link url={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-12.5 mt-1 -mb-10">
-        <Button href={courseLink}>→ Start learning <span className="hidden md:inline">(and try this yourself)</span></Button>
+        <Button url={courseLink}>→ Start learning <span className="hidden md:inline">(and try this yourself)</span></Button>
       </div>
     </div>
   );

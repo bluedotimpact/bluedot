@@ -50,7 +50,7 @@ const CoursePage = () => {
                   <CourseCard
                     key={unit.unitNumber}
                     title={`Unit ${unit.unitNumber}: ${unit.title}`}
-                    href={unit.path}
+                    url={unit.path}
                     courseType="Self-paced"
                     courseLength={`${unit.duration} mins`}
                   />

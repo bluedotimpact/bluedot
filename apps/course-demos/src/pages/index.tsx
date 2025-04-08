@@ -7,7 +7,7 @@ const HomePage = () => {
     <div className="mx-8">
       <H1>course-demos</H1>
       <P>This site contains demos we use on our courses</P>
-      <Button href="https://bluedot.org">Learn more about our courses</Button>
+      <Button url="https://bluedot.org">Learn more about our courses</Button>
     </div>
   );
 };

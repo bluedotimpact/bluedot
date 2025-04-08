@@ -30,7 +30,7 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
       <NewNav>
-        <NewNav.Item href="https://course.bluedot.org/login">Login</NewNav.Item>
+        <NewNav.Item url="https://course.bluedot.org/login">Login</NewNav.Item>
         <NewNav.Button url={ctaUrl}>Sign up for free</NewNav.Button>
       </NewNav>
       {hero}

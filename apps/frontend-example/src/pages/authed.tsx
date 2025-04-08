@@ -18,7 +18,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
   return (
     <div className="mx-8">
       <H1>Authed page</H1>
-      <P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <Link href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</Link>)</P>
+      <P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <Link url={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</Link>)</P>
       <P>It expires at: {new Date(auth.expiresAt * 1000).toISOString()}</P>
       <Button onPress={() => setCount((c) => c + 1)}>
         count is {count}

@@ -8,8 +8,8 @@ describe('Nav', () => {
       <Nav
         logo="logo.png"
         courses={[
-          { title: 'Course 1', href: '/course1' },
-          { title: 'Course 2', href: '/course2', isNew: true },
+          { title: 'Course 1', url: '/course1' },
+          { title: 'Course 2', url: '/course2', isNew: true },
         ]}
       />,
     );
@@ -18,7 +18,7 @@ describe('Nav', () => {
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
     const { container } = render(
-      <Nav courses={[{ title: 'Course 1', href: '/course1' }]} />,
+      <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
     const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
@@ -40,7 +40,7 @@ describe('Nav', () => {
 
   test('clicking outside the nav closes the drawer', async () => {
     const { container } = render(
-      <Nav courses={[{ title: 'Course 1', href: '/course1' }]} />,
+      <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
     const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');

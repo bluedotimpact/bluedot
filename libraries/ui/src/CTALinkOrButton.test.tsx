@@ -20,7 +20,7 @@ describe('CTALinkOrButton', () => {
     expect(chevron.getAttribute('src')).toBe('/icons/chevron_white.svg');
   });
 
-  test('renders as a link when href is provided', () => {
+  test('renders as a link when url is provided', () => {
     render(<CTALinkOrButton url="https://example.com" variant="secondary">Click me</CTALinkOrButton>);
     const link = screen.getByTestId('cta-link');
     expect(link).toBeTruthy();

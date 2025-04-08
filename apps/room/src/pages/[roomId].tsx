@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, Button, H1, H2, Input, P, withAuth,
+  asError, Button, H1, H2, Input, P, withAuth, Link,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
@@ -144,7 +144,7 @@ const RoomControlPage = withAuth(({ auth }) => {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <P>Currently viewing <a href={room.status.currentUrl} className="underline">{room.status.currentUrl}</a></P>
+                <P>Currently viewing <Link url={room.status.currentUrl} className="underline">{room.status.currentUrl}</Link></P>
                 <Button onPress={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
                 </Button>

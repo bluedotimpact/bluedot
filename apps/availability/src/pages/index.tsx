@@ -10,7 +10,7 @@ const Home: React.FC = () => {
       </Head>
       <main className="my-24 max-w-lg mx-auto">
         <h1 className="text-3xl font-bold my-2">Time availability form</h1>
-        <p>This application collects people's availability, primarily for <Link href="https://bluedot.org/">BlueDot Impact</Link> related scheduling purposes.</p>
+        <p>This application collects people's availability, primarily for <Link url="https://bluedot.org/">BlueDot Impact</Link> related scheduling purposes.</p>
       </main>
     </>
   );
