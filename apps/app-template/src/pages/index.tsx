@@ -16,7 +16,7 @@ const HomePage = () => {
         count is {count}
       </Button>
       <P>You can test logging in below</P>
-      <Button href="/authed">View page requiring auth</Button>
+      <Button url="/authed">View page requiring auth</Button>
     </div>
   );
 };

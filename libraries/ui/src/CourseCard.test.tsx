@@ -7,7 +7,7 @@ describe('CourseCard', () => {
     imageSrc: '/images/courses/course.jpg',
     title: 'Title',
     description: 'Description',
-    href: 'https://bluedot.org/courses/what-the-fish',
+    url: 'https://bluedot.org/courses/what-the-fish',
   };
 
   test('renders default as expected', () => {

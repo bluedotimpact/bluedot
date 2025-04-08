@@ -14,7 +14,7 @@ export type FooterProps = React.PropsWithChildren<{
 
 type FooterSectionProps = {
   title?: string;
-  links?: { href: string; label: string }[];
+  links?: { url: string; label: string }[];
   className?: string;
 };
 
@@ -24,8 +24,8 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
     {links && (
       <ul className="footer__list space-y-4 mb-auto list-none p-0">
         {links.map((link) => (
-          <li key={link.href} className="footer__item">
-            <a href={link.href} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">
+          <li key={link.url} className="footer__item">
+            <a href={link.url} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">
               {link.label}
             </a>
           </li>
@@ -72,18 +72,18 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
           <FooterLinksSection
             title="BlueDot Impact"
             links={[
-              { href: '/about', label: 'About us' },
-              { href: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
-              { href: '/careers', label: 'Join us' },
-              { href: '/contact', label: 'Contact us' },
-              { href: '/privacy-policy', label: 'Privacy Policy' },
+              { url: '/about', label: 'About us' },
+              { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
+              { url: '/careers', label: 'Join us' },
+              { url: '/contact', label: 'Contact us' },
+              { url: '/privacy-policy', label: 'Privacy Policy' },
             ]}
             className="min-w-0 whitespace-nowrap"
           />
 
           <FooterLinksSection
             title="Explore"
-            links={COURSES.map((course) => ({ href: course.href, label: course.title }))}
+            links={COURSES.map((course) => ({ url: course.url, label: course.title }))}
             className="min-w-0 flex-1"
           />
         </div>

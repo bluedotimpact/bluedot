@@ -23,8 +23,8 @@ const meta = {
   },
   args: {
     courses: [
-      { title: 'Course 1', href: '#1' },
-      { title: 'Course 2', href: '#2' },
+      { title: 'Course 1', url: '#1' },
+      { title: 'Course 2', url: '#2' },
     ],
   },
 } satisfies Meta<typeof NavWrapper>;

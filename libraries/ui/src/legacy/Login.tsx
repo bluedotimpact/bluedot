@@ -151,7 +151,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ userManagerSetting
   }, [auth]);
 
   if (auth) {
-    return <Navigate href={redirectTo} />;
+    return <Navigate url={redirectTo} />;
   }
 
   return <P className="m-8">Redirecting...</P>;

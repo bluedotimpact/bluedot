@@ -57,7 +57,7 @@ export const withAuth = (Component: React.FC<{ auth: Auth, setAuth: (s: Auth | n
       }
 
       return (
-        <Navigate href={`${loginRoute}?redirect_to=${encodeURIComponent(window.location.href.slice(window.location.origin.length))}`} />
+        <Navigate url={`${loginRoute}?redirect_to=${encodeURIComponent(window.location.href.slice(window.location.origin.length))}`} />
       );
     }
 

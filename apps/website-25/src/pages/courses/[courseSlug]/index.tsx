@@ -54,7 +54,7 @@ const CoursePage = () => {
                   <CourseCard
                     key={unit.unitNumber}
                     title={`Unit ${unit.unitNumber}: ${unit.title}`}
-                    href={ROUTES.makeCoursePageRoute(courseSlug as string, data.course.title, Number(unit.unitNumber)).url}
+                    url={ROUTES.makeCoursePageRoute(courseSlug as string, data.course.title, Number(unit.unitNumber)).url}
                     courseType="Self-paced"
                     courseLength={`${unit.duration} mins`}
                   />

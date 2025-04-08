@@ -42,7 +42,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetin
         </div>
         {meetingHostKeyMessage}
         <Button onPress={() => joinDirect()}>Join now</Button>
-        <p className="mt-4">Button doesn't work? <Link href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</Link></p>
+        <p className="mt-4">Button doesn't work? <Link url={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</Link></p>
       </Page>
     );
   }

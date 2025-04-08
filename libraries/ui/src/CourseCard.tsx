@@ -8,7 +8,7 @@ export type CourseCardProps = React.PropsWithChildren<{
   title: string,
   description?: string,
   imageSrc?: string,
-  href: string,
+  url: string,
   className?: string,
   applicationDeadline?: string, // Expected format: "Feb 1"
   // eslint-disable-next-line react/no-unused-prop-types
@@ -30,7 +30,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  href,
+  url,
   applicationDeadline,
   imageSrc,
   imageClassName,
@@ -45,7 +45,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
 
   return (
     <a
-      href={href}
+      href={url}
       className={wrapperClassName}
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
@@ -88,7 +88,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   className,
   title,
   description,
-  href,
+  url,
   applicationDeadline,
   cardType = 'Regular',
   courseType,
@@ -110,7 +110,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       className={className}
       title={title}
       description={description}
-      href={href}
+      url={url}
       applicationDeadline={applicationDeadline}
       imageSrc={imageSrc}
       imageClassName={imageClassName}
@@ -125,7 +125,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         imageSrc={imageSrc}
         title={title}
         subtitle={description}
-        ctaUrl={href}
+        ctaUrl={url}
         isEntireCardClickable
         className={clsx(
           'course-card course-card--regular container-lined p-5',

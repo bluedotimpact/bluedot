@@ -5,14 +5,14 @@ import Container from './Container';
 
 interface ItemProps {
   children: ReactNode;
-  href: string;
+  url: string;
 }
 
 /**
  * Text link for the new navigation bar
  */
-const Item = ({ children, href }: ItemProps) => (
-  <a href={href}>{children}</a>
+const Item = ({ children, url }: ItemProps) => (
+  <a href={url}>{children}</a>
 );
 
 /**
