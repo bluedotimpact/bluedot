@@ -33,7 +33,7 @@ export default makeApiRoute({
   }
 
   const units = (await db.scan(unitTable, {
-    filterByFormula: `{[>] Course slug} = "${course.id}"`,
+    filterByFormula: `{[>] Course slug} = "${courseSlug}"`,
   })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {
