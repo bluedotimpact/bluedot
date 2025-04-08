@@ -10,54 +10,53 @@ import {
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
-import { CourseUnit } from '@bluedot/ui/src/constants';
 import ReactMarkdown from 'react-markdown';
 import SideBar from './SideBar';
+import { Unit } from '../../lib/api/db/tables';
 
 type UnitLayoutProps = {
   // Required
-  course: string;
-  unit: number;
-  title: string;
+  courseId: string;
+  courseTitle: string;
+  unitNumber: number;
+  unitTitle: string;
   route: BluedotRoute;
-  units: CourseUnit[];
-  markdown: string;
+  units: Unit[];
+  unitContent: string;
 };
 
 const UnitLayout: React.FC<UnitLayoutProps> = ({
-  course,
-  unit,
-  title,
+  courseId,
+  courseTitle,
+  unitNumber,
+  unitTitle,
   route,
   units,
-  markdown,
+  unitContent,
 }) => {
-  const unitIndex = unit - 1;
-  const nextUnitIndex = unitIndex + 1;
-
   return (
     <div>
       <Head>
-        <title>{`${course}: Unit ${unit}`}</title>
-        <meta name="description" content={title} />
+        <title>{`${courseTitle}: Unit ${unitNumber}`}</title>
+        <meta name="description" content={unitTitle} />
       </Head>
       <HeroSection className="unit__hero">
-        <HeroMiniTitle>{course}</HeroMiniTitle>
-        <HeroH1>{title}</HeroH1>
+        <HeroMiniTitle>{courseTitle}</HeroMiniTitle>
+        <HeroH1>{unitTitle}</HeroH1>
       </HeroSection>
       <Breadcrumbs className="unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10" route={route} />
       <Section className="unit__main">
         <div className="unit__content-container flex flex-col md:flex-row gap-16">
           {!isMobile && (
-            <SideBar units={units} currentUnit={units[unitIndex]!} />
+            <SideBar courseId={courseId} units={units} currentUnitNumber={unitNumber} />
           )}
           <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-4">
             <ReactMarkdown>
-              {markdown}
+              {unitContent}
             </ReactMarkdown>
 
-            {nextUnitIndex < units.length ? (
-              <CTALinkOrButton className="unit__cta-link self-end mt-6" url={units[nextUnitIndex]!.href}>
+            {unitNumber < units.length ? (
+              <CTALinkOrButton className="unit__cta-link self-end mt-6" url={`/courses/${courseId}/unit/${unitNumber + 1}`}>
                 Next unit
               </CTALinkOrButton>
             ) : (

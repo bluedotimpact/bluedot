@@ -1,18 +1,20 @@
 import React from 'react';
-import { CourseUnit } from '@bluedot/ui/src/constants';
+import { Unit } from '../../lib/api/db/tables';
 
 type SideBarProps = {
   // Required
-  units: CourseUnit[];
-  currentUnit: CourseUnit;
+  courseId: string;
+  units: Unit[];
+  currentUnitNumber: number;
 };
 
 const SideBar: React.FC<SideBarProps> = ({
+  courseId,
   units,
-  currentUnit,
+  currentUnitNumber,
 }) => {
-  const isCurrentUnit = (unit: CourseUnit) => {
-    return currentUnit.title === unit.title;
+  const isCurrentUnit = (unit: Unit) => {
+    return currentUnitNumber === Number(unit.unitNumber);
   };
   return (
     <div className="sidebar w-full md:w-[332px] flex flex-col">
@@ -22,10 +24,11 @@ const SideBar: React.FC<SideBarProps> = ({
             className={`sidebar__unit border ${isCurrentUnit(unit) ? 'sidebar__unit--active border-color-primary' : 'border-color-divider'} rounded-radius-md p-4 flex flex-col gap-2`}
           >
             <div className="sidebar__unit-item flex flex-col gap-2">
-              <p className="sidebar__title uppercase text-size-xs font-bold">{unit.title}</p>
-              <a href={unit.href} className="sidebar__description subtitle-sm">{unit.description}</a>
+              <p className="sidebar__title uppercase text-size-xs font-bold">Unit {unit.unitNumber}</p>
+              <a href={`/courses/${courseId}/unit/${unit.unitNumber}`} className="sidebar__description subtitle-sm">{unit.title}</a>
+              <p className="sidebar__description text-sm">{unit.description}</p>
             </div>
-            {isCurrentUnit(unit) && unit.chapters && (
+            {/* {isCurrentUnit(unit) && unit.chapters && (
               <div className="sidebar__chapters flex flex-col gap-4 border-t-2 border-color-primary pt-4">
                 {unit.chapters.map((chapter) => (
                   <div className="sidebar__chapter">
@@ -35,7 +38,7 @@ const SideBar: React.FC<SideBarProps> = ({
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         ))}
       </div>
