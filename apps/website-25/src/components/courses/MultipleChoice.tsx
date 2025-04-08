@@ -54,12 +54,13 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {options.map((option) => (
-          <label className={`
-            multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
-            ${isSelected(option) ? 'multiple-choice__option--selected container-active' : 'container-lined'}
-            ${isOptionCorrect(option) ? 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]' : ''}
-            ${isOptionIncorrect(option) ? 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]' : ''}
-          `}>
+          <label
+            className={`
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              ${isSelected(option) ? 'multiple-choice__option--selected container-active' : 'container-lined'}
+              ${isOptionCorrect(option) ? 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]' : ''}
+              ${isOptionIncorrect(option) ? 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]' : ''}`}
+          >
             <input
               className="multiple-choice__input"
               type="radio"
