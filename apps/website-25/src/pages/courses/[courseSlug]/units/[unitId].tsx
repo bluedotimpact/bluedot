@@ -3,7 +3,6 @@ import useAxios from 'axios-hooks';
 import { ProgressDots } from '@bluedot/ui';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitId]';
-import { ROUTES } from '../../../../lib/routes';
 
 const CourseUnitPage = () => {
   const { query: { courseSlug, unitId } } = useRouter();
@@ -22,13 +21,9 @@ const CourseUnitPage = () => {
       <>
         {loading && <ProgressDots />}
         <UnitLayout
-          courseSlug={unit.courseSlug}
-          courseTitle={unit.courseTitle}
+          courseTitle={data.unit.courseTitle}
           unitNumber={unitNumber}
-          unitTitle={unit.title}
-          unitContent={unit.content}
           units={units}
-          route={ROUTES.makeCoursePageRoute(unit.courseSlug, unit.courseTitle, unitNumber)}
         />
       </>
     ) : (

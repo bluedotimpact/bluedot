@@ -17,77 +17,9 @@ exports[`UnitLayout > renders default as expected 1`] = `
         <h1
           class="hero-section__title text-on-dark text-center"
         >
-          Last Unit
+          Basic Principles of Fish
         </h1>
       </div>
-    </div>
-    <div
-      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
-    >
-      <nav
-        aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base"
-      >
-        <ol
-          class="breadcrumbs__list flex"
-        >
-          <li
-            class="breadcrumbs__item flex items-center"
-          >
-            <a
-              class="breadcrumbs__link"
-              href="/"
-            >
-              Home
-            </a>
-            <span
-              class="breadcrumbs__separator mx-2"
-            >
-              &gt;
-            </span>
-          </li>
-          <li
-            class="breadcrumbs__item flex items-center"
-          >
-            <a
-              class="breadcrumbs__link"
-              href="/courses"
-            >
-              Courses
-            </a>
-            <span
-              class="breadcrumbs__separator mx-2"
-            >
-              &gt;
-            </span>
-          </li>
-          <li
-            class="breadcrumbs__item flex items-center"
-          >
-            <a
-              class="breadcrumbs__link"
-              href="/courses/my-test-course"
-            >
-              My Test Course
-            </a>
-            <span
-              class="breadcrumbs__separator mx-2"
-            >
-              &gt;
-            </span>
-          </li>
-          <li
-            class="breadcrumbs__item flex items-center"
-          >
-            <a
-              class="breadcrumbs__link"
-              href="/courses/my-test-course/units/1/"
-            >
-              Unit 1
-            </a>
-          </li>
-        </ol>
-      </nav>
     </div>
     <section
       class="section section-body unit__main"
@@ -118,7 +50,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/my-test-course/units/1/"
+                    href="/courses/test-course/units/1"
                   >
                     Basic Principles of Fish
                   </a>
@@ -143,7 +75,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/my-test-course/units/2/"
+                    href="/courses/test-course/units/2"
                   >
                     What Fish Are People Catching, and Why?
                   </a>
@@ -168,7 +100,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/my-test-course/units/3/"
+                    href="/courses/test-course/units/3"
                   >
                     The Promise of Fish
                   </a>
@@ -193,7 +125,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/my-test-course/units/4/"
+                    href="/courses/test-course/units/4"
                   >
                     The Risks of Fish
                   </a>
@@ -218,7 +150,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/my-test-course/units/5/"
+                    href="/courses/test-course/units/5"
                   >
                     Contributing to Fish Safety
                   </a>
@@ -235,12 +167,37 @@ exports[`UnitLayout > renders default as expected 1`] = `
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
             <h2>
-              Hello World!
+              Welcome to the deep end!
             </h2>
+            
+
+            <p>
+              This unit explores the core concepts that 
+              <em>
+                every
+              </em>
+               fish enthusiast needs to understand, from basic anatomy to the physics of water movement.
+We'll explore how fish
+[ ] communicate,
+[ ] navigate,
+[ ] and survive in their watery world
+...with special attention to the unique adaptations that make each species special.
+Through hands-on exercises and detailed study materials, you'll develop a strong foundation in 
+              <strong>
+                <em>
+                  <a
+                    href="https://en.wikipedia.org/wiki/Ichthyology"
+                  >
+                    ichthyology
+                  </a>
+                </em>
+              </strong>
+               (that's fish science for those who don't speak fluent marine biologist).
+            </p>
             <a
               class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
               data-testid="cta-link"
-              href="/courses/my-test-course/units/2/"
+              href="/courses/test-course/units/2"
             >
               <span
                 class="cta-button__text"
@@ -260,7 +217,7 @@ exports[`UnitLayout > updates CTA for final unit 1`] = `
 <a
   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link self-end mt-6"
   data-testid="cta-link"
-  href="/courses/my-test-course/units/1/"
+  href="https://bluedot.org"
 >
   <span
     class="cta-button__text"
