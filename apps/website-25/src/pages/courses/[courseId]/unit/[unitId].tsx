@@ -1,4 +1,3 @@
-import { COURSE_UNITS } from '@bluedot/ui/src/constants';
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { ProgressDots } from '@bluedot/ui';

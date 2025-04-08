@@ -28,6 +28,7 @@ export const courseTable: Table<Course> = {
 
 export interface Unit extends Item {
   id: string,
+  courseId: string,
   courseTitle: string,
   title: string,
   content: string,
@@ -41,6 +42,7 @@ export const unitTable: Table<Unit> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
+    courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     title: 'fldN9BV8GGUHFu9sz',
     content: 'fldpJLWVPh0IXHfmm',
@@ -49,6 +51,7 @@ export const unitTable: Table<Unit> = {
     description: 'flddCXEeJ9oFOhfNb',
   },
   schema: {
+    courseId: 'string',
     courseTitle: 'string',
     title: 'string',
     content: 'string',
