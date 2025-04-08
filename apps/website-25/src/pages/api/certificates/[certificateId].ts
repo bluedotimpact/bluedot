@@ -71,7 +71,7 @@ export default makeApiRoute({
     certificateCreatedAt: courseRegistration.certificateCreatedAt,
     recipientName: courseRegistration.fullName,
     courseName: course.title,
-    courseDetailsUrl: course.courseDetailsUrl,
+    courseDetailsUrl: course.detailsUrl,
     certificationDescription: course.certificatonDescription,
     certificationBadgeImageSrc: course.certificationBadgeImage,
   };

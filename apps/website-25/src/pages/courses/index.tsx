@@ -44,7 +44,7 @@ const CoursePage = () => {
                 title={course.title}
                 description={course.description}
                 imageSrc="/images/courses/future-of-ai.png"
-                url={course.url}
+                url={course.path}
                 courseType="In-depth course"
                 courseLength="2 hours"
               />

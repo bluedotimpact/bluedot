@@ -7,7 +7,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
     >
       <div
-        class="hero-section__content max-w-[865px] mt-[82px] py-16"
+        class="hero-section__content max-w-[865px] py-12"
       >
         <div
           class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"

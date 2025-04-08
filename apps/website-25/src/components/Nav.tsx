@@ -172,7 +172,7 @@ export const Nav: React.FC<NavProps> = ({
   return (
     <nav
       className={clsx(
-        'nav fixed z-50 w-full container-elevated transition-all duration-300',
+        'nav sticky top-0 z-50 w-full container-elevated transition-all duration-300',
         isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-color-canvas',
         className,
       )}

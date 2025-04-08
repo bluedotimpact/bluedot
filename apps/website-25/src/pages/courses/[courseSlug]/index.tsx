@@ -4,7 +4,6 @@ import {
   HeroH1,
   HeroH2,
   CTALinkOrButton,
-  Breadcrumbs,
   ProgressDots,
   Section,
   CourseCard,
@@ -23,8 +22,6 @@ const CoursePage = () => {
     url: `/api/courses/${courseSlug}`,
   });
 
-  const CURRENT_ROUTE = ROUTES.makeCoursePageRoute(courseSlug as string, data?.course.title);
-
   return (
     <div>
       {loading && <ProgressDots />}
@@ -42,7 +39,6 @@ const CoursePage = () => {
               <CTALinkOrButton url={ROUTES.joinUs.url}>Start learning for free</CTALinkOrButton>
             </HeroCTAContainer>
           </HeroSection>
-          <Breadcrumbs route={CURRENT_ROUTE} />
           <Section
             className="course-serp"
           >
@@ -54,7 +50,7 @@ const CoursePage = () => {
                   <CourseCard
                     key={unit.unitNumber}
                     title={`Unit ${unit.unitNumber}: ${unit.title}`}
-                    url={ROUTES.makeCoursePageRoute(courseSlug as string, data.course.title, Number(unit.unitNumber)).url}
+                    url={unit.path}
                     courseType="Self-paced"
                     courseLength={`${unit.duration} mins`}
                   />
