@@ -34,7 +34,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       class="free-text-response__options flex flex-col gap-2"
     >
       <textarea
-        class="free-text-response__textarea container-lined p-4 "
+        class="free-text-response__textarea container-lined p-4"
         placeholder="Enter your answer here"
       />
     </div>
