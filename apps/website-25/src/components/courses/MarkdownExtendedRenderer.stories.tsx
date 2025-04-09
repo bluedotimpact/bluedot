@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import MarkdownExtendedRenderer, { SUPPORTED_COMPONENTS } from './MarkdownExtendedRenderer';
+import MarkdownExtendedRenderer, { getSupportedComponents } from './MarkdownExtendedRenderer';
 
 const meta = {
   title: 'website/MarkdownExtendedRenderer',
@@ -19,8 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicMarkdown: Story = {
   args: {
-    children: `
-# Standard markdown formatting
+    children: `# Standard markdown formatting
 
 This component supports standard markdown formatting
 
@@ -109,32 +108,41 @@ function greet(name) {
   },
 };
 
-export const WithGreetingComponent: Story = {
+export const WithComponents: Story = {
   args: {
-    children: `
-# Using Components
+    children: `# Using Components
 
-## Example
+Below is an example of using the Callout and Embed components:
 
-Below is an example of using the Greeting component:
+<Callout title="Want to see something cool?">
+  This is some markdown extended content, using _components_!
 
-<Greeting>Storybook User</Greeting>
+  And you can nest components as you like too:
+
+  <Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
+</Callout>
 
 Code:
 
 \`\`\`mdx
-<Greeting>Storybook User</Greeting>
+<Callout title="Want to see something cool?">
+  This is some markdown extended content, using _components_!
+
+  And you can nest components as you like too:
+
+  <Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
+</Callout>
 \`\`\`
 
 ## Supported components
 
 The following components are supported within your markdown content:
 
-${Object.keys(SUPPORTED_COMPONENTS).map((componentName) => `- \`${componentName}\``).join('\n')}
+${Object.keys(getSupportedComponents()).map((componentName) => `- \`${componentName}\``).join('\n')}
 
 See their Storybook pages for usage details.
 
-(to add to this list, add to \`SUPPORTED_COMPONENTS\` in \`MarkdownExtendedRenderer.tsx\`)
+(to add to this list, add to \`getSupportedComponents\` in \`MarkdownExtendedRenderer.tsx\`)
     `,
   },
 };

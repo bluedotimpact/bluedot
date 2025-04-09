@@ -2,12 +2,20 @@ import React, { useEffect } from 'react';
 import { evaluate } from '@mdx-js/mdx';
 import { MDXContent } from 'mdx/types';
 import Greeting from './Greeting';
+import Embed from './Embed';
+// eslint-disable-next-line import/no-cycle
+import Callout from './Callout';
 
 export interface MarkdownRendererProps {
   children?: string;
 }
 
-export const SUPPORTED_COMPONENTS = { Greeting };
+// This must be a function, rather than a constant, to avoid dependency cycles
+export const getSupportedComponents = () => ({
+  Greeting,
+  Embed,
+  Callout,
+});
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
@@ -27,8 +35,8 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children })
   }, [children, setComponent]);
 
   return (
-    <div className="flex flex-col gap-4">
-      {Component && <Component components={SUPPORTED_COMPONENTS} />}
+    <div className="markdown-extended-renderer flex flex-col gap-4">
+      {Component && <Component components={getSupportedComponents()} />}
     </div>
   );
 };

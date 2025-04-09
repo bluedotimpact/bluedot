@@ -22,7 +22,7 @@ exports[`FAQSection > renders default as expected 1`] = `
       class="section__body"
     >
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
@@ -74,7 +74,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
@@ -122,7 +122,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         </div>
       </details>
       <details
-        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-none group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
+        class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden faq-section__item"
       >
         <summary
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
