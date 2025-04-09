@@ -1,0 +1,62 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FreeTextResponse > renders default as expected 1`] = `
+<div>
+  <div
+    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+  >
+    <div
+      class="free-text-response__header flex flex-col gap-4"
+    >
+      <div
+        class="free-text-response__header-icon"
+      >
+        <img
+          alt=""
+          class="w-15 h-15"
+          src="/icons/lightning_bolt.svg"
+        />
+      </div>
+      <div
+        class="free-text-response__header-content flex flex-col gap-2"
+      >
+        <p
+          class="free-text-response__title subtitle-sm"
+        >
+          Understanding LLMs
+        </p>
+        <p>
+          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+        </p>
+      </div>
+    </div>
+    <div
+      class="free-text-response__options flex flex-col gap-2"
+    >
+      <textarea
+        class="free-text-response__textarea container-lined p-4"
+        placeholder="Enter your answer here"
+      />
+    </div>
+    <button
+      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      data-testid="cta-button"
+      type="button"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Save
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`FreeTextResponse > updates styles when answer is saved 1`] = `
+<p
+  class="free-text-response__saved-msg"
+>
+  Saved! 🎉
+</p>
+`;

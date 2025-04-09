@@ -4,16 +4,16 @@ import React from 'react';
 type MultipleChoiceProps = {
   // Required
   title: string;
-  question: string;
+  description: string;
   options: string[];
-  correctOption: string;
+  answer: string;
 };
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   title,
-  question,
+  description,
   options,
-  correctOption,
+  answer,
 }) => {
   const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
   const [submittedOption, setSubmittedOption] = React.useState<string | null>(null);
@@ -31,8 +31,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     setSubmittedOption(selectedOption);
   };
 
-  const isCorrect = submittedOption && submittedOption === correctOption;
-  const isIncorrect = submittedOption && submittedOption !== correctOption;
+  const isCorrect = submittedOption && submittedOption === answer;
+  const isIncorrect = submittedOption && submittedOption !== answer;
 
   return (
     <div className="multiple-choice container-lined bg-white p-8 flex flex-col gap-6">
@@ -42,7 +42,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </div>
         <div className="multiple-choice__header-content flex flex-col gap-2">
           <p className="multiple-choice__title subtitle-sm">{title}</p>
-          <p className="multiple-choice__question">{question}</p>
+          <p className="multiple-choice__description">{description}</p>
         </div>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">

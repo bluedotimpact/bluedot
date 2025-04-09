@@ -10,9 +10,9 @@ const mockOptions = [
 
 const mockArgs = {
   title: 'Understanding LLMs',
-  question: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
+  description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
   options: mockOptions,
-  correctOption: mockOptions[0] as string,
+  answer: mockOptions[0] as string,
 };
 
 describe('MultipleChoice', () => {
@@ -45,7 +45,7 @@ describe('MultipleChoice', () => {
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
-        correctOption={mockArgs.options[0] as string}
+        answer={mockArgs.options[0] as string}
       />,
     );
     // Select the correct option
@@ -69,7 +69,7 @@ describe('MultipleChoice', () => {
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
-        correctOption={mockArgs.options[0] as string}
+        answer={mockArgs.options[0] as string}
       />,
     );
     // Select the second option
