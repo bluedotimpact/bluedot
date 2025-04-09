@@ -3,8 +3,8 @@ import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa6';
 
 type SocialShareProps = {
   courseUrl: string;
-  referralCode: string;
-  text: string;
+  referralCode?: string;
+  text?: string;
 };
 
 const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text }) => {
