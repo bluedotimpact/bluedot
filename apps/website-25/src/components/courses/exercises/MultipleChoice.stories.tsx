@@ -19,10 +19,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    id: 'recXvNUEwvXgCF7Qp',
-    courseId: '1',
-    exerciseNumber: '1',
-    type: 'Multiple choice',
     title: 'Understanding LLMs',
     description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
     options: [
@@ -31,7 +27,5 @@ export const Default: Story = {
       'The training data includes no instructions for these tasks',
     ],
     answer: 'The training data includes explicit instructions for these tasks',
-    unitId: '1',
-    unitNumber: '1',
   },
 };
