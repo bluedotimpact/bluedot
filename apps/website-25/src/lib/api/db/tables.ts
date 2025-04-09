@@ -157,6 +157,26 @@ export const exerciseTable: Table<Exercise> = {
   },
 };
 
+export interface ExerciseResponse extends Item {
+  id: string,
+  exerciseId: string,
+  response: string,
+}
+
+export const exerciseResponseTable: Table<ExerciseResponse> = {
+  name: 'Exercise response',
+  baseId: 'appnJbsG1eWbAdEvf',
+  tableId: 'tblLNijbqwoLtkd3O',
+  mappings: {
+    exerciseId: 'fldSKltln4l3yYdi2',
+    response: 'fld7Qa3JDnRNwCTlH',
+  },
+  schema: {
+    exerciseId: 'string',
+    response: 'string',
+  },
+};
+
 export interface CourseRegistration extends Item {
   id: string,
   userId: string,

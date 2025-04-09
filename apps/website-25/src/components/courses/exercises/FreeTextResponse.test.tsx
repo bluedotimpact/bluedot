@@ -1,10 +1,15 @@
 import { render, waitFor } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
+import axios from 'axios';
 import FreeTextResponse from './FreeTextResponse';
+
+// Mock axios
+vi.mock('axios');
 
 const mockArgs = {
   title: 'Understanding LLMs',
   description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
+  exerciseId: 'rec1234567890',
 };
 
 describe('FreeTextResponse', () => {
@@ -18,15 +23,30 @@ describe('FreeTextResponse', () => {
   });
 
   test('updates styles when answer is saved', async () => {
+    // Setup axios mock to resolve successfully
+    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
+
     const { container } = render(
       <FreeTextResponse {...mockArgs} />,
     );
+    
     const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLElement;
+    
+    // Add some text to the textarea
+    const testAnswer = 'My test answer';
+    textareaEl.textContent = testAnswer;
+    
     // Submit an answer
     const submitEl = container.querySelector('.free-text-response__submit') as HTMLElement;
-    expect(submitEl).toBeTruthy();
     submitEl?.click();
-    // Expect 'saved' state change
+
+    // Verify axios was called with correct arguments
+    expect(axios.put).toHaveBeenCalledWith(
+      `/api/courses/exercises/${mockArgs.exerciseId}`,
+      { response: testAnswer }
+    );
+    
+    // Expect 'saved' state change after axios resolves
     await waitFor(() => {
       expect(textareaEl.classList.contains('free-text-response__textarea--saved')).toBeTruthy();
       expect(container.querySelector('.free-text-response__saved-msg')).toMatchSnapshot();

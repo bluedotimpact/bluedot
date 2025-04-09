@@ -3,6 +3,7 @@ import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import {
   Exercise,
+  exerciseResponseTable,
   exerciseTable,
 } from '../../../../lib/api/db/tables';
 import createHttpError from 'http-errors';
@@ -32,7 +33,7 @@ export default makeApiRoute({
     // Get exercise
     case 'GET': {
       const exercise = (await db.scan(exerciseTable, {
-        filterByFormula: `AND({[*] Record ID} = "${exerciseId}")`,
+        filterByFormula: `{[*] Record ID} = "${exerciseId}"`,
       }))[0];
 
       return {
@@ -43,7 +44,25 @@ export default makeApiRoute({
 
     // Upsert exercise response
     case 'PUT': {
-      // upsert
+      if (!body) {
+        throw new createHttpError.BadRequest('Expected PUT request to include payload');
+      }
+      const exerciseResponse = (await db.scan(exerciseResponseTable, {
+        filterByFormula: `{[>] Exercise record ID} = "${exerciseId}"`,
+      }))[0];
+
+      // If the exercise response doesn't exist, create it
+      if (!exerciseResponse) {
+        await db.insert(exerciseResponseTable, {
+          response: body.response,
+        });
+      } else {
+        // If the exercise response does exist, update it
+        await db.update(exerciseResponseTable, {
+          id: exerciseResponse.id,
+          response: body.response,
+        });
+      }
     }
 
     default: {

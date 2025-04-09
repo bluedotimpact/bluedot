@@ -1,22 +1,26 @@
 import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
+import axios from 'axios';
 import clsx from 'clsx';
 import React from 'react';
 
 type MultipleChoiceProps = {
   // Required
-  title: string;
-  description: string;
-  options: string;
   answer: string;
+  description: string;
+  exerciseId: string;
+  options: string;
+  title: string;
+  // Optional
   className?: string;
 };
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({
-  title,
-  description,
-  options,
   answer,
   className,
+  description,
+  exerciseId,
+  options,
+  title,
 }) => {
   /**
    * Options are stored as a string with newlines
@@ -38,7 +42,11 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   const handleAnswerSubmit = () => {
-    setSubmittedOption(selectedOption);
+    axios.put(`/api/courses/exercises/${exerciseId}`, {
+      response: selectedOption,
+    }).then(() => {
+      setSubmittedOption(selectedOption);
+    });
   };
 
   const isCorrect = submittedOption && submittedOption === formattedAnswer;

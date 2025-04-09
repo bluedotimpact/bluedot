@@ -1,30 +1,36 @@
 import clsx from 'clsx';
 import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
+import axios from 'axios';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
 type FreeTextResponseProps = {
   // Required
-  title: string;
-  description: string;
   className?: string;
+  description: string;
+  exerciseId: string;
+  title: string;
 };
 
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
-  title,
-  description,
   className,
+  description,
+  exerciseId,
+  title,
 }) => {
-  const [submittedOption, setSubmittedOption] = React.useState<string | null>(null);
   const [isSaved, setIsSaved] = React.useState<boolean>(false);
 
   const handleAnswerSubmit = () => {
-    setSubmittedOption('test');
-    setIsSaved(true);
+    const textArea = document.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+    axios.put(`/api/courses/exercises/${exerciseId}`, {
+      response: textArea?.value,
+    }).then(() => {
+      setIsSaved(true);
+    });
   };
 
   const handleAnswerChange = () => {
-    if (submittedOption && isSaved) {
+    if (isSaved) {
       setIsSaved(false);
     }
   };
