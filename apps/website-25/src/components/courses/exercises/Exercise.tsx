@@ -1,8 +1,8 @@
 import React from 'react';
+import useAxios from 'axios-hooks';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 import { GetExerciseResponse } from '../../../pages/api/courses/exercises/[exerciseId]';
-import useAxios from 'axios-hooks';
 
 type ExerciseProps = {
   // Required
@@ -12,8 +12,7 @@ type ExerciseProps = {
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId,
 }) => {
-
-  const [{ data, loading }] = useAxios<GetExerciseResponse>({
+  const [{ data }] = useAxios<GetExerciseResponse>({
     method: 'get',
     url: `/api/courses/exercises/${exerciseId}`,
   });
