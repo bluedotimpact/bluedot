@@ -16,13 +16,13 @@ const ExerciseType = {
 const Exercise: React.FC<ExerciseProps> = ({
   exercise,
 }) => {
-  switch(exercise.type) {
+  switch (exercise.type) {
     case ExerciseType.freeTextResponse:
-      return <FreeTextResponse {...exercise} />
+      return <FreeTextResponse {...exercise} />;
     case ExerciseType.multipleChoice:
-      return <MultipleChoice {...exercise} />
+      return <MultipleChoice {...exercise} />;
     default:
-      return null
+      return null;
   }
 };
 

@@ -16,12 +16,12 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const [isSaved, setIsSaved] = React.useState<boolean>(false);
 
   const handleAnswerSubmit = () => {
-    setSubmittedOption("test");
+    setSubmittedOption('test');
     setIsSaved(true);
   };
 
-  const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if(submittedOption && isSaved) {
+  const handleAnswerChange = () => {
+    if (submittedOption && isSaved) {
       setIsSaved(false);
     }
   };
@@ -39,15 +39,18 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       </div>
       <div className="free-text-response__options flex flex-col gap-2">
         <textarea
-          className={`free-text-response__textarea container-lined p-4 ${isSaved ? 'free-text-response__textarea--saved bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ''}`}
+          className={`free-text-response__textarea container-lined p-4${
+            isSaved ? ' free-text-response__textarea--saved bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ''
+          }`}
           placeholder="Enter your answer here"
-          onChange={(e) => handleAnswerChange(e)}
+          onChange={handleAnswerChange}
         />
       </div>
       <CTALinkOrButton
         className="free-text-response__submit"
         variant="primary"
         onClick={handleAnswerSubmit}
+        type="button"
       >
         Save
       </CTALinkOrButton>
