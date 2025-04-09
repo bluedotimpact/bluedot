@@ -10,7 +10,7 @@ type SocialShareProps = {
 const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text }) => {
   return (
     <div className="social-share flex flex-row gap-4">
-      <a 
+      <a
         className="social-share__link size-6"
         href={`https://www.linkedin.com/shareArticle?mini=true&url=${courseUrl}?r=${referralCode}&utm_source=referral&utm_campaign=linkedin&text=${text}`}
         target="_blank"
@@ -36,6 +36,6 @@ const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text
       </a>
     </div>
   );
-}
+};
 
 export default SocialShare;

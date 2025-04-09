@@ -16,7 +16,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
 }) => {
   return (
     <div className="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center">
-      <h3 className="congratulations__title text-2xl font-bold text-center">Congratulations on completing {courseTitle}!</h3>
+      <h3 className="congratulations__title text-center">Congratulations on completing {courseTitle}!</h3>
       <p className="congratulations__description text-center">
         Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
       </p>
@@ -27,6 +27,6 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       />
     </div>
   );
-}
+};
 
 export default Congratulations;
