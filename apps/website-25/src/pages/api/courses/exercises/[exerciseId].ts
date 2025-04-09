@@ -5,6 +5,7 @@ import {
   Exercise,
   exerciseTable,
 } from '../../../../lib/api/db/tables';
+import createHttpError from 'http-errors';
 
 export type GetExerciseResponse = {
   type: 'success',
@@ -13,19 +14,40 @@ export type GetExerciseResponse = {
 
 export default makeApiRoute({
   requireAuth: false,
-  responseBody: z.object({
+  requestBody: z.optional(
+    z.object({
+      response: z.string(),
+    })
+  ),
+  responseBody: z.optional(
+    z.object({
     type: z.literal('success'),
-    exercise: z.any(),
-  }),
+      exercise: z.any(),
+    }),
+  ),
 }, async (body, { raw }) => {
   const { exerciseId } = raw.req.query;
 
-  const exercise = (await db.scan(exerciseTable, {
-    filterByFormula: `AND({[*] Record ID} = "${exerciseId}")`,
-  }))[0];
+  switch (raw.req.method) {
+    // Get exercise
+    case 'GET': {
+      const exercise = (await db.scan(exerciseTable, {
+        filterByFormula: `AND({[*] Record ID} = "${exerciseId}")`,
+      }))[0];
 
-  return {
-    type: 'success' as const,
-    exercise,
-  };
+      return {
+        type: 'success' as const,
+        exercise,
+      };
+    }
+
+    // Upsert exercise response
+    case 'PUT': {
+      // upsert
+    }
+
+    default: {
+      throw new createHttpError.MethodNotAllowed();
+    }
+  }
 });
