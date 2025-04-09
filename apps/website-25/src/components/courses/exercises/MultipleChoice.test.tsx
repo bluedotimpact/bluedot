@@ -1,6 +1,10 @@
 import { render, waitFor } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
+import axios from 'axios';
 import MultipleChoice from './MultipleChoice';
+
+// Mock axios
+vi.mock('axios');
 
 const mockOptions = [
   'The training data includes explicit instructions for these tasks',
@@ -13,12 +17,13 @@ const mockArgs = {
   description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
   options: mockOptions,
   answer: mockOptions[0] as string,
+  exerciseId: 'rec1234567890',
 };
 
 describe('MultipleChoice', () => {
   test('renders default as expected', () => {
     const { container } = render(
-      <MultipleChoice {...mockArgs} />,
+      <MultipleChoice {...mockArgs} exerciseId="rec1234567890" />,
     );
 
     expect(container).toMatchSnapshot();
@@ -42,6 +47,9 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
+    // Setup axios mock to resolve successfully
+    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
+
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
@@ -63,9 +71,18 @@ describe('MultipleChoice', () => {
       expect(correctOption[0]).toBe(optionLabelEl);
       expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
     });
+
+    // Verify axios was called with correct arguments
+    expect(axios.put).toHaveBeenCalledWith(
+      `/api/courses/exercises/${mockArgs.exerciseId}`,
+      { response: mockArgs.options[0] }
+    );
   });
 
   test('updates styles for incorrect option', async () => {
+    // Setup axios mock to resolve successfully
+    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
+
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
@@ -87,5 +104,11 @@ describe('MultipleChoice', () => {
       expect(incorrectOption[0]).toBe(optionLabelEl);
       expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
     });
+
+    // Verify axios was called with correct arguments
+    expect(axios.put).toHaveBeenCalledWith(
+      `/api/courses/exercises/${mockArgs.exerciseId}`,
+      { response: mockArgs.options[1] }
+    );
   });
 });
