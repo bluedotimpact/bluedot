@@ -39,8 +39,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       </div>
       <div className="free-text-response__options flex flex-col gap-2">
         <textarea
-          className={`free-text-response__textarea container-lined p-4${
-            isSaved ? ' free-text-response__textarea--saved bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ''
+          className={`free-text-response__textarea p-4${
+            isSaved ? ' free-text-response__textarea--saved container-active bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ' container-lined'
           }`}
           placeholder="Enter your answer here"
           onChange={handleAnswerChange}

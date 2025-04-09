@@ -1,26 +1,28 @@
 import React from 'react';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
-import { Exercise as ExerciseItem } from '../../../lib/api/db/tables';
+import { GetExerciseResponse } from '../../../pages/api/courses/exercises/[exerciseId]';
+import useAxios from 'axios-hooks';
 
 type ExerciseProps = {
   // Required
-  exercise: ExerciseItem;
-};
-
-const ExerciseType = {
-  freeTextResponse: 'Free text',
-  multipleChoice: 'Multiple choice',
+  exerciseId?: string;
 };
 
 const Exercise: React.FC<ExerciseProps> = ({
-  exercise,
+  exerciseId,
 }) => {
-  switch (exercise.type) {
-    case ExerciseType.freeTextResponse:
-      return <FreeTextResponse {...exercise} />;
-    case ExerciseType.multipleChoice:
-      return <MultipleChoice {...exercise} />;
+
+  const [{ data, loading }] = useAxios<GetExerciseResponse>({
+    method: 'get',
+    url: `/api/courses/exercises/${exerciseId}`,
+  });
+
+  switch (data?.exercise.type) {
+    case 'Free text':
+      return <FreeTextResponse {...data?.exercise} />;
+    case 'Multiple choice':
+      return <MultipleChoice {...data?.exercise} />;
     default:
       return null;
   }
