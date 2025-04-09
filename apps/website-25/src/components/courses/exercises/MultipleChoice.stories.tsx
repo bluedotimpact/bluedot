@@ -27,5 +27,6 @@ export const Default: Story = {
       'The training data includes no instructions for these tasks',
     ],
     answer: 'The training data includes explicit instructions for these tasks',
+    exerciseId: 'rec1234567890',
   },
 };
