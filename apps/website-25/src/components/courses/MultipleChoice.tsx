@@ -1,6 +1,5 @@
 import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
 import React from 'react';
-import ReactMarkdown from 'react-markdown';
 
 type MultipleChoiceProps = {
   // Required
@@ -43,7 +42,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </div>
         <div className="multiple-choice__header-content flex flex-col gap-2">
           <p className="multiple-choice__title subtitle-sm">{title}</p>
-          <ReactMarkdown>{question}</ReactMarkdown>
+          <p className="multiple-choice__question">{question}</p>
         </div>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
