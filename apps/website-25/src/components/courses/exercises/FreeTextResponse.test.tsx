@@ -1,5 +1,10 @@
 import { render, waitFor } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import {
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import axios from 'axios';
 import FreeTextResponse from './FreeTextResponse';
 
@@ -29,13 +34,13 @@ describe('FreeTextResponse', () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} />,
     );
-    
+
     const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLElement;
-    
+
     // Add some text to the textarea
     const testAnswer = 'My test answer';
     textareaEl.textContent = testAnswer;
-    
+
     // Submit an answer
     const submitEl = container.querySelector('.free-text-response__submit') as HTMLElement;
     submitEl?.click();
@@ -43,9 +48,9 @@ describe('FreeTextResponse', () => {
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
       `/api/courses/exercises/${mockArgs.exerciseId}`,
-      { response: testAnswer }
+      { response: testAnswer },
     );
-    
+
     // Expect 'saved' state change after axios resolves
     await waitFor(() => {
       expect(textareaEl.classList.contains('free-text-response__textarea--saved')).toBeTruthy();

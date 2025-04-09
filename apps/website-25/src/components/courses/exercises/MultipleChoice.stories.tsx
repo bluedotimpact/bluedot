@@ -23,5 +23,6 @@ export const Default: Story = {
     description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
     options: 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n',
     answer: 'The community\'s preference for low-tech fishing traditions',
+    exerciseId: 'rec1234567890',
   },
 };

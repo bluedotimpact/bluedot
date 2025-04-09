@@ -1,5 +1,10 @@
 import { render, waitFor } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import {
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import axios from 'axios';
 import MultipleChoice from './MultipleChoice';
 
@@ -72,7 +77,7 @@ describe('MultipleChoice', () => {
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
       `/api/courses/exercises/${mockArgs.exerciseId}`,
-      { response: mockArgs.options[0] }
+      { response: mockArgs.options[0] },
     );
   });
 
@@ -105,7 +110,7 @@ describe('MultipleChoice', () => {
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
       `/api/courses/exercises/${mockArgs.exerciseId}`,
-      { response: mockArgs.options[1] }
+      { response: mockArgs.options[1] },
     );
   });
 });
