@@ -108,7 +108,7 @@ function greet(name) {
   },
 };
 
-export const WithGreetingComponent: Story = {
+export const WithComponents: Story = {
   args: {
     children: `# Using Components
 
