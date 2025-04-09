@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import db from '../../../../../lib/api/db';
-import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
+import db from '../../../../lib/api/db';
+import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import {
   Exercise,
   exerciseTable,
-} from '../../../../../lib/api/db/tables';
+} from '../../../../lib/api/db/tables';
 
 export type GetExerciseResponse = {
   type: 'success',
@@ -18,10 +18,10 @@ export default makeApiRoute({
     exercise: z.any(),
   }),
 }, async (body, { raw }) => {
-  const { courseSlug, unitId, exerciseId } = raw.req.query;
+  const { exerciseId } = raw.req.query;
 
   const exercise = (await db.scan(exerciseTable, {
-    filterByFormula: `AND({[>] Course slug} = "${courseSlug}", {[>] Unit number} = ${unitId}, {[*] Record ID} = "${exerciseId}")`,
+    filterByFormula: `AND({[*] Record ID} = "${exerciseId}")`,
   }))[0];
 
   return {

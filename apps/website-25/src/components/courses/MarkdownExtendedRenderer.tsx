@@ -5,6 +5,7 @@ import Greeting from './Greeting';
 import Embed from './Embed';
 // eslint-disable-next-line import/no-cycle
 import Callout from './Callout';
+import Exercise from './exercises/Exercise';
 
 export interface MarkdownRendererProps {
   children?: string;
@@ -15,6 +16,7 @@ export const getSupportedComponents = () => ({
   Greeting,
   Embed,
   Callout,
+  Exercise,
 });
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children }) => {
