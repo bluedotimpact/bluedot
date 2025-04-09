@@ -28,7 +28,6 @@ const CourseUnitPage = () => {
           unitTitle={unit.title}
           unitContent={unit.content}
           units={units}
-          unitExercises={data?.unitExercises}
           route={ROUTES.makeCoursePageRoute(unit.courseSlug, unit.courseTitle, unitNumber)}
         />
       </>

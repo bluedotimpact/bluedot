@@ -2,10 +2,7 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import {
-  Unit,
-  unitTable,
-} from '../../../../lib/api/db/tables';
+import { Unit, unitTable } from '../../../../lib/api/db/tables';
 
 export type GetUnitResponse = {
   type: 'success',
@@ -21,7 +18,6 @@ export default makeApiRoute({
   }),
 }, async (body, { raw }) => {
   const { courseSlug, unitId } = raw.req.query;
-
   const units = (await db.scan(unitTable, {
     filterByFormula: `{[>] Course slug} = "${courseSlug}"`,
   })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
