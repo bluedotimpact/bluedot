@@ -23,6 +23,10 @@
     "@rive-app/react-canvas": "^4.18.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.29.0",
+    "@tiptap/extension-link": "^2.11.7",
+    "@tiptap/pm": "^2.11.7",
+    "@tiptap/react": "^2.11.7",
+    "@tiptap/starter-kit": "^2.11.7",
     "@ts-rest/core": "^3.41.1",
     "@ts-rest/react-query": "^3.41.1",
     "airtable-ts": "^1.4.0",
@@ -38,6 +42,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
+    "tiptap-markdown": "^0.8.10",
     "zod": "^3.24.2",
     "zustand": "^4.5.2"
   },
