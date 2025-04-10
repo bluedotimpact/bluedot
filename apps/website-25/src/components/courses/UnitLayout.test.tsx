@@ -77,7 +77,7 @@ describe('UnitLayout', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('updates CTA for final unit', () => {
+  test('renders Congratulations on final unit', () => {
     const { container } = render(
       <UnitLayout
         unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
@@ -85,6 +85,7 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
-    expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
+    expect(container.querySelector('.unit__cta-link')).toBeNull();
+    expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 });

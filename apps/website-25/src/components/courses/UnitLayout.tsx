@@ -12,7 +12,9 @@ import Head from 'next/head';
 import SideBar from './SideBar';
 import { Unit } from '../../lib/api/db/tables';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
+
 type UnitLayoutProps = {
   // Required
   unit: Unit;
@@ -65,10 +67,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 Next unit
               </CTALinkOrButton>
             ) : (
-              // TODO: link
-              <CTALinkOrButton className="unit__cta-link self-end mt-6" url="https://bluedot.org">
-                Claim your certificate!
-              </CTALinkOrButton>
+              <Congratulations courseTitle={courseTitle} courseUrl={unit.coursePath} />
             )}
           </div>
         </div>
