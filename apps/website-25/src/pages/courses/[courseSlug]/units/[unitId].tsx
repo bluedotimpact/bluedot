@@ -21,7 +21,7 @@ const CourseUnitPage = () => {
       <>
         {loading && <ProgressDots />}
         <UnitLayout
-          courseTitle={data.unit.courseTitle}
+          unit={unit}
           unitNumber={unitNumber}
           units={units}
         />

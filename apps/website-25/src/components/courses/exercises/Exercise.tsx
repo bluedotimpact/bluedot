@@ -6,7 +6,7 @@ import { GetExerciseResponse } from '../../../pages/api/courses/exercises/[exerc
 
 type ExerciseProps = {
   // Required
-  exerciseId?: string;
+  exerciseId: string;
 };
 
 const Exercise: React.FC<ExerciseProps> = ({
@@ -17,11 +17,16 @@ const Exercise: React.FC<ExerciseProps> = ({
     url: `/api/courses/exercises/${exerciseId}`,
   });
 
-  switch (data?.exercise.type) {
+  if (!data || !data.exercise) {
+    console.error('Exercise not found');
+    return null;
+  }
+
+  switch (data.exercise.type) {
     case 'Free text':
-      return <FreeTextResponse {...data?.exercise} />;
+      return <FreeTextResponse {...data.exercise} />;
     case 'Multiple choice':
-      return <MultipleChoice {...data?.exercise} />;
+      return <MultipleChoice {...data.exercise} />;
     default:
       return null;
   }

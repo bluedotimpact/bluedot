@@ -69,7 +69,7 @@ describe('UnitLayout', () => {
   test('renders default as expected', () => {
     const { container } = render(
       <UnitLayout
-        courseTitle="My Test Course"
+        unit={COURSE_UNITS[0]!}
         unitNumber={1}
         units={COURSE_UNITS}
       />,
@@ -80,12 +80,12 @@ describe('UnitLayout', () => {
   test('renders Congratulations on final unit', () => {
     const { container } = render(
       <UnitLayout
-        courseTitle="My Test Course"
+        unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
         unitNumber={COURSE_UNITS.length}
         units={COURSE_UNITS}
       />,
     );
     expect(container.querySelector('.unit__cta-link')).toBeNull();
-    expect(container.querySelector('.congratulations')).toBeTruthy();
+    expect(container.querySelector('.congratulations')).toMatchSnapshot();
   });
 });
