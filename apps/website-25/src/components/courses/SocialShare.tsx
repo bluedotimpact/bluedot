@@ -2,17 +2,22 @@ import React from 'react';
 import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa6';
 
 type SocialShareProps = {
-  courseUrl: string;
+  coursePath: string;
   referralCode?: string;
   text?: string;
 };
 
-const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text }) => {
+const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, text }) => {
+  const constructFullCourseUrl = (campaign: string) => {
+    const url = `bluedot.org${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
+    return referralCode ? `${url}&r=${referralCode}` : url;
+  }
+
   return (
     <div className="social-share flex flex-row gap-4">
       <a
         className="social-share__link size-6"
-        href={`https://www.linkedin.com/shareArticle?mini=true&url=${courseUrl}?r=${referralCode}&utm_source=referral&utm_campaign=linkedin&text=${text}`}
+        href={`https://www.linkedin.com/shareArticle?mini=true&url=${constructFullCourseUrl('linkedin')}${text && `&text=${text}`}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -20,7 +25,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://twitter.com/intent/tweet?text=${text}&url=${courseUrl}?r=${referralCode}`}
+        href={`https://twitter.com/intent/tweet?url=${constructFullCourseUrl('twitter')}${text && `&text=${text}`}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -28,7 +33,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ courseUrl, referralCode, text
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://www.facebook.com/sharer/sharer.php?u=${courseUrl}?r=${referralCode}&utm_source=referral&utm_campaign=fb&quote=${text}`}
+        href={`https://www.facebook.com/sharer/sharer.php?u=${constructFullCourseUrl('facebook')}${text && `&quote=${text}`}`}
         target="_blank"
         rel="noopener noreferrer"
       >

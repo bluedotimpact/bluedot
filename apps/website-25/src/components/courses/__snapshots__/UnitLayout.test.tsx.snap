@@ -21,7 +21,7 @@ exports[`UnitLayout > renders Congratulations on final unit 1`] = `
   >
     <a
       class="social-share__link size-6"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=/courses/test-course?r=undefined&utm_source=referral&utm_campaign=linkedin&text=undefined"
+      href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=linkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -42,7 +42,7 @@ exports[`UnitLayout > renders Congratulations on final unit 1`] = `
     </a>
     <a
       class="social-share__link size-6"
-      href="https://twitter.com/intent/tweet?text=undefined&url=/courses/test-course?r=undefined"
+      href="https://twitter.com/intent/tweet?url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=twitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -63,7 +63,7 @@ exports[`UnitLayout > renders Congratulations on final unit 1`] = `
     </a>
     <a
       class="social-share__link size-6"
-      href="https://www.facebook.com/sharer/sharer.php?u=/courses/test-course?r=undefined&utm_source=referral&utm_campaign=fb&quote=undefined"
+      href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=facebook&quote=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
       rel="noopener noreferrer"
       target="_blank"
     >

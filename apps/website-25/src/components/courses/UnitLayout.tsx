@@ -67,7 +67,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 Next unit
               </CTALinkOrButton>
             ) : (
-              <Congratulations courseTitle={unit.courseTitle} courseUrl={unit.coursePath} />
+              <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
             )}
           </div>
         </div>
