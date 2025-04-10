@@ -1,5 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`CTALinkOrButton > renders back chevron when withBackChevron is true 1`] = `null`;
+
+exports[`CTALinkOrButton > renders chevron when withChevron is true 1`] = `
+<span
+  class="cta-button__chevron ml-3"
+>
+  <img
+    alt="→"
+    class="cta-button__chevron-icon size-2"
+    src="/icons/chevron_white.svg"
+  />
+</span>
+`;
+
 exports[`CTALinkOrButton > renders with primary variant by default as a button 1`] = `
 <button
   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"

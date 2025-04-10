@@ -6,6 +6,7 @@ export type CTAProps = {
   className?: string;
   variant?: 'primary' | 'secondary';
   withChevron?: boolean;
+  withBackChevron?: boolean;
   children: React.ReactNode;
   url?: string;
   isExternalUrl?: boolean;
@@ -22,6 +23,7 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
   className,
   variant = 'primary',
   withChevron = false,
+  withBackChevron = false,
   children,
   url,
   isExternalUrl = false,
@@ -41,6 +43,15 @@ export const CTALinkOrButton: React.FC<CTAProps> = ({
         data-testid="cta-link"
         className={commonClassNames}
       >
+        {withBackChevron && (
+          <span className="cta-button__chevron mr-3">
+            <img
+              src={variant === 'primary' ? '/icons/chevron_white.svg' : '/icons/chevron_blue.svg'}
+              alt="←"
+              className="cta-button__chevron-icon size-2 rotate-180"
+            />
+          </span>
+        )}
         <span className="cta-button__text">{children}</span>
         {withChevron && (
           <span className="cta-button__chevron ml-3">
