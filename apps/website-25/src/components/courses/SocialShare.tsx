@@ -11,7 +11,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
   const constructFullCourseUrl = (campaign: string) => {
     const url = `bluedot.org${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
     return referralCode ? `${url}&r=${referralCode}` : url;
-  }
+  };
 
   return (
     <div className="social-share flex flex-row gap-4">

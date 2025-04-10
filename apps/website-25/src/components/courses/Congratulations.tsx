@@ -14,8 +14,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   referralCode,
   text,
 }) => {
-  const socialShareText = text || 
-    `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:`;
+  const socialShareText = text || `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:`;
 
   return (
     <div className="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center">
