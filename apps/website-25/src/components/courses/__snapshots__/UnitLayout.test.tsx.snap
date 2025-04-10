@@ -12,7 +12,7 @@ exports[`UnitLayout > renders default as expected 1`] = `
         <div
           class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
         >
-          My Test Course
+          What the fish [Test Course]
         </div>
         <h1
           class="hero-section__title text-on-dark text-center"
@@ -20,6 +20,59 @@ exports[`UnitLayout > renders default as expected 1`] = `
           Basic Principles of Fish
         </h1>
       </div>
+    </div>
+    <div
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
+    >
+      <nav
+        aria-label="Breadcrumbs"
+        class="breadcrumbs__nav section-base"
+      >
+        <ol
+          class="breadcrumbs__list flex"
+        >
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/"
+            >
+              Home
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses"
+            >
+              Courses
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses/test-course"
+            >
+              What the fish [Test Course]
+            </a>
+          </li>
+        </ol>
+      </nav>
     </div>
     <section
       class="section section-body unit__main"
