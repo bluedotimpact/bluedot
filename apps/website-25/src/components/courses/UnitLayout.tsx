@@ -28,6 +28,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
 }) => {
   const nextUnit = units[units.findIndex((u) => u === unit) + 1];
+  const prevUnit = units[units.findIndex((u) => u === unit) - 1];
 
   if (!unit) {
     // Should never happen
@@ -62,12 +63,28 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {unit.content}
             </MarkdownExtendedRenderer>
 
-            {nextUnit ? (
-              <CTALinkOrButton className="unit__cta-link self-end mt-6" url={nextUnit.path}>
-                Next unit
-              </CTALinkOrButton>
+            {!nextUnit ? (
+              <div className="last-unit">
+                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
+                <div className="last-unit__cta-container flex flex-row justify-between mt-6 mx-1">
+                  <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
+                    Back to course
+                  </CTALinkOrButton>
+                </div>
+              </div>
             ) : (
-              <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
+              <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1">
+                {prevUnit && (
+                  <CTALinkOrButton className="unit__cta-link mr-auto" url={prevUnit.path} variant="secondary" withBackChevron>
+                    Previous unit
+                  </CTALinkOrButton>
+                )}
+                {nextUnit && (
+                  <CTALinkOrButton className="unit__cta-link ml-auto" url={nextUnit.path} variant="primary" withChevron>
+                    Next unit
+                  </CTALinkOrButton>
+                )}
+              </div>
             )}
           </div>
         </div>

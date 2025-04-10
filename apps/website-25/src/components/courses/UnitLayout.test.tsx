@@ -66,7 +66,7 @@ const COURSE_UNITS = [
 ];
 
 describe('UnitLayout', () => {
-  test('renders default as expected', () => {
+  test('renders first unit as expected', () => {
     const { container } = render(
       <UnitLayout
         unit={COURSE_UNITS[0]!}
@@ -77,7 +77,18 @@ describe('UnitLayout', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders Congratulations on final unit', () => {
+  test('renders previous and next unit buttons for middle unit', () => {
+    const { container } = render(
+      <UnitLayout
+        unit={COURSE_UNITS[1]!}
+        unitNumber={2}
+        units={COURSE_UNITS}
+      />,
+    );
+    expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
+  });
+
+  test('renders Congratulations section on final unit', () => {
     const { container } = render(
       <UnitLayout
         unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
@@ -85,7 +96,7 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
-    expect(container.querySelector('.unit__cta-link')).toBeNull();
-    expect(container.querySelector('.congratulations')).toMatchSnapshot();
+    expect(container.querySelector('.unit__cta-container')).toBeNull();
+    expect(container.querySelector('.last-unit')).toMatchSnapshot();
   });
 });

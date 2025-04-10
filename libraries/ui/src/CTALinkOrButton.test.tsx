@@ -15,9 +15,14 @@ describe('CTALinkOrButton', () => {
 
   test('renders chevron when withChevron is true', () => {
     render(<CTALinkOrButton withChevron>Click me</CTALinkOrButton>);
-    const chevron = screen.getByAltText('→');
-    expect(chevron).toBeTruthy();
-    expect(chevron.getAttribute('src')).toBe('/icons/chevron_white.svg');
+    const chevron = document.querySelector('.cta-button__chevron');
+    expect(chevron).toMatchSnapshot();
+  });
+
+  test('renders back chevron when withBackChevron is true', () => {
+    render(<CTALinkOrButton withBackChevron>Click me</CTALinkOrButton>);
+    const chevron = document.querySelector('.cta-button__chevron');
+    expect(chevron).toMatchSnapshot();
   });
 
   test('renders as a link when url is provided', () => {
