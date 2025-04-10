@@ -7,7 +7,7 @@ exports[`SocialShare > renders default as expected 1`] = `
   >
     <a
       class="social-share__link size-6"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=https://course.bluedot.org/future-of-ai?r=5SR7C4&utm_source=referral&utm_campaign=linkedin&text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
+      href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=linkedin&r=5SR7C4&text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -28,7 +28,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     </a>
     <a
       class="social-share__link size-6"
-      href="https://twitter.com/intent/tweet?text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:&url=https://course.bluedot.org/future-of-ai?r=5SR7C4"
+      href="https://twitter.com/intent/tweet?url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=twitter&r=5SR7C4&text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -49,7 +49,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     </a>
     <a
       class="social-share__link size-6"
-      href="https://www.facebook.com/sharer/sharer.php?u=https://course.bluedot.org/future-of-ai?r=5SR7C4&utm_source=referral&utm_campaign=fb&quote=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
+      href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=facebook&r=5SR7C4&quote=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -71,3 +71,9 @@ exports[`SocialShare > renders default as expected 1`] = `
   </div>
 </div>
 `;
+
+exports[`SocialShare > renders without optional args 1`] = `"https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/future-of-ai?utm_source=referral&utm_campaign=linkedinundefined"`;
+
+exports[`SocialShare > renders without optional args 2`] = `"https://twitter.com/intent/tweet?url=bluedot.org/future-of-ai?utm_source=referral&utm_campaign=twitterundefined"`;
+
+exports[`SocialShare > renders without optional args 3`] = `"https://www.facebook.com/sharer/sharer.php?u=bluedot.org/future-of-ai?utm_source=referral&utm_campaign=facebookundefined"`;
