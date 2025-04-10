@@ -45,7 +45,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <HeroH1>{unit.title}</HeroH1>
       </HeroSection>
       <Breadcrumbs
-        className="unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10" 
+        className="unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
         route={{
           title: unit.courseTitle,
           url: unit.coursePath,
