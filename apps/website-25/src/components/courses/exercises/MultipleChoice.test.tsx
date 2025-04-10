@@ -2,17 +2,13 @@ import { render, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import MultipleChoice from './MultipleChoice';
 
-const mockOptions = [
-  'The training data includes explicit instructions for these tasks',
-  'The training data includes implicit instructions for these tasks',
-  'The training data includes no instructions for these tasks',
-];
+const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
 
 const mockArgs = {
   title: 'Understanding LLMs',
   description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
   options: mockOptions,
-  answer: mockOptions[0] as string,
+  answer: mockOptions.split('\n')[0] as string,
 };
 
 describe('MultipleChoice', () => {
