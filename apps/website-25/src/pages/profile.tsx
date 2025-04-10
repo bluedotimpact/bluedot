@@ -4,6 +4,7 @@ import {
   ProgressDots,
   Section,
   withAuth,
+  CTALinkOrButton,
   // useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
@@ -37,6 +38,9 @@ const ProfilePage = withAuth(({ auth }) => {
           <pre className="profile__content flex flex-col gap-4">
             {JSON.stringify(data.user, null, 2)}
           </pre>
+          <CTALinkOrButton url="/login/clear">
+            Logout
+          </CTALinkOrButton>
         </Section>
       </>
       )}
