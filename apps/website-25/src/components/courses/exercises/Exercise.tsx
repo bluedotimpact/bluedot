@@ -18,7 +18,8 @@ const Exercise: React.FC<ExerciseProps> = ({
   });
 
   if (!data || !data.exercise) {
-    throw new Error('Exercise not found');
+    console.error('Exercise not found');
+    return null;
   }
 
   switch (data.exercise.type) {
