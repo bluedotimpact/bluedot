@@ -19,8 +19,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    courseUrl: 'https://course.bluedot.org/future-of-ai',
+    coursePath: '/courses/future-of-ai',
     referralCode: '5SR7C4',
-    text: 'I\'ve just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:',
+    text: 'This is my custom text for this course!',
   },
 };
