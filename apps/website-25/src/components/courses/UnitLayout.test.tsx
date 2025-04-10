@@ -86,6 +86,6 @@ describe('UnitLayout', () => {
       />,
     );
     expect(container.querySelector('.unit__cta-link')).toBeNull();
-    expect(container.querySelector('.congratulations')).toBeTruthy();
+    expect(container.querySelector('.congratulations')).toMatchSnapshot();
   });
 });
