@@ -176,7 +176,7 @@ export interface User extends Item {
   utmCampaign: string,
   utmContent: string,
   courseSitesVisited: string,
-  completedMoocAt: number,
+  completedMoocAt: number | null,
 }
 
 export const userTable: Table<User> = {
@@ -207,6 +207,6 @@ export const userTable: Table<User> = {
     utmCampaign: 'string',
     utmContent: 'string',
     courseSitesVisited: 'string',
-    completedMoocAt: 'number',
+    completedMoocAt: 'number | null',
   },
 };
