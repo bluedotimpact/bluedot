@@ -7,7 +7,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 describe('MarkdownExtendedRenderer', () => {
   test('renders nothing when children is undefined', () => {
     const { container } = render(<MarkdownExtendedRenderer />);
-    const element = container.querySelector('.flex.flex-col.gap-4');
+    const element = container.querySelector('.markdown-extended-renderer');
     expect(element?.children.length).toBe(0);
   });
 
@@ -18,7 +18,7 @@ describe('MarkdownExtendedRenderer', () => {
         {emptyString}
       </MarkdownExtendedRenderer>,
     );
-    const element = container.querySelector('.flex.flex-col.gap-4');
+    const element = container.querySelector('.markdown-extended-renderer');
     expect(element?.children.length).toBe(0);
   });
 

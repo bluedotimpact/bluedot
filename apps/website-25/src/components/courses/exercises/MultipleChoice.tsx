@@ -1,4 +1,5 @@
 import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
+import clsx from 'clsx';
 import React from 'react';
 
 type MultipleChoiceProps = {
@@ -7,6 +8,7 @@ type MultipleChoiceProps = {
   description: string;
   options: string;
   answer: string;
+  className?: string;
 };
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({
@@ -14,6 +16,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   description,
   options,
   answer,
+  className,
 }) => {
   /**
    * Options are stored as a string with newlines
@@ -42,7 +45,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const isIncorrect = submittedOption && submittedOption !== formattedAnswer;
 
   return (
-    <div className="multiple-choice container-lined bg-white p-8 flex flex-col gap-6">
+    <div className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="multiple-choice__header flex flex-col gap-4">
         <div className="multiple-choice__header-icon">
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
