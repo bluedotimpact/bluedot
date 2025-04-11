@@ -38,12 +38,12 @@ const ProfilePage = withAuth(({ auth }) => {
         <Section
           className="profile max-w-[728px]"
         >
-          <div className="flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+          <div className="profile__account-details flex flex-col gap-4 container-lined bg-white p-8 mb-4">
             <h3>Account details</h3>
             <p>Name: {data.user.name}</p>
             <p>Email: {data.user.email}</p>
           </div>
-          <div className="flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4">
+          <div className="profile__course-progress flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4">
             {data.user.courseSitesVisited.length > 0 ? (
               <>
                 <h3>{data.user.courseSitesVisited}</h3>
@@ -55,7 +55,7 @@ const ProfilePage = withAuth(({ auth }) => {
           </div>
           {data.user.completedMoocAt && (
             <Congratulations
-              className="!container-active"
+              className="profile__course-completion !container-active"
               courseTitle={data.user.courseSitesVisited}
               coursePath={data.user.courseSitesVisited}
               referralCode={data.user.referralId}
@@ -63,8 +63,8 @@ const ProfilePage = withAuth(({ auth }) => {
           )}
         </Section>
         {/* TODO #644: Move to Nav */}
-        <Section className="flex flex-row justify-center">
-          <CTALinkOrButton url="/login/clear" variant="secondary">
+        <Section className="profile__cta-container flex flex-row justify-center">
+          <CTALinkOrButton className="profile__logout" url="/login/clear" variant="secondary">
             Logout
           </CTALinkOrButton>
         </Section>
