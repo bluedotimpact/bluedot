@@ -3,7 +3,7 @@
 exports[`MultipleChoice > renders default as expected 1`] = `
 <div>
   <div
-    class="multiple-choice container-lined bg-white p-8 flex flex-col gap-6 undefined"
+    class="multiple-choice container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
       class="multiple-choice__header flex flex-col gap-4"

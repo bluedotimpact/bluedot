@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -29,7 +30,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   };
 
   return (
-    <div className={`free-text-response container-lined bg-white p-8 flex flex-col gap-6 ${className}`}>
+    <div className={clsx('free-text-response container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="free-text-response__header flex flex-col gap-4">
         <div className="free-text-response__header-icon">
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
