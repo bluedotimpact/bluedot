@@ -3,7 +3,7 @@
 exports[`FreeTextResponse > renders default as expected 1`] = `
 <div>
   <div
-    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6 undefined"
   >
     <div
       class="free-text-response__header flex flex-col gap-4"

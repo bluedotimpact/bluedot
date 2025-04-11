@@ -22,11 +22,13 @@ const Exercise: React.FC<ExerciseProps> = ({
     return null;
   }
 
+  const exerciseClassNames = 'exercise not-prose my-6';
+
   switch (data.exercise.type) {
     case 'Free text':
-      return <FreeTextResponse {...data.exercise} />;
+      return <FreeTextResponse className={exerciseClassNames} {...data.exercise} />;
     case 'Multiple choice':
-      return <MultipleChoice {...data.exercise} />;
+      return <MultipleChoice className={exerciseClassNames} {...data.exercise} />;
     default:
       return null;
   }

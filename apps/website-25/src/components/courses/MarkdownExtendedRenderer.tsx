@@ -37,7 +37,8 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children })
   }, [children, setComponent]);
 
   return (
-    <div className="markdown-extended-renderer flex flex-col gap-4">
+    // See globals.css for advanced prose styles
+    <div className="markdown-extended-renderer prose">
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );

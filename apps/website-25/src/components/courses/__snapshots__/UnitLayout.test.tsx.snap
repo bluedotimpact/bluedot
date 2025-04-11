@@ -325,7 +325,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
             <div
-              class="markdown-extended-renderer flex flex-col gap-4"
+              class="markdown-extended-renderer prose"
             />
             <div
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1"

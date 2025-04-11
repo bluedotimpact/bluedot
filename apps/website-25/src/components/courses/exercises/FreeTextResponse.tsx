@@ -6,11 +6,13 @@ type FreeTextResponseProps = {
   // Required
   title: string;
   description: string;
+  className?: string;
 };
 
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   title,
   description,
+  className,
 }) => {
   const [submittedOption, setSubmittedOption] = React.useState<string | null>(null);
   const [isSaved, setIsSaved] = React.useState<boolean>(false);
@@ -27,7 +29,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   };
 
   return (
-    <div className="free-text-response container-lined bg-white p-8 flex flex-col gap-6">
+    <div className={`free-text-response container-lined bg-white p-8 flex flex-col gap-6 ${className}`}>
       <div className="free-text-response__header flex flex-col gap-4">
         <div className="free-text-response__header-icon">
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
