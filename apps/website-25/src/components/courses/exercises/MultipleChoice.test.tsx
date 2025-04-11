@@ -2,17 +2,13 @@ import { render, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import MultipleChoice from './MultipleChoice';
 
-const mockOptions = [
-  'The training data includes explicit instructions for these tasks',
-  'The training data includes implicit instructions for these tasks',
-  'The training data includes no instructions for these tasks',
-];
+const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
 
 const mockArgs = {
   title: 'Understanding LLMs',
   description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
   options: mockOptions,
-  answer: mockOptions[0] as string,
+  answer: 'The community\'s preference for low-tech fishing traditions\n',
 };
 
 describe('MultipleChoice', () => {
@@ -30,7 +26,8 @@ describe('MultipleChoice', () => {
       <MultipleChoice {...mockArgs} />,
     );
     // Select the first option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[0]}']`) as HTMLElement;
+    const optionEls = container.querySelectorAll('.multiple-choice__input');
+    const optionEl = optionEls[0] as HTMLInputElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
     optionEl?.click();
     // Expect 'selected' state change
@@ -45,11 +42,11 @@ describe('MultipleChoice', () => {
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
-        answer={mockArgs.options[0] as string}
       />,
     );
     // Select the correct option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[0]}']`) as HTMLElement;
+    const optionEls = container.querySelectorAll('.multiple-choice__input');
+    const optionEl = optionEls[0] as HTMLInputElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
     optionEl?.click();
     // Submit the answer
@@ -69,11 +66,11 @@ describe('MultipleChoice', () => {
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
-        answer={mockArgs.options[0] as string}
       />,
     );
     // Select the second option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[1]}']`) as HTMLElement;
+    const optionEls = container.querySelectorAll('.multiple-choice__input');
+    const optionEl = optionEls[1] as HTMLInputElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
     optionEl?.click();
     // Submit the answer
