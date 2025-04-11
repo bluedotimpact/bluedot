@@ -19,7 +19,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
    * Options are stored as a string with newlines
    * Format them to be an array of strings with no empty strings (i.e., removing trailing return statements)
    */
-  const formattedOptions = options.split('\n').map(o => o.trim()).filter(o => o !== '');
+  const formattedOptions = (options.split('\n').map((o) => o.trim()).filter((o) => o !== ''));
   const formattedAnswer = answer.trim();
 
   const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
