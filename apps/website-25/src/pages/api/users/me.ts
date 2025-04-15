@@ -27,7 +27,7 @@ export default makeApiRoute({
   const courseNames = user?.courseSitesVisited.split(',') ?? [];
 
   if (courseNames.length > 1) {
-    throw new Error('Users with multiple courses are not supported yet');
+    console.error('Users with multiple courses are not supported yet, only returning the first coursePath');
   }
 
   const course = (await db.scan(courseTable, {
