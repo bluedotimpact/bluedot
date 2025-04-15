@@ -49,7 +49,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     </a>
     <a
       class="social-share__link size-6"
-      href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook%26r%3D5SR7C4&quote=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
+      href="https://www.facebook.com/sharer/sharer.php"
       rel="noopener noreferrer"
       target="_blank"
     >
@@ -76,4 +76,4 @@ exports[`SocialShare > renders without optional args 1`] = `"https://www.linkedi
 
 exports[`SocialShare > renders without optional args 2`] = `"https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitterundefined"`;
 
-exports[`SocialShare > renders without optional args 3`] = `"https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebookundefined"`;
+exports[`SocialShare > renders without optional args 3`] = `"https://www.facebook.com/sharer/sharer.php"`;

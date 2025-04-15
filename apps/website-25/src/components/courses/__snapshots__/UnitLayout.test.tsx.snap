@@ -66,7 +66,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook&quote=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.facebook.com/sharer/sharer.php"
         rel="noopener noreferrer"
         target="_blank"
       >
