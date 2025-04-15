@@ -18,7 +18,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>
     <div
-      class="social-share flex flex-row gap-4 items-center"
+      class="social-share flex flex-row gap-4"
     >
       <a
         class="social-share__link size-6"
@@ -106,7 +106,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>
     <div
-      class="social-share flex flex-row gap-4 items-center"
+      class="social-share flex flex-row gap-4"
     >
       <a
         class="social-share__link size-6"

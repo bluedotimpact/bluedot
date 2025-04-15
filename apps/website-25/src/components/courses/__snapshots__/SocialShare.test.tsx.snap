@@ -3,7 +3,7 @@
 exports[`SocialShare > renders default as expected 1`] = `
 <div>
   <div
-    class="social-share flex flex-row gap-4 items-center"
+    class="social-share flex flex-row gap-4"
   >
     <a
       class="social-share__link size-6"
