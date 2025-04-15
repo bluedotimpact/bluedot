@@ -27,6 +27,7 @@ export default makeApiRoute({
   const courseNames = user?.courseSitesVisited.split(',') ?? [];
 
   if (courseNames.length > 1) {
+    // eslint-disable-next-line no-console
     console.error('Users with multiple courses are not supported yet, only returning the first coursePath');
   }
 
