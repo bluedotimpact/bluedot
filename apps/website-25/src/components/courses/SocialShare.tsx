@@ -34,7 +34,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(constructFullCourseUrl('facebook'))}${text && `&quote=${text}`}`}
+        href="https://www.facebook.com/sharer/sharer.php"
         target="_blank"
         rel="noopener noreferrer"
       >
