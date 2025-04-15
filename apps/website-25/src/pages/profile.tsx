@@ -25,6 +25,8 @@ const ProfilePage = withAuth(({ auth }) => {
     },
   });
 
+  const completedMooc = !!data?.user.completedMoocAt;
+
   return (
     <div>
       {loading && <ProgressDots />}
@@ -47,17 +49,23 @@ const ProfilePage = withAuth(({ auth }) => {
             {data.user.courseSitesVisited.length > 0 ? (
               <>
                 <h3>{data.user.courseSitesVisited}</h3>
-                <p>{data.user.completedMoocAt ? 'Completed 🎉' : 'In progress'}</p>
+                {completedMooc ? (
+                  <p>Completed 🎉</p>
+                ) : (
+                  <CTALinkOrButton url={data.user.coursePath} variant="primary">
+                    Continue
+                  </CTALinkOrButton>
+                )}
               </>
             ) : (
               <p>You have not enrolled in any courses yet.</p>
             )}
           </div>
-          {data.user.completedMoocAt && (
+          {completedMooc && (
             <Congratulations
               className="profile__course-completion !container-active"
               courseTitle={data.user.courseSitesVisited}
-              coursePath={data.user.courseSitesVisited}
+              coursePath={data.user.coursePath}
               referralCode={data.user.referralId}
             />
           )}

@@ -5,11 +5,12 @@ import db from '../../../lib/api/db';
 import {
   userTable,
   User,
+  courseTable,
 } from '../../../lib/api/db/tables';
 
 export type GetUserResponse = {
-  type: 'success',
-  user: User,
+  type: 'success';
+  user: User & { coursePath: string };
 };
 
 export default makeApiRoute({
@@ -23,13 +24,25 @@ export default makeApiRoute({
     filterByFormula: `{Email} = "${auth.email}"`,
   }))[0];
 
+  const courseNames = user?.courseSitesVisited.split(',') ?? [];
+
+  if (courseNames.length > 1) {
+    throw new Error('Users with multiple courses are not supported yet');
+  }
+
+  const course = (await db.scan(courseTable, {
+    filterByFormula: `{Course} = "${courseNames[0]}"`,
+  }))[0];
+
   if (!user) {
     // In practice we might want to create a user for them if this is the case
     throw new createHttpError.NotFound('User not found');
   }
 
-  return {
+  const res: GetUserResponse = {
     type: 'success' as const,
-    user,
+    user: { ...user, coursePath: course?.path ?? '' },
   };
+
+  return res;
 });
