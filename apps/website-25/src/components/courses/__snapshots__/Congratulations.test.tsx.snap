@@ -18,11 +18,11 @@ exports[`Congratulations > renders default as expected 1`] = `
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>
     <div
-      class="social-share flex flex-row gap-4"
+      class="social-share flex flex-row gap-4 items-center"
     >
       <a
         class="social-share__link size-6"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=linkedin&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -43,7 +43,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://twitter.com/intent/tweet?url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=twitter&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -64,7 +64,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=facebook&quote=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook&quote=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -106,11 +106,11 @@ exports[`Congratulations > renders with custom args 1`] = `
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>
     <div
-      class="social-share flex flex-row gap-4"
+      class="social-share flex flex-row gap-4 items-center"
     >
       <a
         class="social-share__link size-6"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=linkedin&r=ABCDEF&text=This is a custom text I've written for this course!"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin%26r%3DABCDEF&text=This is a custom text I've written for this course!"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -131,7 +131,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://twitter.com/intent/tweet?url=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=twitter&r=ABCDEF&text=This is a custom text I've written for this course!"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter%26r%3DABCDEF&text=This is a custom text I've written for this course!"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -152,7 +152,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/future-of-ai?utm_source=referral&utm_campaign=facebook&r=ABCDEF&quote=This is a custom text I've written for this course!"
+        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook%26r%3DABCDEF&quote=This is a custom text I've written for this course!"
         rel="noopener noreferrer"
         target="_blank"
       >

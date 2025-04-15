@@ -15,7 +15,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
   };
 
   return (
-    <div className="social-share flex flex-row gap-4 items-center">
+    <div className="social-share flex flex-row gap-4">
       <a
         className="social-share__link size-6"
         href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text && `&text=${text}`}`}
