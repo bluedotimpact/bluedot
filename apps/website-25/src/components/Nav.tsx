@@ -1,11 +1,14 @@
 import clsx from 'clsx';
 import React, {
   useCallback, useState, useEffect,
+  useRef,
 } from 'react';
+import { FaCircleUser } from 'react-icons/fa6';
 import ClickAwayListener from 'react-click-away-listener';
 
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
-import { HamburgerButton } from '@bluedot/ui/src/HamburgerButton';
+import { IconButton, HamburgerIcon } from '@bluedot/ui/src/IconButton';
+import { useAuthStore } from '@bluedot/ui';
 import { ROUTES } from '../lib/routes';
 
 export type NavProps = React.PropsWithChildren<{
@@ -114,28 +117,50 @@ const NavLinks: React.FC<{
   );
 };
 
-const CTAButtons: React.FC<{ className?: string; primaryCtaText?: string; primaryCtaUrl?: string }> = ({
+const ProfileLinks: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
+  const linkClasses = clsx('nav-link-animation w-fit', isScrolled && 'nav-link-animation-dark');
+
+  return (
+    <div className="nav__profile-dropdown flex flex-col gap-4 font-medium pb-10 items-end">
+      <a href={ROUTES.profile.url} className={clsx('nav__profile-link', linkClasses)}>Profile</a>
+      <a href={ROUTES.contact.url} className={clsx('nav__profile-link', linkClasses)}>Help</a>
+      <a href={ROUTES.logout.url} className={clsx('nav__profile-link', linkClasses)}>Log out</a>
+    </div>
+  );
+};
+
+const CTAButtons: React.FC<{
+  className?: string;
+  primaryCtaText?: string;
+  primaryCtaUrl?: string;
+  isLoggedIn: boolean;
+}> = ({
   className,
   primaryCtaText = 'Support us',
   primaryCtaUrl = 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA',
-}) => (
-  <div className={clsx('nav__cta-container', className)}>
-    <CTALinkOrButton
-      className="nav__secondary-cta"
-      variant="secondary"
-      url="https://course.bluedot.org/login"
-    >
-      Login
-    </CTALinkOrButton>
-    <CTALinkOrButton
-      className="nav__primary-cta"
-      variant="primary"
-      url={primaryCtaUrl}
-    >
-      {primaryCtaText}
-    </CTALinkOrButton>
-  </div>
-);
+  isLoggedIn,
+}) => {
+  return (
+    <div className={clsx('nav__cta-container', className)}>
+      {!isLoggedIn && (
+        <CTALinkOrButton
+          className="nav__secondary-cta"
+          variant="secondary"
+          url="https://course.bluedot.org/login"
+        >
+          Login
+        </CTALinkOrButton>
+      )}
+      <CTALinkOrButton
+        className="nav__primary-cta"
+        variant="primary"
+        url={primaryCtaUrl}
+      >
+        {primaryCtaText}
+      </CTALinkOrButton>
+    </div>
+  );
+};
 
 export const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
@@ -146,9 +171,22 @@ export const isCurrentPath = (url: string): boolean => {
 export const Nav: React.FC<NavProps> = ({
   className, logo, courses, primaryCtaText, primaryCtaUrl,
 }) => {
-  const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore'>('none');
-  const navExpanded = expandedSections === 'nav' || expandedSections === 'nav-and-explore';
+  const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore' | 'profile'>('none');
+
+  const drawerOpen = expandedSections !== 'none';
+  const navExpanded = expandedSections.includes('nav');
   const exploreExpanded = expandedSections === 'nav-and-explore';
+  const isProfileExpanded = expandedSections === 'profile';
+
+  // Capture the most recent contents of the drawer, to preserve the state while it is closing
+  const latestDrawerContentsRef = useRef<'profile' | 'nav'>('nav');
+  if (isProfileExpanded && latestDrawerContentsRef.current === 'nav') {
+    latestDrawerContentsRef.current = 'profile';
+  } else if (navExpanded && latestDrawerContentsRef.current === 'profile') {
+    latestDrawerContentsRef.current = 'nav';
+  }
+
+  const isLoggedIn = !!useAuthStore((s) => s.auth);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -157,14 +195,19 @@ export const Nav: React.FC<NavProps> = ({
   }, []);
 
   const onToggleNav = useCallback(() => {
-    setExpandedSections((prev) => (prev === 'none' ? 'nav' : 'none'));
+    setExpandedSections((prev) => (
+      prev === 'nav' || prev === 'nav-and-explore' ? 'none' : 'nav'
+    ));
+  }, []);
+
+  const onToggleProfile = useCallback(() => {
+    setExpandedSections((prev) => (prev === 'profile' ? 'none' : 'profile'));
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -179,21 +222,29 @@ export const Nav: React.FC<NavProps> = ({
     >
       <ClickAwayListener onClickAway={() => setExpandedSections('none')}>
         <div className="nav__container section-base">
-          <div className="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
-            <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-              {logo ? (
-                <img
-                  className={clsx(
-                    'nav__logo h-6 mr-auto transition-all duration-300',
-                    isScrolled && 'brightness-0 invert',
-                  )}
-                  src={logo}
-                  alt="BlueDot Impact Logo"
-                />
-              ) : (
-                <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
-              )}
-            </a>
+          <div className="nav__bar w-full flex justify-between lg:grid lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
+            <div className="flex gap-space-between items-center">
+              <IconButton
+                open={navExpanded}
+                Icon={<HamburgerIcon />}
+                setOpen={onToggleNav}
+                className="nav__menu--mobile-tablet mr-2 lg:hidden"
+              />
+              <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+                {logo ? (
+                  <img
+                    className={clsx(
+                      'nav__logo h-6 mr-auto transition-all duration-300',
+                      isScrolled && 'brightness-0 invert',
+                    )}
+                    src={logo}
+                    alt="BlueDot Impact Logo"
+                  />
+                ) : (
+                  <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
+                )}
+              </a>
+            </div>
             <NavLinks
               onToggleExplore={onToggleExplore}
               exploreExpanded={exploreExpanded}
@@ -201,42 +252,61 @@ export const Nav: React.FC<NavProps> = ({
               isScrolled={isScrolled}
               className="nav__links--desktop hidden lg:flex mx-auto"
             />
-            <div className="nav__actions flex gap-space-between ml-auto">
-              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
-              <HamburgerButton
-                open={navExpanded}
-                setOpen={onToggleNav}
-                className="nav__menu--mobile-tablet lg:hidden"
+            <div className="nav__actions flex gap-space-between ml-auto items-center">
+              <CTAButtons
+                primaryCtaText={primaryCtaText}
+                primaryCtaUrl={primaryCtaUrl}
+                isLoggedIn={isLoggedIn}
+                className="nav__login--tablet-desktop gap-6 hidden sm:flex"
               />
+              {isLoggedIn && (
+                <IconButton
+                  open={isProfileExpanded}
+                  Icon={<FaCircleUser className="size-[24px] opacity-75" />}
+                  setOpen={onToggleProfile}
+                  className="nav__profile-menu ml-2"
+                />
+              )}
             </div>
           </div>
 
           <div
             className={clsx(
               'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
-              navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
+              drawerOpen ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
             )}
           >
-            {/* Desktop Explore section */}
-            <ExploreSection
-              expanded={exploreExpanded}
-              courses={courses}
-              className="nav__drawer-content--desktop"
-              innerClassName="pb-10 hidden lg:flex mx-auto"
-              isScrolled={isScrolled}
-            />
-            {/* Mobile & Tablet content (including Explore) */}
-            <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
-              <NavLinks
-                onToggleExplore={onToggleExplore}
-                exploreExpanded={exploreExpanded}
-                exploreSectionInline
-                courses={courses}
-                isScrolled={isScrolled}
-                className="nav__links--mobile-tablet flex-col"
-              />
-              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden" />
-            </div>
+            {(latestDrawerContentsRef.current === 'profile') ? (
+              <ProfileLinks isScrolled={isScrolled} />
+            ) : (
+              <>
+                {/* Desktop Explore section */}
+                <ExploreSection
+                  expanded={exploreExpanded}
+                  courses={courses}
+                  className="nav__drawer-content--desktop"
+                  innerClassName="pb-10 hidden lg:flex mx-auto"
+                  isScrolled={isScrolled}
+                />
+                {/* Mobile & Tablet content (including Explore) */}
+                <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
+                  <NavLinks
+                    onToggleExplore={onToggleExplore}
+                    exploreExpanded={exploreExpanded}
+                    exploreSectionInline
+                    courses={courses}
+                    isScrolled={isScrolled}
+                    className="nav__links--mobile-tablet flex-col"
+                  />
+                  <CTAButtons
+                    primaryCtaText={primaryCtaText}
+                    primaryCtaUrl={primaryCtaUrl}
+                    className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
+                    isLoggedIn={isLoggedIn}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </ClickAwayListener>

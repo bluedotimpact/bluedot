@@ -6,11 +6,16 @@ import {
   Section,
   withAuth,
   CTALinkOrButton,
+  Breadcrumbs,
   // useAuthStore,
 } from '@bluedot/ui';
+import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { GetUserResponse } from './api/users/me';
 import Congratulations from '../components/courses/Congratulations';
+import { ROUTES } from '../lib/routes';
+
+const CURRENT_ROUTE = ROUTES.profile;
 
 // withAuth will redirect the user to login before viewing the page
 // If you want to get the user's token without redirecting them, use useAuthStore (which will be null if they're not logged in)
@@ -27,6 +32,10 @@ const ProfilePage = withAuth(({ auth }) => {
 
   return (
     <div>
+      <Head>
+        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
+        <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
+      </Head>
       {loading && <ProgressDots />}
       {/* TODO: error page */}
       {data?.user && (
@@ -35,6 +44,7 @@ const ProfilePage = withAuth(({ auth }) => {
           <HeroH1>Your profile</HeroH1>
           <HeroH2>See your progress and share your learnings</HeroH2>
         </HeroSection>
+        <Breadcrumbs route={CURRENT_ROUTE} />
         <Section
           className="profile max-w-[728px]"
         >

@@ -41,6 +41,18 @@ const courses: BluedotRoute = {
   parentPages: [home],
 };
 
+const profile: BluedotRoute = {
+  title: 'Profile',
+  url: '/profile',
+  parentPages: [home],
+};
+
+const logout: BluedotRoute = {
+  title: 'Log out',
+  url: '/login/clear',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   home,
   about,
@@ -49,4 +61,6 @@ export const ROUTES = {
   contact,
   certification,
   courses,
+  profile,
+  logout,
 } as const;
