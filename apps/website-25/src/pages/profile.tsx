@@ -34,7 +34,6 @@ const ProfilePage = withAuth(({ auth }) => {
     <div>
       <Head>
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
-        <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
       </Head>
       {loading && <ProgressDots />}
       {/* TODO: error page */}

@@ -66,7 +66,6 @@ describe('Nav', () => {
       <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
-    // Now the profile button should appear since we've mocked auth
     const profileButton = container.querySelector('.nav__profile-menu');
     expect(profileButton).not.toBeNull();
 

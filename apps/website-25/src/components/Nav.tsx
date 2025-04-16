@@ -208,6 +208,7 @@ export const Nav: React.FC<NavProps> = ({
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);

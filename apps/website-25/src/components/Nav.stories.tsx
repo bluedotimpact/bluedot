@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import imgSrc from '../../public/images/logo/BlueDot_Impact_Logo.svg';
 import { Nav } from './Nav';
 
