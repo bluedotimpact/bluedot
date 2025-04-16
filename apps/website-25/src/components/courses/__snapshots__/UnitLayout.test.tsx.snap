@@ -24,7 +24,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
     >
       <a
         class="social-share__link size-6"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=linkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -45,7 +45,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://twitter.com/intent/tweet?url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=twitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -66,7 +66,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=facebook&quote=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.facebook.com/sharer/sharer.php"
         rel="noopener noreferrer"
         target="_blank"
       >
