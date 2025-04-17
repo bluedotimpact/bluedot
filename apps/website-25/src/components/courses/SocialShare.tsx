@@ -18,7 +18,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
     <div className="social-share flex flex-row gap-4">
       <a
         className="social-share__link size-6"
-        href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text && `&text=${text}`}`}
+        href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -26,7 +26,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(constructFullCourseUrl('twitter'))}${text && `&text=${text}`}`}
+        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(constructFullCourseUrl('twitter'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
         rel="noopener noreferrer"
       >
