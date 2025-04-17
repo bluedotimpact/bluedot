@@ -72,8 +72,8 @@ exports[`SocialShare > renders default as expected 1`] = `
 </div>
 `;
 
-exports[`SocialShare > renders without optional args 1`] = `"https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedinundefined"`;
+exports[`SocialShare > renders without optional args 1`] = `"https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin"`;
 
-exports[`SocialShare > renders without optional args 2`] = `"https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitterundefined"`;
+exports[`SocialShare > renders without optional args 2`] = `"https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter"`;
 
 exports[`SocialShare > renders without optional args 3`] = `"https://www.facebook.com/sharer/sharer.php"`;
