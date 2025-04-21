@@ -1,8 +1,5 @@
 import clsx from 'clsx';
-import React, {
-  useCallback, useState, useEffect,
-  useRef,
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCircleUser } from 'react-icons/fa6';
 import ClickAwayListener from 'react-click-away-listener';
 
@@ -22,6 +19,8 @@ export type NavProps = React.PropsWithChildren<{
     isNew?: boolean;
   }>;
 }>;
+
+const TRANSITION_DURATION_CLASS = 'duration-300';
 
 const DropdownIcon: React.FC<{ expanded: boolean }> = ({ expanded }) => (
   <svg
@@ -45,7 +44,7 @@ const ExploreSection: React.FC<{
 }) => (
   <div
     className={clsx(
-      'nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300',
+      `nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
       expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
       isScrolled && '[&_a]:link-on-dark',
       className,
@@ -171,38 +170,20 @@ export const isCurrentPath = (url: string): boolean => {
 export const Nav: React.FC<NavProps> = ({
   className, logo, courses, primaryCtaText, primaryCtaUrl,
 }) => {
-  const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore' | 'profile'>('none');
+  const [expandedSections, setExpandedSections] = useState<'none' | 'mobile-nav' | 'explore' | 'profile'>('none');
 
-  const drawerOpen = expandedSections !== 'none';
-  const navExpanded = expandedSections.includes('nav');
-  const exploreExpanded = expandedSections === 'nav-and-explore';
-  const isProfileExpanded = expandedSections === 'profile';
-
-  // Capture the most recent contents of the drawer, to preserve the state while it is closing
-  const latestDrawerContentsRef = useRef<'profile' | 'nav'>('nav');
-  if (isProfileExpanded && latestDrawerContentsRef.current === 'nav') {
-    latestDrawerContentsRef.current = 'profile';
-  } else if (navExpanded && latestDrawerContentsRef.current === 'profile') {
-    latestDrawerContentsRef.current = 'nav';
-  }
+  const mobileNavExpanded = expandedSections === 'mobile-nav' || expandedSections === 'explore';
+  const exploreExpanded = expandedSections === 'explore';
+  const profileExpanded = expandedSections === 'profile';
+  const anyDrawerOpen = profileExpanded || mobileNavExpanded;
 
   const isLoggedIn = !!useAuthStore((s) => s.auth);
 
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const onToggleExplore = useCallback(() => {
-    setExpandedSections((prev) => (prev === 'nav-and-explore' ? 'nav' : 'nav-and-explore'));
-  }, []);
-
-  const onToggleNav = useCallback(() => {
-    setExpandedSections((prev) => (
-      prev === 'nav' || prev === 'nav-and-explore' ? 'none' : 'nav'
-    ));
-  }, []);
-
-  const onToggleProfile = useCallback(() => {
-    setExpandedSections((prev) => (prev === 'profile' ? 'none' : 'profile'));
-  }, []);
+  const onToggleExplore = () => setExpandedSections(exploreExpanded ? 'mobile-nav' : 'explore');
+  const onToggleNav = () => setExpandedSections(mobileNavExpanded ? 'none' : 'mobile-nav');
+  const onToggleProfile = () => setExpandedSections(profileExpanded ? 'none' : 'profile');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -213,10 +194,16 @@ export const Nav: React.FC<NavProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const drawerBaseClassName = 'transition-[max-height,opacity] relative overflow-hidden px-3';
+  const drawerClosedClassName = `max-h-0 opacity-0 ${
+    anyDrawerOpen ? 'duration-0' : TRANSITION_DURATION_CLASS
+  }`; // Close instantly if any other drawer has been opened
+  const drawerOpenClassName = `max-h-[700px] opacity-100 ${TRANSITION_DURATION_CLASS}`;
+
   return (
     <nav
       className={clsx(
-        'nav sticky top-0 z-50 w-full container-elevated transition-all duration-300',
+        `nav sticky top-0 z-50 w-full container-elevated transition-all ${TRANSITION_DURATION_CLASS}`,
         isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-color-canvas',
         className,
       )}
@@ -226,7 +213,7 @@ export const Nav: React.FC<NavProps> = ({
           <div className="nav__bar w-full flex justify-between lg:grid lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
             <div className="flex gap-space-between items-center">
               <IconButton
-                open={navExpanded}
+                open={mobileNavExpanded}
                 Icon={<HamburgerIcon />}
                 setOpen={onToggleNav}
                 className="nav__menu--mobile-tablet mr-2 lg:hidden"
@@ -235,7 +222,7 @@ export const Nav: React.FC<NavProps> = ({
                 {logo ? (
                   <img
                     className={clsx(
-                      'nav__logo h-6 mr-auto transition-all duration-300',
+                      `nav__logo h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`,
                       isScrolled && 'brightness-0 invert',
                     )}
                     src={logo}
@@ -262,7 +249,7 @@ export const Nav: React.FC<NavProps> = ({
               />
               {isLoggedIn && (
                 <IconButton
-                  open={isProfileExpanded}
+                  open={profileExpanded}
                   Icon={<FaCircleUser className="size-[24px] opacity-75" />}
                   setOpen={onToggleProfile}
                   className="nav__profile-menu ml-2"
@@ -270,44 +257,34 @@ export const Nav: React.FC<NavProps> = ({
               )}
             </div>
           </div>
-
-          <div
-            className={clsx(
-              'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
-              drawerOpen ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
-            )}
-          >
-            {(latestDrawerContentsRef.current === 'profile') ? (
-              <ProfileLinks isScrolled={isScrolled} />
-            ) : (
-              <>
-                {/* Desktop Explore section */}
-                <ExploreSection
-                  expanded={exploreExpanded}
-                  courses={courses}
-                  className="nav__drawer-content--desktop"
-                  innerClassName="pb-10 hidden lg:flex mx-auto"
-                  isScrolled={isScrolled}
-                />
-                {/* Mobile & Tablet content (including Explore) */}
-                <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
-                  <NavLinks
-                    onToggleExplore={onToggleExplore}
-                    exploreExpanded={exploreExpanded}
-                    exploreSectionInline
-                    courses={courses}
-                    isScrolled={isScrolled}
-                    className="nav__links--mobile-tablet flex-col"
-                  />
-                  <CTAButtons
-                    primaryCtaText={primaryCtaText}
-                    primaryCtaUrl={primaryCtaUrl}
-                    className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
-                    isLoggedIn={isLoggedIn}
-                  />
-                </div>
-              </>
-            )}
+          <div className={clsx('nav__links-drawer', drawerBaseClassName, mobileNavExpanded ? drawerOpenClassName : drawerClosedClassName)}>
+            <ExploreSection
+              expanded={exploreExpanded}
+              courses={courses}
+              className="nav__drawer-content--desktop"
+              innerClassName="pb-10 hidden lg:flex mx-auto"
+              isScrolled={isScrolled}
+            />
+            {/* Mobile & Tablet content (including Explore) */}
+            <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
+              <NavLinks
+                onToggleExplore={onToggleExplore}
+                exploreExpanded={exploreExpanded}
+                exploreSectionInline
+                courses={courses}
+                isScrolled={isScrolled}
+                className="nav__links--mobile-tablet flex-col"
+              />
+              <CTAButtons
+                primaryCtaText={primaryCtaText}
+                primaryCtaUrl={primaryCtaUrl}
+                className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
+                isLoggedIn={isLoggedIn}
+              />
+            </div>
+          </div>
+          <div className={clsx('nav__profile-drawer', drawerBaseClassName, profileExpanded ? drawerOpenClassName : drawerClosedClassName)}>
+            <ProfileLinks isScrolled={isScrolled} />
           </div>
         </div>
       </ClickAwayListener>

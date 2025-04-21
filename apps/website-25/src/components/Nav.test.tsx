@@ -41,22 +41,22 @@ describe('Nav', () => {
     const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
     expect(hamburgerButton).not.toBeNull();
 
-    const navDrawer = container.querySelector('.nav__drawer');
-    expect(navDrawer).not.toBeNull();
+    const mobileNavDrawer = container.querySelector('.nav__links-drawer');
+    const profileDrawer = container.querySelector('.nav__profile-drawer');
+    expect(mobileNavDrawer).not.toBeNull();
+    expect(profileDrawer).not.toBeNull();
 
-    // Initially, the nav__drawer should have a max height of 0 (closed state).
-    expect(navDrawer!.className).toMatch(/max-h-0/);
+    // Initially, both drawers should have a max height of 0 (closed state).
+    expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
+    expect(profileDrawer!.className).toMatch(/max-h-0/);
 
     fireEvent.click(hamburgerButton!);
 
-    // The nav__drawer now has a max height that is not 0 (expanded state).
+    // The mobile nav drawer now has a max height that is not 0 (expanded state).
     await waitFor(() => {
-      expect(navDrawer!.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
+      expect(profileDrawer!.className).toMatch(/max-h-0/); // Profile drawer remains closed
     });
-
-    // Assert that the nav contents are showing but the contents of the profile menu are not
-    expect(navDrawer!.textContent).toContain('Course 1');
-    expect(navDrawer!.textContent).not.toContain('Log out');
   });
 
   test('clicking the profile menu button expands the profile drawer', async () => {
@@ -69,22 +69,22 @@ describe('Nav', () => {
     const profileButton = container.querySelector('.nav__profile-menu');
     expect(profileButton).not.toBeNull();
 
-    const navDrawer = container.querySelector('.nav__drawer');
-    expect(navDrawer).not.toBeNull();
+    const mobileNavDrawer = container.querySelector('.nav__links-drawer');
+    const profileDrawer = container.querySelector('.nav__profile-drawer');
+    expect(mobileNavDrawer).not.toBeNull();
+    expect(profileDrawer).not.toBeNull();
 
-    // Initially, the nav__drawer should have a max height of 0 (closed state).
-    expect(navDrawer!.className).toMatch(/max-h-0/);
+    // Initially, both drawers should have a max height of 0 (closed state).
+    expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
+    expect(profileDrawer!.className).toMatch(/max-h-0/);
 
     fireEvent.click(profileButton!);
 
-    // The nav__drawer now has a max height that is not 0 (expanded state).
+    // The profile drawer now has a max height that is not 0 (expanded state).
     await waitFor(() => {
-      expect(navDrawer!.className).not.toMatch(/max-h-0/);
+      expect(profileDrawer!.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer!.className).toMatch(/max-h-0/); // Mobile nav drawer remains closed
     });
-
-    // Assert that the profile contents are showing but the contents of the nav menu are not
-    expect(navDrawer!.textContent).toContain('Log out');
-    expect(navDrawer!.textContent).not.toContain('Course 1');
 
     vi.clearAllMocks();
   });
@@ -97,7 +97,7 @@ describe('Nav', () => {
     const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
     expect(hamburgerButton).not.toBeNull();
 
-    const navDrawer = container.querySelector('.nav__drawer');
+    const navDrawer = container.querySelector('.nav__links-drawer');
     expect(navDrawer).not.toBeNull();
 
     fireEvent.click(hamburgerButton!);

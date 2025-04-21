@@ -137,7 +137,7 @@ exports[`Nav > renders with courses 1`] = `
         </div>
       </div>
       <div
-        class="nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3 max-h-0 opacity-0"
+        class="nav__links-drawer transition-[max-height,opacity] relative overflow-hidden px-3 max-h-0 opacity-0 duration-300"
       >
         <div
           class="nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 nav__drawer-content--desktop"
@@ -260,6 +260,32 @@ exports[`Nav > renders with courses 1`] = `
               </span>
             </a>
           </div>
+        </div>
+      </div>
+      <div
+        class="nav__profile-drawer transition-[max-height,opacity] relative overflow-hidden px-3 max-h-0 opacity-0 duration-300"
+      >
+        <div
+          class="nav__profile-dropdown flex flex-col gap-4 font-medium pb-10 items-end"
+        >
+          <a
+            class="nav__profile-link nav-link-animation w-fit"
+            href="/profile"
+          >
+            Profile
+          </a>
+          <a
+            class="nav__profile-link nav-link-animation w-fit"
+            href="/contact"
+          >
+            Help
+          </a>
+          <a
+            class="nav__profile-link nav-link-animation w-fit"
+            href="/login/clear"
+          >
+            Log out
+          </a>
         </div>
       </div>
     </div>
