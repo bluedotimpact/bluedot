@@ -23,11 +23,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
   const { courseSlug, id: unitId } = unit;
 
-  if (!auth) {
-    console.log("Auth is not set!!!")
-  }
-
-  const [{ data, loading }, refetch] = useAxios<GetUnitFeedbackResponse>({
+  const [{ data }, refetch] = useAxios<GetUnitFeedbackResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitId}/feedback`,
     headers: {
@@ -98,7 +94,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
       </div>
       <div className="unit-feedback__free-response-section flex flex-col gap-4">
         <h4 className="text-size-sm">
-          Do you have any other feedback on this unit?
+          Do you have any other feedback on this unit? <span className="font-normal">(optional)</span>
         </h4>
         <textarea
           rows={isMobile ? 6 : 3}
@@ -110,7 +106,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
       </div>
       <CTALinkOrButton
         variant="primary"
-        className="self-start"
+        className="unit-feedback__submit self-start"
         type="submit"
       >
         Send feedback

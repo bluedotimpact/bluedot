@@ -23,7 +23,7 @@ export default makeApiRoute(
     requireAuth: true,
     requestBody: z.optional(
       z.object({
-        overallRating: z.number(),
+        overallRating: z.number().min(1).max(5),
         anythingElse: z.string(),
       }),
     ),
