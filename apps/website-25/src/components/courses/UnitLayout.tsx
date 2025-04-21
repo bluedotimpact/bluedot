@@ -14,6 +14,7 @@ import { Unit } from '../../lib/api/db/tables';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
+import UnitFeedback from './UnitFeedback';
 
 type UnitLayoutProps = {
   // Required
@@ -62,6 +63,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <MarkdownExtendedRenderer>
               {unit.content}
             </MarkdownExtendedRenderer>
+
+            {/* TODO maybe add a divider here */}
+            <UnitFeedback unit={unit} />
 
             {!nextUnit ? (
               <div className="last-unit">

@@ -14,7 +14,7 @@ export interface Course extends Item {
 
 export const courseTable: Table<Course> = {
   name: 'Course',
-  baseId: 'appbiNKDcn1sGPGOG',
+  baseId: 'appgnRJNcgW90cbj0', // TODO revert
   tableId: 'tbl6nq5AVLKINBJ73',
   mappings: {
     title: 'fldUyKGqFb7OiY0KF',
@@ -38,11 +38,52 @@ export const courseTable: Table<Course> = {
   },
 };
 
+export interface UnitFeedback extends Item {
+  unitId: string,
+  overallRating: number,
+  anythingElse: string,
+  userEmail: string,
+  userFullName: string,
+  createdAt: string,
+  lastModified: string,
+  activeUnit: string,
+  facilitatorId: string,
+}
+
+export const unitFeedbackTable: Table<UnitFeedback> = {
+  name: 'UnitFeedback',
+  baseId: 'appgnRJNcgW90cbj0', // TODO revert
+  tableId: 'tblBwjMjul1c6l7ea',
+  mappings: {
+    unitId: 'fldYqvWII6kuxCCmH',
+    overallRating: 'fld3B8HUudN5NxPIU',
+    anythingElse: 'fldYdcPZPdJAqn06w',
+    userEmail: 'fld9JsHJXjud5Bhle',
+    userFullName: 'fldPG0z0SRFcGJhNW',
+    createdAt: 'fldWyJJz3OVNK0kTn',
+    lastModified: 'fldCQ0O6oOf4BcMpJ',
+    activeUnit: 'fldJSnO2sGCtOgbwd',
+    facilitatorId: 'fldIV9PYkLvlTOalw',
+  },
+  schema: {
+    unitId: 'string',
+    overallRating: 'number',
+    anythingElse: 'string',
+    userEmail: 'string',
+    userFullName: 'string',
+    createdAt: 'string',
+    lastModified: 'string',
+    activeUnit: 'string',
+    facilitatorId: 'string',
+  },
+};
+
 export interface Unit extends Item {
   id: string,
   courseId: string,
   courseTitle: string,
   coursePath: string,
+  courseSlug: string,
   path: string,
   title: string,
   content: string,
@@ -53,12 +94,13 @@ export interface Unit extends Item {
 
 export const unitTable: Table<Unit> = {
   name: 'Unit',
-  baseId: 'appbiNKDcn1sGPGOG',
+  baseId: 'appgnRJNcgW90cbj0', // TODO revert
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
     courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     coursePath: 'fldlCrg7Nv1TPTorZ',
+    courseSlug: 'fldr9I5YGRIia8xln',
     path: 'fldEY7ZHZtXrBL3nv',
     title: 'fldN9BV8GGUHFu9sz',
     content: 'fldF9hjDhZpLbBIUV',
@@ -70,6 +112,7 @@ export const unitTable: Table<Unit> = {
     courseId: 'string',
     courseTitle: 'string',
     coursePath: 'string',
+    courseSlug: 'string',
     path: 'string',
     title: 'string',
     content: 'string',
@@ -94,7 +137,7 @@ export interface Exercise extends Item {
 
 export const exerciseTable: Table<Exercise> = {
   name: 'Exercise',
-  baseId: 'appbiNKDcn1sGPGOG',
+  baseId: 'appgnRJNcgW90cbj0', // TODO revert
   tableId: 'tbla7lc2MtSSbWVvS',
   mappings: {
     answer: 'fldFcZVVo8Wg4GSmA',
