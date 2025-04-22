@@ -2,6 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import {
   describe,
   expect,
+  Mock,
   test,
   vi,
 } from 'vitest';
@@ -10,6 +11,8 @@ import FreeTextResponse from './FreeTextResponse';
 
 // Mock axios
 vi.mock('axios');
+// Setup axios mock to resolve successfully
+(axios.put as Mock).mockResolvedValue({ data: {} });
 
 const mockArgs = {
   title: 'Understanding LLMs',
@@ -28,9 +31,6 @@ describe('FreeTextResponse', () => {
   });
 
   test('updates styles when answer is saved', async () => {
-    // Setup axios mock to resolve successfully
-    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
-
     const { container } = render(
       <FreeTextResponse {...mockArgs} />,
     );
@@ -47,7 +47,7 @@ describe('FreeTextResponse', () => {
 
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
-      `/api/courses/exercises/${mockArgs.exerciseId}`,
+      `/api/courses/exercises/${mockArgs.exerciseId}/response`,
       { response: testAnswer },
     );
 

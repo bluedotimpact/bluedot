@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
+import { CTALinkOrButton } from '@bluedot/ui';
 import axios from 'axios';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -10,19 +10,22 @@ type FreeTextResponseProps = {
   description: string;
   exerciseId: string;
   title: string;
+  // Optional
+  exerciseResponse?: string;
 };
 
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   className,
   description,
   exerciseId,
+  exerciseResponse,
   title,
 }) => {
   const [isSaved, setIsSaved] = React.useState<boolean>(false);
 
   const handleAnswerSubmit = () => {
     const textArea = document.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
-    axios.put(`/api/courses/exercises/${exerciseId}`, {
+    axios.put(`/api/courses/exercises/${exerciseId}/response`, {
       response: textArea?.value,
     }).then(() => {
       setIsSaved(true);
@@ -53,6 +56,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           }`}
           placeholder="Enter your answer here"
           onChange={handleAnswerChange}
+          value={exerciseResponse}
         />
       </div>
       <CTALinkOrButton

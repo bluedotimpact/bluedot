@@ -2,6 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import {
   describe,
   expect,
+  Mock,
   test,
   vi,
 } from 'vitest';
@@ -10,6 +11,7 @@ import MultipleChoice from './MultipleChoice';
 
 // Mock axios
 vi.mock('axios');
+(axios.put as Mock).mockResolvedValue({ data: {} });
 
 const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
 
@@ -49,9 +51,6 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    // Setup axios mock to resolve successfully
-    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
-
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
@@ -76,15 +75,12 @@ describe('MultipleChoice', () => {
 
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
-      `/api/courses/exercises/${mockArgs.exerciseId}`,
-      { response: mockArgs.options[0] },
+      `/api/courses/exercises/${mockArgs.exerciseId}/response`,
+      { response: mockArgs.answer.trim() },
     );
   });
 
   test('updates styles for incorrect option', async () => {
-    // Setup axios mock to resolve successfully
-    (axios.put as vi.Mock).mockResolvedValue({ data: {} });
-
     const { container } = render(
       <MultipleChoice
         {...mockArgs}
@@ -109,8 +105,21 @@ describe('MultipleChoice', () => {
 
     // Verify axios was called with correct arguments
     expect(axios.put).toHaveBeenCalledWith(
-      `/api/courses/exercises/${mockArgs.exerciseId}`,
-      { response: mockArgs.options[1] },
+      `/api/courses/exercises/${mockArgs.exerciseId}/response`,
+      { response: 'Rising consumer demand for fish with more Omega-3s' },
     );
   });
+
+  // test('renders with existing exercise response as expected', async () => {
+  //   const { container } = render(
+  //     <MultipleChoice {...mockArgs} exerciseId="rec1234567890" exerciseResponse={mockArgs.answer} />,
+  //   );
+
+  //   // Expect 'selected' state change
+  //   await waitFor(() => {
+  //     const selectedOption = container.querySelectorAll('.multiple-choice__option--selected');
+  //     expect(selectedOption.length).toBe(1);
+  //     expect(selectedOption[0]?.textContent).toBe(mockArgs.answer.trim());
+  //   });
+  // });
 });

@@ -12,6 +12,7 @@ type MultipleChoiceProps = {
   title: string;
   // Optional
   className?: string;
+  exerciseResponse?: string;
 };
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({
@@ -19,6 +20,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   className,
   description,
   exerciseId,
+  exerciseResponse,
   options,
   title,
 }) => {
@@ -29,7 +31,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const formattedOptions = (options.split('\n').map((o) => o.trim()).filter((o) => o !== ''));
   const formattedAnswer = answer.trim();
 
-  const [selectedOption, setSelectedOption] = React.useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = React.useState<string | null>(exerciseResponse ?? null);
   const [submittedOption, setSubmittedOption] = React.useState<string | null>(null);
 
   const handleOptionSelect = (option: string) => {
@@ -42,7 +44,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   const handleAnswerSubmit = () => {
-    axios.put(`/api/courses/exercises/${exerciseId}`, {
+    axios.put(`/api/courses/exercises/${exerciseId}/response`, {
       response: selectedOption,
     }).then(() => {
       setSubmittedOption(selectedOption);
