@@ -161,6 +161,12 @@ const CTAButtons: React.FC<{
   );
 };
 
+interface ExpandedSectionsState {
+  mobileNav: boolean;
+  explore: boolean;
+  profile: boolean;
+}
+
 export const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
   const currentPath = window.location.pathname;
@@ -170,20 +176,34 @@ export const isCurrentPath = (url: string): boolean => {
 export const Nav: React.FC<NavProps> = ({
   className, logo, courses, primaryCtaText, primaryCtaUrl,
 }) => {
-  const [expandedSections, setExpandedSections] = useState<'none' | 'mobile-nav' | 'explore' | 'profile'>('none');
+  const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
+    mobileNav: false,
+    explore: false,
+    profile: false,
+  });
 
-  const mobileNavExpanded = expandedSections === 'mobile-nav' || expandedSections === 'explore';
-  const exploreExpanded = expandedSections === 'explore';
-  const profileExpanded = expandedSections === 'profile';
-  const anyDrawerOpen = profileExpanded || mobileNavExpanded;
+  const anyDrawerOpen = Object.values(expandedSections).some((v) => v);
 
   const isLoggedIn = !!useAuthStore((s) => s.auth);
-
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const onToggleExplore = () => setExpandedSections(exploreExpanded ? 'mobile-nav' : 'explore');
-  const onToggleNav = () => setExpandedSections(mobileNavExpanded ? 'none' : 'mobile-nav');
-  const onToggleProfile = () => setExpandedSections(profileExpanded ? 'none' : 'profile');
+  const onToggleExplore = () => setExpandedSections((prev) => ({
+    mobileNav: prev.mobileNav,
+    explore: !prev.explore,
+    profile: false,
+  }));
+
+  const onToggleNav = () => setExpandedSections((prev) => ({
+    mobileNav: !prev.mobileNav,
+    explore: false,
+    profile: false,
+  }));
+
+  const onToggleProfile = () => setExpandedSections((prev) => ({
+    mobileNav: false,
+    explore: false,
+    profile: !prev.profile,
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -208,12 +228,12 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <ClickAwayListener onClickAway={() => setExpandedSections('none')}>
+      <ClickAwayListener onClickAway={() => setExpandedSections({ mobileNav: false, explore: false, profile: false })}>
         <div className="nav__container section-base">
           <div className="nav__bar w-full flex justify-between lg:grid lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
             <div className="flex gap-space-between items-center">
               <IconButton
-                open={mobileNavExpanded}
+                open={expandedSections.mobileNav}
                 Icon={<HamburgerIcon />}
                 setOpen={onToggleNav}
                 className="nav__menu--mobile-tablet mr-2 lg:hidden"
@@ -235,7 +255,7 @@ export const Nav: React.FC<NavProps> = ({
             </div>
             <NavLinks
               onToggleExplore={onToggleExplore}
-              exploreExpanded={exploreExpanded}
+              exploreExpanded={expandedSections.explore}
               courses={courses}
               isScrolled={isScrolled}
               className="nav__links--desktop hidden lg:flex mx-auto"
@@ -249,7 +269,7 @@ export const Nav: React.FC<NavProps> = ({
               />
               {isLoggedIn && (
                 <IconButton
-                  open={profileExpanded}
+                  open={expandedSections.profile}
                   Icon={<FaCircleUser className="size-[24px] opacity-75" />}
                   setOpen={onToggleProfile}
                   className="nav__profile-menu ml-2"
@@ -257,9 +277,9 @@ export const Nav: React.FC<NavProps> = ({
               )}
             </div>
           </div>
-          <div className={clsx('nav__links-drawer', drawerBaseClassName, mobileNavExpanded ? drawerOpenClassName : drawerClosedClassName)}>
+          <div className={clsx('nav__links-drawer', drawerBaseClassName, expandedSections.mobileNav ? drawerOpenClassName : drawerClosedClassName)}>
             <ExploreSection
-              expanded={exploreExpanded}
+              expanded={expandedSections.explore}
               courses={courses}
               className="nav__drawer-content--desktop"
               innerClassName="pb-10 hidden lg:flex mx-auto"
@@ -269,7 +289,7 @@ export const Nav: React.FC<NavProps> = ({
             <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
               <NavLinks
                 onToggleExplore={onToggleExplore}
-                exploreExpanded={exploreExpanded}
+                exploreExpanded={expandedSections.explore}
                 exploreSectionInline
                 courses={courses}
                 isScrolled={isScrolled}
@@ -283,7 +303,7 @@ export const Nav: React.FC<NavProps> = ({
               />
             </div>
           </div>
-          <div className={clsx('nav__profile-drawer', drawerBaseClassName, profileExpanded ? drawerOpenClassName : drawerClosedClassName)}>
+          <div className={clsx('nav__profile-drawer', drawerBaseClassName, expandedSections.profile ? drawerOpenClassName : drawerClosedClassName)}>
             <ProfileLinks isScrolled={isScrolled} />
           </div>
         </div>
