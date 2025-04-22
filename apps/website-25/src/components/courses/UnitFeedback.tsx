@@ -60,6 +60,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
     }
   }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
 
+  // Don't show for logged out users
   if (!data || !auth) {
     return null;
   }
