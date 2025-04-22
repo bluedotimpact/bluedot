@@ -25,7 +25,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       <button
         aria-label="Rate 1 star"
         aria-pressed="false"
-        class="cursor-pointer size-10"
+        class="unit-feedback__star cursor-pointer size-10"
         type="button"
       >
         <svg
@@ -46,7 +46,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       <button
         aria-label="Rate 2 stars"
         aria-pressed="false"
-        class="cursor-pointer size-10"
+        class="unit-feedback__star cursor-pointer size-10"
         type="button"
       >
         <svg
@@ -67,7 +67,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       <button
         aria-label="Rate 3 stars"
         aria-pressed="false"
-        class="cursor-pointer size-10"
+        class="unit-feedback__star cursor-pointer size-10"
         type="button"
       >
         <svg
@@ -88,7 +88,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       <button
         aria-label="Rate 4 stars"
         aria-pressed="false"
-        class="cursor-pointer size-10"
+        class="unit-feedback__star cursor-pointer size-10"
         type="button"
       >
         <svg
@@ -109,7 +109,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       <button
         aria-label="Rate 5 stars"
         aria-pressed="false"
-        class="cursor-pointer size-10"
+        class="unit-feedback__star cursor-pointer size-10"
         type="button"
       >
         <svg
@@ -132,7 +132,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       class="unit-feedback__free-response-section flex flex-col gap-4"
     >
       <h4
-        class="text-size-sm"
+        class="unit-feedback__textarea-label text-size-sm"
       >
         Do you have any other feedback on this unit?
          
