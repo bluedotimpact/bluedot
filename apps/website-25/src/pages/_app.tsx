@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
 import { Nav } from '../components/Nav';
+import { AnnouncementBanner } from '../components/AnnouncementBanner';
 
 if (typeof window !== 'undefined') {
   if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -57,7 +58,11 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       {'rawLayout' in Component && Component.rawLayout
         ? <Component {...pageProps} />
         : (
-          <><Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+          <>
+            <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+            <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
+              <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
+            </AnnouncementBanner>
             <main className="bluedot-base">
               <Component {...pageProps} />
             </main>
