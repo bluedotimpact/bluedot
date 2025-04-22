@@ -14,6 +14,7 @@ export type GetExerciseResponseResponse = {
 
 export type PutExerciseResponseRequest = {
   response: string,
+  completed?: boolean,
 };
 
 export default makeApiRoute({
@@ -21,6 +22,7 @@ export default makeApiRoute({
   requestBody: z.optional(
     z.object({
       response: z.string(),
+      completed: z.boolean().optional(),
     }),
   ),
   responseBody: z.object({
@@ -61,6 +63,7 @@ export default makeApiRoute({
           id: exerciseResponse.id,
           exerciseId,
           response: body.response,
+          completed: body.completed ?? false,
         });
       } else {
         // If the exercise response does NOT exist, create it
@@ -68,7 +71,7 @@ export default makeApiRoute({
           email: auth.email,
           exerciseId,
           response: body.response,
-          completed: true,
+          completed: body.completed ?? false,
         });
       }
 

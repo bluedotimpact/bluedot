@@ -6,7 +6,6 @@ import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 import { GetExercise } from '../../../pages/api/courses/exercises/[exerciseId]';
 import { GetExerciseResponseResponse, PutExerciseResponseRequest } from '../../../pages/api/courses/exercises/[exerciseId]/response';
-import { error } from 'console';
 
 type ExerciseProps = {
   // Required
@@ -33,11 +32,12 @@ const Exercise: React.FC<ExerciseProps> = ({
     } : undefined,
   });
 
-  const handleExerciseSubmit = useCallback(async (exerciseResponse: string) => {
+  const handleExerciseSubmit = useCallback(async (exerciseResponse: string, completed?: boolean) => {
     await axios.put<unknown, unknown, PutExerciseResponseRequest>(
       `/api/courses/exercises/${exerciseId}/response`,
       {
         response: exerciseResponse,
+        completed,
       },
       {
         headers: {
