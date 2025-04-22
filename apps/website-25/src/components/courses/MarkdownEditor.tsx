@@ -1,168 +1,81 @@
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import { Markdown } from 'tiptap-markdown';
-import Link from '@tiptap/extension-link';
-import React, {
-  useState, useCallback, useRef, useEffect,
-} from 'react';
+import React from 'react';
 import {
   FaBold,
   FaItalic,
-  FaHeading,
   FaQuoteLeft,
-  FaLink,
+  FaCode,
 } from 'react-icons/fa6';
+import {
+  Bold,
+  Code,
+  Link,
+  Italic,
+  Strike,
+  Text,
+  Document,
+  Heading,
+  Paragraph,
+  Blockquote,
+  CodeBlock,
+  HorizontalRule,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Image,
+  Uploader,
+  Clipboard,
+  History,
+  Gapcursor,
+  Dropcursor,
+} from '@syfxlin/tiptap-starter-kit';
+import { Markdown } from 'tiptap-markdown';
 
 interface MarkdownEditorProps {
   children?: string;
+  onChange?: (markdown: string) => void;
 }
 
-const LinkPopup: React.FC<{
-  isOpen: boolean;
-  url: string;
-  setUrl: (url: string) => void;
-  onSubmit: () => void;
-  onCancel: () => void;
-  position: { x: number; y: number };
-}> = ({
-  isOpen, url, setUrl, onSubmit, onCancel, position,
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="absolute bg-white shadow-lg rounded-radius-base border border-gray-200 p-3 z-50"
-      style={{
-        top: `${position.y}px`,
-        left: `${position.x}px`,
-        width: '300px',
-      }}
-    >
-      <div className="mb-2 font-medium text-gray-700">Insert Link</div>
-      <input
-        ref={inputRef}
-        type="text"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="https://example.com"
-        className="w-full p-2 border border-gray-300 rounded-radius-base mb-3"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            onSubmit();
-          } else if (e.key === 'Escape') {
-            onCancel();
-          }
-        }}
-      />
-      <div className="flex justify-end gap-2">
-        <button
-          onClick={onCancel}
-          className="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-radius-base"
-        >
-          Cancel
-        </button>
-        <button
-          onClick={onSubmit}
-          className="px-3 py-1 bg-blue-600 text-white hover:bg-blue-700 rounded-radius-base"
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children }) => {
-  const [linkPopupOpen, setLinkPopupOpen] = useState(false);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-  const editorRef = useRef<HTMLDivElement>(null);
-
+const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Bold,
+      Code,
+      Link,
+      Italic,
+      Strike,
+      Text,
+      Document,
+      Heading,
+      Paragraph,
+      Blockquote,
+      CodeBlock,
+      HorizontalRule,
+      BulletList,
+      OrderedList,
+      ListItem,
+      Image,
+      Uploader,
+      // NB: we use this instead of the tiptap starter kit because it handles input with newlines better
       Markdown,
-      Link.configure({
-        openOnClick: false,
-        linkOnPaste: true,
-        HTMLAttributes: {
-          class: 'text-blue-600 underline',
-        },
-      }),
+      Clipboard,
+      History,
+      Gapcursor,
+      Dropcursor,
     ],
     content: children,
     onUpdate: () => {
       const markdownOutput = editor?.storage.markdown.getMarkdown();
-      console.log(markdownOutput);
+      onChange?.(markdownOutput);
     },
   });
-
-  const showLinkPopup = useCallback(() => {
-    if (!editor) return;
-
-    // Get the current selection position to place the popup
-    if (editorRef.current) {
-      const { top, left, height } = editorRef.current.getBoundingClientRect();
-      const editorPos = { x: left, y: top + height / 3 };
-      setPopupPosition(editorPos);
-    }
-
-    // If there's already a link at the current selection, get its URL
-    const { from, to } = editor.state.selection;
-    const linkMark = editor.state.doc.nodeAt(from)?.marks.find((mark) => mark.type.name === 'link');
-
-    if (linkMark) {
-      setLinkUrl(linkMark.attrs.href);
-    } else {
-      setLinkUrl('');
-    }
-
-    setLinkPopupOpen(true);
-  }, [editor]);
-
-  const handleSetLink = useCallback(() => {
-    if (!editor) return;
-
-    if (linkUrl === '') {
-      // If URL is empty, remove the link
-      editor.chain().focus().extendMarkRange('link').unsetLink()
-        .run();
-    } else {
-      // Otherwise, set the link with the provided URL
-      editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl })
-        .run();
-    }
-
-    setLinkPopupOpen(false);
-  }, [editor, linkUrl]);
-
-  // Handle keyboard shortcut for link
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k' && editor) {
-        e.preventDefault();
-        showLinkPopup();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [editor, showLinkPopup]);
 
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="border border-gray-300 rounded-radius-base overflow-hidden relative" ref={editorRef}>
+    <div className="border border-gray-300 rounded-radius-md overflow-hidden">
       {/* Toolbar */}
       <div className="flex items-center gap-1 p-2 bg-gray-50 border-b border-gray-300">
         <button
@@ -187,6 +100,17 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children }) => {
           <FaItalic size={16} />
         </button>
 
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleCode().run()}
+          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
+            editor.isActive('code') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
+          }`}
+          title="Code"
+        >
+          <FaCode size={16} />
+        </button>
+
         <div className="h-4 w-px bg-gray-300 mx-1" />
 
         <button
@@ -197,7 +121,9 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children }) => {
           }`}
           title="Heading 1"
         >
-          <FaHeading size={16} />
+          <div className="flex items-center justify-center">
+            <span className="text-size-xs font-bold">H1</span>
+          </div>
         </button>
 
         <button
@@ -238,35 +164,11 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children }) => {
         >
           <FaQuoteLeft size={16} />
         </button>
-
-        <div className="h-4 w-px bg-gray-300 mx-1" />
-
-        <button
-          type="button"
-          onClick={showLinkPopup}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('link') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Link (Cmd+K / Ctrl+K)"
-        >
-          <FaLink size={16} />
-        </button>
       </div>
 
-      {/* Editor Content */}
       <EditorContent
         editor={editor}
         className="prose p-4 min-h-[200px]"
-      />
-
-      {/* Link Popup */}
-      <LinkPopup
-        isOpen={linkPopupOpen}
-        url={linkUrl}
-        setUrl={setLinkUrl}
-        onSubmit={handleSetLink}
-        onCancel={() => setLinkPopupOpen(false)}
-        position={popupPosition}
       />
     </div>
   );
