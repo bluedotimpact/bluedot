@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { ProgressDots } from '@bluedot/ui';
-import UnitLayout from '../../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitId]';
+import UnitLayout from '../../../components/courses/UnitLayout';
+import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitId]';
 
 const CourseUnitPage = () => {
   const { query: { courseSlug, unitId } } = useRouter();
