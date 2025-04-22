@@ -95,7 +95,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
         </p>
       </div>
       {hasSubmitted ? (
-        <p className="flex gap-2 text-bluedot-dark items-center font-[650]">
+        <p className="unit-feedback__sent-message flex gap-2 text-bluedot-dark items-center font-[650]">
           <FaCircleCheck className="text-bluedot-normal h-full aspect-square flex-shrink-0" />
           Feedback sent! Thanks for helping us improving this unit, you rock!
         </p>
@@ -106,7 +106,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
               <button
                 key={i}
                 type="button"
-                className="cursor-pointer size-10"
+                className="unit-feedback__star cursor-pointer size-10"
                 onMouseEnter={() => setHoverRating(i)}
                 onMouseLeave={() => setHoverRating(0)}
                 onClick={() => setRating(i)}
@@ -118,7 +118,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
             ))}
           </div>
           <div className="unit-feedback__free-response-section flex flex-col gap-4">
-            <h4 className="text-size-sm">
+            <h4 className="unit-feedback__textarea-label text-size-sm">
               Do you have any other feedback on this unit?{' '}
               <span className="font-normal">(optional)</span>
             </h4>
@@ -130,7 +130,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
               onChange={(e) => setFeedbackText(e.target.value)}
             />
           </div>
-          {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="unit-feedback__error text-red-500">{error}</p>}
           <CTALinkOrButton
             variant="primary"
             className="unit-feedback__submit self-start"

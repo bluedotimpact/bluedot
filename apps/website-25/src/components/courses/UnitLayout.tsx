@@ -64,7 +64,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {unit.content}
             </MarkdownExtendedRenderer>
 
-            {/* TODO maybe add a divider here */}
             <UnitFeedback unit={unit} />
 
             {!nextUnit ? (

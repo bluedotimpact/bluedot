@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ProgressDots, withAuth } from '@bluedot/ui';
+import { ProgressDots } from '@bluedot/ui';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitId]';
 
-// TODO remove withAuth, it's just to force refreshing the token
-const CourseUnitPage = withAuth(() => {
+const CourseUnitPage = () => {
   const { query: { courseSlug, unitId } } = useRouter();
 
   const [{ data, loading }] = useAxios<GetUnitResponse>({
@@ -31,6 +30,6 @@ const CourseUnitPage = withAuth(() => {
       <pre>{JSON.stringify(data, null, 2)}</pre>
     )
   );
-});
+};
 
 export default CourseUnitPage;
