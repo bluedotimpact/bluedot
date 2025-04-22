@@ -63,6 +63,12 @@ exports[`Nav > renders with courses 1`] = `
           >
             Blog
           </a>
+          <a
+            class="nav-links__link nav-link-animation"
+            href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+          >
+            Events
+          </a>
         </div>
         <div
           class="nav__actions flex gap-space-between ml-auto"
@@ -234,6 +240,12 @@ exports[`Nav > renders with courses 1`] = `
               href="https://bluedot.org/blog/"
             >
               Blog
+            </a>
+            <a
+              class="nav-links__link nav-link-animation"
+              href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+            >
+              Events
             </a>
           </div>
           <div
