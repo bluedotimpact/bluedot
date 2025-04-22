@@ -46,7 +46,8 @@ export default makeApiRoute(
 
     const existingFeedback = (
       await db.scan(unitFeedbackTable, {
-        filterByFormula: `AND({Unit} = "${unitId}", {Email} = "${auth.email}")`,
+        // Note: Requires adding a Lookup field called "[>] Unit ID", that gets "[*] RecordID" from the Unit table
+        filterByFormula: `AND({[>] Unit ID} = "${unitId}", {Email} = "${auth.email}")`,
       })
     )[0];
 

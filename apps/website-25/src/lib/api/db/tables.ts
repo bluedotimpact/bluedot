@@ -44,10 +44,10 @@ export interface UnitFeedback extends Item {
   anythingElse: string,
   userEmail: string,
   userFullName: string,
-  createdAt: string,
-  lastModified: string,
-  activeUnit: string,
-  facilitatorId: string,
+  createdAt: string | null,
+  lastModified: string | null,
+  activeUnit: string | null,
+  facilitatorId: string | null,
 }
 
 export const unitFeedbackTable: Table<UnitFeedback> = {
@@ -71,10 +71,9 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
     anythingElse: 'string',
     userEmail: 'string',
     userFullName: 'string',
-    createdAt: 'string',
-    lastModified: 'string',
-    activeUnit: 'string',
-    facilitatorId: 'string',
+    createdAt: 'string | null',
+    lastModified: 'string | null',
+    activeUnit: 'string | null',
   },
 };
 
