@@ -159,8 +159,10 @@ export const exerciseTable: Table<Exercise> = {
 
 export interface ExerciseResponse extends Item {
   id: string,
+  email: string,
   exerciseId: string,
   response: string,
+  completed: boolean,
 }
 
 export const exerciseResponseTable: Table<ExerciseResponse> = {
@@ -168,12 +170,16 @@ export const exerciseResponseTable: Table<ExerciseResponse> = {
   baseId: 'appnJbsG1eWbAdEvf',
   tableId: 'tblLNijbqwoLtkd3O',
   mappings: {
+    email: 'fldI5oHurlbNjQJmM',
     exerciseId: 'fldSKltln4l3yYdi2',
     response: 'fld7Qa3JDnRNwCTlH',
+    completed: 'fldz8rocQd7Ws9s2q',
   },
   schema: {
+    email: 'string',
     exerciseId: 'string',
     response: 'string',
+    completed: 'boolean',
   },
 };
 

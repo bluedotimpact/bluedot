@@ -7,14 +7,13 @@ import {
   exerciseResponseTable,
 } from '../../../../../lib/api/db/tables';
 
-export type GetExerciseResponse = {
+export type GetExerciseResponseResponse = {
   type: 'success',
   exerciseResponse: ExerciseResponse,
 };
 
-export type PutExerciseResponse = {
-  type: 'success',
-  exerciseResponse: ExerciseResponse,
+export type PutExerciseResponseRequest = {
+  response: string,
 };
 
 export default makeApiRoute({
@@ -60,12 +59,16 @@ export default makeApiRoute({
       if (exerciseResponse) {
         updatedExerciseResponse = await db.update(exerciseResponseTable, {
           id: exerciseResponse.id,
+          exerciseId,
           response: body.response,
         });
       } else {
         // If the exercise response does NOT exist, create it
         updatedExerciseResponse = await db.insert(exerciseResponseTable, {
+          email: auth.email,
+          exerciseId,
           response: body.response,
+          completed: true,
         });
       }
 
