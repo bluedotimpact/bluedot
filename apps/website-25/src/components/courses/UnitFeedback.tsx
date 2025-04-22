@@ -22,7 +22,7 @@ const Star: React.FC<{ filled: boolean }> = ({ filled }) => (
 );
 
 type UnitFeedbackProps = {
-  unit: Unit;
+  unit: Pick<Unit, 'id' | 'courseSlug'>;
 };
 
 const FREE_RESPONSE_PLACEHOLDER = '• What would have made this unit more valuable to you?\n• What aspects did you find most challenging?\n• What aspects did you find particularly useful?';
@@ -75,7 +75,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
     }
   }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
 
-  if (!data) {
+  if (!data || !auth) {
     return null;
   }
 

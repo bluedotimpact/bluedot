@@ -14,7 +14,7 @@ export interface Course extends Item {
 
 export const courseTable: Table<Course> = {
   name: 'Course',
-  baseId: 'appgnRJNcgW90cbj0', // TODO revert
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tbl6nq5AVLKINBJ73',
   mappings: {
     title: 'fldUyKGqFb7OiY0KF',
@@ -52,7 +52,7 @@ export interface UnitFeedback extends Item {
 
 export const unitFeedbackTable: Table<UnitFeedback> = {
   name: 'UnitFeedback',
-  baseId: 'appgnRJNcgW90cbj0', // TODO revert
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblBwjMjul1c6l7ea',
   mappings: {
     unitId: 'fldYqvWII6kuxCCmH',
@@ -74,6 +74,7 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
     createdAt: 'string | null',
     lastModified: 'string | null',
     activeUnit: 'string | null',
+    facilitatorId: 'string | null',
   },
 };
 
@@ -93,7 +94,7 @@ export interface Unit extends Item {
 
 export const unitTable: Table<Unit> = {
   name: 'Unit',
-  baseId: 'appgnRJNcgW90cbj0', // TODO revert
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
     courseId: 'fldLmQZ0ISTr7xQUE',
@@ -136,7 +137,7 @@ export interface Exercise extends Item {
 
 export const exerciseTable: Table<Exercise> = {
   name: 'Exercise',
-  baseId: 'appgnRJNcgW90cbj0', // TODO revert
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tbla7lc2MtSSbWVvS',
   mappings: {
     answer: 'fldFcZVVo8Wg4GSmA',
