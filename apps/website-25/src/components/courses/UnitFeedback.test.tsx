@@ -58,7 +58,7 @@ describe('UnitFeedback', () => {
     expect(axios.put).not.toHaveBeenCalled();
   });
 
-  test('calls axios.put with correct payload when a star is selected', async () => {
+  test('calls axios.put with correct payload when a rating is submitted', async () => {
     const { getByLabelText, getByText, queryByText } = render(<UnitFeedback unit={fakeUnit} />);
 
     // click the 4-star button
@@ -76,6 +76,28 @@ describe('UnitFeedback', () => {
       );
       // no error shown to user
       expect(queryByText(/select a star rating/i)).toBeNull();
+    });
+  });
+
+  test('calls axios.put with correct payload including anythingElse when provided', async () => {
+    const { container, getByLabelText, getByText } = render(<UnitFeedback unit={fakeUnit} />);
+
+    // click the 5-star button
+    const fiveStar = getByLabelText(/rate 5 stars/i);
+    fireEvent.click(fiveStar);
+
+    const anythingElseInput = container.querySelector('.unit-feedback__textarea');
+    fireEvent.change(anythingElseInput!, { target: { value: 'Great course!' } });
+
+    const submit = getByText(/send feedback/i);
+    fireEvent.click(submit);
+
+    await waitFor(() => {
+      expect(axios.put).toHaveBeenCalledWith(
+        '/api/courses/slug/unit123/feedback',
+        { overallRating: 5, anythingElse: 'Great course!' },
+        { headers: { Authorization: 'Bearer mockToken' } },
+      );
     });
   });
 

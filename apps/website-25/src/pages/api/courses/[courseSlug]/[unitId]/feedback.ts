@@ -67,6 +67,7 @@ export default makeApiRoute(
 
       let upsertedFeedback: UnitFeedback | null = null;
 
+      // If the feedback does exist, update it
       if (existingFeedback) {
         upsertedFeedback = await db.update(unitFeedbackTable, {
           id: existingFeedback.id,
@@ -75,6 +76,7 @@ export default makeApiRoute(
           anythingElse,
         });
       } else {
+        // If the feedback does NOT exist, create it
         upsertedFeedback = await db.insert(unitFeedbackTable, {
           unitId,
           createdAt: new Date().toISOString(),

@@ -46,8 +46,6 @@ export interface UnitFeedback extends Item {
   userFullName: string,
   createdAt: string | null,
   lastModified: string | null,
-  activeUnit: string | null,
-  facilitatorId: string | null,
 }
 
 export const unitFeedbackTable: Table<UnitFeedback> = {
@@ -62,8 +60,6 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
     userFullName: 'fldPG0z0SRFcGJhNW',
     createdAt: 'fldWyJJz3OVNK0kTn',
     lastModified: 'fldCQ0O6oOf4BcMpJ',
-    activeUnit: 'fldJSnO2sGCtOgbwd',
-    facilitatorId: 'fldIV9PYkLvlTOalw',
   },
   schema: {
     unitId: 'string',
@@ -73,8 +69,6 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
     userFullName: 'string',
     createdAt: 'string | null',
     lastModified: 'string | null',
-    activeUnit: 'string | null',
-    facilitatorId: 'string | null',
   },
 };
 
