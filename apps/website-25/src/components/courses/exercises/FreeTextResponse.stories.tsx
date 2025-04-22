@@ -21,6 +21,13 @@ export const Default: Story = {
   args: {
     title: 'Understanding LLMs',
     description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
-    exerciseId: 'rec1234567890',
+    onExerciseSubmit: () => {},
+  },
+};
+
+export const Saved: Story = {
+  args: {
+    ...Default.args,
+    exerciseResponse: 'This is my saved answer.',
   },
 };

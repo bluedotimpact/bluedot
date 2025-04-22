@@ -18,7 +18,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const exerciseClassNames = 'exercise not-prose my-6';
 
   const auth = useAuthStore((s) => s.auth);
-  
+
   const [{ data: exerciseData }] = useAxios<GetExercise>({
     method: 'get',
     url: `/api/courses/exercises/${exerciseId}`,
@@ -45,7 +45,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         },
       },
     );
-    
+
     await refetch();
   }, [exerciseId, auth, refetch]);
 

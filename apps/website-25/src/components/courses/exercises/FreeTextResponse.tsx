@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 type FreeTextResponseProps = {
   // Required
@@ -28,8 +28,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const { register, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
-      answer: exerciseResponse || ''
-    }
+      answer: exerciseResponse || '',
+    },
   });
 
   useEffect(() => {
