@@ -65,6 +65,10 @@
   & > *:first-child {
     @apply !mt-0;
   }
+
+  p {
+    @apply leading-[1.5] text-size-md;
+  }
 }
 
 .slide-up-fade-in {
