@@ -2,7 +2,7 @@ import type { BluedotRoute } from '@bluedot/ui';
 
 const login: BluedotRoute = {
   title: 'Login',
-  url: '/login',
+  url: `/login`,
 };
 
 const home: BluedotRoute = {
