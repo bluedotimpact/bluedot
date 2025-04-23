@@ -278,7 +278,7 @@ export const Nav: React.FC<NavProps> = ({
               )}
             </div>
           </div>
-          <div className={clsx('nav__links-drawer', drawerBaseClassName, expandedSections.mobileNav ? drawerOpenClassName : drawerClosedClassName)}>
+          <div className={clsx('nav__links-drawer', drawerBaseClassName, expandedSections.explore ? drawerOpenClassName : drawerClosedClassName)}>
             <ExploreSection
               expanded={expandedSections.explore}
               courses={courses}
