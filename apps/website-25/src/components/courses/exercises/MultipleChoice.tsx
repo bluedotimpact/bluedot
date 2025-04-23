@@ -1,9 +1,8 @@
-import { CTALinkOrButton } from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
-import addQueryParam from '../../../utils/addQueryParam';
 
 type MultipleChoiceProps = {
   // Required

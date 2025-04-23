@@ -37,6 +37,7 @@ export { Tag } from './Tag';
 
 // Utils
 
+export { addQueryParam } from './utils/addQueryParam';
 export { maybePlural } from './utils';
 export { asError } from './utils/asError';
 export { useAuthStore, withAuth, type Auth } from './utils/auth';

@@ -1,10 +1,9 @@
 import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
-import addQueryParam from '../../../utils/addQueryParam';
 
 type FreeTextResponseProps = {
   // Required
