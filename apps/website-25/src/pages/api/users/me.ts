@@ -13,37 +13,63 @@ export type GetUserResponse = {
   user: User & { coursePath: string };
 };
 
+export type PutUserRequest = {
+  user: User;
+};
+
 export default makeApiRoute({
   requireAuth: true,
+  requestBody: z.object({
+    user: z.any(),
+  }),
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
   }),
-}, async (body, { auth }) => {
+}, async (body, { raw, auth }) => {
   const user = (await db.scan(userTable, {
     filterByFormula: `{Email} = "${auth.email}"`,
   }))[0];
 
-  const courseNames = user?.courseSitesVisited.split(',') ?? [];
+  switch (raw.req.method) {
+    case 'GET': {
+      if (!user) {
+        throw new createHttpError.NotFound('User not found');
+      }
 
-  if (courseNames.length > 1) {
-    // eslint-disable-next-line no-console
-    console.error('Users with multiple courses are not supported yet, only returning the first coursePath');
+      const courseNames = user.courseSitesVisited.split(',') ?? [];
+      if (courseNames.length > 1) {
+        // eslint-disable-next-line no-console
+        console.error('Users with multiple courses are not supported yet, only returning the first coursePath');
+      }
+    
+      const course = (await db.scan(courseTable, {
+        filterByFormula: `{Course} = "${courseNames[0]}"`,
+      }))[0];
+    
+      return {
+        type: 'success' as const,
+        user: { ...user, coursePath: course?.path ?? '' },
+      };
+    }
+
+    case 'PUT': {
+      if (user) {
+        throw new createHttpError.Conflict('User already exists');
+      }
+
+      const newUser = await db.insert(userTable, {
+        ...body.user,
+        email: auth.email,
+      });
+
+      return {
+        type: 'success' as const,
+        user: newUser,
+      };
+    }
+
+    default:
+      throw new createHttpError.MethodNotAllowed(`Method ${raw.req.method} not allowed`);
   }
-
-  const course = (await db.scan(courseTable, {
-    filterByFormula: `{Course} = "${courseNames[0]}"`,
-  }))[0];
-
-  if (!user) {
-    // In practice we might want to create a user for them if this is the case
-    throw new createHttpError.NotFound('User not found');
-  }
-
-  const res: GetUserResponse = {
-    type: 'success' as const,
-    user: { ...user, coursePath: course?.path ?? '' },
-  };
-
-  return res;
 });
