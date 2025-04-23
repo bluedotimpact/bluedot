@@ -1,10 +1,10 @@
 import {
   describe, test, expect, vi, beforeEach, afterEach,
 } from 'vitest';
-import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
-import { Auth, useAuthStore, withAuth } from './auth';
+import { OidcClient } from 'oidc-client-ts';
 import { render } from '@testing-library/react';
 import * as React from 'react';
+import { Auth, useAuthStore, withAuth } from './auth';
 
 // Mock Next.js router
 const mockPush = vi.fn();
@@ -34,7 +34,7 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
 });
 
 // Helper to create mock OIDC response
-const createMockOidcResponse = (overrides?: Partial<any>) => ({
+const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
   access_token: 'new-test-token',
   expires_at: Math.floor(Date.now() / 1000) + 3600,
   refresh_token: 'new-refresh-token',
@@ -42,7 +42,7 @@ const createMockOidcResponse = (overrides?: Partial<any>) => ({
 });
 
 // Helper to setup mocked OIDC client
-const setupMockOidcClient = (success = true, response?: any) => {
+const setupMockOidcClient = (success = true, response?: Record<string, unknown>) => {
   const mockUseRefreshToken = vi.fn().mockImplementation(() => {
     if (!success) throw new Error('Refresh failed');
     return response || createMockOidcResponse();
@@ -82,7 +82,7 @@ describe('auth', () => {
 
     test('should keep new token when replacing soon-to-expire token', () => {
       setupMockOidcClient(); // Set up OIDC client for potential refresh attempts
-      
+
       // Set initial auth that expires in 30 seconds
       const initialAuth = createAuth({
         expiresAt: Date.now() + 30_000,
@@ -106,7 +106,7 @@ describe('auth', () => {
       // Should still have the new token (old expiry timer should have been cancelled)
       const currentAuth = useAuthStore.getState().auth;
       expect(currentAuth?.token).toBe('new-token');
-      expect(currentAuth?.expiresAt).toBe(newAuth.expiresAt)
+      expect(currentAuth?.expiresAt).toBe(newAuth.expiresAt);
       expect(currentAuth?.expiresAt).toBeGreaterThan(Date.now()); // Should not be expired
     });
 
@@ -187,19 +187,19 @@ describe('auth', () => {
       // Reset store and restore session
       useAuthStore.setState({ auth: null });
       useAuthStore.getState().setAuth(auth);
-      
+
       // Should restore immediately with current token
       expect(useAuthStore.getState().auth?.token).toBe('current-token');
-      
+
       // Advance to refresh time
       vi.advanceTimersByTime(10000);
       await vi.runOnlyPendingTimersAsync();
-      
+
       // Should have refreshed to new token
       expect(mockUseRefreshToken).toHaveBeenCalled();
       expect(useAuthStore.getState().auth?.token).toBe(newToken);
     });
-    
+
     test('should refresh expired session on restore', async () => {
       // Set up OIDC client to return new token
       const newToken = 'refreshed-token';
@@ -219,13 +219,13 @@ describe('auth', () => {
       // Reset store and set expired auth
       useAuthStore.setState({ auth: null });
       useAuthStore.getState().setAuth(auth);
-      
+
       // Wait for next tick to allow refresh to be triggered
       await vi.advanceTimersByTimeAsync(0);
-      
+
       // Should have attempted refresh
       expect(mockUseRefreshToken).toHaveBeenCalled();
-      
+
       // Should have new token
       const currentAuth = useAuthStore.getState().auth;
       expect(currentAuth?.token).toBe(newToken);
@@ -245,10 +245,10 @@ describe('auth', () => {
       // Reset store and attempt to restore session
       useAuthStore.setState({ auth: null });
       useAuthStore.getState().setAuth(auth);
-      
+
       // Allow refresh attempt to complete
       await vi.runAllTimersAsync();
-      
+
       expect(useAuthStore.getState().auth).toBeNull();
     });
 
@@ -264,14 +264,14 @@ describe('auth', () => {
       useAuthStore.setState({ auth: null });
       useAuthStore.getState().setAuth(auth);
       vi.advanceTimersByTime(1000);
-      
+
       expect(useAuthStore.getState().auth).toBeNull();
     });
   });
 
   describe('protected routes', () => {
     const ProtectedPage: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }> = () => <div>Protected Content</div>;
-    
+
     test('should show protected content when logged in', () => {
       const auth = createAuth();
       useAuthStore.getState().setAuth(auth);

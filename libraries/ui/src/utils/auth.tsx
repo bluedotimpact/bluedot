@@ -34,7 +34,7 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
 
 export interface Auth {
   token: string,
-  /** ms unix timestamp */ 
+  /** ms unix timestamp */
   expiresAt: number,
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
