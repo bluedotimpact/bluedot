@@ -20,7 +20,9 @@ exports[`Nav > renders with courses 1`] = `
           >
             <svg
               fill="none"
-              viewBox="8 8 32 32"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
