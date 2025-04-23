@@ -16,12 +16,11 @@ const NavWrapper: React.FC<React.ComponentProps<typeof Nav>> = (props) => (
 const meta = {
   title: 'ui/Nav',
   component: NavWrapper,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
+  // Note: autodocs removed because it doesn't work with the global logged in/out
   args: {
     courses: [
       { title: 'Course 1', url: '#1' },
