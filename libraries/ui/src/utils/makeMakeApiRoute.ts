@@ -120,6 +120,6 @@ const getAuth = async <RequiresAuth extends boolean, AuthResult extends BaseAuth
   try {
     return await verifyAndDecodeToken(token) as RequiresAuth extends true ? AuthResult : null;
   } catch (err) {
-    throw new createHttpError.Unauthorized('Invalid token');
+    throw new createHttpError.Unauthorized('Invalid access token');
   }
 };

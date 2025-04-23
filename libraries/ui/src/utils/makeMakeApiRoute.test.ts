@@ -331,7 +331,7 @@ describe('makeMakeApiRoute', () => {
 
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
-        error: 'Invalid token',
+        error: 'Invalid access token',
       });
     });
 

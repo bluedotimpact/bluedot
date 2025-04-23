@@ -7,6 +7,7 @@ import {
   withAuth,
   CTALinkOrButton,
   Breadcrumbs,
+  ErrorSection,
   // useAuthStore,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -22,7 +23,7 @@ const CURRENT_ROUTE = ROUTES.profile;
 const ProfilePage = withAuth(({ auth }) => {
   // const auth = useAuthStore((s) => s.auth);
 
-  const [{ data, loading }] = useAxios<GetUserResponse>({
+  const [{ data, loading, error }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
     headers: {
@@ -38,7 +39,7 @@ const ProfilePage = withAuth(({ auth }) => {
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
       </Head>
       {loading && <ProgressDots />}
-      {/* TODO: error page */}
+      {error && <ErrorSection error={error} />}
       {data?.user && (
       <>
         <HeroSection>
