@@ -30,9 +30,7 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
         <title>BlueDot Impact | Future-proof your career</title>
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
-      <div className="relative h-25">
-        <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
-      </div>
+      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
       {hero}
 
       <LandingPageContent ctaUrl={ctaUrl} />
