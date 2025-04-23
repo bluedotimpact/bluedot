@@ -1,0 +1,61 @@
+import { useAuthStore } from './auth';
+
+/**
+ * Spread into the props of a Story to render it as logged out, like so:
+ * ```typescript
+ * export const LoggedOut: Story = {
+ *    args: {},
+ *    ...loggedOutStory(),
+ *  };
+ * ```
+ *
+ * Since stories are logged out by default, this his is most useful in the `meta`
+ * story definition when you have some logged in stories to ensure it resets to
+ * logged out between rendering:
+ * ```typescript
+ * const meta = {
+ *   title: 'ui/MyComponent',
+ *   component: MyComponent,
+ *   tags: ['autodocs'],
+ *   parameters: {
+ *     layout: 'fullscreen',
+ *   },
+ *   args: {
+ *   },
+ *   ...loggedOutStory(),
+ * } satisfies Meta<typeof MyComponent>;
+ * ```
+ */
+export const loggedOutStory = () => ({
+  beforeEach() {
+    const { setAuth } = useAuthStore.getState();
+    setAuth(null);
+    // Clear any potentially lingering timers from previous stories
+    // eslint-disable-next-line no-underscore-dangle
+    const timer = useAuthStore.getState()._authClearTimer;
+    if (timer) {
+      clearTimeout(timer);
+      useAuthStore.setState({ _authClearTimer: null });
+    }
+  },
+});
+
+/**
+ * Spread into the props of a Story to render it as logged in, like so:
+ * ```typescript
+ * export const LoggedIn: Story = {
+ *    args: {},
+ *    ...loggedInStory(),
+ *  };
+ * ```
+ */
+export const loggedInStory = () => ({
+  beforeEach() {
+    const { setAuth } = useAuthStore.getState();
+    // Call the *real* setAuth function to set the state
+    setAuth({
+      token: 'mockToken',
+      expiresAt: Math.floor(Date.now() / 1000) + 3_600, // Expires in 1 hour
+    });
+  },
+});

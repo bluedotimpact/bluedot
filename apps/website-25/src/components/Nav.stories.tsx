@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { loggedInStory, loggedOutStory } from '@bluedot/ui';
 
 import imgSrc from '../../public/images/logo/BlueDot_Impact_Logo.svg';
 import { Nav } from './Nav';
@@ -15,28 +16,33 @@ const NavWrapper: React.FC<React.ComponentProps<typeof Nav>> = (props) => (
 const meta = {
   title: 'ui/Nav',
   component: NavWrapper,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
+  // Note: autodocs removed because it doesn't work with the global logged in/out
   args: {
     courses: [
       { title: 'Course 1', url: '#1' },
       { title: 'Course 2', url: '#2' },
     ],
   },
+  ...loggedOutStory(),
 } satisfies Meta<typeof NavWrapper>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const LoggedIn: Story = {
+  args: {},
+  ...loggedInStory(),
+};
+
 export const Default: Story = {
   args: {},
 };
 
-export const Customized: Story = {
+export const CustomizedExploreLinks: Story = {
   args: {
     logo: imgSrc,
     primaryCtaText: 'Start learning',
