@@ -13,7 +13,8 @@ const mockLoggedInUser = () => {
       useAuthStore: vi.fn().mockImplementation(() => ({
         auth: { token: 'mockToken', expiresAt: Date.now() + 10000 },
         setAuth: vi.fn(),
-        _authClearTimer: null,
+        internal_clearTimer: null,
+        internal_refreshTimer: null,
       })),
     };
   });

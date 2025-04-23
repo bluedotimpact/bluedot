@@ -1,3 +1,3 @@
 import { loginPresets, LoginRedirectPage } from '@bluedot/ui';
 
-export default () => <LoginRedirectPage userManagerSettings={loginPresets.googleBlueDot.oidcSettings} />;
+export default () => <LoginRedirectPage oidcSettings={loginPresets.googleBlueDot.oidcSettings} />;

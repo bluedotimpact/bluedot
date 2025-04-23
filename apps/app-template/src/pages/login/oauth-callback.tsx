@@ -1,3 +1,3 @@
 import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 
-export default () => <LoginOauthCallbackPage userManagerSettings={loginPresets.keycloak.oidcSettings} />;
+export default () => <LoginOauthCallbackPage oidcSettings={loginPresets.keycloak.oidcSettings} />;

@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import {
-  OidcClient, OidcClientSettings,
-} from 'oidc-client-ts';
+import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
@@ -148,7 +146,10 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) =>
   useEffect(() => {
     if (!auth) {
       new OidcClient(oidcSettings)
-        .createSigninRequest({ state: { redirectTo } })
+        .createSigninRequest({
+          request_type: 'si:r',
+          state: { redirectTo },
+        })
         .then((req) => {
           window.location.href = req.url;
         });
@@ -166,11 +167,13 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings 
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
+  const hasEverMounted = useRef(false);
 
   useEffect(() => {
     const signinUser = async () => {
       try {
         const user = await new OidcClient(oidcSettings).processSigninResponse(window.location.href);
+
         if (!user) {
           throw new Error('Bad login response: No user returned');
         }
@@ -185,14 +188,18 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings 
           expiresAt: user.expires_at,
           token: user.id_token,
           refreshToken: user.refresh_token,
-          oidcSettings: oidcSettings,
+          oidcSettings,
         });
         router.push((user.state as { redirectTo?: string }).redirectTo || '/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
     };
-    signinUser();
+
+    if (!hasEverMounted.current) {
+      hasEverMounted.current = true;
+      signinUser();
+    }
   }, []);
 
   if (error) {
