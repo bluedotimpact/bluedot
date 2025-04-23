@@ -12,6 +12,7 @@ type FreeTextResponseProps = {
   title: string;
   // Optional
   exerciseResponse?: string;
+  isLoggedIn?: boolean;
 };
 
 type FormData = {
@@ -22,6 +23,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   className,
   description,
   exerciseResponse,
+  isLoggedIn,
   onExerciseSubmit,
   title,
 }) => {
@@ -65,17 +67,29 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           className={`free-text-response__textarea p-4${
             (!isEditing && exerciseResponse) ? ' free-text-response__textarea--saved container-active bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ' container-lined'
           }`}
-          placeholder="Enter your answer here"
+          placeholder={isLoggedIn ? 'Enter your answer here' : 'Login to save your answers'}
           onChange={() => setIsEditing(true)}
+          disabled={!isLoggedIn}
         />
       </div>
-      <CTALinkOrButton
-        className="free-text-response__submit"
-        variant="primary"
-        type="submit"
-      >
-        Save
-      </CTALinkOrButton>
+      {isLoggedIn ? (
+        <CTALinkOrButton
+          className="free-text-response__submit"
+          variant="primary"
+          type="submit"
+        >
+          Save
+        </CTALinkOrButton>
+      ) : (
+        <CTALinkOrButton
+          className="free-text-response__submit"
+          variant="primary"
+          url="https://course.bluedot.org/login"
+          withChevron
+        >
+          Login to save your answers
+        </CTALinkOrButton>
+      )}
       {(!isEditing && exerciseResponse) && <p className="free-text-response__saved-msg">Saved! 🎉</p>}
     </form>
   );

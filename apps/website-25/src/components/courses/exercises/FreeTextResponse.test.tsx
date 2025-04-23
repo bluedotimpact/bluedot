@@ -31,9 +31,18 @@ describe('FreeTextResponse', () => {
     expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
   });
 
+  test('renders logged in as expected', () => {
+    const { container } = render(
+      <FreeTextResponse {...mockArgs} isLoggedIn />,
+    );
+
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
+  });
+
   test('renders with saved exercise response', () => {
     const { container } = render(
-      <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." />,
+      <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
     const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
 
