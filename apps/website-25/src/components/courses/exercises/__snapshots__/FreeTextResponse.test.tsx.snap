@@ -2,7 +2,7 @@
 
 exports[`FreeTextResponse > renders default as expected 1`] = `
 <div>
-  <div
+  <form
     class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -35,13 +35,14 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
     >
       <textarea
         class="free-text-response__textarea p-4 container-lined"
+        name="answer"
         placeholder="Enter your answer here"
       />
     </div>
     <button
       class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
       data-testid="cta-button"
-      type="button"
+      type="submit"
     >
       <span
         class="cta-button__text"
@@ -49,14 +50,65 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         Save
       </span>
     </button>
-  </div>
+  </form>
 </div>
 `;
 
-exports[`FreeTextResponse > updates styles when answer is saved 1`] = `
-<p
-  class="free-text-response__saved-msg"
->
-  Saved! 🎉
-</p>
+exports[`FreeTextResponse > renders with saved exercise response 1`] = `
+<div>
+  <form
+    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+  >
+    <div
+      class="free-text-response__header flex flex-col gap-4"
+    >
+      <div
+        class="free-text-response__header-icon"
+      >
+        <img
+          alt=""
+          class="w-15 h-15"
+          src="/icons/lightning_bolt.svg"
+        />
+      </div>
+      <div
+        class="free-text-response__header-content flex flex-col gap-2"
+      >
+        <p
+          class="free-text-response__title subtitle-sm"
+        >
+          Understanding LLMs
+        </p>
+        <p>
+          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+        </p>
+      </div>
+    </div>
+    <div
+      class="free-text-response__options flex flex-col gap-2"
+    >
+      <textarea
+        class="free-text-response__textarea p-4 free-text-response__textarea--saved container-active bg-[#63C96533] border-[#63C965] text-[#2A5D2A]"
+        name="answer"
+        placeholder="Enter your answer here"
+      />
+    </div>
+    <button
+      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      data-testid="cta-button"
+      type="submit"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Save
+      </span>
+    </button>
+    <p
+      class="free-text-response__saved-msg"
+    >
+      Saved! 🎉
+    </p>
+  </form>
+</div>
 `;

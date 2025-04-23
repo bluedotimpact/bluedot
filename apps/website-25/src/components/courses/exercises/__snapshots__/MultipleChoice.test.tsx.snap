@@ -2,7 +2,7 @@
 
 exports[`MultipleChoice > renders default as expected 1`] = `
 <div>
-  <div
+  <form
     class="multiple-choice container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -42,7 +42,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
         />
@@ -59,7 +59,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
         />
@@ -76,7 +76,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
         />
@@ -93,7 +93,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
         />
@@ -107,7 +107,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
     <button
       class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
       data-testid="cta-button"
-      type="button"
+      type="submit"
     >
       <span
         class="cta-button__text"
@@ -115,11 +115,33 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Check
       </span>
     </button>
-  </div>
+  </form>
 </div>
 `;
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
+<label
+  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiple-choice__option--selected container-active
+                multiple-choice__option--correct bg-[#63C96533] border-[#63C965]
+                false"
+>
+  <input
+    class="multiple-choice__input"
+    name="answer"
+    type="radio"
+    value="The community's preference for low-tech fishing traditions"
+  />
+  <span
+    class="multiple-choice__label"
+  >
+    The community's preference for low-tech fishing traditions
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for correct option 2`] = `
 <p
   class="multiple-choice__correct-msg"
 >
@@ -127,7 +149,29 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 </p>
 `;
 
-exports[`MultipleChoice > updates styles for incorrect option 1`] = `
+exports[`MultipleChoice > updates styles for correct option 3`] = `
+<label
+  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiple-choice__option--selected container-active
+                false
+                multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]"
+>
+  <input
+    class="multiple-choice__input"
+    name="answer"
+    type="radio"
+    value="Rising consumer demand for fish with more Omega-3s"
+  />
+  <span
+    class="multiple-choice__label"
+  >
+    Rising consumer demand for fish with more Omega-3s
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for correct option 4`] = `
 <p
   class="multiple-choice__incorrect-msg"
 >
