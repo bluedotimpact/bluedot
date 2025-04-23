@@ -141,14 +141,14 @@ For the above to work, you'll probably want to use the pre-built login flow page
 import { LoginRedirectPage, loginPresets } from '@bluedot/ui';
 
 // The login preset should match what you have on the backend
-export default () => <LoginRedirectPage userManagerSettings={loginPresets.keycloak.userManagerSettings} />;
+export default () => <LoginRedirectPage userManagerSettings={loginPresets.keycloak.oidcSettings} />;
 ```
 
 ```typescript
 // In src/pages/login/oauth-callback.tsx
 import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 
-export default () => <LoginOauthCallbackPage userManagerSettings={loginPresets.keycloak.userManagerSettings} />;
+export default () => <LoginOauthCallbackPage userManagerSettings={loginPresets.keycloak.oidcSettings} />;
 ```
 
 ### Error Coercion
