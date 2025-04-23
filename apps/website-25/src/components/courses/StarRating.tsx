@@ -10,6 +10,9 @@ const Star: React.FC<{ filled: boolean }> = ({ filled }) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       fill={filled ? '#FFC16A' : 'transparent'}
+      style={{
+        transition: 'fill 0.1s ease-in-out',
+      }}
     />
   </svg>
 );
@@ -23,12 +26,12 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, setRating }) => {
   const [hoverRating, setHoverRating] = useState<number>(0);
 
   return (
-    <div className="star-rating flex gap-3">
+    <div className="star-rating flex -mx-2">
       {[1, 2, 3, 4, 5].map((i) => (
         <button
           key={i}
           type="button"
-          className="star-rating__star cursor-pointer size-10"
+          className="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
           onMouseEnter={() => setHoverRating(i)}
           onMouseLeave={() => setHoverRating(0)}
           onClick={() => setRating(i)}
