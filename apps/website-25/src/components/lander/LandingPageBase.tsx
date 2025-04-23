@@ -1,16 +1,17 @@
 import {
+  constants,
   CTALinkOrButton,
   Footer,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import Container from './Container';
-import NewNav from './NewNav';
 import SingleTestimonial from './SingleTestimonial';
 import Features from './Features';
 import CourseUnits from './CourseUnits';
 import BlueH2 from './BlueH2';
 import { getCtaUrl } from './getCtaUrl';
+import { Nav } from '../Nav';
 import GraduateSection from '../homepage/GraduateSection';
 
 export interface LandingPageBaseProps {
@@ -29,12 +30,20 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
         <title>BlueDot Impact | Future-proof your career</title>
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
-      <NewNav>
-        <NewNav.Item url="https://course.bluedot.org/login">Login</NewNav.Item>
-        <NewNav.Button url={ctaUrl}>Sign up for free</NewNav.Button>
-      </NewNav>
+      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
       {hero}
 
+      <LandingPageContent ctaUrl={ctaUrl} />
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+};
+
+export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
+  return (
+    <>
       <Container>
         <GraduateSection />
       </Container>
@@ -90,24 +99,24 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
         <BlueH2>What's covered?</BlueH2>
         <CourseUnits>
           <CourseUnits.Unit unitNumber="1">
-            <CourseUnits.Title>AI Agents & What They Can Do</CourseUnits.Title>
-            <CourseUnits.Description>See how smart AI assistants are making work-optional futures possible for the first time and how they're already changing everyday tasks.</CourseUnits.Description>
+            <CourseUnits.Title>Beyond chatbots: the expanding frontier of AI capabilities</CourseUnits.Title>
+            <CourseUnits.Description>Explore how AI capabilities now extend far beyond chatbots, including creating art, writing code, and acting independently as 'agents'.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="2">
-            <CourseUnits.Title>Getting Your Time Back</CourseUnits.Title>
-            <CourseUnits.Description>Try practical AI tools that can save you 10+ hours every week by handling your most boring tasks, freeing you to do what really matters.</CourseUnits.Description>
+            <CourseUnits.Title>Artificial general intelligence: on the horizon?</CourseUnits.Title>
+            <CourseUnits.Description>Learn what AGI means—AI outperforming humans at most cognitive tasks—and why current progress suggests it might arrive within years.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="3">
-            <CourseUnits.Title>Two Possible Futures</CourseUnits.Title>
-            <CourseUnits.Description>Learn about the key choices that will decide whether technology makes life better for everyone or just benefits a few powerful groups.</CourseUnits.Description>
+            <CourseUnits.Title>AGI will drastically change how we live</CourseUnits.Title>
+            <CourseUnits.Description>Grasp the immense potential benefits of AGI, like tackling disease, alongside the severe risks, including misuse, authoritarianism, and losing control.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="4">
-            <CourseUnits.Title>Be Part of the Change</CourseUnits.Title>
-            <CourseUnits.Description>Discover how you can help shape these technologies in your community and workplace, and join others working toward a better future.</CourseUnits.Description>
+            <CourseUnits.Title>What can be done?</CourseUnits.Title>
+            <CourseUnits.Description>Learn about key strategies for safely managing AGI development amid global competition, and discover how we can work towards ensuring its benefits for humanity.</CourseUnits.Description>
           </CourseUnits.Unit>
         </CourseUnits>
         <div className="flex justify-center mt-8">
-          <CTALinkOrButton url={ctaUrl}>Sign up for free</CTALinkOrButton>
+          <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
         </div>
       </Container>
 
@@ -120,7 +129,7 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
           <p className="mb-8 text-size-md">
             Since 2021, we've designed our courses with some of the world's leading experts and helped thousands of talented people build the skills to make a real difference.
           </p>
-          <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Read about us</CTALinkOrButton>
+          <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Get to know us</CTALinkOrButton>
         </div>
         <div className="flex justify-end -mt-8 sm:-mt-16 pointer-events-none">
           <img src="/images/lander/signed_dewi_and_will.svg" alt="Dewi and Will, BlueDot Co-Founders" className="sm:w-2/3" />
@@ -136,10 +145,7 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
           <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
         </div>
       </Container>
-
-      {/* Footer */}
-      <Footer />
-    </div>
+    </>
   );
 };
 

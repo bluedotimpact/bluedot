@@ -22,6 +22,30 @@ export const Default: Story = {
     title: 'Understanding LLMs',
     description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
     options: 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n',
-    answer: 'The community\'s preference for low-tech fishing traditions',
+    answer: 'The community\'s preference for low-tech fishing traditions\n',
+    onExerciseSubmit: () => {},
+  },
+};
+
+export const LoggedIn: Story = {
+  args: {
+    ...Default.args,
+    isLoggedIn: true,
+  },
+};
+
+export const SavedCorrectResponse: Story = {
+  args: {
+    ...Default.args,
+    exerciseResponse: Default.args.answer,
+    isLoggedIn: true,
+  },
+};
+
+export const SavedIncorrectResponse: Story = {
+  args: {
+    ...Default.args,
+    exerciseResponse: 'A cultural shift toward vegetarianism in the region\n',
+    isLoggedIn: true,
   },
 };
