@@ -208,7 +208,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/1"
+                    href="/courses/test-course/1"
                   >
                     Basic Principles of Fish
                   </a>
@@ -233,7 +233,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/2"
+                    href="/courses/test-course/2"
                   >
                     What Fish Are People Catching, and Why?
                   </a>
@@ -258,7 +258,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/3"
+                    href="/courses/test-course/3"
                   >
                     The Promise of Fish
                   </a>
@@ -283,7 +283,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/4"
+                    href="/courses/test-course/4"
                   >
                     The Risks of Fish
                   </a>
@@ -308,7 +308,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/5"
+                    href="/courses/test-course/5"
                   >
                     Contributing to Fish Safety
                   </a>
@@ -333,7 +333,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
                 data-testid="cta-link"
-                href="/courses/test-course/units/2"
+                href="/courses/test-course/2"
               >
                 <span
                   class="cta-button__text"
@@ -363,7 +363,7 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
 <a
   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter unit__cta-link mr-auto"
   data-testid="cta-link"
-  href="/courses/test-course/units/1"
+  href="/courses/test-course/1"
 >
   <span
     class="cta-button__chevron mr-3"

@@ -22,7 +22,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="/courses/test-course/units/1"
+            href="/courses/test-course/1"
           >
             Basic Principles of Fish
           </a>
@@ -47,7 +47,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="/courses/test-course/units/2"
+            href="/courses/test-course/2"
           >
             What Fish Are People Catching, and Why?
           </a>
@@ -72,7 +72,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="/courses/test-course/units/3"
+            href="/courses/test-course/3"
           >
             The Promise of Fish
           </a>
@@ -97,7 +97,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="/courses/test-course/units/4"
+            href="/courses/test-course/4"
           >
             The Risks of Fish
           </a>
@@ -122,7 +122,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </p>
           <a
             class="sidebar__description subtitle-sm"
-            href="/courses/test-course/units/5"
+            href="/courses/test-course/5"
           >
             Contributing to Fish Safety
           </a>
