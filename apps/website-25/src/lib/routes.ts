@@ -1,5 +1,10 @@
 import type { BluedotRoute } from '@bluedot/ui';
 
+const login: BluedotRoute = {
+  title: 'Login',
+  url: '/login',
+};
+
 const home: BluedotRoute = {
   title: 'Home',
   url: '/',
@@ -54,13 +59,14 @@ const logout: BluedotRoute = {
 };
 
 export const ROUTES = {
-  home,
   about,
-  privacyPolicy,
-  joinUs,
-  contact,
   certification,
+  contact,
   courses,
-  profile,
+  home,
+  joinUs,
+  login,
   logout,
+  privacyPolicy,
+  profile,
 } as const;

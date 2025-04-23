@@ -3,6 +3,7 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
+import { ROUTES } from '../../../lib/routes';
 
 type FreeTextResponseProps = {
   // Required
@@ -84,7 +85,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         <CTALinkOrButton
           className="free-text-response__login-cta"
           variant="primary"
-          url="https://course.bluedot.org/login"
+          url={ROUTES.login.url}
           withChevron
         >
           Login to save your answers

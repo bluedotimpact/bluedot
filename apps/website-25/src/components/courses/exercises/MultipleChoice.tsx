@@ -2,6 +2,7 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { ROUTES } from '../../../lib/routes';
 
 type MultipleChoiceProps = {
   // Required
@@ -126,7 +127,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton
           className="multiple-choice__login-cta"
           variant="primary"
-          url="https://course.bluedot.org/login"
+          url={ROUTES.login.url}
           withChevron
         >
           Login to check your answer
