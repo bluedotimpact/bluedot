@@ -3,9 +3,10 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start:docker": "docker-scripts start",
+        "deploy:cd": "docker-scripts deploy",
         "build": "tools/getBluedotKeycloakTheme.sh",
-        "deploy:cd": "docker-scripts deploy"
+        "start": "docker-scripts start",
+        "test": "docker-scripts test"
     },
     "dependencies": {
         "@bluedot/docker-scripts": "*"
