@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, CardButton, H1, H2, Link, P, withAuth,
+  Button, CardButton, ErrorSection, H1, H2, Link, P, ProgressDots, withAuth,
 } from '@bluedot/ui';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useQueryClient } from '@tanstack/react-query';
@@ -39,11 +39,11 @@ const CourseListView: React.FC = () => {
   const { data, isLoading, error } = client.listCourses.useQuery(['courses'], { headers: { authorization: '' } });
 
   if (isLoading) {
-    return <P>Loading...</P>;
+    return <ProgressDots />;
   }
 
   if (error) {
-    return <P>Error: {JSON.stringify(error.body)}</P>;
+    return <ErrorSection error={error} />;
   }
 
   return (

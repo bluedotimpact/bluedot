@@ -308,7 +308,7 @@ describe('makeMakeApiRoute', () => {
       await handler(req, res);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Missing token' });
+      expect(res.json).toHaveBeenCalledWith({ error: 'Missing access token' });
     });
 
     test('should return 401 when auth token is invalid', async () => {
@@ -355,7 +355,7 @@ describe('makeMakeApiRoute', () => {
 
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
-        error: expect.stringMatching(/^(Invalid|Missing) token$/),
+        error: expect.stringMatching(/^(Invalid|Missing) access token$/),
       });
     });
   });
