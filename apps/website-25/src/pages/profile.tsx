@@ -81,7 +81,7 @@ const ProfilePage = withAuth(({ auth }) => {
         </Section>
         {/* TODO #644: Move to Nav */}
         <Section className="profile__cta-container flex flex-row justify-center">
-          <CTALinkOrButton className="profile__logout" url="/login/clear" variant="secondary">
+          <CTALinkOrButton className="profile__logout" url={ROUTES.logout.url} variant="secondary">
             Logout
           </CTALinkOrButton>
         </Section>

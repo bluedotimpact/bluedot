@@ -146,7 +146,7 @@ const CTAButtons: React.FC<{
         <CTALinkOrButton
           className="nav__secondary-cta"
           variant="secondary"
-          url="https://course.bluedot.org/login"
+          url={ROUTES.login.url}
         >
           Login
         </CTALinkOrButton>
