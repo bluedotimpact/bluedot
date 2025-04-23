@@ -3,20 +3,20 @@ import { PressEvent, Button as ReactAriaButton, Link as ReactAriaLink } from 're
 export type LinkOrButtonProps = React.PropsWithChildren<{
   className?: string;
   onPress?: (e: PressEvent) => void;
-  href?: string,
+  url?: string,
   target?: React.HTMLAttributeAnchorTarget,
   disabled?: boolean;
 }>;
 
 export const LinkOrButton = ({
-  children, className, onPress, disabled, href, target,
+  children, className, onPress, disabled, url, target,
 }: LinkOrButtonProps) => {
-  if (href) {
+  if (url) {
     return (
       <ReactAriaLink
         className={className}
         onPress={onPress}
-        href={href}
+        href={url}
         target={target}
         isDisabled={disabled}
       >{children}

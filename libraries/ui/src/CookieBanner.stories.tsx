@@ -10,6 +10,7 @@ const meta = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
+  render: (args) => <div className="min-h-60"><CookieBanner {...args} /></div>,
 } satisfies Meta<typeof CookieBanner>;
 
 export default meta;

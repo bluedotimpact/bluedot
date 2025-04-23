@@ -2,3 +2,5 @@
 
 @import 'tailwindcss';
 @import '../../../libraries/ui/src/default-config/tailwind.css';
+
+@plugin "@tailwindcss/typography";

@@ -3,6 +3,8 @@
 
 export { Banner } from './Banner';
 
+export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
+
 export { Card } from './Card';
 
 export { Collapsible } from './Collapsible';
@@ -21,16 +23,21 @@ export { FaceTiles } from './FaceTiles';
 
 export { Footer } from './Footer';
 
+export { Modal } from './Modal';
+
+export { ProgressDots } from './ProgressDots';
+
 export { Section, SectionHeading } from './Section';
+
+export { ShareButton } from './ShareButton';
 
 export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
-export { Breadcrumbs, type BluedotRoute } from './Breadcrumbs';
-
 // Utils
 
+export { maybePlural } from './utils';
 export { asError } from './utils/asError';
 export { useAuthStore, withAuth, type Auth } from './utils/auth';
 export { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';

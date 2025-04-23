@@ -18,7 +18,7 @@ const HomePage = () => {
 
   return (
     <div className="mx-8">
-      <H1>Adam's page</H1>
+      <H1>Adam's page!</H1>
       <P>Increment by:</P>
       <Input type="number" value={incrementBy} onChange={(e) => setIncrementBy(e.target.valueAsNumber)} />
 
@@ -33,7 +33,7 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
               <Box className="px-4 py-2">
-                <P>{person.firstName} {person.lastName} (<Link href={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>view in Airtable</Link>)</P>
+                <P>{person.firstName} {person.lastName} (<Link url={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>view in Airtable</Link>)</P>
               </Box>
             ))}
           </div>

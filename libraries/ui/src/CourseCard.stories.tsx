@@ -21,7 +21,7 @@ export const Default: Story = {
     description: 'AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.',
     courseType: 'Crash course',
     imageSrc: '/images/intro-course.png',
-    href: 'https://aisafetyfundamentals.com/alignment-fast-track/',
+    url: 'https://aisafetyfundamentals.com/alignment-fast-track/',
   },
 };
 
@@ -31,7 +31,7 @@ export const Featured: Story = {
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.',
     courseType: 'Crash course',
     imageSrc: '/images/alignment-course.png',
-    href: 'https://aisafetyfundamentals.com/intro-to-tai/',
+    url: 'https://aisafetyfundamentals.com/intro-to-tai/',
     cardType: 'Featured',
   },
 };

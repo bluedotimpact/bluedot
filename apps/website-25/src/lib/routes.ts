@@ -29,10 +29,38 @@ const contact: BluedotRoute = {
   parentPages: [home],
 };
 
+const certification: BluedotRoute = {
+  title: 'Certification',
+  url: '/certification',
+  parentPages: [home],
+};
+
+const courses: BluedotRoute = {
+  title: 'Courses',
+  url: '/courses',
+  parentPages: [home],
+};
+
+const profile: BluedotRoute = {
+  title: 'Profile',
+  url: '/profile',
+  parentPages: [home],
+};
+
+const logout: BluedotRoute = {
+  title: 'Log out',
+  url: '/login/clear',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   home,
   about,
   privacyPolicy,
   joinUs,
   contact,
+  certification,
+  courses,
+  profile,
+  logout,
 } as const;

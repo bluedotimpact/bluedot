@@ -1,0 +1,139 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SideBar > renders default as expected 1`] = `
+<div>
+  <div
+    class="sidebar w-full md:w-[332px] flex flex-col"
+  >
+    <div
+      class="sidebar__content flex flex-col gap-6"
+    >
+      <div
+        class="sidebar__unit border sidebar__unit--active border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 
+            1
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="/courses/test-course/units/1"
+          >
+            Basic Principles of Fish
+          </a>
+          <p
+            class="sidebar__description text-size-s"
+          >
+            Master the fundamental concepts of fish biology, behavior, and basic aquatic principles.
+          </p>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 
+            2
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="/courses/test-course/units/2"
+          >
+            What Fish Are People Catching, and Why?
+          </a>
+          <p
+            class="sidebar__description text-size-s"
+          >
+            Explore current trends in fishing technology and the motives behind different fishing approaches.
+          </p>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 
+            3
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="/courses/test-course/units/3"
+          >
+            The Promise of Fish
+          </a>
+          <p
+            class="sidebar__description text-size-s"
+          >
+            Understand how fish will revolutionize everything from the economy to your social life.
+          </p>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 
+            4
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="/courses/test-course/units/4"
+          >
+            The Risks of Fish
+          </a>
+          <p
+            class="sidebar__description text-size-s"
+          >
+            Explore what could go wrong when fish gain too much power.
+          </p>
+        </div>
+      </div>
+      <div
+        class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+      >
+        <div
+          class="sidebar__unit-item flex flex-col gap-2"
+        >
+          <p
+            class="sidebar__title uppercase text-size-xs font-bold"
+          >
+            Unit 
+            5
+          </p>
+          <a
+            class="sidebar__description subtitle-sm"
+            href="/courses/test-course/units/5"
+          >
+            Contributing to Fish Safety
+          </a>
+          <p
+            class="sidebar__description text-size-s"
+          >
+            Learn how you can help create a better world for fish (and their reluctant human neighbors).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

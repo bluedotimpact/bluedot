@@ -1,13 +1,15 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { apiRoute } from '../../lib/api/apiRoute';
+import { z } from 'zod';
+import { makeApiRoute } from '../../lib/api/makeApiRoute';
 
 export type StatusResponse = {
   status: string
 };
 
-export default apiRoute(async (
-  req: NextApiRequest,
-  res: NextApiResponse<StatusResponse>,
-) => {
-  res.status(200).json({ status: 'Online' });
-}, 'insecure_no_auth');
+export default makeApiRoute({
+  requireAuth: false,
+  responseBody: z.object({
+    status: z.string(),
+  }),
+}, async () => {
+  return { status: 'Online' };
+});

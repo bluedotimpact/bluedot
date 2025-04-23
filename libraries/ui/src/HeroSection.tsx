@@ -13,27 +13,24 @@ export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
   );
 };
 
-export type HeroH1Props = React.PropsWithChildren<{
-  className?: string,
-}>;
-
-export const HeroH1: React.FC<HeroH1Props> = ({
-  children, className,
+export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
+  children, className, ...otherProps
 }) => {
   return (
-    <h1 className={clsx('hero-section__title text-on-dark text-center', className)}>{children}</h1>
+    <h1 className={clsx('hero-section__title text-on-dark text-center', className)} {...otherProps}>{children}</h1>
   );
 };
 
-export type HeroH2Props = React.PropsWithChildren<{
-  className?: string,
-}>;
-
-export const HeroH2: React.FC<HeroH2Props> = ({
-  children, className,
+export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
+  children, className, ...otherProps
 }) => {
   return (
-    <h2 className={clsx('hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4', className)}>{children}</h2>
+    <h2
+      className={clsx('hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4', className)}
+      {...otherProps}
+    >
+      {children}
+    </h2>
   );
 };
 
@@ -62,8 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <div className={clsx('hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
-      {/* Top margin is nav height (82px) */}
-      <div className="hero-section__content max-w-[865px] mt-[82px] py-16">
+      <div className="hero-section__content max-w-[865px] py-12">
         {children}
       </div>
     </div>

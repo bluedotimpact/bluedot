@@ -26,7 +26,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) =>
   const items = [...(route.parentPages ?? []), route];
 
   return (
-    <div className={clsx('breadcrumbs border-b border-color-divider w-full py-space-between', className)}>
+    <div className={clsx('breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
       <nav
         className="breadcrumbs__nav section-base"
         aria-label="Breadcrumbs"

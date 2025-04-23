@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HomeHeroContent > renders as expected 1`] = `
+<div>
+  <div
+    class="home-hero-content pb-5 bg-bluedot-darker"
+  >
+    <div
+      class="home-hero-content__logo-container flex flex-col items-center gap-7 mb-8 slide-up-fade-in"
+    >
+      <img
+        alt="BlueDot Impact"
+        class="home-hero-content__logo-icon w-20"
+        src="/images/logo/BlueDot_Impact_Icon_White.svg"
+      />
+    </div>
+    <h1
+      class="hero-section__title text-on-dark text-center home-hero-content__heading slide-up-fade-in"
+    >
+      The expertise you need to shape safe AI
+    </h1>
+    <h2
+      class="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4 home-hero-content__subheading slide-up-fade-in"
+      style="animation-delay: 100ms;"
+    >
+      Learn alongside thousands of professionals through comprehensive courses designed with leading AI safety experts.
+    </h2>
+  </div>
+</div>
+`;

@@ -16,7 +16,7 @@ const HomePage = () => {
       <P>
         Edit <code>src/App.tsx</code> and save to test HMR
       </P>
-      <Button href="/authed">View page requiring auth</Button>
+      <Button url="/authed">View page requiring auth</Button>
     </div>
   );
 };

@@ -1,0 +1,383 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
+<div
+  class="last-unit"
+>
+  <div
+    class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
+  >
+    <h3
+      class="congratulations__title text-center"
+    >
+      Congratulations on completing 
+      What the fish [Test Course]
+      !
+    </h3>
+    <p
+      class="congratulations__description text-center"
+    >
+      Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
+    </p>
+    <div
+      class="social-share flex flex-row gap-4"
+    >
+      <a
+        class="social-share__link size-6"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="social-share__link-icon size-6"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 448 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+          />
+        </svg>
+      </a>
+      <a
+        class="social-share__link size-6"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="social-share__link-icon size-6"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"
+          />
+        </svg>
+      </a>
+      <a
+        class="social-share__link size-6"
+        href="https://www.facebook.com/sharer/sharer.php"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          class="social-share__link-icon size-6"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div
+    class="last-unit__cta-container flex flex-row justify-between mt-6 mx-1"
+  >
+    <a
+      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter last-unit__cta-link mx-auto"
+      data-testid="cta-link"
+      href="/courses/test-course"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Back to course
+      </span>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`UnitLayout > renders first unit as expected 1`] = `
+<div>
+  <div>
+    <div
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x unit__hero"
+    >
+      <div
+        class="hero-section__content max-w-[865px] py-12"
+      >
+        <div
+          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+        >
+          What the fish [Test Course]
+        </div>
+        <h1
+          class="hero-section__title text-on-dark text-center"
+        >
+          Basic Principles of Fish
+        </h1>
+      </div>
+    </div>
+    <div
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
+    >
+      <nav
+        aria-label="Breadcrumbs"
+        class="breadcrumbs__nav section-base"
+      >
+        <ol
+          class="breadcrumbs__list flex"
+        >
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/"
+            >
+              Home
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses"
+            >
+              Courses
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="breadcrumbs__link"
+              href="/courses/test-course"
+            >
+              What the fish [Test Course]
+            </a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <section
+      class="section section-body unit__main"
+    >
+      <div
+        class="section__body"
+      >
+        <div
+          class="unit__content-container flex flex-col md:flex-row gap-16"
+        >
+          <div
+            class="sidebar w-full md:w-[332px] flex flex-col"
+          >
+            <div
+              class="sidebar__content flex flex-col gap-6"
+            >
+              <div
+                class="sidebar__unit border sidebar__unit--active border-color-primary rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    1
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/test-course/units/1"
+                  >
+                    Basic Principles of Fish
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Master the fundamental concepts of fish biology, behavior, and basic aquatic principles.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    2
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/test-course/units/2"
+                  >
+                    What Fish Are People Catching, and Why?
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Explore current trends in fishing technology and the motives behind different fishing approaches.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    3
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/test-course/units/3"
+                  >
+                    The Promise of Fish
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Understand how fish will revolutionize everything from the economy to your social life.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    4
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/test-course/units/4"
+                  >
+                    The Risks of Fish
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Explore what could go wrong when fish gain too much power.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="sidebar__unit border border-color-divider rounded-radius-md p-4 flex flex-col gap-2"
+              >
+                <div
+                  class="sidebar__unit-item flex flex-col gap-2"
+                >
+                  <p
+                    class="sidebar__title uppercase text-size-xs font-bold"
+                  >
+                    Unit 
+                    5
+                  </p>
+                  <a
+                    class="sidebar__description subtitle-sm"
+                    href="/courses/test-course/units/5"
+                  >
+                    Contributing to Fish Safety
+                  </a>
+                  <p
+                    class="sidebar__description text-size-s"
+                  >
+                    Learn how you can help create a better world for fish (and their reluctant human neighbors).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
+          >
+            <div
+              class="markdown-extended-renderer prose"
+            />
+            <div
+              class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
+            >
+              <a
+                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+                data-testid="cta-link"
+                href="/courses/test-course/units/2"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Next unit
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <img
+                    alt="→"
+                    class="cta-button__chevron-icon size-2"
+                    src="/icons/chevron_white.svg"
+                  />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+`;
+
+exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
+<a
+  class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter unit__cta-link mr-auto"
+  data-testid="cta-link"
+  href="/courses/test-course/units/1"
+>
+  <span
+    class="cta-button__chevron mr-3"
+  >
+    <img
+      alt="←"
+      class="cta-button__chevron-icon size-2 rotate-180"
+      src="/icons/chevron_blue.svg"
+    />
+  </span>
+  <span
+    class="cta-button__text"
+  >
+    Previous unit
+  </span>
+</a>
+`;

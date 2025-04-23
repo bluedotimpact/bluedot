@@ -17,7 +17,7 @@
     "@bluedot/ui": "*",
     "@types/jsonwebtoken": "^9.0.6",
     "@zoom/meetingsdk": "^3.9.2",
-    "airtable-ts": "^1.3.2",
+    "airtable-ts": "^1.4.0",
     "axios": "^1.6.8",
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.0",
@@ -25,7 +25,8 @@
     "jsonwebtoken": "^9.0.2",
     "next": "^15.1.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",

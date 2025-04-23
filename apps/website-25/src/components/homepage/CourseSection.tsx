@@ -24,7 +24,7 @@ const CourseSection = () => {
         <CourseCardWithTracking
           trackingEventParams={{
             course_title: featuredCourse.title,
-            course_url: featuredCourse.href,
+            course_url: featuredCourse.url,
           }}
           {...featuredCourse}
           cardType="Featured"
@@ -42,7 +42,7 @@ const CourseSection = () => {
             <CourseCardWithTracking
               trackingEventParams={{
                 course_title: course.title,
-                course_url: course.href,
+                course_url: course.url,
               }}
               key={course.title}
               {...course}

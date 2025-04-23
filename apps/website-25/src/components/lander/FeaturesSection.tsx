@@ -1,9 +1,11 @@
+import clsx from 'clsx';
 import React, { ReactNode } from 'react';
 
 interface FeatureProps {
   iconSrc?: string;
   id?: string;
   className?: string;
+  iconClassName?: string;
   children: ReactNode;
 }
 
@@ -13,13 +15,14 @@ interface FeatureProps {
 export const Feature: React.FC<FeatureProps> = ({
   iconSrc,
   children,
-  className = '',
+  className,
+  iconClassName,
   id,
 }) => (
-  <div className={`text-center ${className}`} id={id}>
+  <div className={clsx('text-center', className)} id={id}>
     {iconSrc && (
-      <div className="size-32 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-        <img src={iconSrc} alt="" className="size-16" />
+      <div className="size-32 bg-bluedot-lighter rounded-full mx-auto mb-4 flex items-center justify-center">
+        <img src={iconSrc} alt="" className={clsx('size-16', iconClassName)} />
       </div>
     )}
     {children}
