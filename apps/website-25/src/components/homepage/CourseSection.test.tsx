@@ -3,6 +3,7 @@ import {
   describe, expect, test, vi, beforeEach,
 } from 'vitest';
 import { sendGAEvent } from '@next/third-parties/google';
+import { constants } from '@bluedot/ui';
 import CourseSection from './CourseSection';
 // Mock the GA event tracking
 vi.mock('@next/third-parties/google', () => ({
@@ -34,7 +35,7 @@ describe('CourseSection', () => {
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
       course_title: 'The Future of AI Course',
-      course_url: 'https://course.bluedot.org/future-of-ai/',
+      course_url: constants.COURSES[0]?.url,
     });
 
     // Click another course card
