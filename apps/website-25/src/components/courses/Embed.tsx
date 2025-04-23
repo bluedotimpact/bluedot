@@ -8,8 +8,6 @@ type EmbedProps = {
 
 const Embed: React.FC<EmbedProps> = ({
   url,
-  // width = '100%',
-  // height = '600px',
   className,
 }) => {
   const isYouTube = url.startsWith('https://www.youtube.com/') || url.startsWith('https://www.youtube-nocookie.com/');
@@ -18,13 +16,13 @@ const Embed: React.FC<EmbedProps> = ({
     // eslint-disable-next-line jsx-a11y/iframe-has-title
     <iframe
       src={isYouTube ? url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/') : url}
-      // These should be overriden in css
+      // Width and height should be overriden in css
       width="100%"
       height="100%"
       frameBorder="0"
       allowFullScreen
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      className={clsx('embed rounded-lg h-[450px]', isYouTube && 'aspect-video', className)}
+      className={clsx('embed rounded-lg', isYouTube ? 'aspect-video h-auto' : 'h-[450px]', className)}
     />
   );
 };
