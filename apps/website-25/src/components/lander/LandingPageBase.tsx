@@ -1,16 +1,17 @@
 import {
+  constants,
   CTALinkOrButton,
   Footer,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import Container from './Container';
-import NewNav from './NewNav';
 import SingleTestimonial from './SingleTestimonial';
 import Features from './Features';
 import CourseUnits from './CourseUnits';
 import BlueH2 from './BlueH2';
 import { getCtaUrl } from './getCtaUrl';
+import { Nav } from '../Nav';
 import GraduateSection from '../homepage/GraduateSection';
 
 export interface LandingPageBaseProps {
@@ -29,10 +30,7 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
         <title>BlueDot Impact | Future-proof your career</title>
         <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
       </Head>
-      <NewNav>
-        <NewNav.Item url="https://course.bluedot.org/login">Login</NewNav.Item>
-        <NewNav.Button url={ctaUrl}>Sign up for free</NewNav.Button>
-      </NewNav>
+      <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
       {hero}
 
       <LandingPageContent ctaUrl={ctaUrl} />
