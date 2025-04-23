@@ -4,6 +4,8 @@ config:
     secure: v1:xxnGOjci0H2TTfIY:p5/SIY+vels8uuUTUCJYRW3JIIYJNF9Jmr1m8usCqYgjU073BMKjQ+uq3dUb42f1iNeOs0A124ZIzDjxv9f1cJNaOd8gfvAxQf1oA1WC/A/CqnHyoNFIG6zpE1C0gNtu+u8=
   infra:alertsSlackBotToken:
     secure: v1:KHo0xEvyljpu6RQu:FxDE6U4NfjkQTTCE+yLJKpF2tnjiNqGM4eWfgnSMgD+3RKyicTHqUuVKYyEQdNYj9YZkokYeD6X0eB277AYJHQUV3ZhbrrO/vA==
+  infra:keycloakAdminPassword:
+    secure: v1:sIY8bHV1jWq56nmx:OjZpnTCKJhrhfIcZDgMrClxm6JSXBa/OMYYVyxROBEIOqHj9pH/kyVTjceUG5MVgnOUPBSHrjAE=
   infra:loginProxyKeycloakClientSecret:
     secure: v1:1HAWwfi+dX96o2Z0:2BIMFlRUbnJcmQoLqKiLiX8qeb8PF2GWSasLQKEpaJ3Y7EMOVsrrLOTLiVjoNa9e
   infra:loginProxySharedSecret:
