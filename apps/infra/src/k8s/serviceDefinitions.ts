@@ -205,7 +205,6 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-login:latest',
         env: [
           { name: 'KC_DB_URL', valueFrom: getConnectionDetails(keycloakPg).jdbcUri },
-          { name: 'KEYCLOAK_ADMIN_PASSWORD', valueFrom: envVarSources.keycloakAdminPassword },
         ],
         startupProbe: {
           httpGet: { path: '/health/started', port: 9000 },

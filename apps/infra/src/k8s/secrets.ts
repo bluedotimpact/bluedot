@@ -10,7 +10,6 @@ const toK8s = [
   'anthropicApiKey',
   'openaiApiKey',
   'meetZoomClientSecret',
-  'keycloakAdminPassword',
   'loginProxySharedSecret',
   'loginProxyKeycloakClientSecret',
   'roomDisplayBearerToken',
