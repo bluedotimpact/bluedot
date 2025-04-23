@@ -4,7 +4,7 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
-import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/units/[unitId]';
+import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitId]';
 // Mock next/router
 vi.mock('next/router', () => ({
   useRouter: vi.fn(() => ({
