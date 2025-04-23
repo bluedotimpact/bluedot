@@ -111,7 +111,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
     <a
       class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
       data-testid="cta-link"
-      href="https://course.bluedot.org/login"
+      href="/login"
     >
       <span
         class="cta-button__text"
