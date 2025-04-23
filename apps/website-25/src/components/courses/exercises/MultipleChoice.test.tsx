@@ -44,7 +44,7 @@ describe('MultipleChoice', () => {
 
   test('updates styles for selected option', async () => {
     const { container } = render(
-      <MultipleChoice {...mockArgs} />,
+      <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
     const optionEls = container.querySelectorAll('.multiple-choice__input');

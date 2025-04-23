@@ -124,7 +124,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
-          className="multiple-choice__submit"
+          className="multiple-choice__login-cta"
           variant="primary"
           url="https://course.bluedot.org/login"
           withChevron

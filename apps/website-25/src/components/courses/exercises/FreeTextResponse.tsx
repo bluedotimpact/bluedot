@@ -82,7 +82,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
-          className="free-text-response__submit"
+          className="free-text-response__login-cta"
           variant="primary"
           url="https://course.bluedot.org/login"
           withChevron
