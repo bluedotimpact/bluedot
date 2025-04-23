@@ -26,7 +26,7 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
 
   return {
     token: user.access_token,
-    expiresAt: user.expires_at,
+    expiresAt: user.expires_at * 1000,
     refreshToken: user.refresh_token ?? auth.refreshToken,
     oidcSettings: auth.oidcSettings,
   };
@@ -34,6 +34,7 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
 
 export interface Auth {
   token: string,
+  /** ms unix timestamp */ 
   expiresAt: number,
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
@@ -59,7 +60,7 @@ export const useAuthStore = create<{
     }
 
     const now = Date.now();
-    const expiresInMs = (auth.expiresAt * 1000) - now;
+    const expiresInMs = auth.expiresAt - now;
     const clearInMs = expiresInMs - 5_000;
     const refreshInMs = expiresInMs - 60_000;
 

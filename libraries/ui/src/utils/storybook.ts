@@ -46,7 +46,7 @@ export const loggedInStory = () => ({
     // Call the *real* setAuth function to set the state
     useAuthStore.getState().setAuth({
       token: 'mockToken',
-      expiresAt: Math.floor(Date.now() / 1000) + 3_600, // Expires in 1 hour
+      expiresAt: Date.now() + 3600000, // Expires in 1 hour
     });
   },
 });

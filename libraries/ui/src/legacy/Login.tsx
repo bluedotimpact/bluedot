@@ -185,7 +185,7 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings 
         }
 
         setAuth({
-          expiresAt: user.expires_at,
+          expiresAt: user.expires_at * 1000,
           token: user.id_token,
           refreshToken: user.refresh_token,
           oidcSettings,
