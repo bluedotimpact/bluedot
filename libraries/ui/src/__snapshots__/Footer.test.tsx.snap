@@ -177,7 +177,7 @@ exports[`Footer > renders default as expected 1`] = `
               >
                 <a
                   class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                  href="https://course.bluedot.org/future-of-ai/"
+                  href="/courses/future-of-ai/"
                 >
                   The Future of AI Course
                 </a>
@@ -500,7 +500,7 @@ exports[`Footer > renders with optional args 1`] = `
               >
                 <a
                   class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer"
-                  href="https://course.bluedot.org/future-of-ai/"
+                  href="https://bluedot.org/courses/future-of-ai/"
                 >
                   The Future of AI Course
                 </a>
