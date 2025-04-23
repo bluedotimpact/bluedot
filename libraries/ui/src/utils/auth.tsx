@@ -1,44 +1,107 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import React from 'react';
+import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { Navigate } from '../legacy/Navigate';
+
+const oidcRefresh = async (auth: Auth): Promise<Auth> => {
+  if (!auth.refreshToken) {
+    throw new Error('oidcRefresh: Missing refresh token');
+  }
+  if (!auth.oidcSettings) {
+    throw new Error('oidcRefresh: Missing OIDC configuration');
+  }
+
+  const user = await new OidcClient(auth.oidcSettings).useRefreshToken({
+    state: {
+      refresh_token: auth.refreshToken,
+      session_state: null,
+      profile: {} as IdTokenClaims,
+    },
+  });
+
+  if (!user || typeof user.expires_at !== 'number' || !user.access_token) {
+    throw new Error('Invalid refresh response');
+  }
+
+  return {
+    token: user.access_token,
+    expiresAt: user.expires_at * 1000,
+    refreshToken: user.refresh_token ?? auth.refreshToken,
+    oidcSettings: auth.oidcSettings,
+  };
+};
 
 export interface Auth {
   token: string,
+  /** ms unix timestamp */
   expiresAt: number,
+  refreshToken?: string,
+  oidcSettings?: OidcClientSettings,
 }
 
 export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
-
-  _authClearTimer: NodeJS.Timeout | null
+  internal_clearTimer: NodeJS.Timeout | null,
+  internal_refreshTimer: NodeJS.Timeout | null
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const existingTimer = get()._authClearTimer;
-    if (existingTimer) {
-      clearTimeout(existingTimer);
+    // Clear existing timers
+    const existingTimer = get().internal_clearTimer;
+    const existingRefreshTimer = get().internal_refreshTimer;
+    if (existingTimer) clearTimeout(existingTimer);
+    if (existingRefreshTimer) clearTimeout(existingRefreshTimer);
+
+    if (!auth) {
+      set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null });
+      return;
     }
 
-    const newTimer = auth
-      ? setTimeout(
-        () => set({ auth: null, _authClearTimer: null }),
-        // Clear auth 5 seconds before expiry
-        // This is to prevent a request being sent just before expiry, but reaching the server just after auth expiry
-        (auth.expiresAt * 1000) - Date.now() - 5000,
-      )
-      : null;
+    const now = Date.now();
+    const expiresInMs = auth.expiresAt - now;
+    const clearInMs = expiresInMs - 5_000;
+    const refreshInMs = expiresInMs - 60_000;
 
-    set({ auth, _authClearTimer: newTimer });
+    // Set up refresh timer if we have refresh capability
+    let refreshTimer: NodeJS.Timeout | null = null;
+    if (auth.refreshToken && auth.oidcSettings) {
+      refreshTimer = setTimeout(async () => {
+        try {
+          const newAuth = await oidcRefresh(auth);
+          get().setAuth(newAuth);
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error('Token refresh failed:', error);
+          get().setAuth(null);
+        }
+      }, refreshInMs);
+    }
+
+    // Set up clear timer as fallback
+    const clearTimer = setTimeout(
+      () => {
+        console.error('Auth token expired, logging out user...');
+        set({ auth: null, internal_clearTimer: null });
+      },
+      clearInMs,
+    );
+
+    set({
+      auth,
+      internal_clearTimer: clearTimer,
+      internal_refreshTimer: refreshTimer,
+    });
   },
-  _authClearTimer: null,
+  internal_clearTimer: null,
+  internal_refreshTimer: null,
 }), {
   name: 'bluedot_auth',
-  version: 20231213,
+  version: 20250423,
 
   // On rehydration, set the state again
-  // This starts the expiry logic
+  // This starts the refresh and expiry logic
   onRehydrateStorage: () => (state) => {
     if (state && state.auth) {
       state.setAuth(state.auth);
