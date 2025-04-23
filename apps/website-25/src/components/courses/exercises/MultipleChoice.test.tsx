@@ -33,9 +33,18 @@ describe('MultipleChoice', () => {
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
   });
 
+  test('renders logged in as expected', () => {
+    const { container } = render(
+      <MultipleChoice {...mockArgs} isLoggedIn />,
+    );
+
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+  });
+
   test('updates styles for selected option', async () => {
     const { container } = render(
-      <MultipleChoice {...mockArgs} />,
+      <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
     const optionEls = container.querySelectorAll('.multiple-choice__input');
@@ -52,7 +61,7 @@ describe('MultipleChoice', () => {
 
   test('updates styles for correct option', () => {
     const { container } = render(
-      <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} />,
+      <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
     // Expect only one correct option
     expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
@@ -66,7 +75,7 @@ describe('MultipleChoice', () => {
   test('updates styles for correct option', () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { container } = render(
-      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} />,
+      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
     // Expect only one incorrect option
     expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);

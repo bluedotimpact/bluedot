@@ -25,9 +25,17 @@ export const Default: Story = {
   },
 };
 
+export const LoggedIn: Story = {
+  args: {
+    ...Default.args,
+    isLoggedIn: true,
+  },
+};
+
 export const Saved: Story = {
   args: {
     ...Default.args,
     exerciseResponse: 'This is my saved answer.',
+    isLoggedIn: true,
   },
 };

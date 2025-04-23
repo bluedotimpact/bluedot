@@ -1,4 +1,4 @@
-import CTALinkOrButton from '@bluedot/ui/src/CTALinkOrButton';
+import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,6 +13,7 @@ type MultipleChoiceProps = {
   // Optional
   className?: string;
   exerciseResponse?: string;
+  isLoggedIn?: boolean;
 };
 
 type FormData = {
@@ -24,6 +25,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   className,
   description,
   exerciseResponse,
+  isLoggedIn,
   onExerciseSubmit,
   options,
   title,
@@ -106,18 +108,30 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
               type="radio"
               value={option}
               onChange={() => handleOptionSelect(option)}
+              disabled={!isLoggedIn}
             />
             <span className="multiple-choice__label">{option}</span>
           </label>
         ))}
       </div>
-      <CTALinkOrButton
-        className="multiple-choice__submit"
-        variant="primary"
-        type="submit"
-      >
-        Check
-      </CTALinkOrButton>
+      {isLoggedIn ? (
+        <CTALinkOrButton
+          className="multiple-choice__submit"
+          variant="primary"
+          type="submit"
+        >
+          Check
+        </CTALinkOrButton>
+      ) : (
+        <CTALinkOrButton
+          className="multiple-choice__login-cta"
+          variant="primary"
+          url="https://course.bluedot.org/login"
+          withChevron
+        >
+          Login to check your answer
+        </CTALinkOrButton>
+      )}
       {(!isEditing && isCorrect) && <p className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</p>}
       {(!isEditing && isIncorrect) && <p className="multiple-choice__incorrect-msg">Try again. 🤔</p>}
     </form>

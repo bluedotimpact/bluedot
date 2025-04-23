@@ -27,10 +27,18 @@ export const Default: Story = {
   },
 };
 
+export const LoggedIn: Story = {
+  args: {
+    ...Default.args,
+    isLoggedIn: true,
+  },
+};
+
 export const SavedCorrectResponse: Story = {
   args: {
     ...Default.args,
     exerciseResponse: Default.args.answer,
+    isLoggedIn: true,
   },
 };
 
@@ -38,5 +46,6 @@ export const SavedIncorrectResponse: Story = {
   args: {
     ...Default.args,
     exerciseResponse: 'A cultural shift toward vegetarianism in the region\n',
+    isLoggedIn: true,
   },
 };

@@ -61,6 +61,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           className={exerciseClassNames}
           {...exerciseData.exercise}
           exerciseResponse={responseData?.exerciseResponse?.response}
+          isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
       );
@@ -70,6 +71,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           className={exerciseClassNames}
           {...exerciseData.exercise}
           exerciseResponse={responseData?.exerciseResponse?.response}
+          isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
       );
