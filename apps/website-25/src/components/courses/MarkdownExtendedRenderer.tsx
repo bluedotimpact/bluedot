@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { evaluate } from '@mdx-js/mdx';
 import { MDXContent } from 'mdx/types';
+import clsx from 'clsx';
 import Greeting from './Greeting';
 import Embed from './Embed';
 // eslint-disable-next-line import/no-cycle
@@ -9,6 +10,7 @@ import Exercise from './exercises/Exercise';
 
 export interface MarkdownRendererProps {
   children?: string;
+  className?: string;
 }
 
 // This must be a function, rather than a constant, to avoid dependency cycles
@@ -19,7 +21,7 @@ export const getSupportedComponents = () => ({
   Exercise,
 });
 
-const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children }) => {
+const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
   useEffect(() => {
     if (!children) {
@@ -37,7 +39,8 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children })
   }, [children, setComponent]);
 
   return (
-    <div className="markdown-extended-renderer flex flex-col gap-4">
+    // See globals.css for advanced prose styles
+    <div className={clsx('markdown-extended-renderer prose', className)}>
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );

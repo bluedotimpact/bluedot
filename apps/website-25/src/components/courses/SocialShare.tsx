@@ -9,7 +9,8 @@ type SocialShareProps = {
 
 const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, text }) => {
   const constructFullCourseUrl = (campaign: string) => {
-    const url = `bluedot.org${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
     return referralCode ? `${url}&r=${referralCode}` : url;
   };
 
@@ -17,7 +18,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
     <div className="social-share flex flex-row gap-4">
       <a
         className="social-share__link size-6"
-        href={`https://www.linkedin.com/shareArticle?mini=true&url=${constructFullCourseUrl('linkedin')}${text && `&text=${text}`}`}
+        href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -25,7 +26,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://twitter.com/intent/tweet?url=${constructFullCourseUrl('twitter')}${text && `&text=${text}`}`}
+        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(constructFullCourseUrl('twitter'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -33,7 +34,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
       </a>
       <a
         className="social-share__link size-6"
-        href={`https://www.facebook.com/sharer/sharer.php?u=${constructFullCourseUrl('facebook')}${text && `&quote=${text}`}`}
+        href="https://www.facebook.com/sharer/sharer.php"
         target="_blank"
         rel="noopener noreferrer"
       >

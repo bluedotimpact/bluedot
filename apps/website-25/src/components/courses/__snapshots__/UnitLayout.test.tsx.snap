@@ -24,7 +24,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
     >
       <a
         class="social-share__link size-6"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=linkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -45,7 +45,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://twitter.com/intent/tweet?url=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=twitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -66,7 +66,7 @@ exports[`UnitLayout > renders Congratulations section on final unit 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php?u=bluedot.org/courses/test-course?utm_source=referral&utm_campaign=facebook&quote=🎉 I just completed the What the fish [Test Course] course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
+        href="https://www.facebook.com/sharer/sharer.php"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -208,7 +208,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/1"
+                    href="/courses/test-course/1"
                   >
                     Basic Principles of Fish
                   </a>
@@ -233,7 +233,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/2"
+                    href="/courses/test-course/2"
                   >
                     What Fish Are People Catching, and Why?
                   </a>
@@ -258,7 +258,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/3"
+                    href="/courses/test-course/3"
                   >
                     The Promise of Fish
                   </a>
@@ -283,7 +283,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/4"
+                    href="/courses/test-course/4"
                   >
                     The Risks of Fish
                   </a>
@@ -308,7 +308,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </p>
                   <a
                     class="sidebar__description subtitle-sm"
-                    href="/courses/test-course/units/5"
+                    href="/courses/test-course/5"
                   >
                     Contributing to Fish Safety
                   </a>
@@ -325,7 +325,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-4"
           >
             <div
-              class="markdown-extended-renderer flex flex-col gap-4"
+              class="markdown-extended-renderer prose"
             />
             <div
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
@@ -333,7 +333,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               <a
                 class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
                 data-testid="cta-link"
-                href="/courses/test-course/units/2"
+                href="/courses/test-course/2"
               >
                 <span
                   class="cta-button__text"
@@ -363,7 +363,7 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
 <a
   class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter unit__cta-link mr-auto"
   data-testid="cta-link"
-  href="/courses/test-course/units/1"
+  href="/courses/test-course/1"
 >
   <span
     class="cta-button__chevron mr-3"

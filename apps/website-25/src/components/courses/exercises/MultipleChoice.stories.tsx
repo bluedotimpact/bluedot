@@ -21,11 +21,31 @@ export const Default: Story = {
   args: {
     title: 'Understanding LLMs',
     description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
-    options: [
-      'The training data includes explicit instructions for these tasks',
-      'The training data includes implicit instructions for these tasks',
-      'The training data includes no instructions for these tasks',
-    ],
-    answer: 'The training data includes explicit instructions for these tasks',
+    options: 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n',
+    answer: 'The community\'s preference for low-tech fishing traditions\n',
+    onExerciseSubmit: () => {},
+  },
+};
+
+export const LoggedIn: Story = {
+  args: {
+    ...Default.args,
+    isLoggedIn: true,
+  },
+};
+
+export const SavedCorrectResponse: Story = {
+  args: {
+    ...Default.args,
+    exerciseResponse: Default.args.answer,
+    isLoggedIn: true,
+  },
+};
+
+export const SavedIncorrectResponse: Story = {
+  args: {
+    ...Default.args,
+    exerciseResponse: 'A cultural shift toward vegetarianism in the region\n',
+    isLoggedIn: true,
   },
 };

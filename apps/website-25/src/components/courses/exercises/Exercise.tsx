@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import useAxios from 'axios-hooks';
+import axios from 'axios';
+import { useAuthStore } from '@bluedot/ui';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
-import { GetExerciseResponse } from '../../../pages/api/courses/exercises/[exerciseId]';
+import { GetExercise } from '../../../pages/api/courses/exercises/[exerciseId]';
+import { GetExerciseResponseResponse, PutExerciseResponseRequest } from '../../../pages/api/courses/exercises/[exerciseId]/response';
 
 type ExerciseProps = {
   // Required
@@ -12,21 +15,66 @@ type ExerciseProps = {
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId,
 }) => {
-  const [{ data }] = useAxios<GetExerciseResponse>({
+  const exerciseClassNames = 'exercise not-prose my-6';
+
+  const auth = useAuthStore((s) => s.auth);
+
+  const [{ data: exerciseData }] = useAxios<GetExercise>({
     method: 'get',
     url: `/api/courses/exercises/${exerciseId}`,
   });
 
-  if (!data || !data.exercise) {
+  const [{ data: responseData }, refetch] = useAxios<GetExerciseResponseResponse>({
+    method: 'get',
+    url: `/api/courses/exercises/${exerciseId}/response`,
+    headers: auth ? {
+      Authorization: `Bearer ${auth.token}`,
+    } : undefined,
+  });
+
+  const handleExerciseSubmit = useCallback(async (exerciseResponse: string, completed?: boolean) => {
+    await axios.put<unknown, unknown, PutExerciseResponseRequest>(
+      `/api/courses/exercises/${exerciseId}/response`,
+      {
+        response: exerciseResponse,
+        completed,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${auth?.token}`,
+        },
+      },
+    );
+
+    await refetch();
+  }, [exerciseId, auth, refetch]);
+
+  if (!exerciseData || !exerciseData.exercise) {
     console.error('Exercise not found');
     return null;
   }
 
-  switch (data.exercise.type) {
+  switch (exerciseData.exercise.type) {
     case 'Free text':
-      return <FreeTextResponse {...data.exercise} />;
+      return (
+        <FreeTextResponse
+          className={exerciseClassNames}
+          {...exerciseData.exercise}
+          exerciseResponse={responseData?.exerciseResponse?.response}
+          isLoggedIn={!!auth}
+          onExerciseSubmit={handleExerciseSubmit}
+        />
+      );
     case 'Multiple choice':
-      return <MultipleChoice {...data.exercise} />;
+      return (
+        <MultipleChoice
+          className={exerciseClassNames}
+          {...exerciseData.exercise}
+          exerciseResponse={responseData?.exerciseResponse?.response}
+          isLoggedIn={!!auth}
+          onExerciseSubmit={handleExerciseSubmit}
+        />
+      );
     default:
       return null;
   }

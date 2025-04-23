@@ -2,7 +2,7 @@
 
 exports[`MultipleChoice > renders default as expected 1`] = `
 <div>
-  <div
+  <form
     class="multiple-choice container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -42,14 +42,15 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          disabled=""
+          name="answer"
           type="radio"
-          value="The training data includes explicit instructions for these tasks"
+          value="The community's preference for low-tech fishing traditions"
         />
         <span
           class="multiple-choice__label"
         >
-          The training data includes explicit instructions for these tasks
+          The community's preference for low-tech fishing traditions
         </span>
       </label>
       <label
@@ -59,14 +60,15 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          disabled=""
+          name="answer"
           type="radio"
-          value="The training data includes implicit instructions for these tasks"
+          value="Rising consumer demand for fish with more Omega-3s"
         />
         <span
           class="multiple-choice__label"
         >
-          The training data includes implicit instructions for these tasks
+          Rising consumer demand for fish with more Omega-3s
         </span>
       </label>
       <label
@@ -76,21 +78,168 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       >
         <input
           class="multiple-choice__input"
-          name="multiple-choice"
+          disabled=""
+          name="answer"
           type="radio"
-          value="The training data includes no instructions for these tasks"
+          value="Environmental regulations and declining cod stocks"
         />
         <span
           class="multiple-choice__label"
         >
-          The training data includes no instructions for these tasks
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="multiple-choice__input"
+          disabled=""
+          name="answer"
+          type="radio"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="multiple-choice__label"
+        >
+          A cultural shift toward vegetarianism in the region
+        </span>
+      </label>
+    </div>
+    <a
+      class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
+      data-testid="cta-link"
+      href="/login"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Login to check your answer
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <img
+          alt="→"
+          class="cta-button__chevron-icon size-2"
+          src="/icons/chevron_white.svg"
+        />
+      </span>
+    </a>
+  </form>
+</div>
+`;
+
+exports[`MultipleChoice > renders logged in as expected 1`] = `
+<div>
+  <form
+    class="multiple-choice container-lined bg-white p-8 flex flex-col gap-6"
+  >
+    <div
+      class="multiple-choice__header flex flex-col gap-4"
+    >
+      <div
+        class="multiple-choice__header-icon"
+      >
+        <img
+          alt=""
+          class="w-15 h-15"
+          src="/icons/lightning_bolt.svg"
+        />
+      </div>
+      <div
+        class="multiple-choice__header-content flex flex-col gap-2"
+      >
+        <p
+          class="multiple-choice__title subtitle-sm"
+        >
+          Understanding LLMs
+        </p>
+        <p
+          class="multiple-choice__description"
+        >
+          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+        </p>
+      </div>
+    </div>
+    <div
+      class="multiple-choice__options flex flex-col gap-2"
+    >
+      <label
+        class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="multiple-choice__input"
+          name="answer"
+          type="radio"
+          value="The community's preference for low-tech fishing traditions"
+        />
+        <span
+          class="multiple-choice__label"
+        >
+          The community's preference for low-tech fishing traditions
+        </span>
+      </label>
+      <label
+        class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="multiple-choice__input"
+          name="answer"
+          type="radio"
+          value="Rising consumer demand for fish with more Omega-3s"
+        />
+        <span
+          class="multiple-choice__label"
+        >
+          Rising consumer demand for fish with more Omega-3s
+        </span>
+      </label>
+      <label
+        class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="multiple-choice__input"
+          name="answer"
+          type="radio"
+          value="Environmental regulations and declining cod stocks"
+        />
+        <span
+          class="multiple-choice__label"
+        >
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="multiple-choice__input"
+          name="answer"
+          type="radio"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="multiple-choice__label"
+        >
+          A cultural shift toward vegetarianism in the region
         </span>
       </label>
     </div>
     <button
       class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
       data-testid="cta-button"
-      type="button"
+      type="submit"
     >
       <span
         class="cta-button__text"
@@ -98,11 +247,33 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         Check
       </span>
     </button>
-  </div>
+  </form>
 </div>
 `;
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
+<label
+  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiple-choice__option--selected container-active
+                multiple-choice__option--correct bg-[#63C96533] border-[#63C965]
+                false"
+>
+  <input
+    class="multiple-choice__input"
+    name="answer"
+    type="radio"
+    value="The community's preference for low-tech fishing traditions"
+  />
+  <span
+    class="multiple-choice__label"
+  >
+    The community's preference for low-tech fishing traditions
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for correct option 2`] = `
 <p
   class="multiple-choice__correct-msg"
 >
@@ -110,7 +281,29 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 </p>
 `;
 
-exports[`MultipleChoice > updates styles for incorrect option 1`] = `
+exports[`MultipleChoice > updates styles for correct option 3`] = `
+<label
+  class="
+              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiple-choice__option--selected container-active
+                false
+                multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]"
+>
+  <input
+    class="multiple-choice__input"
+    name="answer"
+    type="radio"
+    value="Rising consumer demand for fish with more Omega-3s"
+  />
+  <span
+    class="multiple-choice__label"
+  >
+    Rising consumer demand for fish with more Omega-3s
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for correct option 4`] = `
 <p
   class="multiple-choice__incorrect-msg"
 >

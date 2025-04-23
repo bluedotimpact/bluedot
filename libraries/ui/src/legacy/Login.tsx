@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { UserManager, UserManagerSettings } from 'oidc-client-ts';
+import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
@@ -10,7 +10,7 @@ import { useAuthStore } from '../utils/auth';
 import { asError } from '../utils/asError';
 
 export type LoginPageProps = {
-  userManagerSettings: UserManagerSettings
+  oidcSettings: OidcClientSettings
 };
 
 const verifyJwt = async (
@@ -89,7 +89,7 @@ const verifyJwt = async (
 export const loginPresets = {
   /** Any customer login.bluedot.org account can login */
   keycloak: {
-    userManagerSettings: {
+    oidcSettings: {
       authority: 'https://login.bluedot.org/realms/customers/',
       client_id: 'bluedot-web-apps',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
@@ -106,7 +106,7 @@ export const loginPresets = {
   // The useless concats are to avoid GitHub's secret scanner complaining
   // This is fine, because these are NOT secret
   googleBlueDot: {
-    userManagerSettings: {
+    oidcSettings: {
       authority: 'https://accounts.google.com/',
       // eslint-disable-next-line no-useless-concat
       client_id: '558012313311-ndfttio1u55baojf' + 'odrhiju4nvkakmqj.apps.googleusercontent.com',
@@ -134,19 +134,25 @@ export const loginPresets = {
     },
   },
 } satisfies Record<string, {
-  userManagerSettings: UserManagerSettings,
+  oidcSettings: OidcClientSettings,
   verifyAndDecodeToken: (token: string) => Promise<{ sub: string, email: string }>
 }>;
 
-export const LoginRedirectPage: React.FC<LoginPageProps> = ({ userManagerSettings }) => {
+export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect_to') || '/';
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {
     if (!auth) {
-      new UserManager(userManagerSettings)
-        .signinRedirect({ state: { redirectTo } });
+      new OidcClient(oidcSettings)
+        .createSigninRequest({
+          request_type: 'si:r',
+          state: { redirectTo },
+        })
+        .then((req) => {
+          window.location.href = req.url;
+        });
     }
   }, [auth]);
 
@@ -157,15 +163,17 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ userManagerSetting
   return <P className="m-8">Redirecting...</P>;
 };
 
-export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ userManagerSettings }) => {
+export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
+  const hasEverMounted = useRef(false);
 
   useEffect(() => {
     const signinUser = async () => {
       try {
-        const user = await new UserManager(userManagerSettings).signinCallback();
+        const user = await new OidcClient(oidcSettings).processSigninResponse(window.location.href);
+
         if (!user) {
           throw new Error('Bad login response: No user returned');
         }
@@ -175,13 +183,23 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ userManagerSe
         if (typeof user.id_token !== 'string') {
           throw new Error('Bad login response: user.id_token is missing or not a string');
         }
-        setAuth({ expiresAt: user.expires_at, token: user.id_token });
+
+        setAuth({
+          expiresAt: user.expires_at * 1000,
+          token: user.id_token,
+          refreshToken: user.refresh_token,
+          oidcSettings,
+        });
         router.push((user.state as { redirectTo?: string }).redirectTo || '/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
     };
-    signinUser();
+
+    if (!hasEverMounted.current) {
+      hasEverMounted.current = true;
+      signinUser();
+    }
   }, []);
 
   if (error) {

@@ -32,7 +32,7 @@ exports[`CourseSection > renders as expected 1`] = `
         <span>
           <a
             class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-section__featured"
-            href="https://course.bluedot.org/future-of-ai/"
+            href="/courses/future-of-ai/"
           >
             <div
               class="course-card__content block md:flex gap-space-between w-full"

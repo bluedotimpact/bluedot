@@ -38,11 +38,46 @@ export const courseTable: Table<Course> = {
   },
 };
 
+export interface UnitFeedback extends Item {
+  unitId: string,
+  overallRating: number,
+  anythingElse: string,
+  userEmail: string,
+  userFullName: string,
+  createdAt: string | null,
+  lastModified: string | null,
+}
+
+export const unitFeedbackTable: Table<UnitFeedback> = {
+  name: 'UnitFeedback',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblBwjMjul1c6l7ea',
+  mappings: {
+    unitId: 'fldYqvWII6kuxCCmH',
+    overallRating: 'fld3B8HUudN5NxPIU',
+    anythingElse: 'fldYdcPZPdJAqn06w',
+    userEmail: 'fld9JsHJXjud5Bhle',
+    userFullName: 'fldPG0z0SRFcGJhNW',
+    createdAt: 'fldWyJJz3OVNK0kTn',
+    lastModified: 'fldCQ0O6oOf4BcMpJ',
+  },
+  schema: {
+    unitId: 'string',
+    overallRating: 'number',
+    anythingElse: 'string',
+    userEmail: 'string',
+    userFullName: 'string',
+    createdAt: 'string | null',
+    lastModified: 'string | null',
+  },
+};
+
 export interface Unit extends Item {
   id: string,
   courseId: string,
   courseTitle: string,
   coursePath: string,
+  courseSlug: string,
   path: string,
   title: string,
   content: string,
@@ -59,6 +94,7 @@ export const unitTable: Table<Unit> = {
     courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     coursePath: 'fldlCrg7Nv1TPTorZ',
+    courseSlug: 'fldr9I5YGRIia8xln',
     path: 'fldEY7ZHZtXrBL3nv',
     title: 'fldN9BV8GGUHFu9sz',
     content: 'fldF9hjDhZpLbBIUV',
@@ -70,6 +106,7 @@ export const unitTable: Table<Unit> = {
     courseId: 'string',
     courseTitle: 'string',
     coursePath: 'string',
+    courseSlug: 'string',
     path: 'string',
     title: 'string',
     content: 'string',
@@ -85,7 +122,7 @@ export interface Exercise extends Item {
   courseId: string,
   exerciseNumber: string,
   description: string,
-  options: string[],
+  options: string,
   title: string,
   type: string,
   unitId: string,
@@ -112,11 +149,37 @@ export const exerciseTable: Table<Exercise> = {
     courseId: 'string',
     exerciseNumber: 'string',
     description: 'string',
-    options: 'string[]',
+    options: 'string',
     title: 'string',
     type: 'string',
     unitId: 'string',
     unitNumber: 'string',
+  },
+};
+
+export interface ExerciseResponse extends Item {
+  id: string,
+  email: string,
+  exerciseId: string,
+  response: string,
+  completed: boolean,
+}
+
+export const exerciseResponseTable: Table<ExerciseResponse> = {
+  name: 'Exercise response',
+  baseId: 'appnJbsG1eWbAdEvf',
+  tableId: 'tblLNijbqwoLtkd3O',
+  mappings: {
+    email: 'fldI5oHurlbNjQJmM',
+    exerciseId: 'fldSKltln4l3yYdi2',
+    response: 'fld7Qa3JDnRNwCTlH',
+    completed: 'fldz8rocQd7Ws9s2q',
+  },
+  schema: {
+    email: 'string',
+    exerciseId: 'string',
+    response: 'string',
+    completed: 'boolean',
   },
 };
 
@@ -176,7 +239,7 @@ export interface User extends Item {
   utmCampaign: string,
   utmContent: string,
   courseSitesVisited: string,
-  completedMoocAt: number,
+  completedMoocAt: number | null,
 }
 
 export const userTable: Table<User> = {
@@ -207,6 +270,6 @@ export const userTable: Table<User> = {
     utmCampaign: 'string',
     utmContent: 'string',
     courseSitesVisited: 'string',
-    completedMoocAt: 'number',
+    completedMoocAt: 'number | null',
   },
 };

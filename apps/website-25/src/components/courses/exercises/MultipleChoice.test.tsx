@@ -1,18 +1,26 @@
 import { render, waitFor } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import {
+  describe,
+  expect,
+  Mock,
+  test,
+  vi,
+} from 'vitest';
+import axios from 'axios';
 import MultipleChoice from './MultipleChoice';
 
-const mockOptions = [
-  'The training data includes explicit instructions for these tasks',
-  'The training data includes implicit instructions for these tasks',
-  'The training data includes no instructions for these tasks',
-];
+// Mock axios
+vi.mock('axios');
+(axios.put as Mock).mockResolvedValue({ data: {} });
+
+const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
 
 const mockArgs = {
   title: 'Understanding LLMs',
   description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
   options: mockOptions,
-  answer: mockOptions[0] as string,
+  answer: 'The community\'s preference for low-tech fishing traditions\n',
+  onExerciseSubmit: () => {},
 };
 
 describe('MultipleChoice', () => {
@@ -25,12 +33,22 @@ describe('MultipleChoice', () => {
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
   });
 
+  test('renders logged in as expected', () => {
+    const { container } = render(
+      <MultipleChoice {...mockArgs} isLoggedIn />,
+    );
+
+    expect(container).toMatchSnapshot();
+    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+  });
+
   test('updates styles for selected option', async () => {
     const { container } = render(
-      <MultipleChoice {...mockArgs} />,
+      <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[0]}']`) as HTMLElement;
+    const optionEls = container.querySelectorAll('.multiple-choice__input');
+    const optionEl = optionEls[0] as HTMLInputElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
     optionEl?.click();
     // Expect 'selected' state change
@@ -41,51 +59,30 @@ describe('MultipleChoice', () => {
     });
   });
 
-  test('updates styles for correct option', async () => {
+  test('updates styles for correct option', () => {
     const { container } = render(
-      <MultipleChoice
-        {...mockArgs}
-        answer={mockArgs.options[0] as string}
-      />,
+      <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
-    // Select the correct option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[0]}']`) as HTMLElement;
-    const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    optionEl?.click();
-    // Submit the answer
-    const submitEl = container.querySelector('.multiple-choice__submit') as HTMLElement;
-    expect(submitEl).toBeTruthy();
-    submitEl?.click();
-    // Expect 'correct' state change
-    await waitFor(() => {
-      const correctOption = container.querySelectorAll('.multiple-choice__option--correct');
-      expect(correctOption.length).toBe(1);
-      expect(correctOption[0]).toBe(optionLabelEl);
-      expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
-    });
+    // Expect only one correct option
+    expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
+    // Expect 'correct' UI
+    const correctOption = container.querySelector('.multiple-choice__option--correct') as HTMLInputElement;
+    expect(correctOption.textContent).toBe(mockArgs.answer.trim());
+    expect(correctOption).toMatchSnapshot();
+    expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
   });
 
-  test('updates styles for incorrect option', async () => {
+  test('updates styles for correct option', () => {
+    const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { container } = render(
-      <MultipleChoice
-        {...mockArgs}
-        answer={mockArgs.options[0] as string}
-      />,
+      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
-    // Select the second option
-    const optionEl = container.querySelector(`input[value='${mockArgs.options[1]}']`) as HTMLElement;
-    const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    optionEl?.click();
-    // Submit the answer
-    const submitEl = container.querySelector('.multiple-choice__submit') as HTMLElement;
-    expect(submitEl).toBeTruthy();
-    submitEl?.click();
-    // Expect 'incorrect' state change for the selected option
-    await waitFor(() => {
-      const incorrectOption = container.querySelectorAll('.multiple-choice__option--incorrect');
-      expect(incorrectOption.length).toBe(1);
-      expect(incorrectOption[0]).toBe(optionLabelEl);
-      expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
-    });
+    // Expect only one incorrect option
+    expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);
+    // Expect 'incorrect' UI
+    const incorrectOption = container.querySelector('.multiple-choice__option--incorrect') as HTMLInputElement;
+    expect(incorrectOption.textContent).toBe(incorrectAnswer.trim());
+    expect(incorrectOption).toMatchSnapshot();
+    expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
   });
 });

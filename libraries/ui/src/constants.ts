@@ -18,7 +18,7 @@ export const COURSES: Course[] = [
     courseType: 'Self-paced',
     courseLength: '',
     imageSrc: '/images/courses/future-of-ai.png',
-    url: 'https://course.bluedot.org/future-of-ai/',
+    url: '/courses/future-of-ai/',
     isNew: true,
     isFeatured: true,
   },

@@ -1,11 +1,11 @@
 import clsx from 'clsx';
-import React, {
-  useCallback, useState, useEffect,
-} from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaCircleUser } from 'react-icons/fa6';
 import ClickAwayListener from 'react-click-away-listener';
 
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
-import { HamburgerButton } from '@bluedot/ui/src/HamburgerButton';
+import { IconButton, HamburgerIcon } from '@bluedot/ui/src/IconButton';
+import { useAuthStore } from '@bluedot/ui';
 import { ROUTES } from '../lib/routes';
 
 export type NavProps = React.PropsWithChildren<{
@@ -19,6 +19,8 @@ export type NavProps = React.PropsWithChildren<{
     isNew?: boolean;
   }>;
 }>;
+
+const TRANSITION_DURATION_CLASS = 'duration-300';
 
 const DropdownIcon: React.FC<{ expanded: boolean }> = ({ expanded }) => (
   <svg
@@ -42,7 +44,7 @@ const ExploreSection: React.FC<{
 }) => (
   <div
     className={clsx(
-      'nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300',
+      `nav-explore-section__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
       expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
       isScrolled && '[&_a]:link-on-dark',
       className,
@@ -110,32 +112,61 @@ const NavLinks: React.FC<{
       <a href={ROUTES.about.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
       <a href={ROUTES.joinUs.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.joinUs.url) && 'font-bold')}>Join us</a>
       <a href="https://bluedot.org/blog/" className={clsx('nav-links__link', navLinkClasses)}>Blog</a>
+      <a href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={clsx('nav-links__link', navLinkClasses)}>Events</a>
     </div>
   );
 };
 
-const CTAButtons: React.FC<{ className?: string; primaryCtaText?: string; primaryCtaUrl?: string }> = ({
+const ProfileLinks: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
+  const linkClasses = clsx('nav-link-animation w-fit', isScrolled && 'nav-link-animation-dark');
+
+  return (
+    <div className="nav__profile-dropdown flex flex-col gap-4 font-medium pb-10 items-end">
+      <a href={ROUTES.profile.url} className={clsx('nav__profile-link', linkClasses)}>Profile</a>
+      <a href={ROUTES.contact.url} className={clsx('nav__profile-link', linkClasses)}>Help</a>
+      <a href={ROUTES.logout.url} className={clsx('nav__profile-link', linkClasses)}>Log out</a>
+    </div>
+  );
+};
+
+const CTAButtons: React.FC<{
+  className?: string;
+  primaryCtaText?: string;
+  primaryCtaUrl?: string;
+  isLoggedIn: boolean;
+}> = ({
   className,
   primaryCtaText = 'Support us',
   primaryCtaUrl = 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA',
-}) => (
-  <div className={clsx('nav__cta-container', className)}>
-    <CTALinkOrButton
-      className="nav__secondary-cta"
-      variant="secondary"
-      url="https://course.bluedot.org/login"
-    >
-      Login
-    </CTALinkOrButton>
-    <CTALinkOrButton
-      className="nav__primary-cta"
-      variant="primary"
-      url={primaryCtaUrl}
-    >
-      {primaryCtaText}
-    </CTALinkOrButton>
-  </div>
-);
+  isLoggedIn,
+}) => {
+  return (
+    <div className={clsx('nav__cta-container', className)}>
+      {!isLoggedIn && (
+        <CTALinkOrButton
+          className="nav__secondary-cta"
+          variant="secondary"
+          url={ROUTES.login.url}
+        >
+          Login
+        </CTALinkOrButton>
+      )}
+      <CTALinkOrButton
+        className="nav__primary-cta"
+        variant="primary"
+        url={primaryCtaUrl}
+      >
+        {primaryCtaText}
+      </CTALinkOrButton>
+    </div>
+  );
+};
+
+interface ExpandedSectionsState {
+  mobileNav: boolean;
+  explore: boolean;
+  profile: boolean;
+}
 
 export const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
@@ -146,19 +177,34 @@ export const isCurrentPath = (url: string): boolean => {
 export const Nav: React.FC<NavProps> = ({
   className, logo, courses, primaryCtaText, primaryCtaUrl,
 }) => {
-  const [expandedSections, setExpandedSections] = useState<'none' | 'nav' | 'nav-and-explore'>('none');
-  const navExpanded = expandedSections === 'nav' || expandedSections === 'nav-and-explore';
-  const exploreExpanded = expandedSections === 'nav-and-explore';
+  const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
+    mobileNav: false,
+    explore: false,
+    profile: false,
+  });
 
+  const anyDrawerOpen = Object.values(expandedSections).some((v) => v);
+
+  const isLoggedIn = !!useAuthStore((s) => s.auth);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const onToggleExplore = useCallback(() => {
-    setExpandedSections((prev) => (prev === 'nav-and-explore' ? 'nav' : 'nav-and-explore'));
-  }, []);
+  const onToggleExplore = () => setExpandedSections((prev) => ({
+    mobileNav: prev.mobileNav,
+    explore: !prev.explore,
+    profile: false,
+  }));
 
-  const onToggleNav = useCallback(() => {
-    setExpandedSections((prev) => (prev === 'none' ? 'nav' : 'none'));
-  }, []);
+  const onToggleNav = () => setExpandedSections((prev) => ({
+    mobileNav: !prev.mobileNav,
+    explore: false,
+    profile: false,
+  }));
+
+  const onToggleProfile = () => setExpandedSections((prev) => ({
+    mobileNav: false,
+    explore: false,
+    profile: !prev.profile,
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -169,74 +215,97 @@ export const Nav: React.FC<NavProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const drawerBaseClassName = 'transition-[max-height,opacity] relative overflow-hidden px-3';
+  const drawerClosedClassName = `max-h-0 opacity-0 ${
+    anyDrawerOpen ? 'duration-0' : TRANSITION_DURATION_CLASS
+  }`; // Close instantly if any other drawer has been opened
+  const drawerOpenClassName = `max-h-[700px] opacity-100 ${TRANSITION_DURATION_CLASS}`;
+
   return (
     <nav
       className={clsx(
-        'nav sticky top-0 z-50 w-full container-elevated transition-all duration-300',
+        `nav sticky top-0 z-50 w-full container-elevated transition-all ${TRANSITION_DURATION_CLASS}`,
         isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-color-canvas',
         className,
       )}
     >
-      <ClickAwayListener onClickAway={() => setExpandedSections('none')}>
+      <ClickAwayListener onClickAway={() => setExpandedSections({ mobileNav: false, explore: false, profile: false })}>
         <div className="nav__container section-base">
-          <div className="nav__bar w-full grid grid-cols-2 lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
-            <a href="/" className="nav__logo-link shrink-0 w-[200px]">
-              {logo ? (
-                <img
-                  className={clsx(
-                    'nav__logo h-6 mr-auto transition-all duration-300',
-                    isScrolled && 'brightness-0 invert',
-                  )}
-                  src={logo}
-                  alt="BlueDot Impact Logo"
-                />
-              ) : (
-                <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
-              )}
-            </a>
+          <div className="nav__bar w-full flex justify-between lg:grid lg:grid-cols-[20%_60%_20%] items-center h-[72px] sm:h-[100px]">
+            <div className="flex gap-space-between items-center">
+              <IconButton
+                open={expandedSections.mobileNav}
+                Icon={<HamburgerIcon />}
+                setOpen={onToggleNav}
+                className="nav__menu--mobile-tablet mr-2 lg:hidden"
+              />
+              <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+                {logo ? (
+                  <img
+                    className={clsx(
+                      `nav__logo h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`,
+                      isScrolled && 'brightness-0 invert',
+                    )}
+                    src={logo}
+                    alt="BlueDot Impact Logo"
+                  />
+                ) : (
+                  <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
+                )}
+              </a>
+            </div>
             <NavLinks
               onToggleExplore={onToggleExplore}
-              exploreExpanded={exploreExpanded}
+              exploreExpanded={expandedSections.explore}
               courses={courses}
               isScrolled={isScrolled}
               className="nav__links--desktop hidden lg:flex mx-auto"
             />
-            <div className="nav__actions flex gap-space-between ml-auto">
-              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--tablet-desktop gap-6 hidden sm:flex" />
-              <HamburgerButton
-                open={navExpanded}
-                setOpen={onToggleNav}
-                className="nav__menu--mobile-tablet lg:hidden"
+            <div className="nav__actions flex gap-space-between ml-auto items-center">
+              <CTAButtons
+                primaryCtaText={primaryCtaText}
+                primaryCtaUrl={primaryCtaUrl}
+                isLoggedIn={isLoggedIn}
+                className="nav__login--tablet-desktop gap-6 hidden sm:flex"
               />
+              {isLoggedIn && (
+                <IconButton
+                  open={expandedSections.profile}
+                  Icon={<FaCircleUser className="size-[24px] opacity-75" />}
+                  setOpen={onToggleProfile}
+                  className="nav__profile-menu ml-2"
+                />
+              )}
             </div>
           </div>
-
-          <div
-            className={clsx(
-              'nav__drawer transition-[max-height,opacity] duration-300 relative overflow-hidden px-3',
-              navExpanded ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
-            )}
-          >
-            {/* Desktop Explore section */}
-            <ExploreSection
-              expanded={exploreExpanded}
-              courses={courses}
-              className="nav__drawer-content--desktop"
-              innerClassName="pb-10 hidden lg:flex mx-auto"
-              isScrolled={isScrolled}
-            />
+          <ExploreSection
+            expanded={expandedSections.explore}
+            courses={courses}
+            className="nav__drawer-content--desktop"
+            innerClassName="pb-10 hidden lg:flex mx-auto"
+            isScrolled={isScrolled}
+          />
+          <div className={clsx('nav__links-drawer', drawerBaseClassName, expandedSections.mobileNav ? drawerOpenClassName : drawerClosedClassName)}>
             {/* Mobile & Tablet content (including Explore) */}
             <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
               <NavLinks
                 onToggleExplore={onToggleExplore}
-                exploreExpanded={exploreExpanded}
+                exploreExpanded={expandedSections.explore}
                 exploreSectionInline
                 courses={courses}
                 isScrolled={isScrolled}
                 className="nav__links--mobile-tablet flex-col"
               />
-              <CTAButtons primaryCtaText={primaryCtaText} primaryCtaUrl={primaryCtaUrl} className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden" />
+              <CTAButtons
+                primaryCtaText={primaryCtaText}
+                primaryCtaUrl={primaryCtaUrl}
+                className="nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
+                isLoggedIn={isLoggedIn}
+              />
             </div>
+          </div>
+          <div className={clsx('nav__profile-drawer', drawerBaseClassName, expandedSections.profile ? drawerOpenClassName : drawerClosedClassName)}>
+            <ProfileLinks isScrolled={isScrolled} />
           </div>
         </div>
       </ClickAwayListener>

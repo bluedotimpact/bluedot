@@ -17,18 +17,19 @@ export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
 
 // This is a bit hacky, because the Vultr API is annoying
 //
-// To run this initially:
-// 1. Uncomment the initial node pool above, then deploy
-// 2. Comment out the initial node pool above, then deploy
-//
 // To edit the plan:
 // 1. Copy this block, change the name+label (alternate between main and default), then deploy
 // 2. Delete the older block, then deploy
-new vultr.KubernetesNodePools('vke-node-pool-default', {
+//
+// To create a new cluster (unlikely this is what you want!):
+// 1. Uncomment the initial node pool above, then deploy
+// 2. Comment out the initial node pool above, then deploy
+new vultr.KubernetesNodePools('vke-node-pool-main', {
   clusterId: k8sCluster.id,
-  label: 'default-node-pool',
+  label: 'main-node-pool',
   nodeQuantity: 1,
-  plan: 'vhf-2c-4gb',
+  // https://api.vultr.com/v2/plans
+  plan: 'vhf-4c-16gb',
   autoScaler: false,
 });
 

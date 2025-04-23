@@ -13,7 +13,7 @@ const Callout: React.FC<CalloutProps> = ({
   className,
 }) => {
   return (
-    <Collapsible title={title} className={clsx('callout bg-stone-200 border-l-8 px-8', className)}>
+    <Collapsible title={title} className={clsx('callout bg-stone-200 border-l-8 px-8 my-6', className)}>
       {children}
     </Collapsible>
   );
