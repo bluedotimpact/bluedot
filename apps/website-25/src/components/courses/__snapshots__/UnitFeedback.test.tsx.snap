@@ -20,12 +20,12 @@ exports[`UnitFeedback > should render correctly 1`] = `
       </p>
     </div>
     <div
-      class="star-rating flex gap-3"
+      class="star-rating flex -mx-2"
     >
       <button
         aria-label="Rate 1 star"
         aria-pressed="false"
-        class="star-rating__star cursor-pointer size-10"
+        class="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
         type="button"
       >
         <svg
@@ -40,13 +40,14 @@ exports[`UnitFeedback > should render correctly 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
+            style="transition: fill 0.1s ease-in-out;"
           />
         </svg>
       </button>
       <button
         aria-label="Rate 2 stars"
         aria-pressed="false"
-        class="star-rating__star cursor-pointer size-10"
+        class="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
         type="button"
       >
         <svg
@@ -61,13 +62,14 @@ exports[`UnitFeedback > should render correctly 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
+            style="transition: fill 0.1s ease-in-out;"
           />
         </svg>
       </button>
       <button
         aria-label="Rate 3 stars"
         aria-pressed="false"
-        class="star-rating__star cursor-pointer size-10"
+        class="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
         type="button"
       >
         <svg
@@ -82,13 +84,14 @@ exports[`UnitFeedback > should render correctly 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
+            style="transition: fill 0.1s ease-in-out;"
           />
         </svg>
       </button>
       <button
         aria-label="Rate 4 stars"
         aria-pressed="false"
-        class="star-rating__star cursor-pointer size-10"
+        class="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
         type="button"
       >
         <svg
@@ -103,13 +106,14 @@ exports[`UnitFeedback > should render correctly 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
+            style="transition: fill 0.1s ease-in-out;"
           />
         </svg>
       </button>
       <button
         aria-label="Rate 5 stars"
         aria-pressed="false"
-        class="star-rating__star cursor-pointer size-10"
+        class="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
         type="button"
       >
         <svg
@@ -124,6 +128,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
+            style="transition: fill 0.1s ease-in-out;"
           />
         </svg>
       </button>

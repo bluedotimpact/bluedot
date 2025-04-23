@@ -278,14 +278,14 @@ export const Nav: React.FC<NavProps> = ({
               )}
             </div>
           </div>
+          <ExploreSection
+            expanded={expandedSections.explore}
+            courses={courses}
+            className="nav__drawer-content--desktop"
+            innerClassName="pb-10 hidden lg:flex mx-auto"
+            isScrolled={isScrolled}
+          />
           <div className={clsx('nav__links-drawer', drawerBaseClassName, expandedSections.mobileNav ? drawerOpenClassName : drawerClosedClassName)}>
-            <ExploreSection
-              expanded={expandedSections.explore}
-              courses={courses}
-              className="nav__drawer-content--desktop"
-              innerClassName="pb-10 hidden lg:flex mx-auto"
-              isScrolled={isScrolled}
-            />
             {/* Mobile & Tablet content (including Explore) */}
             <div className="nav__drawer-content--mobile-tablet flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
               <NavLinks

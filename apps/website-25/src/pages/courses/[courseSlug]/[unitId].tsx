@@ -12,9 +12,9 @@ const CourseUnitPage = () => {
     url: `/api/courses/${courseSlug}/${unitId}`,
   });
 
-  const unitNumber = unitId ? parseInt(unitId as string) : 0;
+  const unitNumber = typeof unitId === 'string' ? parseInt(unitId) : 0;
   const units = data?.units;
-  const unit = units?.[unitNumber - 1];
+  const unit = units?.find((u) => u.unitNumber === unitId);
 
   return (
     (units && unit) ? (
