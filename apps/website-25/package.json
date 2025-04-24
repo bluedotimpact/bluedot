@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "shx cp -n .env.local.template .env.local",
     "start": "next dev -p 8000",
     "start:docker": "docker-scripts start",
     "build": "next build",
@@ -19,7 +20,7 @@
     "@bluedot/docker-scripts": "*",
     "@bluedot/ui": "*",
     "@mdx-js/mdx": "^3.1.0",
-    "@next/third-parties": "^15.1.7",
+    "@next/third-parties": "^15.3.1",
     "@rive-app/react-canvas": "^4.18.2",
     "@syfxlin/tiptap-starter-kit": "^1.1.2",
     "@tailwindcss/typography": "^0.5.16",
@@ -33,7 +34,7 @@
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.1",
     "http-errors": "^2.0.0",
-    "next": "^15.1.7",
+    "next": "^15.3.1",
     "posthog-js": "^1.217.4",
     "react": "^18.2.0",
     "react-click-away-listener": "^2.3.0",
@@ -61,9 +62,9 @@
     "happy-dom": "^14.7.1",
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",
-    "shx": "^0.3.4",
+    "shx": "^0.4.0",
     "tailwindcss": "^4.0.6",
-    "typescript": "^5.3.2",
+    "typescript": "^5.8.3",
     "vitest": "^1.5.0"
   }
 }

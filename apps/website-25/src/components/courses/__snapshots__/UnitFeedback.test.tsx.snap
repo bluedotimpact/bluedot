@@ -17,9 +17,9 @@ exports[`UnitFeedback > should render correctly 1`] = `
         class="bluedot-p"
       >
         We constantly try to get better and need your feedback to improve the course. It only takes 
-        <u>
+        <b>
           1 min
-        </u>
+        </b>
          to share your learning experience with us.
       </p>
     </div>

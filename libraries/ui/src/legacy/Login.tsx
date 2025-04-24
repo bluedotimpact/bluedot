@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -8,6 +7,7 @@ import { P } from './Text';
 import { Navigate } from './Navigate';
 import { Auth, useAuthStore } from '../utils/auth';
 import { ErrorSection } from '../ErrorSection';
+import { getQueryParam } from '../utils/getQueryParam';
 
 export type LoginPageProps = {
   oidcSettings: OidcClientSettings
@@ -143,8 +143,7 @@ export const loginPresets = {
 }>;
 
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect_to') || '/';
+  const redirectTo = getQueryParam(window.location.href, 'redirect_to') || '/';
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {
@@ -198,7 +197,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
         if (onLoginComplete) {
           await onLoginComplete(auth);
         }
-        router.push((user.state as { redirectTo?: string }).redirectTo || '/');
+        router.push((user.userState as { redirectTo?: string }).redirectTo || '/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
