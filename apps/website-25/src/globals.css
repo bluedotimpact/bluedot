@@ -20,13 +20,35 @@
 
   /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
   blockquote {
-    /* Quote marks */
+    /* Disable quote marks */
     p:first-of-type::before,
     p:last-of-type::after {
       content: none;
     }
+    /* Disable italics */
     p {
       @apply not-italic
+    }
+  }
+
+  /* Disable code backticks */
+  code {
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+
+  /* Hovering link color */
+  a {
+    @apply hover:text-color-primary-accent
+  }
+
+  /* Links in headings should be the same font weight
+   * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
+  h1, h2, h3, h4, h5, h6 {
+    a {
+      font-weight: inherit;
     }
   }
 }
