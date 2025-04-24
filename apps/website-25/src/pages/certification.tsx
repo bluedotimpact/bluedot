@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton,
-  H1,
-  P,
+  H1 as LegacyH1,
+  P as LegacyP,
   ProgressDots,
   Section,
   Footer,
@@ -13,6 +13,7 @@ import useAxios from 'axios-hooks';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { GetCertificateResponse } from './api/certificates/[certificateId]';
 import { ROUTES } from '../lib/routes';
+import { P } from '../components/Text';
 
 const CertificatePage = () => {
   const router = useRouter();
@@ -22,8 +23,8 @@ const CertificatePage = () => {
   if (!certificateId) {
     return (
       <Section>
-        <H1>Invalid certificate</H1>
-        <P>Check the link you were sent and try again.</P>
+        <LegacyH1>Invalid certificate</LegacyH1>
+        <LegacyP>Check the link you were sent and try again.</LegacyP>
         <div className="flex flex-row gap-4 mt-4">
           <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
           <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -49,8 +50,8 @@ const CertificatePage = () => {
     return (
       <main className="bluedot-base">
         <Section>
-          <H1>Certificate not found</H1>
-          <P>We couldn't find the certificate you're looking for.</P>
+          <LegacyH1>Certificate not found</LegacyH1>
+          <LegacyP>We couldn't find the certificate you're looking for.</LegacyP>
           <div className="flex flex-row gap-4 mt-4">
             <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
             <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -75,9 +76,9 @@ const CertificatePage = () => {
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <FaCircleCheck className="size-5 text-bluedot-normal" />
-                <p className="font-bold">Verified</p>
+                <P className="font-bold">Verified</P>
               </div>
-              <p className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</p>
+              <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
             </div>
             <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`https://course.bluedot.org/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
@@ -89,12 +90,12 @@ const CertificatePage = () => {
           </div>
 
           <div className="md:w-2/3 space-y-4">
-            <p><span className="text-bluedot-normal font-semibold">BlueDot Impact</span> confirms that</p>
-            <p className="text-4xl font-serif font-bold">{certificate.recipientName}</p>
-            <p className="text-gray-700">has successfully completed the</p>
-            <p className="text-4xl mb-12 font-serif font-bold">{certificate.courseName} Course</p>
+            <P><span className="text-bluedot-normal font-semibold">BlueDot Impact</span> confirms that</P>
+            <P className="text-4xl font-serif font-bold">{certificate.recipientName}</P>
+            <P className="text-gray-700">has successfully completed the</P>
+            <P className="text-4xl mb-12 font-serif font-bold">{certificate.courseName} Course</P>
 
-            <p>{certificate.certificationDescription}</p>
+            <P>{certificate.certificationDescription}</P>
 
             <CTALinkOrButton url={certificate.courseDetailsUrl} variant="secondary">Learn more</CTALinkOrButton>
           </div>

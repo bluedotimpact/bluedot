@@ -23,7 +23,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
           class="flex justify-center mt-8"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
             data-testid="cta-link"
             href="#open-roles-anchor"
           >
@@ -286,7 +286,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
                 >
                   <img
                     alt="Think hard, act fast, fail faster"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/values/think.png"
                   />
                 </div>
@@ -322,7 +322,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
                 >
                   <img
                     alt="Care personally, challenge directly"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/values/care.png"
                   />
                 </div>
@@ -358,7 +358,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
                 >
                   <img
                     alt="Obsessed with empowering problem-solvers"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/values/powering.png"
                   />
                 </div>
@@ -434,7 +434,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
                 Permanent
               </p>
               <a
-                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
                 data-testid="cta-link"
                 href="/join-the-team/swe-contractor"
               >
@@ -477,7 +477,7 @@ exports[`JoinTheTeamPage > should render the error message correctly 1`] = `
                 Permanent
               </p>
               <a
-                class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
+                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
                 data-testid="cta-link"
                 href="/join-the-team/ai-safety-teaching-fellow"
               >

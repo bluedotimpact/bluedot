@@ -14,6 +14,7 @@ import TeamSection from '../components/about/TeamSection';
 import JoinUsCta from '../components/about/JoinUsCta';
 import BeliefsSection from '../components/about/BeliefsSection';
 import { ROUTES } from '../lib/routes';
+import { P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.about;
 
@@ -38,7 +39,7 @@ const AboutPage = () => {
       <TeamSection />
       <JoinUsCta />
       <Section title="Contact us">
-        <p>We love hearing from people, and are keen for people to reach out to us with any questions or feedback!</p>
+        <P>We love hearing from people, and are keen for people to reach out to us with any questions or feedback!</P>
         <CTALinkOrButton url={ROUTES.contact.url} variant="secondary" withChevron className="mt-5">Contact us</CTALinkOrButton>
       </Section>
     </div>

@@ -1,4 +1,5 @@
 import { FaceTiles, Section } from '@bluedot/ui';
+import { P } from '../Text';
 
 const faces = [
   { src: '/images/graduates/matthew.png', alt: 'Matthew' },
@@ -12,7 +13,7 @@ const GraduateSection = () => {
       <div className="graduate-section__container flex flex-col md:flex-row gap-6 items-center">
         <div className="graduate-section__header flex items-center gap-2 shrink-0">
           <FaceTiles faces={faces} />
-          <p className="graduate-section__text flex-shrink-0">Our graduates work at</p>
+          <P className="graduate-section__text flex-shrink-0">Our graduates work at</P>
         </div>
         <div className="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
           <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none">

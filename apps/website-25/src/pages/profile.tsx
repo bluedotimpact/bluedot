@@ -15,6 +15,7 @@ import useAxios from 'axios-hooks';
 import { GetUserResponse } from './api/users/me';
 import Congratulations from '../components/courses/Congratulations';
 import { ROUTES } from '../lib/routes';
+import { H3, P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -51,16 +52,16 @@ const ProfilePage = withAuth(({ auth }) => {
           className="profile max-w-[728px]"
         >
           <div className="profile__account-details flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-            <h3>Account details</h3>
-            <p>Name: {data.user.name}</p>
-            <p>Email: {data.user.email}</p>
+            <H3>Account details</H3>
+            <P>Name: {data.user.name}</P>
+            <P>Email: {data.user.email}</P>
           </div>
           <div className="profile__course-progress flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4">
             {data.user.courseSitesVisited.length > 0 ? (
               <>
-                <h3>{data.user.courseSitesVisited}</h3>
+                <H3>{data.user.courseSitesVisited}</H3>
                 {completedMooc ? (
-                  <p>Completed 🎉</p>
+                  <P>Completed 🎉</P>
                 ) : (
                   <CTALinkOrButton url={data.user.coursePath} variant="primary">
                     Continue
@@ -68,7 +69,7 @@ const ProfilePage = withAuth(({ auth }) => {
                 )}
               </>
             ) : (
-              <p>You have not enrolled in any courses yet.</p>
+              <P>You have not enrolled in any courses yet.</P>
             )}
           </div>
           {completedMooc && (

@@ -96,23 +96,26 @@ Our color tokens are built to be used with Tailwind CSS utility classes. Here ar
 
 You may use `text-size-` classes for different text sizes, from `text-size-xxs` for the smallest text to `text-size-xl` for the largest text.
 
-For convenience we also ship prestyled `<h1>` through `<h4>`, `<p>`, `<blockquote>`, `<a>` tags that you can use in your React components. 
+For convenience we also ship `<H1>` through `<H4>`, `<P>`, `<Blockquote>`, `<Link>` tags that you can use in your React components.
 
-Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `.subtitle-sm`, `.body` & `.link` utility classes.
+Need those same styles but for a different tag? Use the `.bluedot-h1`, ..., `.bluedot-h4`, `.bluedot-p` & `.bluedot-a` utility classes.
 
 ```jsx
-<h1>Heading 1</h1>
-<h2>Heading 2</h2>
-<div className="title">Title</div> <!-- Same as h2 -->
-<h3>Heading 3</h3>
-<div className="subtitle">Subtitle</div> <!-- Same as h3 -->
-<h4>Heading 4</h4>
-<div className="subtitle-sm">Subtitle Small</div> <!-- Same as h4 -->
-<p>Paragraph</p>
-<div className="body">Body</div> <!-- Same as p -->
-<a href="#">Link</a>
-<span className="link">Link</span> <!-- Same as a -->
-<blockquote>Blockquote</blockquote>
+import { H1, H2, P } from '../components/Text';
+
+<H1>Heading 1</H1>
+<div className="bluedot-h1">Title</div> <!-- Same as H1 -->
+<H2>Heading 2</H2>
+<div className="bluedot-h2">Subtitle</div> <!-- Same as H2 -->
+<H3>Heading 3</H3>
+<div className="bluedot-h3">Subsubtitle</div> <!-- Same as H3 -->
+<H4>Heading 4</H4>
+<div className="bluedot-h4">Subsubsubtitle</div> <!-- Same as H4 -->
+<P>Paragraph</P>
+<div className="bluedot-p">Body</div> <!-- Same as P -->
+<A href="#">Link</A>
+<span className="bluedot-a">Link</span> <!-- Same as A -->
+<Blockquote>Blockquote</Blockquote>
 ```
 
 #### Text Sizes
@@ -151,15 +154,15 @@ Need those same styles but for a different tag? Use the `.title`, `.subtitle`, `
 
 ### Border Radius
 
-We have two border radius tokens: `radius-sm` and `radius-md`. 
+We prefer two border radius tokens: `rounded-sm` and `rounded-lg`. 
 
 You can use `rounded-` Tailwind CSS utility classes to create rounded corners on your components.
 
 <Unstyled>
-  <p className="p-8 max-w-64 bg-color-canvas rounded-radius-md border-color-divider border-1">
-    <p className="mb-4 text-color-text">rounded-radius-md</p>
-    <p className="p-4 max-w-48 bg-color-canvas-dark text-color-text-on-dark rounded-radius-sm border-color-divider border-1">
-      <p className="text-color-text-on-dark">rounded-radius-sm</p>
+  <p className="p-8 max-w-64 bg-color-canvas rounded-lg border-color-divider border-1">
+    <p className="mb-4 text-color-text">rounded-lg</p>
+    <p className="p-4 max-w-48 bg-color-canvas-dark text-color-text-on-dark rounded-sm border-color-divider border-1">
+      <p className="text-color-text-on-dark">rounded-sm</p>
     </p>
   </p>
 </Unstyled>

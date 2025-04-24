@@ -20,12 +20,12 @@ type FooterSectionProps = {
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('footer__section', className)}>
-    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md">{title}</h3>}
+    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3">{title}</h3>}
     {links && (
       <ul className="footer__list space-y-4 mb-auto list-none p-0">
         {links.map((link) => (
-          <li key={link.url} className="footer__item">
-            <a href={link.url} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">
+          <li key={link.url} className="footer__item leading-tight">
+            <a href={link.url} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline">
               {link.label}
             </a>
           </li>
@@ -41,13 +41,13 @@ type FooterSocialProps = {
 
 const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
   <div className={clsx('footer__social flex gap-6', className)}>
-    <a href="https://twitter.com/BlueDotImpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="Twitter">
+    <a href="https://twitter.com/BlueDotImpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="Twitter">
       <FaXTwitter className="size-6" />
     </a>
-    <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="YouTube">
+    <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="YouTube">
       <FaYoutube className="size-6" />
     </a>
-    <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark" aria-label="LinkedIn">
+    <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="LinkedIn">
       <FaLinkedin className="size-6" />
     </a>
   </div>
@@ -62,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
             {logo ? (
               <img className="h-8" src={logo} alt="BlueDot Impact Logo" />
             ) : (
-              <p className="h-8 text-xl text-white">BlueDot Impact</p>
+              <p className="h-8 text-xl text-white bluedot-p">BlueDot Impact</p>
             )}
           </a>
           <FooterSocial className="hidden sm:flex" />
@@ -89,8 +89,8 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
         </div>
         <FooterSocial className="sm:hidden" />
       </nav>
-      <p className="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8">
-        &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer">14964572</a>).
+      <p className="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p">
+        &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">14964572</a>).
       </p>
     </div>
   </footer>

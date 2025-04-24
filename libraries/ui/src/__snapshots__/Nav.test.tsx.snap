@@ -53,7 +53,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
@@ -195,7 +195,7 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
           >
             <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
@@ -273,7 +273,7 @@ exports[`Nav > renders with optional yield 1`] = `
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"
@@ -398,7 +398,7 @@ exports[`Nav > renders with optional yield 1`] = `
             class="nav__cta-container nav__login--mobile justify-between mt-20 flex sm:hidden"
           >
             <a
-              class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
               rel="noopener noreferrer"

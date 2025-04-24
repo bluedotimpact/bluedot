@@ -13,17 +13,17 @@ exports[`CourseCard > renders Featured as expected 1`] = `
         class="course-card__text"
       >
         <p
-          class="course-card__featured-label uppercase font-[650] text-xs mb-3"
+          class="course-card__featured-label uppercase font-[650] text-xs mb-3 bluedot-p"
         >
           Featured course
         </p>
         <h3
-          class="course-card__title mb-6"
+          class="course-card__title mb-6 bluedot-h3"
         >
           Title
         </h3>
         <button
-          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+          class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
           data-testid="cta-button"
           type="button"
         >
@@ -34,7 +34,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           </span>
         </button>
         <p
-          class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+          class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
         >
           Description
         </p>
@@ -53,7 +53,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
       class="course-card__footer flex justify-between w-full"
     >
       <p
-        class="course-card__footer-left text-left text-xs text-bluedot-black"
+        class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
       >
         <span
           class="course-card__length font-medium"
@@ -82,7 +82,7 @@ exports[`CourseCard > renders default as expected 1`] = `
       >
         <img
           alt="Title"
-          class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+          class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
           src="/images/courses/course.jpg"
         />
       </div>
@@ -93,12 +93,12 @@ exports[`CourseCard > renders default as expected 1`] = `
           class="card__text"
         >
           <p
-            class="card__title subtitle-sm mb-2"
+            class="card__title bluedot-h4 mb-2"
           >
             Title
           </p>
           <p
-            class="card__subtitle grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+            class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
           >
             Description
           </p>
@@ -113,7 +113,7 @@ exports[`CourseCard > renders default as expected 1`] = `
               class="course-card__footer flex justify-between w-full"
             >
               <p
-                class="course-card__footer-left text-left text-xs text-bluedot-black"
+                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
               >
                 <span
                   class="course-card__length font-medium"
@@ -141,7 +141,7 @@ exports[`CourseCard > renders with optional args 1`] = `
 exports[`CourseCard > renders with optional args 2`] = `
 <img
   alt="Title"
-  class="card__image max-w-full max-h-full object-cover rounded-radius-md course-card__image w-full h-[165px] object-cover rounded-none"
+  class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
   src="/images/team/custom-size.jpg"
 />
 `;

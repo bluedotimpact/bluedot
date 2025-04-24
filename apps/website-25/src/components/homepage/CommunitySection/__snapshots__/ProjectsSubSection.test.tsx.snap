@@ -12,12 +12,12 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h3
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h3"
         >
           Course Projects
         </h3>
         <p
-          class="section-heading__subtitle text-bluedot-darker text-md"
+          class="section-heading__subtitle text-bluedot-darker text-md bluedot-p"
         >
           Competition winners
         </p>
@@ -57,7 +57,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                 >
                   <img
                     alt="Contextual Constitutional AI"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/project-winners/akshat-naik.png"
                   />
                 </div>
@@ -68,12 +68,12 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       Contextual Constitutional AI
                     </p>
                     <p
-                      class="card__subtitle text-base"
+                      class="card__subtitle bluedot-p text-base"
                     >
                       by Akshat Naik
                     </p>
@@ -95,7 +95,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                 >
                   <img
                     alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/project-winners/ella-duus.png"
                   />
                 </div>
@@ -106,12 +106,12 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
                     </p>
                     <p
-                      class="card__subtitle text-base"
+                      class="card__subtitle bluedot-p text-base"
                     >
                       by Ella Duus
                     </p>
@@ -133,7 +133,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                 >
                   <img
                     alt="Societal Adaptation to AI Human-Labor Automation"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/project-winners/yuval-rymon.png"
                   />
                 </div>
@@ -144,12 +144,12 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       Societal Adaptation to AI Human-Labor Automation
                     </p>
                     <p
-                      class="card__subtitle text-base"
+                      class="card__subtitle bluedot-p text-base"
                     >
                       by Yuval Rymon
                     </p>
@@ -171,7 +171,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                 >
                   <img
                     alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/project-winners/naci-cankaya.png"
                   />
                 </div>
@@ -182,12 +182,12 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
                     </p>
                     <p
-                      class="card__subtitle text-base"
+                      class="card__subtitle bluedot-p text-base"
                     >
                       by Naci Cankaya
                     </p>
@@ -253,7 +253,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
         </div>
       </div>
       <a
-        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter projects__link h-fit py-3"
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter projects__link h-fit py-3"
         data-testid="cta-link"
         href="https://aisafetyfundamentals.com/projects/"
       >
