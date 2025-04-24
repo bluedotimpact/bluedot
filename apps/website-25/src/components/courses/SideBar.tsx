@@ -1,6 +1,6 @@
 import React from 'react';
 import { Unit } from '../../lib/api/db/tables';
-import { A, P } from '../Text';
+import { P } from '../Text';
 
 type SideBarProps = {
   // Required
@@ -30,7 +30,7 @@ const SideBar: React.FC<SideBarProps> = ({
           >
             <div className="sidebar__unit-item flex flex-col gap-2">
               <P className="sidebar__unit-number uppercase text-size-xs font-bold">Unit {unit.unitNumber}</P>
-              <P className="sidebar__title text-color-secondary-text font-sans text-size-md font-[650]">{unit.title}</P>
+              <P className="sidebar__title text-color-secondary-text text-size-md font-[650]">{unit.title}</P>
               <P className="sidebar__description text-size-s">{unit.description}</P>
             </div>
             {/* {isCurrentUnit(unit) && unit.chapters && (
