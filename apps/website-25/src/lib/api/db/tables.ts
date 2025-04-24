@@ -207,7 +207,7 @@ export const courseRegistrationTable: Table<CourseRegistration> = {
     firstName: 'fldIhZ4wc5t1Yabgz',
     lastName: 'fldHa6GR5aBsOBtkz',
     fullName: 'fld1rOZGAHBRcdJcM',
-    courseId: 'flda4CZqaugyaftyQ',
+    courseId: 'fldPkqPbeoIhERqSY',
     decision: 'fldWVKY5EFAGSRcDT',
     role: 'fld52Y2AyWV8tECDy',
     certificateId: 'fld9hQE0EvdKRsp9k',
