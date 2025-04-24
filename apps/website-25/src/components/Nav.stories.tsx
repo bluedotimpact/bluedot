@@ -3,6 +3,7 @@ import { loggedInStory, loggedOutStory } from '@bluedot/ui';
 
 import imgSrc from '../../public/images/logo/BlueDot_Impact_Logo.svg';
 import { Nav } from './Nav';
+import { A } from './Text';
 
 /**
  * Wrapper to add a min-height so the viewport doesn't collapse completely
@@ -48,7 +49,11 @@ export const CustomizedExploreLinks: Story = {
     primaryCtaText: 'Start learning',
     primaryCtaUrl: 'https://course.bluedot.org/future-of-ai',
     children: [
-      <><a href="#">Support Us</a><a href="#">About</a><a href="#">Join us</a><a href="#">Blog</a></>,
+      <>
+        <A className="no-underline" href="#">Some</A>
+        <A className="no-underline" href="#">Custom</A>
+        <A className="no-underline" href="#">Links</A>
+      </>,
     ],
   },
 };

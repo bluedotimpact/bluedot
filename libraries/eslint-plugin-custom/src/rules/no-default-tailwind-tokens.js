@@ -7,13 +7,6 @@ const defaultTokens = {
   'text-xl': 'text-size-xl',
   'text-2xl': 'text-size-2xl',
   'text-3xl': 'text-size-3xl',
-
-  // Border radius
-  'rounded-sm': 'rounded-radius-sm',
-  rounded: 'rounded-radius-base',
-  'rounded-md': 'rounded-radius-md',
-  'rounded-lg': 'rounded-radius-lg',
-  'rounded-xl': 'rounded-radius-xl',
 };
 
 /** @type {import('eslint').Rule.RuleModule} */

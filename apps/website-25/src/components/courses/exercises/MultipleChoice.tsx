@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
+import { P } from '../../Text';
 
 type MultipleChoiceProps = {
   // Required
@@ -87,8 +88,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
         <div className="multiple-choice__header-content flex flex-col gap-2">
-          <p className="multiple-choice__title subtitle-sm">{title}</p>
-          <p className="multiple-choice__description">{description}</p>
+          <P className="multiple-choice__title bluedot-h4">{title}</P>
+          <P className="multiple-choice__description">{description}</P>
         </div>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
@@ -133,8 +134,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           Login to check your answer
         </CTALinkOrButton>
       )}
-      {(!isEditing && isCorrect) && <p className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</p>}
-      {(!isEditing && isIncorrect) && <p className="multiple-choice__incorrect-msg">Try again. 🤔</p>}
+      {(!isEditing && isCorrect) && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
+      {(!isEditing && isIncorrect) && <P className="multiple-choice__incorrect-msg">Try again. 🤔</P>}
     </form>
   );
 };

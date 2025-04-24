@@ -7,22 +7,19 @@ import {
   withAuth,
   CTALinkOrButton,
   Breadcrumbs,
-  // useAuthStore,
+  ErrorSection,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { GetUserResponse } from './api/users/me';
 import Congratulations from '../components/courses/Congratulations';
 import { ROUTES } from '../lib/routes';
+import { H3, P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
-// withAuth will redirect the user to login before viewing the page
-// If you want to get the user's token without redirecting them, use useAuthStore (which will be null if they're not logged in)
 const ProfilePage = withAuth(({ auth }) => {
-  // const auth = useAuthStore((s) => s.auth);
-
-  const [{ data, loading }] = useAxios<GetUserResponse>({
+  const [{ data, loading, error }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
     headers: {
@@ -30,7 +27,9 @@ const ProfilePage = withAuth(({ auth }) => {
     },
   });
 
+  const enrolledMoocCourse = data?.enrolledCourses.find((c) => c.title === 'Future of AI');
   const completedMooc = !!data?.user.completedMoocAt;
+  const nonMoocCourses = data?.enrolledCourses.filter((c) => c !== enrolledMoocCourse) ?? [];
 
   return (
     <div>
@@ -38,7 +37,7 @@ const ProfilePage = withAuth(({ auth }) => {
         <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
       </Head>
       {loading && <ProgressDots />}
-      {/* TODO: error page */}
+      {error && <ErrorSection error={error} />}
       {data?.user && (
       <>
         <HeroSection>
@@ -50,40 +49,32 @@ const ProfilePage = withAuth(({ auth }) => {
           className="profile max-w-[728px]"
         >
           <div className="profile__account-details flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-            <h3>Account details</h3>
-            <p>Name: {data.user.name}</p>
-            <p>Email: {data.user.email}</p>
+            <H3>Account details</H3>
+            <P>Name: {data.user.name}</P>
+            <P>Email: {data.user.email}</P>
           </div>
-          <div className="profile__course-progress flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4">
-            {data.user.courseSitesVisited.length > 0 ? (
-              <>
-                <h3>{data.user.courseSitesVisited}</h3>
-                {completedMooc ? (
-                  <p>Completed 🎉</p>
-                ) : (
-                  <CTALinkOrButton url={data.user.coursePath} variant="primary">
-                    Continue
-                  </CTALinkOrButton>
-                )}
-              </>
-            ) : (
-              <p>You have not enrolled in any courses yet.</p>
-            )}
-          </div>
-          {completedMooc && (
+          {data.enrolledCourses.length === 0 && (
+            <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+              <P>You haven't started any courses yet</P>
+              <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
+            </div>
+          )}
+          {nonMoocCourses.length > 0 && (nonMoocCourses.map((course) => (
+            <div className="profile__course-progress flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4" key={course.id}>
+              <H3>{course.title}</H3>
+              <CTALinkOrButton url={course.path} variant="primary">
+                Continue
+              </CTALinkOrButton>
+            </div>
+          )))}
+          {enrolledMoocCourse && completedMooc && (
             <Congratulations
               className="profile__course-completion !container-active"
-              courseTitle={data.user.courseSitesVisited}
-              coursePath={data.user.coursePath}
+              courseTitle={enrolledMoocCourse.title}
+              coursePath={enrolledMoocCourse.path}
               referralCode={data.user.referralId}
             />
           )}
-        </Section>
-        {/* TODO #644: Move to Nav */}
-        <Section className="profile__cta-container flex flex-row justify-center">
-          <CTALinkOrButton className="profile__logout" url={ROUTES.logout.url} variant="secondary">
-            Logout
-          </CTALinkOrButton>
         </Section>
       </>
       )}

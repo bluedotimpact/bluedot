@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import useAxios from 'axios-hooks';
 import { isMobile } from 'react-device-detect';
-import { CTALinkOrButton, useAuthStore } from '@bluedot/ui';
+import { CTALinkOrButton, ErrorSection, useAuthStore } from '@bluedot/ui';
 import { FaCircleCheck } from 'react-icons/fa6';
 import axios from 'axios';
 
 import { Unit } from '../../lib/api/db/tables';
 import { GetUnitFeedbackResponse, PutUnitFeedbackRequest } from '../../pages/api/courses/[courseSlug]/[unitId]/feedback';
 import StarRating from './StarRating';
+import { H4, P } from '../Text';
 
 type UnitFeedbackProps = {
   unit: Pick<Unit, 'id' | 'courseSlug'>;
@@ -18,7 +19,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
   const [rating, setRating] = useState<number>(0);
   const [feedbackText, setFeedbackText] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<unknown | null>(null);
 
   const { courseSlug, id: unitId } = unit;
 
@@ -56,7 +57,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
       await refetch();
     } catch (e) {
-      setError('Unexpected error occurred. Please reach out to team@bluedot.org if this error persists.');
+      setError(e);
     }
   }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
 
@@ -73,26 +74,26 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
       onSubmit={handleSubmit}
     >
       <div className="unit-feedback__header flex flex-col gap-4">
-        <h4>How did you like this unit?</h4>
-        <p>
+        <H4>How did you like this unit?</H4>
+        <P>
           We constantly try to get better and need your feedback to improve the
           course. It only takes <u>1 min</u> to share your learning experience
           with us.
-        </p>
+        </P>
       </div>
       {hasSubmitted ? (
-        <p className="unit-feedback__sent-message flex gap-2 items-center font-bold">
+        <P className="unit-feedback__sent-message flex gap-2 items-center font-bold">
           <FaCircleCheck className="text-color-primary h-full aspect-square flex-shrink-0" />
           Feedback sent! Thanks for helping us improving this unit, you rock!
-        </p>
+        </P>
       ) : (
         <>
           <StarRating rating={rating} setRating={setRating} />
           <div className="unit-feedback__free-response-section flex flex-col gap-4">
-            <h4 className="unit-feedback__textarea-label text-size-sm">
+            <H4 className="unit-feedback__textarea-label text-size-sm">
               Do you have any other feedback on this unit?{' '}
               <span className="font-normal">(optional)</span>
-            </h4>
+            </H4>
             <textarea
               rows={isMobile ? 6 : 3}
               className="unit-feedback__textarea container-lined p-4"
@@ -101,7 +102,9 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
               onChange={(e) => setFeedbackText(e.target.value)}
             />
           </div>
-          {error && <p className="unit-feedback__error text-red-500">{error}</p>}
+          {typeof error === 'string'
+            ? <P className="unit-feedback__error text-red-500">{error}</P>
+            : error && <ErrorSection error={error} />}
           <CTALinkOrButton
             variant="primary"
             className="unit-feedback__submit self-start"

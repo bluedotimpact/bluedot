@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  Box, Button, H1, Input,
-  Textarea,
+  Box, Button, ErrorSection, H1, Input, Textarea,
 } from '@bluedot/ui';
 import * as wa from 'weekly-availabilities';
 import { SpinnerIcon } from '../../components/SpinnerIcon';
@@ -123,11 +122,7 @@ const Form: React.FC<{
   }
 
   if (error) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Error occurred. Please contact us for support.
-      </div>
-    );
+    return <ErrorSection error={error} />;
   }
 
   return (

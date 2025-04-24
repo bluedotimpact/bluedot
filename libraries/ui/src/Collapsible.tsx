@@ -15,7 +15,7 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
   return (
     <details className={clsx('collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden', className)}>
       <summary className="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left">
-        <span className="collapsible__title subtitle-sm">{title}</span>
+        <span className="collapsible__title bluedot-h4">{title}</span>
         <span className="collapsible__button flex items-center">
           <svg
             className="collapsible__button-icon size-6 transition-transform group-open:rotate-180"

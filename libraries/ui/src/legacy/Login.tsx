@@ -4,13 +4,17 @@ import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
-import { H1, P } from './Text';
+import { P } from './Text';
 import { Navigate } from './Navigate';
-import { useAuthStore } from '../utils/auth';
-import { asError } from '../utils/asError';
+import { Auth, useAuthStore } from '../utils/auth';
+import { ErrorSection } from '../ErrorSection';
 
 export type LoginPageProps = {
   oidcSettings: OidcClientSettings
+};
+
+export type LoginOauthCallbackPageProps = LoginPageProps & {
+  onLoginComplete?: (auth: Auth) => Promise<void>
 };
 
 const verifyJwt = async (
@@ -163,7 +167,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) =>
   return <P className="m-8">Redirecting...</P>;
 };
 
-export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
+export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ oidcSettings, onLoginComplete }) => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
@@ -184,12 +188,16 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings 
           throw new Error('Bad login response: user.id_token is missing or not a string');
         }
 
-        setAuth({
+        const auth = {
           expiresAt: user.expires_at * 1000,
           token: user.id_token,
           refreshToken: user.refresh_token,
           oidcSettings,
-        });
+        };
+        setAuth(auth);
+        if (onLoginComplete) {
+          await onLoginComplete(auth);
+        }
         router.push((user.state as { redirectTo?: string }).redirectTo || '/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
@@ -203,15 +211,7 @@ export const LoginOauthCallbackPage: React.FC<LoginPageProps> = ({ oidcSettings 
   }, []);
 
   if (error) {
-    return (
-      <div className="m-8">
-        <H1>Error</H1>
-        <P>Sorry, an unexpected error has occurred.</P>
-        <P>
-          Error message: <span className="italic">{asError(error).message}</span>
-        </P>
-      </div>
-    );
+    return <ErrorSection error={error} />;
   }
 
   return (

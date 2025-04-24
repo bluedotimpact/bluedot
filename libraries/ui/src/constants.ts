@@ -47,3 +47,5 @@ export const COURSES: Course[] = [
     url: 'https://aisafetyfundamentals.com/governance/',
   },
 ] as const;
+
+export const contactUsUrl = 'https://bluedot.org/contact';

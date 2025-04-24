@@ -2,6 +2,7 @@ import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import { CURRENT_ROUTE as SWE_CONTRACTOR } from '../../pages/join-us/swe-contractor';
 import { CURRENT_ROUTE as AIS_TEACHING_FELLOW } from '../../pages/join-us/ai-safety-teaching-fellow';
+import { P } from '../Text';
 
 const CareersSection = () => {
   return (
@@ -34,8 +35,8 @@ const JobListing = ({
       ) : (
         <div className="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined">
           <strong className="careers-section__title basis-[33%]">{title}</strong>
-          <p className="careers-section__location">{location}</p>
-          <p className="careers-section__type">{type}</p>
+          <P className="careers-section__location">{location}</P>
+          <P className="careers-section__type">{type}</P>
           <CTALinkOrButton
             className="careers-section__cta-button"
             variant="secondary"

@@ -25,12 +25,12 @@ export const SectionHeading: React.FC<BaseProps> = ({
         {title && (
           // ml-[-0.08em] is here to make the title and subtitle look visually (but not actually)
           // aligned when there is a large difference in font sizes
-          <HeadingTag className="section-heading__title relative ml-[-0.08em]">
+          <HeadingTag className={clsx('section-heading__title relative ml-[-0.08em]', `bluedot-${titleLevel}`)}>
             {title}
           </HeadingTag>
         )}
         {subtitle && (
-          <SubtitleTag className="section-heading__subtitle text-bluedot-darker text-md">{subtitle}</SubtitleTag>
+          <SubtitleTag className={clsx('section-heading__subtitle text-bluedot-darker text-md', `bluedot-${subtitleLevel}`)}>{subtitle}</SubtitleTag>
         )}
       </div>
     </div>

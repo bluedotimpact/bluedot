@@ -15,6 +15,8 @@ export { CourseCard } from './CourseCard';
 
 export { CTALinkOrButton } from './CTALinkOrButton';
 
+export { ErrorSection } from './ErrorSection';
+
 export {
   HeroSection, HeroH1, HeroH2, HeroCTAContainer,
 } from './HeroSection';

@@ -12,7 +12,7 @@ exports[`FAQSection > renders default as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
         >
           Frequently asked questions
         </h2>
@@ -28,7 +28,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
-            class="collapsible__title subtitle-sm"
+            class="collapsible__title bluedot-h4"
           >
             What is AI Safety?
           </span>
@@ -53,18 +53,24 @@ exports[`FAQSection > renders default as expected 1`] = `
         <div
           class="collapsible__content pb-6"
         >
-          <p>
+          <p
+            class="bluedot-p"
+          >
             AI Safety is the field working to ensure powerful AI systems benefit rather than harm humanity. As AI systems become more capable of affecting our world, we need to solve key challenges: How do we make AI systems reliably do what we want? How do we govern their development? How do we define what "beneficial" means?
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             You can read more about these 
             <a
+              class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/what-is-ai-alignment/"
             >
               different aspects of AI safety here
             </a>
              and the 
             <a
+              class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/ai-risks/"
             >
               range of AI risks here
@@ -80,7 +86,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
-            class="collapsible__title subtitle-sm"
+            class="collapsible__title bluedot-h4"
           >
             How can I maximise my chances of getting accepted onto the courses?
           </span>
@@ -105,15 +111,19 @@ exports[`FAQSection > renders default as expected 1`] = `
         <div
           class="collapsible__content pb-6"
         >
-          <p>
+          <p
+            class="bluedot-p"
+          >
             Check you are the 
             <a
+              class="bluedot-a"
               href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
             >
               right fit
             </a>
              and read our tips for making a 
             <a
+              class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
             >
               great application.
@@ -128,7 +138,7 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
         >
           <span
-            class="collapsible__title subtitle-sm"
+            class="collapsible__title bluedot-h4"
           >
             I’d like to run your course with my work/university/group of friends. Can you help with training and materials?
           </span>
@@ -153,18 +163,24 @@ exports[`FAQSection > renders default as expected 1`] = `
         <div
           class="collapsible__content pb-6"
         >
-          <p>
+          <p
+            class="bluedot-p"
+          >
             We’d love for you to do this! All our reading and discussion materials are freely available online. You are welcome to run a local version of our course so long as you 
             <a
+              class="bluedot-a"
               href="https://bluedot.org/running-versions-of-our-courses/"
             >
               follow our guidelines
             </a>
             .
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             If you want tips for your discussion facilitation, we recommend taking a look through our 
             <a
+              class="bluedot-a"
               href="https://course.bluedot.org/home/facilitator-training"
             >
               facilitator training course

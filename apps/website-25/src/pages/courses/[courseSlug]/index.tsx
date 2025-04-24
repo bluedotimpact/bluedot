@@ -7,6 +7,7 @@ import {
   Section,
   CourseCard,
   Breadcrumbs,
+  ErrorSection,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
@@ -57,7 +58,7 @@ const FutureOfAILander = () => {
 };
 
 const StandardCoursePage = ({ courseSlug }: { courseSlug: string }) => {
-  const [{ data, loading }] = useAxios<GetCourseResponse>({
+  const [{ data, loading, error }] = useAxios<GetCourseResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}`,
   });
@@ -65,7 +66,7 @@ const StandardCoursePage = ({ courseSlug }: { courseSlug: string }) => {
   return (
     <div>
       {loading && <ProgressDots />}
-      {/* TODO: error page */}
+      {error && <ErrorSection error={error} />}
       {data?.course && (
         <>
           <Head>
