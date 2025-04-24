@@ -4,7 +4,7 @@ import {
   test,
   expect,
   beforeEach,
-  vi
+  vi,
 } from 'vitest';
 import { LoginRedirectPage, loginPresets } from './Login';
 import { Navigate } from './Navigate';
