@@ -212,7 +212,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     1
                   </p>
                   <p
-                    class="bluedot-p sidebar__title text-color-secondary-text font-sans text-size-md font-[650]"
+                    class="bluedot-p sidebar__title text-color-secondary-text text-size-md font-[650]"
                   >
                     Basic Principles of Fish
                   </p>
@@ -241,7 +241,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     2
                   </p>
                   <p
-                    class="bluedot-p sidebar__title text-color-secondary-text font-sans text-size-md font-[650]"
+                    class="bluedot-p sidebar__title text-color-secondary-text text-size-md font-[650]"
                   >
                     What Fish Are People Catching, and Why?
                   </p>
@@ -270,7 +270,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     3
                   </p>
                   <p
-                    class="bluedot-p sidebar__title text-color-secondary-text font-sans text-size-md font-[650]"
+                    class="bluedot-p sidebar__title text-color-secondary-text text-size-md font-[650]"
                   >
                     The Promise of Fish
                   </p>
@@ -299,7 +299,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     4
                   </p>
                   <p
-                    class="bluedot-p sidebar__title text-color-secondary-text font-sans text-size-md font-[650]"
+                    class="bluedot-p sidebar__title text-color-secondary-text text-size-md font-[650]"
                   >
                     The Risks of Fish
                   </p>
@@ -328,7 +328,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     5
                   </p>
                   <p
-                    class="bluedot-p sidebar__title text-color-secondary-text font-sans text-size-md font-[650]"
+                    class="bluedot-p sidebar__title text-color-secondary-text text-size-md font-[650]"
                   >
                     Contributing to Fish Safety
                   </p>
