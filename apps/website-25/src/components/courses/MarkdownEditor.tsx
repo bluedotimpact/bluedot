@@ -1,11 +1,5 @@
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import React from 'react';
-import {
-  FaBold,
-  FaItalic,
-  FaQuoteLeft,
-  FaCode,
-} from 'react-icons/fa6';
 import {
   Bold,
   Code,
@@ -30,6 +24,101 @@ import {
   Dropcursor,
 } from '@syfxlin/tiptap-starter-kit';
 import { Markdown } from 'tiptap-markdown';
+import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
+import {
+  FaBold,
+  FaItalic,
+  FaQuoteLeft,
+  FaCode,
+} from 'react-icons/fa6';
+
+interface ToolbarButtonProps {
+  onPress: () => void;
+  isActive: boolean;
+  icon: React.ReactNode;
+  'aria-label'?: string;
+}
+
+const ToolbarButton: React.FC<ToolbarButtonProps> = ({
+  onPress,
+  isActive,
+  icon,
+  'aria-label': ariaLabel,
+}) => {
+  return (
+    <LinkOrButton
+      onPress={onPress}
+      className={`p-2 rounded hover:bg-gray-200 transition-colors ${
+        isActive ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
+      }`}
+      aria-label={ariaLabel}
+    >
+      {icon}
+    </LinkOrButton>
+  );
+};
+
+interface ToolbarProps {
+  editor: Editor;
+}
+
+const ToolbarDivider: React.FC = () => {
+  return <div className="h-4 w-px bg-gray-300 mx-1" />;
+};
+
+const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
+  return (
+    <div className="p-2 bg-gray-50 border-b border-gray-300" role="toolbar" aria-label="Text formatting options">
+      <div className="flex items-center gap-1">
+        <ToolbarButton
+          onPress={() => editor.chain().focus().toggleBold().run()}
+          isActive={editor.isActive('bold')}
+          aria-label="Bold"
+          icon={<FaBold size={16} />}
+        />
+
+        <ToolbarButton
+          onPress={() => editor.chain().focus().toggleItalic().run()}
+          isActive={editor.isActive('italic')}
+          aria-label="Italic"
+          icon={<FaItalic size={16} />}
+        />
+
+        <ToolbarButton
+          onPress={() => editor.chain().focus().toggleCode().run()}
+          isActive={editor.isActive('code')}
+          aria-label="Code"
+          icon={<FaCode size={16} />}
+        />
+
+        <ToolbarDivider />
+
+        {([1, 2, 3] as const).map((level) => (
+          <ToolbarButton
+            key={level}
+            onPress={() => editor.chain().focus().toggleHeading({ level }).run()}
+            isActive={editor.isActive('heading', { level })}
+            aria-label={`Heading ${level}`}
+            icon={(
+              <div className="flex items-center justify-center">
+                <span className="text-size-xs font-bold">H{level}</span>
+              </div>
+            )}
+          />
+        ))}
+
+        <ToolbarDivider />
+
+        <ToolbarButton
+          onPress={() => editor.chain().focus().toggleBlockquote().run()}
+          isActive={editor.isActive('blockquote')}
+          aria-label="Blockquote"
+          icon={<FaQuoteLeft size={16} />}
+        />
+      </div>
+    </div>
+  );
+};
 
 interface MarkdownEditorProps {
   children?: string;
@@ -76,95 +165,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
 
   return (
     <div className="border border-gray-300 rounded-radius-md overflow-hidden">
-      {/* Toolbar */}
-      <div className="flex items-center gap-1 p-2 bg-gray-50 border-b border-gray-300">
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('bold') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Bold"
-        >
-          <FaBold size={16} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('italic') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Italic"
-        >
-          <FaItalic size={16} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('code') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Code"
-        >
-          <FaCode size={16} />
-        </button>
-
-        <div className="h-4 w-px bg-gray-300 mx-1" />
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('heading', { level: 1 }) ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Heading 1"
-        >
-          <div className="flex items-center justify-center">
-            <span className="text-size-xs font-bold">H1</span>
-          </div>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('heading', { level: 2 }) ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Heading 2"
-        >
-          <div className="flex items-center justify-center">
-            <span className="text-size-xs font-bold">H2</span>
-          </div>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('heading', { level: 3 }) ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Heading 3"
-        >
-          <div className="flex items-center justify-center">
-            <span className="text-size-xs font-bold">H3</span>
-          </div>
-        </button>
-
-        <div className="h-4 w-px bg-gray-300 mx-1" />
-
-        <button
-          type="button"
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`p-2 rounded hover:bg-gray-200 transition-colors ${
-            editor.isActive('blockquote') ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
-          }`}
-          title="Blockquote"
-        >
-          <FaQuoteLeft size={16} />
-        </button>
-      </div>
+      <Toolbar editor={editor} />
 
       <EditorContent
         editor={editor}
