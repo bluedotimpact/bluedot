@@ -9,7 +9,7 @@ exports[`Collapsible > renders to snapshot 1`] = `
       class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
     >
       <span
-        class="collapsible__title subtitle-sm"
+        class="collapsible__title bluedot-h4"
       >
         Test Collapsible
       </span>

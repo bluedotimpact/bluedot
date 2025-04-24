@@ -12,7 +12,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
         >
           Our community
         </h2>
@@ -48,7 +48,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
               >
                 <img
                   alt="Our online community brings together 4,500+ professionals across 100+ countries"
-                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-lg "
                   src="/images/community-values/network.png"
                 />
               </div>
@@ -59,7 +59,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
                   class="card__text"
                 >
                   <p
-                    class="card__title subtitle-sm mb-2"
+                    class="card__title bluedot-h4 mb-2"
                   >
                     Our online community brings together 4,500+ professionals across 100+ countries
                   </p>
@@ -80,7 +80,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
               >
                 <img
                   alt="Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers"
-                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-lg "
                   src="/images/community-values/people.png"
                 />
               </div>
@@ -91,7 +91,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
                   class="card__text"
                 >
                   <p
-                    class="card__title subtitle-sm mb-2"
+                    class="card__title bluedot-h4 mb-2"
                   >
                     Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers
                   </p>
@@ -112,7 +112,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
               >
                 <img
                   alt="40+ independent study groups worldwide have used our materials to run their own courses"
-                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-lg "
                   src="/images/community-values/study.png"
                 />
               </div>
@@ -123,7 +123,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
                   class="card__text"
                 >
                   <p
-                    class="card__title subtitle-sm mb-2"
+                    class="card__title bluedot-h4 mb-2"
                   >
                     40+ independent study groups worldwide have used our materials to run their own courses
                   </p>
@@ -144,7 +144,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
               >
                 <img
                   alt="We run regular in-person events across the world, turning online connections into lasting relationships"
-                  class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                  class="card__image max-w-full max-h-full object-cover rounded-lg "
                   src="/images/community-values/world.png"
                 />
               </div>
@@ -155,7 +155,7 @@ exports[`CommunityValuesSection > renders as expected 1`] = `
                   class="card__text"
                 >
                   <p
-                    class="card__title subtitle-sm mb-2"
+                    class="card__title bluedot-h4 mb-2"
                   >
                     We run regular in-person events across the world, turning online connections into lasting relationships
                   </p>

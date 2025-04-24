@@ -1,9 +1,6 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @theme {
-    --radius-radius-sm: 0.25rem;
-    --radius-radius-md: 0.5rem;
-
     --color-color-text: var(--bluedot-black);
     --color-color-text-on-dark: var(--bluedot-cream-normal);
     --color-color-secondary-text: var(--bluedot-darker);
@@ -72,7 +69,7 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--color-stone-200, currentColor);
     }
 }
 
@@ -190,14 +187,14 @@
     }
  }
  
- /* Maps to Tailwind "lg" breakpoint */
- @media (width >= 64rem) {
+/* Maps to Tailwind "lg" breakpoint */
+@media (width >= 64rem) {
     :root {
         --spacing-x: var(--spacing-x-lg); /* For horizontal section padding */
         --spacing-y: var(--spacing-y-lg); /* For vertical section padding */
         --space-between: var(--space-between-lg); /* For space between items */
     }
- }
+}
 
 @font-face {
     font-family: "Reckless Neue";

@@ -21,19 +21,25 @@ exports[`CultureSection > renders default as expected 1`] = `
               class="section-heading__content flex-1 flex flex-col gap-2"
             >
               <h2
-                class="section-heading__title relative ml-[-0.08em]"
+                class="section-heading__title relative ml-[-0.08em] bluedot-h2"
               >
                 Our culture
               </h2>
             </div>
           </div>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
           </p>
         </div>

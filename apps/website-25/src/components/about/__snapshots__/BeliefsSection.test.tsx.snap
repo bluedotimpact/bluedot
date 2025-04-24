@@ -12,7 +12,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
         >
           Our core beliefs
         </h2>
@@ -51,7 +51,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 >
                   <img
                     alt="AGI could arrive soon, and society is dangerously unprepared"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/beliefs/agi.png"
                   />
                 </div>
@@ -62,12 +62,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       AGI could arrive soon, and society is dangerously unprepared
                     </p>
                     <p
-                      class="card__subtitle "
+                      class="card__subtitle bluedot-p "
                     >
                       Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.
                     </p>
@@ -88,7 +88,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 >
                   <img
                     alt="What we do now matters"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/beliefs/matters.png"
                   />
                 </div>
@@ -99,12 +99,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       What we do now matters
                     </p>
                     <p
-                      class="card__subtitle "
+                      class="card__subtitle bluedot-p "
                     >
                       The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
                     </p>
@@ -125,7 +125,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 >
                   <img
                     alt="People at key moments rewrite history"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/beliefs/key.png"
                   />
                 </div>
@@ -136,12 +136,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       People at key moments rewrite history
                     </p>
                     <p
-                      class="card__subtitle "
+                      class="card__subtitle bluedot-p "
                     >
                       Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
                     </p>
@@ -162,7 +162,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                 >
                   <img
                     alt="We need urgency, wisdom and optimism"
-                    class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/beliefs/urgency.png"
                   />
                 </div>
@@ -173,12 +173,12 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                     class="card__text"
                   >
                     <p
-                      class="card__title subtitle-sm mb-2"
+                      class="card__title bluedot-h4 mb-2"
                     >
                       We need urgency, wisdom and optimism
                     </p>
                     <p
-                      class="card__subtitle "
+                      class="card__subtitle bluedot-p "
                     >
                       The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
                     </p>

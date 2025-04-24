@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
+import { P } from '../../Text';
 
 type FreeTextResponseProps = {
   // Required
@@ -58,7 +59,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
         <div className="free-text-response__header-content flex flex-col gap-2">
-          <p className="free-text-response__title subtitle-sm">{title}</p>
+          <P className="free-text-response__title bluedot-h4">{title}</P>
           <ReactMarkdown>{description}</ReactMarkdown>
         </div>
       </div>
@@ -91,7 +92,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           Login to save your answers
         </CTALinkOrButton>
       )}
-      {(!isEditing && exerciseResponse) && <p className="free-text-response__saved-msg">Saved! 🎉</p>}
+      {(!isEditing && exerciseResponse) && <P className="free-text-response__saved-msg">Saved! 🎉</P>}
     </form>
   );
 };

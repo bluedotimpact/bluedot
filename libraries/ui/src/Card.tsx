@@ -51,7 +51,7 @@ export const Card: React.FC<CardProps> = ({
       {imageSrc && (
         <div className="card__image-container w-full mb-4">
           <img
-            className={`card__image max-w-full max-h-full object-cover rounded-radius-md ${imageClassName}`}
+            className={`card__image max-w-full max-h-full object-cover rounded-lg ${imageClassName}`}
             src={imageSrc}
             alt={`${title}`}
           />
@@ -60,8 +60,8 @@ export const Card: React.FC<CardProps> = ({
 
       <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
         <div className="card__text">
-          <p className="card__title subtitle-sm mb-2">{title}</p>
-          {subtitle && (<p className={`card__subtitle ${subtitleClassName}`}>{subtitle}</p>)}
+          <p className="card__title bluedot-h4 mb-2">{title}</p>
+          {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         {showBottomSection && (
           <div className="card__bottom-section flex flex-col gap-space-between">

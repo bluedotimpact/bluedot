@@ -40,7 +40,7 @@ const TestimonialSection = () => {
         className="testimonial-section__testimonials"
       >
         {testimonials.map((testimonial) => (
-          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-radius-md p-8">
+          <div key={testimonial.name} className="testimonial flex flex-col h-full border rounded-lg p-8">
             <blockquote className="testimonial__quote mb-space-between flex-grow">
               "{testimonial.quote}"
             </blockquote>
