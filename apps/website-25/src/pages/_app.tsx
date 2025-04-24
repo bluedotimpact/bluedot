@@ -14,30 +14,30 @@ import { Analytics } from '../components/Analytics';
 import { Nav } from '../components/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
 
-if (typeof window !== 'undefined') {
-  if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-    console.error('PostHog key is missing! Check your .env.local file');
-  } else {
-    console.log('Initializing PostHog...');
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: 'https://analytics.k8s.bluedot.org',
-      person_profiles: 'always',
-      // TODO:  always is fine for now given we don't actually identify people anywhere
-      loaded: (instance) => {
-        if (process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true') instance.debug();
-        if (localStorage.getItem('cookies') === 'rejected') {
-          instance.set_config({ persistence: 'memory' });
-        }
-      },
-    });
-    console.log('PostHog initialized!');
-  }
-}
-
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+      // eslint-disable-next-line no-console
+      console.warn('NEXT_PUBLIC_POSTHOG_KEY is missing, disabling analytics...');
+      return undefined;
+    }
+
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: 'https://analytics.k8s.bluedot.org',
+      loaded: (instance) => {
+        // Can't specify debug reliably via config :(
+        // https://github.com/PostHog/posthog-js/issues/1387
+        const shouldDebug = process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true';
+        // This if prevents unnecessary logs about debug mode changing
+        if (instance.config.debug !== shouldDebug) {
+          instance.debug(shouldDebug);
+        }
+      },
+      persistence: localStorage.getItem('cookies') === 'accepted' ? 'localStorage+cookie' : 'memory',
+    });
+
     // Setup page view tracking
-    const handleRouteChange = () => posthog?.capture('$pageview');
+    const handleRouteChange = () => posthog.capture('$pageview');
     Router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
