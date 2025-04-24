@@ -61,7 +61,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
         <div className="free-text-response__header-content flex flex-col gap-2">
-          <P className="free-text-response__title bluedot-h4">{title}</P>
+          <p className="free-text-response__title bluedot-h4">{title}</p>
           <ReactMarkdown>{description}</ReactMarkdown>
         </div>
       </div>
