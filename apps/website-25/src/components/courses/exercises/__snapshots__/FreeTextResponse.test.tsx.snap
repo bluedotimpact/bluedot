@@ -21,7 +21,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="bluedot-p free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4"
         >
           Understanding LLMs
         </p>
@@ -85,7 +85,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="bluedot-p free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4"
         >
           Understanding LLMs
         </p>
@@ -139,7 +139,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="bluedot-p free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4"
         >
           Understanding LLMs
         </p>
