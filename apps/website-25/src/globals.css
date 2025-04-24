@@ -13,42 +13,44 @@
 }
 
 @utility prose {
-  /* Bullets should inherit text color */
-  li::marker {
-    @apply text-inherit
-  }
-
-  /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
-  blockquote {
-    /* Disable quote marks */
-    p:first-of-type::before,
-    p:last-of-type::after {
-      content: none;
+  :not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    /* Bullets should inherit text color */
+    li::marker {
+      @apply text-inherit
     }
-    /* Disable italics */
-    p {
-      @apply not-italic
+
+    /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
+    blockquote {
+      /* Disable quote marks */
+      p:first-of-type::before,
+      p:last-of-type::after {
+        content: none;
+      }
+      /* Disable italics */
+      p {
+        @apply not-italic
+      }
     }
-  }
 
-  /* Disable code backticks */
-  code {
-    &::before,
-    &::after {
-      content: none;
+    /* Disable code backticks */
+    code {
+      &::before,
+      &::after {
+        content: none;
+      }
     }
-  }
 
-  /* Hovering link color */
-  a {
-    @apply hover:text-color-primary-accent
-  }
-
-  /* Links in headings should be the same font weight
-   * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
-  h1, h2, h3, h4, h5, h6 {
+    /* Hovering link color */
     a {
-      font-weight: inherit;
+      @apply hover:text-color-primary-accent
+    }
+
+    /* Links in headings should be the same font weight
+    * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
+    h1, h2, h3, h4, h5, h6 {
+      a {
+        font-weight: inherit;
+      }
     }
   }
 }
