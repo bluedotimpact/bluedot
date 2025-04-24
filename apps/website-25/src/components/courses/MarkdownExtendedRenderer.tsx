@@ -40,7 +40,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
 
   return (
     // See @utility prose in globals.css for advanced styles
-    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none prose-a:in-prose-headings:font-bold', className)}>
+    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none', className)}>
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );

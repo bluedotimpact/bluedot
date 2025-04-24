@@ -12,6 +12,7 @@
     --color-color-secondary-accent: var(--bluedot-lighter);
     --color-color-divider: var(--bluedot-charcoal-light);
 
+    --color-bluedot-lightest: var(--bluedot-lightest);
     --color-bluedot-lighter: var(--bluedot-lighter);
     --color-bluedot-light: var(--bluedot-light);
     --color-bluedot-normal: var(--bluedot-normal);
@@ -128,6 +129,7 @@
 }
 
 :root {
+    --bluedot-lightest: #F5F4F7;
     --bluedot-lighter: #CCD7FF;
     --bluedot-light: #6687FF;
     --bluedot-normal: #0037FF;

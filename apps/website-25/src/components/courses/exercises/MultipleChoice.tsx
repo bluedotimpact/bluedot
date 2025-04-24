@@ -88,7 +88,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
         <div className="multiple-choice__header-content flex flex-col gap-2">
-          <P className="multiple-choice__title bluedot-h4">{title}</P>
+          <p className="multiple-choice__title bluedot-h4">{title}</p>
           <P className="multiple-choice__description">{description}</P>
         </div>
       </div>
