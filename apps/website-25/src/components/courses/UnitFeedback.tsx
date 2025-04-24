@@ -77,7 +77,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
         <H4>How did you like this unit?</H4>
         <P>
           We constantly try to get better and need your feedback to improve the
-          course. It only takes <u>1 min</u> to share your learning experience
+          course. It only takes <b>1 min</b> to share your learning experience
           with us.
         </P>
       </div>
