@@ -10,7 +10,7 @@ type FreeTextResponseProps = {
   // Required
   className?: string;
   description: string;
-  onExerciseSubmit: (exerciseResponse: string) => void;
+  onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => void;
   title: string;
   // Optional
   exerciseResponse?: string;
@@ -46,7 +46,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   const onSubmit = useCallback(async (data: FormData) => {
     try {
-      await onExerciseSubmit(data.answer);
+      await onExerciseSubmit(data.answer, data.answer.trim().length > 0);
       setIsEditing(false);
     } catch (e) {
       console.log('error', e);
