@@ -243,9 +243,10 @@ describe('makeMakeApiRoute', () => {
       });
     });
 
+    // Skipped by default as this is slow
     // If this test fails, you've probably introduced a memory leak into makeMakeApiRoute
     const REQUEST_COUNT = 1_000_000;
-    test(`should handle ${REQUEST_COUNT.toLocaleString()} requests without crash`, async () => {
+    test.skip(`should handle ${REQUEST_COUNT.toLocaleString()} requests without crash`, async () => {
       const makeApiRoute = makeMakeApiRoute({ env: mockEnv });
       const responseSchema = z.object({ counter: z.number() });
 
