@@ -28,8 +28,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   unitNumber,
   units,
 }) => {
-  const nextUnit = units[units.findIndex((u) => u === unit) + 1];
-  const prevUnit = units[units.findIndex((u) => u === unit) - 1];
+  const unitArrIndex = units.findIndex((u) => u.id === unit.id);
+  const nextUnit = units[unitArrIndex + 1];
+  const prevUnit = units[unitArrIndex - 1];
 
   if (!unit) {
     // Should never happen
