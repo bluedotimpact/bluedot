@@ -1,6 +1,7 @@
 import { isAxiosError } from 'axios';
 import { asError } from './utils/asError';
 import { Collapsible } from './Collapsible';
+import { contactUsUrl } from './constants';
 
 export interface ErrorSectionProps {
   error: unknown,
@@ -17,10 +18,18 @@ export const ErrorSection: React.FC<ErrorSectionProps> = ({ error: input }) => {
     <div className="section-base">
       <div className="border-l-4 border-red-500 bg-red-100 text-black p-8 my-8 flex flex-col gap-4">
         <h2 className="text-3xl">Error: {primaryErrorText}</h2>
-        <p>If the above message doesn't help, try again later or <a href="https://bluedot.org/contact">contact us</a> for support.</p>
+        <p>If the above message doesn't help, try again later or <a href={contactUsUrl}>contact us</a> for support.</p>
         <Collapsible title="Show full error details" className="-my-6">
           <div className="flex flex-col gap-4 overflow-x-auto">
             <ErrorDetails error={error} />
+            <div>
+              <p className="font-bold">Page URL</p>
+              <p>{window.location.href}</p>
+            </div>
+            <div>
+              <p className="font-bold">Timestamp</p>
+              <p>{new Date().toISOString()}</p>
+            </div>
           </div>
         </Collapsible>
       </div>

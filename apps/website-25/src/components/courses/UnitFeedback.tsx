@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import useAxios from 'axios-hooks';
 import { isMobile } from 'react-device-detect';
-import { CTALinkOrButton, useAuthStore } from '@bluedot/ui';
+import { CTALinkOrButton, ErrorSection, useAuthStore } from '@bluedot/ui';
 import { FaCircleCheck } from 'react-icons/fa6';
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
   const [rating, setRating] = useState<number>(0);
   const [feedbackText, setFeedbackText] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<unknown | null>(null);
 
   const { courseSlug, id: unitId } = unit;
 
@@ -56,7 +56,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
       await refetch();
     } catch (e) {
-      setError('Unexpected error occurred. Please reach out to team@bluedot.org if this error persists.');
+      setError(e);
     }
   }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
 
@@ -101,7 +101,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
               onChange={(e) => setFeedbackText(e.target.value)}
             />
           </div>
-          {error && <p className="unit-feedback__error text-red-500">{error}</p>}
+          {error && <ErrorSection error={error} />}
           <CTALinkOrButton
             variant="primary"
             className="unit-feedback__submit self-start"

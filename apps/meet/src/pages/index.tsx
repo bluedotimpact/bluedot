@@ -5,6 +5,7 @@ import { H1 } from '../components/Text';
 import SelectPersonView from '../components/SelectPersonView';
 import { PageState } from '../lib/client/pageState';
 import AppJoinView from '../components/AppJoinView';
+import { ErrorSection } from '@bluedot/ui';
 
 const Home: React.FC = () => {
   const searchParams = useSearchParams();
@@ -19,9 +20,7 @@ const Home: React.FC = () => {
   if (!groupId) {
     return (
       <Page>
-        <H1 className="flex-1">Error: Missing group id.</H1>
-        <p className="mb-2">Ensure you've navigated to the correct link, or try asking the person who gave the link to check it's correct.</p>
-        <p>If you're still having difficulties, drop us a line at team@bluedot.org.</p>
+        <ErrorSection error={new Error('Missing group id. Check you\'ve navigated to the correct link.')} />
       </Page>
     );
   }
