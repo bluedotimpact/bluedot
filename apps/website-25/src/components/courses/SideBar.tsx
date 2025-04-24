@@ -19,13 +19,18 @@ const SideBar: React.FC<SideBarProps> = ({
     <div className="sidebar w-full md:w-[332px] flex flex-col">
       <div className="sidebar__content flex flex-col gap-6">
         {units.map((unit) => (
-          <div
+          <a
             key={unit.id}
-            className={`sidebar__unit border ${isCurrentUnit(unit) ? 'sidebar__unit--active border-color-primary' : 'border-color-divider'} rounded-lg p-4 flex flex-col gap-2`}
+            href={unit.path}
+            className={`
+              sidebar__unit p-4 flex flex-col gap-2
+              ${isCurrentUnit(unit) ? 'sidebar__unit--active border-color-primary' : 'border-color-divider'}
+              border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary
+            `}
           >
             <div className="sidebar__unit-item flex flex-col gap-2">
-              <P className="sidebar__title uppercase text-size-xs font-bold">Unit {unit.unitNumber}</P>
-              <A href={unit.path} className="sidebar__description bluedot-h4 no-underline">{unit.title}</A>
+              <P className="sidebar__unit-number uppercase text-size-xs font-bold">Unit {unit.unitNumber}</P>
+              <P className="sidebar__title text-color-secondary-text font-sans text-size-md font-[650]">{unit.title}</P>
               <P className="sidebar__description text-size-s">{unit.description}</P>
             </div>
             {/* {isCurrentUnit(unit) && unit.chapters && (
@@ -39,7 +44,7 @@ const SideBar: React.FC<SideBarProps> = ({
                 ))}
               </div>
             )} */}
-          </div>
+          </a>
         ))}
       </div>
     </div>
