@@ -144,11 +144,18 @@ export const loginPresets = {
 
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect_to') || '/';
+  const [redirectTo, setRedirectTo] = useState<string>('/');
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {
-    if (!auth) {
+    const redirect = searchParams.get('redirect_to');
+    if (redirect) {
+      setRedirectTo(redirect);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!auth && redirectTo) {
       new OidcClient(oidcSettings)
         .createSigninRequest({
           request_type: 'si:r',
@@ -158,7 +165,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) =>
           window.location.href = req.url;
         });
     }
-  }, [auth]);
+  }, [auth, redirectTo, oidcSettings]);
 
   if (auth) {
     return <Navigate url={redirectTo} />;
@@ -198,7 +205,8 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
         if (onLoginComplete) {
           await onLoginComplete(auth);
         }
-        router.push((user.state as { redirectTo?: string }).redirectTo || '/');
+
+        router.push((user.userState as { redirectTo?: string }).redirectTo || '/');
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
