@@ -102,7 +102,9 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
               onChange={(e) => setFeedbackText(e.target.value)}
             />
           </div>
-          {error && <ErrorSection error={error} />}
+          {typeof error === 'string'
+            ? <P className="unit-feedback__error text-red-500">{error}</P>
+            : error && <ErrorSection error={error} />}
           <CTALinkOrButton
             variant="primary"
             className="unit-feedback__submit self-start"
