@@ -14,7 +14,7 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "turbo": "latest"
+    "turbo": "^2.5.1"
   },
   "engines": {
     "node": "^22"
