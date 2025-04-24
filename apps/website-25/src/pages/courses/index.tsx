@@ -5,6 +5,7 @@ import {
   CourseCard,
   Section,
   ProgressDots,
+  ErrorSection,
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
@@ -15,8 +16,7 @@ import { GetCoursesResponse } from '../api/courses';
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  // TODO: handle error state
-  const [{ data, loading }] = useAxios<GetCoursesResponse>({
+  const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
     method: 'get',
     url: '/api/courses',
   });
@@ -36,6 +36,7 @@ const CoursePage = () => {
         className="course-serp"
       >
         {loading && <ProgressDots />}
+        {error && <ErrorSection error={error} />}
         <div className="course-serp__content grid sm:grid-cols-2 lg:grid-cols-4 gap-space-between items-stretch">
           {data?.courses.map((course) => (
             <div className="max-w-[350px]">

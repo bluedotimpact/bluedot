@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import { ExampleComponent } from './ExampleComponent';
 
-describe('ErrorPage', () => {
+describe('ExampleComponent', () => {
   test('should render the fallback correctly', () => {
     render(<ExampleComponent />);
 

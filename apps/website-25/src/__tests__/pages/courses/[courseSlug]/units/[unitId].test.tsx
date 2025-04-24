@@ -32,7 +32,7 @@ describe('CourseUnitPage', () => {
     ];
 
     mockUseAxios.mockReturnValue([{
-      data: { units: mockUnits },
+      data: { units: mockUnits, unit: mockUnits[0] },
       loading: false,
     }]);
 
@@ -52,7 +52,7 @@ describe('CourseUnitPage', () => {
     ];
 
     mockUseAxios.mockReturnValue([{
-      data: { units: mockUnits },
+      data: { units: mockUnits, unit: mockUnits[3] },
       loading: false,
     }]);
 
@@ -72,7 +72,7 @@ describe('CourseUnitPage', () => {
     ];
 
     mockUseAxios.mockReturnValue([{
-      data: { units: mockUnits },
+      data: { units: mockUnits, unit: mockUnits[2] },
       loading: false,
     }]);
 
@@ -91,7 +91,7 @@ describe('CourseUnitPage', () => {
     ];
 
     mockUseAxios.mockReturnValue([{
-      data: { units: mockUnits },
+      data: { units: mockUnits, unit: mockUnits[1] },
       loading: false,
     }]);
 

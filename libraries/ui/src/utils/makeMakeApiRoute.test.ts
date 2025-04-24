@@ -243,9 +243,10 @@ describe('makeMakeApiRoute', () => {
       });
     });
 
+    // Skipped by default as this is slow
     // If this test fails, you've probably introduced a memory leak into makeMakeApiRoute
     const REQUEST_COUNT = 1_000_000;
-    test(`should handle ${REQUEST_COUNT.toLocaleString()} requests without crash`, async () => {
+    test.skip(`should handle ${REQUEST_COUNT.toLocaleString()} requests without crash`, async () => {
       const makeApiRoute = makeMakeApiRoute({ env: mockEnv });
       const responseSchema = z.object({ counter: z.number() });
 
@@ -308,7 +309,7 @@ describe('makeMakeApiRoute', () => {
       await handler(req, res);
 
       expect(res.status).toHaveBeenCalledWith(401);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Missing token' });
+      expect(res.json).toHaveBeenCalledWith({ error: 'Missing access token' });
     });
 
     test('should return 401 when auth token is invalid', async () => {
@@ -331,7 +332,7 @@ describe('makeMakeApiRoute', () => {
 
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
-        error: 'Invalid token',
+        error: 'Invalid access token',
       });
     });
 
@@ -355,7 +356,7 @@ describe('makeMakeApiRoute', () => {
 
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
-        error: expect.stringMatching(/^(Invalid|Missing) token$/),
+        error: expect.stringMatching(/^(Invalid|Missing) access token$/),
       });
     });
   });

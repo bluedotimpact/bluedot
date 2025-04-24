@@ -4,10 +4,10 @@ import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
-import { H1, P } from './Text';
+import { P } from './Text';
 import { Navigate } from './Navigate';
 import { Auth, useAuthStore } from '../utils/auth';
-import { asError } from '../utils/asError';
+import { ErrorSection } from '../ErrorSection';
 
 export type LoginPageProps = {
   oidcSettings: OidcClientSettings
@@ -211,15 +211,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
   }, []);
 
   if (error) {
-    return (
-      <div className="m-8">
-        <H1>Error</H1>
-        <P>Sorry, an unexpected error has occurred.</P>
-        <P>
-          Error message: <span className="italic">{asError(error).message}</span>
-        </P>
-      </div>
-    );
+    return <ErrorSection error={error} />;
   }
 
   return (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, Box, Button, H1, H2, Link, P, withAuth,
+  Box, Button, ErrorSection, H1, H2, Link, P, withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { Person, personTable } from '../lib/api/db/tables';
@@ -49,7 +49,7 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
   }
 
   if (error) {
-    return <P>Error: {asError(error).message}</P>;
+    return <ErrorSection error={error} />;
   }
 
   return (

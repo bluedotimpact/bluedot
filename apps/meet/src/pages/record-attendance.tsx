@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
-import { Button, Input } from '@bluedot/ui';
+import { Button, ErrorSection, Input } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import { H1 } from '../components/Text';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/record-attendance';
@@ -16,9 +16,7 @@ const RecordAttendance: React.FC = () => {
   if (!groupDiscussionId || !participantId) {
     return (
       <Page>
-        <H1 className="flex-1">Error: Missing group discussion or participant id.</H1>
-        <p className="mb-2">Ensure you've navigated to the correct link, or try asking the person who gave the link to check it's correct.</p>
-        <p>If you're still having difficulties, drop us a line at team@bluedot.org.</p>
+        <ErrorSection error={new Error('Missing group discussion or participant id. Check you\'ve navigated to the correct link.')} />
       </Page>
     );
   }

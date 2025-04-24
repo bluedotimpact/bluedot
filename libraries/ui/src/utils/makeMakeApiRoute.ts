@@ -110,7 +110,7 @@ const getAuth = async <RequiresAuth extends boolean, AuthResult extends BaseAuth
 
   const token = req.headers.authorization?.slice('Bearer '.length).trim();
   if (!token) {
-    throw new createHttpError.Unauthorized('Missing token');
+    throw new createHttpError.Unauthorized('Missing access token');
   }
 
   if (!verifyAndDecodeToken) {
@@ -120,6 +120,6 @@ const getAuth = async <RequiresAuth extends boolean, AuthResult extends BaseAuth
   try {
     return await verifyAndDecodeToken(token) as RequiresAuth extends true ? AuthResult : null;
   } catch (err) {
-    throw new createHttpError.Unauthorized('Invalid token');
+    throw new createHttpError.Unauthorized('Invalid access token');
   }
 };

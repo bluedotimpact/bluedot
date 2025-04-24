@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 import axios, { AxiosResponse } from 'axios';
-import { Button, Link } from '@bluedot/ui';
+import { Button, ErrorSection, Link } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import { Page } from './Page';
@@ -27,12 +27,10 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     );
   }
 
-  const errorMessage = error?.response?.data?.type === 'error' ? error.response.data.message : error?.message;
-  if (errorMessage || !data || data.type === 'error') {
+  if (error || !data) {
     return (
       <Page>
-        <H1 className="flex-1">Error: {errorMessage ?? 'Unknown error'}</H1>
-        <p>If this error persists, please contact us at team@bluedot.org.</p>
+        <ErrorSection error={error ?? new Error('Missing data from API')} />
       </Page>
     );
   }

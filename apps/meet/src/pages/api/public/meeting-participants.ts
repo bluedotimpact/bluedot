@@ -31,9 +31,6 @@ export type MeetingParticipantsResponse = {
 } | {
   type: 'redirect',
   to: string,
-} | {
-  type: 'error',
-  message: string,
 };
 
 export default makeApiRoute({
