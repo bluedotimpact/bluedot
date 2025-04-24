@@ -42,7 +42,7 @@
     "happy-dom": "^14.7.1",
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",
-    "shx": "^0.3.4",
+    "shx": "^0.4.0",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.8.3",
     "vitest": "^1.5.0"
