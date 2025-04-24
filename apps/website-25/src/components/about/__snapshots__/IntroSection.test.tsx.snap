@@ -12,7 +12,7 @@ exports[`IntroSection > renders default as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h2
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
         >
           Our story
         </h2>
@@ -27,22 +27,32 @@ exports[`IntroSection > renders default as expected 1`] = `
         <div
           class="intro-section__text-container flex flex-col gap-5"
         >
-          <p>
+          <p
+            class="bluedot-p"
+          >
             In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.
           </p>
-          <p>
+          <p
+            class="bluedot-p"
+          >
             As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.
           </p>
           <span
             class="intro-section__signature"
           >
-            <p>
+            <p
+              class="bluedot-p"
+            >
               Dewi and Will,
             </p>
-            <p>
+            <p
+              class="bluedot-p"
+            >
               BlueDot Impact Co-Founders
             </p>
           </span>

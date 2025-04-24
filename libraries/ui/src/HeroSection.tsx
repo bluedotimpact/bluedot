@@ -17,7 +17,7 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   children, className, ...otherProps
 }) => {
   return (
-    <h1 className={clsx('hero-section__title text-on-dark text-center', className)} {...otherProps}>{children}</h1>
+    <h1 className={clsx('hero-section__title text-on-dark text-center bluedot-h1', className)} {...otherProps}>{children}</h1>
   );
 };
 
@@ -26,7 +26,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={clsx('hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4', className)}
+      className={clsx('hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2', className)}
       {...otherProps}
     >
       {children}

@@ -13,6 +13,7 @@ import BlueH2 from './BlueH2';
 import { getCtaUrl } from './getCtaUrl';
 import { Nav } from '../Nav';
 import GraduateSection from '../homepage/GraduateSection';
+import { H2, P } from '../Text';
 
 export interface LandingPageBaseProps {
   /** Hero component to render */
@@ -83,11 +84,11 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
       <Container className="grid md:flex gap-6 md:gap-12 items-center py-10">
         <div>
           {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl font-serif font-bold">Our reality</h2>
-          <p className="text-size-md mt-4">Millions spend their days doing tasks they'd rather not, in jobs that drain rather than fulfil them, serving economic structures that benefit few at the expense of many.</p>
+          <H2 className="text-3xl font-serif font-bold">Our reality</H2>
+          <P className="text-size-md mt-4">Millions spend their days doing tasks they'd rather not, in jobs that drain rather than fulfil them, serving economic structures that benefit few at the expense of many.</P>
           {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-          <h2 className="text-3xl font-serif font-bold mt-10">The opportunity</h2>
-          <p className="text-size-md mt-4">Now, AI is about to automate most human jobs — creating an unprecedented opportunity to <span className="italic">make work optional</span>. This technological revolution could free humanity from drudgery while addressing our greatest challenges — but only if we get the transition right.</p>
+          <H2 className="text-3xl font-serif font-bold mt-10">The opportunity</H2>
+          <P className="text-size-md mt-4">Now, AI is about to automate most human jobs — creating an unprecedented opportunity to <span className="italic">make work optional</span>. This technological revolution could free humanity from drudgery while addressing our greatest challenges — but only if we get the transition right.</P>
         </div>
         <div className="mx-auto w-3/4 md:w-100 shrink-0">
           <img src="/images/lander/future_world_polaroids.png" alt="" className="w-full" />
@@ -123,12 +124,12 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
       <Container className="py-16">
         <BlueH2 className="!text-left !mb-4 md:!mb-6">You're in good hands</BlueH2>
         <div className="w-3/4">
-          <p className="mb-4 text-size-md">
+          <P className="mb-4 text-size-md">
             We started BlueDot to help others understand and work on challenges from emerging technologies.
-          </p>
-          <p className="mb-8 text-size-md">
+          </P>
+          <P className="mb-8 text-size-md">
             Since 2021, we've designed our courses with some of the world's leading experts and helped thousands of talented people build the skills to make a real difference.
-          </p>
+          </P>
           <CTALinkOrButton variant="secondary" url={ROUTES.about.url}>Get to know us</CTALinkOrButton>
         </div>
         <div className="flex justify-end -mt-8 sm:-mt-16 pointer-events-none">
@@ -138,9 +139,9 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
         {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
-        <h2 className="text-3xl font-light font-serif text-center ">
+        <H2 className="text-3xl font-light font-serif text-center ">
           AI will reshape every aspect of society - from jobs and education to science and healthcare. <span className="text-bluedot-normal">We all need to understand what's ahead.</span>
-        </h2>
+        </H2>
         <div className="flex justify-center mt-4">
           <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
         </div>

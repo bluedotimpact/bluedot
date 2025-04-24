@@ -6,14 +6,14 @@ exports[`Congratulations > renders default as expected 1`] = `
     class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
   >
     <h3
-      class="congratulations__title text-center"
+      class="bluedot-h3 congratulations__title text-center"
     >
       Congratulations on completing 
       Future of AI
       !
     </h3>
     <p
-      class="congratulations__description text-center"
+      class="bluedot-p congratulations__description text-center"
     >
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>
@@ -94,14 +94,14 @@ exports[`Congratulations > renders with custom args 1`] = `
     class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
   >
     <h3
-      class="congratulations__title text-center"
+      class="bluedot-h3 congratulations__title text-center"
     >
       Congratulations on completing 
       Future of AI
       !
     </h3>
     <p
-      class="congratulations__description text-center"
+      class="bluedot-p congratulations__description text-center"
     >
       Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
     </p>

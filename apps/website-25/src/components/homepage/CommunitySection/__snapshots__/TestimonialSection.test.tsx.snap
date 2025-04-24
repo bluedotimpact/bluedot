@@ -12,7 +12,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
         class="section-heading__content flex-1 flex flex-col gap-2"
       >
         <h3
-          class="section-heading__title relative ml-[-0.08em]"
+          class="section-heading__title relative ml-[-0.08em] bluedot-h3"
         >
           What our graduates say
         </h3>
@@ -41,7 +41,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             style="scroll-margin-left: -0px;"
           >
             <div
-              class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+              class="testimonial flex flex-col h-full border rounded-lg p-8"
             >
               <blockquote
                 class="testimonial__quote mb-space-between flex-grow"
@@ -85,7 +85,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             style="scroll-margin-left: -0px;"
           >
             <div
-              class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+              class="testimonial flex flex-col h-full border rounded-lg p-8"
             >
               <blockquote
                 class="testimonial__quote mb-space-between flex-grow"
@@ -129,7 +129,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
             style="scroll-margin-left: -0px;"
           >
             <div
-              class="testimonial flex flex-col h-full border rounded-radius-md p-8"
+              class="testimonial flex flex-col h-full border rounded-lg p-8"
             >
               <blockquote
                 class="testimonial__quote mb-space-between flex-grow"

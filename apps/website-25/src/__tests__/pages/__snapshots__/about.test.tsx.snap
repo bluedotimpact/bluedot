@@ -15,7 +15,7 @@ exports[`AboutPage > should render correctly 1`] = `
           About us
         </div>
         <h1
-          class="hero-section__title text-on-dark text-center"
+          class="hero-section__title text-on-dark text-center bluedot-h1"
         >
           Our mission is to ensure humanity safely navigates the transition to transformative AI.
         </h1>
@@ -23,7 +23,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="flex justify-center mt-8"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark"
             data-testid="cta-link"
             href="/join-us"
           >
@@ -59,7 +59,7 @@ exports[`AboutPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link"
+              class="breadcrumbs__link bluedot-a no-underline"
               href="/"
             >
               Home
@@ -74,7 +74,7 @@ exports[`AboutPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link"
+              class="breadcrumbs__link bluedot-a no-underline"
               href="/about"
             >
               About us
@@ -93,7 +93,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section-heading__title relative ml-[-0.08em]"
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
             Our story
           </h2>
@@ -108,22 +108,32 @@ exports[`AboutPage > should render correctly 1`] = `
           <div
             class="intro-section__text-container flex flex-col gap-5"
           >
-            <p>
+            <p
+              class="bluedot-p"
+            >
               In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.
             </p>
-            <p>
+            <p
+              class="bluedot-p"
+            >
               What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.
             </p>
-            <p>
+            <p
+              class="bluedot-p"
+            >
               As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.
             </p>
             <span
               class="intro-section__signature"
             >
-              <p>
+              <p
+                class="bluedot-p"
+              >
                 Dewi and Will,
               </p>
-              <p>
+              <p
+                class="bluedot-p"
+              >
                 BlueDot Impact Co-Founders
               </p>
             </span>
@@ -146,7 +156,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section-heading__title relative ml-[-0.08em]"
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
             Our core beliefs
           </h2>
@@ -185,7 +195,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="AGI could arrive soon, and society is dangerously unprepared"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      class="card__image max-w-full max-h-full object-cover rounded-lg "
                       src="/images/beliefs/agi.png"
                     />
                   </div>
@@ -196,12 +206,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         AGI could arrive soon, and society is dangerously unprepared
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.
                       </p>
@@ -222,7 +232,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="What we do now matters"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      class="card__image max-w-full max-h-full object-cover rounded-lg "
                       src="/images/beliefs/matters.png"
                     />
                   </div>
@@ -233,12 +243,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         What we do now matters
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
                       </p>
@@ -259,7 +269,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="People at key moments rewrite history"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      class="card__image max-w-full max-h-full object-cover rounded-lg "
                       src="/images/beliefs/key.png"
                     />
                   </div>
@@ -270,12 +280,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         People at key moments rewrite history
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
                       </p>
@@ -296,7 +306,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="We need urgency, wisdom and optimism"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md "
+                      class="card__image max-w-full max-h-full object-cover rounded-lg "
                       src="/images/beliefs/urgency.png"
                     />
                   </div>
@@ -307,12 +317,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         We need urgency, wisdom and optimism
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
                       </p>
@@ -389,7 +399,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section-heading__title relative ml-[-0.08em]"
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
             Our history
           </h2>
@@ -411,7 +421,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
                   2021
                 </p>
@@ -420,7 +430,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-details mr-12"
+                class="bluedot-p history-section__event-details mr-12"
               >
                 Before BlueDot, we 
                 <strong>
@@ -440,7 +450,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
                   2022
                 </p>
@@ -449,7 +459,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-details mr-12"
+                class="bluedot-p history-section__event-details mr-12"
               >
                 <strong>
                   Launched our first AI Safety course
@@ -476,7 +486,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
                   2023
                 </p>
@@ -485,7 +495,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-details mr-12"
+                class="bluedot-p history-section__event-details mr-12"
               >
                 Delivered a new course every four months, 
                 <strong>
@@ -505,7 +515,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
                   2024
                 </p>
@@ -514,7 +524,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-details mr-12"
+                class="bluedot-p history-section__event-details mr-12"
               >
                 Accelerated to monthly courses, 
                 <strong>
@@ -538,7 +548,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
                 >
                   2025
                 </p>
@@ -547,7 +557,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 />
               </div>
               <p
-                class="history-section__event-details mr-12"
+                class="bluedot-p history-section__event-details mr-12"
               >
                 Launching multiple courses weekly and expanding a world-class team to 
                 <strong>
@@ -570,7 +580,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section-heading__title relative ml-[-0.08em]"
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
             Our team
           </h2>
@@ -609,7 +619,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Dewi Erwan"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/dewi.jpg"
                     />
                   </div>
@@ -620,12 +630,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Dewi Erwan
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Co-founder & CEO
                       </p>
@@ -634,7 +644,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://www.linkedin.com/in/dewierwan/"
                         rel="noopener noreferrer"
@@ -663,7 +673,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Will Saunter"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/will.jpg"
                     />
                   </div>
@@ -674,12 +684,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Will Saunter
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Co-founder
                       </p>
@@ -688,7 +698,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://linkedin.com/in/will-saunter"
                         rel="noopener noreferrer"
@@ -717,7 +727,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Li-Lian Ang"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/lilian.jpg"
                     />
                   </div>
@@ -728,12 +738,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Li-Lian Ang
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Product
                       </p>
@@ -742,7 +752,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://linkedin.com/in/anglilian"
                         rel="noopener noreferrer"
@@ -771,7 +781,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Adam Jones"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/adam.jpg"
                     />
                   </div>
@@ -782,12 +792,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Adam Jones
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         AI Safety
                       </p>
@@ -796,7 +806,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://www.linkedin.com/in/domdomegg/"
                         rel="noopener noreferrer"
@@ -825,7 +835,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Josh Landes"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/josh_v2.jpeg"
                     />
                   </div>
@@ -836,12 +846,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Josh Landes
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Community Manager
                       </p>
@@ -850,7 +860,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://linkedin.com/in/josh-landes12"
                         rel="noopener noreferrer"
@@ -879,7 +889,7 @@ exports[`AboutPage > should render correctly 1`] = `
                   >
                     <img
                       alt="Tarin Rickett"
-                      class="card__image max-w-full max-h-full object-cover rounded-radius-md team-section__card-image h-[300px] w-[300px]"
+                      class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
                       src="/images/team/tarin.jpg"
                     />
                   </div>
@@ -890,12 +900,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__text"
                     >
                       <p
-                        class="card__title subtitle-sm mb-2"
+                        class="card__title bluedot-h4 mb-2"
                       >
                         Tarin Rickett
                       </p>
                       <p
-                        class="card__subtitle "
+                        class="card__subtitle bluedot-p "
                       >
                         Engineering
                       </p>
@@ -904,7 +914,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="card__bottom-section flex flex-col gap-space-between"
                     >
                       <a
-                        class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                         data-testid="cta-link"
                         href="https://linkedin.com/in/tarinrickett/"
                         rel="noopener noreferrer"
@@ -986,12 +996,12 @@ exports[`AboutPage > should render correctly 1`] = `
         class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
       >
         <h3
-          class="join-us-cta__title max-w-[890px] text-center mb-8"
+          class="bluedot-h3 join-us-cta__title max-w-[890px] text-center mb-8"
         >
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h3>
         <a
-          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+          class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
           data-testid="cta-link"
           href="/careers"
         >
@@ -1022,7 +1032,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="section-heading__content flex-1 flex flex-col gap-2"
         >
           <h2
-            class="section-heading__title relative ml-[-0.08em]"
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
             Contact us
           </h2>
@@ -1031,11 +1041,13 @@ exports[`AboutPage > should render correctly 1`] = `
       <div
         class="section__body"
       >
-        <p>
+        <p
+          class="bluedot-p"
+        >
           We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
         </p>
         <a
-          class="cta-button flex items-center justify-center rounded-radius-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
+          class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
           data-testid="cta-link"
           href="/contact"
         >

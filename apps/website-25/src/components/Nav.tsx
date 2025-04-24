@@ -7,6 +7,7 @@ import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
 import { IconButton, HamburgerIcon } from '@bluedot/ui/src/IconButton';
 import { useAuthStore } from '@bluedot/ui';
 import { ROUTES } from '../lib/routes';
+import { A, H3 } from './Text';
 
 export type NavProps = React.PropsWithChildren<{
   className?: string;
@@ -56,16 +57,16 @@ const ExploreSection: React.FC<{
         innerClassName,
       )}
     >
-      <h3 className="nav-explore-section__dropdown-title font-bold">Our courses</h3>
+      <H3 className="nav-explore-section__dropdown-title font-bold">Our courses</H3>
       {courses?.map((course) => (
-        <a key={course.url} href={course.url} className="nav-explore-section__dropdown-link">
+        <A key={course.url} href={course.url} className="nav-explore-section__dropdown-link no-underline">
           {course.isNew && (
             <span className="nav-explore-section__new-badge text-bluedot-normal font-black pr-2">
               New!
             </span>
           )}
           {course.title}
-        </a>
+        </A>
       ))}
     </div>
   </div>
@@ -86,7 +87,7 @@ const NavLinks: React.FC<{
   className,
   isScrolled,
 }) => {
-  const navLinkClasses = clsx('nav-link-animation', isScrolled && 'nav-link-animation-dark');
+  const navLinkClasses = clsx('nav-link-animation no-underline', isScrolled && 'nav-link-animation-dark');
 
   return (
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
@@ -94,7 +95,7 @@ const NavLinks: React.FC<{
         <button
           type="button"
           onClick={onToggleExplore}
-          className={clsx('nav-links__dropdown-button flex items-center gap-2', navLinkClasses)}
+          className={clsx('nav-links__dropdown-button flex items-center gap-2 cursor-pointer', navLinkClasses)}
         >
           Explore
           <DropdownIcon expanded={exploreExpanded} />
@@ -109,22 +110,22 @@ const NavLinks: React.FC<{
           />
         )}
       </div>
-      <a href={ROUTES.about.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</a>
-      <a href={ROUTES.joinUs.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.joinUs.url) && 'font-bold')}>Join us</a>
-      <a href="https://bluedot.org/blog/" className={clsx('nav-links__link', navLinkClasses)}>Blog</a>
-      <a href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={clsx('nav-links__link', navLinkClasses)}>Events</a>
+      <A href={ROUTES.about.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</A>
+      <A href={ROUTES.joinUs.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.joinUs.url) && 'font-bold')}>Join us</A>
+      <A href="https://bluedot.org/blog/" className={clsx('nav-links__link', navLinkClasses)}>Blog</A>
+      <A href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={clsx('nav-links__link', navLinkClasses)}>Events</A>
     </div>
   );
 };
 
 const ProfileLinks: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
-  const linkClasses = clsx('nav-link-animation w-fit', isScrolled && 'nav-link-animation-dark');
+  const linkClasses = clsx('nav-link-animation w-fit no-underline', isScrolled && 'nav-link-animation-dark');
 
   return (
     <div className="nav__profile-dropdown flex flex-col gap-4 font-medium pb-10 items-end">
-      <a href={ROUTES.profile.url} className={clsx('nav__profile-link', linkClasses)}>Profile</a>
-      <a href={ROUTES.contact.url} className={clsx('nav__profile-link', linkClasses)}>Help</a>
-      <a href={ROUTES.logout.url} className={clsx('nav__profile-link', linkClasses)}>Log out</a>
+      <A href={ROUTES.profile.url} className={clsx('nav__profile-link', linkClasses)}>Profile</A>
+      <A href={ROUTES.contact.url} className={clsx('nav__profile-link', linkClasses)}>Help</A>
+      <A href={ROUTES.logout.url} className={clsx('nav__profile-link', linkClasses)}>Log out</A>
     </div>
   );
 };
@@ -239,7 +240,7 @@ export const Nav: React.FC<NavProps> = ({
                 setOpen={onToggleNav}
                 className="nav__menu--mobile-tablet mr-2 lg:hidden"
               />
-              <a href="/" className="nav__logo-link shrink-0 w-[200px]">
+              <A href="/" className="nav__logo-link shrink-0 w-[200px] no-underline">
                 {logo ? (
                   <img
                     className={clsx(
@@ -250,9 +251,9 @@ export const Nav: React.FC<NavProps> = ({
                     alt="BlueDot Impact Logo"
                   />
                 ) : (
-                  <h3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</h3>
+                  <H3 className="nav_logo--placeholder h-8 mr-auto">BlueDot Impact</H3>
                 )}
-              </a>
+              </A>
             </div>
             <NavLinks
               onToggleExplore={onToggleExplore}

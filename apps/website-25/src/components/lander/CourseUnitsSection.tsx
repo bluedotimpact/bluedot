@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import clsx from 'clsx';
+import { H3, P } from '../Text';
 
 interface CourseUnitProps {
   unitNumber: string;
@@ -19,7 +20,7 @@ export const CourseUnit: React.FC<CourseUnitProps> = ({
 }) => (
   /* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */
   <div className={`p-6 bg-cream-normal rounded-lg ${className}`} id={id}>
-    <p className="uppercase font-semibold text-gray-600">Unit {unitNumber}</p>
+    <P className="uppercase font-semibold text-gray-600">Unit {unitNumber}</P>
     {children}
   </div>
 );
@@ -36,7 +37,7 @@ export const CourseUnitTitle: React.FC<CourseUnitTitleProps> = ({
   children,
   className = '',
 }) => (
-  <h3 className={`text-size-lg font-semibold my-2 ${className}`}>{children}</h3>
+  <H3 className={`text-size-lg font-semibold my-2 ${className}`}>{children}</H3>
 );
 
 interface CourseUnitDescriptionProps {
@@ -51,7 +52,7 @@ export const CourseUnitDescription: React.FC<CourseUnitDescriptionProps> = ({
   children,
   className = '',
 }) => (
-  <p className={`text-gray-600 ${className}`}>{children}</p>
+  <P className={`text-gray-600 ${className}`}>{children}</P>
 );
 
 interface CourseUnitsSectionProps {
