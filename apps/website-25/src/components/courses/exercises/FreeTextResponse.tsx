@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
@@ -86,7 +86,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         <CTALinkOrButton
           className="free-text-response__login-cta"
           variant="primary"
-          url={ROUTES.login.url}
+          url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
           withChevron
         >
           Login to save your answers

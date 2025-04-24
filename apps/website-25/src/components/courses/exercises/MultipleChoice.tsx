@@ -1,4 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -128,7 +128,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton
           className="multiple-choice__login-cta"
           variant="primary"
-          url={ROUTES.login.url}
+          url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
           withChevron
         >
           Login to check your answer
