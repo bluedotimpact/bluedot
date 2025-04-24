@@ -10,40 +10,90 @@ import {
 
 export type GetUserResponse = {
   type: 'success';
-  user: User & { coursePath: string };
+  user: User;
+  enrolledCourses: { id: string, title: string, path: string }[];
+};
+
+export type PatchUserBody = {
+  name?: string;
+  referredById?: string;
+  courseSitesVisitedCsv?: string;
+  completedMoocAt?: number;
 };
 
 export default makeApiRoute({
   requireAuth: true,
+  requestBody: z.object({
+    name: z.string().optional(),
+    referredById: z.string().optional(),
+    courseSitesVisited: z.string().optional(),
+    completedMoocAt: z.number().optional(),
+  }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
-  }),
-}, async (body, { auth }) => {
-  const user = (await db.scan(userTable, {
+    enrolledCourses: z.array(z.object({
+      title: z.string(),
+      path: z.string(),
+    })),
+  }).optional(),
+}, async (body, { auth, raw }) => {
+  // Handle GET request
+  const [existingUser] = await db.scan(userTable, {
     filterByFormula: `{Email} = "${auth.email}"`,
-  }))[0];
+  });
 
-  const courseNames = user?.courseSitesVisited.split(',') ?? [];
+  switch (raw.req.method) {
+    case 'GET': {
+      let user: User;
+      if (!existingUser) {
+        // Create user if doesn't exist
+        user = await db.insert(userTable, {
+          email: auth.email,
+          lastSeenAt: new Date().toISOString(),
+        });
+      } else {
+        // Update last seen timestamp if does exist
+        user = await db.update(userTable, {
+          id: existingUser.id,
+          lastSeenAt: new Date().toISOString(),
+        });
+      }
 
-  if (courseNames.length > 1) {
-    // eslint-disable-next-line no-console
-    console.error('Users with multiple courses are not supported yet, only returning the first coursePath');
+      const courseNames = user.courseSitesVisitedCsv.split(',');
+      const courses = (await Promise.all(
+        courseNames.map((courseName) => db.scan(courseTable, {
+          filterByFormula: `{Course} = "${courseName}"`,
+        })),
+      )).flat();
+
+      return {
+        type: 'success' as const,
+        user,
+        enrolledCourses: courses.map((c) => ({ id: c.id, title: c.title, path: c.path })),
+      };
+    }
+
+    case 'PATCH': {
+      if (!existingUser) {
+        throw new createHttpError.NotFound('User not found');
+      }
+
+      if (!body) {
+        throw new createHttpError.BadRequest('PATCH request requires a body');
+      }
+
+      // Update user with provided fields
+      await db.update(userTable, {
+        id: existingUser.id,
+        ...body,
+      });
+
+      return undefined;
+    }
+
+    default: {
+      throw new createHttpError.MethodNotAllowed();
+    }
   }
-
-  const course = (await db.scan(courseTable, {
-    filterByFormula: `{Course} = "${courseNames[0]}"`,
-  }))[0];
-
-  if (!user) {
-    // In practice we might want to create a user for them if this is the case
-    throw new createHttpError.NotFound('User not found');
-  }
-
-  const res: GetUserResponse = {
-    type: 'success' as const,
-    user: { ...user, coursePath: course?.path ?? '' },
-  };
-
-  return res;
 });

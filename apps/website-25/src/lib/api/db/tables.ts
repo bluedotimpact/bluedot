@@ -238,7 +238,7 @@ export interface User extends Item {
   utmSource: string,
   utmCampaign: string,
   utmContent: string,
-  courseSitesVisited: string,
+  courseSitesVisitedCsv: string,
   completedMoocAt: number | null,
 }
 
@@ -256,7 +256,7 @@ export const userTable: Table<User> = {
     utmSource: 'fldl1gTMXI44BvCUS',
     utmCampaign: 'fldcNcqMxSFpmiGWT',
     utmContent: 'fldlpjcdh7jpZhHhv',
-    courseSitesVisited: 'fldgbXANYvYCEw4OV',
+    courseSitesVisitedCsv: 'fldgbXANYvYCEw4OV',
     completedMoocAt: 'fldTCSAIKNs4nPfDn',
   },
   schema: {
@@ -269,7 +269,7 @@ export const userTable: Table<User> = {
     utmSource: 'string',
     utmCampaign: 'string',
     utmContent: 'string',
-    courseSitesVisited: 'string',
+    courseSitesVisitedCsv: 'string',
     completedMoocAt: 'number | null',
   },
 };
