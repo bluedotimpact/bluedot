@@ -39,8 +39,8 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
   }, [children, setComponent]);
 
   return (
-    // See globals.css for advanced prose styles
-    <div className={clsx('markdown-extended-renderer prose', className)}>
+    // See @utility prose in globals.css for advanced styles
+    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal', className)}>
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );
