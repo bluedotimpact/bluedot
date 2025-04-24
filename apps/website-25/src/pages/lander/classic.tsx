@@ -13,7 +13,7 @@ const LandingPage = () => {
     <ClassicHero>
       <ClassicHero.Title>Future-proof your career</ClassicHero.Title>
       <ClassicHero.Subtitle>
-        No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world.
+        No jargon, no coding, no prerequisites – just bring your curiosity for how AI will reshape your world.
       </ClassicHero.Subtitle>
       <ClassicHero.CTA variant={VARIANT}>Start learning for free</ClassicHero.CTA>
       <ClassicHero.Features>
