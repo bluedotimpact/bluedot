@@ -10,7 +10,7 @@ export type LinkOrButtonProps = React.PropsWithChildren<{
 }>;
 
 export const LinkOrButton = ({
-  children, className, onPress, disabled, url, target, "aria-label": ariaLabel
+  children, className, onPress, disabled, url, target, 'aria-label': ariaLabel,
 }: LinkOrButtonProps) => {
   if (url) {
     return (
@@ -32,7 +32,7 @@ export const LinkOrButton = ({
       onPress={onPress}
       isDisabled={disabled}
       aria-label={ariaLabel}
-      >{children}
+    >{children}
     </ReactAriaButton>
   );
 };
