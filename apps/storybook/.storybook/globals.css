@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '../../../libraries/ui/src/default-config/tailwind.css';
+@import '../../website-25/src/globals.css';
 
 @plugin "@tailwindcss/typography";
 

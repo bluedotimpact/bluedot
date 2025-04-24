@@ -61,7 +61,7 @@ Ordered list:
 
 Pass in an \`onChange\` prop to get the output.
 
-In storybook we use console.log by default, so you can see the markdown output in the browser console.`,
+In storybook we use \`console.log\` by default, so you can see the markdown output in the browser console.`,
     // eslint-disable-next-line no-console
     onChange: console.log,
   },
