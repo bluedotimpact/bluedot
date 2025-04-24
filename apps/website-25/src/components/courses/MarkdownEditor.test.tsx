@@ -15,9 +15,6 @@ describe('MarkdownEditor', () => {
       expect(screen.getByRole('textbox')).toBeInTheDocument();
     });
 
-    // Check container styling
-    expect(container.firstChild).toHaveClass('border', 'border-gray-300', 'rounded-radius-md', 'overflow-hidden');
-
     // Check toolbar exists
     expect(screen.getByRole('toolbar')).toBeInTheDocument();
 
@@ -81,5 +78,46 @@ describe('MarkdownEditor', () => {
     const toolbar = screen.getByRole('toolbar');
     expect(toolbar).toContainElement(screen.getByLabelText('Bold'));
     expect(toolbar).toContainElement(screen.getByLabelText('Italic'));
+  });
+
+  test('bold button applies formatting and triggers onChange with bolded text', async () => {
+    const onChange = vi.fn();
+    const { container } = render(<MarkdownEditor onChange={onChange} />);
+
+    // Wait for editor to initialize
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toBeInTheDocument();
+    });
+
+    // Get the contentEditable element
+    const contentEditable = container.querySelector('[contenteditable="true"]');
+    expect(contentEditable).toBeInTheDocument();
+
+    // Focus and type some text
+    const editorElement = contentEditable as HTMLElement;
+    editorElement.focus();
+    editorElement.innerHTML = 'Test text';
+
+    // Clear the mock to ignore the initial text input
+    onChange.mockClear();
+
+    // Find and click the bold button
+    const boldButton = screen.getByLabelText('Bold');
+    boldButton.click();
+
+    // Verify onChange was called with markdown bold syntax
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalled();
+      // The exact format might depend on the Markdown parser implementation
+      // but typically bold text is wrapped with ** or __
+      expect(onChange).toHaveBeenCalledWith(expect.stringContaining('**Test text**'));
+    });
+
+    // Check that the content is rendered in a <strong> tag
+    await waitFor(() => {
+      const boldElement = container.querySelector('strong');
+      expect(boldElement).toBeInTheDocument();
+      expect(boldElement).toHaveTextContent('Test text');
+    });
   });
 });

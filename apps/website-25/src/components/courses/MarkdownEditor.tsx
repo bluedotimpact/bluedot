@@ -164,7 +164,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
   }
 
   return (
-    <div className="border border-gray-300 rounded-radius-md overflow-hidden">
+    <div className="border border-gray-300 rounded-lg overflow-hidden">
       <Toolbar editor={editor} />
 
       <EditorContent
