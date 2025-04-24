@@ -13,6 +13,7 @@ import useAxios from 'axios-hooks';
 import { GetUserResponse } from './api/users/me';
 import Congratulations from '../components/courses/Congratulations';
 import { ROUTES } from '../lib/routes';
+import { H3, P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -47,19 +48,19 @@ const ProfilePage = withAuth(({ auth }) => {
           className="profile max-w-[728px]"
         >
           <div className="profile__account-details flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-            <h3>Account details</h3>
-            <p>Name: {data.user.name}</p>
-            <p>Email: {data.user.email}</p>
+            <H3>Account details</H3>
+            <P>Name: {data.user.name}</P>
+            <P>Email: {data.user.email}</P>
           </div>
           {data.enrolledCourses.length === 0 && (
             <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-              <p>You haven't started any courses yet</p>
+              <P>You haven't started any courses yet</P>
               <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
             </div>
           )}
           {nonMoocCourses.length > 0 && (nonMoocCourses.map((course) => (
             <div className="profile__course-progress flex flex-row justify-between items-center gap-4 container-lined bg-white p-8 mb-4" key={course.id}>
-              <h3>{course.title}</h3>
+              <H3>{course.title}</H3>
               <CTALinkOrButton url={course.path} variant="primary">
                 Continue
               </CTALinkOrButton>

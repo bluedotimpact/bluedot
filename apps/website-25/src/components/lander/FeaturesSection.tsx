@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, { ReactNode } from 'react';
+import { H3, P } from '../Text';
 
 interface FeatureProps {
   iconSrc?: string;
@@ -41,7 +42,7 @@ export const FeatureTitle: React.FC<FeatureTitleProps> = ({
   children,
   className = '',
 }) => (
-  <h3 className={`font-semibold mb-2 ${className}`}>{children}</h3>
+  <H3 className={`font-semibold mb-2 ${className}`}>{children}</H3>
 );
 
 interface FeatureSubtitleProps {
@@ -56,7 +57,7 @@ export const FeatureSubtitle: React.FC<FeatureSubtitleProps> = ({
   children,
   className = '',
 }) => (
-  <p className={`text-gray-600 text-size-md mx-4 ${className}`}>{children}</p>
+  <P className={`text-gray-600 text-size-md mx-4 ${className}`}>{children}</P>
 );
 
 interface FeaturesSectionProps {

@@ -1,5 +1,6 @@
 import { isMobile } from 'react-device-detect';
 import { Section } from '@bluedot/ui';
+import { P } from '../Text';
 
 const HistorySection = () => {
   return (
@@ -25,15 +26,15 @@ const HistoryEvent = ({ year, now, children }: { year: string, now?: boolean, ch
         }
         >
           <strong className="history-section__year">{year}</strong>
-          <p className="history-section__event-details">{children}</p>
+          <P className="history-section__event-details">{children}</P>
         </div>
       ) : (
         <div className="history-section__event-container--desktop flex flex-col gap-space-between">
           <div className="history-section__year-container w-full flex gap-2">
-            <p className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min">{year}</p>
+            <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min">{year}</P>
             <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
           </div>
-          <p className="history-section__event-details mr-12">{children}</p>
+          <P className="history-section__event-details mr-12">{children}</P>
         </div>
       )}
     </div>

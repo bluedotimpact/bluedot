@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
+import { P } from '../Text';
 
 interface QuoteProps {
   children: ReactNode;
@@ -15,9 +16,9 @@ const Quote = ({
   className = '',
 }: QuoteProps) => (
   /* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */
-  <p className={`font-serif text-size-lg md:text-3xl mb-3 md:mr-20 ${className}`}>
+  <P className={`font-serif text-size-lg md:text-3xl mb-3 md:mr-20 ${className}`}>
     "{children}"
-  </p>
+  </P>
 );
 
 interface AttributionProps {
@@ -32,9 +33,9 @@ const Attribution = ({
   children,
   className = '',
 }: AttributionProps) => (
-  <p className={`font-serif text-size-sm md:text-size-md text-gray-800 md:mr-20 ${className}`}>
+  <P className={`font-serif text-size-sm md:text-size-md text-gray-800 md:mr-20 ${className}`}>
     {children}
-  </p>
+  </P>
 );
 
 interface CTAProps {
