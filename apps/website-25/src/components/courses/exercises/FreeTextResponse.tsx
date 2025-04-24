@@ -78,7 +78,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       </div>
       {isLoggedIn ? (
         <CTALinkOrButton
-          className="free-text-response__submit"
+          className="free-text-response__submit not-prose"
           variant="primary"
           type="submit"
           disabled={isSubmitting}
@@ -87,7 +87,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
-          className="free-text-response__login-cta"
+          className="free-text-response__login-cta not-prose"
           variant="primary"
           url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
           withChevron

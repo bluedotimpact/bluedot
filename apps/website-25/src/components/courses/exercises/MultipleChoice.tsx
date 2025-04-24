@@ -118,7 +118,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       {isLoggedIn ? (
         <CTALinkOrButton
-          className="multiple-choice__submit"
+          className="multiple-choice__submit not-prose"
           variant="primary"
           type="submit"
         >
@@ -126,7 +126,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
-          className="multiple-choice__login-cta"
+          className="multiple-choice__login-cta not-prose"
           variant="primary"
           url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
           withChevron
