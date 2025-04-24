@@ -3,7 +3,6 @@ import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
-import { P } from './Text';
 import { Navigate } from './Navigate';
 import { Auth, useAuthStore } from '../utils/auth';
 import { ErrorSection } from '../ErrorSection';
