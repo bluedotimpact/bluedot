@@ -37,7 +37,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       `/api/courses/exercises/${exerciseId}/response`,
       {
         response: exerciseResponse,
-        completed,
+        completed: exerciseResponse.trim().length > 0,
       },
       {
         headers: {

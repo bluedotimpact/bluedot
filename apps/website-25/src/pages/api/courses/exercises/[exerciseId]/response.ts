@@ -45,7 +45,10 @@ export default makeApiRoute({
     case 'GET': {
       return {
         type: 'success' as const,
-        exerciseResponse,
+        exerciseResponse: exerciseResponse ? {
+          ...exerciseResponse,
+          response: exerciseResponse.response.trimEnd(),
+        } : undefined,
       };
     }
 

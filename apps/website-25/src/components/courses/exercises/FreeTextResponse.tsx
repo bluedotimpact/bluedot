@@ -30,7 +30,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   title,
 }) => {
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const { register, handleSubmit, setValue } = useForm<FormData>({
+  const {
+    register, handleSubmit, setValue, formState: { isSubmitting },
+  } = useForm<FormData>({
     defaultValues: {
       answer: exerciseResponse || '',
     },
@@ -79,8 +81,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           className="free-text-response__submit"
           variant="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Save
+          {isSubmitting ? 'Saving...' : 'Save'}
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
