@@ -6,7 +6,6 @@ import { sendGAEvent } from '@next/third-parties/google';
 import { constants } from '@bluedot/ui';
 import CourseSection from './CourseSection';
 
-const EVENT_NAME = 'course_card_click' as const;
 const featuredCourse = constants.COURSES.find((course) => course.isFeatured)!;
 const nonFeaturedCourses = constants.COURSES.filter((course) => course !== featuredCourse);
 // Mock the GA event tracking
@@ -37,7 +36,7 @@ describe('CourseSection', () => {
     fireEvent.click(featuredCard);
 
     // Verify GA event was sent with correct parameters
-    expect(sendGAEvent).toHaveBeenCalledWith('event', EVENT_NAME, {
+    expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
       course_title: featuredCourse.title,
       course_url: featuredCourse.url,
     });
@@ -47,7 +46,7 @@ describe('CourseSection', () => {
     fireEvent.click(other);
 
     // Verify GA event was sent with correct parameters
-    expect(sendGAEvent).toHaveBeenCalledWith('event', EVENT_NAME, {
+    expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
       course_title: nonFeaturedCourses[0]!.title,
       course_url: nonFeaturedCourses[0]!.url,
     });
