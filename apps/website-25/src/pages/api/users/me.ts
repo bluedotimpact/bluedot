@@ -23,6 +23,12 @@ export type PatchUserBody = {
 
 export default makeApiRoute({
   requireAuth: true,
+  requestBody: z.object({
+    name: z.string().optional(),
+    referredById: z.string().optional(),
+    courseSitesVisited: z.string().optional(),
+    completedMoocAt: z.number().optional(),
+  }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
@@ -30,12 +36,6 @@ export default makeApiRoute({
       title: z.string(),
       path: z.string(),
     })),
-  }).optional(),
-  requestBody: z.object({
-    name: z.string().optional(),
-    referredById: z.string().optional(),
-    courseSitesVisited: z.string().optional(),
-    completedMoocAt: z.number().optional(),
   }).optional(),
 }, async (body, { auth, raw }) => {
   // Handle GET request
