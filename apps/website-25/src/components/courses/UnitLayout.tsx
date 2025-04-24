@@ -32,7 +32,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const nextUnit = units[unitArrIndex + 1];
   const prevUnit = units[unitArrIndex - 1];
 
-  if (!unit) {
+  if (!unit || unitArrIndex === -1) {
     // Should never happen
     throw new Error('Unit not found');
   }
