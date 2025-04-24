@@ -1,11 +1,10 @@
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { ErrorSection } from '@bluedot/ui';
 import { Page } from '../components/Page';
-import { H1 } from '../components/Text';
 import SelectPersonView from '../components/SelectPersonView';
 import { PageState } from '../lib/client/pageState';
 import AppJoinView from '../components/AppJoinView';
-import { ErrorSection } from '@bluedot/ui';
 
 const Home: React.FC = () => {
   const searchParams = useSearchParams();

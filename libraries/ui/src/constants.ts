@@ -48,4 +48,4 @@ export const COURSES: Course[] = [
   },
 ] as const;
 
-export const contactUsUrl = 'https://bluedot.org/contact'
+export const contactUsUrl = 'https://bluedot.org/contact';
