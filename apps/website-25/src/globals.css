@@ -42,7 +42,7 @@
     @apply text-color-text font-sans text-size-md font-normal font-[650] mb-4 last:mb-0;
   }
   ul {
-    @apply list-inside list-disc;
+    @apply list-disc;
   }
   ol {
     @apply list-decimal;
