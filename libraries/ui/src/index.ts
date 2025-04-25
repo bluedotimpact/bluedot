@@ -37,6 +37,8 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
+export { UnitCard } from './UnitCard';
+
 // Utils
 
 export { addQueryParam } from './utils/addQueryParam';
