@@ -15,6 +15,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
 import UnitFeedback from './UnitFeedback';
+import CertificateLinkCard from './CertificateLinkCard';
 
 type UnitLayoutProps = {
   // Required
@@ -60,7 +61,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {!isMobile && (
             <SideBar units={units} currentUnitNumber={unitNumber} />
           )}
-          <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-4">
+          <div className="unit__content flex flex-col flex-1 max-w-[728px] gap-6">
             <MarkdownExtendedRenderer>
               {unit.content}
             </MarkdownExtendedRenderer>
@@ -68,14 +69,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <UnitFeedback unit={unit} />
 
             {!nextUnit ? (
-              <div className="last-unit">
+              <>
                 <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
-                <div className="last-unit__cta-container flex flex-row justify-between mt-6 mx-1">
+                <CertificateLinkCard courseId={unit.courseId} />
+                <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
                   <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
                     Back to course
                   </CTALinkOrButton>
                 </div>
-              </div>
+              </>
             ) : (
               <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1">
                 {prevUnit && (

@@ -70,7 +70,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
   return (
     <form
-      className="unit-feedback container-lined bg-white p-8 flex flex-col gap-6 mt-6"
+      className="unit-feedback container-lined bg-white p-8 flex flex-col gap-6"
       onSubmit={handleSubmit}
     >
       <div className="unit-feedback__header flex flex-col gap-4">

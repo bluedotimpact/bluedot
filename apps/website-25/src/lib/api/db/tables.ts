@@ -153,6 +153,7 @@ export interface Exercise extends Item {
   type: string,
   unitId: string,
   unitNumber: string,
+  status: string,
 }
 
 export const exerciseTable: Table<Exercise> = {
@@ -169,6 +170,7 @@ export const exerciseTable: Table<Exercise> = {
     type: 'fldGXsdS2o3EnjNg9',
     unitId: 'fldqHO0BqQQCbxWTm',
     unitNumber: 'fldL42M2hgchJYIdD',
+    status: 'flda5e542i9w1nBzv',
   },
   schema: {
     answer: 'string',
@@ -180,6 +182,7 @@ export const exerciseTable: Table<Exercise> = {
     type: 'string',
     unitId: 'string',
     unitNumber: 'string',
+    status: 'string',
   },
 };
 
