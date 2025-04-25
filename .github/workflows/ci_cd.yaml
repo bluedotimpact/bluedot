@@ -8,9 +8,6 @@ on:
     branches:
       - master
 
-env:
-  TURBO_CACHE_DIR: .turbo
-
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -26,12 +23,12 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install NPM dependencies
         run: npm ci
+      - name: Test
+        run: npm run test --if-present
       - name: Lint
         run: npm run lint --if-present
       - name: Build
         run: npm run build --if-present
-      - name: Test
-        run: npm run test --if-present
 
       - name: Get all apps
         id: get_apps
