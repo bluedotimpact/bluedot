@@ -23,7 +23,7 @@ You might also want to see the instructions in [infra](../../apps/infra/README.m
 
 ### Multistage Deployments
 
-`website-25` has a multistage deployment, which means it has a staging and a production environment.
+`website` has a multistage deployment, which means it has a staging and a production environment.
 
 To deploy to staging, use `docker-scripts multistage-deploy-staging`.
 To deploy to production, use `docker-scripts multistage-deploy-production`.
