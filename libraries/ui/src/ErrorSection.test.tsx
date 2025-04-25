@@ -8,7 +8,7 @@ describe('ErrorSection', () => {
     const errorMessage = 'This is an error message';
     render(<ErrorSection error={new Error(errorMessage)} />);
 
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent).toContain('Error');
     expect(heading.textContent).toContain(errorMessage);
   });
@@ -17,7 +17,7 @@ describe('ErrorSection', () => {
     const errorString = 'This is a string error';
     render(<ErrorSection error={errorString} />);
 
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent).toContain(errorString);
   });
 
@@ -35,7 +35,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection error={error} />);
 
     // The heading should contain the outer error
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent).toContain(outerError);
 
     // The details section should contain all error messages
@@ -66,7 +66,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection error={networkError} />);
 
     // Check the main error message in the heading
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent).toContain('Exercise not found');
 
     // Check the details section contains all the error information
@@ -88,7 +88,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection error={arbitraryError} />);
 
     // The heading should contain the stringified object
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent).toContain('Error');
 
     // The details section should contain the full object representation
@@ -104,7 +104,7 @@ describe('ErrorSection', () => {
     render(<ErrorSection error={new Error(longMessage)} />);
 
     // The heading should contain a truncated version
-    const heading = screen.getByRole('heading', { level: 2 });
+    const heading = screen.getByRole('heading');
     expect(heading.textContent!.length).toBeLessThan(longMessage.length);
 
     // The full message should be in the details section

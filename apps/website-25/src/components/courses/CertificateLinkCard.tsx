@@ -1,7 +1,7 @@
 import {
   addQueryParam,
   Auth,
-  Card, CTALinkOrButton, ErrorSection, ProgressDots, useAuthStore,
+  Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import React from 'react';

@@ -3,7 +3,7 @@
 exports[`UnitFeedback > should render correctly 1`] = `
 <div>
   <form
-    class="unit-feedback container-lined bg-white p-8 flex flex-col gap-6 mt-6"
+    class="unit-feedback container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
       class="unit-feedback__header flex flex-col gap-4"

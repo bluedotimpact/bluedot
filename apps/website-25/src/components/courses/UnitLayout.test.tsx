@@ -97,7 +97,7 @@ describe('UnitLayout', () => {
       />,
     );
     expect(container.querySelector('.unit__cta-container')).toBeNull();
-    expect(container.querySelector('.last-unit-cta-container')).toBeTruthy();
+    expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 });
