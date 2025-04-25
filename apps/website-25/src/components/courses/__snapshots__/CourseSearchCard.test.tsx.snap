@@ -1,0 +1,58 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CourseSearchCard > renders default as expected 1`] = `
+<div>
+  <a
+    class="course-search-card flex flex-row container-lined p-6 transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    href="https://bluedot.org/courses/what-the-fish"
+  >
+    <div
+      class="course-search-card__content block md:flex gap-space-between w-full"
+    >
+      <div
+        class="course-search-card__text"
+      >
+        <h3
+          class="bluedot-h3 course-search-card__title mb-6"
+        >
+          Title
+        </h3>
+      </div>
+    </div>
+  </a>
+</div>
+`;
+
+exports[`CourseSearchCard > renders with optional args 1`] = `
+<div>
+  <a
+    class="course-search-card flex flex-row container-lined p-6 transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    href="https://bluedot.org/courses/what-the-fish"
+  >
+    <div
+      class="course-search-card__content block md:flex gap-space-between w-full"
+    >
+      <div
+        class="course-search-card__text"
+      >
+        <h3
+          class="bluedot-h3 course-search-card__title mb-6"
+        >
+          Title
+        </h3>
+        <p
+          class="bluedot-p course-search-card__description text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+        >
+          A short description of the course
+        </p>
+        <span
+          class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+          role="status"
+        >
+          10 days
+        </span>
+      </div>
+    </div>
+  </a>
+</div>
+`;
