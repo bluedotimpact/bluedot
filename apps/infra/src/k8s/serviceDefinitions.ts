@@ -44,11 +44,11 @@ export const services: ServiceDefinition[] = [
     hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org'],
   },
   {
-    name: 'bluedot-website-25',
+    name: 'bluedot-website',
     spec: {
       containers: [{
-        name: 'bluedot-website-25',
-        image: 'ghcr.io/bluedotimpact/bluedot-website-25:latest',
+        name: 'bluedot-website',
+        image: 'ghcr.io/bluedotimpact/bluedot-website:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -56,14 +56,15 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['website-25-staging.k8s.bluedot.org'],
+    // TODO: remove website-25-staging after people stop going to it
+    hosts: ['website-staging.k8s.bluedot.org', 'website-25-staging.k8s.bluedot.org'],
   },
   {
-    name: 'bluedot-website-25-production',
+    name: 'bluedot-website-production',
     spec: {
       containers: [{
-        name: 'bluedot-website-25-production',
-        image: 'ghcr.io/bluedotimpact/bluedot-website-25-production:latest',
+        name: 'bluedot-website-production',
+        image: 'ghcr.io/bluedotimpact/bluedot-website-production:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
@@ -71,7 +72,7 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['website-25-production.k8s.bluedot.org'],
+    hosts: ['website-production.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-storybook',

@@ -36,4 +36,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy production
-        run: npm run deploy:multistage:production --workspace apps/website-25
+        run: npm run deploy:multistage:production --workspace apps/website
