@@ -163,10 +163,10 @@ This is because by default most Markdown editors aren't aware of components, and
 If you do really want backslashes, escape them:
 
 \`\`\`mdx
-<Callout title="The backlash symbol (\\\\) is often used to escape other characters" />
+<Callout title="The backslash symbol (\\\\) is often used to escape other characters" />
 \`\`\`
 
-<Callout title="The backlash symbol (\\\\) is often used to escape other characters" />
+<Callout title="The backslash symbol (\\\\) is often used to escape other characters" />
 
 This only affects components, and not markdown text. So escaping works normally in markdown:
 
