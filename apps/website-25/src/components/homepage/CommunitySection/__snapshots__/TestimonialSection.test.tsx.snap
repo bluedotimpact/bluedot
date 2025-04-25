@@ -6,19 +6,6 @@ exports[`TestimonialSection > renders as expected 1`] = `
     class="testimonial-section pb-spacing-y"
   >
     <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6 testimonial-section__heading"
-    >
-      <div
-        class="section-heading__content flex-1 flex flex-col gap-2"
-      >
-        <h3
-          class="section-heading__title relative ml-[-0.08em] bluedot-h3"
-        >
-          What our graduates say
-        </h3>
-      </div>
-    </div>
-    <div
       class="slide-list relative overflow-hidden flex flex-col gap-space-between testimonial-section__testimonials"
     >
       <div
@@ -47,7 +34,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                 class="testimonial__quote mb-space-between flex-grow"
               >
                 "
-                This was the most positively impactful course I've ever taken (unless you count the high school class in which I got to know my husband!), as it gave me the background to engage with the AI safety and governance communities. I don't know how I would have gotten up to speed otherwise, and it opened the door to pretty much everything I've done professionally for the past couple years.
+                I love this course!
                 "
               </blockquote>
               <div
@@ -57,9 +44,9 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
                 >
                   <img
-                    alt="Kendrea Beers"
+                    alt="John Doe"
                     class="size-full object-cover"
-                    src="/images/graduates/kendrea.png"
+                    src="/images/graduates/john.png"
                   />
                 </div>
                 <div
@@ -68,12 +55,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   <div
                     class="testimonial__name font-semibold text-bluedot-black"
                   >
-                    Kendrea Beers
+                    John Doe
                   </div>
                   <div
                     class="testimonial__role text-size-sm text-bluedot-darker"
                   >
-                    Horizon Junior Fellow at the Center for Security and Emerging Technology
+                    Software Engineer
                   </div>
                 </div>
               </div>
@@ -91,7 +78,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                 class="testimonial__quote mb-space-between flex-grow"
               >
                 "
-                I participated in the AISF Alignment Course last year and consider it to be the single most useful step I've taken in my career so far. I cannot recommend the program strongly enough
+                I love this course!
                 "
               </blockquote>
               <div
@@ -101,9 +88,9 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
                 >
                   <img
-                    alt="Sarah Cogan"
+                    alt="Jane Doe"
                     class="size-full object-cover"
-                    src="/images/graduates/sarah.png"
+                    src="/images/graduates/jane.png"
                   />
                 </div>
                 <div
@@ -112,56 +99,12 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   <div
                     class="testimonial__name font-semibold text-bluedot-black"
                   >
-                    Sarah Cogan
+                    Jane Doe
                   </div>
                   <div
                     class="testimonial__role text-size-sm text-bluedot-darker"
                   >
-                    Software Engineer at Google DeepMind
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="slide-list__slide shrink-0 snap-start"
-            data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-            style="scroll-margin-left: -0px;"
-          >
-            <div
-              class="testimonial flex flex-col h-full border rounded-lg p-8"
-            >
-              <blockquote
-                class="testimonial__quote mb-space-between flex-grow"
-              >
-                "
-                This course was the first step in my career in AI safety. The BlueDot course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate. The course provided me with a great introduction to the field, and allowed me to meet some great people with whom I am still friends. I'd recommend this course to anyone!
-                "
-              </blockquote>
-              <div
-                class="testimonial__footer flex items-center gap-space-between mt-auto"
-              >
-                <div
-                  class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
-                >
-                  <img
-                    alt="Matthew Bradbury"
-                    class="size-full object-cover"
-                    src="/images/graduates/matthew.png"
-                  />
-                </div>
-                <div
-                  class="testimonial__info"
-                >
-                  <div
-                    class="testimonial__name font-semibold text-bluedot-black"
-                  >
-                    Matthew Bradbury
-                  </div>
-                  <div
-                    class="testimonial__role text-size-sm text-bluedot-darker"
-                  >
-                    Senior AI Risk Analyst in the UK Government
+                    Sr. Software Engineer
                   </div>
                 </div>
               </div>
@@ -200,7 +143,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
           />
           <div
             class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-            style="width: 33.33333333333333%;"
+            style="width: 50%;"
           />
         </div>
         <button
