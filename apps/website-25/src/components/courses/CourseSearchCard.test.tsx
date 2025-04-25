@@ -21,6 +21,7 @@ describe('CourseSearchCard', () => {
         {...defaultProps}
         description="A short description of the course"
         duration="10 days"
+        imageSrc="/courses/what-the-fish/image.png"
       />,
     );
     expect(container).toMatchSnapshot();

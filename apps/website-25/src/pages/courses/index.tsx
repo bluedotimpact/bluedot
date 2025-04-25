@@ -37,14 +37,15 @@ const CoursePage = () => {
       >
         {loading && <ProgressDots />}
         {error && <ErrorSection error={error} />}
-        <div className="course-serp__content flex flex-col gap-4 max-w-[728px] mx-auto">
+        <div className="course-serp__content flex flex-col gap-4 justify-center items-center mx-auto">
           {data?.courses.map((course) => (
             <CourseSearchCard
               key={course.title}
-              title={course.title}
               description={course.shortDescription}
-              url={course.path}
               duration={course.duration}
+              imageSrc={course.image}
+              title={course.title}
+              url={course.path}
             />
           ))}
         </div>

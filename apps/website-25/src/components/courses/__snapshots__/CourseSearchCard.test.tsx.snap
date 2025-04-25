@@ -3,11 +3,20 @@
 exports[`CourseSearchCard > renders default as expected 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-row container-lined p-6 transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] w-full h-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
   >
     <div
-      class="course-search-card__content block md:flex gap-space-between w-full"
+      class="course-search-card__image-container h-[240px] w-full md:w-fit"
+    >
+      <img
+        alt="Title"
+        class="course-search-card__image h-full w-full md:w-fit object-cover rounded-lg"
+        src="/images/courses/default.jpg"
+      />
+    </div>
+    <div
+      class="course-search-card__content flex flex-col gap-4 flex-1"
     >
       <div
         class="course-search-card__text"
@@ -26,11 +35,20 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
 exports[`CourseSearchCard > renders with optional args 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-row container-lined p-6 transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] w-full h-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
   >
     <div
-      class="course-search-card__content block md:flex gap-space-between w-full"
+      class="course-search-card__image-container h-[240px] w-full md:w-fit"
+    >
+      <img
+        alt="Title"
+        class="course-search-card__image h-full w-full md:w-fit object-cover rounded-lg"
+        src="/courses/what-the-fish/image.png"
+      />
+    </div>
+    <div
+      class="course-search-card__content flex flex-col gap-4 flex-1"
     >
       <div
         class="course-search-card__text"
@@ -46,7 +64,7 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
           A short description of the course
         </p>
         <span
-          class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+          class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-search-card__duration"
           role="status"
         >
           10 days
