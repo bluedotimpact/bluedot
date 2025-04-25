@@ -13,10 +13,10 @@ export const withDefaultBlueDotVitestConfig = async (config) => defineConfig({
   test: {
     environment: 'happy-dom',
     env: dotenv.config({ path: '.env.test' }).parsed,
+    // Sadly necessary for @testing-library/jest-dom
+    globals: true,
 
     ...config?.test,
-
-    globals: true,
 
     exclude: [...defaultExclude, '**/.{turbo,next}/**', ...(config?.test?.exclude ?? [])],
   },

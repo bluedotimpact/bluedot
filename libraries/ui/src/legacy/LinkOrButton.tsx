@@ -6,10 +6,11 @@ export type LinkOrButtonProps = React.PropsWithChildren<{
   url?: string,
   target?: React.HTMLAttributeAnchorTarget,
   disabled?: boolean;
+  'aria-label'?: string;
 }>;
 
 export const LinkOrButton = ({
-  children, className, onPress, disabled, url, target,
+  children, className, onPress, disabled, url, target, 'aria-label': ariaLabel,
 }: LinkOrButtonProps) => {
   if (url) {
     return (
@@ -19,6 +20,7 @@ export const LinkOrButton = ({
         href={url}
         target={target}
         isDisabled={disabled}
+        aria-label={ariaLabel}
       >{children}
       </ReactAriaLink>
     );
@@ -29,6 +31,7 @@ export const LinkOrButton = ({
       className={className}
       onPress={onPress}
       isDisabled={disabled}
+      aria-label={ariaLabel}
     >{children}
     </ReactAriaButton>
   );
