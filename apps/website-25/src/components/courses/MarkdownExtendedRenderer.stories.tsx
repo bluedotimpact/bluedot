@@ -112,6 +112,16 @@ export const WithComponents: Story = {
   args: {
     children: `# Using Components
 
+The following components are supported within your markdown content:
+
+${Object.keys(getSupportedComponents()).map((componentName) => `- \`${componentName}\``).join('\n')}
+
+See their Storybook pages for usage details.
+
+(to add to this list, add to \`getSupportedComponents\` in \`MarkdownExtendedRenderer.tsx\`)
+
+## Example
+
 Below is an example of using the Callout and Embed components:
 
 <Callout title="Want to see something cool?">
@@ -134,15 +144,39 @@ Code:
 </Callout>
 \`\`\`
 
-## Supported components
+## Escaping
 
-The following components are supported within your markdown content:
+Component properties will be unescaped when rendered. For example the input:
 
-${Object.keys(getSupportedComponents()).map((componentName) => `- \`${componentName}\``).join('\n')}
+\`\`\`mdx
+<Embed url="https://example.com/some\\_underscored\\_path" />
+\`\`\`
 
-See their Storybook pages for usage details.
+Will actually render the following MDX:
 
-(to add to this list, add to \`getSupportedComponents\` in \`MarkdownExtendedRenderer.tsx\`)
-    `,
+\`\`\`mdx
+<Embed url="https://example.com/some_underscored_path" />
+\`\`\`
+
+This is because by default most Markdown editors aren't aware of components, and so will escape special markdown characters everywhere - including in component properties. This includes the Airtable markdown editor.
+
+If you do really want backslashes, escape them:
+
+\`\`\`mdx
+<Callout title="The backlash symbol (\\\\) is often used to escape other characters" />
+\`\`\`
+
+<Callout title="The backlash symbol (\\\\) is often used to escape other characters" />
+
+This only affects components, and not markdown text. So escaping works normally in markdown:
+
+\`\`\`mdx
+- _normal italics_
+- \\_escaped italics\\_
+\`\`\`
+
+- _normal italics_
+- \\_escaped italics\\_
+`,
   },
 };
