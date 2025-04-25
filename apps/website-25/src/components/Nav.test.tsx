@@ -2,21 +2,24 @@ import {
   describe, expect, test,
   vi,
 } from 'vitest';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import {
+  render, screen, waitFor, fireEvent,
+} from '@testing-library/react';
+import { useAuthStore } from '@bluedot/ui';
 import { Nav } from './Nav';
 
-const mockLoggedInUser = () => {
-  vi.mock('@bluedot/ui', async () => {
-    const actual = await vi.importActual('@bluedot/ui');
-    return {
-      ...actual,
-      useAuthStore: vi.fn().mockImplementation(() => ({
-        auth: { token: 'mockToken', expiresAt: Date.now() + 10000 },
-        setAuth: vi.fn(),
-        internal_clearTimer: null,
-        internal_refreshTimer: null,
-      })),
-    };
+const withLoggedInUser = () => {
+  useAuthStore.setState({
+    auth: {
+      token: 'mockToken',
+      expiresAt: Date.now() + 86400_000,
+    },
+  });
+};
+
+const withLoggedOutUser = () => {
+  useAuthStore.setState({
+    auth: null,
   });
 };
 
@@ -61,7 +64,7 @@ describe('Nav', () => {
   });
 
   test('clicking the profile menu button expands the profile drawer', async () => {
-    mockLoggedInUser();
+    withLoggedInUser();
 
     const { container } = render(
       <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
@@ -113,6 +116,27 @@ describe('Nav', () => {
     // Ensure the nav drawer is closed
     await waitFor(() => {
       expect(navDrawer!.className).toMatch(/max-h-0/);
+    });
+  });
+
+  test('login button includes redirect_to parameter with current path', () => {
+    withLoggedOutUser();
+    const mockPathname = '/test-page';
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      origin: 'https://bluedot.org',
+      pathname: mockPathname,
+    });
+
+    render(<Nav courses={[{ title: 'Course 1', url: '/course1' }]} />);
+
+    // Check that the href includes the redirect_to parameter on all login buttons
+    const loginButtons = screen.getAllByText('Login')
+      .map((button) => button.closest('a'))
+      .filter((Boolean)) as HTMLAnchorElement[];
+    expect(loginButtons.length).toBeGreaterThanOrEqual(1);
+    loginButtons.forEach((loginButton) => {
+      expect(loginButton.getAttribute('href')).toContain(`redirect_to=${encodeURIComponent(mockPathname)}`);
     });
   });
 });

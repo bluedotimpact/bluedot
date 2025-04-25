@@ -5,7 +5,7 @@ import ClickAwayListener from 'react-click-away-listener';
 
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
 import { IconButton, HamburgerIcon } from '@bluedot/ui/src/IconButton';
-import { useAuthStore } from '@bluedot/ui';
+import { useAuthStore, addQueryParam } from '@bluedot/ui';
 import { ROUTES } from '../lib/routes';
 import { A, H3 } from './Text';
 
@@ -147,7 +147,7 @@ const CTAButtons: React.FC<{
         <CTALinkOrButton
           className="nav__secondary-cta"
           variant="secondary"
-          url={ROUTES.login.url}
+          url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
         >
           Login
         </CTALinkOrButton>

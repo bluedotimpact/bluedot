@@ -112,6 +112,17 @@ exports[`Nav > renders with courses 1`] = `
             class="nav__cta-container nav__login--tablet-desktop gap-6 hidden sm:flex"
           >
             <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+              data-testid="cta-link"
+              href="http://localhost:3000/login?redirect_to=%2F"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Login
+              </span>
+            </a>
+            <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
@@ -123,25 +134,6 @@ exports[`Nav > renders with courses 1`] = `
               </span>
             </a>
           </div>
-          <button
-            class="icon-button size-[32px] flex items-center justify-center nav__profile-menu ml-2"
-            type="button"
-          >
-            <svg
-              class="size-[24px] opacity-75"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 512 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
-              />
-            </svg>
-          </button>
         </div>
       </div>
       <div
@@ -262,6 +254,17 @@ exports[`Nav > renders with courses 1`] = `
           <div
             class="nav__cta-container nav__login--mobile justify-end gap-6 mt-20 flex sm:hidden"
           >
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+              data-testid="cta-link"
+              href="http://localhost:3000/login?redirect_to=%2F"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Login
+              </span>
+            </a>
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
               data-testid="cta-link"
