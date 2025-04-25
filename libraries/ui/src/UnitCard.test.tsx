@@ -22,7 +22,7 @@ describe('UnitCard', () => {
       <UnitCard
         {...defaultProps}
         duration={10}
-        isCurrentUnit={true}
+        isCurrentUnit
       />,
     );
     expect(container).toMatchSnapshot();

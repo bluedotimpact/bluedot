@@ -1,19 +1,18 @@
 import React from 'react';
-import { Tag } from './Tag';
-import CTALinkOrButton from './CTALinkOrButton';
 import clsx from 'clsx';
+import { Tag } from './Tag';
 
-export type UnitCardProps = React.PropsWithChildren<{
+export type UnitCardProps = {
   // Required
-  description?: string,
   title: string,
   unitNumber: string,
   url: string,
   // Optional
   className?: string,
+  description?: string,
   duration?: number,
   isCurrentUnit?: boolean,
-}>;
+};
 
 export const UnitCard: React.FC<UnitCardProps> = ({
   className,
@@ -31,7 +30,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
         'unit-card p-4 flex flex-col gap-2 justify-between',
         className,
         isCurrentUnit ? 'unit-card--active border-color-primary' : 'border-color-divider',
-        'border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary'
+        'border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary',
       )}
     >
       <div className="unit-card__item flex flex-col gap-2">
@@ -45,5 +44,5 @@ export const UnitCard: React.FC<UnitCardProps> = ({
         </div>
       )}
     </a>
-  )
+  );
 };
