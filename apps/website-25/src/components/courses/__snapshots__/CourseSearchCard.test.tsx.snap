@@ -3,7 +3,7 @@
 exports[`CourseSearchCard > renders default as expected 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] w-full h-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] size-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
   >
     <div
@@ -11,7 +11,7 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
     >
       <img
         alt="Title"
-        class="course-search-card__image h-full w-full md:w-fit object-cover rounded-lg"
+        class="course-search-card__image size-full object-cover rounded-lg"
         src="/images/courses/default.jpg"
       />
     </div>
@@ -35,7 +35,7 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
 exports[`CourseSearchCard > renders with optional args 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] w-full h-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col md:flex-row gap-6 container-lined p-6 max-w-[828px] size-full md:max-h-[320px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
   >
     <div
@@ -43,7 +43,7 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
     >
       <img
         alt="Title"
-        class="course-search-card__image h-full w-full md:w-fit object-cover rounded-lg"
+        class="course-search-card__image size-full object-cover rounded-lg"
         src="/courses/what-the-fish/image.png"
       />
     </div>
