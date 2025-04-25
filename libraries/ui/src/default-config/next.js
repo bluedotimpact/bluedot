@@ -11,6 +11,7 @@ const withDefaultBlueDotNextConfig = async (config) => ({
   eslint: {
     ignoreDuringBuilds: true,
   },
+  devIndicators: false,
 
   ...config,
 

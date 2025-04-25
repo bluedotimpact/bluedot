@@ -68,7 +68,7 @@ export default makeApiRoute({
 
   const certificate: Certificate = {
     certificateId,
-    certificateCreatedAt: courseRegistration.certificateCreatedAt,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
     recipientName: courseRegistration.fullName,
     courseName: course.title,
     courseDetailsUrl: course.detailsUrl,

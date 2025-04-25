@@ -47,6 +47,23 @@ export const courseTable: Table<Course> = {
   },
 };
 
+export interface ApplicationsCourse extends Item {
+  id: string, // Applications base record id
+  courseBuilderId: string,
+}
+
+export const applicationsCourseTable: Table<ApplicationsCourse> = {
+  name: 'Course',
+  baseId: 'appnJbsG1eWbAdEvf',
+  tableId: 'tblc3Yvrco2AZEBlx',
+  mappings: {
+    courseBuilderId: 'fld9QUbMmJF2vtRCK',
+  },
+  schema: {
+    courseBuilderId: 'string',
+  },
+};
+
 export interface UnitFeedback extends Item {
   unitId: string,
   overallRating: number,
@@ -194,16 +211,19 @@ export const exerciseResponseTable: Table<ExerciseResponse> = {
 
 export interface CourseRegistration extends Item {
   id: string,
-  userId: string,
+  userId: string | null,
   email: string,
   firstName: string,
   lastName: string,
   fullName: string,
+  /** Linked record field */
+  courseApplicationsBaseId: string,
+  /** Underlying id, consistent with course builder. Read only */
   courseId: string,
   decision: string,
   role: string,
-  certificateId: string,
-  certificateCreatedAt: number,
+  certificateId: string | null,
+  certificateCreatedAt: number | null,
 }
 
 export const courseRegistrationTable: Table<CourseRegistration> = {
@@ -216,23 +236,25 @@ export const courseRegistrationTable: Table<CourseRegistration> = {
     firstName: 'fldIhZ4wc5t1Yabgz',
     lastName: 'fldHa6GR5aBsOBtkz',
     fullName: 'fld1rOZGAHBRcdJcM',
-    courseId: 'flda4CZqaugyaftyQ',
+    courseApplicationsBaseId: 'fldPkqPbeoIhERqSY',
+    courseId: 'fldFTXtevzOc29Qte',
     decision: 'fldWVKY5EFAGSRcDT',
     role: 'fld52Y2AyWV8tECDy',
     certificateId: 'fld9hQE0EvdKRsp9k',
     certificateCreatedAt: 'fldQJyVjaiQzsVGD9',
   },
   schema: {
-    userId: 'string',
+    userId: 'string | null',
     email: 'string',
     firstName: 'string',
     lastName: 'string',
     fullName: 'string',
+    courseApplicationsBaseId: 'string',
     courseId: 'string',
     decision: 'string',
     role: 'string',
-    certificateId: 'string',
-    certificateCreatedAt: 'number',
+    certificateId: 'string | null',
+    certificateCreatedAt: 'number | null',
   },
 };
 
