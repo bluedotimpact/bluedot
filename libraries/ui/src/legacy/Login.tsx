@@ -97,6 +97,7 @@ export const loginPresets = {
       authority: 'https://login.bluedot.org/realms/customers/',
       client_id: 'bluedot-web-apps',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
+      scope: 'openid email offline_access',
     },
     verifyAndDecodeToken: async (token: string) => {
       return verifyJwt(token, {
@@ -118,7 +119,7 @@ export const loginPresets = {
       // It's okay for this to be public because we always use PKCE
       // eslint-disable-next-line no-useless-concat
       client_secret: 'GOCSPX-gM' + 'FRMUkLGIJG0wyWj09BPH6H8aSM',
-      scope: 'email',
+      scope: 'openid email',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
       extraQueryParams: { hd: 'bluedot.org' },
     },
