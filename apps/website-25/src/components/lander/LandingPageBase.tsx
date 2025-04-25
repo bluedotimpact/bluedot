@@ -28,8 +28,8 @@ const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
   return (
     <div className="min-h-screen bg-cream-normal">
       <Head>
-        <title>BlueDot Impact | Future-proof your career</title>
-        <meta name="description" content="No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world." />
+        <title>BlueDot Impact | The AI course that gives you a say in our future.</title>
+        <meta name="description" content="The AI knowledge you need, explained simply – empowering you to build a future that works for all of us." />
       </Head>
       <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} primaryCtaText="Start learning" primaryCtaUrl={ctaUrl} />
       {hero}
@@ -100,19 +100,19 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
         <BlueH2>What's covered?</BlueH2>
         <CourseUnits>
           <CourseUnits.Unit unitNumber="1">
-            <CourseUnits.Title>Beyond chatbots: the expanding frontier of AI capabilities</CourseUnits.Title>
+            <CourseUnits.Title>What can AI do today?</CourseUnits.Title>
             <CourseUnits.Description>Explore how AI capabilities now extend far beyond chatbots, including creating art, writing code, and acting independently as 'agents'.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="2">
-            <CourseUnits.Title>Artificial general intelligence: on the horizon?</CourseUnits.Title>
+            <CourseUnits.Title>What is AGI?</CourseUnits.Title>
             <CourseUnits.Description>Learn what AGI means—AI outperforming humans at most cognitive tasks—and why current progress suggests it might arrive within years.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="3">
-            <CourseUnits.Title>AGI will drastically change how we live</CourseUnits.Title>
+            <CourseUnits.Title>How could AGI change our lives?</CourseUnits.Title>
             <CourseUnits.Description>Grasp the immense potential benefits of AGI, like tackling disease, alongside the severe risks, including misuse, authoritarianism, and losing control.</CourseUnits.Description>
           </CourseUnits.Unit>
           <CourseUnits.Unit unitNumber="4">
-            <CourseUnits.Title>What can be done?</CourseUnits.Title>
+            <CourseUnits.Title>How can I help make AI go well?</CourseUnits.Title>
             <CourseUnits.Description>Learn about key strategies for safely managing AGI development amid global competition, and discover how we can work towards ensuring its benefits for humanity.</CourseUnits.Description>
           </CourseUnits.Unit>
         </CourseUnits>
