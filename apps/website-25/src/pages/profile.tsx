@@ -93,6 +93,7 @@ const ProfilePage = withAuth(({ auth }) => {
               </div>
             </div>
             <div className="profile__enrolled-courses flex flex-col gap-4">
+              <H3>Your courses</H3>
               {enrolledCourses.length === 0 && (
               <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
                 <P>You haven't started any courses yet</P>
@@ -101,7 +102,6 @@ const ProfilePage = withAuth(({ auth }) => {
               )}
               {enrolledCourses.length > 0 && (
                 <>
-                  <H3>Your courses</H3>
                   {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} user={userData.user} />)}
                   <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
                 </>
