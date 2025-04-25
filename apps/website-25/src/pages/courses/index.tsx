@@ -2,7 +2,6 @@ import {
   HeroSection,
   HeroH1,
   Breadcrumbs,
-  CourseCard,
   Section,
   ProgressDots,
   ErrorSection,
@@ -12,6 +11,7 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { ROUTES } from '../../lib/routes';
 import { GetCoursesResponse } from '../api/courses';
+import { CourseSearchCard } from '../../components/courses/CourseSearchCard';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
@@ -37,19 +37,16 @@ const CoursePage = () => {
       >
         {loading && <ProgressDots />}
         {error && <ErrorSection error={error} />}
-        <div className="course-serp__content grid sm:grid-cols-2 lg:grid-cols-4 gap-space-between items-stretch">
+        <div className="course-serp__content flex flex-col gap-4 justify-center items-center mx-auto">
           {data?.courses.map((course) => (
-            <div className="max-w-[350px]">
-              <CourseCard
-                key={course.title}
-                title={course.title}
-                description={course.description}
-                imageSrc="/images/courses/future-of-ai.png"
-                url={course.path}
-                courseType="In-depth course"
-                courseLength="2 hours"
-              />
-            </div>
+            <CourseSearchCard
+              key={course.title}
+              description={course.shortDescription}
+              duration={course.duration}
+              imageSrc={course.image}
+              title={course.title}
+              url={course.path}
+            />
           ))}
         </div>
       </Section>
