@@ -3,6 +3,7 @@ import createHttpError from 'http-errors';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import db from '../../../../lib/api/db';
 import {
+  applicationsCourseTable,
   CourseRegistration,
   courseRegistrationTable,
   courseTable,
@@ -30,7 +31,7 @@ export default makeApiRoute({
       }
 
       const courseRegistration = (await db.scan(courseRegistrationTable, {
-        filterByFormula: `AND({Email} = "${auth.email}", {[>] Course} = "${course.id}")`,
+        filterByFormula: `AND({Email} = "${auth.email}", {[>] Course} = "${course.title}", {Decision} = "Accept")`,
       }))[0];
       if (courseRegistration) {
         return {
@@ -39,9 +40,16 @@ export default makeApiRoute({
         };
       }
 
+      const courseApplicationsBaseId = (await db.scan(applicationsCourseTable))
+        .find((c) => c.courseBuilderId === course.id)
+        ?.id;
+      if (!courseApplicationsBaseId) {
+        throw new createHttpError.InternalServerError('Course in course builder not found in applications base');
+      }
+
       const newCourseRegistration = await db.insert(courseRegistrationTable, {
         email: auth.email,
-        courseId: course.id,
+        courseApplicationsBaseId,
         role: 'Participant',
         decision: 'Accept',
       });

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ErrorSection, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
 import UnitLayout from '../../../components/courses/UnitLayout';
 import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitId]';
 
@@ -11,6 +11,16 @@ const CourseUnitPage = () => {
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitId}`,
   });
+
+  // If we're logged in, ensures a course registration is recorded for this course
+  const auth = useAuthStore((s) => s.auth);
+  useAxios<GetUnitResponse>({
+    method: 'get',
+    url: `/api/course-registrations/${courseSlug}`,
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  }, { manual: !auth });
 
   const unitNumber = typeof unitId === 'string' ? parseInt(unitId) : 0;
 

@@ -22,7 +22,7 @@ export default makeApiRoute({
   switch (raw.req.method) {
     case 'GET': {
       const courseRegistrations = (await db.scan(courseRegistrationTable, {
-        filterByFormula: `{Email} = "${auth.email}"`,
+        filterByFormula: `AND({Email} = "${auth.email}", {Decision} = "Accept")`,
       }));
 
       return {
