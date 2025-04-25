@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import '../../../libraries/ui/src/default-config/tailwind.css';
-@import '../../website-25/src/globals.css';
+@import '../../website/src/globals.css';
 
 @plugin "@tailwindcss/typography";
 
-@source '../../website-25/src/**/*.{js,ts,jsx,tsx}';
+@source '../../website/src/**/*.{js,ts,jsx,tsx}';

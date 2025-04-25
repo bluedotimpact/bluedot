@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@bluedot/ui": "*",
-    "@bluedot/website-25": "*",
+    "@bluedot/website": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
