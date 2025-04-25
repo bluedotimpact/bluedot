@@ -39,8 +39,7 @@ export const courseTable: Table<Course> = {
 };
 
 export interface ApplicationsCourse extends Item {
-  /** Applications base record id */
-  id: string,
+  id: string, // Applications base record id
   courseBuilderId: string,
 }
 
