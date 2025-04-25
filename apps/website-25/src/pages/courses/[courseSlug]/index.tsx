@@ -39,9 +39,9 @@ const FutureOfAILander = () => {
   return (
     <>
       <ClassicHero>
-        <ClassicHero.Title>Future-proof your career</ClassicHero.Title>
+        <ClassicHero.Title>The AI course that gives you a say in our future.</ClassicHero.Title>
         <ClassicHero.Subtitle>
-          No jargon, no coding, no pre-requisites – just bring your curiosity for how AI will reshape your world.
+          The AI knowledge you need, explained simply – empowering you to build a future that works for all of us.
         </ClassicHero.Subtitle>
         <HeroCTAContainer>
           <CTALinkOrButton url={ctaUrl}>Start learning for free</CTALinkOrButton>
