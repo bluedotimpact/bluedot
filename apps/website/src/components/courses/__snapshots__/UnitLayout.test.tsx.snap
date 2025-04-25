@@ -90,7 +90,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="sidebar__content flex flex-col gap-6"
             >
               <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
                 href="/courses/test-course/1"
               >
                 <div

@@ -26,6 +26,7 @@ const SideBar: React.FC<SideBarProps> = ({
             title={unit.title}
             unitNumber={unit.unitNumber}
             url={unit.path}
+            isCurrentUnit={isCurrentUnit(unit)}
           />
         ))}
       </div>
