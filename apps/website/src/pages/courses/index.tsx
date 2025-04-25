@@ -21,6 +21,8 @@ const CoursePage = () => {
     url: '/api/courses',
   });
 
+  console.log({ data });
+
   return (
     <div>
       <Head>
@@ -42,7 +44,9 @@ const CoursePage = () => {
             <CourseSearchCard
               key={course.title}
               description={course.shortDescription}
-              duration={course.duration}
+              cadence={course.cadence}
+              level={course.level}
+              averageRating={course.averageRating}
               imageSrc={course.image}
               title={course.title}
               url={course.path}
