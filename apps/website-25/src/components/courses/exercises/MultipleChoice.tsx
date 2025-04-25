@@ -42,7 +42,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
   const [selectedOption, setSelectedOption] = React.useState<string | null>();
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const { register, handleSubmit, setValue } = useForm<FormData>({
+  const {
+    register, handleSubmit, setValue, formState: { isSubmitting },
+  } = useForm<FormData>({
     defaultValues: {
       answer: formattedExerciseResponse || '',
     },
@@ -121,8 +123,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           className="multiple-choice__submit"
           variant="primary"
           type="submit"
+          disabled={isSubmitting}
         >
-          Check
+          {isSubmitting ? 'Checking...' : 'Check'}
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
