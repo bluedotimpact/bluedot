@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 10  # Fetch more history to be likely to find a successful commit when identifying affected apps
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,12 +25,25 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Install NPM dependencies
         run: npm ci
-      - name: Test
-        run: npm run test --if-present
-      - name: Lint
-        run: npm run lint --if-present
-      - name: Build
-        run: npm run build --if-present
+        
+      - name: Get affected apps
+        id: get_affected_apps
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TURBO_FILTER=$(node .github/workflows/get-affected-apps.js)
+          echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
+          
+      - name: Test affected apps
+        run: npm run test ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        
+      - name: Lint affected apps
+        run: npm run lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        
+      - name: Build affected apps
+        run: npm run build ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Get all apps
         id: get_apps
