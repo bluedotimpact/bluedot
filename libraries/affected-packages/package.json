@@ -1,0 +1,21 @@
+{
+  "name": "@bluedot/affected-packages",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "turbo_filter": "npm run build && node dist/turbo-filter.js",
+    "deploy_array": "npm run build && node dist/deploy-array.js",
+    "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
+    "@types/node": "^22.13.2",
+    "typescript": "^5.8.3",
+    "vitest": "^1.5.0"
+  }
+}
