@@ -33,7 +33,7 @@ jobs:
           GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          TURBO_FILTER=$(npm run start --silent --workspace @bluedot/affected-packages)
+          TURBO_FILTER=$(npm run turbo_filter --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
           
       - name: Test affected apps
@@ -45,22 +45,26 @@ jobs:
       - name: Build affected apps
         run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
-      - name: Get all apps
-        id: get_apps
+      - name: Get affected deployable apps
+        id: get_affected_deployable_apps
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          APPS=$(ls -d apps/*/ | cut -d'/' -f2 | jq -R -s -c 'split("\n")[:-1]')
-          echo "apps=$APPS" >> $GITHUB_OUTPUT
+          DEPLOY_ARRAY=$(npm run deploy_array --silent --workspace @bluedot/affected-packages)
+          echo "deploy_array=$DEPLOY_ARRAY" >> $GITHUB_OUTPUT
     outputs:
-      apps: ${{ steps.get_apps.outputs.apps }}
+      affected_deployable_apps: ${{ steps.get_affected_deployable_apps.outputs.deploy_array }}
 
   cd:
     needs: ci
-    if: ${{ github.ref == 'refs/heads/master' }}
+    if: ${{ github.ref == 'refs/heads/master' && needs.ci.outputs.affected_deployable_apps != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        app: ${{ fromJson(needs.ci.outputs.apps) }}
+        app: ${{ fromJson(needs.ci.outputs.affected_deployable_apps) }}
     concurrency:
       group: cd_${{ matrix.app }}
     timeout-minutes: 20
@@ -74,33 +78,11 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
 
-      - name: Get app dependency paths
-        id: get_paths
-        run: |
-          npm install --global turbo
-          PATHS=$(node .github/workflows/get-app-paths.js ${{ matrix.app }})
-          echo "paths=$PATHS" >> $GITHUB_OUTPUT
-
-      - name: Check if app needs deployment
-        id: check_deployment
-        uses: fkirc/skip-duplicate-actions@v5
-        with:
-          paths: ${{ steps.get_paths.outputs.paths }}
-          paths_ignore: '["**/README.md"]'
-          skip_after_successful_duplicate: false
-
-      - name: Skip deployment
-        if: steps.check_deployment.outputs.should_skip == 'true'
-        run: |
-          echo "Skipping deployment - no relevant changes detected"
-          exit 0
-
       - name: Install NPM dependencies
-        if: steps.check_deployment.outputs.should_skip != 'true'
-        run: npm ci
+        run: npm ci --audit false --fund false
 
       - name: Configure infra deployment
-        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app == 'infra'
+        if: matrix.app == '@bluedot/infra'
         run: |
           echo "$INFRA_PULUMI_PASSPHRASE" > apps/infra/passphrase.prod.txt
           mkdir -p ~/.aws
@@ -110,7 +92,7 @@ jobs:
           INFRA_AWS_CREDENTIALS: ${{ secrets.INFRA_AWS_CREDENTIALS }}
 
       - name: Configure k8s deployment
-        if: steps.check_deployment.outputs.should_skip != 'true' && matrix.app != 'infra'
+        if: matrix.app != '@bluedot/infra'
         run: |
           echo "$GITHUB_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           mkdir -p ~/.kube
@@ -120,5 +102,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy
-        if: steps.check_deployment.outputs.should_skip != 'true'
-        run: npm run deploy:cd --workspace apps/${{ matrix.app }}
+        run: npm run deploy:cd --workspace ${{ matrix.app }}
