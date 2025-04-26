@@ -61,7 +61,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       {typeof window !== 'undefined' && window.location.host === 'website-25-staging.k8s.bluedot.org' ? (
         <main className="section-base my-16 prose">
           <h1>You're using the old URL</h1>
-          <p>Hey, this is the old URL for the staging website. We dropped the '25' from the URL on 25th April 2025. This URL will stop working soon so update your bookmarks/clear this from your history :)</p>
+          <p>Hey, this is the old URL for the staging website. We dropped the '25' from the URL on 25th April 2025. This URL will stop working soon so update your bookmarks and clear this from your history :)</p>
           <p><code>website<span className="font-bold bg-red-100">-25</span>-staging.k8s.bluedot.org → <br />website-staging.k8s.bluedot.org</code></p>
           <CTALinkOrButton url={typeof window === 'undefined' ? 'https://website-staging.k8s.bluedot.org' : window.location.href.replace(window.location.host, 'website-staging.k8s.bluedot.org')} className="not-prose" withChevron>
             View this page on the new site
