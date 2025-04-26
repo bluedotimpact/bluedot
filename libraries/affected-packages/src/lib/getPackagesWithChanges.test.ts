@@ -31,14 +31,15 @@ vi.mock('./execAsync', async (importOriginal) => {
 });
 
 describe('getPackagesWithChanges', () => {
-  let hasTestCommits: boolean;
+  test('should detect packages with changes', async (context) => {
+    // Run if we have the commits in git history - skip on shallow clones e.g. in some CI environments
+    const hasCommit = (sha: string) => execAsync(`git cat-file -e ${sha}^{commit}`).then(() => true).catch(() => false);
+    const hasAllCommitsForTest = (await Promise.all([TEST_HEAD_COMMIT, TEST_SUCCESSFUL_COMMIT].map(hasCommit))).every(Boolean);
+    if (!hasAllCommitsForTest) {
+      context.skip();
+      return;
+    }
 
-  beforeAll(async () => {
-    // Run if we have the git history to - skip on shallow clones e.g. in some CI environments
-    hasTestCommits = (await Promise.allSettled([TEST_HEAD_COMMIT, TEST_SUCCESSFUL_COMMIT].map((commit) => execAsync(`git cat-file -e ${commit}^{commit}`)))).every((p) => p.status === 'fulfilled');
-  });
-
-  test.runIf(() => hasTestCommits)('should detect packages with changes', async () => {
     const packageNames = (await getPackagesWithChanges()).map((p) => p.name);
     expect(packageNames).toContain('@bluedot/ui');
     expect(packageNames).toContain('@bluedot/website');
@@ -46,14 +47,9 @@ describe('getPackagesWithChanges', () => {
   });
 
   test('should bubble up errors', async () => {
-    // Override the exec mock to simulate an error for GitHub API
-    vi.mocked(execAsync).mockImplementation(async (command) => {
-      if (command.includes('gh api')) {
-        throw new Error('Github API error');
-      }
-
-      // Let all other commands execute normally
-      return execAsync(command);
+    // Override the exec mock to simulate an error from a command e.g. the GitHub API
+    vi.mocked(execAsync).mockImplementationOnce(async () => {
+      throw new Error('Command error');
     });
 
     await expect(getPackagesWithChanges()).rejects.toThrow();
