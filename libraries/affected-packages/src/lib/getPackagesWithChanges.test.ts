@@ -30,10 +30,15 @@ vi.mock('./execAsync', async (importOriginal) => {
   };
 });
 
-describe('getPackagesWithChanges', async () => {
-  // run if we have the git history to - skip on shallow clones e.g. in some CI environments
-  const hasTestCommits = (await Promise.allSettled([TEST_HEAD_COMMIT, TEST_SUCCESSFUL_COMMIT].map((commit) => execAsync(`git cat-file -e ${commit}^{commit}`)))).every((p) => p.status === 'fulfilled');
-  test.runIf(hasTestCommits)('should detect packages with changes', async () => {
+describe('getPackagesWithChanges', () => {
+  let hasTestCommits: boolean;
+
+  beforeAll(async () => {
+    // Run if we have the git history to - skip on shallow clones e.g. in some CI environments
+    hasTestCommits = (await Promise.allSettled([TEST_HEAD_COMMIT, TEST_SUCCESSFUL_COMMIT].map((commit) => execAsync(`git cat-file -e ${commit}^{commit}`)))).every((p) => p.status === 'fulfilled');
+  });
+
+  test.runIf(() => hasTestCommits)('should detect packages with changes', async () => {
     const packageNames = (await getPackagesWithChanges()).map((p) => p.name);
     expect(packageNames).toContain('@bluedot/ui');
     expect(packageNames).toContain('@bluedot/website');
