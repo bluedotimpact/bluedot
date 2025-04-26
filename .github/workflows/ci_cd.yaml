@@ -24,7 +24,7 @@ jobs:
           cache: 'npm'
           registry-url: https://registry.npmjs.org/
       - name: Install NPM dependencies
-        run: npm ci
+        run: npm ci --audit false --fund false
         
       - name: Get affected apps
         id: get_affected_apps
@@ -33,7 +33,7 @@ jobs:
           GITHUB_WORKFLOW_NAME: ${{ github.workflow }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          TURBO_FILTER=$(node .github/workflows/get-affected-apps.js)
+          TURBO_FILTER=$(npm run start --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
           
       - name: Test affected apps

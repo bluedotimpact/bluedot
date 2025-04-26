@@ -1,0 +1,19 @@
+{
+  "name": "@bluedot/affected-packages",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "npm run build && node dist/index.js",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "devDependencies": {
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}

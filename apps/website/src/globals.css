@@ -15,7 +15,7 @@
 @utility prose {
   :not(:where([class~="not-prose"],[class~="not-prose"] *)) {
     /* Bullets should inherit text color */
-    &:where(li) {
+    &:where(li) {asdf
       &::marker {
         @apply text-inherit
       }
