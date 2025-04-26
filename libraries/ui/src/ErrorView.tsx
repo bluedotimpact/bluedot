@@ -18,7 +18,7 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
     <div className="border-l-4 border-red-500 bg-red-100 text-black p-8 flex flex-col gap-4">
       <h3 className="bluedot-h3 whitespace-pre-line">Error: {primaryErrorText}
       </h3>
-      <p>If the message above doesn't help, try again later or <a href={contactUsUrl}>contact us</a> for support.</p>
+      <p>If the above message doesn't help, try again later or <a href={contactUsUrl}>contact us</a> for support.</p>
       <Collapsible title="Show full error details" className="-my-6 max-w-full">
         <div className="flex flex-col gap-4 overflow-x-auto [&_pre]:max-w-0">
           <ErrorDetails error={error} />
