@@ -4,7 +4,6 @@ import { matchesGlob } from 'node:path';
 import { execAsync } from './execAsync';
 
 const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => {
-  // Get successful commits
   const repo = process.env.GITHUB_REPOSITORY ?? 'bluedotimpact/bluedot';
   const workflowName = process.env.GITHUB_WORKFLOW_NAME ?? 'ci_cd';
   const workflowId = await execAsync(`gh api repos/${repo}/actions/workflows --jq '.workflows[] | select(.name == "${workflowName}") | .id'`);
@@ -73,8 +72,7 @@ interface PackageInfo {
 }
 
 /**
- * Get all internal packages in the monorepo
- * @returns Array of package information
+ * @returns Array of package information for all packages in the monorepo
  */
 const getInternalPackages = async (): Promise<PackageInfo[]> => {
   const npmPackages: NPMPackage[] = JSON.parse(await execAsync('npm query .workspace'));
