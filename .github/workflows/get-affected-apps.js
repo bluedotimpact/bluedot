@@ -24,14 +24,19 @@ const getChangedFilesSinceLastSuccessfulCommit = async () => {
     `gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`
   )).split('\n');
 
-  const successfulParentCommits = await getSuccessfulParentCommits('HEAD', successfulCommitShas)
+  const successfulParentCommits = [...new Set(await getSuccessfulParentCommits('HEAD', successfulCommitShas))];
   console.error(`Successful parent commits:\n${successfulParentCommits.map(c => '- ' + c).join('\n')}`);
 
+  // This intentionally uses `git log` instead of `git diff` so if a file is changed, then changed back, it will still be included
+  // This is better for determining which apps need to be deployed, as it handles the case where
+  // - a previous run is successful
+  // - a change half-succeeds to deploy, but ultimately fails
+  // - the change is reverted
+  // (`git diff` would say nothing changed so we would not deploy the revert properly)
+  // This is slightly worse for actions without side-effects like testing/linting/building, as in the above situation we'd run them even though we know they will succeed. We could use `git diff` here but I chose not to in order to avoid divergence between PR and master pipelines (which feels likely to introduce bugs/surprise), and because the above situation is rare.
   const changedFiles = [...new Set((await Promise.all(successfulParentCommits.map(async c => {
-    return (await execAsync(`git diff --name-only ${c}`)).split('\n').filter(Boolean);
+    return (await execAsync(`git log --name-only --pretty=format: ${c}..HEAD`)).split('\n').filter(Boolean);
   }))).flat())];
-    
-  console.error(`Changed files:\n${changedFiles.map(f => '- ' + f).join('\n')}`);
 
   return changedFiles;
 }
@@ -99,6 +104,8 @@ const findInternalDepsOfPackage = (package, internalNpmPackages) => {
 const main = async () => {
   try {
     const [changedFiles, internalPackages] = await Promise.all([getChangedFilesSinceLastSuccessfulCommit(), getInternalPackages()]);
+    console.error(`Changed files:\n${changedFiles.map(f => '- ' + f).join('\n')}`);
+    
     const packagesWithChangedFiles = internalPackages.filter(p => {
       const filesChangedAffectingPackage = p.fileGlobs.map(glob => {
         const filesCovered = fs.globSync(glob);
