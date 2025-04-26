@@ -1,7 +1,6 @@
 import React from 'react';
-import { Unit } from '../../lib/api/db/tables';
-import { P } from '../Text';
 import { UnitCard } from '@bluedot/ui';
+import { Unit } from '../../lib/api/db/tables';
 
 type SideBarProps = {
   // Required
