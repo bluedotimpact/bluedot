@@ -1,17 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable turbo/no-undeclared-env-vars */
-import { exec } from 'node:child_process';
 import { matchesGlob } from 'node:path';
-
-const execAsync = (command: string): Promise<string> => new Promise((resolve, reject) => {
-  exec(command, (error, stdout) => {
-    if (error) {
-      reject(error);
-    } else {
-      resolve(stdout.trim());
-    }
-  });
-});
+import { execAsync } from './execAsync';
 
 const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => {
   // Get successful commits
@@ -23,7 +13,8 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
     `gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`,
   )).split('\n');
 
-  const successfulParentCommits = [...new Set(await getSuccessfulParentCommits(await execAsync('git rev-parse HEAD'), successfulCommitShas))];
+  const headSha = await execAsync('git rev-parse HEAD');
+  const successfulParentCommits = [...new Set(await getSuccessfulParentCommits(headSha, successfulCommitShas))];
   console.error(`Successful parent commits:\n${successfulParentCommits.map((c) => `- ${c}`).join('\n')}\n`);
 
   // This intentionally uses `git log` instead of `git diff` so if a file is changed, then changed back, it will still be included
@@ -34,7 +25,7 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
   // (`git diff` would say nothing changed so we would not deploy the revert properly)
   // This is slightly worse for actions without side-effects like testing/linting/building, as in the above situation we'd run them even though we know they will succeed. We could use `git diff` here but I chose not to in order to avoid divergence between PR and master pipelines (which feels likely to introduce bugs/surprise), and because the above situation is rare.
   const changedFiles = [...new Set((await Promise.all([
-    ...successfulParentCommits.map(async (c) => (await execAsync(`git log --name-only --pretty=format: ${c}..HEAD`)).split('\n').filter(Boolean)),
+    ...successfulParentCommits.map(async (c) => (await execAsync(`git log --name-only --pretty=format: ${c}..${headSha}`)).split('\n').filter(Boolean)),
     // get uncommited changes, including unstaged
     (await execAsync('git status --porcelain --untracked-files')).split('\n').map((f) => f.slice(3)).filter(Boolean),
   ])).flat())];
