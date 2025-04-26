@@ -37,13 +37,13 @@ jobs:
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
           
       - name: Test affected apps
-        run: npm run test ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
         
       - name: Lint affected apps
-        run: npm run lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
         
       - name: Build affected apps
-        run: npm run build ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Get all apps
         id: get_apps

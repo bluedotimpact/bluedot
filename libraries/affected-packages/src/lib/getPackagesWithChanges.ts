@@ -1,7 +1,5 @@
-#!/usr/bin/env node
 /* eslint-disable no-console */
 /* eslint-disable turbo/no-undeclared-env-vars */
-
 import { exec } from 'node:child_process';
 import { matchesGlob } from 'node:path';
 
@@ -25,7 +23,7 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
     `gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`,
   )).split('\n');
 
-  const successfulParentCommits = [...new Set(await getSuccessfulParentCommits('HEAD', successfulCommitShas))];
+  const successfulParentCommits = [...new Set(await getSuccessfulParentCommits(await execAsync('git rev-parse HEAD'), successfulCommitShas))];
   console.error(`Successful parent commits:\n${successfulParentCommits.map((c) => `- ${c}`).join('\n')}\n`);
 
   // This intentionally uses `git log` instead of `git diff` so if a file is changed, then changed back, it will still be included
@@ -125,46 +123,29 @@ const findInternalDepsOfPackage = (
   }).flat();
 };
 
-const main = async (): Promise<void> => {
-  try {
-    const [changedFiles, internalPackages] = await Promise.all([
-      getChangedFilesSinceLastSuccessfulCommit(),
-      getInternalPackages(),
-    ]);
+export const getPackagesWithChanges = async (): Promise<PackageInfo[]> => {
+  const [changedFiles, internalPackages] = await Promise.all([
+    getChangedFilesSinceLastSuccessfulCommit(),
+    getInternalPackages(),
+  ]);
 
-    console.error(`Changed files:\n${changedFiles.map((f) => `- '${f}'`).join('\n')}\n`);
+  console.error(`Changed files:\n${changedFiles.map((f) => `- ${f}`).join('\n')}\n`);
 
-    const packagesWithChangedFiles = internalPackages.filter((p) => {
-      const filesChangedAffectingPackage = p.fileGlobs.map((glob) => {
-        return [glob, changedFiles.filter((f) => matchesGlob(f, glob))];
-      });
-
-      const totalFilesChanged = filesChangedAffectingPackage
-        .map(([, files]) => (files as string[]).length)
-        .reduce((a, b) => a + b, 0);
-
-      console.error(`${p.name}: ${totalFilesChanged} file(s) changed from globs:\n${
-        filesChangedAffectingPackage.map(([glob, files]) => `- ${glob}${(files as string[]).length > 0 ? '\n' : ''}${(files as string[]).map((f) => `  - ${f}`).join('\n')}`).join('\n')
-      }\n`);
-
-      return totalFilesChanged > 0;
+  const packagesWithChanges = internalPackages.filter((p) => {
+    const filesChangedAffectingPackage = p.fileGlobs.map((glob) => {
+      return [glob, changedFiles.filter((f) => matchesGlob(f, glob))];
     });
 
-    if (packagesWithChangedFiles.length === 0) {
-      console.error('No packages changed, using Turborepo filter expression:');
-      console.log('-- \'--filter=!*\'');
-      return;
-    }
+    const totalFilesChanged = filesChangedAffectingPackage
+      .map(([, files]) => (files as string[]).length)
+      .reduce((a, b) => a + b, 0);
 
-    console.error(`Packages with changes: ${packagesWithChangedFiles.map((p) => p.name).join(', ')}\n`);
-    console.error('Turborepo filter expression:');
-    console.log(`-- ${packagesWithChangedFiles.map((p) => `--filter=${p.name}`).join(' ')}`);
-  } catch (error) {
-    console.error('Error:', error);
-    console.error('\nDefaulting to building everything with Turborepo filter expression:');
-    console.log('--');
-    process.exit(1);
-  }
+    console.error(`${p.name}: ${totalFilesChanged} file(s) changed from globs:\n${
+      filesChangedAffectingPackage.map(([glob, files]) => `- ${glob}${(files as string[]).length > 0 ? '\n' : ''}${(files as string[]).map((f) => `  - ${f}`).join('\n')}`).join('\n')
+    }\n`);
+
+    return totalFilesChanged > 0;
+  });
+
+  return packagesWithChanges;
 };
-
-main();

@@ -2,10 +2,9 @@
   "name": "@bluedot/affected-packages",
   "version": "0.0.0",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "npm run build && node dist/index.js",
+    "turbo_filter": "npm run build && node dist/turbo-filter.js",
+    "deploy_array": "npm run build && node dist/deploy-array.js",
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix"
