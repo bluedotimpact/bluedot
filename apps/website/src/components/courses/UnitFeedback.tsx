@@ -31,8 +31,8 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
     },
   }, { manual: !auth });
 
-  const handleSubmit = useCallback(async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(async (event?: React.FormEvent) => {
+    event?.preventDefault();
 
     if (!rating) {
       setError('Please select a star rating');
@@ -108,7 +108,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
           <CTALinkOrButton
             variant="primary"
             className="unit-feedback__submit self-start"
-            type="submit"
+            onClick={() => handleSubmit()}
           >
             Send feedback
           </CTALinkOrButton>

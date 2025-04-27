@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { A } from './Text';
 
 export type BluedotRoute = {
   /**
@@ -34,7 +35,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) =>
         <ol className="breadcrumbs__list flex">
           {items.map((item, index) => (
             <li key={item.url} className="breadcrumbs__item flex items-center">
-              <a className="breadcrumbs__link bluedot-a no-underline" href={item.url}>{item.title}</a>
+              <A className="breadcrumbs__link no-underline" href={item.url}>{item.title}</A>
               {index < items.length - 1 && (
                 <span className="breadcrumbs__separator mx-2">{'>'}</span>
               )}

@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Tag } from '@bluedot/ui';
+import { ClickTarget, Tag } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
 import { H3, P } from '../Text';
 
@@ -33,8 +33,8 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   const defaultImageSrc = '/images/courses/default.jpg';
 
   return (
-    <a
-      href={url}
+    <ClickTarget
+      url={url}
       className={clsx(
         'course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
         className,
@@ -74,6 +74,6 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
         </div>
       </div>
       {children}
-    </a>
+    </ClickTarget>
   );
 };

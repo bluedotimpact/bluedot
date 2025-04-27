@@ -10,7 +10,9 @@ exports[`SideBar > renders default as expected 1`] = `
     >
       <a
         class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+        data-rac=""
         href="/courses/test-course/1"
+        tabindex="0"
       >
         <div
           class="unit-card__item flex flex-col gap-2"
@@ -35,7 +37,9 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+        data-rac=""
         href="/courses/test-course/2"
+        tabindex="0"
       >
         <div
           class="unit-card__item flex flex-col gap-2"
@@ -60,7 +64,9 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+        data-rac=""
         href="/courses/test-course/3"
+        tabindex="0"
       >
         <div
           class="unit-card__item flex flex-col gap-2"
@@ -85,7 +91,9 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+        data-rac=""
         href="/courses/test-course/4"
+        tabindex="0"
       >
         <div
           class="unit-card__item flex flex-col gap-2"
@@ -110,7 +118,9 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+        data-rac=""
         href="/courses/test-course/5"
+        tabindex="0"
       >
         <div
           class="unit-card__item flex flex-col gap-2"

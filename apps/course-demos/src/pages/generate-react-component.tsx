@@ -73,7 +73,7 @@ const DemoPage: React.FC = () => {
               <ClickTarget
                 className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
                 key={example}
-                onPress={() => {
+                onClick={() => {
                   setUserPrompt(example);
                   return handleSubmit(example);
                 }}

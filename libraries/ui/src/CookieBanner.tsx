@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
+import { A } from './Text';
 
 export type CookieBannerProps = {
   // Optional
@@ -51,7 +52,7 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
     <div className={rootClassName}>
       <p className="cookie-banner__text text-pretty bluedot-p">
         We use analytics cookies to improve our website and measure ad performance.{' '}
-        <a href="https://bluedot.org/privacy-policy" className="bluedot-a">Cookie Policy</a>.
+        <A href="https://bluedot.org/privacy-policy">Cookie Policy</A>.
       </p>
       <div className="cookie-banner__buttons flex flex-wrap gap-space-between justify-center">
         <CTALinkOrButton

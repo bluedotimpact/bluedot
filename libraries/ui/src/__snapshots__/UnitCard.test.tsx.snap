@@ -4,7 +4,9 @@ exports[`UnitCard > renders default as expected 1`] = `
 <div>
   <a
     class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+    data-rac=""
     href="https://bluedot.org/courses/what-the-fish/1"
+    tabindex="0"
   >
     <div
       class="unit-card__item flex flex-col gap-2"
@@ -34,7 +36,9 @@ exports[`UnitCard > renders with optional args 1`] = `
 <div>
   <a
     class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+    data-rac=""
     href="https://bluedot.org/courses/what-the-fish/1"
+    tabindex="0"
   >
     <div
       class="unit-card__item flex flex-col gap-2"

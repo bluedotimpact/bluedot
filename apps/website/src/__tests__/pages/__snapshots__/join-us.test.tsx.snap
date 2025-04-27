@@ -24,8 +24,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
         >
           <a
             class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark"
-            data-testid="cta-link"
+            data-rac=""
             href="#open-roles-anchor"
+            tabindex="0"
           >
             <span
               class="cta-button__text"
@@ -68,8 +69,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
+              data-rac=""
               href="/"
+              tabindex="0"
             >
               Home
             </a>
@@ -83,8 +86,10 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
+              data-rac=""
               href="/join-us"
+              tabindex="0"
             >
               Join us
             </a>
@@ -425,8 +430,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
               </p>
               <a
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-                data-testid="cta-link"
+                data-rac=""
                 href="/join-us/swe-contractor"
+                tabindex="0"
               >
                 <span
                   class="cta-button__text"
@@ -477,8 +483,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
               </p>
               <a
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-                data-testid="cta-link"
+                data-rac=""
                 href="/join-us/ai-safety-teaching-fellow"
+                tabindex="0"
               >
                 <span
                   class="cta-button__text"

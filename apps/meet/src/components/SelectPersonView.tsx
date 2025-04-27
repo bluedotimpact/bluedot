@@ -92,7 +92,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
         Not on this list?
         {' '}
         <ClickTarget
-          onPress={() => {
+          onClick={() => {
             setPage({
               name: 'appJoin',
               meetingNumber: data.meetingNumber,

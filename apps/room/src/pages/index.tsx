@@ -61,7 +61,7 @@ const DashboardPage = withAuth(({ auth }) => {
 
         <div className="grid gap-6 md:grid-cols-2">
           {rooms.map((room) => (
-            <ClickTarget onPress={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
+            <ClickTarget onClick={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
               <div className="flex items-center justify-between">
                 <h2 className="text-size-lg font-semibold">{room.name}</h2>
                 <RoomHealthIndicator status={room.status} />

@@ -19,8 +19,8 @@ export const Banner: React.FC<BannerProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
     // eslint-disable-next-line no-alert
     alert('Thank you!');
     // TODO: Send the email to the backend
@@ -41,7 +41,7 @@ export const Banner: React.FC<BannerProps> = ({
           />
         )}
         {showButton && (
-          <CTALinkOrButton className="banner__submit-btn" type="submit">
+          <CTALinkOrButton className="banner__submit-btn" onClick={() => handleSubmit()}>
             {buttonText}
           </CTALinkOrButton>
         )}

@@ -1,4 +1,6 @@
-import { CTALinkOrButton, Section, Tag } from '@bluedot/ui';
+import {
+  ClickTarget, CTALinkOrButton, Section, Tag,
+} from '@bluedot/ui';
 import { H3, P } from '../Text';
 
 const BlogSection = () => {
@@ -39,9 +41,9 @@ const BlogPost = ({
   date: string, title: string, author: string, url: string, tag?: string
 }) => {
   return (
-    <a
+    <ClickTarget
       className="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
-      href={url}
+      url={url}
     >
       <P className="blog-section__blog-post-date basis-[16%] uppercase mb-6">{date}</P>
       <div className="blog-section__blog-post-details w-full">
@@ -51,7 +53,7 @@ const BlogPost = ({
           {tag && <Tag className="blog-section__blog-post-tag self-end">{tag}</Tag>}
         </div>
       </div>
-    </a>
+    </ClickTarget>
   );
 };
 
