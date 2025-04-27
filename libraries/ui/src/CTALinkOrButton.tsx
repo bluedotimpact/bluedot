@@ -66,15 +66,16 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
       className={commonClassNames}
       {...rest}
     >
+      {withBackChevron && (
+      <span className="cta-button__chevron mr-3">
+        <FaChevronLeft className="cta-button__chevron-icon size-2" />
+      </span>
+      )}
       <span className="cta-button__text">{children}</span>
       {withChevron && (
-        <span className="cta-button__chevron ml-3">
-          <img
-            src={variant === 'primary' ? '/icons/chevron_white.svg' : '/icons/chevron_blue.svg'}
-            alt="→"
-            className="cta-button__chevron-icon size-2"
-          />
-        </span>
+      <span className="cta-button__chevron ml-3">
+        <FaChevronRight className="cta-button__chevron-icon size-2" />
+      </span>
       )}
     </button>
   );
