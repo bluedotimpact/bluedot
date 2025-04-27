@@ -31,7 +31,7 @@ const HistoryEvent = ({ year, now, children }: { year: string, now?: boolean, ch
       ) : (
         <div className="history-section__event-container--desktop flex flex-col gap-space-between">
           <div className="history-section__year-container w-full flex gap-2">
-            <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min">{year}</P>
+            <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min">{year}</P>
             <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
           </div>
           <P className="history-section__event-details mr-12">{children}</P>

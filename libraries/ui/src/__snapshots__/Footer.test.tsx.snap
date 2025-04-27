@@ -102,7 +102,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="footer__section min-w-0 whitespace-nowrap"
           >
             <h3
-              class="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3"
+              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
             >
               BlueDot Impact
             </h3>
@@ -165,7 +165,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="footer__section min-w-0 flex-1"
           >
             <h3
-              class="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3"
+              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
             >
               Explore
             </h3>
@@ -425,7 +425,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="footer__section min-w-0 whitespace-nowrap"
           >
             <h3
-              class="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3"
+              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
             >
               BlueDot Impact
             </h3>
@@ -488,7 +488,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="footer__section min-w-0 flex-1"
           >
             <h3
-              class="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3"
+              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
             >
               Explore
             </h3>

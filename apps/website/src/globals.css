@@ -57,16 +57,6 @@
   }
 }
 
-@utility link-on-dark {
-  @apply text-color-text-on-dark hover:text-color-secondary-accent cursor-pointer;
-}
-
-@layer base {
-  .text-on-dark {
-    @apply text-color-text-on-dark;
-  }
-}
-
 .slide-up-fade-in {
   opacity: 0;
   transform: translateY(50px);

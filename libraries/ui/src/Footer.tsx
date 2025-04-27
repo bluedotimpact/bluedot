@@ -20,7 +20,7 @@ type FooterSectionProps = {
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('footer__section', className)}>
-    {title && <h3 className="footer__heading font-[650] text-on-dark mb-4 text-size-md bluedot-h3">{title}</h3>}
+    {title && <h3 className="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3">{title}</h3>}
     {links && (
       <ul className="footer__list space-y-4 mb-auto list-none p-0">
         {links.map((link) => (

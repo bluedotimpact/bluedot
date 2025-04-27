@@ -22,7 +22,7 @@ exports[`Error404Page > should render correctly 1`] = `
           </div>
         </div>
         <h2
-          class="hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2"
+          class="hero-section__subtitle text-color-text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2"
         >
           Sorry, this page does not exist.
         </h2>

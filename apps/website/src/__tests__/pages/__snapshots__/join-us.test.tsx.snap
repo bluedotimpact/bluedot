@@ -10,12 +10,12 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="hero-section__content max-w-[865px] py-12"
       >
         <div
-          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
         >
           Join Us
         </div>
         <h1
-          class="hero-section__title text-on-dark text-center bluedot-h1"
+          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
         >
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h1>

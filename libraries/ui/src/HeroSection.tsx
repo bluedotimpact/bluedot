@@ -9,7 +9,7 @@ export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
   children, className,
 }) => {
   return (
-    <div className={clsx('hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
+    <div className={clsx('hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4', className)}>{children}</div>
   );
 };
 
@@ -17,7 +17,7 @@ export const HeroH1: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   children, className, ...otherProps
 }) => {
   return (
-    <h1 className={clsx('hero-section__title text-on-dark text-center bluedot-h1', className)} {...otherProps}>{children}</h1>
+    <h1 className={clsx('hero-section__title text-color-text-on-dark text-center bluedot-h1', className)} {...otherProps}>{children}</h1>
   );
 };
 
@@ -26,7 +26,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h2
-      className={clsx('hero-section__subtitle text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2', className)}
+      className={clsx('hero-section__subtitle text-color-text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2', className)}
       {...otherProps}
     >
       {children}

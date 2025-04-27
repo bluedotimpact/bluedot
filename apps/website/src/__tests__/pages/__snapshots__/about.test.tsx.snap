@@ -10,12 +10,12 @@ exports[`AboutPage > should render correctly 1`] = `
         class="hero-section__content max-w-[865px] py-12"
       >
         <div
-          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
         >
           About us
         </div>
         <h1
-          class="hero-section__title text-on-dark text-center bluedot-h1"
+          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
         >
           Our mission is to ensure humanity safely navigates the transition to transformative AI.
         </h1>
@@ -430,7 +430,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
                 >
                   2021
                 </p>
@@ -459,7 +459,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
                 >
                   2022
                 </p>
@@ -495,7 +495,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
                 >
                   2023
                 </p>
@@ -524,7 +524,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
                 >
                   2024
                 </p>
@@ -557,7 +557,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="history-section__year-container w-full flex gap-2"
               >
                 <p
-                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                  class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
                 >
                   2025
                 </p>
