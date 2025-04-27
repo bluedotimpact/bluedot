@@ -14,7 +14,7 @@ const ContactPage = () => {
   return (
     <div>
       <Head>
-        <title>Contact us | BlueDot Impact</title>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta name="description" content="Contact BlueDot Impact, the team behind AI Safety Fundamentals." />
       </Head>
       <HeroSection>

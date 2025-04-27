@@ -70,7 +70,7 @@ const StandardCoursePage = ({ courseSlug }: { courseSlug: string }) => {
       {data?.course && (
         <>
           <Head>
-            <title>{data?.course.title} | BlueDot Impact</title>
+            <title>{`${data?.course.title} | BlueDot Impact`}</title>
             <meta name="description" content={data?.course.description} />
           </Head>
           <HeroSection>

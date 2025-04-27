@@ -145,7 +145,7 @@ export const loginPresets = {
 }>;
 
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
-  const redirectTo = getQueryParam(window.location.href, 'redirect_to') || '/';
+  const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {

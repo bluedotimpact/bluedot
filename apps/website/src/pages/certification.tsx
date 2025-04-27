@@ -73,7 +73,7 @@ const CertificatePage = () => {
   return (
     <main className="bluedot-base flex flex-col">
       <Head>
-        <title>{certificate.recipientName}'s Certificate | BlueDot Impact</title>
+        <title>{`${certificate.recipientName}'s Certificate | BlueDot Impact`}</title>
         <meta name="description" content={`Certificate of completion for ${certificate.courseName}`} />
       </Head>
 

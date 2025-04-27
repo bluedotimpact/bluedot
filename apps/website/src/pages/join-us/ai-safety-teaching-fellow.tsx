@@ -21,7 +21,7 @@ const JobPostingPage = () => {
   return (
     <div>
       <Head>
-        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
       <HeroSection>
         <HeroH1>{CURRENT_ROUTE.title}</HeroH1>

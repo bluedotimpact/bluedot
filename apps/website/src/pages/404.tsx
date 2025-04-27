@@ -20,7 +20,7 @@ const Error404Page = () => {
   return (
     <div>
       <Head>
-        <title>{currentRoute.title} | BlueDot Impact</title>
+        <title>{`${currentRoute.title} | BlueDot Impact`}</title>
       </Head>
       <HeroSection className="404-hero overflow-hidden">
         {/* The background on the Rive animation slightly mismatches the HeroSection
