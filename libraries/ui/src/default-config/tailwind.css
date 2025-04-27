@@ -145,6 +145,10 @@
     @apply after:bg-bluedot-lighter;
 }
 
+@utility link-on-dark {
+    @apply text-color-text-on-dark hover:text-color-secondary-accent cursor-pointer;
+}
+
 :root {
     --bluedot-lightest: #F5F4F7;
     --bluedot-lighter: #CCD7FF;
