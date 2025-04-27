@@ -99,7 +99,7 @@ export const useAuthStore = create<{
   internal_refreshTimer: null,
 }), {
   name: 'bluedot_auth',
-  version: 20250423,
+  version: 20250427,
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
