@@ -8,10 +8,10 @@ import {
 } from 'vitest';
 import { LoginRedirectPage, loginPresets } from './Login';
 import { Navigate } from './Navigate';
-import { useAuthStore } from '../utils/auth';
-import { getQueryParam } from '../utils/getQueryParam';
+import { useAuthStore } from './utils/auth';
+import { getQueryParam } from './utils/getQueryParam';
 
-vi.mock('../utils/auth', () => ({
+vi.mock('./utils/auth', () => ({
   useAuthStore: vi.fn(),
 }));
 
@@ -19,7 +19,7 @@ vi.mock('./Navigate', () => ({
   Navigate: vi.fn(() => null),
 }));
 
-vi.mock('../utils/getQueryParam', () => ({
+vi.mock('./utils/getQueryParam', () => ({
   getQueryParam: vi.fn(),
 }));
 

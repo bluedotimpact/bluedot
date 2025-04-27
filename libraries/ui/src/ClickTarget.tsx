@@ -1,6 +1,6 @@
 import { PressEvent, Button as ReactAriaButton, Link as ReactAriaLink } from 'react-aria-components';
 
-export type LinkOrButtonProps = React.PropsWithChildren<{
+export type ClickTargetProps = React.PropsWithChildren<{
   className?: string;
   onPress?: (e: PressEvent) => void;
   url?: string,
@@ -9,9 +9,9 @@ export type LinkOrButtonProps = React.PropsWithChildren<{
   'aria-label'?: string;
 }>;
 
-export const LinkOrButton = ({
+export const ClickTarget = ({
   children, className, onPress, disabled, url, target, 'aria-label': ariaLabel,
-}: LinkOrButtonProps) => {
+}: ClickTargetProps) => {
   if (url) {
     return (
       <ReactAriaLink

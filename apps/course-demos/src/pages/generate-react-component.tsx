@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {
-  NewText, CTALinkOrButton, Link, ProgressDots,
+  NewText, CTALinkOrButton, ProgressDots, ClickTarget,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { CodeRenderer } from '../components/CodeRenderer';
 import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 import { ShareSavedDemoButton } from '../components/ShareSavedDemoButton';
@@ -71,7 +70,7 @@ const DemoPage: React.FC = () => {
           <p>
             Examples:
             {EXAMPLES.map((example) => (
-              <LinkOrButton
+              <ClickTarget
                 className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
                 key={example}
                 onPress={() => {
@@ -79,7 +78,7 @@ const DemoPage: React.FC = () => {
                   return handleSubmit(example);
                 }}
               >{example}
-              </LinkOrButton>
+              </ClickTarget>
             ))}
           </p>
         </div>
@@ -91,7 +90,7 @@ const DemoPage: React.FC = () => {
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
           </NewText.P>
           <NewText.P>
-            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton url="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
+            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <NewText.A href="https://web.lmarena.ai/">WebDev Arena</NewText.A> to see a similar demo.
           </NewText.P>
           <CTALinkOrButton onClick={() => handleSubmit()}>Try again</CTALinkOrButton>
         </>
@@ -137,7 +136,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="bg-stone-200 p-4 rounded-md">
-        <NewText.P className="font-medium"><Link url={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</NewText.P>
+        <NewText.P className="font-medium"><NewText.A href={courseLink}>The Future of AI Course</NewText.A> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</NewText.P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">

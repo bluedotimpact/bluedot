@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
 import { Navigate } from './Navigate';
-import { Auth, useAuthStore } from '../utils/auth';
-import { ErrorSection } from '../ErrorSection';
-import { getQueryParam } from '../utils/getQueryParam';
-import { ProgressDots } from '../ProgressDots';
+import { Auth, useAuthStore } from './utils/auth';
+import { ErrorSection } from './ErrorSection';
+import { getQueryParam } from './utils/getQueryParam';
+import { ProgressDots } from './ProgressDots';
 
 export type LoginPageProps = {
   oidcSettings: OidcClientSettings

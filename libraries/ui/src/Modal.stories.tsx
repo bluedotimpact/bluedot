@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './legacy/Button';
 import { Modal } from './Modal';
+import { CTALinkOrButton } from './CTALinkOrButton';
 
 // Wrapper component to handle the modal state
 type ModalDemoProps = {
@@ -19,7 +19,7 @@ const ModalDemo: React.FC<ModalDemoProps> = ({
 
   return (
     <div>
-      <Button onPress={() => setIsOpen(true)}>Open Modal</Button>
+      <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Modal</CTALinkOrButton>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
         {children}
       </Modal>
@@ -57,7 +57,7 @@ export const LongContent: Story = {
 
     return (
       <div>
-        <Button onPress={() => setIsOpen(true)}>Open Modal with Long Content</Button>
+        <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Modal with Long Content</CTALinkOrButton>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Modal with Long Content">
           <div>
             <p>This modal contains a longer content section to demonstrate scrolling behavior.</p>
@@ -77,7 +77,7 @@ export const WithFormContent: Story = {
 
     return (
       <div>
-        <Button onPress={() => setIsOpen(true)}>Open Form Modal</Button>
+        <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Form Modal</CTALinkOrButton>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Form Modal">
           <div>
             <div className="mb-4">
@@ -97,8 +97,8 @@ export const WithFormContent: Story = {
               />
             </div>
             <div className="flex justify-end gap-2 mt-6">
-              <Button className="bg-gray-100 text-gray-700" onPress={() => {}}>Cancel</Button>
-              <Button onPress={() => {}}>Submit</Button>
+              <CTALinkOrButton className="bg-gray-100 text-gray-700" onClick={() => {}}>Cancel</CTALinkOrButton>
+              <CTALinkOrButton onClick={() => {}}>Submit</CTALinkOrButton>
             </div>
           </div>
         </Modal>
