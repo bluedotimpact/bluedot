@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import React, { ReactNode } from 'react';
 import { H3, P } from '../Text';
 
-interface FeatureProps {
+type FeatureProps = {
   iconSrc?: string;
   id?: string;
   className?: string;
   iconClassName?: string;
   children: ReactNode;
-}
+};
 
 /**
  * Feature component - container for a single feature
@@ -30,10 +30,10 @@ export const Feature: React.FC<FeatureProps> = ({
   </div>
 );
 
-interface FeatureTitleProps {
+type FeatureTitleProps = {
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * FeatureTitle component - title for a feature
@@ -45,10 +45,10 @@ export const FeatureTitle: React.FC<FeatureTitleProps> = ({
   <H3 className={`font-semibold mb-2 ${className}`}>{children}</H3>
 );
 
-interface FeatureSubtitleProps {
+type FeatureSubtitleProps = {
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * FeatureSubtitle component - subtitle/description for a feature
@@ -60,9 +60,9 @@ export const FeatureSubtitle: React.FC<FeatureSubtitleProps> = ({
   <P className={`text-gray-600 text-size-md mx-4 ${className}`}>{children}</P>
 );
 
-interface FeaturesSectionProps {
+type FeaturesSectionProps = {
   children: ReactNode;
-}
+};
 
 /**
  * Section component for displaying course features

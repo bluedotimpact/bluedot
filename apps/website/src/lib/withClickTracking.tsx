@@ -2,16 +2,16 @@ import React from 'react';
 import { sendGAEvent } from '@next/third-parties/google';
 
 // Base tracking configuration type
-interface TrackingConfig {
+type TrackingConfig = {
   eventName: string;
   eventParams?: Record<string, string>;
-}
+};
 
 // Props that will be available on the wrapped component
-interface TrackingProps {
+type TrackingProps = {
   trackingEventName?: string;
   trackingEventParams?: Record<string, string>;
-}
+};
 
 // Type helper to ensure wrapped component has onClick
 type WithClick<P> = P & { onClick?: (e: React.MouseEvent) => void };

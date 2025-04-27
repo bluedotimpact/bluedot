@@ -3,9 +3,9 @@ import { asError } from './utils/asError';
 import { Collapsible } from './Collapsible';
 import { contactUsUrl } from './constants';
 
-export interface ErrorViewProps {
+export type ErrorViewProps = {
   error: unknown,
-}
+};
 
 const truncate = (str: string, n: number) => (str.length > n ? `${str.slice(0, n)}...` : str);
 
@@ -36,10 +36,10 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
   );
 };
 
-interface ErrorDetailsProps {
+type ErrorDetailsProps = {
   error: Error,
   prefix?: string,
-}
+};
 
 const ErrorDetails: React.FC<ErrorDetailsProps> = ({ error, prefix = '' }) => {
   const prefixSpace = `${prefix} `;

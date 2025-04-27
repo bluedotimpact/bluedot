@@ -4,11 +4,11 @@ import {
 } from '@codesandbox/sandpack-react';
 import { LegacyText, Button } from '@bluedot/ui';
 
-interface CodeRendererProps {
+type CodeRendererProps = {
   code: string;
   height?: string;
   hidePreview?: boolean;
-}
+};
 
 export const CodeRenderer: React.FC<CodeRendererProps> = ({ code, height, hidePreview = false }) => {
   const files = {

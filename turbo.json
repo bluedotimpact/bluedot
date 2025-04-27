@@ -8,7 +8,9 @@
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**", "!dist/cache/**"]
     },
-    "lint": {},
+    "lint": {
+      "dependsOn": ["@bluedot/eslint-config#build"]
+    },
     "lint:fix": {
       "cache": false
     },

@@ -9,12 +9,12 @@ import { Modal } from './Modal';
 import { LinkOrButton } from './legacy/LinkOrButton';
 import { ErrorView } from './ErrorView';
 
-interface SocialButtonProps {
+type SocialButtonProps = {
   icon: ReactNode;
   color: string;
   onPress: () => void;
   children: ReactNode;
-}
+};
 
 const SocialButton: React.FC<SocialButtonProps> = ({
   icon, color, onPress, children,

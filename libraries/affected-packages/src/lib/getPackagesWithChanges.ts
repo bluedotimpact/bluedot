@@ -63,19 +63,19 @@ const getSuccessfulParentCommits = async (
   }))).flat();
 };
 
-interface NPMPackage {
+type NPMPackage = {
   name: string;
   location: string;
   scripts: { 'deploy:cd'?: string };
-  dependencies?: { [key: string]: string };
-  devDependencies?: { [key: string]: string };
-}
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+};
 
-interface PackageInfo {
+type PackageInfo = {
   name: string;
   isDeployableByCd: boolean;
   fileGlobs: string[];
-}
+};
 
 /**
  * @returns Array of package information for all packages in the monorepo

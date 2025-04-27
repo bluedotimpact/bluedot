@@ -14,11 +14,11 @@ export type NavProps = React.PropsWithChildren<{
   logo?: string;
   primaryCtaText?: string;
   primaryCtaUrl?: string;
-  courses: Array<{
+  courses: {
     title: string;
     url: string;
     isNew?: boolean;
-  }>;
+  }[];
 }>;
 
 const TRANSITION_DURATION_CLASS = 'duration-300';
@@ -38,7 +38,7 @@ const ExploreSection: React.FC<{
   expanded: boolean;
   innerClassName?: string;
   className?: string;
-  courses: Array<{ title: string; url: string; isNew?: boolean }>;
+  courses: { title: string; url: string; isNew?: boolean }[];
   isScrolled?: boolean;
 }> = ({
   expanded, innerClassName, className, courses, isScrolled,
@@ -74,7 +74,7 @@ const ExploreSection: React.FC<{
 
 const NavLinks: React.FC<{
   exploreSectionInline?: boolean;
-  courses: Array<{ title: string; url: string; isNew?: boolean }>;
+  courses: { title: string; url: string; isNew?: boolean }[];
   exploreExpanded: boolean;
   onToggleExplore: () => void;
   className?: string;
@@ -163,11 +163,11 @@ const CTAButtons: React.FC<{
   );
 };
 
-interface ExpandedSectionsState {
+type ExpandedSectionsState = {
   mobileNav: boolean;
   explore: boolean;
   profile: boolean;
-}
+};
 
 export const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;

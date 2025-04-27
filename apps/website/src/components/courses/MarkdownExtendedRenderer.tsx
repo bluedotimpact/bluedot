@@ -39,10 +39,10 @@ const remarkUnescapeMdxAttributes: Plugin = () => {
   };
 };
 
-export interface MarkdownRendererProps {
+export type MarkdownRendererProps = {
   children?: string;
   className?: string;
-}
+};
 
 // This must be a function, rather than a constant, to avoid dependency cycles
 export const getSupportedComponents = () => ({

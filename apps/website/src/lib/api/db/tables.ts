@@ -1,6 +1,6 @@
 import { Item, Table } from 'airtable-ts';
 
-export interface Course extends Item {
+export type Course = {
   certificationBadgeImage: string,
   certificatonDescription: string,
   description: string,
@@ -13,7 +13,7 @@ export interface Course extends Item {
   shortDescription: string,
   title: string,
   units: string[],
-}
+} & Item;
 
 export const courseTable: Table<Course> = {
   name: 'Course',
@@ -47,10 +47,10 @@ export const courseTable: Table<Course> = {
   },
 };
 
-export interface ApplicationsCourse extends Item {
+export type ApplicationsCourse = {
   id: string, // Applications base record id
   courseBuilderId: string,
-}
+} & Item;
 
 export const applicationsCourseTable: Table<ApplicationsCourse> = {
   name: 'Course',
@@ -64,7 +64,7 @@ export const applicationsCourseTable: Table<ApplicationsCourse> = {
   },
 };
 
-export interface UnitFeedback extends Item {
+export type UnitFeedback = {
   unitId: string,
   overallRating: number,
   anythingElse: string,
@@ -72,7 +72,7 @@ export interface UnitFeedback extends Item {
   userFullName: string,
   createdAt: string | null,
   lastModified: string | null,
-}
+} & Item;
 
 export const unitFeedbackTable: Table<UnitFeedback> = {
   name: 'UnitFeedback',
@@ -98,7 +98,7 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
   },
 };
 
-export interface Unit extends Item {
+export type Unit = {
   id: string,
   courseId: string,
   courseTitle: string,
@@ -110,7 +110,7 @@ export interface Unit extends Item {
   unitNumber: string,
   duration: number,
   description: string,
-}
+} & Item;
 
 export const unitTable: Table<Unit> = {
   name: 'Unit',
@@ -142,7 +142,7 @@ export const unitTable: Table<Unit> = {
   },
 };
 
-export interface Exercise extends Item {
+export type Exercise = {
   id: string,
   answer: string,
   courseId: string,
@@ -154,7 +154,7 @@ export interface Exercise extends Item {
   unitId: string,
   unitNumber: string,
   status: string,
-}
+} & Item;
 
 export const exerciseTable: Table<Exercise> = {
   name: 'Exercise',
@@ -186,13 +186,13 @@ export const exerciseTable: Table<Exercise> = {
   },
 };
 
-export interface ExerciseResponse extends Item {
+export type ExerciseResponse = {
   id: string,
   email: string,
   exerciseId: string,
   response: string,
   completed: boolean,
-}
+} & Item;
 
 export const exerciseResponseTable: Table<ExerciseResponse> = {
   name: 'Exercise response',
@@ -212,7 +212,7 @@ export const exerciseResponseTable: Table<ExerciseResponse> = {
   },
 };
 
-export interface CourseRegistration extends Item {
+export type CourseRegistration = {
   id: string,
   userId: string | null,
   email: string,
@@ -227,7 +227,7 @@ export interface CourseRegistration extends Item {
   role: string,
   certificateId: string | null,
   certificateCreatedAt: number | null,
-}
+} & Item;
 
 export const courseRegistrationTable: Table<CourseRegistration> = {
   name: 'Course registration',
@@ -261,7 +261,7 @@ export const courseRegistrationTable: Table<CourseRegistration> = {
   },
 };
 
-export interface User extends Item {
+export type User = {
   id: string,
   email: string,
   createdAt: string,
@@ -274,7 +274,7 @@ export interface User extends Item {
   utmContent: string,
   courseSitesVisitedCsv: string,
   completedMoocAt: number | null,
-}
+} & Item;
 
 export const userTable: Table<User> = {
   name: 'User',

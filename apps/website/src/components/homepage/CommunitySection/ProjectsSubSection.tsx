@@ -2,13 +2,13 @@ import {
   Card, CTALinkOrButton, SectionHeading, SlideList,
 } from '@bluedot/ui';
 
-interface Project {
+type Project = {
   id: number;
   title: string;
   authorName: string;
   imageSrc: string;
   ctaUrl: string;
-}
+};
 
 const projects: Project[] = [
   {

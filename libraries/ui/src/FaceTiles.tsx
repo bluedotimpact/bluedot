@@ -1,14 +1,14 @@
 import React from 'react';
 
-export interface FaceTilesProps {
-  faces: Array<{
+export type FaceTilesProps = {
+  faces: {
     src: string;
     alt: string;
-  }>;
+  }[];
   maxDisplay?: number;
   size?: number;
   className?: string;
-}
+};
 
 export const FaceTiles: React.FC<FaceTilesProps> = ({
   faces,

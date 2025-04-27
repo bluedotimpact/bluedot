@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
 
-interface ContainerProps {
+type ContainerProps = {
   children: React.ReactNode;
   className?: string;
   bgClassname?: string;
-}
+};
 
 /**
  * Provides consistent max-width and padding

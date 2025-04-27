@@ -13,14 +13,14 @@ import { TimeOffsetSelector } from '../../components/TimeOffsetSelector';
 import { MINUTES_IN_UNIT, TimeAvailabilityInput } from '../../components/TimeAvailabilityInput';
 import { formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes } from '../../lib/offset';
 
-interface FormFieldData {
+type FormFieldData = {
   email: string;
   timezone: string;
-  timeAv: { [weeklyTime: wa.WeeklyTime]: boolean };
+  timeAv: Record<wa.WeeklyTime, boolean>;
   comment: string;
-}
+};
 
-const toIntervals = (timeAv: { [weeklyTime: wa.WeeklyTime]: boolean }): wa.Interval[] => {
+const toIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
   return wa.unionSchedules(Object.entries(timeAv)
     .filter(([, available]) => available)
     .map(([weeklyTime]) => [

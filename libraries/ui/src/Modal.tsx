@@ -7,12 +7,12 @@ import {
   Heading,
 } from 'react-aria-components';
 
-export interface ModalProps {
+export type ModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
   children: ReactNode;
-}
+};
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,

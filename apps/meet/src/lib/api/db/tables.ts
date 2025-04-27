@@ -2,10 +2,10 @@ import { Table, Item } from 'airtable-ts';
 
 const airtableBaseId = 'appPs3sb9BrYZN69z';
 
-export interface Group extends Item {
+export type Group = {
   'groupDiscussions': string[],
   'round': string,
-}
+} & Item;
 
 export const groupTable: Table<Group> = {
   name: 'group',
@@ -21,7 +21,7 @@ export const groupTable: Table<Group> = {
   },
 };
 
-export interface GroupDiscussion extends Item {
+export type GroupDiscussion = {
   'Facilitators': string[],
   'Participants (Expected)': string[],
   'Attendees': string[],
@@ -29,7 +29,7 @@ export interface GroupDiscussion extends Item {
   'End date/time': number | null,
   'Group': string,
   'Zoom account': string | null,
-}
+} & Item;
 
 export const groupDiscussionTable: Table<GroupDiscussion> = {
   name: 'group discussion',
@@ -55,9 +55,9 @@ export const groupDiscussionTable: Table<GroupDiscussion> = {
   },
 };
 
-export interface Person extends Item {
+export type Person = {
   'name': string,
-}
+} & Item;
 
 export const personTable: Table<Person> = {
   name: 'person',
@@ -71,10 +71,10 @@ export const personTable: Table<Person> = {
   },
 };
 
-export interface ZoomAccount extends Item {
+export type ZoomAccount = {
   'Meeting link': string,
   'Host key': string,
-}
+} & Item;
 
 export const zoomAccountTable: Table<ZoomAccount> = {
   name: 'zoom account',
@@ -90,9 +90,9 @@ export const zoomAccountTable: Table<ZoomAccount> = {
   },
 };
 
-export interface Round extends Item {
+export type Round = {
   'Course': string,
-}
+} & Item;
 
 export const roundTable: Table<Round> = {
   name: 'round',
@@ -106,9 +106,9 @@ export const roundTable: Table<Round> = {
   },
 };
 
-export interface Course extends Item {
+export type Course = {
   '[*] Course Site': string,
-}
+} & Item;
 
 export const courseTable: Table<Course> = {
   name: 'course',
