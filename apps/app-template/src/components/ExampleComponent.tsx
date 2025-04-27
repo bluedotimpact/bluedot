@@ -1,4 +1,4 @@
-import { LegacyText } from '@bluedot/ui';
+import { NewText } from '@bluedot/ui';
 
 export type ExampleComponentProps = {
   name?: string,
@@ -6,6 +6,6 @@ export type ExampleComponentProps = {
 
 export const ExampleComponent: React.FC<ExampleComponentProps> = ({ name }) => {
   return (
-    <LegacyText.P>Hello {name ?? 'world'}!</LegacyText.P>
+    <NewText.P>Hello {name ?? 'world'}!</NewText.P>
   );
 };
