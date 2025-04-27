@@ -12,7 +12,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
     <div className="section-body gap-4">
       <NewText.H1>Authed page</NewText.H1>
       <NewText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <NewText.A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</NewText.A>)</NewText.P>
-      <NewText.P>It expires at: {new Date(auth.expiresAt * 1000).toISOString()}</NewText.P>
+      <NewText.P>It expires at: {new Date(auth.expiresAt).toISOString()}</NewText.P>
       <NewText.H2>People</NewText.H2>
       <PeopleListView />
       <NewText.H2>Logout</NewText.H2>
