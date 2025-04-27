@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import {
-  LegacyText, Link, ProgressDots, asError,
+  NewText, Link, ProgressDots, asError,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
@@ -30,10 +30,10 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
 
     return (
       <>
-        <LegacyText.H2 className="text-red-500">Couldn't interpret your demo</LegacyText.H2>
-        <LegacyText.P>This can sometimes happen if the link is invalid or the content has been deleted.</LegacyText.P>
-        <LegacyText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</LegacyText.P>
-        <LegacyText.P>Details: {asError(error).message}</LegacyText.P>
+        <NewText.H2 className="text-red-500">Couldn't interpret your demo</NewText.H2>
+        <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
+        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</NewText.P>
+        <NewText.P>Details: {asError(error).message}</NewText.P>
       </>
     );
   }
@@ -54,7 +54,7 @@ const SharePage: React.FC = () => {
   if (loading || !savedDemoOutputId) {
     return (
       <main className="mx-auto px-4 py-8">
-        <LegacyText.P className="text-center">Loading shared content...</LegacyText.P>
+        <NewText.P className="text-center">Loading shared content...</NewText.P>
         <ProgressDots />
       </main>
     );
@@ -63,10 +63,10 @@ const SharePage: React.FC = () => {
   if (error || !savedDemoOutput) {
     return (
       <main className="mx-auto px-4 py-8">
-        <LegacyText.H2 className="text-red-500">Couldn't find your demo</LegacyText.H2>
-        <LegacyText.P>This can sometimes happen if the link is invalid or the content has been deleted.</LegacyText.P>
-        <LegacyText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</LegacyText.P>
-        <LegacyText.P>Details: {error?.message || 'Failed to load shared content'}</LegacyText.P>
+        <NewText.H2 className="text-red-500">Couldn't find your demo</NewText.H2>
+        <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
+        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</NewText.P>
+        <NewText.P>Details: {error?.message || 'Failed to load shared content'}</NewText.P>
       </main>
     );
   }

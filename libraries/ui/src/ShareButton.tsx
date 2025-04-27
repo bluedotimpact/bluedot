@@ -4,10 +4,10 @@ import {
   FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaCopy,
 } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { Button } from './legacy/Button';
 import { Modal } from './Modal';
 import { LinkOrButton } from './legacy/LinkOrButton';
 import { ErrorView } from './ErrorView';
+import { CTALinkOrButton } from './CTALinkOrButton';
 
 type SocialButtonProps = {
   icon: ReactNode;
@@ -105,9 +105,9 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
 
   return (
     <>
-      <Button onPress={handleShare} disabled={isSharing}>
+      <CTALinkOrButton onClick={handleShare} disabled={isSharing}>
         {isSharing ? 'Sharing...' : children}
-      </Button>
+      </CTALinkOrButton>
 
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Share">
         {shareError ? <ErrorView error={shareError} /> : (
