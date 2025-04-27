@@ -24,13 +24,13 @@ import {
   Dropcursor,
 } from '@syfxlin/tiptap-starter-kit';
 import { Markdown } from 'tiptap-markdown';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import {
   FaBold,
   FaItalic,
   FaQuoteLeft,
   FaCode,
 } from 'react-icons/fa6';
+import { ClickTarget } from '@bluedot/ui';
 
 type ToolbarButtonProps = {
   onPress: () => void;
@@ -46,7 +46,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   'aria-label': ariaLabel,
 }) => {
   return (
-    <LinkOrButton
+    <ClickTarget
       onPress={onPress}
       className={`p-2 rounded hover:bg-gray-200 transition-colors ${
         isActive ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
@@ -54,7 +54,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
       aria-label={ariaLabel}
     >
       {icon}
-    </LinkOrButton>
+    </ClickTarget>
   );
 };
 

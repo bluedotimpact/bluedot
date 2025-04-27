@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { ErrorSection, NewText, withAuth } from '@bluedot/ui';
+import {
+  ClickTarget, ErrorSection, NewText, withAuth,
+} from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { Room } from '../lib/types';
 import { RoomHealthIndicator } from '../components/RoomHealthIndicator';
 
@@ -60,12 +61,12 @@ const DashboardPage = withAuth(({ auth }) => {
 
         <div className="grid gap-6 md:grid-cols-2">
           {rooms.map((room) => (
-            <LinkOrButton onPress={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
+            <ClickTarget onPress={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
               <div className="flex items-center justify-between">
                 <h2 className="text-size-lg font-semibold">{room.name}</h2>
                 <RoomHealthIndicator status={room.status} />
               </div>
-            </LinkOrButton>
+            </ClickTarget>
           ))}
         </div>
       </div>

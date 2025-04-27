@@ -1,10 +1,10 @@
 import useAxios from 'axios-hooks';
 import axios, { AxiosResponse } from 'axios';
 import {
+  ClickTarget,
   CTALinkOrButton, ErrorSection, NewText,
   ProgressDots,
 } from '@bluedot/ui';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import { Page } from './Page';
@@ -91,7 +91,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
       <div className="mt-4">
         Not on this list?
         {' '}
-        <LinkOrButton
+        <ClickTarget
           onPress={() => {
             setPage({
               name: 'appJoin',
@@ -103,7 +103,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
           className="underline cursor-pointer"
         >
           Join without registering attendance.
-        </LinkOrButton>
+        </ClickTarget>
       </div>
     </Page>
   );

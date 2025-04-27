@@ -5,7 +5,7 @@ import {
 } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { Modal } from './Modal';
-import { LinkOrButton } from './legacy/LinkOrButton';
+import { ClickTarget } from './ClickTarget';
 import { ErrorView } from './ErrorView';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
@@ -20,7 +20,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
   icon, color, onPress, children,
 }) => {
   return (
-    <LinkOrButton
+    <ClickTarget
       onPress={onPress}
       className="flex flex-col items-center cursor-pointer group p-4 -m-4"
     >
@@ -28,7 +28,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
         {icon}
       </div>
       <span className="mt-2 text-size-sm">{children}</span>
-    </LinkOrButton>
+    </ClickTarget>
   );
 };
 

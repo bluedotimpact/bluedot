@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import {
-  NewText, CTALinkOrButton, Link, ProgressDots,
+  NewText, CTALinkOrButton, Link, ProgressDots, ClickTarget,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { CodeRenderer } from '../components/CodeRenderer';
 import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 import { ShareSavedDemoButton } from '../components/ShareSavedDemoButton';
@@ -71,7 +70,7 @@ const DemoPage: React.FC = () => {
           <p>
             Examples:
             {EXAMPLES.map((example) => (
-              <LinkOrButton
+              <ClickTarget
                 className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
                 key={example}
                 onPress={() => {
@@ -79,7 +78,7 @@ const DemoPage: React.FC = () => {
                   return handleSubmit(example);
                 }}
               >{example}
-              </LinkOrButton>
+              </ClickTarget>
             ))}
           </p>
         </div>
@@ -91,7 +90,7 @@ const DemoPage: React.FC = () => {
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
           </NewText.P>
           <NewText.P>
-            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton url="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
+            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <NewText.A href="https://web.lmarena.ai/">WebDev Arena</NewText.A> to see a similar demo.
           </NewText.P>
           <CTALinkOrButton onClick={() => handleSubmit()}>Try again</CTALinkOrButton>
         </>

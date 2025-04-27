@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { LinkOrButton, LinkOrButtonProps } from './LinkOrButton';
+import { ClickTarget, LinkOrButtonProps } from '../ClickTarget';
 
 export type LinkProps = LinkOrButtonProps;
 
@@ -9,13 +9,13 @@ export const Link = ({
   const classes = clsx('underline', className);
 
   return (
-    <LinkOrButton
+    <ClickTarget
       className={classes}
       onPress={onPress}
       url={url}
       target={target}
       disabled={disabled}
     >{children}
-    </LinkOrButton>
+    </ClickTarget>
   );
 };
