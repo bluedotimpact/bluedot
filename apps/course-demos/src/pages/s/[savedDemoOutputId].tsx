@@ -49,7 +49,7 @@ const SharePage: React.FC = () => {
     method: 'get',
   });
 
-  const courseLink = `https://course.bluedot.org/future-of-ai?utm_source=demo&utm_campaign=${savedDemoOutput ? encodeURIComponent(savedDemoOutput.type) : 'unknown'}${referralToken ? `&r=${referralToken}` : ''}`;
+  const courseLink = `https://bluedot.org/courses/future-of-ai?utm_source=demo&utm_campaign=${savedDemoOutput ? encodeURIComponent(savedDemoOutput.type) : 'unknown'}${referralToken ? `&r=${referralToken}` : ''}`;
 
   if (loading || !savedDemoOutputId) {
     return (

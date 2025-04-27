@@ -47,7 +47,7 @@ export const CustomizedExploreLinks: Story = {
   args: {
     logo: imgSrc,
     primaryCtaText: 'Start learning',
-    primaryCtaUrl: 'https://course.bluedot.org/future-of-ai',
+    primaryCtaUrl: 'https://bluedot.org/courses/future-of-ai',
     children: [
       <>
         <A className="no-underline" href="#">Some</A>
