@@ -9,6 +9,7 @@ import {
   Breadcrumbs,
   ErrorSection,
   addQueryParam,
+  ClickTarget,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
@@ -162,14 +163,14 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
 
             {isCompleted && (
             <div className="flex flex-col gap-2">
-              <a href={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId || '')} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId || '')} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaAward size={18} className="mr-2" />
                 View your certificate
-              </a>
-              <a href={course.path} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              </ClickTarget>
+              <ClickTarget url={course.path} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaBookOpen size={18} className="mr-2" />
                 Browse course materials
-              </a>
+              </ClickTarget>
             </div>
             )}
           </div>

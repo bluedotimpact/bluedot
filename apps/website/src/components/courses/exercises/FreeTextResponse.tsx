@@ -75,7 +75,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         <CTALinkOrButton
           className="free-text-response__submit"
           variant="primary"
-          type="submit"
+          onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Saving...' : 'Save'}

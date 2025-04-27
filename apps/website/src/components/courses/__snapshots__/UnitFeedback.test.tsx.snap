@@ -161,8 +161,10 @@ exports[`UnitFeedback > should render correctly 1`] = `
     </div>
     <button
       class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark unit-feedback__submit self-start"
-      data-testid="cta-button"
-      type="submit"
+      data-rac=""
+      id="react-aria-:r0:"
+      tabindex="0"
+      type="button"
     >
       <span
         class="cta-button__text"

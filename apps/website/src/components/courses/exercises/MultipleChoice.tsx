@@ -116,7 +116,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton
           className="multiple-choice__submit"
           variant="primary"
-          type="submit"
+          onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
         >
           {isSubmitting ? 'Checking...' : 'Check'}

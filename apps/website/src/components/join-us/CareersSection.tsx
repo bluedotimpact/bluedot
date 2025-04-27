@@ -17,9 +17,9 @@ const CareersSection = () => {
 };
 
 const JobListing = ({
-  title, location = 'London, Remote', type = 'Permanent', url, isExternalUrl = false,
+  title, location = 'London, Remote', type = 'Permanent', url,
 }: {
-  title: string, location?: string, type?: string, url?: string, isExternalUrl?: boolean
+  title: string, location?: string, type?: string, url?: string,
 }) => {
   return (
     <div className="careers-section__listing">
@@ -30,7 +30,6 @@ const JobListing = ({
           subtitle={`${location} • ${type}`}
           ctaText="Apply now"
           ctaUrl={url}
-          isExternalUrl={isExternalUrl}
         />
       ) : (
         <div className="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined">
@@ -42,7 +41,6 @@ const JobListing = ({
             variant="secondary"
             withChevron
             url={url}
-            isExternalUrl={isExternalUrl}
           >
             Apply now
           </CTALinkOrButton>

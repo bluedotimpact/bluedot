@@ -30,7 +30,6 @@ export const ClickableCard: Story = {
     subtitle: 'This entire card is clickable.',
     ctaUrl: 'https://example.com',
     isEntireCardClickable: true,
-    isExternalUrl: true,
   },
 };
 
@@ -42,7 +41,6 @@ export const CardWithFooter: Story = {
     ctaUrl: 'https://example.com',
     ctaText: 'Learn More',
     footerContent: <div>Footer Content Here</div>,
-    isExternalUrl: false,
   },
 };
 
@@ -54,7 +52,6 @@ export const CardWithCustomStyling: Story = {
     ctaUrl: 'https://example.com',
     ctaText: 'Learn More',
     footerContent: <span>Commonly you will want to add a border or similar via `className`</span>,
-    isExternalUrl: true,
     className: 'w-[250px] container-lined p-4',
   },
 };

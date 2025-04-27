@@ -1,8 +1,9 @@
 import { PressEvent, Button as ReactAriaButton, Link as ReactAriaLink } from 'react-aria-components';
+import NextLink from 'next/link';
 
 export type ClickTargetProps = React.PropsWithChildren<{
   className?: string;
-  onPress?: (e: PressEvent) => void;
+  onClick?: ((e: PressEvent) => void) | (() => void);
   url?: string,
   target?: React.HTMLAttributeAnchorTarget,
   disabled?: boolean;
@@ -10,29 +11,37 @@ export type ClickTargetProps = React.PropsWithChildren<{
 }>;
 
 export const ClickTarget = ({
-  children, className, onPress, disabled, url, target, 'aria-label': ariaLabel,
+  children, className, onClick, disabled, url, target, 'aria-label': ariaLabel,
 }: ClickTargetProps) => {
   if (url) {
     return (
-      <ReactAriaLink
-        className={className}
-        onPress={onPress}
+      <NextLink
         href={url}
-        target={target}
-        isDisabled={disabled}
-        aria-label={ariaLabel}
-      >{children}
-      </ReactAriaLink>
+        passHref
+        legacyBehavior
+      >
+        <ReactAriaLink
+          className={className}
+          onPress={onClick ? (e) => { e.continuePropagation(); return onClick(e); } : undefined}
+          href={url}
+          target={target}
+          isDisabled={disabled}
+          aria-label={ariaLabel}
+        >
+          {children}
+        </ReactAriaLink>
+      </NextLink>
     );
   }
 
   return (
     <ReactAriaButton
       className={className}
-      onPress={onPress}
+      onPress={onClick ? (e) => { e.continuePropagation(); return onClick(e); } : undefined}
       isDisabled={disabled}
       aria-label={ariaLabel}
-    >{children}
+    >
+      {children}
     </ReactAriaButton>
   );
 };

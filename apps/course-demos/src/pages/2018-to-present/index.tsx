@@ -97,7 +97,7 @@ const DemoPage: React.FC = () => {
             <ClickTarget
               // eslint-disable-next-line react/no-array-index-key -- stable as prompts array is constant
               key={index}
-              onPress={() => setSelectedPromptIndex(index)}
+              onClick={() => setSelectedPromptIndex(index)}
               className={`text-sm border rounded p-2 hover:bg-stone-100 cursor-pointer ${index === selectedPromptIndex ? 'bg-stone-200' : ''}`}
             >
               {prompt.shortText ?? prompt.text}

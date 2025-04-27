@@ -55,7 +55,6 @@ export const WithLink: Story = {
           variant="primary"
           withChevron
           url="https://example.com"
-          isExternalUrl
         >
           Learn More
         </CTALinkOrButton>

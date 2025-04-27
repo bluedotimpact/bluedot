@@ -47,7 +47,9 @@ exports[`Nav > renders with courses 1`] = `
           </button>
           <a
             class="bluedot-a nav__logo-link shrink-0 w-[200px] no-underline"
+            data-rac=""
             href="/"
+            tabindex="0"
           >
             <img
               alt="BlueDot Impact Logo"
@@ -82,25 +84,33 @@ exports[`Nav > renders with courses 1`] = `
           </div>
           <a
             class="bluedot-a nav-links__link nav-link-animation no-underline"
+            data-rac=""
             href="/about"
+            tabindex="0"
           >
             About us
           </a>
           <a
             class="bluedot-a nav-links__link nav-link-animation no-underline"
+            data-rac=""
             href="/join-us"
+            tabindex="0"
           >
             Join us
           </a>
           <a
             class="bluedot-a nav-links__link nav-link-animation no-underline"
+            data-rac=""
             href="https://bluedot.org/blog/"
+            tabindex="0"
           >
             Blog
           </a>
           <a
             class="bluedot-a nav-links__link nav-link-animation no-underline"
+            data-rac=""
             href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+            tabindex="0"
           >
             Events
           </a>
@@ -113,8 +123,9 @@ exports[`Nav > renders with courses 1`] = `
           >
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
-              data-testid="cta-link"
+              data-rac=""
               href="http://localhost:3000/login?redirect_to=%2F"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -124,8 +135,9 @@ exports[`Nav > renders with courses 1`] = `
             </a>
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
+              data-rac=""
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -149,13 +161,17 @@ exports[`Nav > renders with courses 1`] = `
           </h3>
           <a
             class="bluedot-a nav-explore-section__dropdown-link no-underline"
+            data-rac=""
             href="/course1"
+            tabindex="0"
           >
             Course 1
           </a>
           <a
             class="bluedot-a nav-explore-section__dropdown-link no-underline"
+            data-rac=""
             href="/course2"
+            tabindex="0"
           >
             <span
               class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
@@ -208,13 +224,17 @@ exports[`Nav > renders with courses 1`] = `
                   </h3>
                   <a
                     class="bluedot-a nav-explore-section__dropdown-link no-underline"
+                    data-rac=""
                     href="/course1"
+                    tabindex="0"
                   >
                     Course 1
                   </a>
                   <a
                     class="bluedot-a nav-explore-section__dropdown-link no-underline"
+                    data-rac=""
                     href="/course2"
+                    tabindex="0"
                   >
                     <span
                       class="nav-explore-section__new-badge text-bluedot-normal font-black pr-2"
@@ -228,25 +248,33 @@ exports[`Nav > renders with courses 1`] = `
             </div>
             <a
               class="bluedot-a nav-links__link nav-link-animation no-underline"
+              data-rac=""
               href="/about"
+              tabindex="0"
             >
               About us
             </a>
             <a
               class="bluedot-a nav-links__link nav-link-animation no-underline"
+              data-rac=""
               href="/join-us"
+              tabindex="0"
             >
               Join us
             </a>
             <a
               class="bluedot-a nav-links__link nav-link-animation no-underline"
+              data-rac=""
               href="https://bluedot.org/blog/"
+              tabindex="0"
             >
               Blog
             </a>
             <a
               class="bluedot-a nav-links__link nav-link-animation no-underline"
+              data-rac=""
               href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+              tabindex="0"
             >
               Events
             </a>
@@ -256,8 +284,9 @@ exports[`Nav > renders with courses 1`] = `
           >
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
-              data-testid="cta-link"
+              data-rac=""
               href="http://localhost:3000/login?redirect_to=%2F"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -267,8 +296,9 @@ exports[`Nav > renders with courses 1`] = `
             </a>
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
-              data-testid="cta-link"
+              data-rac=""
               href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -287,19 +317,25 @@ exports[`Nav > renders with courses 1`] = `
         >
           <a
             class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            data-rac=""
             href="/profile"
+            tabindex="0"
           >
             Profile
           </a>
           <a
             class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            data-rac=""
             href="/contact"
+            tabindex="0"
           >
             Help
           </a>
           <a
             class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            data-rac=""
             href="/login/clear"
+            tabindex="0"
           >
             Log out
           </a>

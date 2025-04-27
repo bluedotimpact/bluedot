@@ -102,7 +102,7 @@ export default makeApiRoute({
 On the client side, `withAuth` forces users to login to view the page and means you will get an auth token. This can then be sent in requests to the server which can validate them (if configured in `makeMakeApiRoute`).
 
 ```typescript
-import { withAuth, Button } from '@bluedot/ui';
+import { withAuth, CTALinkOrButton } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 
 const GroupsPage = withAuth(({ auth, setAuth }) => {
@@ -124,7 +124,7 @@ const GroupsPage = withAuth(({ auth, setAuth }) => {
           <p>{group.name}</p>
         ))}
       </div>
-      <Button onPress={() => setAuth(null)}>Log out</Button>
+      <CTALinkOrButton onClick={() => setAuth(null)}>Log out</CTALinkOrButton>
     </>
   );
 });

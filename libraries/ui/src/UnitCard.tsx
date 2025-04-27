@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Tag } from './Tag';
+import { ClickTarget } from './ClickTarget';
 
 export type UnitCardProps = {
   // Required
@@ -24,8 +25,8 @@ export const UnitCard: React.FC<UnitCardProps> = ({
   url,
 }) => {
   return (
-    <a
-      href={url}
+    <ClickTarget
+      url={url}
       className={clsx(
         'unit-card p-4 flex flex-col gap-2 justify-between',
         className,
@@ -43,6 +44,6 @@ export const UnitCard: React.FC<UnitCardProps> = ({
           <Tag>{duration} mins</Tag>
         </div>
       )}
-    </a>
+    </ClickTarget>
   );
 };

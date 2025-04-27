@@ -16,8 +16,10 @@ exports[`Breadcrumbs > renders all urls and titles in the document 1`] = `
           class="breadcrumbs__item flex items-center"
         >
           <a
-            class="breadcrumbs__link bluedot-a no-underline"
+            class="bluedot-a breadcrumbs__link no-underline"
+            data-rac=""
             href="/"
+            tabindex="0"
           >
             HomePage
           </a>
@@ -31,8 +33,10 @@ exports[`Breadcrumbs > renders all urls and titles in the document 1`] = `
           class="breadcrumbs__item flex items-center"
         >
           <a
-            class="breadcrumbs__link bluedot-a no-underline"
+            class="bluedot-a breadcrumbs__link no-underline"
+            data-rac=""
             href="/about"
+            tabindex="0"
           >
             AboutPage
           </a>

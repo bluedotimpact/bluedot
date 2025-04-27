@@ -1,5 +1,4 @@
 import {
-  EXTERNAL_LINK_PROPS,
   HeroSection,
   HeroH1,
   HeroH2,
@@ -24,7 +23,7 @@ const PrivacyPolicyPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="prose">
         <p>
-          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS}>14964572</a>). You can contact us via the details on <a href={ROUTES.contact.url}>our contact page</a>.
+          BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572">14964572</a>). You can contact us via the details on <a href={ROUTES.contact.url}>our contact page</a>.
         </p>
         <p>
           We are a data controller. This means we make decisions about how your information is used, and have a responsibility to protect your rights when we do so.

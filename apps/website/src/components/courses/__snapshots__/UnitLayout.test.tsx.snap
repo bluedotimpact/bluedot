@@ -35,8 +35,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
+              data-rac=""
               href="/"
+              tabindex="0"
             >
               Home
             </a>
@@ -50,8 +52,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
+              data-rac=""
               href="/courses"
+              tabindex="0"
             >
               Courses
             </a>
@@ -65,8 +69,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
+              data-rac=""
               href="/courses/test-course"
+              tabindex="0"
             >
               What the fish [Test Course]
             </a>
@@ -91,7 +97,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <a
                 class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                data-rac=""
                 href="/courses/test-course/1"
+                tabindex="0"
               >
                 <div
                   class="unit-card__item flex flex-col gap-2"
@@ -116,7 +124,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </a>
               <a
                 class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                data-rac=""
                 href="/courses/test-course/2"
+                tabindex="0"
               >
                 <div
                   class="unit-card__item flex flex-col gap-2"
@@ -141,7 +151,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </a>
               <a
                 class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                data-rac=""
                 href="/courses/test-course/3"
+                tabindex="0"
               >
                 <div
                   class="unit-card__item flex flex-col gap-2"
@@ -166,7 +178,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </a>
               <a
                 class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                data-rac=""
                 href="/courses/test-course/4"
+                tabindex="0"
               >
                 <div
                   class="unit-card__item flex flex-col gap-2"
@@ -191,7 +205,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </a>
               <a
                 class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                data-rac=""
                 href="/courses/test-course/5"
+                tabindex="0"
               >
                 <div
                   class="unit-card__item flex flex-col gap-2"
@@ -227,8 +243,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <a
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
-                data-testid="cta-link"
+                data-rac=""
                 href="/courses/test-course/2"
+                tabindex="0"
               >
                 <span
                   class="cta-button__text"
@@ -266,8 +283,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <a
   class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter unit__cta-link mr-auto"
-  data-testid="cta-link"
+  data-rac=""
   href="/courses/test-course/1"
+  tabindex="0"
 >
   <span
     class="cta-button__chevron mr-3"

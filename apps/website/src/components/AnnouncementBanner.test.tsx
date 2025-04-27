@@ -39,7 +39,7 @@ describe('AnnouncementBanner', () => {
     expect(cta).toBeDefined();
 
     // Check if the CTALinkOrButton has the correct props
-    const ctaLink = screen.getByTestId('cta-link');
+    const ctaLink = screen.getByRole('link');
     expect(ctaLink).toBeDefined();
     expect(ctaLink.getAttribute('href')).toBe('https://example.com');
     expect(ctaLink.textContent).toBe('Learn more'); // Default text
@@ -52,7 +52,7 @@ describe('AnnouncementBanner', () => {
       </AnnouncementBanner>,
     );
 
-    const ctaLink = screen.getByTestId('cta-link');
+    const ctaLink = screen.getByRole('link');
     expect(ctaLink.textContent).toBe('Click Here');
   });
 
