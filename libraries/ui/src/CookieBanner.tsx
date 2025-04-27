@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import posthog from 'posthog-js';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-type CookieBannerProps = {
+export type CookieBannerProps = {
   // Optional
   className?: string
 };

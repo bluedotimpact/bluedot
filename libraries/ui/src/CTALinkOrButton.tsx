@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 
-export type CTAProps = {
+export type CTALinkOrButtonProps = {
   className?: string;
   variant?: 'primary' | 'secondary';
   withChevron?: boolean;
@@ -19,7 +19,7 @@ const CTA_VARIANT_STYLES = {
   secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
 } as const;
 
-export const CTALinkOrButton: React.FC<CTAProps> = ({
+export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   className,
   variant = 'primary',
   withChevron = false,

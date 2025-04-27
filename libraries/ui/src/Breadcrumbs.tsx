@@ -17,7 +17,7 @@ export type BluedotRoute = {
   parentPages?: Pick<BluedotRoute, 'title' | 'url'>[];
 };
 
-type BreadcrumbsProps = {
+export type BreadcrumbsProps = {
   route: BluedotRoute;
   className?: string;
 };
