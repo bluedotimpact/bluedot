@@ -1,3 +1,4 @@
+import { ClickTarget } from '@bluedot/ui';
 import React from 'react';
 import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa6';
 
@@ -16,30 +17,27 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
 
   return (
     <div className="social-share flex flex-row gap-4">
-      <a
+      <ClickTarget
         className="social-share__link size-6"
-        href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text ? `&text=${text}` : ''}`}
+        url={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(constructFullCourseUrl('linkedin'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
-        rel="noopener noreferrer"
       >
         <FaLinkedin className="social-share__link-icon size-6" />
-      </a>
-      <a
+      </ClickTarget>
+      <ClickTarget
         className="social-share__link size-6"
-        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(constructFullCourseUrl('twitter'))}${text ? `&text=${text}` : ''}`}
+        url={`https://twitter.com/intent/tweet?url=${encodeURIComponent(constructFullCourseUrl('twitter'))}${text ? `&text=${text}` : ''}`}
         target="_blank"
-        rel="noopener noreferrer"
       >
         <FaTwitter className="social-share__link-icon size-6" />
-      </a>
-      <a
+      </ClickTarget>
+      <ClickTarget
         className="social-share__link size-6"
-        href="https://www.facebook.com/sharer/sharer.php"
+        url="https://www.facebook.com/sharer/sharer.php"
         target="_blank"
-        rel="noopener noreferrer"
       >
         <FaFacebook className="social-share__link-icon size-6" />
-      </a>
+      </ClickTarget>
     </div>
   );
 };

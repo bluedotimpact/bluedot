@@ -32,7 +32,8 @@ exports[`CourseSection > renders as expected 1`] = `
         <span>
           <a
             class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-section__featured"
-            href="/courses/future-of-ai/"
+            href="/courses/future-of-ai"
+            tabindex="0"
           >
             <div
               class="course-card__content block md:flex gap-space-between w-full"
@@ -52,9 +53,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 </h3>
                 <button
                   class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
-                  data-rac=""
-                  id="react-aria-:r0:"
-                  tabindex="0"
                   type="button"
                 >
                   <span

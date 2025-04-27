@@ -49,7 +49,6 @@ exports[`StorySection > renders default as expected 1`] = `
           </p>
           <a
             class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-            data-rac=""
             href="/about"
             tabindex="0"
           >

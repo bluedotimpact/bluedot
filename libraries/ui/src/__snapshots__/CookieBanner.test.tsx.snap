@@ -12,7 +12,6 @@ exports[`CookieBanner > renders as expected 1`] = `
        
       <a
         class="bluedot-a"
-        data-rac=""
         href="https://bluedot.org/privacy-policy"
         tabindex="0"
       >
@@ -25,9 +24,6 @@ exports[`CookieBanner > renders as expected 1`] = `
     >
       <button
         class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
-        data-rac=""
-        id="react-aria-:r0:"
-        tabindex="0"
         type="button"
       >
         <span
@@ -38,9 +34,6 @@ exports[`CookieBanner > renders as expected 1`] = `
       </button>
       <button
         class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
-        data-rac=""
-        id="react-aria-:r2:"
-        tabindex="0"
         type="button"
       >
         <span

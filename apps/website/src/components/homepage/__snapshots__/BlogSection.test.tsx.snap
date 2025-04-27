@@ -26,7 +26,6 @@ exports[`BlogSection > renders default as expected 1`] = `
       >
         <a
           class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
-          data-rac=""
           href="https://bluedot.org/blog/teach-swap-explain-activity/"
           tabindex="0"
         >
@@ -57,7 +56,6 @@ exports[`BlogSection > renders default as expected 1`] = `
         </a>
         <a
           class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
-          data-rac=""
           href="https://bluedot.org/blog/why-we-run-our-ai-safety-courses/"
           tabindex="0"
         >
@@ -88,7 +86,6 @@ exports[`BlogSection > renders default as expected 1`] = `
         </a>
         <a
           class="blog-section__blog-post-container w-full flex flex-col sm:flex-row items-start align-top justify-between py-6 last:border-b-0 border-b border-color-divider sm:gap-6"
-          data-rac=""
           href="https://bluedot.org/blog/ai-alignment-june-2024-retro/"
           tabindex="0"
         >
@@ -126,7 +123,6 @@ exports[`BlogSection > renders default as expected 1`] = `
       </div>
       <a
         class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-        data-rac=""
         href="https://bluedot.org/blog/"
         tabindex="0"
       >
