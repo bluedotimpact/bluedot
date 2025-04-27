@@ -16,7 +16,7 @@ export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
     type: z.literal('success'),
-    exercise: z.any().optional(),
+    exercise: z.any(),
   }),
 }, async (body, { raw }) => {
   const { exerciseId } = raw.req.query;
@@ -26,6 +26,10 @@ export default makeApiRoute({
       const exercise = (await db.scan(exerciseTable, {
         filterByFormula: `{[*] Record ID} = "${exerciseId}"`,
       }))[0];
+
+      if (!exercise) {
+        throw new createHttpError.NotFound('Exercise not found');
+      }
 
       return {
         type: 'success' as const,

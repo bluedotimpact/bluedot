@@ -9,7 +9,7 @@ import {
 
 export type GetExerciseResponseResponse = {
   type: 'success',
-  exerciseResponse: ExerciseResponse,
+  exerciseResponse?: ExerciseResponse,
 };
 
 export type PutExerciseResponseRequest = {
