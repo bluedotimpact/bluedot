@@ -34,7 +34,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
               >
                 2021
               </p>
@@ -63,7 +63,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
               >
                 2022
               </p>
@@ -99,7 +99,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
               >
                 2023
               </p>
@@ -128,7 +128,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
               >
                 2024
               </p>
@@ -161,7 +161,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
               >
                 2025
               </p>

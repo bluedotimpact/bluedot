@@ -10,12 +10,12 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="hero-section__content max-w-[865px] py-12"
       >
         <div
-          class="hero-section__mini-title text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
         >
           What the fish [Test Course]
         </div>
         <h1
-          class="hero-section__title text-on-dark text-center bluedot-h1"
+          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
         >
           Basic Principles of Fish
         </h1>
