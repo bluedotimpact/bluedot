@@ -7,7 +7,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>room</title>
+        <title>BlueDot Room</title>
       </Head>
       <main className="bluedot-base">
         <Component {...pageProps} />

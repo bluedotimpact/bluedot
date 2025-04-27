@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, Button, LegacyText, Input, withAuth, Link,
+  NewText, Input, withAuth, ErrorSection, CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
@@ -48,12 +48,7 @@ const RoomControlPage = withAuth(({ auth }) => {
 
   if (error || !room) {
     return (
-      <div className="p-8">
-        <div className="max-w-2xl mx-auto">
-          <LegacyText.H1 className="text-red-600">Error</LegacyText.H1>
-          <LegacyText.P className="text-red-700">{asError(error || 'Missing room data').message}</LegacyText.P>
-        </div>
-      </div>
+      <ErrorSection error={error || new Error('Missing room data')} />
     );
   }
 
@@ -103,7 +98,7 @@ const RoomControlPage = withAuth(({ auth }) => {
       <div className="max-w-2xl mx-auto">
         <div className="container-lined p-8 my-4 space-y-4">
           <div className="flex items-center justify-between">
-            <LegacyText.H2 className="!mt-0">{room.name}</LegacyText.H2>
+            <NewText.H3 className="!mt-0">{room.name}</NewText.H3>
             <div className="hidden sm:block">
               <RoomHealthIndicator status={room.status} />
             </div>
@@ -113,9 +108,9 @@ const RoomControlPage = withAuth(({ auth }) => {
             room.status.currentUrl === defaultDisplayUrl ? (
               <div className="grid md:grid-cols-[1fr_0_1fr] gap-4 md:gap-8 items-center">
                 <div>
-                  <Button onPress={() => setPiCurrentUrl('https://meet.google.com/landing?instantMeeting=true')}>
+                  <CTALinkOrButton onClick={() => setPiCurrentUrl('https://meet.google.com/landing?instantMeeting=true')}>
                     <div className="flex gap-1.5 items-center"><FaPlus /> Start instant meeting</div>
-                  </Button>
+                  </CTALinkOrButton>
                 </div>
                 <div className="flex md:flex-col gap-1.5 items-center h-full">
                   <div className="border-t md:border-l border-stone-500 flex-1" />
@@ -132,30 +127,31 @@ const RoomControlPage = withAuth(({ auth }) => {
                       placeholder="Meeting code or URL"
                       className="flex-1"
                     />
-                    <Button
-                      onPress={() => setPiCurrentUrl(meetingUrl)}
+                    <CTALinkOrButton
+                      onClick={() => setPiCurrentUrl(meetingUrl)}
                       disabled={!meetingUrl}
-                      className="!self-center"
+                      variant="secondary"
+                      className="h-9"
                     >
                       Join
-                    </Button>
+                    </CTALinkOrButton>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
-                <LegacyText.P>Currently viewing <Link url={room.status.currentUrl} className="underline">{room.status.currentUrl}</Link></LegacyText.P>
-                <Button onPress={() => setPiCurrentUrl(defaultDisplayUrl)}>
+              <div className="flex flex-col gap-4">
+                <NewText.P>Currently viewing <NewText.A href={room.status.currentUrl} className="underline">{room.status.currentUrl}</NewText.A></NewText.P>
+                <CTALinkOrButton onClick={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
-                </Button>
+                </CTALinkOrButton>
               </div>
             )
           )}
 
           {!isRoomHealthy(room.status) && (
             <div>
-              <LegacyText.P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</LegacyText.P>
-              <LegacyText.P>Make sure the meeting room device is turned on and has an internet connection.</LegacyText.P>
+              <NewText.P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</NewText.P>
+              <NewText.P>Make sure the meeting room device is turned on and has an internet connection.</NewText.P>
             </div>
           )}
         </div>
