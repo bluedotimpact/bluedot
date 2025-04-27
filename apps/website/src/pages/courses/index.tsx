@@ -21,8 +21,6 @@ const CoursePage = () => {
     url: '/api/courses',
   });
 
-  console.log({ data });
-
   return (
     <div>
       <Head>
