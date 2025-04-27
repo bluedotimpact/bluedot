@@ -6,8 +6,8 @@
     "turbo_filter": "npm run build && node dist/turbo-filter.js",
     "deploy_array": "npm run build && node dist/deploy-array.js",
     "build": "tsc",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "npm run lint -- --fix",
     "test": "vitest run",
     "test:watch": "vitest"
   },
