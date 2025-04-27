@@ -1,10 +1,6 @@
 import { Item, Table } from 'airtable-ts';
 import env from '../env';
 
-// Use production bases by default
-const { COURSES_BASE_ID } = env || 'appbiNKDcn1sGPGOG';
-const { APPLICATIONS_BASE_ID } = env || 'appnJbsG1eWbAdEvf';
-
 export type Course = {
   certificationBadgeImage: string,
   certificatonDescription: string,
@@ -22,12 +18,12 @@ export type Course = {
   level: string,
   averageRating: number | null,
   publicLastUpdated: string | null,
-  // numGraduates: number, TODO
+  // numGraduates: number, // TODO
 } & Item;
 
 export const courseTable: Table<Course> = {
   name: 'Course',
-  baseId: COURSES_BASE_ID,
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tbl6nq5AVLKINBJ73',
   mappings: {
     certificationBadgeImage: 'fldwOxukk9OyUPWDX',
@@ -45,7 +41,7 @@ export const courseTable: Table<Course> = {
     level: 'fldkL7aWITGCPqzxc',
     averageRating: 'fldONpnyJ4OG0StDY',
     publicLastUpdated: 'fld8g5mMsPqOm75Vz',
-    // numGraduates: '', TODO
+    // numGraduates: '', // TODO
   },
   schema: {
     certificationBadgeImage: 'string',
@@ -63,7 +59,7 @@ export const courseTable: Table<Course> = {
     level: 'string',
     averageRating: 'number | null',
     publicLastUpdated: 'string | null',
-    // numGraduates: 'number', TODO
+    // numGraduates: 'number', // TODO
   },
 };
 
@@ -96,7 +92,7 @@ export type UnitFeedback = {
 
 export const unitFeedbackTable: Table<UnitFeedback> = {
   name: 'UnitFeedback',
-  baseId: COURSES_BASE_ID,
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblBwjMjul1c6l7ea',
   mappings: {
     unitId: 'fldYqvWII6kuxCCmH',
@@ -134,7 +130,7 @@ export type Unit = {
 
 export const unitTable: Table<Unit> = {
   name: 'Unit',
-  baseId: COURSES_BASE_ID,
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
     courseId: 'fldLmQZ0ISTr7xQUE',
@@ -178,7 +174,7 @@ export type Exercise = {
 
 export const exerciseTable: Table<Exercise> = {
   name: 'Exercise',
-  baseId: COURSES_BASE_ID,
+  baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tbla7lc2MtSSbWVvS',
   mappings: {
     answer: 'fldFcZVVo8Wg4GSmA',
@@ -216,7 +212,7 @@ export type ExerciseResponse = {
 
 export const exerciseResponseTable: Table<ExerciseResponse> = {
   name: 'Exercise response',
-  baseId: APPLICATIONS_BASE_ID,
+  baseId: 'appnJbsG1eWbAdEvf',
   tableId: 'tblLNijbqwoLtkd3O',
   mappings: {
     email: 'fldI5oHurlbNjQJmM',
@@ -251,7 +247,7 @@ export type CourseRegistration = {
 
 export const courseRegistrationTable: Table<CourseRegistration> = {
   name: 'Course registration',
-  baseId: APPLICATIONS_BASE_ID,
+  baseId: 'appnJbsG1eWbAdEvf',
   tableId: 'tblXKnWoXK3R63F6D',
   mappings: {
     userId: 'fldyVcp78eIfqmai3',
@@ -298,7 +294,7 @@ export type User = {
 
 export const userTable: Table<User> = {
   name: 'User',
-  baseId: APPLICATIONS_BASE_ID,
+  baseId: 'appnJbsG1eWbAdEvf',
   tableId: 'tblCgeKADNDSCXPpR',
   mappings: {
     email: 'fldLAGRfn7S6uEVRo',
