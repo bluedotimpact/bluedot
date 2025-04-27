@@ -13,6 +13,11 @@ export type Course = {
   shortDescription: string,
   title: string,
   units: string[],
+  cadence: string,
+  level: string,
+  averageRating: number | null,
+  publicLastUpdated: string | null,
+  // numGraduates: number, // TODO
 } & Item;
 
 export const courseTable: Table<Course> = {
@@ -31,6 +36,11 @@ export const courseTable: Table<Course> = {
     shortDescription: 'fld0KVXjcZkSpBOIT',
     title: 'fldUyKGqFb7OiY0KF',
     units: 'fldxi3h4LD2Bs3efO',
+    cadence: 'fldTI1NI7ocFIWcmv',
+    level: 'fldkL7aWITGCPqzxc',
+    averageRating: 'fldONpnyJ4OG0StDY',
+    publicLastUpdated: 'fld8g5mMsPqOm75Vz',
+    // numGraduates: '', // TODO
   },
   schema: {
     certificationBadgeImage: 'string',
@@ -44,6 +54,11 @@ export const courseTable: Table<Course> = {
     shortDescription: 'string',
     title: 'string',
     units: 'string[]',
+    cadence: 'string',
+    level: 'string',
+    averageRating: 'number | null',
+    publicLastUpdated: 'string | null',
+    // numGraduates: 'number', // TODO
   },
 };
 

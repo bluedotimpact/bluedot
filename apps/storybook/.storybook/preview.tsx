@@ -1,5 +1,5 @@
-import './globals.css'
 import '../../website/src/globals.css'
+import './globals.css'
 
 import React from 'react';
 import type { Preview, StoryFn } from '@storybook/react';

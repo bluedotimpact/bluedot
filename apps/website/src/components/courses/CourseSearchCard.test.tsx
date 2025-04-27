@@ -20,7 +20,9 @@ describe('CourseSearchCard', () => {
       <CourseSearchCard
         {...defaultProps}
         description="A short description of the course"
-        duration="10 days"
+        cadence="Weekly"
+        level="Beginner"
+        averageRating={4.6534563}
         imageSrc="/courses/what-the-fish/image.png"
       />,
     );
