@@ -70,7 +70,7 @@ const ProfilePage = withAuth(({ auth }) => {
   return (
     <div>
       <Head>
-        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
       {loading && <ProgressDots />}
       {error && <ErrorSection error={error} />}

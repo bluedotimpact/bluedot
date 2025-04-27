@@ -15,7 +15,7 @@ const PrivacyPolicyPage = () => {
   return (
     <div>
       <Head>
-        <title>{CURRENT_ROUTE.title} | BlueDot Impact</title>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
       <HeroSection>
         <HeroH1>Privacy Policy</HeroH1>
