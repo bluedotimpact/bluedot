@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
-  Box, Button, LegacyText, Input, Link,
+  Button, NewText, Input, Card,
+  CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetPeopleResponse } from './api/public/people';
@@ -17,24 +18,26 @@ const HomePage = () => {
   });
 
   return (
-    <div className="mx-8">
-      <LegacyText.H1>Adam's page!</LegacyText.H1>
-      <LegacyText.P>Increment by:</LegacyText.P>
+    <div className="section-body gap-4">
+      <NewText.H1>Adam's page!</NewText.H1>
+      <NewText.P>Increment by:</NewText.P>
       <Input type="number" value={incrementBy} onChange={(e) => setIncrementBy(e.target.valueAsNumber)} />
 
-      <LegacyText.P className="mt-8">Value is {value}</LegacyText.P>
-      <Button onPress={() => setValue((c) => c + incrementBy)}>+</Button>
-      <Button onPress={() => setValue((c) => c - incrementBy)} className="ml-2">-</Button>
+      <NewText.P>Value is {value}</NewText.P>
+      <div className="flex gap-2">
+        <CTALinkOrButton onClick={() => setValue((c) => c + incrementBy)}>+</CTALinkOrButton>
+        <CTALinkOrButton onClick={() => setValue((c) => c - incrementBy)}>-</CTALinkOrButton>
+      </div>
 
-      <LegacyText.H2>People</LegacyText.H2>
+      <NewText.H2>People</NewText.H2>
       {loading
-        ? <LegacyText.P className="animate-pulse">Loading...</LegacyText.P>
+        ? <NewText.P className="animate-pulse">Loading...</NewText.P>
         : (
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
-              <Box className="px-4 py-2">
-                <LegacyText.P>{person.firstName} {person.lastName} (<Link url={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>view in Airtable</Link>)</LegacyText.P>
-              </Box>
+              <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
+                <NewText.P><NewText.A href={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+              </Card>
             ))}
           </div>
         )}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LegacyText } from '@bluedot/ui';
+import { NewText } from '@bluedot/ui';
 
 const Dewi = () => {
   const [value, setValue] = useState(0);
@@ -26,9 +26,9 @@ const Dewi = () => {
   }, [value]); // Dependency array to run effect when value changes
 
   return (
-    <div className="mx-8">
-      <LegacyText.H1>Dewi's magic page</LegacyText.H1>
-      <LegacyText.P className="mt-8">Value is {value}</LegacyText.P>
+    <div className="section-body gap-4">
+      <NewText.H1>Dewi's magic page</NewText.H1>
+      <NewText.P>Value is {value}</NewText.P>
       <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
     </div>
   );
