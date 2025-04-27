@@ -14,7 +14,7 @@ exports[`JoinUsCta > renders default as expected 1`] = `
         Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
       </h3>
       <a
-        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
         data-testid="cta-link"
         href="/careers"
       >
