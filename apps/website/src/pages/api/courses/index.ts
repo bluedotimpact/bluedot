@@ -29,12 +29,16 @@ export const buildFormula = ({ cadence, level }: { cadence?: string[], level?: s
     : formulaParts[0];
 };
 
+const coursesRequestBodySchema = z.object({
+  cadence: z.array(z.string()).optional(),
+  level: z.array(z.string()).optional(),
+}).optional();
+
+export type CoursesRequestBody = z.infer<typeof coursesRequestBodySchema>;
+
 export default makeApiRoute({
   requireAuth: false,
-  requestBody: z.object({
-    cadence: z.array(z.string()).optional(),
-    level: z.array(z.string()).optional(),
-  }).optional(),
+  requestBody: coursesRequestBodySchema,
   responseBody: z.object({
     type: z.literal('success'),
     courses: z.array(z.any()),

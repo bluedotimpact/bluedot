@@ -8,13 +8,13 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../lib/routes';
-import { GetCoursesResponse } from '../api/courses';
-import { CourseDirectory, CourseFilters } from '../../components/courses/CourseDirectory';
+import type { CoursesRequestBody, GetCoursesResponse } from '../api/courses';
+import CourseDirectory from '../../components/courses/CourseDirectory';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  const [requestBody, setRequestBody] = useState<CourseFilters>();
+  const [requestBody, setRequestBody] = useState<CoursesRequestBody>();
 
   const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
     url: '/api/courses',
@@ -54,7 +54,7 @@ const CoursePage = () => {
         displayLoading={displayLoading}
         displayError={displayError}
         noResults={noResults}
-        setFilters={setRequestBody}
+        refetch={setRequestBody}
       />
     </div>
   );

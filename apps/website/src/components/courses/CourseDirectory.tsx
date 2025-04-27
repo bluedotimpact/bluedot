@@ -4,6 +4,8 @@ import {
   useEffect,
   FC,
   useCallback,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { AxiosError } from 'axios';
 import clsx from 'clsx';
@@ -14,65 +16,50 @@ import {
 } from '@bluedot/ui';
 import { H3, P } from '@bluedot/ui/src/Text';
 import { FaFilter } from 'react-icons/fa6';
-import { GetCoursesResponse } from '../../pages/api/courses';
+import type { CoursesRequestBody, GetCoursesResponse } from '../../pages/api/courses';
 import { CourseSearchCard } from './CourseSearchCard';
 
-export type Option = {
+type Option = {
   value: string;
   label: string;
 };
 
-export const CADENCE_OPTIONS: Option[] = [
+const CADENCE_OPTIONS: Option[] = [
   { value: 'MOOC', label: 'Self-paced' },
   { value: 'Daily', label: 'Daily' },
   { value: 'Weekly', label: 'Weekly' },
 ];
-export const LEVEL_OPTIONS: Option[] = [
+const LEVEL_OPTIONS: Option[] = [
   { value: 'Beginner', label: 'Beginner' },
   { value: 'Intermediate', label: 'Intermediate' },
   { value: 'Advanced', label: 'Advanced' },
 ];
-
-export type CourseFilters = {
-  cadence: string[];
-  level: string[];
-};
 
 type CourseDirectoryProps = {
   displayData: GetCoursesResponse | undefined;
   displayLoading: boolean;
   displayError: AxiosError<unknown, unknown> | null | undefined;
   noResults: boolean;
-  setFilters: (filters: CourseFilters) => void;
+  refetch: (filters: CoursesRequestBody) => void;
 };
 
-export const CourseDirectory: FC<CourseDirectoryProps> = ({
+const CourseDirectory: FC<CourseDirectoryProps> = ({
   displayData,
   displayLoading,
   displayError,
   noResults,
-  setFilters,
+  refetch,
 }) => {
   const [selectedCadences, setSelectedCadences] = useState<string[]>(CADENCE_OPTIONS.map((c) => c.value));
   const [selectedLevels, setSelectedLevels] = useState<string[]>(LEVEL_OPTIONS.map((l) => l.value));
   const [filtersOpenMobile, setFiltersOpenMobile] = useState(false);
 
-  const handleCadenceChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    setSelectedCadences((prev) => (checked ? [...prev, value] : prev.filter((c) => c !== value)));
-  };
-
-  const handleLevelChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    setSelectedLevels((prev) => (checked ? [...prev, value] : prev.filter((l) => l !== value)));
-  };
-
   useEffect(() => {
-    setFilters({
+    refetch({
       cadence: selectedCadences,
       level: selectedLevels,
     });
-  }, [selectedCadences, selectedLevels, setFilters]);
+  }, [selectedCadences, selectedLevels, refetch]);
 
   const showFilterActiveDot = selectedCadences.length !== CADENCE_OPTIONS.length || selectedLevels.length !== LEVEL_OPTIONS.length;
 
@@ -80,27 +67,34 @@ export const CourseDirectory: FC<CourseDirectoryProps> = ({
     title: string,
     options: Option[],
     selectedValues: string[],
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
-  ) => (
-    <div>
-      <P className="font-semibold mb-2">{title}</P>
-      {options.map((option) => (
-        <div key={option.value} className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id={`${title.toLowerCase()}-${option.value}`}
-            value={option.value}
-            checked={selectedValues.includes(option.value)}
-            onChange={onChange}
-            className="form-checkbox size-4 text-blue-600 transition duration-150 ease-in-out"
-          />
-          <label htmlFor={`${title.toLowerCase()}-${option.value}`}>
-            {option.label}
-          </label>
-        </div>
-      ))}
-    </div>
-  ), []);
+    setValues: Dispatch<SetStateAction<string[]>>,
+  ) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const { value, checked } = event.target;
+      setValues((prev) => (checked ? [...prev, value] : prev.filter((l) => l !== value)));
+    };
+
+    return (
+      <div className="course-directory__filter-group">
+        <P className="font-semibold mb-2">{title}</P>
+        {options.map((option) => (
+          <div key={option.value} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id={`${title.toLowerCase()}-${option.value}`}
+              value={option.value}
+              checked={selectedValues.includes(option.value)}
+              onChange={handleChange}
+              className="form-checkbox size-4 text-blue-600 transition duration-150 ease-in-out"
+            />
+            <label htmlFor={`${title.toLowerCase()}-${option.value}`}>
+              {option.label}
+            </label>
+          </div>
+        ))}
+      </div>
+    );
+  }, []);
 
   return (
     <Section className="course-directory">
@@ -122,8 +116,8 @@ export const CourseDirectory: FC<CourseDirectoryProps> = ({
             </button>
           </div>
           <div className={clsx('course-directory__filters md:flex md:flex-col gap-6', filtersOpenMobile ? 'flex' : 'hidden')}>
-            {renderFilterGroup('Cadence', CADENCE_OPTIONS, selectedCadences, handleCadenceChange)}
-            {renderFilterGroup('Level', LEVEL_OPTIONS, selectedLevels, handleLevelChange)}
+            {renderFilterGroup('Cadence', CADENCE_OPTIONS, selectedCadences, setSelectedCadences)}
+            {renderFilterGroup('Level', LEVEL_OPTIONS, selectedLevels, setSelectedLevels)}
           </div>
         </div>
         <div className="course-directory__results flex flex-col gap-4">
@@ -154,3 +148,5 @@ export const CourseDirectory: FC<CourseDirectoryProps> = ({
     </Section>
   );
 };
+
+export default CourseDirectory;
