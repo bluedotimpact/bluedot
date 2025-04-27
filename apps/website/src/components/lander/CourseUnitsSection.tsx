@@ -18,7 +18,6 @@ export const CourseUnit: React.FC<CourseUnitProps> = ({
   className = '',
   id,
 }) => (
-  /* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */
   <div className={`p-6 bg-cream-normal rounded-lg ${className}`} id={id}>
     <P className="uppercase font-semibold text-gray-600">Unit {unitNumber}</P>
     {children}

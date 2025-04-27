@@ -6,8 +6,8 @@
     "types": "src/index.ts",
     "scripts": {
         "build": "tsc",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix"
     },
     "dependencies": {
         "@ts-rest/core": "^3.41.1",

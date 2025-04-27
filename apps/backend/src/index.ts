@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { getInstance } from './app';
 import { migrateDb } from './db/migrations/migrator';
 

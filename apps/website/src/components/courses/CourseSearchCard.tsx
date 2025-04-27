@@ -42,7 +42,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
             {title}
           </H3>
           {description && (
-            <P className="course-search-card__description text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6">
+            <P className="course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-6">
               {description}
             </P>
           )}

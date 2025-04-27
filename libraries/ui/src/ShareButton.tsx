@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { Button } from './legacy/Button';
 import { Modal } from './Modal';
 import { LinkOrButton } from './legacy/LinkOrButton';
+import { ErrorView } from './ErrorView';
 
 interface SocialButtonProps {
   icon: ReactNode;
@@ -26,7 +27,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
       <div className={`size-12 rounded-full border flex items-center justify-center ${color} group-hover:bg-slate-100`}>
         {icon}
       </div>
-      <span className="mt-2 text-sm">{children}</span>
+      <span className="mt-2 text-size-sm">{children}</span>
     </LinkOrButton>
   );
 };
@@ -46,6 +47,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [shareError, setShareError] = useState<unknown | null>(null);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleShare = async () => {
@@ -62,8 +64,8 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
       setShareUrl(finalUrl);
       setIsOpen(true);
     } catch (error) {
-      console.error('Error sharing:', error);
-      alert('Failed to share');
+      setShareError(error);
+      setIsOpen(true);
     } finally {
       setIsSharing(false);
     }
@@ -108,41 +110,45 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
       </Button>
 
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Share">
-        <div className="flex justify-center gap-10 m-8">
-          <SocialButton
-            icon={<FaFacebook size={24} />}
-            color="text-blue-600"
-            onPress={() => shareToSocial('facebook')}
-          >
-            Facebook
-          </SocialButton>
+        {shareError ? <ErrorView error={shareError} /> : (
+          <>
+            <div className="flex justify-center gap-10 m-8">
+              <SocialButton
+                icon={<FaFacebook size={24} />}
+                color="text-blue-600"
+                onPress={() => shareToSocial('facebook')}
+              >
+                Facebook
+              </SocialButton>
 
-          <SocialButton
-            icon={<FaXTwitter size={24} />}
-            color="text-black"
-            onPress={() => shareToSocial('x')}
-          >
-            X
-          </SocialButton>
+              <SocialButton
+                icon={<FaXTwitter size={24} />}
+                color="text-black"
+                onPress={() => shareToSocial('x')}
+              >
+                X
+              </SocialButton>
 
-          <SocialButton
-            icon={<FaLinkedin size={24} />}
-            color="text-blue-700"
-            onPress={() => shareToSocial('linkedin')}
-          >
-            LinkedIn
-          </SocialButton>
-        </div>
+              <SocialButton
+                icon={<FaLinkedin size={24} />}
+                color="text-blue-700"
+                onPress={() => shareToSocial('linkedin')}
+              >
+                LinkedIn
+              </SocialButton>
+            </div>
 
-        <div className="mt-10 flex max-w-xs">
-          <p className="w-full px-3 py-2 border rounded-md text-gray-700 select-all mr-2 whitespace-nowrap overflow-x-auto">{shareUrl}</p>
-          <AriaButton
-            onPress={handleCopyToClipboard}
-            className={clsx('bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md', isCopied && '!bg-green-100')}
-          >
-            {isCopied ? <span className="inline-flex items-center gap-1.5 text-sm"><FaCheck className="text-green-800" /> Copied</span> : <FaCopy />}
-          </AriaButton>
-        </div>
+            <div className="mt-10 flex max-w-xs">
+              <p className="w-full px-3 py-2 border rounded-md text-gray-700 select-all mr-2 whitespace-nowrap overflow-x-auto">{shareUrl}</p>
+              <AriaButton
+                onPress={handleCopyToClipboard}
+                className={clsx('bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md', isCopied && '!bg-green-100')}
+              >
+                {isCopied ? <span className="inline-flex items-center gap-1.5 text-size-sm"><FaCheck className="text-green-800" /> Copied</span> : <FaCopy />}
+              </AriaButton>
+            </div>
+          </>
+        )}
       </Modal>
     </>
   );

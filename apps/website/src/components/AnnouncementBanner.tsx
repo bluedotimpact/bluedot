@@ -37,7 +37,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
     )}
     >
       <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-        <P className="announcement-banner__content text-size-m text-center sm:text-left">{children}</P>
+        <P className="announcement-banner__content text-center sm:text-left">{children}</P>
         {ctaUrl && (
           <CTALinkOrButton
             className="announcement-banner__cta"

@@ -108,7 +108,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     Basic Principles of Fish
                   </p>
                   <p
-                    class="unit-card__description text-size-s"
+                    class="unit-card__description"
                   >
                     Master the fundamental concepts of fish biology, behavior, and basic aquatic principles.
                   </p>
@@ -133,7 +133,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     What Fish Are People Catching, and Why?
                   </p>
                   <p
-                    class="unit-card__description text-size-s"
+                    class="unit-card__description"
                   >
                     Explore current trends in fishing technology and the motives behind different fishing approaches.
                   </p>
@@ -158,7 +158,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     The Promise of Fish
                   </p>
                   <p
-                    class="unit-card__description text-size-s"
+                    class="unit-card__description"
                   >
                     Understand how fish will revolutionize everything from the economy to your social life.
                   </p>
@@ -183,7 +183,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     The Risks of Fish
                   </p>
                   <p
-                    class="unit-card__description text-size-s"
+                    class="unit-card__description"
                   >
                     Explore what could go wrong when fish gain too much power.
                   </p>
@@ -208,7 +208,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     Contributing to Fish Safety
                   </p>
                   <p
-                    class="unit-card__description text-size-s"
+                    class="unit-card__description"
                   >
                     Learn how you can help create a better world for fish (and their reluctant human neighbors).
                   </p>

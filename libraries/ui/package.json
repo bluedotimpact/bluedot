@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "npm run lint -- --fix",
     "test": "vitest --run",
     "test:update": "vitest --u --watch=false"
   },

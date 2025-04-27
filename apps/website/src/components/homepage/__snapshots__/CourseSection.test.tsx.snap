@@ -41,7 +41,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 class="course-card__text"
               >
                 <p
-                  class="course-card__featured-label uppercase font-[650] text-xs mb-3 bluedot-p"
+                  class="course-card__featured-label uppercase font-[650] text-size-xs mb-3 bluedot-p"
                 >
                   Featured course
                 </p>
@@ -62,7 +62,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   </span>
                 </button>
                 <p
-                  class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
+                  class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
                 >
                   A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.
                 </p>
@@ -81,7 +81,7 @@ exports[`CourseSection > renders as expected 1`] = `
               class="course-card__footer flex justify-between w-full"
             >
               <p
-                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
               >
                 <span
                   class="course-card__length font-medium"
@@ -162,7 +162,7 @@ exports[`CourseSection > renders as expected 1`] = `
                               class="course-card__footer flex justify-between w-full"
                             >
                               <p
-                                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
                               >
                                 <span
                                   class="course-card__length font-medium"
@@ -233,7 +233,7 @@ exports[`CourseSection > renders as expected 1`] = `
                               class="course-card__footer flex justify-between w-full"
                             >
                               <p
-                                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
                               >
                                 <span
                                   class="course-card__length font-medium"
@@ -304,7 +304,7 @@ exports[`CourseSection > renders as expected 1`] = `
                               class="course-card__footer flex justify-between w-full"
                             >
                               <p
-                                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
                               >
                                 <span
                                   class="course-card__length font-medium"

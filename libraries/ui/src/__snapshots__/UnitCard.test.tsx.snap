@@ -21,7 +21,7 @@ exports[`UnitCard > renders default as expected 1`] = `
         Title
       </p>
       <p
-        class="unit-card__description text-size-s"
+        class="unit-card__description"
       >
         Description
       </p>
@@ -51,7 +51,7 @@ exports[`UnitCard > renders with optional args 1`] = `
         Title
       </p>
       <p
-        class="unit-card__description text-size-s"
+        class="unit-card__description"
       >
         Description
       </p>

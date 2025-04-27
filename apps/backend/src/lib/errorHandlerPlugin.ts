@@ -12,6 +12,7 @@ export const errorHandlerPlugin: FastifyPluginAsync = fp(async (instance) => {
     try {
       await mainErrorHandler(error, request, reply);
     } catch (errorHandlerError) {
+      // eslint-disable-next-line no-console
       console.error('Critical error: error handler threw error', errorHandlerError);
       reply.status(500).send({ statusCode: 500, message: 'Internal error handling error' });
     }
@@ -32,6 +33,7 @@ const mainErrorHandler = async (
 
   // Log details of unexpected errors
   if (!('statusCode' in error) || typeof error.statusCode !== 'number' || typeof error.message !== 'string' || error.statusCode >= 500) {
+    // eslint-disable-next-line no-console
     console.error('Internal error processing request: ', error);
     // Add details to response for expected errors
   } else {

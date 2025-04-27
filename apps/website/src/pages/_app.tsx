@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import posthog from 'posthog-js';
-/* eslint-disable import/no-extraneous-dependencies */
 import { PostHogProvider } from 'posthog-js/react';
 import {
   CTALinkOrButton,

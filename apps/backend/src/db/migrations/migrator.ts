@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Migrator } from 'kysely';
 import { db } from '../client';
 import { migrations } from './list';

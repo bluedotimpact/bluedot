@@ -128,7 +128,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
   }, [value, cellRefs, dragState, mainGrid]);
 
   return (
-    <div className="w-full touch-none text-xs text-stone-500">
+    <div className="w-full touch-none text-size-xs text-stone-500">
       <div className="flex">
         <div className="w-12" />
         <div className="grid grid-cols-7 w-full text-center">
@@ -210,7 +210,7 @@ TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
     <div className="sm:flex gap-4">
       <TimeAvailabilityGrid value={field.value} onChange={(v) => field.onChange(v)} show24={show24} />
       <div className="sm:w-40 sm:mt-4 flex sm:flex-col gap-2">
-        <Button className="w-full text-sm" onPress={() => setShow24(!show24)}>
+        <Button className="w-full text-size-sm" onPress={() => setShow24(!show24)}>
           Show {show24 ? 'less' : 'more'}
         </Button>
       </div>

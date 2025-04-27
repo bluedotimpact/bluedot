@@ -59,7 +59,7 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
           Title
         </h3>
         <p
-          class="bluedot-p course-search-card__description text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6"
+          class="bluedot-p course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-6"
         >
           A short description of the course
         </p>

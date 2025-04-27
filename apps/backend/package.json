@@ -12,8 +12,8 @@
         "createLock": "tsup tools/createLock.ts --outDir dist_tools --external @npmcli/arborist && NODE_ENV=development node dist_tools/createLock.js",
         "test": "vitest --run",
         "test:watch": "vitest",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix"
     },
     "dependencies": {
         "@bluedot/backend-contract": "*",

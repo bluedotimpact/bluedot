@@ -11,9 +11,9 @@ import { GetCourseRegistrationResponse } from '../../pages/api/course-registrati
 import { ROUTES } from '../../lib/routes';
 import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
 
-type CertificateLinkCardProps = {
+interface CertificateLinkCardProps {
   courseId: string;
-};
+}
 
 const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
   courseId,
@@ -117,7 +117,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
           </div>
           <div>
             <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
-            <p className="text-size-s text-bluedot-darker">Issued on {formattedCertificateDate}</p>
+            <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
           </div>
         </div>
         <CTALinkOrButton

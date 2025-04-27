@@ -69,15 +69,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   }, [formattedExerciseResponse, setValue]);
 
   const onSubmit = useCallback(async (data: FormData) => {
-    try {
-      const isAnswerCorrect = data.answer === formattedAnswer;
-      console.log('submitted this answer: ', data.answer, ' and is it correct? ', isAnswerCorrect);
-      await onExerciseSubmit(data.answer, isAnswerCorrect);
-      setIsEditing(false);
-    } catch (e) {
-      console.log('error', e);
-      // Set some state for the error and render it
-    }
+    const isAnswerCorrect = data.answer === formattedAnswer;
+    await onExerciseSubmit(data.answer, isAnswerCorrect);
+    setIsEditing(false);
   }, [onExerciseSubmit]);
 
   const isCorrect = formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;

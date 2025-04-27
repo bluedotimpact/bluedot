@@ -1,12 +1,10 @@
 const defaultTokens = {
   // Text sizes
   'text-xs': 'text-size-xs',
-  'text-sm': 'text-size-s',
-  'text-base': 'text-size-m',
-  'text-lg': 'text-size-l',
+  'text-sm': 'text-size-sm',
+  'text-base': 'text-size-md',
+  'text-lg': 'text-size-lg',
   'text-xl': 'text-size-xl',
-  'text-2xl': 'text-size-2xl',
-  'text-3xl': 'text-size-3xl',
 };
 
 /** @type {import('eslint').Rule.RuleModule} */

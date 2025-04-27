@@ -17,7 +17,6 @@ interface FeatureProps {
 
 const Feature = ({ icon: Icon, children }: FeatureProps) => (
   <div className="flex items-center gap-2">
-    {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
     <Icon className="text-2xl" />
     <span>{children}</span>
   </div>

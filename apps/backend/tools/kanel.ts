@@ -6,6 +6,7 @@ import { db } from '../src/db/client';
 
 async function run() {
   if (process.env.CI) {
+    // eslint-disable-next-line no-console
     console.warn('Skipping kanel script in CI, because no Postgres database to use to generate files');
     return;
   }
