@@ -98,7 +98,6 @@ const Form: React.FC<{
       }
     } catch (e) {
       setError(e);
-      console.log(e);
     }
     setSubmitting(false);
   };

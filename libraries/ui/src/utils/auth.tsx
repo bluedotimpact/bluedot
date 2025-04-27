@@ -82,7 +82,8 @@ export const useAuthStore = create<{
     // Set up clear timer as fallback
     const clearTimer = setTimeout(
       () => {
-        console.error('Auth token expired, logging out user...');
+        // eslint-disable-next-line no-console
+        console.warn('Auth token expired, logging out user...');
         set({ auth: null, internal_clearTimer: null });
       },
       clearInMs,

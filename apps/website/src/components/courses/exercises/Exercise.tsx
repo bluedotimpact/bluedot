@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
-import { useAuthStore } from '@bluedot/ui';
+import { ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 import { GetExercise } from '../../../pages/api/courses/exercises/[exerciseId]';
@@ -19,18 +20,24 @@ const Exercise: React.FC<ExerciseProps> = ({
 
   const auth = useAuthStore((s) => s.auth);
 
-  const [{ data: exerciseData }] = useAxios<GetExercise>({
+  const [{ data: exerciseData, loading: exerciseLoading, error: exerciseError }] = useAxios<GetExercise>({
     method: 'get',
     url: `/api/courses/exercises/${exerciseId}`,
   });
 
-  const [{ data: responseData }, refetch] = useAxios<GetExerciseResponseResponse>({
+  const [{ data: responseData, error: exerciseResponseError }, fetchExerciseResponse] = useAxios<GetExerciseResponseResponse>({
     method: 'get',
     url: `/api/courses/exercises/${exerciseId}/response`,
-    headers: auth ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-  });
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  }, { manual: true });
+
+  useEffect(() => {
+    if (auth) {
+      fetchExerciseResponse().catch(() => { /* no op, as we handle errors above */ });
+    }
+  }, [auth]);
 
   const handleExerciseSubmit = useCallback(async (exerciseResponse: string, completed?: boolean) => {
     await axios.put<unknown, unknown, PutExerciseResponseRequest>(
@@ -46,12 +53,15 @@ const Exercise: React.FC<ExerciseProps> = ({
       },
     );
 
-    await refetch();
-  }, [exerciseId, auth, refetch]);
+    await fetchExerciseResponse().catch(() => { /* no op, as we handle errors above */ });
+  }, [exerciseId, auth, fetchExerciseResponse]);
 
-  if (!exerciseData || !exerciseData.exercise) {
-    console.error('Exercise not found');
-    return null;
+  if (exerciseLoading) {
+    return <ProgressDots />;
+  }
+
+  if (exerciseError || exerciseResponseError || !exerciseData) {
+    return <ErrorView error={exerciseError || exerciseResponseError || new Error('Failed to load exercise')} />;
   }
 
   switch (exerciseData.exercise.type) {

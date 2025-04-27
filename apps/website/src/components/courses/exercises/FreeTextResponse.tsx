@@ -45,13 +45,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   }, [exerciseResponse, setValue]);
 
   const onSubmit = useCallback(async (data: FormData) => {
-    try {
-      await onExerciseSubmit(data.answer, data.answer.trim().length > 0);
-      setIsEditing(false);
-    } catch (e) {
-      console.log('error', e);
-      // Set some state for the error and render it
-    }
+    await onExerciseSubmit(data.answer, data.answer.trim().length > 0);
+    setIsEditing(false);
   }, [onExerciseSubmit]);
 
   return (

@@ -83,10 +83,8 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
 
       <Container className="grid md:flex gap-6 md:gap-12 items-center py-10">
         <div>
-          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
           <H2 className="text-3xl font-serif font-bold">Our reality</H2>
           <P className="text-size-md mt-4">Millions spend their days doing tasks they'd rather not, in jobs that drain rather than fulfil them, serving economic structures that benefit few at the expense of many.</P>
-          {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
           <H2 className="text-3xl font-serif font-bold mt-10">The opportunity</H2>
           <P className="text-size-md mt-4">Now, AI is about to automate most human jobs — creating an unprecedented opportunity to <span className="italic">make work optional</span>. This technological revolution could free humanity from drudgery while addressing our greatest challenges — but only if we get the transition right.</P>
         </div>
@@ -138,7 +136,6 @@ export const LandingPageContent = ({ ctaUrl }: { ctaUrl: string }) => {
       </Container>
 
       <Container bgClassname="bg-bluedot-lighter" className="py-16">
-        {/* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */}
         <H2 className="text-3xl font-light font-serif text-center ">
           AI will reshape every aspect of society - from jobs and education to science and healthcare. <span className="text-bluedot-normal">We all need to understand what's ahead.</span>
         </H2>

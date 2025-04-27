@@ -15,7 +15,6 @@ const Quote = ({
   children,
   className = '',
 }: QuoteProps) => (
-  /* eslint-disable-next-line @bluedot/custom/no-default-tailwind-tokens */
   <P className={`font-serif text-size-lg md:text-3xl mb-3 md:mr-20 ${className}`}>
     "{children}"
   </P>
