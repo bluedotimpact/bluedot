@@ -19,7 +19,7 @@ exports[`Footer > renders default as expected 1`] = `
             href="/"
           >
             <p
-              class="h-8 text-xl text-white bluedot-p"
+              class="h-8 text-size-lg text-white bluedot-p"
             >
               BlueDot Impact
             </p>
@@ -287,7 +287,7 @@ exports[`Footer > renders default as expected 1`] = `
         </div>
       </nav>
       <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
+        class="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
       >
         © 
         2025
@@ -610,7 +610,7 @@ exports[`Footer > renders with optional args 1`] = `
         </div>
       </nav>
       <p
-        class="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
+        class="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
       >
         © 
         2025

@@ -13,7 +13,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
         class="course-card__text"
       >
         <p
-          class="course-card__featured-label uppercase font-[650] text-xs mb-3 bluedot-p"
+          class="course-card__featured-label uppercase font-[650] text-size-xs mb-3 bluedot-p"
         >
           Featured course
         </p>
@@ -34,7 +34,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           </span>
         </button>
         <p
-          class="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
+          class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
         >
           Description
         </p>
@@ -53,7 +53,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
       class="course-card__footer flex justify-between w-full"
     >
       <p
-        class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+        class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
       >
         <span
           class="course-card__length font-medium"
@@ -113,7 +113,7 @@ exports[`CourseCard > renders default as expected 1`] = `
               class="course-card__footer flex justify-between w-full"
             >
               <p
-                class="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p"
+                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
               >
                 <span
                   class="course-card__length font-medium"

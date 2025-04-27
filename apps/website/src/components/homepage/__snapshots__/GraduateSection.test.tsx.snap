@@ -51,7 +51,7 @@ exports[`GraduateSection > renders default as expected 1`] = `
                 />
               </div>
               <div
-                class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
+                class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-size-xs border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
               >
                 +
                 4000

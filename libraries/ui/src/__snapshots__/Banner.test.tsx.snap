@@ -31,7 +31,7 @@ exports[`Banner > renders with input and button 1`] = `
       class="banner__form flex flex-row items-center justify-center gap-space-between mt-6"
     >
       <input
-        class="banner__input p-2 rounded-sm border font-sans text-base font-normal text-center w-80"
+        class="banner__input p-2 rounded-sm border font-sans text-size-md font-normal text-center w-80"
         placeholder="you@example.com"
         type="text"
         value=""
