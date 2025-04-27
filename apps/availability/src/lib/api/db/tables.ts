@@ -1,11 +1,11 @@
 import { Table, Item } from 'airtable-ts';
 
-export interface FormConfiguration extends Item {
+export type FormConfiguration = {
   'Slug': string,
   'Title': string,
   'Webhook': string,
   'Minimum length': number,
-}
+} & Item;
 
 export const formConfigurationTable: Table<FormConfiguration> = {
   name: 'form configuration',

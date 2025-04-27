@@ -4,11 +4,11 @@ import { Button } from './legacy/Button';
 import { Modal } from './Modal';
 
 // Wrapper component to handle the modal state
-interface ModalDemoProps {
+type ModalDemoProps = {
   title?: string;
   children?: React.ReactNode;
   initialOpen?: boolean;
-}
+};
 
 const ModalDemo: React.FC<ModalDemoProps> = ({
   title = 'Modal Title',

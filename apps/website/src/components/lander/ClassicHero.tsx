@@ -10,10 +10,10 @@ import { ReactNode } from 'react';
 import { getCtaUrl } from './getCtaUrl';
 
 // Feature item component
-interface FeatureProps {
+type FeatureProps = {
   icon: IconType;
   children: ReactNode;
-}
+};
 
 const Feature = ({ icon: Icon, children }: FeatureProps) => (
   <div className="flex items-center gap-2">
@@ -23,10 +23,10 @@ const Feature = ({ icon: Icon, children }: FeatureProps) => (
 );
 
 // Title component
-interface TitleProps {
+type TitleProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 const Title = ({ children, className = '' }: TitleProps) => (
   <HeroH1 className={`font-serif text-5xl sm:text-7xl font-normal ${className}`}>
@@ -35,10 +35,10 @@ const Title = ({ children, className = '' }: TitleProps) => (
 );
 
 // Subtitle component
-interface SubtitleProps {
+type SubtitleProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 const Subtitle = ({ children, className = '' }: SubtitleProps) => (
   <HeroH2 className={`text-size-md sm:text-size-lg font-light max-w-2xl mx-auto mt-10 ${className}`}>
@@ -47,11 +47,11 @@ const Subtitle = ({ children, className = '' }: SubtitleProps) => (
 );
 
 // CTA component
-interface CTAProps {
+type CTAProps = {
   variant: string;
   children: ReactNode;
   className?: string;
-}
+};
 
 const CTA = ({ variant, children, className = '' }: CTAProps) => (
   <HeroCTAContainer className={className}>
@@ -60,10 +60,10 @@ const CTA = ({ variant, children, className = '' }: CTAProps) => (
 );
 
 // Features container component
-interface FeaturesProps {
+type FeaturesProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 const Features = ({ children, className = '' }: FeaturesProps) => (
   <div className={`flex flex-wrap justify-center gap-6 sm:gap-20 mt-10 uppercase font-bold ${className}`}>
@@ -72,10 +72,10 @@ const Features = ({ children, className = '' }: FeaturesProps) => (
 );
 
 // Main ClassicHero component
-interface ClassicHeroProps {
+type ClassicHeroProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 const ClassicHero = ({ children, className = '' }: ClassicHeroProps) => {
   return (

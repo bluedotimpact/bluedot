@@ -229,7 +229,7 @@ export const services: ServiceDefinition[] = [
   },
 ];
 
-interface ServiceDefinition {
+type ServiceDefinition = {
   /**
    * A name for the service. It should be unique and kebab case.
    * This gets used in the names of Pulumi and Kubernetes resources.
@@ -269,4 +269,4 @@ interface ServiceDefinition {
    * @default 8080
    * */
   targetPort?: number,
-}
+};

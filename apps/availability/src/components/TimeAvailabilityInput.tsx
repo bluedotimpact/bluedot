@@ -34,7 +34,7 @@ const isWithin = (
   );
 };
 
-type TimeAvailabilityMap = { [weeklyTime: wa.WeeklyTime]: boolean };
+type TimeAvailabilityMap = Record<wa.WeeklyTime, boolean>;
 
 const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityMap, onChange: (v: TimeAvailabilityMap) => void }> = ({ show24, value, onChange }) => {
   const startUnit = show24 ? 0 : (8 * 60) / MINUTES_IN_UNIT;

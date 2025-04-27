@@ -15,12 +15,12 @@ import { Nav } from '../Nav';
 import GraduateSection from '../homepage/GraduateSection';
 import { H2, P } from '../Text';
 
-export interface LandingPageBaseProps {
+export type LandingPageBaseProps = {
   /** Hero component to render */
   hero: React.ReactNode;
   /** Variant name, used for analytics */
   variant: string;
-}
+};
 
 const LandingPageBase = ({ hero, variant }: LandingPageBaseProps) => {
   const ctaUrl = getCtaUrl(variant);

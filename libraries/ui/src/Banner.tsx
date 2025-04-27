@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-export interface BannerProps {
+export type BannerProps = {
   title: string;
   className?: string;
   inputPlaceholder?: string;
   buttonText?: string;
   showInput?: boolean;
   showButton?: boolean;
-}
+};
 
 export const Banner: React.FC<BannerProps> = ({
   title, className, inputPlaceholder = 'you@example.com', // Default placeholder

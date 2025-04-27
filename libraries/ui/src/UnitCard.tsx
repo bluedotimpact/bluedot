@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Tag } from './Tag';
 
-export interface UnitCardProps {
+export type UnitCardProps = {
   // Required
   title: string,
   unitNumber: string,
@@ -12,7 +12,7 @@ export interface UnitCardProps {
   description?: string,
   duration?: number,
   isCurrentUnit?: boolean,
-}
+};
 
 export const UnitCard: React.FC<UnitCardProps> = ({
   className,

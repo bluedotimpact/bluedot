@@ -1,8 +1,8 @@
 import { LegacyText } from '@bluedot/ui';
 
-export interface ExampleComponentProps {
+export type ExampleComponentProps = {
   name?: string,
-}
+};
 
 export const ExampleComponent: React.FC<ExampleComponentProps> = ({ name }) => {
   return (

@@ -62,9 +62,9 @@ describe('withClickTracking', () => {
   });
 
   it('renders the wrapped component with its original props', () => {
-    interface TestProps {
+    type TestProps = {
       testProp: string;
-    }
+    };
     const TestComponent = ({ testProp }: TestProps) => <div>{testProp}</div>;
 
     const WrappedComponent = withClickTracking(TestComponent);

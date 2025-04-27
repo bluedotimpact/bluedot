@@ -2,12 +2,12 @@ import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import { H3, P } from '../Text';
 
-interface CourseUnitProps {
+type CourseUnitProps = {
   unitNumber: string;
   id?: string;
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * CourseUnit component - container for a single course unit
@@ -24,10 +24,10 @@ export const CourseUnit: React.FC<CourseUnitProps> = ({
   </div>
 );
 
-interface CourseUnitTitleProps {
+type CourseUnitTitleProps = {
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * CourseUnitTitle component - title for a course unit
@@ -39,10 +39,10 @@ export const CourseUnitTitle: React.FC<CourseUnitTitleProps> = ({
   <H3 className={`text-size-lg font-semibold my-2 ${className}`}>{children}</H3>
 );
 
-interface CourseUnitDescriptionProps {
+type CourseUnitDescriptionProps = {
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * CourseUnitDescription component - description for a course unit
@@ -54,10 +54,10 @@ export const CourseUnitDescription: React.FC<CourseUnitDescriptionProps> = ({
   <P className={`text-gray-600 ${className}`}>{children}</P>
 );
 
-interface CourseUnitsSectionProps {
+type CourseUnitsSectionProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 /**
  * Section component for displaying course units using compound component pattern

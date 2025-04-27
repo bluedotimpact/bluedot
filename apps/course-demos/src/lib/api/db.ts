@@ -8,12 +8,12 @@ export default new AirtableTs({
 
 export const demoTypes = z.literal('generate-react-component');
 
-export interface SharedDemoOutput extends Item {
+export type SharedDemoOutput = {
   id: string,
   type: z.infer<typeof demoTypes>,
   data: string,
   createdAt: number,
-}
+} & Item;
 
 export const sharedDemoOutputTable: Table<SharedDemoOutput> = {
   name: 'SharedComponents',

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ShareButton } from '@bluedot/ui';
 
-interface ShareSavedDemoButtonProps {
+type ShareSavedDemoButtonProps = {
   type: string;
   data: string;
   text: string;
-}
+};
 
 export const ShareSavedDemoButton: React.FC<ShareSavedDemoButtonProps> = ({
   type,

@@ -32,12 +32,12 @@ import {
   FaCode,
 } from 'react-icons/fa6';
 
-interface ToolbarButtonProps {
+type ToolbarButtonProps = {
   onPress: () => void;
   isActive: boolean;
   icon: React.ReactNode;
   'aria-label'?: string;
-}
+};
 
 const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   onPress,
@@ -58,9 +58,9 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({
   );
 };
 
-interface ToolbarProps {
+type ToolbarProps = {
   editor: Editor;
-}
+};
 
 const ToolbarDivider: React.FC = () => {
   return <div className="h-4 w-px bg-gray-300 mx-1" />;
@@ -120,10 +120,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   );
 };
 
-interface MarkdownEditorProps {
+type MarkdownEditorProps = {
   children?: string;
   onChange?: (markdown: string) => void;
-}
+};
 
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) => {
   const editor = useEditor({

@@ -3,10 +3,10 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import { P } from '../Text';
 
-interface TestimonialQuoteProps {
+type TestimonialQuoteProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 /**
  * TestimonialQuote component - displays the testimonial quote text
@@ -20,10 +20,10 @@ export const TestimonialQuote: React.FC<TestimonialQuoteProps> = ({
   </P>
 );
 
-interface TestimonialAttributionProps {
+type TestimonialAttributionProps = {
   children: ReactNode;
   className?: string;
-}
+};
 
 /**
  * TestimonialAttribution component - displays the testimonial attribution
@@ -37,11 +37,11 @@ export const TestimonialAttribution: React.FC<TestimonialAttributionProps> = ({
   </P>
 );
 
-interface TestimonialCTAProps {
+type TestimonialCTAProps = {
   url: string;
   className?: string;
   children: ReactNode;
-}
+};
 
 /**
  * TestimonialCTA component - displays the call-to-action button
@@ -61,11 +61,11 @@ export const TestimonialCTA: React.FC<TestimonialCTAProps> = ({
   </>
 );
 
-interface SingleTestimonialSectionProps {
+type SingleTestimonialSectionProps = {
   imgSrc: string;
   children: ReactNode;
   className?: string;
-}
+};
 
 /**
  * Displays a single testimonial with a CTA button using compound component pattern

@@ -1,8 +1,8 @@
 import { asError, LegacyText } from '@bluedot/ui';
 
-export interface ErrorPageProps {
+export type ErrorPageProps = {
   error: unknown,
-}
+};
 
 export const ErrorPage: React.FC<ErrorPageProps> = ({ error }) => {
   return (

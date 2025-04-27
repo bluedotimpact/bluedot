@@ -115,11 +115,11 @@ const ProfilePage = withAuth(({ auth }) => {
   );
 });
 
-interface ProfileCourseCardProps {
+type ProfileCourseCardProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   user: User;
-}
+};
 
 const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration, user }) => {
   const isCompleted = !!courseRegistration.certificateId;

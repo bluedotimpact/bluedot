@@ -61,7 +61,7 @@ export const authPlugin: FastifyPluginAsync = fp(async (instance) => {
 });
 
 declare module 'fastify' {
-  interface FastifyRequest {
+  type FastifyRequest = {
     user: Zod.TypeOf<typeof IdTokenPayloadSchema>
-  }
+  };
 }

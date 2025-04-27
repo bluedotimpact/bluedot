@@ -11,9 +11,9 @@ import { GetCourseRegistrationResponse } from '../../pages/api/course-registrati
 import { ROUTES } from '../../lib/routes';
 import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
 
-interface CertificateLinkCardProps {
+type CertificateLinkCardProps = {
   courseId: string;
-}
+};
 
 const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
   courseId,

@@ -32,13 +32,13 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   };
 };
 
-export interface Auth {
+export type Auth = {
   token: string,
   /** ms unix timestamp */
   expiresAt: number,
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
-}
+};
 
 export const useAuthStore = create<{
   auth: Auth | null,

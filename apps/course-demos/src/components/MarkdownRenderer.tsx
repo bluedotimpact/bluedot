@@ -2,9 +2,9 @@ import React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-interface MarkdownRendererProps {
+type MarkdownRendererProps = {
   children?: string;
-}
+};
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ children }) => {
   return (
