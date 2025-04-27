@@ -79,7 +79,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install NPM dependencies
-        run: npm ci --audit false --fund false --workspace ${{ matrix.app }}
+        run: npm ci --audit false --fund false
 
       - name: Configure infra deployment
         if: matrix.app == '@bluedot/infra'
