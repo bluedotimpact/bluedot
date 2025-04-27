@@ -64,7 +64,6 @@ exports[`FAQSection > renders default as expected 1`] = `
             You can read more about these 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://aisafetyfundamentals.com/blog/what-is-ai-alignment/"
               tabindex="0"
             >
@@ -73,7 +72,6 @@ exports[`FAQSection > renders default as expected 1`] = `
              and the 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://aisafetyfundamentals.com/blog/ai-risks/"
               tabindex="0"
             >
@@ -121,7 +119,6 @@ exports[`FAQSection > renders default as expected 1`] = `
             Check you are the 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
               tabindex="0"
             >
@@ -130,7 +127,6 @@ exports[`FAQSection > renders default as expected 1`] = `
              and read our tips for making a 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
               tabindex="0"
             >
@@ -177,7 +173,6 @@ exports[`FAQSection > renders default as expected 1`] = `
             We’d love for you to do this! All our reading and discussion materials are freely available online. You are welcome to run a local version of our course so long as you 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://bluedot.org/running-versions-of-our-courses/"
               tabindex="0"
             >
@@ -191,7 +186,6 @@ exports[`FAQSection > renders default as expected 1`] = `
             If you want tips for your discussion facilitation, we recommend taking a look through our 
             <a
               class="bluedot-a"
-              data-rac=""
               href="https://course.bluedot.org/home/facilitator-training"
               tabindex="0"
             >

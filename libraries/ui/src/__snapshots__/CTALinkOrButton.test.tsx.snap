@@ -45,9 +45,6 @@ exports[`CTALinkOrButton > renders chevron when withChevron is true 1`] = `
 exports[`CTALinkOrButton > renders with primary variant by default as a button 1`] = `
 <button
   class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark"
-  data-rac=""
-  id="react-aria-:r0:"
-  tabindex="0"
   type="button"
 >
   <span

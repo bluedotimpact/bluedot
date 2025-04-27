@@ -43,7 +43,6 @@ exports[`Error404Page > should render correctly 1`] = `
           >
             <a
               class="bluedot-a breadcrumbs__link no-underline"
-              data-rac=""
               href="/"
               tabindex="0"
             >
@@ -60,7 +59,6 @@ exports[`Error404Page > should render correctly 1`] = `
           >
             <a
               class="bluedot-a breadcrumbs__link no-underline"
-              data-rac=""
               href="/an-invalid-path"
               tabindex="0"
             >
