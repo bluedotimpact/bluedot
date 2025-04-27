@@ -13,7 +13,7 @@ export type CTALinkOrButtonProps = {
   isExternalUrl?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap';
+const CTA_BASE_STYLES = 'cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer';
 
 const CTA_VARIANT_STYLES = {
   primary: 'cta-button--primary bg-bluedot-normal link-on-dark',

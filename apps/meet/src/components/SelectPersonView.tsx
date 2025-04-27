@@ -1,10 +1,13 @@
 import useAxios from 'axios-hooks';
 import axios, { AxiosResponse } from 'axios';
-import { Button, ErrorSection, Link } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ErrorSection, NewText,
+  ProgressDots,
+} from '@bluedot/ui';
+import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
 import { Page } from './Page';
-import { H1 } from './Text';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from '../pages/api/public/record-attendance';
 
 export type SelectPersonViewProps = {
@@ -22,7 +25,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
   if (loading) {
     return (
       <Page>
-        <H1 className="flex-1">Loading...</H1>
+        <ProgressDots />
       </Page>
     );
   }
@@ -39,35 +42,35 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     window.location.href = data.to;
     return (
       <Page>
-        <H1 className="flex-1">Redirecting...</H1>
+        <NewText.H1 className="flex-1">Redirecting...</NewText.H1>
       </Page>
     );
   }
 
   return (
     <Page>
-      <div className="flex">
-        <H1 className="flex-1">Hey there! Who are you?</H1>
-      </div>
+      <NewText.H1 className="mb-4">Hey there! Who are you?</NewText.H1>
       {(data.meetingStartTime > (Date.now() / 1000) + 10 * 60)
           && (
-            <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
+            <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
               <p className="font-bold mb-1">Heads up, you're a little early.</p>
               <p>Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
             </div>
           )}
       {(data.meetingEndTime + 10 * 60 < (Date.now() / 1000))
           && (
-            <div className="alert -mx-2 mb-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
+            <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
               <p className="font-bold mb-1">Heads up, your discussion has passed its scheduled end time.</p>
               <p>Your discussion ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
             </div>
           )}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
-          <Button
+          <CTALinkOrButton
             key={participant.id}
-            onPress={async () => {
+            variant="secondary"
+            withChevron
+            onClick={async () => {
               await axios<RecordAttendanceResponse, AxiosResponse<MeetingParticipantsResponse>, RecordAttendanceRequest>({
                 method: 'POST',
                 url: '/api/public/record-attendance',
@@ -82,13 +85,13 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
             }}
           >
             {participant.name}
-          </Button>
+          </CTALinkOrButton>
         ))}
       </div>
       <div className="mt-4">
         Not on this list?
         {' '}
-        <Link
+        <LinkOrButton
           onPress={() => {
             setPage({
               name: 'appJoin',
@@ -97,10 +100,10 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
               meetingHostKey: data.meetingHostKey,
             });
           }}
-          className="underline"
+          className="underline cursor-pointer"
         >
           Join without registering attendance.
-        </Link>
+        </LinkOrButton>
       </div>
     </Page>
   );

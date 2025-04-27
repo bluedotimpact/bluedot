@@ -1,9 +1,10 @@
 import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
-import { Button, ErrorSection, Input } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ErrorSection, Input, NewText,
+} from '@bluedot/ui';
 import { Page } from '../components/Page';
-import { H1 } from '../components/Text';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/record-attendance';
 
 const RecordAttendance: React.FC = () => {
@@ -39,7 +40,7 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId:
   if (loading) {
     return (
       <Page>
-        <H1 className="flex-1">Updating attendance...</H1>
+        <NewText.H1>Updating attendance...</NewText.H1>
       </Page>
     );
   }
@@ -47,24 +48,38 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId:
   if (data) {
     return (
       <Page>
-        <H1 className="flex-1">Thanks for marking your attendance!</H1>
+        <NewText.H1>Thanks for marking your attendance!</NewText.H1>
       </Page>
     );
   }
 
   return (
     <Page>
-      <H1 className="flex-1">Manual attendance update</H1>
+      <NewText.H1 className="mb-4">Manual attendance update</NewText.H1>
       <p className="mb-2">Why do you need to update your attendance?</p>
       <div className="grid gap-2 md:w-1/2">
-        {['Used native Zoom app', 'Used direct Zoom link in browser', 'Joined with wrong name', 'Joined with a custom name', 'Not sure, but I attended'].map((reason) => <Button onPress={() => recordAttendance({ reason })}>{reason}</Button>)}
+        {[
+          'Used native Zoom app',
+          'Used direct Zoom link in browser',
+          'Joined with wrong name',
+          'Joined with a custom name',
+          'Not sure, but I attended',
+        ].map((reason) => (
+          <CTALinkOrButton
+            variant="secondary"
+            url="test"
+            onClick={() => recordAttendance({ reason })}
+          >
+            {reason}
+          </CTALinkOrButton>
+        ))}
       </div>
 
       <div className="mt-4 flex gap-2 md:w-1/2">
         <label className="flex items-center flex-1">Other:
           <Input type="text" value={otherReason} onChange={(value) => setOtherReason(value.target.value)} className="ml-2 w-full" />
         </label>
-        <Button onPress={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</Button>
+        <CTALinkOrButton variant="secondary" onClick={() => recordAttendance({ reason: otherReason })} disabled={!otherReason.length}>Submit</CTALinkOrButton>
       </div>
     </Page>
   );
