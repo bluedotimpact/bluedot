@@ -2,24 +2,41 @@ import {
   HeroSection,
   HeroH1,
   Breadcrumbs,
-  Section,
-  ProgressDots,
-  ErrorSection,
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
+import { useEffect, useState } from 'react';
 import { ROUTES } from '../../lib/routes';
 import { GetCoursesResponse } from '../api/courses';
-import { CourseSearchCard } from '../../components/courses/CourseSearchCard';
+import { CourseDirectory, CourseFilters } from '../../components/courses/CourseDirectory';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
+  const [requestBody, setRequestBody] = useState<CourseFilters>();
+
   const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
-    method: 'get',
     url: '/api/courses',
+    method: 'POST',
+    data: requestBody,
   });
+  const [{ data: allCoursesData, loading: allCoursesLoading, error: allCoursesError }, fetchAllCourses] = useAxios<GetCoursesResponse>({
+    url: '/api/courses',
+    method: 'POST',
+  }, { manual: true });
+
+  const noResults = !!(data?.courses && data.courses.length === 0);
+
+  useEffect(() => {
+    if (noResults) {
+      fetchAllCourses();
+    }
+  }, [noResults, fetchAllCourses]);
+
+  const displayData = !noResults ? data : allCoursesData;
+  const displayLoading = loading || (noResults && allCoursesLoading);
+  const displayError = !noResults ? error : allCoursesError;
 
   return (
     <div>
@@ -32,26 +49,13 @@ const CoursePage = () => {
         <HeroH1>The expertise you need to shape safe AI</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section
-        className="course-serp"
-      >
-        {loading && <ProgressDots />}
-        {error && <ErrorSection error={error} />}
-        <div className="course-serp__content flex flex-col gap-4 justify-center items-center mx-auto">
-          {data?.courses.map((course) => (
-            <CourseSearchCard
-              key={course.title}
-              description={course.shortDescription}
-              cadence={course.cadence}
-              level={course.level}
-              averageRating={course.averageRating}
-              imageSrc={course.image}
-              title={course.title}
-              url={course.path}
-            />
-          ))}
-        </div>
-      </Section>
+      <CourseDirectory
+        displayData={displayData}
+        displayLoading={displayLoading}
+        displayError={displayError}
+        noResults={noResults}
+        setFilters={setRequestBody}
+      />
     </div>
   );
 };
