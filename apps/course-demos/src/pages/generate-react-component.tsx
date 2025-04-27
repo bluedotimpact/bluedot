@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  NewText, CTALinkOrButton, Link, ProgressDots, ClickTarget,
+  NewText, CTALinkOrButton, ProgressDots, ClickTarget,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { CodeRenderer } from '../components/CodeRenderer';
@@ -136,7 +136,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="bg-stone-200 p-4 rounded-md">
-        <NewText.P className="font-medium"><Link url={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</NewText.P>
+        <NewText.P className="font-medium"><NewText.A href={courseLink}>The Future of AI Course</NewText.A> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</NewText.P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">

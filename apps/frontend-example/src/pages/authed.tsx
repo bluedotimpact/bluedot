@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  CTALinkOrButton, NewText, Link, withAuth,
-} from '@bluedot/ui';
+import { CTALinkOrButton, NewText, withAuth } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
@@ -17,7 +15,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
   return (
     <div className="section-body gap-4">
       <NewText.H1>Authed page</NewText.H1>
-      <NewText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <Link url={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</Link>)</NewText.P>
+      <NewText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <NewText.A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</NewText.A>)</NewText.P>
       <NewText.P>It expires at: {new Date(auth.expiresAt).toISOString()}</NewText.P>
       <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
         count is {count}

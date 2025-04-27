@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import React from 'react';
 import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
-import { Navigate } from '../legacy/Navigate';
+import { Navigate } from '../Navigate';
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {

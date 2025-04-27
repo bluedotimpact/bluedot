@@ -33,7 +33,9 @@ export type { FaceTilesProps } from './FaceTiles';
 export { Footer } from './Footer';
 export type { FooterProps } from './Footer';
 
-export { HeroSection, HeroH1, HeroH2, HeroCTAContainer } from './HeroSection';
+export {
+  HeroSection, HeroH1, HeroH2, HeroCTAContainer,
+} from './HeroSection';
 export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
 
 export { Input } from './Input';
@@ -86,19 +88,3 @@ export { validateEnv } from './utils/validateEnv';
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
-
-// Legacy Components
-
-export { Box } from './legacy/Box';
-export type { BoxProps } from './legacy/Box';
-
-export { Button } from './legacy/Button';
-export type { ButtonProps } from './legacy/Button';
-
-export { CardButton } from './legacy/CardButton';
-
-export { Link } from './legacy/Link';
-export type { LinkProps } from './legacy/Link';
-
-export * as LegacyText from './legacy/Text';
-export type { TextProps } from './legacy/Text';

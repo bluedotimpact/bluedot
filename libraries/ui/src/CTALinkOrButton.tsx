@@ -80,5 +80,3 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
     </button>
   );
 };
-
-export default CTALinkOrButton;
