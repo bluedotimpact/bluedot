@@ -31,7 +31,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
   );
 };
 
-type ShareButtonProps = React.PropsWithChildren<{
+export type ShareButtonProps = React.PropsWithChildren<{
   /** The URL for users to share on social media */
   url?: string | (() => string | Promise<string>);
   /** The text for users to share on social media */

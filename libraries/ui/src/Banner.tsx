@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-interface BannerProps {
+export interface BannerProps {
   title: string;
   className?: string;
   inputPlaceholder?: string;

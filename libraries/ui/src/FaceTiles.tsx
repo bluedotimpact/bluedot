@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface FaceTilesProps {
+export interface FaceTilesProps {
   faces: Array<{
     src: string;
     alt: string;

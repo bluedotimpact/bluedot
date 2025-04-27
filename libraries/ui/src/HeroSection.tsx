@@ -34,7 +34,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
   );
 };
 
-type HeroCTAContainerProps = React.PropsWithChildren<{
+export type HeroCTAContainerProps = React.PropsWithChildren<{
   className?: string,
 }>;
 

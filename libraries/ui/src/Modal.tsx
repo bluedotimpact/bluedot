@@ -7,7 +7,7 @@ import {
   Heading,
 } from 'react-aria-components';
 
-interface ModalProps {
+export interface ModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;

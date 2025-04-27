@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 
-type CardProps = {
+export type CardProps = {
   // Required
   title: string;
   // Optional
