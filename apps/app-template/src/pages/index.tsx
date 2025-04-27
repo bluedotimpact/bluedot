@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, LegacyText,
+  CTALinkOrButton, NewText,
 } from '@bluedot/ui';
 import { ExampleComponent } from '../components/ExampleComponent';
 
@@ -8,15 +8,15 @@ const HomePage = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="mx-8">
-      <LegacyText.H1>app-template</LegacyText.H1>
-      <LegacyText.P>This is some example text</LegacyText.P>
+    <div className="section-body gap-2">
+      <NewText.H1>app-template</NewText.H1>
+      <NewText.P>This is some example text</NewText.P>
       <ExampleComponent />
-      <Button onPress={() => setCount((c) => c + 1)}>
+      <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
         count is {count}
-      </Button>
-      <LegacyText.P>You can test logging in below</LegacyText.P>
-      <Button url="/authed">View page requiring auth</Button>
+      </CTALinkOrButton>
+      <NewText.P>You can test logging in below</NewText.P>
+      <CTALinkOrButton url="/authed" withChevron>View page requiring auth</CTALinkOrButton>
     </div>
   );
 };
