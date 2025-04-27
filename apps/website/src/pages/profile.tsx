@@ -157,7 +157,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             {/* Course metadata */}
             <div className="flex gap-2 items-center text-gray-500">
               <FaCubesStacked size={16} />
-              <span className="text-size-s">{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
+              <span>{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
             </div>
 
             {isCompleted && (
@@ -184,7 +184,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
         {/* Sharing section */}
         {isCompleted && (
           <div className="mt-6 pt-6 pb-2 border-t border-color-divider flex flex-col gap-4">
-            <P className="text-size-s text-gray-600 flex items-center">
+            <P className="text-gray-600 flex items-center">
               <FaShare size={16} className="mr-2" />
               Share your achievement
             </P>

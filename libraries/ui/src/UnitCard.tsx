@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Tag } from './Tag';
 
-export type UnitCardProps = {
+export interface UnitCardProps {
   // Required
   title: string,
   unitNumber: string,
@@ -12,7 +12,7 @@ export type UnitCardProps = {
   description?: string,
   duration?: number,
   isCurrentUnit?: boolean,
-};
+}
 
 export const UnitCard: React.FC<UnitCardProps> = ({
   className,
@@ -36,7 +36,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
       <div className="unit-card__item flex flex-col gap-2">
         <p className="unit-card__number uppercase text-size-xs font-bold">Unit {unitNumber}</p>
         <p className="unit-card__title text-color-secondary-text text-size-md font-[650]">{title}</p>
-        <p className="unit-card__description text-size-s">{description}</p>
+        <p className="unit-card__description">{description}</p>
       </div>
       {duration && (
         <div className="unit-card__metadata flex flex-row justify-between items-end">
