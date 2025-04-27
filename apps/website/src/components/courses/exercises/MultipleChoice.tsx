@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { P } from '../../Text';
+import { formatStringToArray } from '../../../lib/utils';
 
 type MultipleChoiceProps = {
   // Required
@@ -36,7 +37,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
    * Options are stored as a string with newlines
    * Format them to be an array of strings with no empty strings (i.e., removing trailing return statements)
    */
-  const formattedOptions = (options.split('\n').map((o) => o.trim()).filter((o) => o !== ''));
+  const formattedOptions = formatStringToArray(options, '\n');
   const formattedAnswer = answer.trim();
   const formattedExerciseResponse = exerciseResponse?.trim();
 
