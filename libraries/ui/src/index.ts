@@ -37,6 +37,9 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
+// This will eventually be exported directly, but for now it's namespaced as NewText to avoid mistakes in the migration from LegacyText
+export * as NewText from './Text';
+
 export { UnitCard } from './UnitCard';
 
 // Utils
