@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, H1, P,
+  Button, LegacyText,
 } from '@bluedot/ui';
 import { ExampleComponent } from '../components/ExampleComponent';
 
@@ -9,13 +9,13 @@ const HomePage = () => {
 
   return (
     <div className="mx-8">
-      <H1>app-template</H1>
-      <P>This is some example text</P>
+      <LegacyText.H1>app-template</LegacyText.H1>
+      <LegacyText.P>This is some example text</LegacyText.P>
       <ExampleComponent />
       <Button onPress={() => setCount((c) => c + 1)}>
         count is {count}
       </Button>
-      <P>You can test logging in below</P>
+      <LegacyText.P>You can test logging in below</LegacyText.P>
       <Button url="/authed">View page requiring auth</Button>
     </div>
   );

@@ -77,9 +77,7 @@ export type { LinkProps } from './legacy/Link';
 export { LoginRedirectPage, LoginOauthCallbackPage, loginPresets } from './legacy/Login';
 export type { LoginPageProps } from './legacy/Login';
 
-export {
-  H1, H2, HPrefix, P,
-} from './legacy/Text';
+export * as LegacyText from './legacy/Text';
 export type { TextProps } from './legacy/Text';
 
 export { Textarea } from './legacy/Textarea';

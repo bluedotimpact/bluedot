@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Box, Button, H1, H2, Input, Link, P,
+  Box, Button, LegacyText, Input, Link,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetPeopleResponse } from './api/public/people';
@@ -18,22 +18,22 @@ const HomePage = () => {
 
   return (
     <div className="mx-8">
-      <H1>Adam's page!</H1>
-      <P>Increment by:</P>
+      <LegacyText.H1>Adam's page!</LegacyText.H1>
+      <LegacyText.P>Increment by:</LegacyText.P>
       <Input type="number" value={incrementBy} onChange={(e) => setIncrementBy(e.target.valueAsNumber)} />
 
-      <P className="mt-8">Value is {value}</P>
+      <LegacyText.P className="mt-8">Value is {value}</LegacyText.P>
       <Button onPress={() => setValue((c) => c + incrementBy)}>+</Button>
       <Button onPress={() => setValue((c) => c - incrementBy)} className="ml-2">-</Button>
 
-      <H2>People</H2>
+      <LegacyText.H2>People</LegacyText.H2>
       {loading
-        ? <P className="animate-pulse">Loading...</P>
+        ? <LegacyText.P className="animate-pulse">Loading...</LegacyText.P>
         : (
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
               <Box className="px-4 py-2">
-                <P>{person.firstName} {person.lastName} (<Link url={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>view in Airtable</Link>)</P>
+                <LegacyText.P>{person.firstName} {person.lastName} (<Link url={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>view in Airtable</Link>)</LegacyText.P>
               </Box>
             ))}
           </div>

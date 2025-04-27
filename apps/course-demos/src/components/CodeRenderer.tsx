@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
 } from '@codesandbox/sandpack-react';
-import { P, Button } from '@bluedot/ui';
+import { LegacyText, Button } from '@bluedot/ui';
 
 interface CodeRendererProps {
   code: string;
@@ -55,7 +55,7 @@ export default function App() {
       {view === 'load_preview' && <div style={{ height, margin: '0 1px' }} />}
       {!hidePreview && (
       <nav className="justify-end items-center flex gap-2">
-        <P className="!my-0">Show:</P>
+        <LegacyText.P className="!my-0">Show:</LegacyText.P>
         <Button className={view === 'code' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('code')}>Code</Button>
         <Button className={view === 'preview' ? 'bg-bluedot-lighter' : ''} onPress={() => setView('load_preview')}>Preview</Button>
       </nav>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, CardButton, H1, P, withAuth,
+  asError, CardButton, LegacyText, withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { Room } from '../lib/types';
@@ -37,7 +37,7 @@ const DashboardPage = withAuth(({ auth }) => {
     return (
       <div className="p-8">
         <div className="max-w-4xl mx-auto">
-          <H1>Rooms</H1>
+          <LegacyText.H1>Rooms</LegacyText.H1>
           <div className="animate-pulse grid gap-6 md:grid-cols-2">
             <div className="h-20 bg-stone-200 rounded" />
             <div className="h-20 bg-stone-200 rounded" />
@@ -52,8 +52,8 @@ const DashboardPage = withAuth(({ auth }) => {
     return (
       <div className="p-8">
         <div className="max-w-2xl mx-auto">
-          <H1 className="text-red-600">Error</H1>
-          <P className="text-red-700">{asError(error || 'Missing room data').message}</P>
+          <LegacyText.H1 className="text-red-600">Error</LegacyText.H1>
+          <LegacyText.P className="text-red-700">{asError(error || 'Missing room data').message}</LegacyText.P>
         </div>
       </div>
     );
@@ -62,7 +62,7 @@ const DashboardPage = withAuth(({ auth }) => {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <H1>Rooms</H1>
+        <LegacyText.H1>Rooms</LegacyText.H1>
 
         <div className="grid gap-6 md:grid-cols-2">
           {rooms.map((room) => (

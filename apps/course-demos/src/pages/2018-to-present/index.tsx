@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { P } from '@bluedot/ui';
+import { LegacyText } from '@bluedot/ui';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import prompts from './responses.json';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
@@ -92,7 +92,7 @@ const DemoPage: React.FC = () => {
   return (
     <main className="mx-auto px-4">
       <div className="mb-8">
-        <P className="font-medium mb-2">Examples:</P>
+        <LegacyText.P className="font-medium mb-2">Examples:</LegacyText.P>
         <div className="flex flex-wrap gap-2">
           {prompts.map((prompt, index) => (
             <LinkOrButton
