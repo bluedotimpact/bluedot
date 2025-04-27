@@ -3,10 +3,9 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  Box, Button, ErrorSection, Input, LegacyText, Textarea,
+  CTALinkOrButton, ErrorSection, Input, NewText, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
 import * as wa from 'weekly-availabilities';
-import { SpinnerIcon } from '../../components/SpinnerIcon';
 import { SubmitRequest } from '../api/public/submit';
 import { GetFormResponse } from '../api/public/get-form';
 import { TimeOffsetSelector } from '../../components/TimeOffsetSelector';
@@ -125,51 +124,51 @@ const Form: React.FC<{
   }
 
   return (
-    <div className="py-16 px-4">
-      <Box className="max-w-3xl mx-auto">
-        <div className="m-12">
-          <LegacyText.H1 className="!text-5xl">{title}</LegacyText.H1>
-          <div className="space-y-2 mt-4">
-            <p>Submit your availability so we can schedule your discussions at times that suit you.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
-            <label className="text-size-xs text-stone-500 block">Email<br />
-              <Input
-                type="text"
-                placeholder="you@example.com"
-                className="w-full"
-                {...register('email')}
-              />
-            </label>
-            <TimeOffsetSelector control={control} name="timezone" />
-          </div>
-          <div className="text-size-xs text-stone-500 mt-6 mb-4 space-y-2">
-            <p>Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch group for weeks where you can’t make your usual time.</p>
-          </div>
-          <TimeAvailabilityInput control={control} name="timeAv" />
-          <label className="text-size-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
-            <Textarea
-              className="w-full mt-1"
-              {...register('comment')}
+    <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
+      <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
+        <NewText.P className="uppercase text-color-secondary-text">Time availability form</NewText.P>
+        <NewText.H1 className="text-3xl">{title}</NewText.H1>
+        <div className="space-y-2 mt-4">
+          <NewText.P>Submit your availability so we can schedule your discussions at times that suit you.</NewText.P>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
+          <label className="text-size-xs text-stone-500 block">Email<br />
+            <Input
+              type="text"
+              placeholder="you@example.com"
+              className="w-full"
+              {...register('email')}
             />
           </label>
-          <div className="mt-6">
-            {submitting && <div className="flex w-full justify-center"><SpinnerIcon /></div>}
-            {!submitting && (
+          <TimeOffsetSelector control={control} name="timezone" />
+        </div>
+        <NewText.P className="text-size-xs text-stone-500 mt-6 mb-4">Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch group for weeks where you can’t make your usual time.</NewText.P>
+        <TimeAvailabilityInput control={control} name="timeAv" />
+        <label className="text-size-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
+          <Textarea
+            className="w-full mt-1"
+            {...register('comment')}
+          />
+        </label>
+        <div className="mt-6">
+          {submitting && <div className="flex w-full justify-center"><ProgressDots /></div>}
+          {!submitting && (
             <>
-              <p className="text-size-xs text-stone-500 mb-1">
+              <NewText.P className="text-size-xs text-stone-500 mb-2">
                 {!isValidEmail() && <>Input a valid email.<br /></>}
                 {!longEnoughInterval() && `Fill out at least one interval of length at least ${minLength} minutes.`}
-              </p>
-              <Button onPress={() => handleSubmit(onSubmit)()} disabled={!isValidEmail() || !longEnoughInterval()}>
+              </NewText.P>
+              <CTALinkOrButton
+                onClick={() => handleSubmit(onSubmit)()}
+                disabled={!isValidEmail() || !longEnoughInterval()}
+              >
                 Submit
-              </Button>
+              </CTALinkOrButton>
             </>
-            )}
-          </div>
+          )}
         </div>
-      </Box>
-    </div>
+      </Section>
+    </main>
   );
 };
 
@@ -205,7 +204,7 @@ const FormWrapper: React.FC = () => {
   if (!info || info.type === 'loading') {
     return (
       <div className="w-full h-screen flex justify-center items-center">
-        <SpinnerIcon />
+        <ProgressDots />
       </div>
     );
   }

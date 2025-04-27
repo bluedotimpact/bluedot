@@ -5,7 +5,7 @@ import {
   FieldPath, FieldValues, UseControllerProps,
   useController,
 } from 'react-hook-form';
-import { Button } from '@bluedot/ui';
+import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import * as wa from 'weekly-availabilities';
 import { snapToRect } from '../lib/util';
@@ -210,9 +210,9 @@ TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
     <div className="sm:flex gap-4">
       <TimeAvailabilityGrid value={field.value} onChange={(v) => field.onChange(v)} show24={show24} />
       <div className="sm:w-40 sm:mt-4 flex sm:flex-col gap-2">
-        <Button className="w-full text-size-sm" onPress={() => setShow24(!show24)}>
+        <CTALinkOrButton className="w-full" variant="secondary" onClick={() => setShow24(!show24)}>
           Show {show24 ? 'less' : 'more'}
-        </Button>
+        </CTALinkOrButton>
       </div>
     </div>
   );
