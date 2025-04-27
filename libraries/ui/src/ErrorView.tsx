@@ -16,7 +16,7 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
   const primaryErrorText = isRichAxiosError ? error.response!.data.error : truncate(error.message, 200);
 
   return (
-    <div className="border-l-4 border-red-500 bg-red-100 text-black p-8 flex flex-col gap-4">
+    <div className="border-l-4 border-red-500 bg-red-100 text-black p-8 flex flex-col gap-4 not-prose">
       <h3 className="bluedot-h3 whitespace-pre-line">Error: {primaryErrorText}
       </h3>
       <p>If the above message doesn't help, try again later or <A href={contactUsUrl}>contact us</A> for support.</p>
