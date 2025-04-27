@@ -1,15 +1,13 @@
-import { Box } from '@bluedot/ui';
+import { Section } from '@bluedot/ui';
 
 export const Page: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <div className="tw-preflight bluedot-base">
-      <div className="py-16 px-4">
-        <Box className="max-w-3xl mx-auto">
-          <div className="m-12">
-            {children}
-          </div>
-        </Box>
+    <main className="tw-preflight bluedot-base bg-bluedot-darker">
+      <div className="px-8 py-12">
+        <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
+          {children}
+        </Section>
       </div>
-    </div>
+    </main>
   );
 };
