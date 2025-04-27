@@ -3,7 +3,7 @@ name: website_deploy_production
 on:
   push:
     tags:
-      - website-release*
+      - website/v*
 jobs:
   deploy:
     runs-on: ubuntu-latest
