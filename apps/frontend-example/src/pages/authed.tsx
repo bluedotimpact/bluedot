@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   CTALinkOrButton, NewText, Link, withAuth,
 } from '@bluedot/ui';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRouter } from 'next/router';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {

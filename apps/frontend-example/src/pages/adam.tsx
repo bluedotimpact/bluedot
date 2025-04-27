@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, NewText, Input, Card,
-  CTALinkOrButton,
+  NewText, Input, Card, CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetPeopleResponse } from './api/public/people';
