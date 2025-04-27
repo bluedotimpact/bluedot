@@ -62,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
             {logo ? (
               <img className="h-8" src={logo} alt="BlueDot Impact Logo" />
             ) : (
-              <p className="h-8 text-xl text-white bluedot-p">BlueDot Impact</p>
+              <p className="h-8 text-size-lg text-white bluedot-p">BlueDot Impact</p>
             )}
           </a>
           <FooterSocial className="hidden sm:flex" />
@@ -89,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
         </div>
         <FooterSocial className="sm:hidden" />
       </nav>
-      <p className="footer__copyright text-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p">
+      <p className="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p">
         &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">14964572</a>).
       </p>
     </div>

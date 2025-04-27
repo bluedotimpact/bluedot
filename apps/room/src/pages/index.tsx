@@ -72,7 +72,7 @@ const DashboardPage = withAuth(({ auth }) => {
               className="!py-6"
             >
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">{room.name}</h2>
+                <h2 className="text-size-lg font-semibold">{room.name}</h2>
                 <RoomHealthIndicator status={room.status} />
               </div>
             </CardButton>

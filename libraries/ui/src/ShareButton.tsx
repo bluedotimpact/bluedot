@@ -26,7 +26,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
       <div className={`size-12 rounded-full border flex items-center justify-center ${color} group-hover:bg-slate-100`}>
         {icon}
       </div>
-      <span className="mt-2 text-sm">{children}</span>
+      <span className="mt-2 text-size-sm">{children}</span>
     </LinkOrButton>
   );
 };
@@ -140,7 +140,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
             onPress={handleCopyToClipboard}
             className={clsx('bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md', isCopied && '!bg-green-100')}
           >
-            {isCopied ? <span className="inline-flex items-center gap-1.5 text-sm"><FaCheck className="text-green-800" /> Copied</span> : <FaCopy />}
+            {isCopied ? <span className="inline-flex items-center gap-1.5 text-size-sm"><FaCheck className="text-green-800" /> Copied</span> : <FaCopy />}
           </AriaButton>
         </div>
       </Modal>

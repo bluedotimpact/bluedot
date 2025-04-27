@@ -81,7 +81,7 @@ export const WithFormContent: Story = {
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Form Modal">
           <div>
             <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+              <label htmlFor="name" className="block text-size-sm font-medium text-gray-700 mb-1">Name</label>
               <input
                 type="text"
                 id="name"
@@ -89,7 +89,7 @@ export const WithFormContent: Story = {
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label htmlFor="email" className="block text-size-sm font-medium text-gray-700 mb-1">Email</label>
               <input
                 type="email"
                 id="email"

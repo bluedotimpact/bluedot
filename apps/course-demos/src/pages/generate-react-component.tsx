@@ -70,7 +70,7 @@ const DemoPage: React.FC = () => {
             Examples:
             {EXAMPLES.map((example) => (
               <LinkOrButton
-                className="cursor-pointer text-sm border rounded p-1 m-1 hover:bg-stone-200"
+                className="cursor-pointer text-size-sm border rounded p-1 m-1 hover:bg-stone-200"
                 key={example}
                 onPress={() => {
                   setUserPrompt(example);
@@ -102,7 +102,7 @@ const DemoPage: React.FC = () => {
     return (
       <main className="mx-auto px-4">
         <div className="text-center">
-          <LegacyText.P className="text-xl font-medium mt-4 mb-2">AI is creating your webpage...</LegacyText.P>
+          <LegacyText.P className="text-size-xl font-medium mt-4 mb-2">AI is creating your webpage...</LegacyText.P>
           <LegacyText.P className="mb-6">Prompt: {userPrompt}</LegacyText.P>
           <ProgressDots />
         </div>

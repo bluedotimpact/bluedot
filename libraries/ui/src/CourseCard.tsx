@@ -50,7 +50,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
         <div className="course-card__text">
-          <p className="course-card__featured-label uppercase font-[650] text-xs mb-3 bluedot-p">
+          <p className="course-card__featured-label uppercase font-[650] text-size-xs mb-3 bluedot-p">
             Featured course
           </p>
           <h3 className="course-card__title mb-6 bluedot-h3">
@@ -64,7 +64,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             {applyByText(applicationDeadline)}
           </CTALinkOrButton>
           {description && (
-            <p className="course-card__subtitle text-sm overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
+            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
               {description}
             </p>
           )}
@@ -98,7 +98,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   const courseCardFooter = (
     <div className="course-card__footer flex justify-between w-full">
-      <p className="course-card__footer-left text-left text-xs text-bluedot-black bluedot-p">
+      <p className="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p">
         <span className="course-card__length font-medium">{courseLength}</span>
       </p>
       <Tag className="course-card__type">{courseType}</Tag>

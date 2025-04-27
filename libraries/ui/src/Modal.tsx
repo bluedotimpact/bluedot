@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
       <AriaModal>
         <Dialog className="bg-white rounded-lg shadow-xl w-full p-10 outline-none">
           <div className="flex justify-between items-center mb-4">
-            <Heading slot="title" className="text-xl font-semibold">{title}</Heading>
+            <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading>
             <AriaButton onPress={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-700">
               <span className="text-2xl">&times;</span>
             </AriaButton>

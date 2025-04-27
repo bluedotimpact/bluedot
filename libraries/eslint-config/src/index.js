@@ -57,6 +57,9 @@ const rules = {
   'tailwindcss/no-contradicting-classname': ['error'],
   'tailwindcss/no-unnecessary-arbitrary-value': ['error'],
   'tailwindcss/enforces-shorthand': ['error'],
+
+  // Custom rules
+  '@bluedot/custom/no-default-tailwind-tokens': ['error'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */

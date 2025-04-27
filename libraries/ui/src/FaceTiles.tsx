@@ -38,7 +38,7 @@ export const FaceTiles: React.FC<FaceTilesProps> = ({
         ))}
         {remainingCount > 0 && (
           <div
-            className="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-sm border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
+            className="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-size-xs border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
           >
             +{remainingCount}
           </div>
