@@ -53,7 +53,7 @@ export default makeApiRoute({
       certificateCreatedAt: user.completedMoocAt,
       recipientName: user.name,
       courseName: 'Future of AI',
-      courseDetailsUrl: 'https://course.bluedot.org/future-of-ai',
+      courseDetailsUrl: 'https://bluedot.org/courses/future-of-ai',
       certificationDescription: `In this 2-hour course, ${user.name} has gained foundational knowledge of today's AI systems through hands-on demos and case studies, explored potential paths toward AGI, and examined the societal implications of these technologies.\n\nEquipped with this understanding, certificate holders are better prepared to navigate the rapidly changing landscape where AI literacy is becoming essential for both professional and personal decision-making.`,
       certificationBadgeImageSrc: 'https://bd43ea21c52490dc8f76e494b4edce7e.cdn.bubble.io/f1742570738895x712167060566371000/future-of-ai-certification-badge.svg',
     };
