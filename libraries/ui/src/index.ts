@@ -37,6 +37,9 @@ export { SlideList } from './SlideList';
 
 export { Tag } from './Tag';
 
+// This will eventually be exported directly, but for now it's namespaced as NewText to avoid mistakes in the migration from LegacyText
+export * as NewText from './Text';
+
 export { UnitCard } from './UnitCard';
 
 // Utils
@@ -77,9 +80,7 @@ export type { LinkProps } from './legacy/Link';
 export { LoginRedirectPage, LoginOauthCallbackPage, loginPresets } from './legacy/Login';
 export type { LoginPageProps } from './legacy/Login';
 
-export {
-  H1, H2, HPrefix, P,
-} from './legacy/Text';
+export * as LegacyText from './legacy/Text';
 export type { TextProps } from './legacy/Text';
 
 export { Textarea } from './legacy/Textarea';

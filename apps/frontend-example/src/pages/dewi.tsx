@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  H1, P,
-} from '@bluedot/ui';
+import { LegacyText } from '@bluedot/ui';
 
 const Dewi = () => {
   const [value, setValue] = useState(0);
@@ -29,8 +27,8 @@ const Dewi = () => {
 
   return (
     <div className="mx-8">
-      <H1>Dewi's magic page</H1>
-      <P className="mt-8">Value is {value}</P>
+      <LegacyText.H1>Dewi's magic page</LegacyText.H1>
+      <LegacyText.P className="mt-8">Value is {value}</LegacyText.P>
       <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
     </div>
   );

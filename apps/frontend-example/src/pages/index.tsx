@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, H1, P,
+  Button, LegacyText,
 } from '@bluedot/ui';
 
 const HomePage = () => {
@@ -8,14 +8,14 @@ const HomePage = () => {
 
   return (
     <div className="mx-8">
-      <H1>frontend-example</H1>
-      <P>This is some example text</P>
+      <LegacyText.H1>frontend-example</LegacyText.H1>
+      <LegacyText.P>This is some example text</LegacyText.P>
       <Button onPress={() => setCount((c) => c + 1)}>
         count is {count}
       </Button>
-      <P>
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </P>
+      <LegacyText.P>
+        Edit <code>src/pages/index.tsx</code> and save to test HMR
+      </LegacyText.P>
       <Button url="/authed">View page requiring auth</Button>
     </div>
   );

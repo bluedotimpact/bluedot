@@ -1,7 +1,6 @@
 import {
   CTALinkOrButton,
-  H1 as LegacyH1,
-  P as LegacyP,
+  LegacyText,
   ProgressDots,
   Section,
   Footer,
@@ -23,8 +22,8 @@ const CertificatePage = () => {
   if (!certificateId) {
     return (
       <Section>
-        <LegacyH1>Invalid certificate</LegacyH1>
-        <LegacyP>Check the link you were sent and try again.</LegacyP>
+        <LegacyText.H1>Invalid certificate</LegacyText.H1>
+        <LegacyText.P>Check the link you were sent and try again.</LegacyText.P>
         <div className="flex flex-row gap-4 mt-4">
           <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
           <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -50,8 +49,8 @@ const CertificatePage = () => {
     return (
       <main className="bluedot-base">
         <Section>
-          <LegacyH1>Certificate not found</LegacyH1>
-          <LegacyP>We couldn't find the certificate you're looking for.</LegacyP>
+          <LegacyText.H1>Certificate not found</LegacyText.H1>
+          <LegacyText.P>We couldn't find the certificate you're looking for.</LegacyText.P>
           <div className="flex flex-row gap-4 mt-4">
             <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
             <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>

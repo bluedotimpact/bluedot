@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, Button, H1, H2, Input, P, withAuth, Link,
+  asError, Button, LegacyText, Input, withAuth, Link,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
@@ -50,8 +50,8 @@ const RoomControlPage = withAuth(({ auth }) => {
     return (
       <div className="p-8">
         <div className="max-w-2xl mx-auto">
-          <H1 className="text-red-600">Error</H1>
-          <P className="text-red-700">{asError(error || 'Missing room data').message}</P>
+          <LegacyText.H1 className="text-red-600">Error</LegacyText.H1>
+          <LegacyText.P className="text-red-700">{asError(error || 'Missing room data').message}</LegacyText.P>
         </div>
       </div>
     );
@@ -103,7 +103,7 @@ const RoomControlPage = withAuth(({ auth }) => {
       <div className="max-w-2xl mx-auto">
         <div className="container-lined p-8 my-4 space-y-4">
           <div className="flex items-center justify-between">
-            <H2 className="!mt-0">{room.name}</H2>
+            <LegacyText.H2 className="!mt-0">{room.name}</LegacyText.H2>
             <div className="hidden sm:block">
               <RoomHealthIndicator status={room.status} />
             </div>
@@ -144,7 +144,7 @@ const RoomControlPage = withAuth(({ auth }) => {
               </div>
             ) : (
               <div className="flex flex-col gap-2">
-                <P>Currently viewing <Link url={room.status.currentUrl} className="underline">{room.status.currentUrl}</Link></P>
+                <LegacyText.P>Currently viewing <Link url={room.status.currentUrl} className="underline">{room.status.currentUrl}</Link></LegacyText.P>
                 <Button onPress={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
                 </Button>
@@ -154,8 +154,8 @@ const RoomControlPage = withAuth(({ auth }) => {
 
           {!isRoomHealthy(room.status) && (
             <div>
-              <P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</P>
-              <P>Make sure the meeting room device is turned on and has an internet connection.</P>
+              <LegacyText.P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</LegacyText.P>
+              <LegacyText.P>Make sure the meeting room device is turned on and has an internet connection.</LegacyText.P>
             </div>
           )}
         </div>

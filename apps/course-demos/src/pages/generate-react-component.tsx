@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Button, H2, Link, P, ProgressDots,
+  Button, LegacyText, Link, ProgressDots,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
@@ -46,7 +46,7 @@ const DemoPage: React.FC = () => {
     return (
       <main className="mx-auto px-4">
         <div className="mb-4">
-          <H2 className="!mt-4">What do you want to build?</H2>
+          <LegacyText.H2 className="!mt-4">What do you want to build?</LegacyText.H2>
           <textarea
             placeholder="A website about..."
             value={userPrompt}
@@ -84,13 +84,13 @@ const DemoPage: React.FC = () => {
 
         {error && (
         <>
-          <H2 className="text-red-500">Something went wrong</H2>
-          <P>
+          <LegacyText.H2 className="text-red-500">Something went wrong</LegacyText.H2>
+          <LegacyText.P>
             Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
-          </P>
-          <P>
+          </LegacyText.P>
+          <LegacyText.P>
             Errors sometime happen when too many people are taking our course at once. You can try again later, or try <LinkOrButton url="https://web.lmarena.ai/" className="underline cursor-pointer">WebDev Arena</LinkOrButton> to see a similar demo.
-          </P>
+          </LegacyText.P>
           <Button onPress={() => handleSubmit()}>Try again</Button>
         </>
         )}
@@ -102,8 +102,8 @@ const DemoPage: React.FC = () => {
     return (
       <main className="mx-auto px-4">
         <div className="text-center">
-          <P className="text-xl font-medium mt-4 mb-2">AI is creating your webpage...</P>
-          <P className="mb-6">Prompt: {userPrompt}</P>
+          <LegacyText.P className="text-xl font-medium mt-4 mb-2">AI is creating your webpage...</LegacyText.P>
+          <LegacyText.P className="mb-6">Prompt: {userPrompt}</LegacyText.P>
           <ProgressDots />
         </div>
         <CodeRenderer code={generatedCode} height="calc(100vh - 150px)" hidePreview />
@@ -135,7 +135,7 @@ export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, c
   return (
     <div className="flex flex-col gap-4 mt-2">
       <div className="bg-gray-100 p-4 rounded-md">
-        <P className="font-medium"><Link url={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</P>
+        <LegacyText.P className="font-medium"><Link url={courseLink}>The Future of AI Course</Link> is a free 2-hour online experience to help you prepare for what might be humanity's biggest transition yet. It's packed with up-to-date interactive content - and in this demo, a student got AI to create this app based on the prompt "{prompt}".</LegacyText.P>
       </div>
       <CodeRenderer code={code} height="calc(100vh - 250px)" />
       <div className="flex gap-2 w-fit relative bottom-12.5 mt-1 -mb-10">

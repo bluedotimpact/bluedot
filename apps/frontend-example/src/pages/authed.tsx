@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  Button, CardButton, ErrorSection, H1, H2, Link, P, ProgressDots, withAuth,
+  Button, CardButton, ErrorSection, LegacyText, Link, ProgressDots, withAuth,
 } from '@bluedot/ui';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useQueryClient } from '@tanstack/react-query';
@@ -17,9 +17,9 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 
   return (
     <div className="mx-8">
-      <H1>Authed page</H1>
-      <P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <Link url={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</Link>)</P>
-      <P>It expires at: {new Date(auth.expiresAt * 1000).toISOString()}</P>
+      <LegacyText.H1>Authed page</LegacyText.H1>
+      <LegacyText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <Link url={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</Link>)</LegacyText.P>
+      <LegacyText.P>It expires at: {new Date(auth.expiresAt * 1000).toISOString()}</LegacyText.P>
       <Button onPress={() => setCount((c) => c + 1)}>
         count is {count}
       </Button>
@@ -27,7 +27,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
       <CourseListView />
       <H2>Create course</H2>
       <Button onPress={() => { mutate({ body: {}, headers: { authorization: '' } }); }}>Create</Button> */}
-      <H2>Logout</H2>
+      <LegacyText.H2>Logout</LegacyText.H2>
       <Button onPress={() => setAuth(null)}>Logout</Button>
     </div>
   );
@@ -51,7 +51,7 @@ const CourseListView: React.FC = () => {
       {data?.body.map((course) => (
         // eslint-disable-next-line no-alert
         <CardButton key={course.courseId} onPress={() => alert('test')}>
-          <H2>{course.name}</H2>
+          <LegacyText.H2>{course.name}</LegacyText.H2>
         </CardButton>
       ))}
     </div>

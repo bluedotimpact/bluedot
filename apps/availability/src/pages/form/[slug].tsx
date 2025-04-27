@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  Box, Button, ErrorSection, H1, Input, Textarea,
+  Box, Button, ErrorSection, Input, LegacyText, Textarea,
 } from '@bluedot/ui';
 import * as wa from 'weekly-availabilities';
 import { SpinnerIcon } from '../../components/SpinnerIcon';
@@ -129,7 +129,7 @@ const Form: React.FC<{
     <div className="py-16 px-4">
       <Box className="max-w-3xl mx-auto">
         <div className="m-12">
-          <H1 className="!text-5xl">{title}</H1>
+          <LegacyText.H1 className="!text-5xl">{title}</LegacyText.H1>
           <div className="space-y-2 mt-4">
             <p>Submit your availability so we can schedule your discussions at times that suit you.</p>
           </div>

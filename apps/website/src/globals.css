@@ -62,27 +62,6 @@
 }
 
 @layer base {
-  .bluedot-h1 {
-    @apply text-color-secondary-text font-sans text-size-xl font-bold;
-  }
-  .bluedot-h2 {
-    @apply text-color-secondary-text font-sans text-size-xl font-bold;
-  }
-  .bluedot-h3 {
-    @apply text-color-secondary-text font-sans text-size-lg font-[650];
-  }
-  .bluedot-h4 {
-    @apply text-color-secondary-text font-sans text-size-md font-[650];
-  }
-  .bluedot-p {
-    @apply text-color-text font-sans text-size-sm font-normal;
-  }
-  .bluedot-a {
-    @apply text-color-secondary-text hover:text-color-primary-accent cursor-pointer underline;
-  }
-  .bluedot-blockquote {
-    @apply text-color-text font-sans text-size-md font-normal font-[650] mb-4 last:mb-0;
-  }
   .text-on-dark {
     @apply text-color-text-on-dark;
   }
