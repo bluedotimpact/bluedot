@@ -20,12 +20,12 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
     },
   });
 
-  if (!user || typeof user.expires_at !== 'number' || !user.access_token) {
+  if (!user || typeof user.expires_at !== 'number' || !user.id_token) {
     throw new Error('Invalid refresh response');
   }
 
   return {
-    token: user.access_token,
+    token: user.id_token,
     expiresAt: user.expires_at * 1000,
     refreshToken: user.refresh_token ?? auth.refreshToken,
     oidcSettings: auth.oidcSettings,
@@ -99,7 +99,7 @@ export const useAuthStore = create<{
   internal_refreshTimer: null,
 }), {
   name: 'bluedot_auth',
-  version: 20250427,
+  version: 20250428,
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
