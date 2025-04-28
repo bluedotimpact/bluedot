@@ -35,7 +35,7 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
 
 // Helper to create mock OIDC response
 const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
-  access_token: 'new-test-token',
+  id_token: 'new-test-token',
   expires_at: Math.floor(Date.now() / 1000) + 3600,
   refresh_token: 'new-refresh-token',
   ...overrides,
@@ -132,7 +132,7 @@ describe('auth', () => {
       useAuthStore.getState().setAuth(auth);
 
       const refreshResponse = createMockOidcResponse({
-        access_token: 'new-access-token',
+        id_token: 'new-access-token',
         refresh_token: 'new-refresh-token',
         expires_at: Math.floor(Date.now() / 1000) + 3600,
       });
@@ -145,7 +145,7 @@ describe('auth', () => {
       expect(mockUseRefreshToken).toHaveBeenCalledTimes(1);
 
       // Verify the token was updated
-      expect(useAuthStore.getState().auth?.token).toBe(refreshResponse.access_token);
+      expect(useAuthStore.getState().auth?.token).toBe(refreshResponse.id_token);
       expect(useAuthStore.getState().auth?.refreshToken).toBe(refreshResponse.refresh_token);
       expect(useAuthStore.getState().auth?.expiresAt).toBe(refreshResponse.expires_at * 1000);
 
@@ -197,7 +197,7 @@ describe('auth', () => {
       useAuthStore.getState().setAuth(auth);
 
       const refreshResponse = createMockOidcResponse({
-        access_token: 'new-access-token',
+        id_token: 'new-access-token',
         refresh_token: 'new-refresh-token',
         expires_at: Math.floor(Date.now() / 1000) + 3600,
       });
@@ -210,7 +210,7 @@ describe('auth', () => {
       expect(mockUseRefreshToken).toHaveBeenCalledTimes(1);
 
       // Verify the token was updated
-      expect(useAuthStore.getState().auth?.token).toBe(refreshResponse.access_token);
+      expect(useAuthStore.getState().auth?.token).toBe(refreshResponse.id_token);
       expect(useAuthStore.getState().auth?.refreshToken).toBe(refreshResponse.refresh_token);
       expect(useAuthStore.getState().auth?.expiresAt).toBe(refreshResponse.expires_at * 1000);
 
@@ -224,7 +224,7 @@ describe('auth', () => {
       const newToken = 'refreshed-token';
       const expiresAtSeconds = Math.floor(Date.now() / 1000) + 3600; // 1 hour from now
       const { mockUseRefreshToken } = setupMockOidcClient(true, createMockOidcResponse({
-        access_token: newToken,
+        id_token: newToken,
         expires_at: expiresAtSeconds,
       }));
 
