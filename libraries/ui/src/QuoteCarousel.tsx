@@ -41,7 +41,7 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
   return (
     <div
       className={clsx(
-        'quote-carousel mx-auto w-full max-w-[728px] text-center',
+        'quote-carousel text-center',
         className,
       )}
     >

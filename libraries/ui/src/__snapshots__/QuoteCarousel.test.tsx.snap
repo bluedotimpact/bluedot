@@ -3,7 +3,7 @@
 exports[`QuoteCarousel > renders the first quote by default 1`] = `
 <div>
   <div
-    class="quote-carousel mx-auto w-full max-w-[728px] text-center"
+    class="quote-carousel text-center"
   >
     <div
       class="relative quote-carousel__image-section h-28 flex justify-center mb-4"

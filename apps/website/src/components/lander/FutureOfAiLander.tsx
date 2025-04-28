@@ -21,9 +21,10 @@ import {
 import { isMobile } from 'react-device-detect';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
-import { H3 } from '../Text';
+import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import { CourseUnitsSection } from '../courses/CourseUnitsSection';
+import GraduateSection from '../homepage/GraduateSection';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -53,10 +54,10 @@ const quotes: Quote[] = [
     imageSrc: '/images/lander/foai/demis.jpeg',
   },
   {
-    quote: 'Sh–, what the f—?',
-    name: 'Snoop Dogg',
-    role: 'The Doggfather',
-    imageSrc: '/images/lander/foai/snoop.jpg',
+    quote: 'We should not underestimate the real threats coming from AI... we have a narrowing window of opportunity to guide this technology responsibly.',
+    name: 'Ursula von der Leyen',
+    role: 'President, European Commission',
+    imageSrc: '/images/lander/foai/ursula.png',
   },
 ];
 
@@ -107,35 +108,67 @@ const FutureOfAiLander = ({
       </Head>
 
       {/* Hero section */}
-      <HeroSection>
-        <HeroMiniTitle>{courseData?.course.title}</HeroMiniTitle>
-        <HeroH1>{customTitle}</HeroH1>
-        <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
-        <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaBoltLightning /> 2 hours
+      {isMobile ? (
+        <HeroSection>
+          <HeroMiniTitle>{courseData?.course.title}</HeroMiniTitle>
+          <HeroH1>{customTitle}</HeroH1>
+          <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
+          <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaBoltLightning /> 2 hours
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaAward /> Free certification
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaLightbulb /> No experience required
+            </div>
           </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaAward /> Free certification
-          </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaLightbulb /> No experience required
+          {courseData.units?.[0]?.path && (
+            <HeroCTAContainer>
+              <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+            </HeroCTAContainer>
+          )}
+        </HeroSection>
+      ) : (
+        <div className="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative">
+          <div className="future-of-ai-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
+            <div className="
+              future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+            >
+              <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{courseData?.course.title}</H1>
+              <H2 className="text-color-text-on-dark bluedot-h1">{customTitle}</H2>
+              <p className="text-color-text-on-dark mt-4">{customDescription}</p>
+              <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaBoltLightning /> 2 hours
+                </div>
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaAward /> Free certification
+                </div>
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaLightbulb /> No experience required
+                </div>
+              </div>
+              {courseData.units?.[0]?.path && (
+                <HeroCTAContainer>
+                  <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+                </HeroCTAContainer>
+              )}
+            </div>
+            <QuoteCarousel className="future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={quotes} />
           </div>
         </div>
-        {courseData.units?.[0]?.path && (
-          <HeroCTAContainer>
-            <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
-          </HeroCTAContainer>
-        )}
-      </HeroSection>
+      )}
 
-      {/* Quotes section */}
-      <Section>
-        <QuoteCarousel className="future-of-ai-lander__quotes" quotes={quotes} />
-      </Section>
+      {isMobile && (
+        <Section>
+          <QuoteCarousel className="future-of-ai-lander__hero-quotes" quotes={quotes} />
+        </Section>
+      )}
 
-      {/* Graduate section */}
-      {/* <GraduateSection /> */}
+      <GraduateSection />
 
       {/* Callouts section */}
       <Section>
