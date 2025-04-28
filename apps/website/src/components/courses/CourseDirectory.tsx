@@ -1,11 +1,8 @@
 import {
   useState,
   ChangeEvent,
-  useEffect,
   FC,
   useCallback,
-  Dispatch,
-  SetStateAction,
 } from 'react';
 import { AxiosError } from 'axios';
 import clsx from 'clsx';
@@ -54,13 +51,19 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
   const [selectedLevels, setSelectedLevels] = useState<string[]>(LEVEL_OPTIONS.map((l) => l.value));
   const [filtersOpenMobile, setFiltersOpenMobile] = useState(false);
 
-  useEffect(() => {
-    // TODO fix double fetch
-    refetch({
-      cadence: selectedCadences,
-      level: selectedLevels,
-    });
-  }, [selectedCadences, selectedLevels, refetch]);
+  const handleCadenceChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = event.target;
+    const newSelectedCadences = checked ? [...selectedCadences, value] : selectedCadences.filter((l) => l !== value);
+    setSelectedCadences(newSelectedCadences);
+    refetch({ cadence: newSelectedCadences, level: selectedLevels });
+  };
+
+  const handleLevelChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = event.target;
+    const newSelectedLevels = checked ? [...selectedLevels, value] : selectedLevels.filter((l) => l !== value);
+    setSelectedLevels(newSelectedLevels);
+    refetch({ cadence: selectedCadences, level: newSelectedLevels });
+  };
 
   const showFilterActiveDot = selectedCadences.length !== CADENCE_OPTIONS.length || selectedLevels.length !== LEVEL_OPTIONS.length;
 
@@ -68,34 +71,27 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
     title: string,
     options: Option[],
     selectedValues: string[],
-    setValues: Dispatch<SetStateAction<string[]>>,
-  ) => {
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const { value, checked } = event.target;
-      setValues((prev) => (checked ? [...prev, value] : prev.filter((l) => l !== value)));
-    };
-
-    return (
-      <div className="course-directory__filter-group">
-        <P className="font-semibold mb-2">{title}</P>
-        {options.map((option) => (
-          <div key={option.value} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id={`${title.toLowerCase()}-${option.value}`}
-              value={option.value}
-              checked={selectedValues.includes(option.value)}
-              onChange={handleChange}
-              className="form-checkbox size-4 text-blue-600 transition duration-150 ease-in-out"
-            />
-            <label htmlFor={`${title.toLowerCase()}-${option.value}`}>
-              {option.label}
-            </label>
-          </div>
-        ))}
-      </div>
-    );
-  }, []);
+    handleChange: (event: ChangeEvent<HTMLInputElement>) => void,
+  ) => (
+    <div className="course-directory__filter-group">
+      <P className="font-semibold mb-2">{title}</P>
+      {options.map((option) => (
+        <div key={option.value} className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id={`${title.toLowerCase()}-${option.value}`}
+            value={option.value}
+            checked={selectedValues.includes(option.value)}
+            onChange={handleChange}
+            className="form-checkbox size-4 text-blue-600 transition duration-150 ease-in-out"
+          />
+          <label htmlFor={`${title.toLowerCase()}-${option.value}`}>
+            {option.label}
+          </label>
+        </div>
+      ))}
+    </div>
+  ), []);
 
   return (
     <Section className="course-directory">
@@ -117,8 +113,8 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
             </button>
           </div>
           <div className={clsx('course-directory__filters md:flex md:flex-col gap-6', filtersOpenMobile ? 'flex' : 'hidden')}>
-            {renderFilterGroup('Cadence', CADENCE_OPTIONS, selectedCadences, setSelectedCadences)}
-            {renderFilterGroup('Level', LEVEL_OPTIONS, selectedLevels, setSelectedLevels)}
+            {renderFilterGroup('Cadence', CADENCE_OPTIONS, selectedCadences, handleCadenceChanged)}
+            {renderFilterGroup('Level', LEVEL_OPTIONS, selectedLevels, handleLevelChanged)}
           </div>
         </div>
         <div className="course-directory__results flex flex-col gap-4">

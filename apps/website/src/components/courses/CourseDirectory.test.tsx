@@ -52,9 +52,6 @@ describe('CourseDirectory', () => {
     const props = { ...defaultProps, refetch: refetchMock };
     const { getByLabelText } = render(<CourseDirectory {...props} />);
 
-    // Clear the initial call from useEffect
-    refetchMock.mockClear();
-
     // Uncheck 'Self-paced' cadence
     const selfPacedCheckbox = getByLabelText('Self-paced');
     fireEvent.click(selfPacedCheckbox);
