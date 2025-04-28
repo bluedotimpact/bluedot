@@ -23,7 +23,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         class="social-share__link size-6"
         href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg
@@ -44,7 +44,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         class="social-share__link size-6"
         href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=🎉 I just completed the Future of AI course from BlueDot Impact! It’s free, self-paced, and packed with insights. Check it out and sign up with my referral link below:"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg
@@ -65,7 +65,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         class="social-share__link size-6"
         href="https://www.facebook.com/sharer/sharer.php"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg
@@ -111,7 +111,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         class="social-share__link size-6"
         href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin%26r%3DABCDEF&text=This is a custom text I've written for this course!"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg
@@ -132,7 +132,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         class="social-share__link size-6"
         href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter%26r%3DABCDEF&text=This is a custom text I've written for this course!"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg
@@ -153,7 +153,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         class="social-share__link size-6"
         href="https://www.facebook.com/sharer/sharer.php"
-        rel="noopener noreferrer"
+        tabindex="0"
         target="_blank"
       >
         <svg

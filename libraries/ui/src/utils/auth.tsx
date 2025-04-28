@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import React from 'react';
 import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
-import { Navigate } from '../legacy/Navigate';
+import { Navigate } from '../Navigate';
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -99,7 +99,7 @@ export const useAuthStore = create<{
   internal_refreshTimer: null,
 }), {
   name: 'bluedot_auth',
-  version: 20250423,
+  version: 20250427,
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic

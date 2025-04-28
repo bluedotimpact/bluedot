@@ -13,12 +13,9 @@ type TrackingProps = {
   trackingEventParams?: Record<string, string>;
 };
 
-// Type helper to ensure wrapped component has onClick
-type WithClick<P> = P & { onClick?: (e: React.MouseEvent) => void };
-
 // HOC function
 export const withClickTracking = <P extends object>(
-  WrappedComponent: React.ComponentType<WithClick<P>>,
+  WrappedComponent: React.ComponentType<P>,
   defaultConfig: TrackingConfig = { eventName: 'click', eventParams: {} },
 ) => {
   // Return wrapped component that accepts both original props and tracking props

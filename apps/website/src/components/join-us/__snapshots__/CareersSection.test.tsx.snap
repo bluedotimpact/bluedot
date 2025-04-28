@@ -50,9 +50,9 @@ exports[`CareersSection > renders default as expected 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               href="/join-us/swe-contractor"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -102,9 +102,9 @@ exports[`CareersSection > renders default as expected 1`] = `
               Permanent
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-              data-testid="cta-link"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
               href="/join-us/ai-safety-teaching-fellow"
+              tabindex="0"
             >
               <span
                 class="cta-button__text"
@@ -193,9 +193,9 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   href="/join-us/swe-contractor"
+                  tabindex="0"
                 >
                   <span
                     class="cta-button__text"
@@ -234,9 +234,9 @@ exports[`CareersSection > renders mobile as expected 1`] = `
                 class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                  data-testid="cta-link"
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   href="/join-us/ai-safety-teaching-fellow"
+                  tabindex="0"
                 >
                   <span
                     class="cta-button__text"

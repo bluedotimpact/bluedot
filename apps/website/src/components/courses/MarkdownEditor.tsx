@@ -24,37 +24,37 @@ import {
   Dropcursor,
 } from '@syfxlin/tiptap-starter-kit';
 import { Markdown } from 'tiptap-markdown';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
 import {
   FaBold,
   FaItalic,
   FaQuoteLeft,
   FaCode,
 } from 'react-icons/fa6';
+import { ClickTarget } from '@bluedot/ui';
 
 type ToolbarButtonProps = {
-  onPress: () => void;
+  onClick: () => void;
   isActive: boolean;
   icon: React.ReactNode;
   'aria-label'?: string;
 };
 
 const ToolbarButton: React.FC<ToolbarButtonProps> = ({
-  onPress,
+  onClick,
   isActive,
   icon,
   'aria-label': ariaLabel,
 }) => {
   return (
-    <LinkOrButton
-      onPress={onPress}
+    <ClickTarget
+      onClick={onClick}
       className={`p-2 rounded hover:bg-gray-200 transition-colors ${
         isActive ? 'bg-gray-200 text-blue-600' : 'text-gray-700'
       }`}
       aria-label={ariaLabel}
     >
       {icon}
-    </LinkOrButton>
+    </ClickTarget>
   );
 };
 
@@ -71,21 +71,21 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
     <div className="p-2 bg-gray-50 border-b border-gray-300" role="toolbar" aria-label="Text formatting options">
       <div className="flex items-center gap-1">
         <ToolbarButton
-          onPress={() => editor.chain().focus().toggleBold().run()}
+          onClick={() => editor.chain().focus().toggleBold().run()}
           isActive={editor.isActive('bold')}
           aria-label="Bold"
           icon={<FaBold size={16} />}
         />
 
         <ToolbarButton
-          onPress={() => editor.chain().focus().toggleItalic().run()}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
           isActive={editor.isActive('italic')}
           aria-label="Italic"
           icon={<FaItalic size={16} />}
         />
 
         <ToolbarButton
-          onPress={() => editor.chain().focus().toggleCode().run()}
+          onClick={() => editor.chain().focus().toggleCode().run()}
           isActive={editor.isActive('code')}
           aria-label="Code"
           icon={<FaCode size={16} />}
@@ -96,7 +96,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         {([1, 2, 3] as const).map((level) => (
           <ToolbarButton
             key={level}
-            onPress={() => editor.chain().focus().toggleHeading({ level }).run()}
+            onClick={() => editor.chain().focus().toggleHeading({ level }).run()}
             isActive={editor.isActive('heading', { level })}
             aria-label={`Heading ${level}`}
             icon={(
@@ -110,7 +110,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
         <ToolbarDivider />
 
         <ToolbarButton
-          onPress={() => editor.chain().focus().toggleBlockquote().run()}
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
           isActive={editor.isActive('blockquote')}
           aria-label="Blockquote"
           icon={<FaQuoteLeft size={16} />}

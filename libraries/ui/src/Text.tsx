@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { ClickTarget, ClickTargetProps } from './ClickTarget';
 
 export type TextProps = React.PropsWithChildren<{
   className?: string;
@@ -35,7 +36,7 @@ export const P = ({
 };
 
 export const A = ({
-  children, className, ...aProps
-}: TextProps & React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>) => {
-  return <a className={clsx('bluedot-a', className)} {...aProps}>{children}</a>;
+  children, className, href, ...clickTargetProps
+}: TextProps & { href: string } & Omit<ClickTargetProps, 'url'>) => {
+  return <ClickTarget className={clsx('bluedot-a', className)} url={href} {...clickTargetProps}>{children}</ClickTarget>;
 };

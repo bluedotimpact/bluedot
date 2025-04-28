@@ -141,13 +141,20 @@ const CTAButtons: React.FC<{
   primaryCtaUrl = 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA',
   isLoggedIn,
 }) => {
+  const [loginUrl, setLoginUrl] = useState(ROUTES.login.url);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setLoginUrl(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname));
+    }
+  }, []);
+
   return (
     <div className={clsx('nav__cta-container', className)}>
       {!isLoggedIn && (
         <CTALinkOrButton
           className="nav__secondary-cta"
           variant="secondary"
-          url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
+          url={loginUrl}
         >
           Login
         </CTALinkOrButton>

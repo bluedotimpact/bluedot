@@ -16,7 +16,6 @@ const meta = {
     variant: 'primary',
     withChevron: false,
     url: '',
-    isExternalUrl: false,
   },
 } satisfies Meta<typeof CTALinkOrButton>;
 
@@ -27,7 +26,8 @@ export const Button: Story = {
   args: {
     children: 'Button',
     variant: 'primary',
-    withChevron: true,
+    // eslint-disable-next-line no-console
+    onClick: (e) => console.log('Button click event: ', e),
   },
 };
 
@@ -35,9 +35,7 @@ export const Link: Story = {
   args: {
     children: 'Link',
     variant: 'primary',
-    withChevron: false,
     url: 'https://www.google.com',
-    isExternalUrl: false,
   },
   parameters: {
     design: {

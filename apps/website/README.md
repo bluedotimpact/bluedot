@@ -50,13 +50,11 @@ To deploy to staging, simply merge a PR into the `master` branch.
 
 To deploy to production:
 
-1. Go to the [Releases page](https://github.com/bluedotimpact/bluedot/releases)
-2. Click "Draft a new release"
-3. Click "Choose a tag" and enter a new tag using the format `website-release-vX.Y.Z` (e.g., `website-release-v1.2.3`)
-4. Select the commit you want to deploy
-5. Select "Previous tag" and choose the previous release tag (e.g., `website-release-v1.2.2`) to auto-generate release notes
-6. Set "Release title" to `website/vX.Y.Z` (e.g., `website/v1.2.3`)
-7. Review the notes and click "Publish release"
+1. [Create a new GitHub release](https://github.com/bluedotimpact/bluedot/releases/new)
+2. Click "Choose a tag" and enter a new tag in the format `website/vX.Y.Z` (e.g., `website/v1.2.3`)
+3. Select "Previous tag" and choose the previous release tag (e.g., `website/v1.2.2`)
+4. Click "Generate release notes", and review the notes
+5. Click "Publish release"
 
 The production release workflow is defined in [.github/workflows/website_deploy_production.yaml](../../.github/workflows/website_deploy_production.yaml).
 

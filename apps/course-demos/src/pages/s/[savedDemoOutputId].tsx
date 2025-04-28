@@ -1,8 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import {
-  NewText, Link, ProgressDots, asError,
-} from '@bluedot/ui';
+import { NewText, ProgressDots, asError } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
@@ -32,7 +30,7 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
       <>
         <NewText.H2 className="text-red-500">Couldn't interpret your demo</NewText.H2>
         <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
-        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</NewText.P>
+        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <NewText.A href={courseLink}>Future of AI Course</NewText.A>.</NewText.P>
         <NewText.P>Details: {asError(error).message}</NewText.P>
       </>
     );
@@ -65,7 +63,7 @@ const SharePage: React.FC = () => {
       <main className="mx-auto px-4 py-8">
         <NewText.H2 className="text-red-500">Couldn't find your demo</NewText.H2>
         <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
-        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <Link url={courseLink}>Future of AI Course</Link>.</NewText.P>
+        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <NewText.A href={courseLink}>Future of AI Course</NewText.A>.</NewText.P>
         <NewText.P>Details: {error?.message || 'Failed to load shared content'}</NewText.P>
       </main>
     );

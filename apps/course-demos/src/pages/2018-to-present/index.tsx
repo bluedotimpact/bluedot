@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { NewText } from '@bluedot/ui';
-import { LinkOrButton } from '@bluedot/ui/src/legacy/LinkOrButton';
+import { ClickTarget, NewText } from '@bluedot/ui';
 import prompts from './responses.json';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
 
@@ -95,14 +94,14 @@ const DemoPage: React.FC = () => {
         <NewText.H3 className="my-2">Examples:</NewText.H3>
         <div className="flex flex-wrap gap-2">
           {prompts.map((prompt, index) => (
-            <LinkOrButton
+            <ClickTarget
               // eslint-disable-next-line react/no-array-index-key -- stable as prompts array is constant
               key={index}
-              onPress={() => setSelectedPromptIndex(index)}
+              onClick={() => setSelectedPromptIndex(index)}
               className={`text-sm border rounded p-2 hover:bg-stone-100 cursor-pointer ${index === selectedPromptIndex ? 'bg-stone-200' : ''}`}
             >
               {prompt.shortText ?? prompt.text}
-            </LinkOrButton>
+            </ClickTarget>
           ))}
         </div>
 

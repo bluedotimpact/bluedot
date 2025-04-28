@@ -5,6 +5,7 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
   <a
     class="course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
+    tabindex="0"
   >
     <div
       class="course-search-card__image-container h-[240px] sm:w-fit w-full"
@@ -44,6 +45,7 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
   <a
     class="course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
+    tabindex="0"
   >
     <div
       class="course-search-card__image-container h-[240px] sm:w-fit w-full"

@@ -65,6 +65,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/what-is-ai-alignment/"
+              tabindex="0"
             >
               different aspects of AI safety here
             </a>
@@ -72,6 +73,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/ai-risks/"
+              tabindex="0"
             >
               range of AI risks here
             </a>
@@ -118,6 +120,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
+              tabindex="0"
             >
               right fit
             </a>
@@ -125,6 +128,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
+              tabindex="0"
             >
               great application.
             </a>
@@ -170,6 +174,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://bluedot.org/running-versions-of-our-courses/"
+              tabindex="0"
             >
               follow our guidelines
             </a>
@@ -182,6 +187,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             <a
               class="bluedot-a"
               href="https://course.bluedot.org/home/facilitator-training"
+              tabindex="0"
             >
               facilitator training course
             </a>

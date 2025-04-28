@@ -109,9 +109,9 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       </label>
     </div>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
-      data-testid="cta-link"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
       href="http://localhost:3000/login?redirect_to=http%3A%2F%2Flocalhost%3A3000%2F"
+      tabindex="0"
     >
       <span
         class="cta-button__text"
@@ -246,9 +246,8 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       </label>
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
-      data-testid="cta-button"
-      type="submit"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
+      type="button"
     >
       <span
         class="cta-button__text"

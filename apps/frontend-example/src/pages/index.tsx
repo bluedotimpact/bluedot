@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import {
-  Button, LegacyText,
+  CTALinkOrButton, NewText,
 } from '@bluedot/ui';
 
 const HomePage = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="mx-8">
-      <LegacyText.H1>frontend-example</LegacyText.H1>
-      <LegacyText.P>This is some example text</LegacyText.P>
-      <Button onPress={() => setCount((c) => c + 1)}>
-        count is {count}
-      </Button>
-      <LegacyText.P>
+    <div className="section-body gap-2">
+      <NewText.H1>frontend-example</NewText.H1>
+      <NewText.P>This is some example text</NewText.P>
+      <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
+        Click count is {count}
+      </CTALinkOrButton>
+      <NewText.P>
         Edit <code>src/pages/index.tsx</code> and save to test HMR
-      </LegacyText.P>
-      <Button url="/authed">View page requiring auth</Button>
+      </NewText.P>
+      <CTALinkOrButton url="/authed" withChevron>View page requiring auth</CTALinkOrButton>
     </div>
   );
 };

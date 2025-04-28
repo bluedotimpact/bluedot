@@ -220,7 +220,7 @@ export const services: ServiceDefinition[] = [
         },
         resources: {
           limits: {
-            memory: '500Mi',
+            memory: '1000Mi',
           },
         },
       }],

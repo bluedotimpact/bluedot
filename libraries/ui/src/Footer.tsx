@@ -3,8 +3,9 @@ import React from 'react';
 import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
-import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 import { COURSES } from './constants';
+import { A } from './Text';
+import { ClickTarget } from './ClickTarget';
 
 export type FooterProps = React.PropsWithChildren<{
   // Optional
@@ -25,9 +26,9 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
       <ul className="footer__list space-y-4 mb-auto list-none p-0">
         {links.map((link) => (
           <li key={link.url} className="footer__item leading-tight">
-            <a href={link.url} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline">
+            <A href={link.url} className="footer__link text-bluedot-lighter hover:text-white no-underline">
               {link.label}
-            </a>
+            </A>
           </li>
         ))}
       </ul>
@@ -41,15 +42,15 @@ type FooterSocialProps = {
 
 const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
   <div className={clsx('footer__social flex gap-6', className)}>
-    <a href="https://twitter.com/BlueDotImpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="Twitter">
+    <A href="https://twitter.com/BlueDotImpact" className="footer__social-link link-on-dark" aria-label="Twitter">
       <FaXTwitter className="size-6" />
-    </a>
-    <a href="https://youtube.com/@bluedotimpact" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="YouTube">
+    </A>
+    <A href="https://youtube.com/@bluedotimpact" className="footer__social-link link-on-dark" aria-label="YouTube">
       <FaYoutube className="size-6" />
-    </a>
-    <a href="https://www.linkedin.com/company/bluedotimpact/" {...EXTERNAL_LINK_PROPS} className="footer__social-link link-on-dark bluedot-a" aria-label="LinkedIn">
+    </A>
+    <A href="https://www.linkedin.com/company/bluedotimpact/" className="footer__social-link link-on-dark" aria-label="LinkedIn">
       <FaLinkedin className="size-6" />
-    </a>
+    </A>
   </div>
 );
 
@@ -58,13 +59,13 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
     <div className="footer__container section-base">
       <nav className="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-4">
         <div className="footer__brand flex flex-row lg:flex-col justify-between">
-          <a href="/" className="footer__logo">
+          <ClickTarget url="/" className="footer__logo">
             {logo ? (
               <img className="h-8" src={logo} alt="BlueDot Impact Logo" />
             ) : (
               <p className="h-8 text-size-lg text-white bluedot-p">BlueDot Impact</p>
             )}
-          </a>
+          </ClickTarget>
           <FooterSocial className="hidden sm:flex" />
         </div>
 
@@ -73,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
             title="BlueDot Impact"
             links={[
               { url: '/about', label: 'About us' },
-              { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us', ...EXTERNAL_LINK_PROPS },
+              { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
               { url: '/careers', label: 'Join us' },
               { url: '/contact', label: 'Contact us' },
               { url: '/privacy-policy', label: 'Privacy Policy' },
@@ -90,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
         <FooterSocial className="sm:hidden" />
       </nav>
       <p className="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p">
-        &copy; {new Date().getFullYear()} <a href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">BlueDot Impact</a> is primarily funded by <a href="https://www.openphilanthropy.org/" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">Open Philanthropy</a>, and is a non-profit based in the UK (company number <a href="https://find-and-update.company-information.service.gov.uk/company/14964572" {...EXTERNAL_LINK_PROPS} className="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a">14964572</a>).
+        &copy; {new Date().getFullYear()} <A href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white">BlueDot Impact</A> is primarily funded by <A href="https://www.openphilanthropy.org/" className="footer__link text-bluedot-lighter hover:text-white">Open Philanthropy</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="footer__link text-bluedot-lighter hover:text-white">14964572</A>).
       </p>
     </div>
   </footer>

@@ -13,6 +13,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       <a
         class="bluedot-a"
         href="https://bluedot.org/privacy-policy"
+        tabindex="0"
       >
         Cookie Policy
       </a>
@@ -22,8 +23,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       class="cookie-banner__buttons flex flex-wrap gap-space-between justify-center"
     >
       <button
-        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
-        data-testid="cta-button"
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
         type="button"
       >
         <span
@@ -33,8 +33,7 @@ exports[`CookieBanner > renders as expected 1`] = `
         </span>
       </button>
       <button
-        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
-        data-testid="cta-button"
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
         type="button"
       >
         <span

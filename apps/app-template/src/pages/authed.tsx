@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import {
-  ErrorSection, NewText, withAuth, CTALinkOrButton, Card,
+  ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { Person, personTable } from '../lib/api/db/tables';
@@ -40,7 +40,7 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
   });
 
   if (loading) {
-    return <NewText.P>Loading...</NewText.P>;
+    return <ProgressDots />;
   }
 
   if (error) {

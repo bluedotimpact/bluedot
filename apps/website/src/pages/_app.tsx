@@ -1,7 +1,6 @@
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
 import {
@@ -87,9 +86,4 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-const AppWithNoSsr = dynamic(
-  () => Promise.resolve(App),
-  { ssr: false },
-);
-
-export default AppWithNoSsr;
+export default App;

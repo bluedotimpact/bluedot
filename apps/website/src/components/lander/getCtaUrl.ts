@@ -1,5 +1,5 @@
 export const getCtaUrl = (variant: string) => {
-  const thisPageQueryParams = new URLSearchParams(window.location.search);
+  const thisPageQueryParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : undefined);
   const miniextensionsQueryParams = new URLSearchParams();
   thisPageQueryParams.forEach((value, key) => {
     miniextensionsQueryParams.append(`prefill_${key}`, value);

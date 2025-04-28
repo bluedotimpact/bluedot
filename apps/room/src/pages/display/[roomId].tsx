@@ -1,4 +1,4 @@
-import { LegacyText } from '@bluedot/ui';
+import { NewText } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -24,17 +24,15 @@ const DisplayPage = () => {
       <div className="max-w-2xl mx-auto text-center">
         <div className="container-lined p-8 my-4">
           <Clock />
-          <p className="text-size-lg mt-20 mb-6">
+          <p className="text-size-lg mt-16 mb-8">
             This room is ready for your meeting.
           </p>
-          <LegacyText.P>Control it at <span className="font-mono bg-stone-200 px-2 py-1 rounded select-all">{window.location.host}/{roomId}</span></LegacyText.P>
-          <LegacyText.P>Or hit <kbd className="font-mono bg-stone-50 border shadow px-2 mx-1 py-1 rounded">Enter</kbd> to start an instant meeting</LegacyText.P>
+          <NewText.P className="mb-4">Control it at <span className="font-mono bg-stone-200 px-2 py-1 rounded select-all">{window.location.host}/{roomId}</span></NewText.P>
+          <NewText.P>Or hit <kbd className="font-mono bg-stone-50 border shadow px-2 mx-1 py-1 rounded">Enter</kbd> to start an instant meeting</NewText.P>
         </div>
 
         <div className="text-size-sm text-gray-500 flex gap-2 justify-center">
           <span>Room ID: <span className="select-all">{roomId}</span></span>
-          <span>•</span>
-          <span>Status: Connected</span>
         </div>
       </div>
     </div>

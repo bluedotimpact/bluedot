@@ -17,6 +17,7 @@ exports[`Footer > renders default as expected 1`] = `
           <a
             class="footer__logo"
             href="/"
+            tabindex="0"
           >
             <p
               class="h-8 text-size-lg text-white bluedot-p"
@@ -29,10 +30,9 @@ exports[`Footer > renders default as expected 1`] = `
           >
             <a
               aria-label="Twitter"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://twitter.com/BlueDotImpact"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -51,10 +51,9 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
             <a
               aria-label="YouTube"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://youtube.com/@bluedotimpact"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -73,10 +72,9 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
             <a
               aria-label="LinkedIn"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://www.linkedin.com/company/bluedotimpact/"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -113,8 +111,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/about"
+                  tabindex="0"
                 >
                   About us
                 </a>
@@ -123,8 +122,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
                 >
                   Support us
                 </a>
@@ -133,8 +133,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/careers"
+                  tabindex="0"
                 >
                   Join us
                 </a>
@@ -143,8 +144,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/contact"
+                  tabindex="0"
                 >
                   Contact us
                 </a>
@@ -153,8 +155,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/privacy-policy"
+                  tabindex="0"
                 >
                   Privacy Policy
                 </a>
@@ -176,8 +179,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
-                  href="/courses/future-of-ai/"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
+                  href="/courses/future-of-ai"
+                  tabindex="0"
                 >
                   The Future of AI Course
                 </a>
@@ -186,8 +190,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/economics-of-tai/"
+                  tabindex="0"
                 >
                   Economics of Transformative AI
                 </a>
@@ -196,8 +201,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/alignment/"
+                  tabindex="0"
                 >
                   AI Alignment
                 </a>
@@ -206,8 +212,9 @@ exports[`Footer > renders default as expected 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/governance/"
+                  tabindex="0"
                 >
                   AI Governance
                 </a>
@@ -220,10 +227,9 @@ exports[`Footer > renders default as expected 1`] = `
         >
           <a
             aria-label="Twitter"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://twitter.com/BlueDotImpact"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -242,10 +248,9 @@ exports[`Footer > renders default as expected 1`] = `
           </a>
           <a
             aria-label="YouTube"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://youtube.com/@bluedotimpact"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -264,10 +269,9 @@ exports[`Footer > renders default as expected 1`] = `
           </a>
           <a
             aria-label="LinkedIn"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://www.linkedin.com/company/bluedotimpact/"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -293,26 +297,25 @@ exports[`Footer > renders default as expected 1`] = `
         2025
          
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://bluedot.org/"
+          tabindex="0"
         >
           BlueDot Impact
         </a>
          is primarily funded by 
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
+          tabindex="0"
         >
           Open Philanthropy
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
+          tabindex="0"
         >
           14964572
         </a>
@@ -340,6 +343,7 @@ exports[`Footer > renders with optional args 1`] = `
           <a
             class="footer__logo"
             href="/"
+            tabindex="0"
           >
             <img
               alt="BlueDot Impact Logo"
@@ -352,10 +356,9 @@ exports[`Footer > renders with optional args 1`] = `
           >
             <a
               aria-label="Twitter"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://twitter.com/BlueDotImpact"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -374,10 +377,9 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
             <a
               aria-label="YouTube"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://youtube.com/@bluedotimpact"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -396,10 +398,9 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
             <a
               aria-label="LinkedIn"
-              class="footer__social-link link-on-dark bluedot-a"
+              class="bluedot-a footer__social-link link-on-dark"
               href="https://www.linkedin.com/company/bluedotimpact/"
-              rel="noopener noreferrer"
-              target="_blank"
+              tabindex="0"
             >
               <svg
                 class="size-6"
@@ -436,8 +437,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/about"
+                  tabindex="0"
                 >
                   About us
                 </a>
@@ -446,8 +448,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
                 >
                   Support us
                 </a>
@@ -456,8 +459,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/careers"
+                  tabindex="0"
                 >
                   Join us
                 </a>
@@ -466,8 +470,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/contact"
+                  tabindex="0"
                 >
                   Contact us
                 </a>
@@ -476,8 +481,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="/privacy-policy"
+                  tabindex="0"
                 >
                   Privacy Policy
                 </a>
@@ -499,8 +505,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
-                  href="/courses/future-of-ai/"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
+                  href="/courses/future-of-ai"
+                  tabindex="0"
                 >
                   The Future of AI Course
                 </a>
@@ -509,8 +516,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/economics-of-tai/"
+                  tabindex="0"
                 >
                   Economics of Transformative AI
                 </a>
@@ -519,8 +527,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/alignment/"
+                  tabindex="0"
                 >
                   AI Alignment
                 </a>
@@ -529,8 +538,9 @@ exports[`Footer > renders with optional args 1`] = `
                 class="footer__item leading-tight"
               >
                 <a
-                  class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a no-underline"
+                  class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
                   href="https://aisafetyfundamentals.com/governance/"
+                  tabindex="0"
                 >
                   AI Governance
                 </a>
@@ -543,10 +553,9 @@ exports[`Footer > renders with optional args 1`] = `
         >
           <a
             aria-label="Twitter"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://twitter.com/BlueDotImpact"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -565,10 +574,9 @@ exports[`Footer > renders with optional args 1`] = `
           </a>
           <a
             aria-label="YouTube"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://youtube.com/@bluedotimpact"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -587,10 +595,9 @@ exports[`Footer > renders with optional args 1`] = `
           </a>
           <a
             aria-label="LinkedIn"
-            class="footer__social-link link-on-dark bluedot-a"
+            class="bluedot-a footer__social-link link-on-dark"
             href="https://www.linkedin.com/company/bluedotimpact/"
-            rel="noopener noreferrer"
-            target="_blank"
+            tabindex="0"
           >
             <svg
               class="size-6"
@@ -616,26 +623,25 @@ exports[`Footer > renders with optional args 1`] = `
         2025
          
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://bluedot.org/"
+          tabindex="0"
         >
           BlueDot Impact
         </a>
          is primarily funded by 
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://www.openphilanthropy.org/"
-          rel="noopener noreferrer"
-          target="_blank"
+          tabindex="0"
         >
           Open Philanthropy
         </a>
         , and is a non-profit based in the UK (company number 
         <a
-          class="footer__link text-bluedot-lighter hover:text-white hover:cursor-pointer bluedot-a"
+          class="bluedot-a footer__link text-bluedot-lighter hover:text-white"
           href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          rel="noopener noreferrer"
-          target="_blank"
+          tabindex="0"
         >
           14964572
         </a>

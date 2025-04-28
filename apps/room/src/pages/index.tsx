@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  asError, CardButton, LegacyText, withAuth,
+  ClickTarget, ErrorSection, NewText, withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { Room } from '../lib/types';
@@ -36,8 +36,8 @@ const DashboardPage = withAuth(({ auth }) => {
   if (loading && !rooms) {
     return (
       <div className="p-8">
-        <div className="max-w-4xl mx-auto">
-          <LegacyText.H1>Rooms</LegacyText.H1>
+        <div className="section-base">
+          <NewText.H1 className="mb-4">Rooms</NewText.H1>
           <div className="animate-pulse grid gap-6 md:grid-cols-2">
             <div className="h-20 bg-stone-200 rounded" />
             <div className="h-20 bg-stone-200 rounded" />
@@ -50,32 +50,23 @@ const DashboardPage = withAuth(({ auth }) => {
 
   if (error || !rooms) {
     return (
-      <div className="p-8">
-        <div className="max-w-2xl mx-auto">
-          <LegacyText.H1 className="text-red-600">Error</LegacyText.H1>
-          <LegacyText.P className="text-red-700">{asError(error || 'Missing room data').message}</LegacyText.P>
-        </div>
-      </div>
+      <ErrorSection error={error || new Error('Failed to load rooms')} />
     );
   }
 
   return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto">
-        <LegacyText.H1>Rooms</LegacyText.H1>
+    <div className="py-8">
+      <div className="section-base">
+        <NewText.H1 className="mb-4">Rooms</NewText.H1>
 
         <div className="grid gap-6 md:grid-cols-2">
           {rooms.map((room) => (
-            <CardButton
-              key={room.id}
-              onPress={() => router.push(`/${room.id}`)}
-              className="!py-6"
-            >
+            <ClickTarget onClick={() => router.push(`/${room.id}`)} className="container-lined cursor-pointer hover:bg-cream-dark focus:bg-cream-dark p-6 transition-all">
               <div className="flex items-center justify-between">
                 <h2 className="text-size-lg font-semibold">{room.name}</h2>
                 <RoomHealthIndicator status={room.status} />
               </div>
-            </CardButton>
+            </ClickTarget>
           ))}
         </div>
       </div>

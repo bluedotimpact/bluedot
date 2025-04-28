@@ -8,7 +8,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     <a
       class="social-share__link size-6"
       href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin%26r%3D5SR7C4&text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
-      rel="noopener noreferrer"
+      tabindex="0"
       target="_blank"
     >
       <svg
@@ -29,7 +29,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     <a
       class="social-share__link size-6"
       href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter%26r%3D5SR7C4&text=I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
-      rel="noopener noreferrer"
+      tabindex="0"
       target="_blank"
     >
       <svg
@@ -50,7 +50,7 @@ exports[`SocialShare > renders default as expected 1`] = `
     <a
       class="social-share__link size-6"
       href="https://www.facebook.com/sharer/sharer.php"
-      rel="noopener noreferrer"
+      tabindex="0"
       target="_blank"
     >
       <svg

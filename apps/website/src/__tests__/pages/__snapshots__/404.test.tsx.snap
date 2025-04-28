@@ -42,8 +42,9 @@ exports[`Error404Page > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
               href="/"
+              tabindex="0"
             >
               Home
             </a>
@@ -57,8 +58,9 @@ exports[`Error404Page > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="breadcrumbs__link bluedot-a no-underline"
+              class="bluedot-a breadcrumbs__link no-underline"
               href="/an-invalid-path"
+              tabindex="0"
             >
               Error 404
             </a>

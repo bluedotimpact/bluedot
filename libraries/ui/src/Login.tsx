@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
 import { Navigate } from './Navigate';
-import { Auth, useAuthStore } from '../utils/auth';
-import { ErrorSection } from '../ErrorSection';
-import { getQueryParam } from '../utils/getQueryParam';
-import { ProgressDots } from '../ProgressDots';
+import { Auth, useAuthStore } from './utils/auth';
+import { ErrorSection } from './ErrorSection';
+import { getQueryParam } from './utils/getQueryParam';
+import { ProgressDots } from './ProgressDots';
 
 export type LoginPageProps = {
   oidcSettings: OidcClientSettings
@@ -97,7 +97,8 @@ export const loginPresets = {
       authority: 'https://login.bluedot.org/realms/customers/',
       client_id: 'bluedot-web-apps',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
-      scope: 'openid email offline_access',
+      // 2025-04-27: offline_access temporarily disabled - see https://github.com/bluedotimpact/bluedot/issues/761
+      // scope: 'openid email offline_access',
     },
     verifyAndDecodeToken: async (token: string) => {
       return verifyJwt(token, {
@@ -144,7 +145,7 @@ export const loginPresets = {
 }>;
 
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
-  const redirectTo = getQueryParam(window.location.href, 'redirect_to') || '/';
+  const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import {
   CTALinkOrButton,
-  LegacyText,
+  NewText,
   ProgressDots,
   Section,
   Footer,
@@ -21,14 +21,19 @@ const CertificatePage = () => {
 
   if (!certificateId) {
     return (
-      <Section>
-        <LegacyText.H1>Invalid certificate</LegacyText.H1>
-        <LegacyText.P>Check the link you were sent and try again.</LegacyText.P>
-        <div className="flex flex-row gap-4 mt-4">
-          <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
-          <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
-        </div>
-      </Section>
+      <main className="bluedot-base flex flex-col">
+        <Section className="flex-1">
+          <div className="flex flex-col gap-4 mt-4">
+            <NewText.H1>Missing certificate id</NewText.H1>
+            <NewText.P>Check the link you were sent and try again.</NewText.P>
+            <div className="flex flex-row gap-4">
+              <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
+              <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
+            </div>
+          </div>
+        </Section>
+        <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+      </main>
     );
   }
 
@@ -47,15 +52,18 @@ const CertificatePage = () => {
 
   if (error || !data) {
     return (
-      <main className="bluedot-base">
-        <Section>
-          <LegacyText.H1>Certificate not found</LegacyText.H1>
-          <LegacyText.P>We couldn't find the certificate you're looking for.</LegacyText.P>
-          <div className="flex flex-row gap-4 mt-4">
-            <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
-            <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
+      <main className="bluedot-base flex flex-col">
+        <Section className="flex-1">
+          <div className="flex flex-col gap-4 mt-4">
+            <NewText.H1>Certificate not found</NewText.H1>
+            <NewText.P>We couldn't find the certificate you're looking for.</NewText.P>
+            <div className="flex flex-row gap-4">
+              <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
+              <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
+            </div>
           </div>
         </Section>
+        <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
       </main>
     );
   }
@@ -65,7 +73,7 @@ const CertificatePage = () => {
   return (
     <main className="bluedot-base flex flex-col">
       <Head>
-        <title>{certificate.recipientName}'s Certificate | BlueDot Impact</title>
+        <title>{`${certificate.recipientName}'s Certificate | BlueDot Impact`}</title>
         <meta name="description" content={`Certificate of completion for ${certificate.courseName}`} />
       </Head>
 
@@ -83,12 +91,12 @@ const CertificatePage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 my-12">
-          <div className="md:w-1/3">
+        <div className="flex flex-col sm:flex-row gap-8 my-12">
+          <div className="max-w-sm mx-auto sm:w-1/3">
             <img src={certificate.certificationBadgeImageSrc} alt="Certificate badge" />
           </div>
 
-          <div className="md:w-2/3 space-y-4">
+          <div className="sm:w-2/3 space-y-4">
             <P><span className="text-bluedot-normal font-semibold">BlueDot Impact</span> confirms that</P>
             <P className="text-4xl font-serif font-bold">{certificate.recipientName}</P>
             <P className="text-gray-700">has successfully completed the</P>

@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { Card } from './Card';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
+import { ClickTarget } from './ClickTarget';
 
 export type CourseCardProps = React.PropsWithChildren<{
   title: string,
@@ -44,8 +45,8 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
   );
 
   return (
-    <a
-      href={url}
+    <ClickTarget
+      url={url}
       className={wrapperClassName}
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
@@ -80,7 +81,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
         )}
       </div>
       {children}
-    </a>
+    </ClickTarget>
   );
 };
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button, Link } from '@bluedot/ui';
+import {
+  CTALinkOrButton, NewText,
+} from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { Page } from './Page';
-import { H1 } from './Text';
 
 export type AppJoinViewProps = {
   page: PageState & { name: 'appJoin' },
@@ -37,23 +38,19 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetin
   if (secondsToOpen <= 0) {
     return (
       <Page>
-        <div className="flex">
-          <H1 className="flex-1">Enjoy your meeting!</H1>
-        </div>
+        <NewText.H1 className="mb-4">Enjoy your meeting!</NewText.H1>
         {meetingHostKeyMessage}
-        <Button onPress={() => joinDirect()}>Join now</Button>
-        <p className="mt-4">Button doesn't work? <Link url={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</Link></p>
+        <CTALinkOrButton onClick={() => joinDirect()}>Join now</CTALinkOrButton>
+        <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>
       </Page>
     );
   }
 
   return (
     <Page>
-      <div className="flex">
-        <H1 className="flex-1">Joining your meeting in {secondsToOpen}...</H1>
-      </div>
+      <NewText.H1 className="mb-4">Joining your meeting in {secondsToOpen}...</NewText.H1>
       {meetingHostKeyMessage}
-      <Button onPress={() => setSecondsToOpen(0)}>Join now</Button>
+      <CTALinkOrButton onClick={() => setSecondsToOpen(0)}>Join now</CTALinkOrButton>
     </Page>
   );
 };

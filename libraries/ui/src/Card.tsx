@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { EXTERNAL_LINK_PROPS } from './utils/externalLinkProps';
 
 export type CardProps = {
   // Required
@@ -12,7 +11,6 @@ export type CardProps = {
   ctaUrl?: string;
   ctaText?: string;
   isEntireCardClickable?: boolean;
-  isExternalUrl?: boolean;
   className?: string;
   imageClassName?: string;
   subtitleClassName?: string;
@@ -26,7 +24,6 @@ export const Card: React.FC<CardProps> = ({
   ctaUrl,
   ctaText,
   isEntireCardClickable = false,
-  isExternalUrl = false,
   className = '',
   imageClassName = '',
   subtitleClassName = '',
@@ -45,7 +42,6 @@ export const Card: React.FC<CardProps> = ({
   return (
     <Wrapper
       href={isEntireCardClickable ? ctaUrl : undefined}
-      {...(isEntireCardClickable && isExternalUrl && EXTERNAL_LINK_PROPS)}
       className={wrapperClassName}
     >
       {imageSrc && (
@@ -71,7 +67,6 @@ export const Card: React.FC<CardProps> = ({
                 url={ctaUrl}
                 variant="secondary"
                 withChevron={false}
-                isExternalUrl={isExternalUrl}
               >
                 {ctaText}
               </CTALinkOrButton>
