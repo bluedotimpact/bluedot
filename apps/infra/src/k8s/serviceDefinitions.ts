@@ -1,6 +1,6 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
-import { getConnectionDetails, keycloakPg } from './postgres';
+import { getConnectionDetails, keycloakNewPg, keycloakPg } from './postgres';
 
 export const services: ServiceDefinition[] = [
   {
@@ -205,8 +205,35 @@ export const services: ServiceDefinition[] = [
         name: 'bluedot-login',
         image: 'ghcr.io/bluedotimpact/bluedot-login:latest',
         env: [
+          { name: 'KC_DB_URL', valueFrom: getConnectionDetails(keycloakNewPg).jdbcUri },
+        ],
+        startupProbe: {
+          httpGet: { path: '/health/started', port: 9000 },
+          failureThreshold: 18,
+        },
+        livenessProbe: {
+          httpGet: { path: '/health/live', port: 9000 },
+        },
+        readinessProbe: {
+          httpGet: { path: '/health/ready', port: 9000 },
+        },
+        resources: {
+          limits: {
+            memory: '1000Mi',
+          },
+        },
+      }],
+    },
+    hosts: ['login-new.k8s.bluedot.org'],
+  },
+  {
+    name: 'bluedot-login-old',
+    spec: {
+      containers: [{
+        name: 'bluedot-login-old',
+        image: 'ghcr.io/bluedotimpact/bluedot-login-old:latest',
+        env: [
           { name: 'KC_DB_URL', valueFrom: getConnectionDetails(keycloakPg).jdbcUri },
-          { name: 'KEYCLOAK_ADMIN_PASSWORD', valueFrom: envVarSources.keycloakAdminPassword },
         ],
         startupProbe: {
           httpGet: { path: '/health/started', port: 9000 },
