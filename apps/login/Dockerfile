@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:26.2@sha256:87758ff2293c78c942c7a1f0df2bc13e0f943fcf0c0d027c12fdfac54a35d93b AS base
+FROM quay.io/keycloak/keycloak:26.2@sha256:9869b88191392727f0be7301e53573cc39c13c9d9b9b08492c97d1ea40366eae AS base
 
 ### Build
 FROM base AS builder
@@ -8,7 +8,8 @@ ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 ENV KC_FEATURES=admin-api,admin:v2,authorization,impersonation
 ENV KC_FEATURES_DISABLED=account-api,account,ciba,client-policies,device-flow,kerberos,par,step-up-authentication,web-authn
-COPY ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers
+ADD --chown=keycloak:keycloak --chmod=644 ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers/
+RUN touch -m --date=@1743465600 /opt/keycloak/providers/*
 RUN /opt/keycloak/bin/kc.sh build
 
 ### Final image
