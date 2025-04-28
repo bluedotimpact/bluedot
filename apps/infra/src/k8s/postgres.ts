@@ -26,6 +26,20 @@ export const keycloakPg = new k8s.apiextensions.CustomResource('keycloak-pg', {
   },
 }, { provider, dependsOn: [cloudNativePg] });
 
+export const keycloakNewPg = new k8s.apiextensions.CustomResource('keycloak-new-pg', {
+  apiVersion: 'postgresql.cnpg.io/v1',
+  kind: 'Cluster',
+  metadata: {
+    name: 'keycloak-new-pg',
+  },
+  spec: {
+    instances: 1,
+    storage: {
+      size: '5Gi',
+    },
+  },
+}, { provider, dependsOn: [cloudNativePg] });
+
 export const grafanaPg = new k8s.apiextensions.CustomResource('grafana-pg', {
   apiVersion: 'postgresql.cnpg.io/v1',
   kind: 'Cluster',
