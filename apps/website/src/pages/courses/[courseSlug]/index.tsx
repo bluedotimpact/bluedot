@@ -21,10 +21,6 @@ import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSecti
 const CoursePage = () => {
   const { query: { courseSlug } } = useRouter();
 
-  if (typeof courseSlug !== 'string') {
-    return 'Invalid course slug';
-  }
-
   const [{ data, loading, error }] = useAxios<GetCourseResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}`,
