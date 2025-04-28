@@ -1,0 +1,1088 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FutureOfAiLander > renders as expected 1`] = `
+<div>
+  <div
+    class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+  >
+    <div
+      class="hero-section__content max-w-[865px] py-12"
+    >
+      <div
+        class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+      >
+        Future of AI
+      </div>
+      <h1
+        class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
+      >
+        AI is shaping the future. So can you.
+      </h1>
+      <p
+        class="text-color-text-on-dark text-center mt-4"
+      >
+        A free 2-hour course that explains AI simply — empowering you to help build a future that works for all of us.
+      </p>
+      <div
+        class="flex flex-row flex-wrap justify-center gap-2 items-center mt-4"
+      >
+        <div
+          class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 384 512"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.5-1.7 9.5L208 160H347.3c20.2 0 36.7 16.4 36.7 36.7c0 7.4-2.2 14.6-6.4 20.7l-192.2 281c-5.9 8.6-15.6 13.7-25.9 13.7h-2.9c-15.7 0-28.5-12.8-28.5-28.5c0-2.3 .3-4.6 .9-6.9L176 288H32c-17.7 0-32-14.3-32-32z"
+            />
+          </svg>
+           2 hours
+        </div>
+        <div
+          class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 384 512"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM1.3 441.8L44.4 339.3c.2 .1 .3 .2 .4 .4l9.6 19.1c11.7 23.2 36 37.3 62 35.8l21.3-1.3c.2 0 .5 0 .7 .2l17.8 11.8c5.1 3.3 10.5 5.9 16.1 7.7l-37.6 89.3c-2.3 5.5-7.4 9.2-13.3 9.7s-11.6-2.2-14.8-7.2L74.4 455.5l-56.1 8.3c-5.7 .8-11.4-1.5-15-6s-4.3-10.7-2.1-16zm248 60.4L211.7 413c5.6-1.8 11-4.3 16.1-7.7l17.8-11.8c.2-.1 .4-.2 .7-.2l21.3 1.3c26 1.5 50.3-12.6 62-35.8l9.6-19.1c.1-.2 .2-.3 .4-.4l43.2 102.5c2.2 5.3 1.4 11.4-2.1 16s-9.3 6.9-15 6l-56.1-8.3-32.2 49.2c-3.2 5-8.9 7.7-14.8 7.2s-11-4.3-13.3-9.7z"
+            />
+          </svg>
+           Free certification
+        </div>
+        <div
+          class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 384 512"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2c0 0 0 0 0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4c0 0 0 0 0 0c19.8 27.1 39.7 54.4 49.2 86.2l160 0zM192 512c44.2 0 80-35.8 80-80l0-16-160 0 0 16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"
+            />
+          </svg>
+           No experience required
+        </div>
+      </div>
+      <div
+        class="flex justify-center mt-8"
+      >
+        <a
+          class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark"
+          href="/courses/test-course/1"
+          tabindex="0"
+        >
+          <span
+            class="cta-button__text"
+          >
+            Start learning for free
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <svg
+              class="cta-button__chevron-icon size-2"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <section
+    class="section section-body graduate-section !py-8"
+  >
+    <div
+      class="section__body"
+    >
+      <div
+        class="graduate-section__container flex flex-col md:flex-row gap-6 items-center"
+      >
+        <div
+          class="graduate-section__header flex items-center gap-2 shrink-0"
+        >
+          <div
+            class="face-tiles flex items-center "
+          >
+            <div
+              class="face-tiles__container flex -space-x-3"
+            >
+              <div
+                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+                style="width: 32px; height: 32px;"
+              >
+                <img
+                  alt="Matthew"
+                  class="face-tiles__avatar-img size-full object-cover"
+                  src="/images/graduates/matthew.png"
+                />
+              </div>
+              <div
+                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+                style="width: 32px; height: 32px;"
+              >
+                <img
+                  alt="Sarah"
+                  class="face-tiles__avatar-img size-full object-cover"
+                  src="/images/graduates/sarah.png"
+                />
+              </div>
+              <div
+                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
+                style="width: 32px; height: 32px;"
+              >
+                <img
+                  alt="Kendrea"
+                  class="face-tiles__avatar-img size-full object-cover"
+                  src="/images/graduates/kendrea.png"
+                />
+              </div>
+              <div
+                class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-size-xs border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
+              >
+                +
+                4000
+              </div>
+            </div>
+          </div>
+          <p
+            class="bluedot-p graduate-section__text flex-shrink-0"
+          >
+            Our graduates work at
+          </p>
+        </div>
+        <div
+          class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]"
+        >
+          <ul
+            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+          >
+            <li>
+              <img
+                alt="Anthropic"
+                class="h-3"
+                src="/images/third-party-logos/anthropic.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Centre for the Study of Existential Risk"
+                class="h-6"
+                src="/images/third-party-logos/exrisk.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="OpenAI"
+                class="h-6"
+                src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Google DeepMind"
+                class="h-6"
+                src="/images/third-party-logos/deepmind.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Centre for Governance of AI"
+                class="h-6"
+                src="/images/third-party-logos/govai.png"
+              />
+            </li>
+            <li>
+              <img
+                alt="METR"
+                class="h-6"
+                src="/images/third-party-logos/metr.png"
+              />
+            </li>
+          </ul>
+          <ul
+            aria-hidden="true"
+            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+          >
+            <li>
+              <img
+                alt="Anthropic"
+                class="h-3"
+                src="/images/third-party-logos/anthropic.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Centre for the Study of Existential Risk"
+                class="h-6"
+                src="/images/third-party-logos/exrisk.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="OpenAI"
+                class="h-6"
+                src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Google DeepMind"
+                class="h-6"
+                src="/images/third-party-logos/deepmind.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Centre for Governance of AI"
+                class="h-6"
+                src="/images/third-party-logos/govai.png"
+              />
+            </li>
+            <li>
+              <img
+                alt="METR"
+                class="h-6"
+                src="/images/third-party-logos/metr.png"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    class="section section-body"
+  >
+    <div
+      class="section__body"
+    >
+      <div
+        class="slide-list relative overflow-hidden flex flex-col gap-space-between future-of-ai-lander__callouts"
+      >
+        <div
+          class="slide-list__gradient-wrapper relative flex-1"
+        >
+          <div
+            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          >
+            <div
+              class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+            />
+          </div>
+          <div
+            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+            style="scroll-padding-inline: 0px;"
+          >
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 future-of-ai-lander__callout"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Wondering how AI will transform your work and everyday life?"
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
+                    src="/images/beliefs/agi.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title bluedot-h4 mb-2"
+                    >
+                      Wondering how AI will transform your work and everyday life?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 future-of-ai-lander__callout"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Do you want to see what cutting-edge AI systems can do today?"
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
+                    src="/images/beliefs/powering.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title bluedot-h4 mb-2"
+                    >
+                      Do you want to see what cutting-edge AI systems can do today?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 future-of-ai-lander__callout"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Curious about how AI will reshape our world in the coming years?"
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
+                    src="/images/beliefs/matters.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title bluedot-h4 mb-2"
+                    >
+                      Curious about how AI will reshape our world in the coming years?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex justify-between items-center gap-space-between"
+        >
+          <button
+            aria-label="Previous slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15 19l-7-7 7-7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="slide-list__progress w-full relative h-1"
+          >
+            <div
+              class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+            />
+            <div
+              class="slide-list__progress-track absolute h-full bg-bluedot-normal"
+              style="width: 33.33333333333333%;"
+            />
+          </div>
+          <button
+            aria-label="Next slide"
+            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            type="button"
+          >
+            <svg
+              class="slide-list__nav-icon size-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div
+    class="future-of-ai-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter"
+  >
+    <h3
+      class="bluedot-h3 future-of-ai-lander__banner-title"
+    >
+      Try it yourself, get certified, and join the movement today:
+    </h3>
+    <a
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
+      href="/courses/test-course/1"
+      tabindex="0"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Start learning for free
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <svg
+          class="cta-button__chevron-icon size-2"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
+      </span>
+    </a>
+  </div>
+  <section
+    class="section section-body course-units-section"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h3
+          class="section-heading__title relative ml-[-0.08em] bluedot-h3"
+        >
+          What you'll learn
+        </h3>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="course-units-section__content"
+      >
+        <div
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between course-units-section__units"
+        >
+          <div
+            class="slide-list__gradient-wrapper relative flex-1"
+          >
+            <div
+              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+            >
+              <div
+                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+              />
+            </div>
+            <div
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              style="scroll-padding-inline: 0px;"
+            >
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="max-w-[350px] h-full"
+                >
+                  <a
+                    class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                    href="/courses/test-course/1"
+                    tabindex="0"
+                  >
+                    <div
+                      class="unit-card__item flex flex-col gap-2"
+                    >
+                      <p
+                        class="unit-card__number uppercase text-size-xs font-bold"
+                      >
+                        Unit 
+                        1
+                      </p>
+                      <p
+                        class="unit-card__title text-color-secondary-text text-size-md font-[650]"
+                      >
+                        Basic Principles of Fish
+                      </p>
+                      <p
+                        class="unit-card__description"
+                      >
+                        Master the fundamental concepts of fish biology, behavior, and basic aquatic principles.
+                      </p>
+                    </div>
+                    <div
+                      class="unit-card__metadata flex flex-row justify-between items-end"
+                    >
+                      <span
+                        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+                        role="status"
+                      >
+                        12
+                         mins
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="max-w-[350px] h-full"
+                >
+                  <a
+                    class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                    href="/courses/test-course/2"
+                    tabindex="0"
+                  >
+                    <div
+                      class="unit-card__item flex flex-col gap-2"
+                    >
+                      <p
+                        class="unit-card__number uppercase text-size-xs font-bold"
+                      >
+                        Unit 
+                        2
+                      </p>
+                      <p
+                        class="unit-card__title text-color-secondary-text text-size-md font-[650]"
+                      >
+                        What Fish Are People Catching, and Why?
+                      </p>
+                      <p
+                        class="unit-card__description"
+                      >
+                        Explore current trends in fishing technology and the motives behind different fishing approaches.
+                      </p>
+                    </div>
+                    <div
+                      class="unit-card__metadata flex flex-row justify-between items-end"
+                    >
+                      <span
+                        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+                        role="status"
+                      >
+                        5
+                         mins
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="max-w-[350px] h-full"
+                >
+                  <a
+                    class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                    href="/courses/test-course/3"
+                    tabindex="0"
+                  >
+                    <div
+                      class="unit-card__item flex flex-col gap-2"
+                    >
+                      <p
+                        class="unit-card__number uppercase text-size-xs font-bold"
+                      >
+                        Unit 
+                        3
+                      </p>
+                      <p
+                        class="unit-card__title text-color-secondary-text text-size-md font-[650]"
+                      >
+                        The Promise of Fish
+                      </p>
+                      <p
+                        class="unit-card__description"
+                      >
+                        Understand how fish will revolutionize everything from the economy to your social life.
+                      </p>
+                    </div>
+                    <div
+                      class="unit-card__metadata flex flex-row justify-between items-end"
+                    >
+                      <span
+                        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+                        role="status"
+                      >
+                        110
+                         mins
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="max-w-[350px] h-full"
+                >
+                  <a
+                    class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                    href="/courses/test-course/4"
+                    tabindex="0"
+                  >
+                    <div
+                      class="unit-card__item flex flex-col gap-2"
+                    >
+                      <p
+                        class="unit-card__number uppercase text-size-xs font-bold"
+                      >
+                        Unit 
+                        4
+                      </p>
+                      <p
+                        class="unit-card__title text-color-secondary-text text-size-md font-[650]"
+                      >
+                        The Risks of Fish
+                      </p>
+                      <p
+                        class="unit-card__description"
+                      >
+                        Explore what could go wrong when fish gain too much power.
+                      </p>
+                    </div>
+                    <div
+                      class="unit-card__metadata flex flex-row justify-between items-end"
+                    >
+                      <span
+                        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+                        role="status"
+                      >
+                        8
+                         mins
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="max-w-[350px] h-full"
+                >
+                  <a
+                    class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
+                    href="/courses/test-course/5"
+                    tabindex="0"
+                  >
+                    <div
+                      class="unit-card__item flex flex-col gap-2"
+                    >
+                      <p
+                        class="unit-card__number uppercase text-size-xs font-bold"
+                      >
+                        Unit 
+                        5
+                      </p>
+                      <p
+                        class="unit-card__title text-color-secondary-text text-size-md font-[650]"
+                      >
+                        Contributing to Fish Safety
+                      </p>
+                      <p
+                        class="unit-card__description"
+                      >
+                        Learn how you can help create a better world for fish (and their reluctant human neighbors).
+                      </p>
+                    </div>
+                    <div
+                      class="unit-card__metadata flex flex-row justify-between items-end"
+                    >
+                      <span
+                        class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text"
+                        role="status"
+                      >
+                        15
+                         mins
+                      </span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between items-center gap-space-between"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <div
+              class="slide-list__progress w-full relative h-1"
+            >
+              <div
+                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+              />
+              <div
+                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
+                style="width: 20%;"
+              />
+            </div>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section
+    class="section section-body"
+  >
+    <div
+      class="section__body"
+    >
+      <div
+        class="testimonial-section pb-spacing-y"
+      >
+        <div
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between testimonial-section__testimonials"
+        >
+          <div
+            class="slide-list__gradient-wrapper relative flex-1"
+          >
+            <div
+              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+            >
+              <div
+                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+              />
+            </div>
+            <div
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              style="scroll-padding-inline: 0px;"
+            >
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="testimonial flex flex-col h-full border rounded-lg p-8"
+                >
+                  <blockquote
+                    class="testimonial__quote mb-space-between flex-grow"
+                  >
+                    "
+                    I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.
+                    "
+                  </blockquote>
+                  <div
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
+                  >
+                    <div
+                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                    >
+                      <img
+                        alt="Craig Dickson"
+                        class="size-full object-cover"
+                        src="/images/graduates/craig.png"
+                      />
+                    </div>
+                    <div
+                      class="testimonial__info"
+                    >
+                      <div
+                        class="testimonial__name font-semibold text-bluedot-black"
+                      >
+                        Craig Dickson
+                      </div>
+                      <div
+                        class="testimonial__role text-size-sm text-bluedot-darker"
+                      >
+                        Senior Data Analyst, Klarna
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="testimonial flex flex-col h-full border rounded-lg p-8"
+                >
+                  <blockquote
+                    class="testimonial__quote mb-space-between flex-grow"
+                  >
+                    "
+                    The course also gave me something I didn't expect: a global community of changemakers, dreamers and thinkers.
+                    "
+                  </blockquote>
+                  <div
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
+                  >
+                    <div
+                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                    >
+                      <img
+                        alt="Crystal Isanda"
+                        class="size-full object-cover"
+                        src="/images/graduates/crystal.jpeg"
+                      />
+                    </div>
+                    <div
+                      class="testimonial__info"
+                    >
+                      <div
+                        class="testimonial__name font-semibold text-bluedot-black"
+                      >
+                        Crystal Isanda
+                      </div>
+                      <div
+                        class="testimonial__role text-size-sm text-bluedot-darker"
+                      >
+                        Foresight Fellow, UNICEF
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="testimonial flex flex-col h-full border rounded-lg p-8"
+                >
+                  <blockquote
+                    class="testimonial__quote mb-space-between flex-grow"
+                  >
+                    "
+                    This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.
+                    "
+                  </blockquote>
+                  <div
+                    class="testimonial__footer flex items-center gap-space-between mt-auto"
+                  >
+                    <div
+                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                    >
+                      <img
+                        alt="Vipul Gupta"
+                        class="size-full object-cover"
+                        src="/images/graduates/vipul.png"
+                      />
+                    </div>
+                    <div
+                      class="testimonial__info"
+                    >
+                      <div
+                        class="testimonial__name font-semibold text-bluedot-black"
+                      >
+                        Vipul Gupta
+                      </div>
+                      <div
+                        class="testimonial__role text-size-sm text-bluedot-darker"
+                      >
+                        Senior Software Engineer, Balena
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex justify-between items-center gap-space-between"
+          >
+            <button
+              aria-label="Previous slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled=""
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15 19l-7-7 7-7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+            <div
+              class="slide-list__progress w-full relative h-1"
+            >
+              <div
+                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+              />
+              <div
+                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
+                style="width: 33.33333333333333%;"
+              />
+            </div>
+            <button
+              aria-label="Next slide"
+              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              type="button"
+            >
+              <svg
+                class="slide-list__nav-icon size-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div
+    class="future-of-ai-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter"
+  >
+    <h3
+      class="bluedot-h3 future-of-ai-lander__banner-title"
+    >
+      Ready to have a say in your future?
+    </h3>
+    <a
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
+      href="/courses/test-course/1"
+      tabindex="0"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Start learning for free
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <svg
+          class="cta-button__chevron-icon size-2"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
+      </span>
+    </a>
+  </div>
+</div>
+`;
