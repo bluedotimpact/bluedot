@@ -6,9 +6,6 @@ import {
   HeroH1,
   HeroSection,
   ProgressDots,
-  Section,
-  SlideList,
-  UnitCard,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
@@ -18,8 +15,8 @@ import { ROUTES } from '../../../lib/routes';
 import { GetCourseResponse } from '../../api/courses/[courseSlug]';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
-import { Unit } from '../../../lib/api/db/tables';
 import GraduateSection from '../../../components/homepage/GraduateSection';
+import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 
 const CoursePage = () => {
   const { query: { courseSlug } } = useRouter();
@@ -33,49 +30,19 @@ const CoursePage = () => {
     url: `/api/courses/${courseSlug}`,
   });
 
-  
-    return (
-      <div>
-        {loading && <ProgressDots />}
-        {error && <ErrorSection error={error} />}
-        {data?.course && (
-          // Custom lander case for Future of AI
-          courseSlug === 'future-of-ai' ? (
-            <FutureOfAiLander courseData={data}/>
-          ) : (
-            <StandardCoursePage courseData={data} />
+  return (
+    <div>
+      {loading && <ProgressDots />}
+      {error && <ErrorSection error={error} />}
+      {data?.course && (
+        // Custom lander case for Future of AI
+        courseSlug === 'future-of-ai' ? (
+          <FutureOfAiLander courseData={data} />
+        ) : (
+          <StandardCoursePage courseData={data} />
         )
       )}
     </div>
-  );
-};
-
-export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
-  return (
-    <Section title="What you'll learn" titleLevel="h3">
-      <div className="course-serp__content">
-        {/* Units must be sorted to ensure correct order */}
-        <SlideList
-          maxItemsPerSlide={4}
-          minItemWidth={300}
-          className="course-units-section__units"
-        >
-          {units.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber)).map((unit) => (
-            <div className="max-w-[350px] h-full">
-              <UnitCard
-                key={unit.unitNumber}
-                className="course-units-section__unit h-full"
-                description={unit.description}
-                duration={unit.duration}
-                title={unit.title}
-                unitNumber={unit.unitNumber}
-                url={unit.path}
-              />
-            </div>
-          ))}
-        </SlideList>
-      </div>
-    </Section>
   );
 };
 
@@ -92,9 +59,9 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
             <HeroH1>{courseData.course.title}</HeroH1>
             <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description}</MarkdownExtendedRenderer>
             {courseData.units?.[0]?.path && (
-            <HeroCTAContainer>
-              <CTALinkOrButton url={courseData.units[0].path}>Browse the curriculum for free</CTALinkOrButton>
-            </HeroCTAContainer>
+              <HeroCTAContainer>
+                <CTALinkOrButton url={courseData.units[0].path}>Browse the curriculum for free</CTALinkOrButton>
+              </HeroCTAContainer>
             )}
           </HeroSection>
           <Breadcrumbs
