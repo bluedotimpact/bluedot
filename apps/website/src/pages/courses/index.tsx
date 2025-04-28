@@ -44,7 +44,7 @@ const CoursePage = () => {
                     description: course.shortDescription,
                     provider: {
                       '@type': 'Organization',
-                      name: 'Bluedot',
+                      name: 'BlueDot Impact',
                       sameAs: 'https://bluedot.org',
                     },
                     url: `https://bluedot.org${course.path}`,
