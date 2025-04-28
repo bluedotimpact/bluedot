@@ -58,7 +58,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <span
                     class="cta-button__text"
                   >
-                    Apply now
+                    Start learning for free
                   </span>
                 </button>
                 <p

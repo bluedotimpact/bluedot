@@ -24,7 +24,7 @@ export type CourseCardProps = React.PropsWithChildren<{
 type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 const applyByText = (applicationDeadline: string | undefined) => {
-  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
+  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Start learning for free';
 };
 
 const FeaturedCourseCard: React.FC<CourseCardProps> = ({
