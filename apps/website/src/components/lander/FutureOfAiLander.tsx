@@ -97,6 +97,33 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const features = [
+  {
+    title: 'No-Nonsense Learning',
+    description: 'Lost in AI buzzwords? Our bite-sized modules transform complex concepts into clear language. You\'ll quickly build the vocabulary to discuss AI confidently at work and with friends.',
+    ctaText: 'Start learning for free',
+    imageSrc: '/images/lander/foai/learn.png',
+  },
+  {
+    title: 'Try it yourself',
+    description: 'Don\'t just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.',
+    ctaText: 'Experience AI',
+    imageSrc: '/images/lander/foai/try.png',
+  },
+  {
+    title: 'Join the community',
+    description: 'Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.',
+    ctaText: 'Get connected',
+    imageSrc: '/images/lander/foai/community.png',
+  },
+  {
+    title: 'Get certified',
+    description: 'Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI\'s foundations and implications.',
+    ctaText: 'Get certified for free',
+    imageSrc: '/images/lander/foai/cert.png',
+  },
+];
+
 const FutureOfAiLander = ({
   courseData,
 }: { courseData: GetCourseResponse }) => {
@@ -186,6 +213,28 @@ const FutureOfAiLander = ({
 
       {/* Units section */}
       <CourseUnitsSection units={courseData.units} />
+
+      {/* Industry quotes section */}
+      <Section>
+        <div className="flex flex-col justify-center gap-2 items-center mt-4 max-w-[728px] mx-auto">
+          {features.map((feature, index) => (
+            <div key={feature.title} className="flex flex-col md:flex-row justify-center gap-2 items-center mt-4">
+              <img 
+                src={feature.imageSrc} 
+                alt={feature.title} 
+                className={`future-of-ai-lander__feature-image max-h-[550px] md:order-${index % 2 === 0 ? '1' : '2'}`} 
+              />
+              <div className={`future-of-ai-lander__content flex flex-col gap-2 items-start max-w-[300px] md:order-${index % 2 === 0 ? '2' : '1'}`}>
+                <H3>{feature.title}</H3>
+                <p>{feature.description}</p>
+                <CTALinkOrButton url={courseData.units?.[0]?.path ?? ''} withChevron>
+                  {feature.ctaText}
+                </CTALinkOrButton>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
 
       {/* Testimonials section */}
       <Section title="What our graduates say" titleLevel="h3">
