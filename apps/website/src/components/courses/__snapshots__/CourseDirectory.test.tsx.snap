@@ -160,6 +160,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
           <a
             class="course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
             href="/course1"
+            tabindex="0"
           >
             <div
               class="course-search-card__image-container h-[240px] sm:w-fit w-full"
@@ -236,6 +237,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
           <a
             class="course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
             href="/course2"
+            tabindex="0"
           >
             <div
               class="course-search-card__image-container h-[240px] sm:w-fit w-full"
