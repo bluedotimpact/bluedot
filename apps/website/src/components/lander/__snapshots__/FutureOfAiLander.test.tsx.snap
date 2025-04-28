@@ -10,12 +10,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
     >
       <div
         class="
-              future-of-ai-lander__hero-content flex flex-col items-start w-[50%] max-w-[555px] z-10
-              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:w-full after:h-full after:top-0 after:right-[45%] after:-skew-x-[10deg]
-            "
+              future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
       >
         <h1
-          class="bluedot-h1 text-color-text-on-dark uppercase tracking-wider text-sm font-semibold mb-4"
+          class="bluedot-h1 text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4"
         >
           Future of AI
         </h1>
@@ -122,7 +121,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         </div>
       </div>
       <div
-        class="quote-carousel text-center future-of-ai-lander__hero-quotes text-color-text w-[50%] max-w-[555px] z-10 pl-12"
+        class="quote-carousel text-center future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12"
       >
         <div
           class="relative quote-carousel__image-section h-28 flex justify-center mb-4"
