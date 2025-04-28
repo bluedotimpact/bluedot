@@ -8,7 +8,6 @@ export type GetCoursesResponse = {
   courses: Course[],
 };
 
-// TODO exhaustive test
 export const buildFormula = ({ cadence, level }: { cadence?: string[], level?: string[] }) => {
   const formulaParts: string[] = [];
 
