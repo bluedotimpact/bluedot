@@ -4,6 +4,8 @@ import {
   CTALinkOrButton,
   Section,
   SlideList,
+  QuoteCarousel,
+  type Quote,
 } from '@bluedot/ui';
 import {
   HeroH1,
@@ -16,11 +18,11 @@ import {
   FaBoltLightning,
   FaLightbulb,
 } from 'react-icons/fa6';
+import { isMobile } from 'react-device-detect';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
 import { H3 } from '../Text';
-import GraduateSection from '../homepage/GraduateSection';
-import TestimonialSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import { CourseUnitsSection } from '../courses/CourseUnitsSection';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
@@ -36,6 +38,27 @@ const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) 
 
 const customTitle = 'AI is shaping the future. So can you.';
 const customDescription = 'A free 2-hour course that explains AI simply — empowering you to help build a future that works for all of us.';
+
+const quotes: Quote[] = [
+  {
+    quote: 'AI could surpass almost all humans at almost everything shortly after 2027.',
+    name: 'Dario Amodei',
+    role: 'CEO, Anthropic',
+    imageSrc: '/images/lander/foai/dario.jpeg',
+  },
+  {
+    quote: 'We must take the risks of AI as seriously as other major global challenges, like climate change.',
+    name: 'Demis Hassabis',
+    role: 'CEO, Google DeepMind',
+    imageSrc: '/images/lander/foai/demis.jpeg',
+  },
+  {
+    quote: 'Sh–, what the f—?',
+    name: 'Snoop Dogg',
+    role: 'The Doggfather',
+    imageSrc: '/images/lander/foai/snoop.jpg',
+  },
+];
 
 const callouts = [
   {
@@ -106,8 +129,13 @@ const FutureOfAiLander = ({
         )}
       </HeroSection>
 
+      {/* Quotes section */}
+      <Section>
+        <QuoteCarousel className="future-of-ai-lander__quotes" quotes={quotes} />
+      </Section>
+
       {/* Graduate section */}
-      <GraduateSection />
+      {/* <GraduateSection /> */}
 
       {/* Callouts section */}
       <Section>
@@ -128,7 +156,11 @@ const FutureOfAiLander = ({
 
       {/* Testimonials section */}
       <Section>
-        <TestimonialSection testimonials={testimonials} />
+        {isMobile ? (
+          <QuoteCarousel quotes={testimonials} />
+        ) : (
+          <TestimonialSubSection testimonials={testimonials} />
+        )}
       </Section>
 
       {/* Banner section */}
