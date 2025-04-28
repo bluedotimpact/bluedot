@@ -35,7 +35,7 @@ const LEVEL_OPTIONS: Option[] = [
   { value: 'Advanced', label: 'Advanced' },
 ];
 
-type CourseDirectoryProps = {
+export type CourseDirectoryProps = {
   displayData: GetCoursesResponse | undefined;
   displayLoading: boolean;
   displayError: AxiosError<unknown, unknown> | null | undefined;
@@ -55,6 +55,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
   const [filtersOpenMobile, setFiltersOpenMobile] = useState(false);
 
   useEffect(() => {
+    // TODO fix double fetch
     refetch({
       cadence: selectedCadences,
       level: selectedLevels,
