@@ -24,9 +24,9 @@ ENV KC_HOSTNAME_STRICT=false
 # Install postgres on macOS with: brew install postgresql@17
 # Then run: psql -U postgres -c 'create database "bluedot-login";'
 # Uncomment these lines:
-ENV KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/bluedot-login?user=postgres&password=postgres
-ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin
-ENV KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+# ENV KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/bluedot-login?user=postgres&password=postgres
+# ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin
+# ENV KC_BOOTSTRAP_ADMIN_PASSWORD=admin
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 CMD [ "start", "--optimized" ]
