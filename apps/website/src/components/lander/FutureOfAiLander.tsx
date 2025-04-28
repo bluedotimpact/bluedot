@@ -155,7 +155,7 @@ const FutureOfAiLander = ({
       <CourseUnitsSection units={courseData.units} />
 
       {/* Testimonials section */}
-      <Section>
+      <Section title="What our graduates say" titleLevel="h3">
         {isMobile ? (
           <QuoteCarousel quotes={testimonials} />
         ) : (
