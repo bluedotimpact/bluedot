@@ -4,6 +4,8 @@ import {
   CTALinkOrButton,
   Section,
   SlideList,
+  QuoteCarousel,
+  type Quote,
 } from '@bluedot/ui';
 import {
   HeroH1,
@@ -16,12 +18,13 @@ import {
   FaBoltLightning,
   FaLightbulb,
 } from 'react-icons/fa6';
+import { isMobile } from 'react-device-detect';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
-import { H3 } from '../Text';
-import GraduateSection from '../homepage/GraduateSection';
-import TestimonialSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import { H1, H2, H3 } from '../Text';
+import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import { CourseUnitsSection } from '../courses/CourseUnitsSection';
+import GraduateSection from '../homepage/GraduateSection';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -36,6 +39,27 @@ const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) 
 
 const customTitle = 'AI is shaping the future. So can you.';
 const customDescription = 'A free 2-hour course that explains AI simply — empowering you to help build a future that works for all of us.';
+
+const quotes: Quote[] = [
+  {
+    quote: 'AI could surpass almost all humans at almost everything shortly after 2027.',
+    name: 'Dario Amodei',
+    role: 'CEO, Anthropic',
+    imageSrc: '/images/lander/foai/dario.jpeg',
+  },
+  {
+    quote: 'We must take the risks of AI as seriously as other major global challenges, like climate change.',
+    name: 'Demis Hassabis',
+    role: 'CEO, Google DeepMind',
+    imageSrc: '/images/lander/foai/demis.jpeg',
+  },
+  {
+    quote: 'We should not underestimate the real threats coming from AI... we have a narrowing window of opportunity to guide this technology responsibly.',
+    name: 'Ursula von der Leyen',
+    role: 'President, European Commission',
+    imageSrc: '/images/lander/foai/ursula.png',
+  },
+];
 
 const callouts = [
   {
@@ -84,29 +108,66 @@ const FutureOfAiLander = ({
       </Head>
 
       {/* Hero section */}
-      <HeroSection>
-        <HeroMiniTitle>{courseData?.course.title}</HeroMiniTitle>
-        <HeroH1>{customTitle}</HeroH1>
-        <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
-        <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaBoltLightning /> 2 hours
+      {isMobile ? (
+        <HeroSection>
+          <HeroMiniTitle>{courseData?.course.title}</HeroMiniTitle>
+          <HeroH1>{customTitle}</HeroH1>
+          <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
+          <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaBoltLightning /> 2 hours
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaAward /> Free certification
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaLightbulb /> No experience required
+            </div>
           </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaAward /> Free certification
-          </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaLightbulb /> No experience required
+          {courseData.units?.[0]?.path && (
+            <HeroCTAContainer>
+              <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+            </HeroCTAContainer>
+          )}
+        </HeroSection>
+      ) : (
+        <div className="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative">
+          <div className="future-of-ai-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
+            <div className="
+              future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+            >
+              <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{courseData?.course.title}</H1>
+              <H2 className="text-color-text-on-dark bluedot-h1">{customTitle}</H2>
+              <p className="text-color-text-on-dark mt-4">{customDescription}</p>
+              <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaBoltLightning /> 2 hours
+                </div>
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaAward /> Free certification
+                </div>
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaLightbulb /> No experience required
+                </div>
+              </div>
+              {courseData.units?.[0]?.path && (
+                <HeroCTAContainer>
+                  <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+                </HeroCTAContainer>
+              )}
+            </div>
+            <QuoteCarousel className="future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={quotes} />
           </div>
         </div>
-        {courseData.units?.[0]?.path && (
-          <HeroCTAContainer>
-            <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
-          </HeroCTAContainer>
-        )}
-      </HeroSection>
+      )}
 
-      {/* Graduate section */}
+      {isMobile && (
+        <Section>
+          <QuoteCarousel className="future-of-ai-lander__hero-quotes" quotes={quotes} />
+        </Section>
+      )}
+
       <GraduateSection />
 
       {/* Callouts section */}
@@ -127,8 +188,12 @@ const FutureOfAiLander = ({
       <CourseUnitsSection units={courseData.units} />
 
       {/* Testimonials section */}
-      <Section>
-        <TestimonialSection testimonials={testimonials} />
+      <Section title="What our graduates say" titleLevel="h3">
+        {isMobile ? (
+          <QuoteCarousel quotes={testimonials} />
+        ) : (
+          <TestimonialSubSection testimonials={testimonials} />
+        )}
       </Section>
 
       {/* Banner section */}

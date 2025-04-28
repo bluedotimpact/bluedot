@@ -1,0 +1,116 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuoteCarousel > renders the first quote by default 1`] = `
+<div>
+  <div
+    class="quote-carousel text-center"
+  >
+    <div
+      class="relative quote-carousel__image-section h-28 flex justify-center mb-4"
+    >
+      <div
+        class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] quote-carousel__image-container--active block opacity-100 rotate-0 scale-100"
+      >
+        <img
+          alt="First Author"
+          class="quote-carousel__image rounded-full object-cover size-14"
+          src="/test1.jpg"
+        />
+        <div
+          class="quote-carousel__author-name mt-1"
+        >
+          First Author
+        </div>
+        <div
+          class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+        >
+          CEO
+        </div>
+      </div>
+      <div
+        class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
+      >
+        <img
+          alt="Second Author"
+          class="quote-carousel__image rounded-full object-cover size-14"
+          src="/test2.jpg"
+        />
+        <div
+          class="quote-carousel__author-name mt-1"
+        >
+          Second Author
+        </div>
+        <div
+          class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+        >
+          CTO
+        </div>
+      </div>
+      <div
+        class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
+      >
+        <img
+          alt="Third Author"
+          class="quote-carousel__image rounded-full object-cover size-14"
+          src="/test3.jpg"
+        />
+        <div
+          class="quote-carousel__author-name mt-1"
+        >
+          Third Author
+        </div>
+      </div>
+    </div>
+    <div
+      class="quote-carousel__quote-section flex flex-col mb-9 transition-all delay-300 duration-150 ease-in-out"
+    >
+      <div
+        class="quote-carousel__quote-block w-full transition-all duration-500 quote-carousel__quote-block--active block opacity-100 translate-x-0"
+      >
+        <div
+          class="quote-carousel__quote text-2xl font-bold"
+        >
+          First quote
+        </div>
+      </div>
+      <div
+        class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+      >
+        <div
+          class="quote-carousel__quote text-2xl font-bold"
+        >
+          Second quote
+        </div>
+      </div>
+      <div
+        class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+      >
+        <div
+          class="quote-carousel__quote text-2xl font-bold"
+        >
+          Third quote
+        </div>
+      </div>
+    </div>
+    <div
+      class="quote-carousel__btn-section mt-4 flex flex-row gap-2 justify-center"
+    >
+      <button
+        aria-label="Go to testimonial 1"
+        class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-bluedot-normal"
+        type="button"
+      />
+      <button
+        aria-label="Go to testimonial 2"
+        class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
+        type="button"
+      />
+      <button
+        aria-label="Go to testimonial 3"
+        class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
+        type="button"
+      />
+    </div>
+  </div>
+</div>
+`;
