@@ -36,7 +36,7 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
       });
     }, autorotateTiming);
     return () => clearInterval(interval);
-  }, [active, autorotate, quotes.length]);
+  }, [autorotate, quotes.length]);
 
   return (
     <div
