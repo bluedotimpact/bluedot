@@ -495,7 +495,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
     </a>
   </div>
   <section
-    class="section section-body"
+    class="section section-body course-units-section"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -514,7 +514,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       class="section__body"
     >
       <div
-        class="course-serp__content"
+        class="course-units-section__content"
       >
         <div
           class="slide-list relative overflow-hidden flex flex-col gap-space-between course-units-section__units"
@@ -910,7 +910,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                     class="testimonial__quote mb-space-between flex-grow"
                   >
                     "
-                    The course also gave me something I didn’t expect: a global community of changemakers, dreamers and thinkers.
+                    The course also gave me something I didn't expect: a global community of changemakers, dreamers and thinkers.
                     "
                   </blockquote>
                   <div
