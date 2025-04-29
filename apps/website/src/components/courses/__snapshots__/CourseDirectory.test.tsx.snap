@@ -15,7 +15,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
           class="course-directory__filter-section flex flex-col gap-4 w-full"
         >
           <div
-            class="course-directory__filter-header flex md:hidden justify-between items-center"
+            class="course-directory__filter-header--mobile flex md:hidden justify-between items-center"
           >
             <h3
               class="bluedot-h3"

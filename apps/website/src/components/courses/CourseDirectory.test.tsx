@@ -33,7 +33,6 @@ const defaultDisplayData: GetCoursesResponse = {
 const defaultProps: CourseDirectoryProps = {
   displayData: defaultDisplayData,
   displayLoading: false,
-  displayError: null,
   noResults: false,
   refetch: () => {},
 };
@@ -82,8 +81,8 @@ describe('CourseDirectory', () => {
     expect(queryByText('Browse all courses')).not.toBeNull();
 
     // The courses should still be displayed (as if this is the list of all courses)
-    expect(queryByText('Test Course 1')).not.toBeNull();
-    expect(queryByText('Test Course 2')).not.toBeNull();
+    expect(queryByText(defaultDisplayData.courses[0]!.title!)).not.toBeNull();
+    expect(queryByText(defaultDisplayData.courses[1]!.title!)).not.toBeNull();
   });
 
   test('displays loading indicator when displayLoading is true', () => {
@@ -94,8 +93,8 @@ describe('CourseDirectory', () => {
     };
     const { container, queryByText } = render(<CourseDirectory {...props} />);
 
-    expect(queryByText('Test Course 1')).toBeNull();
-    expect(queryByText('Test Course 2')).toBeNull();
+    expect(queryByText(defaultDisplayData.courses[0]!.title!)).toBeNull();
+    expect(queryByText(defaultDisplayData.courses[1]!.title!)).toBeNull();
 
     const progressDotsElement = container.querySelector('.progress-dots');
     expect(progressDotsElement).not.toBeNull();

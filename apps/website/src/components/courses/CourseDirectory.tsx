@@ -61,7 +61,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
     refetch({ cadence: selectedCadences, level: newSelectedLevels });
   };
 
-  const showFilterActiveDot = selectedCadences.length !== CADENCE_OPTIONS.length || selectedLevels.length !== LEVEL_OPTIONS.length;
+  const filtersApplied = selectedCadences.length !== CADENCE_OPTIONS.length || selectedLevels.length !== LEVEL_OPTIONS.length;
 
   const renderFilterGroup = useCallback((
     title: string,
@@ -93,7 +93,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
     <Section className="course-directory">
       <div className="course-directory__content flex flex-col md:grid gap-spacing-x grid-cols-[minmax(min-content,15%)_1fr]">
         <div className="course-directory__filter-section flex flex-col gap-4 w-full">
-          <div className="course-directory__filter-header flex md:hidden justify-between items-center">
+          <div className="course-directory__filter-header--mobile flex md:hidden justify-between items-center">
             <H3>Results</H3>
             <button
               type="button"
@@ -101,7 +101,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
               onClick={() => setFiltersOpenMobile(!filtersOpenMobile)}
             >
               <FaFilter />
-              {showFilterActiveDot && (
+              {filtersApplied && (
                 <svg className="absolute top-[5px] right-[4px]" width="8" height="8">
                   <circle cx="4" cy="4" r="4" fill="red" />
                 </svg>
