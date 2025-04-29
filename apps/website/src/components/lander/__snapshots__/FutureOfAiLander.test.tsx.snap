@@ -409,7 +409,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 future-of-ai-lander__callouts"
       >
         <div
-          class="slide-list__gradient-wrapper relative flex-1"
+          class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
         >
           <div
             class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
@@ -641,10 +641,10 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 course-units-section__units"
         >
           <div
-            class="slide-list__gradient-wrapper relative flex-1"
+            class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
           >
-            <div
-              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+            <h3
+              class="bluedot-h3"
             >
               <div
                 class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
@@ -706,8 +706,15 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
-                <div
-                  class="max-w-[350px] h-full"
+                <svg
+                  class="cta-button__chevron-icon size-2"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <a
                     class="unit-card p-4 flex flex-col gap-2 justify-between course-units-section__unit h-full border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
@@ -891,59 +898,155 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               </div>
             </div>
           </div>
+        </div>
+        <div
+          class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
+        >
+          <img
+            alt="Try it yourself"
+            class="future-of-ai-lander__feature-image max-h-[550px] md:order-2"
+            src="/images/lander/foai/try-desktop.png"
+          />
           <div
-            class="flex justify-between items-center gap-space-between"
+            class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
           >
-            <button
-              aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              disabled=""
-              type="button"
+            <h3
+              class="bluedot-h3"
             >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              Try it yourself
+            </h3>
+            <p>
+              Don't just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.
+            </p>
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              href="/courses/test-course/1"
+              tabindex="0"
+            >
+              <span
+                class="cta-button__text"
               >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-            <div
-              class="slide-list__progress w-full relative h-1"
-            >
-              <div
-                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-              />
-              <div
-                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 20%;"
-              />
-            </div>
-            <button
-              aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                Experience AI
+              </span>
+              <span
+                class="cta-button__chevron ml-3"
               >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
+                <svg
+                  class="cta-button__chevron-icon size-2"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div
+          class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
+        >
+          <img
+            alt="Join the community"
+            class="future-of-ai-lander__feature-image max-h-[550px] md:order-1"
+            src="/images/lander/foai/community-desktop.png"
+          />
+          <div
+            class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
+          >
+            <h3
+              class="bluedot-h3"
+            >
+              Join the community
+            </h3>
+            <p>
+              Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.
+            </p>
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              href="/courses/test-course/1"
+              tabindex="0"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Get connected
+              </span>
+              <span
+                class="cta-button__chevron ml-3"
+              >
+                <svg
+                  class="cta-button__chevron-icon size-2"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div
+          class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
+        >
+          <img
+            alt="Get certified"
+            class="future-of-ai-lander__feature-image max-h-[550px] md:order-2"
+            src="/images/lander/foai/cert-desktop.png"
+          />
+          <div
+            class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
+          >
+            <h3
+              class="bluedot-h3"
+            >
+              Get certified
+            </h3>
+            <p>
+              Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI's foundations and implications.
+            </p>
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              href="/courses/test-course/1"
+              tabindex="0"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Get certified for free
+              </span>
+              <span
+                class="cta-button__chevron ml-3"
+              >
+                <svg
+                  class="cta-button__chevron-icon size-2"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  />
+                </svg>
+              </span>
+            </a>
           </div>
         </div>
       </div>
