@@ -23,7 +23,11 @@ export default makeApiRoute({
   }
 
   const job = (await db.scan(cmsJobPostingTable, {
-    filterByFormula: formula(await db.table(cmsJobPostingTable), ['=', { field: 'slug' }, slug]),
+    filterByFormula: formula(await db.table(cmsJobPostingTable), [
+      'AND',
+      { field: 'isPublic' },
+      ['=', { field: 'slug' }, slug],
+    ]),
   }))[0];
 
   if (!job) {

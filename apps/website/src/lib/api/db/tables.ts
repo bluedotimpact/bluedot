@@ -337,7 +337,7 @@ export type CmsBlog = {
   publishedAt: string,
   authorName: string,
   authorUrl: string,
-  sitesToPublishOn: string[],
+  isPublic: boolean,
 } & Item;
 
 export const cmsBlogTable: Table<CmsBlog> = {
@@ -350,8 +350,8 @@ export const cmsBlogTable: Table<CmsBlog> = {
     body: 'fldesLVb1tJpsNkVl',
     authorName: 'fldBVD1meb54zRK8Q',
     authorUrl: 'fldEOlPQdbEmDxicJ',
-    sitesToPublishOn: 'fldB3H82xrQVJMlMp',
     publishedAt: 'fldjp3x46apAPAXo7',
+    isPublic: 'fldUmp9uro7Q7eJ6E',
   },
   schema: {
     title: 'string',
@@ -360,7 +360,7 @@ export const cmsBlogTable: Table<CmsBlog> = {
     publishedAt: 'string',
     authorName: 'string',
     authorUrl: 'string',
-    sitesToPublishOn: 'string[]',
+    isPublic: 'boolean',
   },
 };
 
@@ -371,6 +371,7 @@ export type CmsJobPosting = {
   slug: string,
   applicationUrl: string,
   body: string,
+  isPublic: boolean,
 } & Item;
 
 export const cmsJobPostingTable: Table<CmsJobPosting> = {
@@ -383,6 +384,7 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     slug: 'fldiMgiy9wHuvIM2f',
     applicationUrl: 'fldtkliaGs8JLy0BS',
     body: 'fldiBF58TPRIMhgvq',
+    isPublic: 'fldc6B20mECKuxG8F',
   },
   schema: {
     title: 'string',
@@ -390,5 +392,6 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     slug: 'string',
     applicationUrl: 'string',
     body: 'string',
+    isPublic: 'boolean',
   },
 };

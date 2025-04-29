@@ -112,7 +112,7 @@ const NavLinks: React.FC<{
       </div>
       <A href={ROUTES.about.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.about.url) && 'font-bold')}>About us</A>
       <A href={ROUTES.joinUs.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.joinUs.url) && 'font-bold')}>Join us</A>
-      <A href="https://bluedot.org/blog/" className={clsx('nav-links__link', navLinkClasses)}>Blog</A>
+      <A href={ROUTES.blog.url} className={clsx('nav-links__link', navLinkClasses, isCurrentPath(ROUTES.blog.url) && 'font-bold')}>Blog</A>
       <A href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={clsx('nav-links__link', navLinkClasses)}>Events</A>
     </div>
   );
