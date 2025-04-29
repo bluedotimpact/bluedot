@@ -183,8 +183,6 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
     return <ErrorView error={completionError} />;
   }
 
-  const resourceTypeLabel = resource.resourceType || 'Resource';
-
   return (
     <div className="resource-item p-8 container-lined bg-white">
       <div className="resource-item__header flex items-start justify-between">
@@ -209,8 +207,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                 : resource.resourceName}
             </H3>
             <P className="resource-item__metadata flex items-center mt-2 text-gray-600">
-              <span className="resource-item__type px-2 py-1 bg-blue-100 text-blue-800 rounded-full mr-2">
-                {resourceTypeLabel}
+              <span className="hidden sm:inline resource-item__type px-2 py-1 bg-blue-100 text-blue-800 rounded-full mr-2">
+                {resource.resourceType || 'Resource'}
               </span>
               {resource.authors && <span className="resource-item__author">by {resource.authors} ({resource.timeFocusOnMins || 0} mins)</span>}
             </P>
