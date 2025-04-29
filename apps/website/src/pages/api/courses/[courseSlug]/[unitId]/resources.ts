@@ -42,9 +42,9 @@ export default makeApiRoute({
 
   const unitResources = await db.scan(unitResourceTable, {
     filterByFormula: formula(await db.table(unitResourceTable), [
-      '=',
-      { field: 'unitId' },
-      unit.id,
+      'AND',
+      ['=', { field: 'unitId' }, unit.id],
+      ['OR', ['=', { field: 'coreFurtherMaybe' }, 'Core'], ['=', { field: 'coreFurtherMaybe' }, 'Further']],
     ]),
   });
 
@@ -67,6 +67,8 @@ export default makeApiRoute({
       ['=', { field: 'status' }, 'Active'],
     ]),
   });
+
+  unitExercises.sort((a, b) => Number(a.exerciseNumber) - Number(b.exerciseNumber));
 
   return {
     type: 'success' as const,
