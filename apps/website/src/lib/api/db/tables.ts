@@ -131,6 +131,7 @@ export type Unit = {
   unitNumber: string,
   duration: number,
   description: string,
+  unitPodcastUrl: string,
 } & Item;
 
 export const unitTable: Table<Unit> = {
@@ -148,6 +149,7 @@ export const unitTable: Table<Unit> = {
     duration: 'fldGdibgcMgRbnuvp',
     unitNumber: 'fldimS5GIqSKuyA9C',
     description: 'flddCXEeJ9oFOhfNb',
+    unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
     courseId: 'string',
@@ -160,6 +162,51 @@ export const unitTable: Table<Unit> = {
     duration: 'number',
     unitNumber: 'string',
     description: 'string',
+    unitPodcastUrl: 'string',
+  },
+};
+
+export type UnitResource = {
+  id: string,
+  resourceName: string,
+  resourceType: string,
+  resourceLink: string | null,
+  resourceGuide: string,
+  authors: string | null,
+  timeFocusOnMins: number,
+  coreFurtherMaybe: string,
+  readingOrder: string,
+  unitId: string,
+  avgRating: number | null,
+} & Item;
+
+export const unitResourceTable: Table<UnitResource> = {
+  name: 'Unit resource',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblSicSC1u6Ifddrq',
+  mappings: {
+    resourceName: 'fldXFZQpHtS5EqHyh',
+    resourceType: 'fldftDf7tejin3F7U',
+    resourceLink: 'fldWmLt7N06ezb66y',
+    resourceGuide: 'fldkS15QbkPvTozhl',
+    authors: 'flddVAAZ4PgYSSez9',
+    timeFocusOnMins: 'fldedM0u6YXfyNVMF',
+    coreFurtherMaybe: 'fldLvfYwwn0BhMSv5',
+    readingOrder: 'fldBfLUY8GkI88jJF',
+    unitId: 'fldcz0bal5QrlNFC5',
+    avgRating: 'fldOWWeymJQTwlfaY',
+  },
+  schema: {
+    resourceName: 'string',
+    resourceType: 'string',
+    resourceLink: 'string | null',
+    resourceGuide: 'string',
+    authors: 'string | null',
+    timeFocusOnMins: 'number',
+    coreFurtherMaybe: 'string',
+    readingOrder: 'string',
+    unitId: 'string',
+    avgRating: 'number | null',
   },
 };
 

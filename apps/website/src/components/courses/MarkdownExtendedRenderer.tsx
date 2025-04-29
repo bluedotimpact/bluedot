@@ -10,6 +10,7 @@ import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
 import Exercise from './exercises/Exercise';
+import ResourceListCourseContent from './ResourceListCourseContent';
 
 /**
  * A remark plugin that unescapes backslashed characters in MDX component attribute values.
@@ -50,6 +51,7 @@ export const getSupportedComponents = () => ({
   Embed,
   Callout,
   Exercise,
+  ResourceListCourseContent,
 });
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
