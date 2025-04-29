@@ -276,13 +276,21 @@ export const Nav: React.FC<NavProps> = ({
                 isLoggedIn={isLoggedIn}
                 className="nav__login--tablet-desktop gap-6 hidden sm:flex"
               />
-              {isLoggedIn && (
+              {isLoggedIn ? (
                 <IconButton
                   open={expandedSections.profile}
                   Icon={<FaCircleUser className="size-[24px] opacity-75" />}
                   setOpen={onToggleProfile}
                   className="nav__profile-menu ml-2"
                 />
+              ) : (
+                <CTALinkOrButton
+                className="nav__login--mobile block sm:hidden"
+                variant="secondary"
+                url={ROUTES.login.url}
+              >
+                Login
+              </CTALinkOrButton>
               )}
             </div>
           </div>
