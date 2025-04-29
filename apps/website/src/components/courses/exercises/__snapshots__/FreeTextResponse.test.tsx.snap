@@ -41,7 +41,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       />
     </div>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
       href="http://localhost:3000/login?redirect_to=http%3A%2F%2Flocalhost%3A3000%2F"
       tabindex="0"
     >
@@ -113,7 +113,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       />
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
       type="button"
     >
       <span
@@ -166,7 +166,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       />
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
       type="button"
     >
       <span

@@ -48,7 +48,7 @@ exports[`StorySection > renders default as expected 1`] = `
             Working closely with leading organisations, we rapidly develop new courses to address emerging challenges and help talented people find roles where they can have the greatest impact.
           </p>
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
             href="/about"
             tabindex="0"
           >

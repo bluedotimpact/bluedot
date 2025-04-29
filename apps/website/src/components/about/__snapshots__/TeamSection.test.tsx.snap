@@ -76,7 +76,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://www.linkedin.com/in/dewierwan/"
                       tabindex="0"
                     >
@@ -128,7 +128,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://linkedin.com/in/will-saunter"
                       tabindex="0"
                     >
@@ -180,7 +180,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://linkedin.com/in/anglilian"
                       tabindex="0"
                     >
@@ -232,7 +232,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://www.linkedin.com/in/domdomegg/"
                       tabindex="0"
                     >
@@ -284,7 +284,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://linkedin.com/in/josh-landes12"
                       tabindex="0"
                     >
@@ -336,7 +336,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     class="card__bottom-section flex flex-col gap-space-between"
                   >
                     <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                       href="https://linkedin.com/in/tarinrickett/"
                       tabindex="0"
                     >

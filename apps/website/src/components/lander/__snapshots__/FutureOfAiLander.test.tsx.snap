@@ -90,7 +90,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           class="flex justify-center mt-8"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
             href="/courses/test-course/1"
             tabindex="0"
           >
@@ -428,7 +428,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Lost in AI buzzwords? Our bite-sized modules transform complex concepts into clear language. You'll quickly build the vocabulary to discuss AI confidently at work and with friends.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -478,7 +478,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Don't just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -528,7 +528,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander"
               tabindex="0"
             >
@@ -578,7 +578,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI's foundations and implications.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -851,7 +851,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       Ready to have a say in your future?
     </h3>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
       href="/courses/test-course/1"
       tabindex="0"
     >
