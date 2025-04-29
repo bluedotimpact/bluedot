@@ -442,3 +442,35 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     isPublic: 'boolean',
   },
 };
+
+export type ResourceCompletion = {
+  id: string,
+  unitResourceIdWrite: string,
+  unitResourceIdRead: string,
+  rating: number,
+  isCompleted: boolean,
+  email: string,
+  feedback: string,
+} & Item;
+
+export const resourceCompletionTable: Table<ResourceCompletion> = {
+  name: 'Resource completions',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblu6YnR7Lh0Bsl6v',
+  mappings: {
+    unitResourceIdWrite: 'fldk4dbWAohE312Qn',
+    unitResourceIdRead: 'fldoTb7xx0QQVHXvM',
+    rating: 'fldq6J5taZX4xLDfD',
+    isCompleted: 'fldm74UNAQuC1XkQc',
+    email: 'fldXqD5YKVZuTGT35',
+    feedback: 'fld68CYhCZ44jHT21',
+  },
+  schema: {
+    unitResourceIdRead: 'string',
+    unitResourceIdWrite: 'string',
+    rating: 'number',
+    isCompleted: 'boolean',
+    email: 'string',
+    feedback: 'string',
+  },
+};
