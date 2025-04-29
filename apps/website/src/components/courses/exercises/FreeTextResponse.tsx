@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { P } from '../../Text';
+import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 type FreeTextResponseProps = {
   // Required
@@ -52,12 +52,12 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('free-text-response container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="free-text-response__header flex flex-col gap-4">
-        <div className="free-text-response__header-icon">
+        <div className="free-text-response__header-icon not-prose">
           <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
         </div>
         <div className="free-text-response__header-content flex flex-col gap-2">
-          <p className="free-text-response__title bluedot-h4">{title}</p>
-          <ReactMarkdown>{description}</ReactMarkdown>
+          <p className="free-text-response__title bluedot-h4 not-prose">{title}</p>
+          <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
       </div>
       <div className="free-text-response__options flex flex-col gap-2">

@@ -16,7 +16,7 @@ type ExerciseProps = {
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId,
 }) => {
-  const exerciseClassNames = 'exercise not-prose my-6';
+  const exerciseClassNames = 'exercise my-6';
 
   const auth = useAuthStore((s) => s.auth);
 
@@ -60,7 +60,8 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ProgressDots />;
   }
 
-  if (exerciseError || exerciseResponseError || !exerciseData) {
+  // We ignore 404s, as this just indicates the exercise response hasn't been created yet
+  if (exerciseError || (exerciseResponseError && exerciseResponseError.status !== 404) || !exerciseData) {
     return <ErrorView error={exerciseError || exerciseResponseError || new Error('Failed to load exercise')} />;
   }
 
@@ -86,7 +87,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         />
       );
     default:
-      return null;
+      return <ErrorView error={new Error(`Unknown exercise type: '${exerciseData.exercise.type}'`)} />;
   }
 };
 

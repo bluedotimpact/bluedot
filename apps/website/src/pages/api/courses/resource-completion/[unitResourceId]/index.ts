@@ -14,7 +14,7 @@ export type GetResourceCompletionResponse = {
 };
 
 export type PutResourceCompletionRequest = {
-  rating?: number,
+  rating?: number | null,
   isCompleted?: boolean,
   feedback?: string,
 };
@@ -50,9 +50,17 @@ export default makeApiRoute({
   switch (raw.req.method) {
     // Get resource completion
     case 'GET': {
+      if (!resourceCompletion) {
+        throw new createHttpError.NotFound('Resource completion not found');
+      }
+
       return {
         type: 'success' as const,
-        resourceCompletion,
+        resourceCompletion: {
+          ...resourceCompletion,
+          // For some reason Airtable often adds a newline to the end of the feedback
+          feedback: resourceCompletion.feedback.trimEnd(),
+        },
       };
     }
 
@@ -86,7 +94,11 @@ export default makeApiRoute({
 
       return {
         type: 'success' as const,
-        resourceCompletion: updatedResourceCompletion,
+        resourceCompletion: {
+          ...updatedResourceCompletion,
+          // For some reason Airtable often adds a newline to the end of the feedback
+          feedback: updatedResourceCompletion.feedback.trimEnd(),
+        },
       };
     }
 

@@ -88,7 +88,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
         </P>
       ) : (
         <>
-          <StarRating rating={rating} setRating={setRating} />
+          <StarRating rating={rating} onChange={setRating} />
           <div className="unit-feedback__free-response-section flex flex-col gap-4">
             <H4 className="unit-feedback__textarea-label text-size-sm">
               Do you have any other feedback on this unit?{' '}

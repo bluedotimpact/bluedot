@@ -8,35 +8,35 @@ export type TextProps = React.PropsWithChildren<{
 export const H1 = ({
   children, className,
 }: TextProps) => {
-  return <h1 className={clsx('bluedot-h1', className)}>{children}</h1>;
+  return <h1 className={clsx('bluedot-h1 not-prose', className)}>{children}</h1>;
 };
 
 export const H2 = ({
   children, className,
 }: TextProps) => {
-  return <h2 className={clsx('bluedot-h2', className)}>{children}</h2>;
+  return <h2 className={clsx('bluedot-h2 not-prose', className)}>{children}</h2>;
 };
 
 export const H3 = ({
   children, className,
 }: TextProps) => {
-  return <h3 className={clsx('bluedot-h3', className)}>{children}</h3>;
+  return <h3 className={clsx('bluedot-h3 not-prose', className)}>{children}</h3>;
 };
 
 export const H4 = ({
   children, className,
 }: TextProps) => {
-  return <h4 className={clsx('bluedot-h4', className)}>{children}</h4>;
+  return <h4 className={clsx('bluedot-h4 not-prose', className)}>{children}</h4>;
 };
 
 export const P = ({
   children, className,
 }: TextProps) => {
-  return <p className={clsx('bluedot-p', className)}>{children}</p>;
+  return <p className={clsx('bluedot-p not-prose', className)}>{children}</p>;
 };
 
 export const A = ({
   children, className, href, ...clickTargetProps
-}: TextProps & { href: string } & Omit<ClickTargetProps, 'url'>) => {
-  return <ClickTarget className={clsx('bluedot-a', className)} url={href} {...clickTargetProps}>{children}</ClickTarget>;
+}: TextProps & { href?: string | undefined } & Omit<ClickTargetProps, 'url'>) => {
+  return <ClickTarget className={clsx('bluedot-a not-prose', className)} url={href} {...clickTargetProps}>{children}</ClickTarget>;
 };
