@@ -75,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({ className, logo }) => (
             links={[
               { url: '/about', label: 'About us' },
               { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
-              { url: '/careers', label: 'Join us' },
+              { url: '/join-us', label: 'Join us' },
               { url: '/contact', label: 'Contact us' },
               { url: '/privacy-policy', label: 'Privacy Policy' },
             ]}
