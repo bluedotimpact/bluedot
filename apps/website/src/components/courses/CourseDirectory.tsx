@@ -113,7 +113,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
             {renderFilterGroup('Level', LEVEL_OPTIONS, selectedLevels, handleLevelChanged)}
           </div>
         </div>
-        <div className="course-directory__results flex flex-col gap-4">
+        <div className="course-directory__results-section flex flex-col gap-4">
           {noResults && (
             <>
               <P>No courses match the selected filters.</P>
@@ -121,20 +121,22 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
             </>
           )}
           {displayLoading && <ProgressDots />}
-          {displayData?.courses
-            && displayData.courses.length > 0
-            && displayData.courses.map((course) => (
-              <CourseSearchCard
-                key={course.title}
-                description={course.shortDescription}
-                cadence={course.cadence}
-                level={course.level}
-                averageRating={course.averageRating}
-                imageSrc={course.image}
-                title={course.title}
-                url={course.path}
-              />
-            ))}
+          <div className="course-directory__results grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+            {displayData?.courses
+              && displayData.courses.length > 0
+              && displayData.courses.map((course) => (
+                <CourseSearchCard
+                  key={course.title}
+                  description={course.shortDescription}
+                  cadence={course.cadence}
+                  level={course.level}
+                  averageRating={course.averageRating}
+                  imageSrc={course.image}
+                  title={course.title}
+                  url={course.path}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </Section>

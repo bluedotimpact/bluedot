@@ -398,7 +398,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="flex justify-center space-x-2 my-6"
+          class="progress-dots flex justify-center space-x-2 my-6"
         >
           <span
             class="size-2 bg-bluedot-normal rounded-full animate-bounce"

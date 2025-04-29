@@ -14,12 +14,12 @@ export const buildFormula = ({ cadence, level }: { cadence?: string[], level?: s
   formulaParts.push('{Display on Course Hub index} = TRUE()');
 
   if (cadence) {
-    const cadenceChecks = cadence.map((c) => `{Cadence} = "${c}"`).join(', ');
+    const cadenceChecks = [...cadence.map((c) => `{Cadence} = "${c}"`), '{Cadence} = ""'].join(', ');
     formulaParts.push(`OR(${cadenceChecks})`);
   }
 
   if (level) {
-    const levelChecks = level.map((l) => `{Level} = "${l}"`).join(', ');
+    const levelChecks = [...level.map((l) => `{Level} = "${l}"`), '{Level} = ""'].join(', ');
     formulaParts.push(`OR(${levelChecks})`);
   }
 

@@ -44,7 +44,7 @@ const CoursePage = () => {
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {data?.courses && (
+        {displayData?.courses && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
@@ -52,7 +52,7 @@ const CoursePage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: data.courses.map((course, index) => ({
+                itemListElement: displayData.courses.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -99,8 +99,7 @@ const CoursePage = () => {
         )}
       </Head>
       <HeroSection>
-        <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
-        <HeroH1>The expertise you need to shape safe AI</HeroH1>
+        <HeroH1>Our courses</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
       {displayError && <ErrorSection error={displayError} />}
