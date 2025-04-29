@@ -1,5 +1,6 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import { H3 } from '../Text';
+import { ROUTES } from '../../lib/routes';
 
 const JoinUsCta = () => {
   return (
@@ -10,7 +11,7 @@ const JoinUsCta = () => {
           className="join-us-cta__cta-button"
           variant="primary"
           withChevron
-          url="/careers"
+          url={ROUTES.joinUs.url}
         >
           View our careers
         </CTALinkOrButton>

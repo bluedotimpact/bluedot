@@ -134,7 +134,7 @@ exports[`Footer > renders default as expected 1`] = `
               >
                 <a
                   class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/careers"
+                  href="/join-us"
                   tabindex="0"
                 >
                   Join us
@@ -460,7 +460,7 @@ exports[`Footer > renders with optional args 1`] = `
               >
                 <a
                   class="bluedot-a footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/careers"
+                  href="/join-us"
                   tabindex="0"
                 >
                   Join us
