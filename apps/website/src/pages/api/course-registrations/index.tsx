@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import {
@@ -22,7 +23,11 @@ export default makeApiRoute({
   switch (raw.req.method) {
     case 'GET': {
       const courseRegistrations = (await db.scan(courseRegistrationTable, {
-        filterByFormula: `AND({Email} = "${auth.email}", {Decision} = "Accept")`,
+        filterByFormula: formula(await db.table(courseRegistrationTable), [
+          'AND',
+          ['=', { field: 'email' }, auth.email],
+          ['=', { field: 'decision' }, 'Accept'],
+        ]),
       }));
 
       return {

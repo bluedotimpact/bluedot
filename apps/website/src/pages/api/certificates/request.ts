@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import {
@@ -33,7 +34,12 @@ export default makeApiRoute({
   switch (raw.req.method) {
     case 'POST': {
       const courseRegistration = (await db.scan(courseRegistrationTable, {
-        filterByFormula: `AND({Email} = "${auth.email}", {[>] Course ID} = "${body.courseId}", {Decision} = "Accept")`,
+        filterByFormula: formula(await db.table(courseRegistrationTable), [
+          'AND',
+          ['=', { field: 'email' }, auth.email],
+          ['=', { field: 'courseId' }, body.courseId],
+          ['=', { field: 'decision' }, 'Accept'],
+        ]),
       }))[0];
 
       if (!courseRegistration) {
@@ -50,7 +56,11 @@ export default makeApiRoute({
 
       // Check if all exercises for this course have been completed
       const exercises: Exercise[] = await db.scan(exerciseTable, {
-        filterByFormula: `AND({[>] Course ID} = "${body.courseId}", {Exercise status} = "Active")`,
+        filterByFormula: formula(await db.table(exerciseTable), [
+          'AND',
+          ['=', { field: 'courseId' }, body.courseId],
+          ['=', { field: 'status' }, 'Active'],
+        ]),
       });
 
       if (exercises.length === 0) {
@@ -59,7 +69,11 @@ export default makeApiRoute({
 
       // Get all exercise responses for this user
       const exerciseResponses: ExerciseResponse[] = await db.scan(exerciseResponseTable, {
-        filterByFormula: `{Email} = "${auth.email}"`,
+        filterByFormula: formula(await db.table(exerciseResponseTable), [
+          '=',
+          { field: 'email' },
+          auth.email,
+        ]),
       });
 
       // Check if all exercises have been completed
