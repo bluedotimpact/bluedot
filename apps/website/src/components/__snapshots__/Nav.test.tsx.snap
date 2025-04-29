@@ -97,7 +97,7 @@ exports[`Nav > renders with courses 1`] = `
           </a>
           <a
             class="bluedot-a nav-links__link nav-link-animation no-underline"
-            href="https://bluedot.org/blog/"
+            href="/blog"
             tabindex="0"
           >
             Blog
@@ -251,7 +251,7 @@ exports[`Nav > renders with courses 1`] = `
             </a>
             <a
               class="bluedot-a nav-links__link nav-link-animation no-underline"
-              href="https://bluedot.org/blog/"
+              href="/blog"
               tabindex="0"
             >
               Blog
