@@ -1,6 +1,6 @@
 import { HeroSection } from '@bluedot/ui';
 import Head from 'next/head';
-import BlogSection from '../components/homepage/BlogSection';
+import RecentBlogsListSection from '../components/homepage/RecentBlogsListSection';
 import CommunitySection from '../components/homepage/CommunitySection/index';
 import CourseSection from '../components/homepage/CourseSection';
 import FAQSection from '../components/homepage/FAQSection';
@@ -22,7 +22,7 @@ const HomePage = () => {
       <CourseSection />
       <CommunitySection />
       <StorySection />
-      <BlogSection />
+      <RecentBlogsListSection />
       <FAQSection />
     </div>
   );

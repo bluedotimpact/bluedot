@@ -9,7 +9,7 @@ export type BlogListSectionProps = {
 
 const BlogListSection = ({ blogs }: BlogListSectionProps) => {
   return (
-    <Section className="blog-list-section" title="Latest Articles">
+    <Section className="blog-list-section" title="Latest articles">
       <div id="blog-articles-anchor" className="invisible relative bottom-48" />
       {blogs.length === 0 ? (
         <P>
