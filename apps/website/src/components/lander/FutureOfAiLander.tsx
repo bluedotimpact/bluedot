@@ -1,9 +1,9 @@
 import Head from 'next/head';
+import { isMobile } from 'react-device-detect';
+import clsx from 'clsx';
 import {
-  Card,
   CTALinkOrButton,
   Section,
-  SlideList,
   QuoteCarousel,
   type Quote,
 } from '@bluedot/ui';
@@ -18,12 +18,10 @@ import {
   FaBoltLightning,
   FaLightbulb,
 } from 'react-icons/fa6';
-import { isMobile } from 'react-device-detect';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
-import { CourseUnitsSection } from '../courses/CourseUnitsSection';
 import GraduateSection from '../homepage/GraduateSection';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
@@ -61,21 +59,6 @@ const quotes: Quote[] = [
   },
 ];
 
-const callouts = [
-  {
-    title: 'Wondering how AI will transform your work and everyday life?',
-    imageSrc: '/images/beliefs/agi.png',
-  },
-  {
-    title: 'Do you want to see what cutting-edge AI systems can do today?',
-    imageSrc: '/images/beliefs/powering.png',
-  },
-  {
-    title: 'Curious about how AI will reshape our world in the coming years?',
-    imageSrc: '/images/beliefs/matters.png',
-  },
-];
-
 const testimonials: Testimonial[] = [
   {
     quote: 'I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.',
@@ -94,6 +77,38 @@ const testimonials: Testimonial[] = [
     name: 'Vipul Gupta',
     role: 'Senior Software Engineer, Balena',
     imageSrc: '/images/graduates/vipul.png',
+  },
+];
+
+const features = [
+  {
+    title: 'No-Nonsense Learning',
+    description: 'Lost in AI buzzwords? Our bite-sized modules transform complex concepts into clear language. You\'ll quickly build the vocabulary to discuss AI confidently at work and with friends.',
+    ctaText: 'Start learning for free',
+    desktopImageSrc: '/images/lander/foai/learn-desktop.png',
+    mobileImageSrc: '/images/lander/foai/learn-mobile.png',
+  },
+  {
+    title: 'Try it yourself',
+    description: 'Don\'t just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.',
+    ctaText: 'Experience AI',
+    desktopImageSrc: '/images/lander/foai/try-desktop.png',
+    mobileImageSrc: '/images/lander/foai/try-mobile.png',
+  },
+  {
+    title: 'Join the community',
+    description: 'Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.',
+    ctaText: 'Get connected',
+    ctaUrl: 'https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander',
+    desktopImageSrc: '/images/lander/foai/community-desktop.png',
+    mobileImageSrc: '/images/lander/foai/community-mobile.png',
+  },
+  {
+    title: 'Get certified',
+    description: 'Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI\'s foundations and implications.',
+    ctaText: 'Get certified for free',
+    desktopImageSrc: '/images/lander/foai/cert-desktop.png',
+    mobileImageSrc: '/images/lander/foai/cert-mobile.png',
   },
 ];
 
@@ -162,32 +177,36 @@ const FutureOfAiLander = ({
         </div>
       )}
 
-      {isMobile && (
-        <Section>
-          <QuoteCarousel className="future-of-ai-lander__hero-quotes" quotes={quotes} />
-        </Section>
-      )}
-
+      {/* Graduate section */}
       <GraduateSection />
 
-      {/* Callouts section */}
+      {/* Features section */}
       <Section>
-        <SlideList
-          maxItemsPerSlide={3}
-          className="future-of-ai-lander__callouts"
-        >
-          {callouts.map((callout) => (
-            <Card key={callout.title} title={callout.title} imageSrc={callout.imageSrc} className="future-of-ai-lander__callout" />
+        <div className="future-of-ai-lander__features-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto">
+          {features.map((feature, index) => (
+            <div key={feature.title} className="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4">
+              <img
+                src={isMobile ? feature.mobileImageSrc : feature.desktopImageSrc}
+                alt={feature.title}
+                className={clsx(
+                  'future-of-ai-lander__feature-image',
+                  index % 2 === 0 ? 'md:order-1' : 'md:order-2',
+                  'h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top',
+                )}
+              />
+              <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
+                <H3>{feature.title}</H3>
+                <p>{feature.description}</p>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={feature.ctaUrl || courseData.units?.[0]?.path} withChevron>
+                  {feature.ctaText}
+                </CTALinkOrButton>
+              </div>
+            </div>
           ))}
-        </SlideList>
+        </div>
       </Section>
 
-      <FutureOfAiBanner title="Try it yourself, get certified, and join the movement today:" ctaUrl={courseData.units?.[0]?.path ?? ''} />
-
-      {/* Units section */}
-      <CourseUnitsSection units={courseData.units} />
-
-      {/* Testimonials section */}
+      {/* Testimonials */}
       <Section title="What our graduates say" titleLevel="h3">
         {isMobile ? (
           <QuoteCarousel quotes={testimonials} />
@@ -196,7 +215,7 @@ const FutureOfAiLander = ({
         )}
       </Section>
 
-      {/* Banner section */}
+      {/* Banner */}
       <FutureOfAiBanner title="Ready to have a say in your future?" ctaUrl={courseData.units?.[0]?.path ?? ''} />
     </>
   );
