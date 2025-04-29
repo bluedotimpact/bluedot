@@ -406,7 +406,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       class="section__body"
     >
       <div
-        class="slide-list relative overflow-hidden flex flex-col gap-space-between future-of-ai-lander__callouts"
+        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 future-of-ai-lander__callouts"
       >
         <div
           class="slide-list__gradient-wrapper relative flex-1"
@@ -419,11 +419,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             />
           </div>
           <div
-            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
             style="scroll-padding-inline: 0px;"
           >
             <div
-              class="slide-list__slide shrink-0 snap-start"
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
               data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
@@ -455,7 +455,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               </div>
             </div>
             <div
-              class="slide-list__slide shrink-0 snap-start"
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
               data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
@@ -487,7 +487,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               </div>
             </div>
             <div
-              class="slide-list__slide shrink-0 snap-start"
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
               data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
               style="scroll-margin-left: -0px;"
             >
@@ -638,7 +638,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         class="course-units-section__content"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between course-units-section__units"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 course-units-section__units"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"
@@ -651,11 +651,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               />
             </div>
             <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
               style="scroll-padding-inline: 0px;"
             >
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -702,7 +702,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -749,7 +749,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -796,7 +796,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -843,7 +843,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -972,7 +972,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         class="testimonial-section pb-spacing-y"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between testimonial-section__testimonials"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 testimonial-section__testimonials"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"
@@ -985,11 +985,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               />
             </div>
             <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
               style="scroll-padding-inline: 0px;"
             >
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -1033,7 +1033,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -1077,7 +1077,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
