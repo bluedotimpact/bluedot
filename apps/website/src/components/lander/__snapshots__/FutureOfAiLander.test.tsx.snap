@@ -529,7 +529,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </p>
             <a
               class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
-              href="/courses/test-course/1"
+              href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander"
               tabindex="0"
             >
               <span

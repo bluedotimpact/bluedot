@@ -99,6 +99,7 @@ const features = [
     title: 'Join the community',
     description: 'Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.',
     ctaText: 'Get connected',
+    ctaUrl: 'https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander',
     desktopImageSrc: '/images/lander/foai/community-desktop.png',
     mobileImageSrc: '/images/lander/foai/community-mobile.png',
   },
@@ -196,7 +197,7 @@ const FutureOfAiLander = ({
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
-                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path ?? ''} withChevron>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={feature.ctaUrl || courseData.units?.[0]?.path} withChevron>
                   {feature.ctaText}
                 </CTALinkOrButton>
               </div>
