@@ -4,12 +4,10 @@ import {
   FC,
   useCallback,
 } from 'react';
-import { AxiosError } from 'axios';
 import clsx from 'clsx';
 import {
   Section,
   ProgressDots,
-  ErrorSection,
 } from '@bluedot/ui';
 import { H3, P } from '@bluedot/ui/src/Text';
 import { FaFilter } from 'react-icons/fa6';
@@ -35,7 +33,6 @@ const LEVEL_OPTIONS: Option[] = [
 export type CourseDirectoryProps = {
   displayData: GetCoursesResponse | undefined;
   displayLoading: boolean;
-  displayError: AxiosError<unknown, unknown> | null | undefined;
   noResults: boolean;
   refetch: (filters: CoursesRequestBody) => void;
 };
@@ -43,7 +40,6 @@ export type CourseDirectoryProps = {
 const CourseDirectory: FC<CourseDirectoryProps> = ({
   displayData,
   displayLoading,
-  displayError,
   noResults,
   refetch,
 }) => {
@@ -125,7 +121,6 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
             </>
           )}
           {displayLoading && <ProgressDots />}
-          {displayError && <ErrorSection error={displayError} />}
           {displayData?.courses
             && displayData.courses.length > 0
             && displayData.courses.map((course) => (

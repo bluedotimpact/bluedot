@@ -2,6 +2,7 @@ import {
   HeroSection,
   HeroH1,
   Breadcrumbs,
+  ErrorSection,
 } from '@bluedot/ui';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
@@ -49,10 +50,10 @@ const CoursePage = () => {
         <HeroH1>The expertise you need to shape safe AI</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
+      {displayError && <ErrorSection error={displayError} />}
       <CourseDirectory
         displayData={displayData}
         displayLoading={displayLoading}
-        displayError={displayError}
         noResults={noResults}
         refetch={setRequestBody}
       />

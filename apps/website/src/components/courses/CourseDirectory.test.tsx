@@ -2,8 +2,6 @@ import { render, fireEvent } from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
-import { AxiosError } from 'axios';
-import type { AxiosRequestConfig } from 'axios';
 import type { GetCoursesResponse } from '../../pages/api/courses';
 import CourseDirectory, { CourseDirectoryProps } from './CourseDirectory';
 
@@ -101,26 +99,6 @@ describe('CourseDirectory', () => {
 
     const progressDotsElement = container.querySelector('.progress-dots');
     expect(progressDotsElement).not.toBeNull();
-  });
-
-  test('displays error message when displayError is present', () => {
-    const error = {
-      message: 'Network Error',
-      name: 'AxiosError',
-      isAxiosError: true,
-      toJSON: () => ({}),
-      config: { headers: {} } as AxiosRequestConfig,
-      response: undefined,
-    } as AxiosError;
-
-    const props = {
-      ...defaultProps,
-      displayError: error,
-      displayData: undefined,
-    };
-    const { queryByText } = render(<CourseDirectory {...props} />);
-
-    expect(queryByText(/If the above message doesn't help, try again later/)).not.toBeNull();
   });
 
   test('toggles filter visibility on mobile filter button click', () => {
