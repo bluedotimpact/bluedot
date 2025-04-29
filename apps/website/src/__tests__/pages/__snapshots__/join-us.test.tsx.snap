@@ -68,7 +68,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="bluedot-a breadcrumbs__link no-underline"
+              class="bluedot-a not-prose breadcrumbs__link no-underline"
               href="/"
               tabindex="0"
             >
@@ -84,7 +84,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="bluedot-a breadcrumbs__link no-underline"
+              class="bluedot-a not-prose breadcrumbs__link no-underline"
               href="/join-us"
               tabindex="0"
             >
@@ -120,17 +120,17 @@ exports[`JoinUsPage > should render correctly 1`] = `
               </div>
             </div>
             <p
-              class="bluedot-p"
+              class="bluedot-p not-prose"
             >
               At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
             </p>
             <p
-              class="bluedot-p"
+              class="bluedot-p not-prose"
             >
               But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
             </p>
             <p
-              class="bluedot-p"
+              class="bluedot-p not-prose"
             >
               We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
             </p>

@@ -46,7 +46,7 @@ exports[`Nav > renders with courses 1`] = `
             </svg>
           </button>
           <a
-            class="bluedot-a nav__logo-link shrink-0 w-[200px] no-underline"
+            class="bluedot-a not-prose nav__logo-link shrink-0 w-[200px] no-underline"
             href="/"
             tabindex="0"
           >
@@ -82,28 +82,28 @@ exports[`Nav > renders with courses 1`] = `
             </button>
           </div>
           <a
-            class="bluedot-a nav-links__link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
             href="/about"
             tabindex="0"
           >
             About us
           </a>
           <a
-            class="bluedot-a nav-links__link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
             href="/join-us"
             tabindex="0"
           >
             Join us
           </a>
           <a
-            class="bluedot-a nav-links__link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
             href="/blog"
             tabindex="0"
           >
             Blog
           </a>
           <a
-            class="bluedot-a nav-links__link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
             href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
             tabindex="0"
           >
@@ -148,19 +148,19 @@ exports[`Nav > renders with courses 1`] = `
           class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pb-10 hidden lg:flex mx-auto"
         >
           <h3
-            class="bluedot-h3 nav-explore-section__dropdown-title font-bold"
+            class="bluedot-h3 not-prose nav-explore-section__dropdown-title font-bold"
           >
             Our courses
           </h3>
           <a
-            class="bluedot-a nav-explore-section__dropdown-link no-underline"
+            class="bluedot-a not-prose nav-explore-section__dropdown-link no-underline"
             href="/course1"
             tabindex="0"
           >
             Course 1
           </a>
           <a
-            class="bluedot-a nav-explore-section__dropdown-link no-underline"
+            class="bluedot-a not-prose nav-explore-section__dropdown-link no-underline"
             href="/course2"
             tabindex="0"
           >
@@ -209,19 +209,19 @@ exports[`Nav > renders with courses 1`] = `
                   class="nav-explore-section___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden text-pretty pl-6 pt-6"
                 >
                   <h3
-                    class="bluedot-h3 nav-explore-section__dropdown-title font-bold"
+                    class="bluedot-h3 not-prose nav-explore-section__dropdown-title font-bold"
                   >
                     Our courses
                   </h3>
                   <a
-                    class="bluedot-a nav-explore-section__dropdown-link no-underline"
+                    class="bluedot-a not-prose nav-explore-section__dropdown-link no-underline"
                     href="/course1"
                     tabindex="0"
                   >
                     Course 1
                   </a>
                   <a
-                    class="bluedot-a nav-explore-section__dropdown-link no-underline"
+                    class="bluedot-a not-prose nav-explore-section__dropdown-link no-underline"
                     href="/course2"
                     tabindex="0"
                   >
@@ -236,28 +236,28 @@ exports[`Nav > renders with courses 1`] = `
               </div>
             </div>
             <a
-              class="bluedot-a nav-links__link nav-link-animation no-underline"
+              class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
               href="/about"
               tabindex="0"
             >
               About us
             </a>
             <a
-              class="bluedot-a nav-links__link nav-link-animation no-underline"
+              class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
               href="/join-us"
               tabindex="0"
             >
               Join us
             </a>
             <a
-              class="bluedot-a nav-links__link nav-link-animation no-underline"
+              class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
               href="/blog"
               tabindex="0"
             >
               Blog
             </a>
             <a
-              class="bluedot-a nav-links__link nav-link-animation no-underline"
+              class="bluedot-a not-prose nav-links__link nav-link-animation no-underline"
               href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
               tabindex="0"
             >
@@ -299,21 +299,21 @@ exports[`Nav > renders with courses 1`] = `
           class="nav__profile-dropdown flex flex-col gap-4 font-medium pb-10 items-end"
         >
           <a
-            class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            class="bluedot-a not-prose nav__profile-link nav-link-animation w-fit no-underline"
             href="/profile"
             tabindex="0"
           >
             Profile
           </a>
           <a
-            class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            class="bluedot-a not-prose nav__profile-link nav-link-animation w-fit no-underline"
             href="/contact"
             tabindex="0"
           >
             Help
           </a>
           <a
-            class="bluedot-a nav__profile-link nav-link-animation w-fit no-underline"
+            class="bluedot-a not-prose nav__profile-link nav-link-animation w-fit no-underline"
             href="/login/clear"
             tabindex="0"
           >

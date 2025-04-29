@@ -11,7 +11,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       We use analytics cookies to improve our website and measure ad performance.
        
       <a
-        class="bluedot-a"
+        class="bluedot-a not-prose"
         href="https://bluedot.org/privacy-policy"
         tabindex="0"
       >

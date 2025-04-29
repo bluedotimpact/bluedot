@@ -30,7 +30,7 @@ exports[`BlogSection > renders default as expected 1`] = `
           tabindex="0"
         >
           <p
-            class="bluedot-p blog-section__blog-post-date basis-[16%] uppercase mb-6"
+            class="bluedot-p not-prose blog-section__blog-post-date basis-[16%] uppercase mb-6"
           >
             December 12, 2024
           </p>
@@ -38,7 +38,7 @@ exports[`BlogSection > renders default as expected 1`] = `
             class="blog-section__blog-post-details w-full"
           >
             <h3
-              class="bluedot-h3 blog-section__blog-post-title"
+              class="bluedot-h3 not-prose blog-section__blog-post-title"
             >
               Teach-swap-explain: a learning activity for course designers to create highly effective learning experiences
             </h3>
@@ -46,7 +46,7 @@ exports[`BlogSection > renders default as expected 1`] = `
               class="blog-section__blog-post-metadata w-full flex flex-col sm:flex-row mt-6 gap-6"
             >
               <p
-                class="bluedot-p blog-section__blog-post-author flex-grow"
+                class="bluedot-p not-prose blog-section__blog-post-author flex-grow"
               >
                 By 
                 Adam Jones, AI Safety Lead at BlueDot Impact
@@ -60,7 +60,7 @@ exports[`BlogSection > renders default as expected 1`] = `
           tabindex="0"
         >
           <p
-            class="bluedot-p blog-section__blog-post-date basis-[16%] uppercase mb-6"
+            class="bluedot-p not-prose blog-section__blog-post-date basis-[16%] uppercase mb-6"
           >
             December 4, 2024
           </p>
@@ -68,7 +68,7 @@ exports[`BlogSection > renders default as expected 1`] = `
             class="blog-section__blog-post-details w-full"
           >
             <h3
-              class="bluedot-h3 blog-section__blog-post-title"
+              class="bluedot-h3 not-prose blog-section__blog-post-title"
             >
               Why we run our AI safety courses
             </h3>
@@ -76,7 +76,7 @@ exports[`BlogSection > renders default as expected 1`] = `
               class="blog-section__blog-post-metadata w-full flex flex-col sm:flex-row mt-6 gap-6"
             >
               <p
-                class="bluedot-p blog-section__blog-post-author flex-grow"
+                class="bluedot-p not-prose blog-section__blog-post-author flex-grow"
               >
                 By 
                 Adam Jones, AI Safety Lead at BlueDot Impact
@@ -90,7 +90,7 @@ exports[`BlogSection > renders default as expected 1`] = `
           tabindex="0"
         >
           <p
-            class="bluedot-p blog-section__blog-post-date basis-[16%] uppercase mb-6"
+            class="bluedot-p not-prose blog-section__blog-post-date basis-[16%] uppercase mb-6"
           >
             October 30, 2024
           </p>
@@ -98,7 +98,7 @@ exports[`BlogSection > renders default as expected 1`] = `
             class="blog-section__blog-post-details w-full"
           >
             <h3
-              class="bluedot-h3 blog-section__blog-post-title"
+              class="bluedot-h3 not-prose blog-section__blog-post-title"
             >
               AI Alignment June 2024 course retrospective
             </h3>
@@ -106,7 +106,7 @@ exports[`BlogSection > renders default as expected 1`] = `
               class="blog-section__blog-post-metadata w-full flex flex-col sm:flex-row mt-6 gap-6"
             >
               <p
-                class="bluedot-p blog-section__blog-post-author flex-grow"
+                class="bluedot-p not-prose blog-section__blog-post-author flex-grow"
               >
                 By 
                 Adam Jones, AI Safety Lead at BlueDot Impact

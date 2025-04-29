@@ -23,7 +23,7 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
         class="course-search-card__text"
       >
         <h3
-          class="bluedot-h3 course-search-card__title mb-4"
+          class="bluedot-h3 not-prose course-search-card__title mb-4"
         >
           Title
         </h3>
@@ -63,12 +63,12 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
         class="course-search-card__text"
       >
         <h3
-          class="bluedot-h3 course-search-card__title mb-4"
+          class="bluedot-h3 not-prose course-search-card__title mb-4"
         >
           Title
         </h3>
         <p
-          class="bluedot-p course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-6"
+          class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-6"
         >
           A short description of the course
         </p>

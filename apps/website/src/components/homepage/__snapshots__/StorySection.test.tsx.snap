@@ -33,17 +33,17 @@ exports[`StorySection > renders default as expected 1`] = `
           class="story-section__text-container flex flex-col gap-5"
         >
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             BlueDot Impact is a non-profit building educational courses to help ensure powerful emerging technologies benefit humanity.
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             Since 2021, we have trained over 4,500 professionals worldwide – from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, DeepMind, and the UK's AI Security Institute.
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             Working closely with leading organisations, we rapidly develop new courses to address emerging challenges and help talented people find roles where they can have the greatest impact.
           </p>

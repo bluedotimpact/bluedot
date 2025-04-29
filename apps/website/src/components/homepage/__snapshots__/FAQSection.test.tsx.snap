@@ -54,16 +54,16 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__content pb-6"
         >
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             AI Safety is the field working to ensure powerful AI systems benefit rather than harm humanity. As AI systems become more capable of affecting our world, we need to solve key challenges: How do we make AI systems reliably do what we want? How do we govern their development? How do we define what "beneficial" means?
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             You can read more about these 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://aisafetyfundamentals.com/blog/what-is-ai-alignment/"
               tabindex="0"
             >
@@ -71,7 +71,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             </a>
              and the 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://aisafetyfundamentals.com/blog/ai-risks/"
               tabindex="0"
             >
@@ -114,11 +114,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__content pb-6"
         >
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             Check you are the 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://bluedot.org/blog/am-i-the-right-fit-for-bluedots-courses/"
               tabindex="0"
             >
@@ -126,7 +126,7 @@ exports[`FAQSection > renders default as expected 1`] = `
             </a>
              and read our tips for making a 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://aisafetyfundamentals.com/blog/avoid-governance-application-mistakes/"
               tabindex="0"
             >
@@ -168,11 +168,11 @@ exports[`FAQSection > renders default as expected 1`] = `
           class="collapsible__content pb-6"
         >
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             We’d love for you to do this! All our reading and discussion materials are freely available online. You are welcome to run a local version of our course so long as you 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://bluedot.org/running-versions-of-our-courses/"
               tabindex="0"
             >
@@ -181,11 +181,11 @@ exports[`FAQSection > renders default as expected 1`] = `
             .
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             If you want tips for your discussion facilitation, we recommend taking a look through our 
             <a
-              class="bluedot-a"
+              class="bluedot-a not-prose"
               href="https://course.bluedot.org/home/facilitator-training"
               tabindex="0"
             >

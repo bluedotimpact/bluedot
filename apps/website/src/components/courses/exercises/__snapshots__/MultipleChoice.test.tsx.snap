@@ -26,7 +26,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           Understanding LLMs
         </p>
         <p
-          class="bluedot-p multiple-choice__description"
+          class="bluedot-p not-prose multiple-choice__description"
         >
           Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
         </p>
@@ -167,7 +167,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           Understanding LLMs
         </p>
         <p
-          class="bluedot-p multiple-choice__description"
+          class="bluedot-p not-prose multiple-choice__description"
         >
           Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
         </p>
@@ -283,7 +283,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 2`] = `
 <p
-  class="bluedot-p multiple-choice__correct-msg"
+  class="bluedot-p not-prose multiple-choice__correct-msg"
 >
   Correct! Quiz completed. 🎉
 </p>
@@ -313,7 +313,7 @@ exports[`MultipleChoice > updates styles for correct option 3`] = `
 
 exports[`MultipleChoice > updates styles for correct option 4`] = `
 <p
-  class="bluedot-p multiple-choice__incorrect-msg"
+  class="bluedot-p not-prose multiple-choice__incorrect-msg"
 >
   Try again. 🤔
 </p>

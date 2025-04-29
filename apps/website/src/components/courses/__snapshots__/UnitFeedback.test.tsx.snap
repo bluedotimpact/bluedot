@@ -9,12 +9,12 @@ exports[`UnitFeedback > should render correctly 1`] = `
       class="unit-feedback__header flex flex-col gap-4"
     >
       <h4
-        class="bluedot-h4"
+        class="bluedot-h4 not-prose"
       >
         How did you like this unit?
       </h4>
       <p
-        class="bluedot-p"
+        class="bluedot-p not-prose"
       >
         We constantly try to get better and need your feedback to improve the course. It only takes 
         <b>
@@ -141,7 +141,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       class="unit-feedback__free-response-section flex flex-col gap-4"
     >
       <h4
-        class="bluedot-h4 unit-feedback__textarea-label text-size-sm"
+        class="bluedot-h4 not-prose unit-feedback__textarea-label text-size-sm"
       >
         Do you have any other feedback on this unit?
          

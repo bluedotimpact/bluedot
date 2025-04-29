@@ -28,17 +28,17 @@ exports[`IntroSection > renders default as expected 1`] = `
           class="intro-section__text-container flex flex-col gap-5"
         >
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.
           </p>
           <p
-            class="bluedot-p"
+            class="bluedot-p not-prose"
           >
             As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.
           </p>
@@ -46,12 +46,12 @@ exports[`IntroSection > renders default as expected 1`] = `
             class="intro-section__signature"
           >
             <p
-              class="bluedot-p"
+              class="bluedot-p not-prose"
             >
               Dewi and Will,
             </p>
             <p
-              class="bluedot-p"
+              class="bluedot-p not-prose"
             >
               BlueDot Impact Co-Founders
             </p>

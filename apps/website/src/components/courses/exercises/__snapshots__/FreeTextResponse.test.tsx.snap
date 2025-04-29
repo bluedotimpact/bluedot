@@ -9,7 +9,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       class="free-text-response__header flex flex-col gap-4"
     >
       <div
-        class="free-text-response__header-icon"
+        class="free-text-response__header-icon not-prose"
       >
         <img
           alt=""
@@ -21,13 +21,13 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
-        <p>
-          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-        </p>
+        <div
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+        />
       </div>
     </div>
     <div
@@ -82,7 +82,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       class="free-text-response__header flex flex-col gap-4"
     >
       <div
-        class="free-text-response__header-icon"
+        class="free-text-response__header-icon not-prose"
       >
         <img
           alt=""
@@ -94,13 +94,13 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
-        <p>
-          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-        </p>
+        <div
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+        />
       </div>
     </div>
     <div
@@ -135,7 +135,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       class="free-text-response__header flex flex-col gap-4"
     >
       <div
-        class="free-text-response__header-icon"
+        class="free-text-response__header-icon not-prose"
       >
         <img
           alt=""
@@ -147,13 +147,13 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="free-text-response__header-content flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4"
+          class="free-text-response__title bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
-        <p>
-          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-        </p>
+        <div
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+        />
       </div>
     </div>
     <div
@@ -176,7 +176,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       </span>
     </button>
     <p
-      class="bluedot-p free-text-response__saved-msg"
+      class="bluedot-p not-prose free-text-response__saved-msg"
     >
       Saved! 🎉
     </p>

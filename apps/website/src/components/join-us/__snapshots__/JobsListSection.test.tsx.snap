@@ -43,7 +43,7 @@ exports[`JobsListSection > renders default as expected 1`] = `
                 Software Engineer
               </strong>
               <p
-                class="bluedot-p jobs-list__subtitle"
+                class="bluedot-p not-prose jobs-list__subtitle"
               >
                 Full-time position
               </p>
@@ -94,7 +94,7 @@ exports[`JobsListSection > renders default as expected 1`] = `
                 Product Manager
               </strong>
               <p
-                class="bluedot-p jobs-list__subtitle"
+                class="bluedot-p not-prose jobs-list__subtitle"
               >
                 Full-time position
               </p>
@@ -162,7 +162,7 @@ exports[`JobsListSection > renders empty state when no jobs are provided 1`] = `
         id="open-roles-anchor"
       />
       <p
-        class="bluedot-p"
+        class="bluedot-p not-prose"
       >
         We're not currently running any open hiring rounds at the moment.
       </p>
