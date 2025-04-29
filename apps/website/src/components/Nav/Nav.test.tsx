@@ -38,15 +38,17 @@ describe('Nav', () => {
   });
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
+    withLoggedInUser();
+
     const { container } = render(
       <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
-    const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
+    const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
     expect(hamburgerButton).not.toBeNull();
 
-    const mobileNavDrawer = container.querySelector('.nav__links-drawer');
-    const profileDrawer = container.querySelector('.nav__profile-drawer');
+    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
+    const profileDrawer = container.querySelector('.profile-links__drawer');
     expect(mobileNavDrawer).not.toBeNull();
     expect(profileDrawer).not.toBeNull();
 
@@ -70,11 +72,11 @@ describe('Nav', () => {
       <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
-    const profileButton = container.querySelector('.nav__profile-menu');
+    const profileButton = container.querySelector('.profile-links__btn');
     expect(profileButton).not.toBeNull();
 
-    const mobileNavDrawer = container.querySelector('.nav__links-drawer');
-    const profileDrawer = container.querySelector('.nav__profile-drawer');
+    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
+    const profileDrawer = container.querySelector('.profile-links__drawer');
     expect(mobileNavDrawer).not.toBeNull();
     expect(profileDrawer).not.toBeNull();
 
@@ -98,16 +100,16 @@ describe('Nav', () => {
       <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
     );
 
-    const hamburgerButton = container.querySelector('.nav__menu--mobile-tablet');
+    const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
     expect(hamburgerButton).not.toBeNull();
 
-    const navDrawer = container.querySelector('.nav__links-drawer');
-    expect(navDrawer).not.toBeNull();
+    const mobileNavDrawer = container.querySelector('.mobile-nav-links__drawer');
+    expect(mobileNavDrawer).not.toBeNull();
 
     fireEvent.click(hamburgerButton!);
 
     await waitFor(() => {
-      expect(navDrawer!.className).not.toMatch(/max-h-0/);
+      expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
     });
 
     // Simulate clicking outside the nav drawer
@@ -115,7 +117,7 @@ describe('Nav', () => {
 
     // Ensure the nav drawer is closed
     await waitFor(() => {
-      expect(navDrawer!.className).toMatch(/max-h-0/);
+      expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
     });
   });
 
