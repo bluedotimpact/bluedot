@@ -28,6 +28,12 @@ const joinUs: BluedotRoute = {
   parentPages: [home],
 };
 
+const blog: BluedotRoute = {
+  title: 'Blog',
+  url: '/blog',
+  parentPages: [home],
+};
+
 // Avoid changing the /contact route - we reference it lots of places.
 // If you are changing it, update libraries/ui/src/constants.ts
 const contact: BluedotRoute = {
@@ -62,6 +68,7 @@ const logout: BluedotRoute = {
 
 export const ROUTES = {
   about,
+  blog,
   certification,
   contact,
   courses,

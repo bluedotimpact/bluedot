@@ -1,14 +1,15 @@
-FROM quay.io/keycloak/keycloak:25.0@sha256:410fce4b9b40e1f4e7f90b44acedbaa6d935bacea432a6884769067b253d46fb as base
+FROM quay.io/keycloak/keycloak:26.2@sha256:9869b88191392727f0be7301e53573cc39c13c9d9b9b08492c97d1ea40366eae AS base
 
 ### Build
-FROM base as builder
+FROM base AS builder
 WORKDIR /opt/keycloak
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
-ENV KC_FEATURES=admin-api,admin2,authorization,impersonation
-ENV KC_FEATURES_DISABLED=account-api,account3,ciba,client-policies,device-flow,js-adapter,kerberos,par,step-up-authentication,web-authn
-COPY ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers
+ENV KC_FEATURES=admin-api,admin:v2,authorization,impersonation
+ENV KC_FEATURES_DISABLED=account-api,account,ciba,client-policies,device-flow,kerberos,par,step-up-authentication,web-authn
+ADD --chown=keycloak:keycloak --chmod=644 ./dist/bluedot-keycloak-theme.jar /opt/keycloak/providers/
+RUN touch -m --date=@1743465600 /opt/keycloak/providers/*
 RUN /opt/keycloak/bin/kc.sh build
 
 ### Final image
@@ -16,12 +17,17 @@ FROM base
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 # Set up for being behind a reverse proxy (e.g. ingress-nginx)
-ENV KC_PROXY=edge
+ENV KC_HTTP_ENABLED=true
 ENV KC_PROXY_HEADERS=xforwarded
 ENV KC_HOSTNAME_STRICT=false
 
-# Set admin username (nb: password set as runtime env var in infra)
-ENV KEYCLOAK_ADMIN=software@bluedot.org
+# For local development:
+# Install postgres on macOS with: brew install postgresql@17
+# Then run: psql -U postgres -c 'create database "bluedot-login";'
+# Uncomment these lines:
+# ENV KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/bluedot-login?user=postgres&password=postgres
+# ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin
+# ENV KC_BOOTSTRAP_ADMIN_PASSWORD=admin
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 CMD [ "start", "--optimized" ]

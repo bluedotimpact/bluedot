@@ -192,7 +192,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between values-section__values"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 values-section__values"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"
@@ -205,11 +205,11 @@ exports[`JoinUsPage > should render correctly 1`] = `
               />
             </div>
             <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-x-space-between gap-y-spacing-y scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
               style="scroll-padding-inline: 0px;"
             >
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -246,7 +246,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -283,7 +283,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 </div>
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start"
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
                 data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
                 style="scroll-margin-left: -0px;"
               >
@@ -379,7 +379,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </div>
     </section>
     <section
-      class="section section-body careers-section"
+      class="section section-body"
     >
       <div
         class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -398,116 +398,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="invisible relative bottom-48"
-          id="open-roles-anchor"
-        />
-        <div
-          class="careers-section__container flex flex-col gap-8"
+          class="flex justify-center space-x-2 my-6"
         >
-          <div
-            class="careers-section__listing"
-          >
-            <div
-              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
-            >
-              <strong
-                class="careers-section__title basis-[33%]"
-              >
-                Software Engineering Contractor
-              </strong>
-              <p
-                class="bluedot-p careers-section__location"
-              >
-                London, Remote
-              </p>
-              <p
-                class="bluedot-p careers-section__type"
-              >
-                Permanent
-              </p>
-              <a
-                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-                href="/join-us/swe-contractor"
-                tabindex="0"
-              >
-                <span
-                  class="cta-button__text"
-                >
-                  Apply now
-                </span>
-                <span
-                  class="cta-button__chevron ml-3"
-                >
-                  <svg
-                    class="cta-button__chevron-icon size-2"
-                    fill="currentColor"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 320 512"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                    />
-                  </svg>
-                </span>
-              </a>
-            </div>
-          </div>
-          <div
-            class="careers-section__listing"
-          >
-            <div
-              class="careers-section__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
-            >
-              <strong
-                class="careers-section__title basis-[33%]"
-              >
-                AI Safety Teaching Fellow
-              </strong>
-              <p
-                class="bluedot-p careers-section__location"
-              >
-                London, Remote
-              </p>
-              <p
-                class="bluedot-p careers-section__type"
-              >
-                Permanent
-              </p>
-              <a
-                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter careers-section__cta-button"
-                href="/join-us/ai-safety-teaching-fellow"
-                tabindex="0"
-              >
-                <span
-                  class="cta-button__text"
-                >
-                  Apply now
-                </span>
-                <span
-                  class="cta-button__chevron ml-3"
-                >
-                  <svg
-                    class="cta-button__chevron-icon size-2"
-                    fill="currentColor"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 320 512"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                    />
-                  </svg>
-                </span>
-              </a>
-            </div>
-          </div>
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 0ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 150ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 300ms;"
+          />
         </div>
       </div>
     </section>

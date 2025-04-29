@@ -97,8 +97,7 @@ export const loginPresets = {
       authority: 'https://login.bluedot.org/realms/customers/',
       client_id: 'bluedot-web-apps',
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
-      // 2025-04-27: offline_access temporarily disabled - see https://github.com/bluedotimpact/bluedot/issues/761
-      // scope: 'openid email offline_access',
+      scope: 'openid email offline_access',
     },
     verifyAndDecodeToken: async (token: string) => {
       return verifyJwt(token, {

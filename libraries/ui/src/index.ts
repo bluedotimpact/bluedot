@@ -52,6 +52,9 @@ export type { NavigateProps } from './Navigate';
 
 export { ProgressDots } from './ProgressDots';
 
+export { QuoteCarousel, type Quote } from './QuoteCarousel';
+export type { QuoteCarouselProps } from './QuoteCarousel';
+
 export { Section, SectionHeading } from './Section';
 export type { SectionProps } from './Section';
 

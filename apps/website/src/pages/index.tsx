@@ -1,12 +1,12 @@
 import { HeroSection } from '@bluedot/ui';
 import Head from 'next/head';
-import BlogSection from '../components/homepage/BlogSection';
 import CommunitySection from '../components/homepage/CommunitySection/index';
 import CourseSection from '../components/homepage/CourseSection';
 import FAQSection from '../components/homepage/FAQSection';
 import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
+import BlogListSection from '../components/blog/BlogListSection';
 
 const HomePage = () => {
   return (
@@ -22,7 +22,7 @@ const HomePage = () => {
       <CourseSection />
       <CommunitySection />
       <StorySection />
-      <BlogSection />
+      <BlogListSection maxItems={3} />
       <FAQSection />
     </div>
   );

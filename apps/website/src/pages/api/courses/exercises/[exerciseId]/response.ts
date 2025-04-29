@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import {
@@ -37,7 +38,11 @@ export default makeApiRoute({
   }
 
   const exerciseResponse = (await db.scan(exerciseResponseTable, {
-    filterByFormula: `AND({[>] Exercise record ID} = "${exerciseId}", {Email} = "${auth.email}")`,
+    filterByFormula: formula(await db.table(exerciseResponseTable), [
+      'AND',
+      ['=', { field: 'exerciseId' }, exerciseId],
+      ['=', { field: 'email' }, auth.email],
+    ]),
   }))[0];
 
   switch (raw.req.method) {
