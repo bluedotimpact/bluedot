@@ -20,16 +20,13 @@ export default makeApiRoute({
   }),
 }, async (body, { raw }) => {
   const { exerciseId } = raw.req.query;
+  if (typeof exerciseId !== 'string') {
+    throw new createHttpError.BadRequest('Invalid exercise ID');
+  }
 
   switch (raw.req.method) {
     case 'GET': {
-      const exercise = (await db.scan(exerciseTable, {
-        filterByFormula: `{[*] Record ID} = "${exerciseId}"`,
-      }))[0];
-
-      if (!exercise) {
-        throw new createHttpError.NotFound('Exercise not found');
-      }
+      const exercise = await db.get(exerciseTable, exerciseId);
 
       return {
         type: 'success' as const,

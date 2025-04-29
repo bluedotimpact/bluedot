@@ -62,6 +62,11 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
         const responseData = await handler(requestParseResult.data as z.infer<ReqZT>, {
           auth,
           raw: { req, res },
+        }).catch((err) => {
+          if (err.name === 'AirtableTsError' && err.type === 'RESOURCE_NOT_FOUND') {
+            throw new createHttpError.NotFound('Resource not found');
+          }
+          throw err;
         });
 
         const responseParseResult = optsFull.responseBody.safeParse(responseData);

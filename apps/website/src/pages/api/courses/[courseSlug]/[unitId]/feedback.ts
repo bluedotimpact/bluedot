@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import {
   UnitFeedback,
   unitFeedbackTable,
@@ -47,7 +48,11 @@ export default makeApiRoute(
     const existingFeedback = (
       await db.scan(unitFeedbackTable, {
         // Note: Requires adding a Lookup field called "[>] Unit ID", that gets "[*] RecordID" from the Unit table
-        filterByFormula: `AND({[>] Unit ID} = "${unitId}", {Email} = "${auth.email}")`,
+        filterByFormula: formula(await db.table(unitFeedbackTable), [
+          'AND',
+          ['=', { field: 'unitId' }, unitId],
+          ['=', { field: 'userEmail' }, auth.email],
+        ]),
       })
     )[0];
 

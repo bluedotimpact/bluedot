@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { courseRegistrationTable, courseTable, userTable } from '../../../lib/api/db/tables';
@@ -30,19 +31,23 @@ export default makeApiRoute({
   if (typeof certificateId !== 'string' || !certificateId) {
     throw new createHttpError.BadRequest('Missing certificateId');
   }
-  // TODO: make a reusable method that prevents injection attacks
-  if (!certificateId.match(/^[a-zA-Z0-9]+$/)) {
-    throw new createHttpError.BadRequest('Invalid certificateId');
-  }
 
   const courseRegistration = (await db.scan(courseRegistrationTable, {
-    filterByFormula: `{Certificate ID} = "${certificateId}"`,
+    filterByFormula: formula(await db.table(courseRegistrationTable), [
+      '=',
+      { field: 'certificateId' },
+      certificateId,
+    ]),
   }))[0];
   if (!courseRegistration) {
     // TODO: remove this after data migration
     // special case: handle MOOC certificates that have not yet been migrated to course registrations
     const user = (await db.scan(userTable, {
-      filterByFormula: `{Referral ID} = "${certificateId}"`,
+      filterByFormula: formula(await db.table(userTable), [
+        '=',
+        { field: 'referralId' },
+        certificateId,
+      ]),
     }))[0];
     if (!user || !user.completedMoocAt) {
       throw new createHttpError.NotFound('Certificate not found');
