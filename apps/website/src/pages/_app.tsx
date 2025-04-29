@@ -10,7 +10,7 @@ import {
 import { useEffect } from 'react';
 import { Router } from 'next/router';
 import { Analytics } from '../components/Analytics';
-import { Nav } from '../components/Nav';
+import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {

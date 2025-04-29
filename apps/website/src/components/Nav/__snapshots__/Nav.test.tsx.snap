@@ -1,0 +1,287 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Nav > renders with courses 1`] = `
+<div>
+  <nav
+    class="nav sticky top-0 z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
+  >
+    <div
+      class="relative nav__container section-base"
+    >
+      <div
+        class="nav__bar w-full flex justify-between items-center h-[72px] sm:h-[100px]"
+      >
+        <div
+          class="mobile-nav-links lg:hidden"
+        >
+          <button
+            class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+            type="button"
+          >
+            <svg
+              fill="none"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 18H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 24H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 30H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="mobile-nav-links__drawer absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+          >
+            <div
+              class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+            >
+              <div
+                class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+              >
+                <div
+                  class="explore-dropdown"
+                >
+                  <button
+                    class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation no-underline"
+                    type="button"
+                  >
+                    Explore
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+                  >
+                    <div
+                      class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty"
+                    >
+                      <h3
+                        class="bluedot-h3 explore-dropdown__dropdown-title font-bold pt-4"
+                      >
+                        Our courses
+                      </h3>
+                      <a
+                        class="bluedot-a nav-link nav-link-animation no-underline"
+                        href="/course1"
+                        tabindex="0"
+                      >
+                        Course 1
+                      </a>
+                      <a
+                        class="bluedot-a nav-link nav-link-animation no-underline"
+                        href="/course2"
+                        tabindex="0"
+                      >
+                        <span
+                          class="explore-dropdown__new-badge text-bluedot-normal font-black pr-2"
+                        >
+                          New!
+                        </span>
+                        Course 2
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About us
+                </a>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="https://bluedot.org/blog/"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+                  tabindex="0"
+                >
+                  Events
+                </a>
+              </div>
+              <div
+                class="mobile-nav-links__secondary-cta flex justify-end mt-20"
+              >
+                <a
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
+                >
+                  <span
+                    class="cta-button__text"
+                  >
+                    Support us
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          class="bluedot-a logo shrink-0 w-[200px] no-underline"
+          href="/"
+          tabindex="0"
+        >
+          <img
+            alt="BlueDot Impact Logo"
+            class="logo__img h-6 mr-auto transition-all duration-300"
+            src="logo.png"
+          />
+        </a>
+        <div
+          class="nav-links flex gap-9 [&>*]:w-fit desktop-nav-links__nav-links hidden lg:flex"
+        >
+          <div
+            class="explore-dropdown"
+          >
+            <button
+              class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation no-underline"
+              type="button"
+            >
+              Explore
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </button>
+            <div
+              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+            >
+              <div
+                class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty"
+              >
+                <h3
+                  class="bluedot-h3 explore-dropdown__dropdown-title font-bold pt-4"
+                >
+                  Our courses
+                </h3>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="/course1"
+                  tabindex="0"
+                >
+                  Course 1
+                </a>
+                <a
+                  class="bluedot-a nav-link nav-link-animation no-underline"
+                  href="/course2"
+                  tabindex="0"
+                >
+                  <span
+                    class="explore-dropdown__new-badge text-bluedot-normal font-black pr-2"
+                  >
+                    New!
+                  </span>
+                  Course 2
+                </a>
+              </div>
+            </div>
+          </div>
+          <a
+            class="bluedot-a nav-link nav-link-animation no-underline"
+            href="/about"
+            tabindex="0"
+          >
+            About us
+          </a>
+          <a
+            class="bluedot-a nav-link nav-link-animation no-underline"
+            href="/join-us"
+            tabindex="0"
+          >
+            Join us
+          </a>
+          <a
+            class="bluedot-a nav-link nav-link-animation no-underline"
+            href="https://bluedot.org/blog/"
+            tabindex="0"
+          >
+            Blog
+          </a>
+          <a
+            class="bluedot-a nav-link nav-link-animation no-underline"
+            href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+            tabindex="0"
+          >
+            Events
+          </a>
+        </div>
+        <div
+          class="mobile-nav-links__cta-buttons flex flex-row gap-6"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta hidden lg:block"
+            href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+            tabindex="0"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Support us
+            </span>
+          </a>
+          <a
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+            href="http://localhost:3000/login?redirect_to=%2F"
+            tabindex="0"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Login
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+`;
