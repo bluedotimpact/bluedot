@@ -4,7 +4,6 @@ import {
   Breadcrumbs,
   ErrorSection,
 } from '@bluedot/ui';
-import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';

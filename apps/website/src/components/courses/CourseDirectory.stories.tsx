@@ -42,12 +42,10 @@ const mockCourseData: GetCoursesResponse = {
 const CourseDirectoryWrapper = () => {
   const [displayData, setDisplayData] = useState<GetCoursesResponse | undefined>(undefined);
   const [displayLoading, setDisplayLoading] = useState<boolean>(true);
-  const [displayError, setDisplayError] = useState<AxiosError | null>(null);
   const [noResults, setNoResults] = useState<boolean>(false);
 
   const refetch = useCallback((filters: CoursesRequestBody) => {
     setDisplayLoading(true);
-    setDisplayError(null);
     setNoResults(false);
     setDisplayData(undefined);
 
@@ -76,7 +74,6 @@ const CourseDirectoryWrapper = () => {
     <CourseDirectory
       displayData={displayData}
       displayLoading={displayLoading}
-      displayError={displayError}
       noResults={noResults}
       refetch={refetch}
     />
