@@ -16,7 +16,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
               <UnitCard
                 key={unit.unitNumber}
                 className="course-units-section__unit h-full"
-                description={unit.description}
+                description={unit.menuText}
                 duration={unit.duration}
                 title={unit.title}
                 unitNumber={unit.unitNumber}

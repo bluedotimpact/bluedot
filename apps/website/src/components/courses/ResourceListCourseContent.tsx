@@ -12,44 +12,59 @@ import { UnitResource } from '../../lib/api/db/tables';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import StarRating from './StarRating';
 import {
-  A, H2, H3, P,
+  A, H2, H3, H4, P,
 } from '../Text';
 import { ROUTES } from '../../lib/routes';
 import Callout from './Callout';
 import Exercise from './exercises/Exercise';
+import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitId]';
+import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 const ResourceListCourseContent: React.FC = () => {
   const { query: { courseSlug, unitId } } = useRouter();
 
-  const [{ data, loading, error }] = useAxios<GetUnitResourcesResponse>({
+  const [{ data: resourcesData, loading: resourcesLoading, error: resourcesError }] = useAxios<GetUnitResourcesResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitId}/resources`,
   });
 
-  if (loading) {
+  // This will almost always hit useAxios's built-in cache, because we render this on the unit page
+  const [{ data: unitData, loading: unitLoading, error: unitError }] = useAxios<GetUnitResponse>({
+    method: 'get',
+    url: `/api/courses/${courseSlug}/${unitId}`,
+  });
+
+  if (resourcesLoading || unitLoading) {
     return <ProgressDots />;
   }
 
-  if (error || !data) {
-    return <ErrorSection error={error ?? new Error('Missing data from API')} />;
+  if (resourcesError || !resourcesData || unitError || !unitData) {
+    return <ErrorSection error={resourcesError ?? new Error('Missing data from API')} />;
   }
 
-  const coreResources = data.unitResources.filter((r) => r.coreFurtherMaybe === 'Core');
-  const optionalResources = data.unitResources.filter((r) => r.coreFurtherMaybe === 'Further');
+  const coreResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Core');
+  const optionalResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Further');
 
   return (
     <div className="flex flex-col gap-6">
+      {unitData.unit.description && <MarkdownExtendedRenderer>{unitData.unit.description}</MarkdownExtendedRenderer>}
+      {unitData.unit.learningOutcomes && (
+      <>
+        <H4>By the end of the unit, you should be able to:</H4>
+        <MarkdownExtendedRenderer>{unitData.unit.learningOutcomes}</MarkdownExtendedRenderer>
+      </>
+      )}
       <H2>Resources ({coreResources.reduce((a, b) => a + (b.timeFocusOnMins ?? 0), 0)} mins)</H2>
       <div className="flex flex-col gap-6">
         {coreResources.map((resource) => (
           <ResourceListItem key={resource.id} resource={resource} />
         ))}
       </div>
-      {data.unitExercises.length > 0 && (
+      {resourcesData.unitExercises.length > 0 && (
         <>
           <H2>Exercises</H2>
           <div className="!-my-6">
-            {data.unitExercises.map((exercise) => (
+            {resourcesData.unitExercises.map((exercise) => (
               <Exercise key={exercise.id} exerciseId={exercise.id} />
             ))}
           </div>

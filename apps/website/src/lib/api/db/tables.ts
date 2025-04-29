@@ -130,7 +130,9 @@ export type Unit = {
   content: string,
   unitNumber: string,
   duration: number,
+  menuText: string,
   description: string,
+  learningOutcomes: string,
   unitPodcastUrl: string,
 } & Item;
 
@@ -148,7 +150,9 @@ export const unitTable: Table<Unit> = {
     content: 'fldF9hjDhZpLbBIUV',
     duration: 'fldGdibgcMgRbnuvp',
     unitNumber: 'fldimS5GIqSKuyA9C',
-    description: 'flddCXEeJ9oFOhfNb',
+    menuText: 'flddCXEeJ9oFOhfNb',
+    description: 'fldpJLWVPh0IXHfmm',
+    learningOutcomes: 'fld9vAMgn0Fm7x6Xf',
     unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
@@ -161,7 +165,9 @@ export const unitTable: Table<Unit> = {
     content: 'string',
     duration: 'number',
     unitNumber: 'string',
+    menuText: 'string',
     description: 'string',
+    learningOutcomes: 'string',
     unitPodcastUrl: 'string',
   },
 };
@@ -447,7 +453,7 @@ export type ResourceCompletion = {
   id: string,
   unitResourceIdWrite: string,
   unitResourceIdRead: string,
-  rating: number,
+  rating: number | null,
   isCompleted: boolean,
   email: string,
   feedback: string,
@@ -468,7 +474,7 @@ export const resourceCompletionTable: Table<ResourceCompletion> = {
   schema: {
     unitResourceIdRead: 'string',
     unitResourceIdWrite: 'string',
-    rating: 'number',
+    rating: 'number | null',
     isCompleted: 'boolean',
     email: 'string',
     feedback: 'string',

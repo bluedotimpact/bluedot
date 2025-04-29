@@ -86,7 +86,7 @@ export default makeApiRoute({
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: auth.email,
           unitResourceIdWrite: unitResourceId,
-          rating: body.rating ?? 0,
+          rating: body.rating,
           isCompleted: body.isCompleted ?? false,
           feedback: body.feedback ?? '',
         });
