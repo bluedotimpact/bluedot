@@ -1,20 +1,30 @@
 import {
   HeroSection,
   HeroH1,
+  Section,
+  Breadcrumbs,
+  ErrorSection,
+  ProgressDots,
   HeroCTAContainer,
   CTALinkOrButton,
-  Breadcrumbs,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import useAxios from 'axios-hooks';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
-import CareersSection from '../components/join-us/CareersSection';
-import CultureSection from '../components/join-us/CultureSection';
-import ValuesSection from '../components/join-us/ValuesSection';
-import { ROUTES } from '../lib/routes';
+import { ROUTES } from '../../lib/routes';
+import { GetJobsResponse } from '../api/cms/jobs';
+import CultureSection from '../../components/join-us/CultureSection';
+import ValuesSection from '../../components/join-us/ValuesSection';
+import JobsListSection from '../../components/join-us/JobsListSection';
 
 const CURRENT_ROUTE = ROUTES.joinUs;
 
 const JoinUsPage = () => {
+  const [{ data, loading, error }] = useAxios<GetJobsResponse>({
+    method: 'get',
+    url: '/api/cms/jobs',
+  });
+
   return (
     <div>
       <Head>
@@ -31,7 +41,9 @@ const JoinUsPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       <CultureSection />
       <ValuesSection />
-      <CareersSection />
+      {loading && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
+      {error && <ErrorSection error={error} />}
+      {data?.jobs && <JobsListSection jobs={data.jobs} />}
     </div>
   );
 };
