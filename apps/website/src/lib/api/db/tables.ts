@@ -325,3 +325,67 @@ export const userTable: Table<User> = {
     completedMoocAt: 'number | null',
   },
 };
+
+export type CmsBlog = {
+  id: string,
+  title: string,
+  slug: string,
+  body: string,
+  publishedAt: string,
+  authorName: string,
+  authorUrl: string,
+  sitesToPublishOn: string[],
+} & Item;
+
+export const cmsBlogTable: Table<CmsBlog> = {
+  name: 'Blog',
+  baseId: 'app63L1YChHfS6RJF',
+  tableId: 'tblT8jgeG4QWX2Fj4',
+  mappings: {
+    title: 'fldB4uHuTqUd4JOsw',
+    slug: 'fldSy5THCV7WOtYiN',
+    body: 'fldesLVb1tJpsNkVl',
+    authorName: 'fldBVD1meb54zRK8Q',
+    authorUrl: 'fldEOlPQdbEmDxicJ',
+    sitesToPublishOn: 'fldB3H82xrQVJMlMp',
+    publishedAt: 'fldjp3x46apAPAXo7',
+  },
+  schema: {
+    title: 'string',
+    slug: 'string',
+    body: 'string',
+    publishedAt: 'string',
+    authorName: 'string',
+    authorUrl: 'string',
+    sitesToPublishOn: 'string[]',
+  },
+};
+
+export type CmsJobPosting = {
+  id: string,
+  title: string,
+  subtitle: string,
+  slug: string,
+  applicationUrl: string,
+  body: string,
+} & Item;
+
+export const cmsJobPostingTable: Table<CmsJobPosting> = {
+  name: 'Job posting',
+  baseId: 'app63L1YChHfS6RJF',
+  tableId: 'tblGv8yisIfJMjT6K',
+  mappings: {
+    title: 'fldN51J9NLxyRBEDf',
+    subtitle: 'fldhiAectnNMEmUt5',
+    slug: 'fldiMgiy9wHuvIM2f',
+    applicationUrl: 'fldtkliaGs8JLy0BS',
+    body: 'fldiBF58TPRIMhgvq',
+  },
+  schema: {
+    title: 'string',
+    subtitle: 'string',
+    slug: 'string',
+    applicationUrl: 'string',
+    body: 'string',
+  },
+};
