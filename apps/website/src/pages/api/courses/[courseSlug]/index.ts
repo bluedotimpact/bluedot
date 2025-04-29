@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { AirtableTsTable, formula } from 'airtable-ts-formula';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import {
@@ -24,16 +25,20 @@ export default makeApiRoute({
   }),
 }, async (body, { raw }) => {
   const { courseSlug } = raw.req.query;
+  if (typeof courseSlug !== 'string') {
+    throw new createHttpError.BadRequest('Invalid course slug');
+  }
 
   const course = (await db.scan(courseTable, {
-    filterByFormula: `{Course slug} = "${courseSlug}"`,
+    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
+    filterByFormula: formula(await db.table(courseTable) as AirtableTsTable<Course>, ['=', { field: 'slug' }, courseSlug]),
   }))[0];
   if (!course) {
     throw new createHttpError.NotFound('Course not found');
   }
 
   const units = (await db.scan(unitTable, {
-    filterByFormula: `{[>] Course slug} = "${courseSlug}"`,
+    filterByFormula: formula(await db.table(unitTable), ['=', { field: 'courseSlug' }, courseSlug]),
   })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {

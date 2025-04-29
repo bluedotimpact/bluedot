@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { formula } from 'airtable-ts-formula';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import {
@@ -31,7 +32,11 @@ export default makeApiRoute({
   }).optional(),
 }, async (body, { auth, raw }) => {
   const existingUser = (await db.scan(userTable, {
-    filterByFormula: `{Email} = "${auth.email}"`,
+    filterByFormula: formula(await db.table(userTable), [
+      '=',
+      { field: 'email' },
+      auth.email,
+    ]),
   }))[0];
 
   switch (raw.req.method) {

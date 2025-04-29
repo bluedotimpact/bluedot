@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@bluedot/ui": "*",
-    "airtable-ts": "^1.4.0",
+    "airtable-ts": "^1.5.0",
     "axios": "^1.7.9",
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.1",
