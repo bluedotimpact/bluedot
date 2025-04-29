@@ -904,7 +904,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         >
           <img
             alt="Try it yourself"
-            class="future-of-ai-lander__feature-image max-h-[550px] md:order-2"
+            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
             src="/images/lander/foai/try-desktop.png"
           />
           <div
@@ -954,7 +954,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         >
           <img
             alt="Join the community"
-            class="future-of-ai-lander__feature-image max-h-[550px] md:order-1"
+            class="future-of-ai-lander__feature-image md:order-1 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
             src="/images/lander/foai/community-desktop.png"
           />
           <div
@@ -1004,7 +1004,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         >
           <img
             alt="Get certified"
-            class="future-of-ai-lander__feature-image max-h-[550px] md:order-2"
+            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
             src="/images/lander/foai/cert-desktop.png"
           />
           <div
