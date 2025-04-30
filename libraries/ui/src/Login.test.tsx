@@ -26,7 +26,7 @@ vi.mock('./utils/getQueryParam', () => ({
 const CUSTOM_REDIRECT_PATH = '/custom-path';
 
 describe('LoginRedirectPage', () => {
-  const mockOidcSettings = loginPresets.keycloak.oidcSettings;
+  const mockLoginPreset = loginPresets.keycloak;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -36,7 +36,7 @@ describe('LoginRedirectPage', () => {
     vi.mocked(useAuthStore).mockReturnValue({ auth: { token: 'test-token' } });
     vi.mocked(getQueryParam).mockReturnValue(CUSTOM_REDIRECT_PATH);
 
-    render(<LoginRedirectPage oidcSettings={mockOidcSettings} />);
+    render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
 
     expect(Navigate).toHaveBeenCalledWith({
       url: CUSTOM_REDIRECT_PATH,

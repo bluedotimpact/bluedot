@@ -4,7 +4,7 @@ import { GetUserResponse } from '../api/users/me';
 
 export default () => (
   <LoginOauthCallbackPage
-    oidcSettings={loginPresets.keycloak.oidcSettings}
+    loginPreset={loginPresets.keycloak}
     onLoginComplete={async (auth) => {
       // This ensures the user is created
       await axios.get<GetUserResponse>('/api/users/me', {

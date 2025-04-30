@@ -269,7 +269,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
           )}
         </div>
       ) : (
-        <P className="resource-item__login-prompt mt-4"><A href={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}>Create a free account</A> to track your progress and unlock access to the full course content.</P>
+        <P className="resource-item__login-prompt mt-4"><A href={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname), 'register', 'true')}>Create a free account</A> to track your progress and unlock access to the full course content.</P>
       )}
     </div>
   );

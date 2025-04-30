@@ -1,3 +1,3 @@
 import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 
-export default () => <LoginOauthCallbackPage oidcSettings={loginPresets.googleBlueDot.oidcSettings} />;
+export default () => <LoginOauthCallbackPage loginPreset={loginPresets.googleBlueDot} />;

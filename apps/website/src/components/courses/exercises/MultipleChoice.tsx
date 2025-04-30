@@ -126,10 +126,10 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton
           className="multiple-choice__login-cta"
           variant="primary"
-          url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
+          url={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname), 'register', 'true')}
           withChevron
         >
-          Login to check your answer
+          Create a free account to check your answer
         </CTALinkOrButton>
       )}
       {(!isEditing && isCorrect) && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}

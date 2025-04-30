@@ -37,18 +37,18 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="free-text-response__textarea p-4 container-lined"
         disabled=""
         name="answer"
-        placeholder="Login to save your answers"
+        placeholder="Create an account to save your answers"
       />
     </div>
     <a
       class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
-      href="http://localhost:3000/login?redirect_to=http%3A%2F%2Flocalhost%3A3000%2F"
+      href="http://localhost:3000/login?redirect_to=%2F&register=true"
       tabindex="0"
     >
       <span
         class="cta-button__text"
       >
-        Login to save your answers
+        Create a free account to save your answers
       </span>
       <span
         class="cta-button__chevron ml-3"
