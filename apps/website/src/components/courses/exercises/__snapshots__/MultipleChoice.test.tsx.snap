@@ -289,7 +289,7 @@ exports[`MultipleChoice > updates styles for correct option 2`] = `
 </p>
 `;
 
-exports[`MultipleChoice > updates styles for correct option 3`] = `
+exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 <label
   class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
@@ -311,7 +311,7 @@ exports[`MultipleChoice > updates styles for correct option 3`] = `
 </label>
 `;
 
-exports[`MultipleChoice > updates styles for correct option 4`] = `
+exports[`MultipleChoice > updates styles for incorrect option 2`] = `
 <p
   class="bluedot-p not-prose multiple-choice__incorrect-msg"
 >
