@@ -50,9 +50,13 @@ Note that we don’t own many of linked-to resources themselves, so you might ne
 Here’s an example of how you might market your course, following the guidelines above:
 
 > Calling all students interested in the future of AI safety and alignment!
+>
 > 🤖 The Greendale Community College AI Society is excited to be hosting a AI alignment course this semester, based on the popular AI Safety Fundamentals courses developed by BlueDot Impact.
+>
 > We’ll be following their curriculum, [available online here](https://course.aisafetyfundamentals.com/alignment). You should do the readings and exercises beforehand, and then each week we’ll host a facilitated group discussion adapted for our university setting.
+>
 > The discussions will run every Wednesday from 6-8pm in Group Study Room F starting on 17 September. To join the seminar series, RSVP at https://greendale.edu/ai-soc/ai-alignment.
+>
 > If you have any other questions, email ai.soc@greendale.edu. Looking forward to some fascinating discussions! 🙂
 
 Examples of things that would not be okay:
