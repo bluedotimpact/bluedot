@@ -1,4 +1,4 @@
-import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
+import { addQueryParam, CTALinkOrButton, Input } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -91,26 +91,20 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {formattedOptions.map((option) => (
-          <label
-            key={option}
-            className={`
+          <Input
+            {...register('answer')}
+            labelClassName={`
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               ${(isSelected(option)) ? `multiple-choice__option--selected container-active
                 ${(!isEditing && isCorrect) && 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]'}
                 ${(!isEditing && isIncorrect) && 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]'}`
               : 'container-lined'}`}
-          >
-            <input
-              {...register('answer')}
-              defaultChecked={formattedExerciseResponse === option}
-              className="multiple-choice__input"
-              type="radio"
-              value={option}
-              onChange={() => handleOptionSelect(option)}
-              disabled={!isLoggedIn}
-            />
-            <span className="multiple-choice__label">{option}</span>
-          </label>
+            defaultChecked={formattedExerciseResponse === option}
+            type="radio"
+            value={option}
+            onChange={() => handleOptionSelect(option)}
+            disabled={!isLoggedIn}
+          />
         ))}
       </div>
       {isLoggedIn ? (

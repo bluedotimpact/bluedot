@@ -47,7 +47,7 @@ describe('MultipleChoice', () => {
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
-    const optionEls = container.querySelectorAll('.multiple-choice__input');
+    const optionEls = container.querySelectorAll('.multiple-choice__option .input--radio');
     const optionEl = optionEls[0] as HTMLInputElement;
     const optionLabelEl = optionEl.closest('label') as HTMLElement;
     optionEl?.click();
@@ -72,7 +72,7 @@ describe('MultipleChoice', () => {
     expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
   });
 
-  test('updates styles for correct option', () => {
+  test('updates styles for incorrect option', () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { container } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
