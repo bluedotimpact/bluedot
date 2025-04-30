@@ -16,6 +16,7 @@ import {
 } from '../Text';
 import { ROUTES } from '../../lib/routes';
 import Callout from './Callout';
+// eslint-disable-next-line import/no-cycle
 import Exercise from './exercises/Exercise';
 import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitId]';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';

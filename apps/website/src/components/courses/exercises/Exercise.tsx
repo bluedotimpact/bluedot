@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import axios from 'axios';
 import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
+// eslint-disable-next-line import/no-cycle
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 import { GetExercise } from '../../../pages/api/courses/exercises/[exerciseId]';

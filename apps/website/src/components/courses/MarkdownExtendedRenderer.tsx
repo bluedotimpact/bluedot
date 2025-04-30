@@ -9,7 +9,9 @@ import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
+// eslint-disable-next-line import/no-cycle
 import Exercise from './exercises/Exercise';
+// eslint-disable-next-line import/no-cycle
 import ResourceListCourseContent from './ResourceListCourseContent';
 
 /**

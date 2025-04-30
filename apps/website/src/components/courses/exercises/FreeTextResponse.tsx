@@ -4,6 +4,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { P } from '../../Text';
+// eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 type FreeTextResponseProps = {
