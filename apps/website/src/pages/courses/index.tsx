@@ -2,31 +2,48 @@ import {
   HeroSection,
   HeroH1,
   Breadcrumbs,
-  Section,
-  ProgressDots,
   ErrorSection,
 } from '@bluedot/ui';
-import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
+import { useEffect, useState } from 'react';
 import { ROUTES } from '../../lib/routes';
-import { GetCoursesResponse } from '../api/courses';
-import { CourseSearchCard } from '../../components/courses/CourseSearchCard';
+import type { CoursesRequestBody, GetCoursesResponse } from '../api/courses';
+import CourseDirectory from '../../components/courses/CourseDirectory';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
+  const [requestBody, setRequestBody] = useState<CoursesRequestBody>();
+
   const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
-    method: 'get',
     url: '/api/courses',
+    method: 'POST',
+    data: requestBody,
   });
+  const [{ data: allCoursesData, loading: allCoursesLoading, error: allCoursesError }, fetchAllCourses] = useAxios<GetCoursesResponse>({
+    url: '/api/courses',
+    method: 'POST',
+  }, { manual: true });
+
+  const noResults = !!(data?.courses && data.courses.length === 0);
+
+  useEffect(() => {
+    if (noResults) {
+      fetchAllCourses();
+    }
+  }, [noResults, fetchAllCourses]);
+
+  const displayData = !noResults ? data : allCoursesData;
+  const displayLoading = loading || (noResults && allCoursesLoading);
+  const displayError = !noResults ? error : allCoursesError;
 
   return (
     <div>
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {data?.courses && (
+        {displayData?.courses && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
@@ -34,7 +51,7 @@ const CoursePage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: data.courses.map((course, index) => ({
+                itemListElement: displayData.courses.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -81,30 +98,16 @@ const CoursePage = () => {
         )}
       </Head>
       <HeroSection>
-        <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
-        <HeroH1>The expertise you need to shape safe AI</HeroH1>
+        <HeroH1>Our courses</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section
-        className="course-serp"
-      >
-        {loading && <ProgressDots />}
-        {error && <ErrorSection error={error} />}
-        <div className="course-serp__content flex flex-col gap-4 justify-center items-center mx-auto">
-          {data?.courses.map((course) => (
-            <CourseSearchCard
-              key={course.title}
-              description={course.shortDescription}
-              cadence={course.cadence}
-              level={course.level}
-              averageRating={course.averageRating}
-              imageSrc={course.image}
-              title={course.title}
-              url={course.path}
-            />
-          ))}
-        </div>
-      </Section>
+      {displayError && <ErrorSection error={displayError} />}
+      <CourseDirectory
+        displayData={displayData}
+        displayLoading={displayLoading}
+        noResults={noResults}
+        refetch={setRequestBody}
+      />
     </div>
   );
 };

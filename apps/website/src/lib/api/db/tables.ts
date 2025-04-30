@@ -219,7 +219,8 @@ export const unitResourceTable: Table<UnitResource> = {
 export type Exercise = {
   id: string,
   answer: string,
-  courseId: string,
+  courseIdWrite: string,
+  courseIdRead: string,
   exerciseNumber: string,
   description: string,
   options: string,
@@ -236,7 +237,8 @@ export const exerciseTable: Table<Exercise> = {
   tableId: 'tbla7lc2MtSSbWVvS',
   mappings: {
     answer: 'fldFcZVVo8Wg4GSmA',
-    courseId: 'fldxcJ5gCihs3iRyE',
+    courseIdWrite: 'fldxcJ5gCihs3iRyE',
+    courseIdRead: 'fldc9oyPwJSkeMiAW',
     exerciseNumber: 'fldOoKVFSrToAicfT',
     description: 'fldsoGDZ4d8Us64f1',
     options: 'fld38NpFZT4BdhWO3',
@@ -248,7 +250,8 @@ export const exerciseTable: Table<Exercise> = {
   },
   schema: {
     answer: 'string',
-    courseId: 'string',
+    courseIdWrite: 'string',
+    courseIdRead: 'string',
     exerciseNumber: 'string',
     description: 'string',
     options: 'string',

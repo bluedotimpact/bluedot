@@ -58,7 +58,7 @@ export default makeApiRoute({
       const exercises: Exercise[] = await db.scan(exerciseTable, {
         filterByFormula: formula(await db.table(exerciseTable), [
           'AND',
-          ['=', { field: 'courseId' }, body.courseId],
+          ['=', { field: 'courseIdRead' }, body.courseId],
           ['=', { field: 'status' }, 'Active'],
         ]),
       });

@@ -36,11 +36,11 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
     <ClickTarget
       url={url}
       className={clsx(
-        'course-search-card flex sm:flex-row flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
+        'course-search-card flex flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
         className,
       )}
     >
-      <div className="course-search-card__image-container h-[240px] sm:w-fit w-full">
+      <div className="course-search-card__image-container h-[200px] w-full">
         <img className="course-search-card__image size-full object-cover rounded-lg" src={imageSrc || defaultImageSrc} alt={title} />
       </div>
       <div className="course-search-card__content flex flex-col justify-between gap-space-between flex-1">
@@ -49,7 +49,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
             {title}
           </H3>
           {description && (
-            <P className="course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-6">
+            <P className="course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4">
               {description}
             </P>
           )}
