@@ -10,7 +10,7 @@ import { getQueryParam } from './utils/getQueryParam';
 import { ProgressDots } from './ProgressDots';
 
 export type LoginPageProps = {
-  oidcSettings: OidcClientSettings
+  loginPreset: LoginPreset
 };
 
 export type LoginOauthCallbackPageProps = LoginPageProps & {
@@ -90,6 +90,12 @@ const verifyJwt = async (
   return payload;
 };
 
+export type LoginPreset = {
+  oidcSettings: OidcClientSettings,
+  verifyAndDecodeToken: (token: string) => Promise<{ sub: string, email: string }>
+  getRegistrationUrl?: (authUrl: string) => string
+};
+
 export const loginPresets = {
   /** Any customer login.bluedot.org account can login */
   keycloak: {
@@ -105,6 +111,11 @@ export const loginPresets = {
         iss: 'https://login.bluedot.org/realms/customers',
         jwksUrl: 'https://login.bluedot.org/realms/customers/protocol/openid-connect/certs',
       });
+    },
+    getRegistrationUrl: (authUrl: string) => {
+      const url = new URL(authUrl);
+      url.pathname = url.pathname.replace('auth', 'registrations');
+      return url.toString();
     },
   },
   /** Only \@bluedot.org Google accounts can login */
@@ -138,24 +149,30 @@ export const loginPresets = {
       return payload as typeof payload & { hd: 'bluedot.org', email_verified: true };
     },
   },
-} satisfies Record<string, {
-  oidcSettings: OidcClientSettings,
-  verifyAndDecodeToken: (token: string) => Promise<{ sub: string, email: string }>
-}>;
+} satisfies Record<string, LoginPreset>;
 
-export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) => {
+/**
+ * Supported page params:
+ * - redirect_to: The URL to redirect to after login
+ * - register: Set to 'true' to prefer taking the user to a registration page instead of login
+ */
+export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => {
   const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {
     if (!auth) {
-      new OidcClient(oidcSettings)
+      new OidcClient(loginPreset.oidcSettings)
         .createSigninRequest({
           request_type: 'si:r',
           state: { redirectTo },
         })
         .then((req) => {
-          window.location.href = req.url;
+          const isRegister = getQueryParam(window.location.href, 'register') === 'true';
+          const loginProviderUrl = (isRegister && typeof loginPreset.getRegistrationUrl === 'function')
+            ? loginPreset.getRegistrationUrl(req.url)
+            : req.url;
+          window.location.href = loginProviderUrl;
         });
     }
   }, [auth]);
@@ -167,7 +184,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ oidcSettings }) =>
   return <ProgressDots />;
 };
 
-export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ oidcSettings, onLoginComplete }) => {
+export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ loginPreset, onLoginComplete }) => {
   const [error, setError] = useState<undefined | React.ReactNode | Error>();
   const setAuth = useAuthStore((s) => s.setAuth);
   const router = useRouter();
@@ -176,7 +193,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
   useEffect(() => {
     const signinUser = async () => {
       try {
-        const user = await new OidcClient(oidcSettings).processSigninResponse(window.location.href);
+        const user = await new OidcClient(loginPreset.oidcSettings).processSigninResponse(window.location.href);
 
         if (!user) {
           throw new Error('Bad login response: No user returned');
@@ -192,7 +209,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           expiresAt: user.expires_at * 1000,
           token: user.id_token,
           refreshToken: user.refresh_token,
-          oidcSettings,
+          oidcSettings: loginPreset.oidcSettings,
         };
         setAuth(auth);
         if (onLoginComplete) {

@@ -67,7 +67,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           className={`free-text-response__textarea p-4${
             (!isEditing && exerciseResponse) ? ' free-text-response__textarea--saved container-active bg-[#63C96533] border-[#63C965] text-[#2A5D2A]' : ' container-lined'
           }`}
-          placeholder={isLoggedIn ? 'Enter your answer here' : 'Login to save your answers'}
+          placeholder={isLoggedIn ? 'Enter your answer here' : 'Create an account to save your answers'}
           onChange={() => setIsEditing(true)}
           disabled={!isLoggedIn}
         />
@@ -85,10 +85,10 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         <CTALinkOrButton
           className="free-text-response__login-cta"
           variant="primary"
-          url={addQueryParam(ROUTES.login.url, 'redirect_to', window.location.href)}
+          url={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname), 'register', 'true')}
           withChevron
         >
-          Login to save your answers
+          Create a free account to save your answers
         </CTALinkOrButton>
       )}
       {(!isEditing && exerciseResponse) && <P className="free-text-response__saved-msg">Saved! 🎉</P>}
