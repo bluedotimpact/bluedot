@@ -340,7 +340,8 @@ export type CmsBlog = {
   publishedAt: string,
   authorName: string,
   authorUrl: string,
-  isPublic: boolean,
+  /** "Published" | "Unlisted" | "Unpublished" */
+  publicationStatus: string,
 } & Item;
 
 export const cmsBlogTable: Table<CmsBlog> = {
@@ -354,7 +355,7 @@ export const cmsBlogTable: Table<CmsBlog> = {
     authorName: 'fldBVD1meb54zRK8Q',
     authorUrl: 'fldEOlPQdbEmDxicJ',
     publishedAt: 'fldjp3x46apAPAXo7',
-    isPublic: 'fldUmp9uro7Q7eJ6E',
+    publicationStatus: 'fldiDvLbKKWNPeny4',
   },
   schema: {
     title: 'string',
@@ -363,7 +364,7 @@ export const cmsBlogTable: Table<CmsBlog> = {
     publishedAt: 'string',
     authorName: 'string',
     authorUrl: 'string',
-    isPublic: 'boolean',
+    publicationStatus: 'string',
   },
 };
 
@@ -374,7 +375,8 @@ export type CmsJobPosting = {
   slug: string,
   applicationUrl: string,
   body: string,
-  isPublic: boolean,
+  /** "Published" | "Unlisted" | "Unpublished" */
+  publicationStatus: string,
 } & Item;
 
 export const cmsJobPostingTable: Table<CmsJobPosting> = {
@@ -387,7 +389,7 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     slug: 'fldiMgiy9wHuvIM2f',
     applicationUrl: 'fldtkliaGs8JLy0BS',
     body: 'fldiBF58TPRIMhgvq',
-    isPublic: 'fldc6B20mECKuxG8F',
+    publicationStatus: 'fld4cZjg7YiEDaZXg',
   },
   schema: {
     title: 'string',
@@ -395,6 +397,6 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     slug: 'string',
     applicationUrl: 'string',
     body: 'string',
-    isPublic: 'boolean',
+    publicationStatus: 'string',
   },
 };

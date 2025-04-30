@@ -17,7 +17,7 @@ export default makeApiRoute({
   }),
 }, async () => {
   const allBlogs = await db.scan(cmsBlogTable, {
-    filterByFormula: formula(await db.table(cmsBlogTable), { field: 'isPublic' }),
+    filterByFormula: formula(await db.table(cmsBlogTable), ['=', { field: 'publicationStatus' }, 'Published']),
   });
 
   // Sort blogs by publishedAt date in descending order (newest first)

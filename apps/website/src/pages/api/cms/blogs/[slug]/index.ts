@@ -24,9 +24,8 @@ export default makeApiRoute({
 
   const blog = (await db.scan(cmsBlogTable, {
     // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(cmsBlogTable) as AirtableTsTable<CmsBlog>, [
-      'AND',
-      { field: 'isPublic' },
+    filterByFormula: formula(await db.table(cmsBlogTable) as AirtableTsTable<CmsBlog>, ['AND',
+      ['!=', { field: 'publicationStatus' }, 'Unpublished'],
       ['=', { field: 'slug' }, slug],
     ]),
   }))[0];

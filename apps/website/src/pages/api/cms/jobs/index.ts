@@ -17,7 +17,7 @@ export default makeApiRoute({
   }),
 }, async () => {
   const allJobs = await db.scan(cmsJobPostingTable, {
-    filterByFormula: formula(await db.table(cmsJobPostingTable), { field: 'isPublic' }),
+    filterByFormula: formula(await db.table(cmsJobPostingTable), ['=', { field: 'publicationStatus' }, 'Published']),
   });
 
   // Sort jobs alphabetically by title
