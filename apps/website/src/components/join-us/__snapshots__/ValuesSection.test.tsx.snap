@@ -50,44 +50,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   class="card__image-container w-full mb-4"
                 >
                   <img
-                    alt="Think hard, act fast, fail faster"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/values/think.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
-                    >
-                      Think hard, act fast, fail faster
-                    </p>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Care personally, challenge directly"
+                    alt="Own the mission"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/values/care.png"
                   />
@@ -101,12 +64,12 @@ exports[`ValuesSection > renders default as expected 1`] = `
                     <p
                       class="card__title bluedot-h4 mb-2"
                     >
-                      Care personally, challenge directly
+                      Own the mission
                     </p>
                     <p
                       class="card__subtitle bluedot-p "
                     >
-                      We care about our team and our community, and we hold everyone to high standards.
+                      We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
                     </p>
                   </div>
                 </div>
@@ -124,7 +87,44 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   class="card__image-container w-full mb-4"
                 >
                   <img
-                    alt="Obsessed with empowering problem-solvers"
+                    alt="Find the fastest, best way to do everything"
+                    class="card__image max-w-full max-h-full object-cover rounded-lg "
+                    src="/images/values/think.png"
+                  />
+                </div>
+                <div
+                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                >
+                  <div
+                    class="card__text"
+                  >
+                    <p
+                      class="card__title bluedot-h4 mb-2"
+                    >
+                      Find the fastest, best way to do everything
+                    </p>
+                    <p
+                      class="card__subtitle bluedot-p "
+                    >
+                      We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+              >
+                <div
+                  class="card__image-container w-full mb-4"
+                >
+                  <img
+                    alt="Say the uncomfortable truth"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
                     src="/images/values/powering.png"
                   />
@@ -138,12 +138,12 @@ exports[`ValuesSection > renders default as expected 1`] = `
                     <p
                       class="card__title bluedot-h4 mb-2"
                     >
-                      Obsessed with empowering problem-solvers
+                      Say the uncomfortable truth
                     </p>
                     <p
                       class="card__subtitle bluedot-p "
                     >
-                      We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community's impact.
+                      We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
                     </p>
                   </div>
                 </div>

@@ -3,19 +3,19 @@ import { SlideList } from '@bluedot/ui/src/SlideList';
 
 const values = [
   {
-    imageSrc: '/images/values/think.png',
-    title: 'Think hard, act fast, fail faster',
-    subtitle: 'We think critically about our goals and the best path to achieve them. We learn by building rapid experiments, failing fast, measuring the results, and updating.',
+    imageSrc: '/images/values/care.png',
+    title: 'Own the mission',
+    subtitle: 'We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.',
   },
   {
-    imageSrc: '/images/values/care.png',
-    title: 'Care personally, challenge directly',
-    subtitle: 'We care about our team and our community, and we hold everyone to high standards.',
+    imageSrc: '/images/values/think.png',
+    title: 'Find the fastest, best way to do everything',
+    subtitle: 'We\'re high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.',
   },
   {
     imageSrc: '/images/values/powering.png',
-    title: 'Obsessed with empowering problem-solvers',
-    subtitle: 'We exist to support others to solve the world’s biggest problems. We go above and beyond to accelerate our community\'s impact.',
+    title: 'Say the uncomfortable truth',
+    subtitle: 'We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other\'s growth.',
   },
 ] as const;
 
