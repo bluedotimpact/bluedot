@@ -24,7 +24,7 @@ export const AllVariants: Story = {
         </div>
         <div>
           <h3 className="text-size-lg font-bold mb-4">Radio Button</h3>
-          <form className="flex flex-col gap-4" role="radiogroup" aria-label="Radio button group">
+          <form className="flex flex-col gap-4">
             <Input
               type="radio"
               value="This is the first value"
@@ -39,7 +39,7 @@ export const AllVariants: Story = {
         </div>
         <div>
           <h3 className="text-size-lg font-bold mb-4">Checkbox</h3>
-          <form className="flex flex-col gap-4" role="group" aria-label="Checkbox group">
+          <form className="flex flex-col gap-4">
             <Input
               type="checkbox"
               value="This is the first value"

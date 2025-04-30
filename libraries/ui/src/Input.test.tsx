@@ -9,7 +9,7 @@ describe('Input', () => {
         type="text"
         label="This is the label"
         placeholder="This is the placeholder"
-      />
+      />,
     );
     expect(container).toMatchSnapshot();
   });
@@ -20,7 +20,7 @@ describe('Input', () => {
         type="radio"
         value="This is the value"
         name="radio-group"
-      />
+      />,
     );
     expect(container).toMatchSnapshot();
   });
@@ -36,4 +36,3 @@ describe('Input', () => {
     expect(container).toMatchSnapshot();
   });
 });
-  

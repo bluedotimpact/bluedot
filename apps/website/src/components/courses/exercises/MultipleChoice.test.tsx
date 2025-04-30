@@ -72,7 +72,7 @@ describe('MultipleChoice', () => {
     expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
   });
 
-  test('updates styles for correct option', () => {
+  test('updates styles for incorrect option', () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { container } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,

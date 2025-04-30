@@ -25,7 +25,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(({
             className={clsx('input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer', inputClassName)}
             type="checkbox"
           />
-          <span className='input__label'>{props.label || props.value}</span>
+          <span className="input__label">{props.label || props.value}</span>
         </label>
       );
     case 'radio':
@@ -37,13 +37,13 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(({
             className={clsx('input--radio size-6 accent-bluedot-normal rounded cursor-pointer', inputClassName)}
             type="radio"
           />
-          <span className='input__label'>{props.label || props.value}</span>
+          <span className="input__label">{props.label || props.value}</span>
         </label>
       );
     default:
       return (
         <label className={clsx('input flex flex-col gap-2', labelClassName)}>
-          <span className='input__label'>{props.label}</span>
+          <span className="input__label">{props.label}</span>
           <input
             {...props}
             ref={ref}
