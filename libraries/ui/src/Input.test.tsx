@@ -31,7 +31,7 @@ describe('Input', () => {
         type="checkbox"
         value="This is the value"
         name="checkbox-group"
-      />
+      />,
     );
     expect(container).toMatchSnapshot();
   });
