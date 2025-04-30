@@ -17,17 +17,18 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
     method: 'get',
     url: '/api/cms/blogs',
   });
+  const title = 'Latest articles';
 
   if (error) {
     return <ErrorSection error={error} />;
   }
 
   if (loading) {
-    return <Section title="Blog Articles"><ProgressDots /></Section>;
+    return <Section title={title}><ProgressDots /></Section>;
   }
 
   return (
-    <Section className="blog-list-section" title="Latest articles">
+    <Section className="blog-list-section" title={title}>
       <div id="blog-articles-anchor" className="invisible relative bottom-48" />
       {data?.blogs.length === 0 ? (
         <P>
