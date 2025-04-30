@@ -41,7 +41,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
@@ -59,7 +59,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
@@ -77,7 +77,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
@@ -95,7 +95,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
@@ -182,7 +182,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
@@ -199,7 +199,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
@@ -216,7 +216,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
@@ -233,7 +233,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
               container-lined"
       >
         <input
-          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+          class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
@@ -268,7 +268,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
                 false"
 >
   <input
-    class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
     name="answer"
     type="radio"
     value="The community's preference for low-tech fishing traditions"
@@ -298,7 +298,7 @@ exports[`MultipleChoice > updates styles for correct option 3`] = `
                 multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]"
 >
   <input
-    class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
+    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
     name="answer"
     type="radio"
     value="Rising consumer demand for fish with more Omega-3s"
