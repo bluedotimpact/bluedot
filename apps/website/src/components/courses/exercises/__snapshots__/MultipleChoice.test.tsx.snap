@@ -36,73 +36,73 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       class="multiple-choice__options flex flex-col gap-2"
     >
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           The community's preference for low-tech fishing traditions
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           Rising consumer demand for fish with more Omega-3s
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           Environmental regulations and declining cod stocks
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           disabled=""
           name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           A cultural shift toward vegetarianism in the region
         </span>
@@ -177,69 +177,69 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       class="multiple-choice__options flex flex-col gap-2"
     >
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="The community's preference for low-tech fishing traditions"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           The community's preference for low-tech fishing traditions
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="Rising consumer demand for fish with more Omega-3s"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           Rising consumer demand for fish with more Omega-3s
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="Environmental regulations and declining cod stocks"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           Environmental regulations and declining cod stocks
         </span>
       </label>
       <label
-        class="
+        class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               container-lined"
       >
         <input
-          class="multiple-choice__input"
+          class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
           name="answer"
           type="radio"
           value="A cultural shift toward vegetarianism in the region"
         />
         <span
-          class="multiple-choice__label"
+          class="input__label"
         >
           A cultural shift toward vegetarianism in the region
         </span>
@@ -261,20 +261,20 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
 <label
-  class="
+  class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               multiple-choice__option--selected container-active
                 multiple-choice__option--correct bg-[#63C96533] border-[#63C965]
                 false"
 >
   <input
-    class="multiple-choice__input"
+    class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
     name="answer"
     type="radio"
     value="The community's preference for low-tech fishing traditions"
   />
   <span
-    class="multiple-choice__label"
+    class="input__label"
   >
     The community's preference for low-tech fishing traditions
   </span>
@@ -291,20 +291,20 @@ exports[`MultipleChoice > updates styles for correct option 2`] = `
 
 exports[`MultipleChoice > updates styles for correct option 3`] = `
 <label
-  class="
+  class="input flex items-center gap-2 cursor-pointer 
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
               multiple-choice__option--selected container-active
                 false
                 multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]"
 >
   <input
-    class="multiple-choice__input"
+    class="input--radio w-6 h-6 accent-bluedot-normal rounded cursor-pointer"
     name="answer"
     type="radio"
     value="Rising consumer demand for fish with more Omega-3s"
   />
   <span
-    class="multiple-choice__label"
+    class="input__label"
   >
     Rising consumer demand for fish with more Omega-3s
   </span>
