@@ -5,7 +5,7 @@ import StarRating from './StarRating';
 const StarRatingWrapper: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
 
-  return <StarRating rating={rating} setRating={setRating} />;
+  return <StarRating rating={rating} onChange={setRating} />;
 };
 
 const meta = {

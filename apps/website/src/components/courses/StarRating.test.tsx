@@ -9,7 +9,7 @@ import StarRating from './StarRating';
 describe('StarRating Component', () => {
   test('renders correctly', () => {
     const setRating = vi.fn();
-    const { getByLabelText, container } = render(<StarRating rating={0} setRating={setRating} />);
+    const { getByLabelText, container } = render(<StarRating rating={0} onChange={setRating} />);
 
     const starButtons = [1, 2, 3, 4, 5].map((i) => getByLabelText(`Rate ${i} star${i > 1 ? 's' : ''}`));
     starButtons.forEach((button) => expect(button).toBeTruthy());
@@ -23,7 +23,7 @@ describe('StarRating Component', () => {
       rating = newRating;
     });
 
-    const { getByLabelText } = render(<StarRating rating={rating} setRating={setRating} />);
+    const { getByLabelText } = render(<StarRating rating={rating} onChange={setRating} />);
 
     const thirdStarButton = getByLabelText('Rate 3 stars');
     fireEvent.click(thirdStarButton);

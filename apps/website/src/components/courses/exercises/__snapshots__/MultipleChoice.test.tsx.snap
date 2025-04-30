@@ -26,7 +26,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           Understanding LLMs
         </p>
         <p
-          class="bluedot-p multiple-choice__description"
+          class="bluedot-p not-prose multiple-choice__description"
         >
           Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
         </p>
@@ -109,7 +109,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       </label>
     </div>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta"
       href="http://localhost:3000/login?redirect_to=http%3A%2F%2Flocalhost%3A3000%2F"
       tabindex="0"
     >
@@ -167,7 +167,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           Understanding LLMs
         </p>
         <p
-          class="bluedot-p multiple-choice__description"
+          class="bluedot-p not-prose multiple-choice__description"
         >
           Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
         </p>
@@ -246,7 +246,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       </label>
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
       type="button"
     >
       <span
@@ -283,7 +283,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 2`] = `
 <p
-  class="bluedot-p multiple-choice__correct-msg"
+  class="bluedot-p not-prose multiple-choice__correct-msg"
 >
   Correct! Quiz completed. 🎉
 </p>
@@ -313,7 +313,7 @@ exports[`MultipleChoice > updates styles for correct option 3`] = `
 
 exports[`MultipleChoice > updates styles for correct option 4`] = `
 <p
-  class="bluedot-p multiple-choice__incorrect-msg"
+  class="bluedot-p not-prose multiple-choice__incorrect-msg"
 >
   Try again. 🤔
 </p>

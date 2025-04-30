@@ -14,12 +14,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
       >
         <h1
-          class="bluedot-h1 text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4"
+          class="bluedot-h1 not-prose text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4"
         >
           Future of AI
         </h1>
         <h2
-          class="bluedot-h2 text-color-text-on-dark bluedot-h1"
+          class="bluedot-h2 not-prose text-color-text-on-dark bluedot-h1"
         >
           AI is shaping the future. So can you.
         </h2>
@@ -90,7 +90,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           class="flex justify-center mt-8"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
             href="/courses/test-course/1"
             tabindex="0"
           >
@@ -294,7 +294,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </div>
           </div>
           <p
-            class="bluedot-p graduate-section__text flex-shrink-0"
+            class="bluedot-p not-prose graduate-section__text flex-shrink-0"
           >
             Our graduates work at
           </p>
@@ -420,7 +420,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
           >
             <h3
-              class="bluedot-h3"
+              class="bluedot-h3 not-prose"
             >
               No-Nonsense Learning
             </h3>
@@ -428,7 +428,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Lost in AI buzzwords? Our bite-sized modules transform complex concepts into clear language. You'll quickly build the vocabulary to discuss AI confidently at work and with friends.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -470,7 +470,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
           >
             <h3
-              class="bluedot-h3"
+              class="bluedot-h3 not-prose"
             >
               Try it yourself
             </h3>
@@ -478,7 +478,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Don't just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -520,7 +520,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
           >
             <h3
-              class="bluedot-h3"
+              class="bluedot-h3 not-prose"
             >
               Join the community
             </h3>
@@ -528,7 +528,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander"
               tabindex="0"
             >
@@ -570,7 +570,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
           >
             <h3
-              class="bluedot-h3"
+              class="bluedot-h3 not-prose"
             >
               Get certified
             </h3>
@@ -578,7 +578,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI's foundations and implications.
             </p>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
@@ -846,12 +846,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
     class="future-of-ai-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter"
   >
     <h3
-      class="bluedot-h3 future-of-ai-lander__banner-title"
+      class="bluedot-h3 not-prose future-of-ai-lander__banner-title"
     >
       Ready to have a say in your future?
     </h3>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
       href="/courses/test-course/1"
       tabindex="0"
     >

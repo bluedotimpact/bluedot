@@ -130,7 +130,10 @@ export type Unit = {
   content: string,
   unitNumber: string,
   duration: number,
+  menuText: string,
   description: string,
+  learningOutcomes: string,
+  unitPodcastUrl: string,
 } & Item;
 
 export const unitTable: Table<Unit> = {
@@ -147,7 +150,10 @@ export const unitTable: Table<Unit> = {
     content: 'fldF9hjDhZpLbBIUV',
     duration: 'fldGdibgcMgRbnuvp',
     unitNumber: 'fldimS5GIqSKuyA9C',
-    description: 'flddCXEeJ9oFOhfNb',
+    menuText: 'flddCXEeJ9oFOhfNb',
+    description: 'fldpJLWVPh0IXHfmm',
+    learningOutcomes: 'fld9vAMgn0Fm7x6Xf',
+    unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
     courseId: 'string',
@@ -159,7 +165,54 @@ export const unitTable: Table<Unit> = {
     content: 'string',
     duration: 'number',
     unitNumber: 'string',
+    menuText: 'string',
     description: 'string',
+    learningOutcomes: 'string',
+    unitPodcastUrl: 'string',
+  },
+};
+
+export type UnitResource = {
+  id: string,
+  resourceName: string,
+  resourceType: string,
+  resourceLink: string | null,
+  resourceGuide: string,
+  authors: string | null,
+  timeFocusOnMins: number | null,
+  coreFurtherMaybe: string,
+  readingOrder: string,
+  unitId: string,
+  avgRating: number | null,
+} & Item;
+
+export const unitResourceTable: Table<UnitResource> = {
+  name: 'Unit resource',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblSicSC1u6Ifddrq',
+  mappings: {
+    resourceName: 'fldXFZQpHtS5EqHyh',
+    resourceType: 'fldftDf7tejin3F7U',
+    resourceLink: 'fldWmLt7N06ezb66y',
+    resourceGuide: 'fldkS15QbkPvTozhl',
+    authors: 'flddVAAZ4PgYSSez9',
+    timeFocusOnMins: 'fldedM0u6YXfyNVMF',
+    coreFurtherMaybe: 'fldLvfYwwn0BhMSv5',
+    readingOrder: 'fldBfLUY8GkI88jJF',
+    unitId: 'fldJX4h1sTNkacKru',
+    avgRating: 'fldOWWeymJQTwlfaY',
+  },
+  schema: {
+    resourceName: 'string',
+    resourceType: 'string',
+    resourceLink: 'string | null',
+    resourceGuide: 'string',
+    authors: 'string | null',
+    timeFocusOnMins: 'number | null',
+    coreFurtherMaybe: 'string',
+    readingOrder: 'string',
+    unitId: 'string',
+    avgRating: 'number | null',
   },
 };
 
@@ -191,7 +244,7 @@ export const exerciseTable: Table<Exercise> = {
     options: 'fld38NpFZT4BdhWO3',
     title: 'fldVlrg0E4bV2xAcs',
     type: 'fldGXsdS2o3EnjNg9',
-    unitId: 'fldqHO0BqQQCbxWTm',
+    unitId: 'fld2KJRxb50MbtrJc',
     unitNumber: 'fldL42M2hgchJYIdD',
     status: 'flda5e542i9w1nBzv',
   },
@@ -398,5 +451,37 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     applicationUrl: 'string',
     body: 'string',
     publicationStatus: 'string',
+  },
+};
+
+export type ResourceCompletion = {
+  id: string,
+  unitResourceIdWrite: string,
+  unitResourceIdRead: string,
+  rating: number | null,
+  isCompleted: boolean,
+  email: string,
+  feedback: string,
+} & Item;
+
+export const resourceCompletionTable: Table<ResourceCompletion> = {
+  name: 'Resource completions',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblu6YnR7Lh0Bsl6v',
+  mappings: {
+    unitResourceIdWrite: 'fldk4dbWAohE312Qn',
+    unitResourceIdRead: 'fldoTb7xx0QQVHXvM',
+    rating: 'fldq6J5taZX4xLDfD',
+    isCompleted: 'fldm74UNAQuC1XkQc',
+    email: 'fldXqD5YKVZuTGT35',
+    feedback: 'fld68CYhCZ44jHT21',
+  },
+  schema: {
+    unitResourceIdRead: 'string',
+    unitResourceIdWrite: 'string',
+    rating: 'number | null',
+    isCompleted: 'boolean',
+    email: 'string',
+    feedback: 'string',
   },
 };

@@ -21,7 +21,7 @@ const SideBar: React.FC<SideBarProps> = ({
         {units.map((unit) => (
           <UnitCard
             key={unit.unitNumber}
-            description={unit.description}
+            description={unit.menuText}
             title={unit.title}
             unitNumber={unit.unitNumber}
             url={unit.path}

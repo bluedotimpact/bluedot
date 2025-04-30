@@ -43,13 +43,13 @@ exports[`JobsListSection > renders default as expected 1`] = `
                 Software Engineer
               </strong>
               <p
-                class="bluedot-p jobs-list__subtitle"
+                class="bluedot-p not-prose jobs-list__subtitle"
               >
                 Full-time position
               </p>
             </div>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
               href="/join-us/software-engineer"
               tabindex="0"
             >
@@ -94,13 +94,13 @@ exports[`JobsListSection > renders default as expected 1`] = `
                 Product Manager
               </strong>
               <p
-                class="bluedot-p jobs-list__subtitle"
+                class="bluedot-p not-prose jobs-list__subtitle"
               >
                 Full-time position
               </p>
             </div>
             <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
               href="/join-us/product-manager"
               tabindex="0"
             >
@@ -162,7 +162,7 @@ exports[`JobsListSection > renders empty state when no jobs are provided 1`] = `
         id="open-roles-anchor"
       />
       <p
-        class="bluedot-p"
+        class="bluedot-p not-prose"
       >
         We're not currently running any open hiring rounds at the moment.
       </p>
@@ -226,7 +226,7 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
                 class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   href="/join-us/software-engineer"
                   tabindex="0"
                 >
@@ -267,7 +267,7 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
                 class="card__bottom-section flex flex-col gap-space-between"
               >
                 <a
-                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
                   href="/join-us/product-manager"
                   tabindex="0"
                 >

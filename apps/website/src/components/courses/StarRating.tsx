@@ -19,10 +19,10 @@ const Star: React.FC<{ filled: boolean }> = ({ filled }) => (
 
 type StarRatingProps = {
   rating: number;
-  setRating: React.Dispatch<React.SetStateAction<number>>;
+  onChange: (rating: number) => void;
 };
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, setRating }) => {
+const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
   const [hoverRating, setHoverRating] = useState<number>(0);
 
   return (
@@ -34,7 +34,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, setRating }) => {
           className="star-rating__star cursor-pointer h-10 w-14 px-2 hover:scale-125 active:scale-110 transition-all"
           onMouseEnter={() => setHoverRating(i)}
           onMouseLeave={() => setHoverRating(0)}
-          onClick={() => setRating(i)}
+          onClick={() => onChange(i)}
           aria-label={`Rate ${maybePlural(i, 'star')}`}
           aria-pressed={(hoverRating || rating) >= i}
         >

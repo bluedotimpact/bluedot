@@ -9,12 +9,12 @@ exports[`UnitFeedback > should render correctly 1`] = `
       class="unit-feedback__header flex flex-col gap-4"
     >
       <h4
-        class="bluedot-h4"
+        class="bluedot-h4 not-prose"
       >
         How did you like this unit?
       </h4>
       <p
-        class="bluedot-p"
+        class="bluedot-p not-prose"
       >
         We constantly try to get better and need your feedback to improve the course. It only takes 
         <b>
@@ -141,7 +141,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       class="unit-feedback__free-response-section flex flex-col gap-4"
     >
       <h4
-        class="bluedot-h4 unit-feedback__textarea-label text-size-sm"
+        class="bluedot-h4 not-prose unit-feedback__textarea-label text-size-sm"
       >
         Do you have any other feedback on this unit?
          
@@ -160,7 +160,7 @@ exports[`UnitFeedback > should render correctly 1`] = `
       />
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer cta-button--primary bg-bluedot-normal link-on-dark unit-feedback__submit self-start"
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit-feedback__submit self-start"
       type="button"
     >
       <span

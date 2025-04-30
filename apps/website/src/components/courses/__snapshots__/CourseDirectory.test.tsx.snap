@@ -18,7 +18,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
             class="course-directory__filter-header--mobile flex md:hidden justify-between items-center"
           >
             <h3
-              class="bluedot-h3"
+              class="bluedot-h3 not-prose"
             >
               Results
             </h3>
@@ -48,7 +48,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
               class="course-directory__filter-group"
             >
               <p
-                class="bluedot-p font-semibold mb-2"
+                class="bluedot-p not-prose font-semibold mb-2"
               >
                 Cadence
               </p>
@@ -102,7 +102,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
               class="course-directory__filter-group"
             >
               <p
-                class="bluedot-p font-semibold mb-2"
+                class="bluedot-p not-prose font-semibold mb-2"
               >
                 Level
               </p>
@@ -181,12 +181,12 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   class="course-search-card__text"
                 >
                   <h3
-                    class="bluedot-h3 course-search-card__title mb-4"
+                    class="bluedot-h3 not-prose course-search-card__title mb-4"
                   >
                     Test Course 1
                   </h3>
                   <p
-                    class="bluedot-p course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
+                    class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
                   >
                     Desc 1
                   </p>
@@ -258,12 +258,12 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   class="course-search-card__text"
                 >
                   <h3
-                    class="bluedot-h3 course-search-card__title mb-4"
+                    class="bluedot-h3 not-prose course-search-card__title mb-4"
                   >
                     Test Course 2
                   </h3>
                   <p
-                    class="bluedot-p course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
+                    class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
                   >
                     Desc 2
                   </p>
