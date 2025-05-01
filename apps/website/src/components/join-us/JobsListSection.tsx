@@ -1,4 +1,4 @@
-import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import { P } from '../Text';
 import { CmsJobPosting } from '../../lib/api/db/tables';
