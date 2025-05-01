@@ -70,10 +70,10 @@ export const Card: React.FC<CardProps> = ({
           <p className="card__title bluedot-h4 mb-2">{title}</p>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
+        {/* When isEntireCardClickable is true, the CTALinkOrButton does not render a URL because nested URLs are invalid HTML. */}
         {showBottomSection && (
           <div className="card__bottom-section flex flex-col gap-space-between">
             {showCTA && (
-              {/* When isEntireCardClickable is true, the CTALinkOrButton does not render a URL because the Wrapper already handles the clickability. */}
               <CTALinkOrButton
                 className="card__cta"
                 url={isEntireCardClickable ? undefined : ctaUrl}
