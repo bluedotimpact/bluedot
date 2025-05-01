@@ -9,7 +9,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       class="multiple-choice__header flex flex-col gap-4"
     >
       <div
-        class="multiple-choice__header-icon"
+        class="multiple-choice__header-icon not-prose"
       >
         <img
           alt=""
@@ -21,15 +21,13 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         class="multiple-choice__header-content flex flex-col gap-2"
       >
         <p
-          class="multiple-choice__title bluedot-h4"
+          class="multiple-choice__title bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
-        <p
-          class="bluedot-p not-prose multiple-choice__description"
-        >
-          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-        </p>
+        <div
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none multiple-choice__description"
+        />
       </div>
     </div>
     <div
@@ -150,7 +148,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       class="multiple-choice__header flex flex-col gap-4"
     >
       <div
-        class="multiple-choice__header-icon"
+        class="multiple-choice__header-icon not-prose"
       >
         <img
           alt=""
@@ -162,15 +160,13 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         class="multiple-choice__header-content flex flex-col gap-2"
       >
         <p
-          class="multiple-choice__title bluedot-h4"
+          class="multiple-choice__title bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
-        <p
-          class="bluedot-p not-prose multiple-choice__description"
-        >
-          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-        </p>
+        <div
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none multiple-choice__description"
+        />
       </div>
     </div>
     <div
