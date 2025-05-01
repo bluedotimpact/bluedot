@@ -18,16 +18,12 @@ const CoursePage = () => {
     method: 'POST',
   });
 
-  const displayData = data;
-  const displayLoading = loading;
-  const displayError = error;
-
   return (
     <div>
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {displayData?.courses && (
+        {data?.courses && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
@@ -35,7 +31,7 @@ const CoursePage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: displayData.courses.map((course, index) => ({
+                itemListElement: data.courses.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -85,10 +81,10 @@ const CoursePage = () => {
         <HeroH1>Our courses</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      {displayError && <ErrorSection error={displayError} />}
+      {error && <ErrorSection error={error} />}
       <CourseDirectory
-        displayData={displayData}
-        displayLoading={displayLoading}
+        displayData={data}
+        displayLoading={loading}
       />
     </div>
   );
