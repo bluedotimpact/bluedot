@@ -6,37 +6,21 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import { useEffect, useState } from 'react';
 import { ROUTES } from '../../lib/routes';
-import type { CoursesRequestBody, GetCoursesResponse } from '../api/courses';
+import type { GetCoursesResponse } from '../api/courses';
 import CourseDirectory from '../../components/courses/CourseDirectory';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  const [requestBody, setRequestBody] = useState<CoursesRequestBody>();
-
   const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
     url: '/api/courses',
     method: 'POST',
-    data: requestBody,
   });
-  const [{ data: allCoursesData, loading: allCoursesLoading, error: allCoursesError }, fetchAllCourses] = useAxios<GetCoursesResponse>({
-    url: '/api/courses',
-    method: 'POST',
-  }, { manual: true });
 
-  const noResults = !!(data?.courses && data.courses.length === 0);
-
-  useEffect(() => {
-    if (noResults) {
-      fetchAllCourses();
-    }
-  }, [noResults, fetchAllCourses]);
-
-  const displayData = !noResults ? data : allCoursesData;
-  const displayLoading = loading || (noResults && allCoursesLoading);
-  const displayError = !noResults ? error : allCoursesError;
+  const displayData = data;
+  const displayLoading = loading;
+  const displayError = error;
 
   return (
     <div>
@@ -105,8 +89,6 @@ const CoursePage = () => {
       <CourseDirectory
         displayData={displayData}
         displayLoading={displayLoading}
-        noResults={noResults}
-        refetch={setRequestBody}
       />
     </div>
   );
