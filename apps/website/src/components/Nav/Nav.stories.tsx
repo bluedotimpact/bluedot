@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui';
 
-import imgSrc from '../../public/images/logo/BlueDot_Impact_Logo.svg';
 import { Nav } from './Nav';
-import { A } from '../Text';
 
 /**
  * Wrapper to add a min-height so the viewport doesn't collapse completely
@@ -41,19 +39,4 @@ export const LoggedIn: Story = {
 
 export const Default: Story = {
   args: {},
-};
-
-export const CustomizedExploreLinks: Story = {
-  args: {
-    logo: imgSrc,
-    primaryCtaText: 'Start learning',
-    primaryCtaUrl: 'https://bluedot.org/courses/future-of-ai',
-    children: [
-      <>
-        <A className="no-underline" href="#">Some</A>
-        <A className="no-underline" href="#">Custom</A>
-        <A className="no-underline" href="#">Links</A>
-      </>,
-    ],
-  },
 };

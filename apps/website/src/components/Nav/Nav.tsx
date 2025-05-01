@@ -8,44 +8,22 @@ import { SecondaryNavCta } from './_SecondaryNavCta';
 import { LoginOrProfileCta } from './_LoginOrProfileCta';
 import { MobileNavLinks } from './_MobileNavLinks';
 import { DesktopNavLinks } from './_DesktopNavLinks';
+import { ExpandedSectionsState, TRANSITION_DURATION_CLASS } from './utils';
 
-export type NavProps = React.PropsWithChildren<{
+export type NavProps = {
   className?: string;
   logo?: string;
-  primaryCtaText?: string;
-  primaryCtaUrl?: string;
   courses: {
     title: string;
     url: string;
     isNew?: boolean;
   }[];
-}>;
-
-export const TRANSITION_DURATION_CLASS = 'duration-300';
-
-export const DRAWER_CLASSES = (isScrolled: boolean, isOpen: boolean) => clsx(
-  `absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
-  isScrolled ? 'bg-color-canvas-dark' : 'bg-color-canvas',
-  isOpen ? 'max-h-[700px] opacity-100' : 'max-h-0 opacity-0',
-);
-
-export const NAV_LINK_CLASSES = (isScrolled: boolean, isCurrentPath?: boolean) => 
-  clsx('nav-link nav-link-animation no-underline', isScrolled && 'nav-link-animation-dark', isCurrentPath && 'font-bold');
-
-export type ExpandedSectionsState = {
-  mobileNav: boolean;
-  explore: boolean;
-  profile: boolean;
-};
-
-export const isCurrentPath = (url: string): boolean => {
-  if (typeof window === 'undefined') return false;
-  const currentPath = window.location.pathname;
-  return url === currentPath || (url !== '/' && currentPath.startsWith(url));
 };
 
 export const Nav: React.FC<NavProps> = ({
-  className, logo, courses,
+  className,
+  logo,
+  courses,
 }) => {
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -57,7 +35,7 @@ export const Nav: React.FC<NavProps> = ({
   });
 
   const updateExpandedSections = (updates: Partial<ExpandedSectionsState>) => {
-    setExpandedSections(prev => ({ ...prev, ...updates }));
+    setExpandedSections((prev: ExpandedSectionsState) => ({ ...prev, ...updates }));
   };
 
   useEffect(() => {
@@ -101,7 +79,7 @@ export const Nav: React.FC<NavProps> = ({
             />
 
             {/* CTA Buttons */}
-            <div className="mobile-nav-links__cta-buttons flex flex-row gap-6">
+            <div className="nav__cta-container flex flex-row items-center gap-6">
               <SecondaryNavCta className="hidden lg:block" />
               <LoginOrProfileCta
                 isLoggedIn={isLoggedIn}

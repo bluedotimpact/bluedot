@@ -1,10 +1,10 @@
-import clsx from "clsx";
-import { FaCircleUser } from "react-icons/fa6";
-import { IconButton } from "@bluedot/ui";
+import clsx from 'clsx';
+import { FaCircleUser } from 'react-icons/fa6';
+import { IconButton } from '@bluedot/ui';
 
-import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from "./Nav";
-import { ROUTES } from "../../lib/routes";
-import { A } from "../Text";
+import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from './utils';
+import { ROUTES } from '../../lib/routes';
+import { A } from '../Text';
 
 export const ProfileLinks: React.FC<{
   isScrolled: boolean;
@@ -20,7 +20,7 @@ export const ProfileLinks: React.FC<{
     mobileNav: false,
     explore: false,
   });
-  
+
   return (
     <div className="profile-links">
       <IconButton

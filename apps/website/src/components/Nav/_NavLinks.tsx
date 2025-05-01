@@ -1,15 +1,20 @@
-import clsx from "clsx";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa6";
+import clsx from 'clsx';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
 
-import { ROUTES } from "../../lib/routes";
-import { A, H3 } from "../Text";
+import { ROUTES } from '../../lib/routes';
+import { A, H3 } from '../Text';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
-  isCurrentPath,
   NAV_LINK_CLASSES,
   TRANSITION_DURATION_CLASS,
-} from "./Nav";
+} from './utils';
+
+const isCurrentPath = (url: string): boolean => {
+  if (typeof window === 'undefined') return false;
+  const currentPath = window.location.pathname;
+  return url === currentPath || (url !== '/' && currentPath.startsWith(url));
+};
 
 export const NavLinks: React.FC<{
   courses: { title: string; url: string; isNew?: boolean }[];
@@ -80,7 +85,7 @@ const ExploreDropdown: React.FC<{
           className,
         )}
       >
-        <div className='explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty'>
+        <div className="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty">
           <H3 className="explore-dropdown__dropdown-title font-bold pt-4">Our courses</H3>
           {courses?.map((course) => (
             <A key={course.url} href={course.url} className={NAV_LINK_CLASSES(isScrolled)}>
