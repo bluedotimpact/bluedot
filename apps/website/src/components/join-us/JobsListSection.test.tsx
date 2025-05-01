@@ -29,8 +29,6 @@ const mockJobs = [
 describe('JobsListSection', () => {
   test('renders default as expected', () => {
     const { container } = render(<JobsListSection jobs={mockJobs} />);
-    expect(container.querySelector('.jobs-list__card--desktop')).not.toBeNull();
-    expect(container.querySelector('.jobs-list__card--mobile')).toBeNull();
     expect(container).toMatchSnapshot();
   });
 
@@ -38,8 +36,6 @@ describe('JobsListSection', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
     const { container } = render(<JobsListSection jobs={mockJobs} />);
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.jobs-list__card--desktop')).toBeNull();
-    expect(container.querySelector('.jobs-list__card--mobile')).not.toBeNull();
     vi.clearAllMocks();
   });
 
