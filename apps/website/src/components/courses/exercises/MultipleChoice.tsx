@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
+// eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 type MultipleChoiceProps = {
