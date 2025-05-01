@@ -1,0 +1,94 @@
+{
+  "id": "24ac6557-e22d-4df9-91d6-d19a33ff4eec",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.meta": {
+      "name": "meta",
+      "schema": "",
+      "columns": {
+        "enabled": {
+          "name": "enabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "airtableBaseId": {
+          "name": "airtableBaseId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "airtableTableId": {
+          "name": "airtableTableId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "airtableFieldId": {
+          "name": "airtableFieldId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pgTable": {
+          "name": "pgTable",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pgField": {
+          "name": "pgField",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

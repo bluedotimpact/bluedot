@@ -9,11 +9,16 @@
     "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
     "test": "turbo run test",
-    "test:update": "turbo run test -- -u"
+    "test:update": "turbo run test -- -u",
+    "db:sync-fields": "npm run -w @bluedot/db sync-fields",
+    "db:push": "npm run -w @bluedot/db -- drizzle-kit push && npm run -w @bluedot/db sync-fields",
+    "db:generate": "npm run -w @bluedot/db -- drizzle-kit generate",
+    "db:migrate": "npm run -w @bluedot/db -- drizzle-kit migrate && npm run -w @bluedot/db sync-fields"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
+    "dotenv-cli": "^8.0.0",
     "turbo": "^2.5.1"
   },
   "engines": {

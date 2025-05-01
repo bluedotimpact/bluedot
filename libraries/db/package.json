@@ -1,0 +1,26 @@
+{
+    "name": "@bluedot/db",
+    "version": "0.0.1",
+    "private": true,
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "scripts": {
+        "sync-fields": "ts-node src/scripts/sync-fields.ts",
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "dependencies": {
+        "airtable-ts": "^1.5.0",
+        "drizzle-orm": "^0.43.1",
+        "pg": "^8.15.6",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@bluedot/eslint-config": "*",
+        "@bluedot/typescript-config": "*",
+        "@types/node": "^22.13.2",
+        "eslint": "^8.57.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.8.3"
+    }
+}

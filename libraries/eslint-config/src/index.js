@@ -39,6 +39,7 @@ const rules = {
       '**/protractor.conf.*.js', // protractor config
       '**/karma.conf.js', // karma config
       '**/.eslintrc.js', // eslint config
+      '**/drizzle.config.ts', // drizzle ORM config
 
       // Extras
       '**/tools/**', // development tools and scripts
