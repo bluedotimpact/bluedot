@@ -1,5 +1,6 @@
 import { anthropic } from '@ai-sdk/anthropic';
-import { asError, StreamingResponseSchema } from '@bluedot/ui';
+import { asError } from '@bluedot/ui';
+import { StreamingResponseSchema } from '@bluedot/ui/src/api';
 import { pipeDataStreamToResponse, streamText } from 'ai';
 import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';

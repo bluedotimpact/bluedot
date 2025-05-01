@@ -12,7 +12,7 @@ A shared UI components and utilities for BlueDot apps.
 ```
 2. Import any of the features from `@bluedot/ui`, e.g.:
 ```typescript
-import { Button, makeMakeApiRoute, /* etc. */ } from '@bluedot/ui';
+import { Button, /* etc. */ } from '@bluedot/ui';
 ```
 
 ## Components
@@ -52,7 +52,8 @@ console.log(`Is this the Krusty Krab? NO,THIS IS ${env.APP_NAME}!!!!`);
 In `src/lib/api/makeApiRoute.ts`, you'll have something like:
 
 ```typescript
-import { loginPresets, makeMakeApiRoute } from '@bluedot/ui';
+import { loginPresets } from '@bluedot/ui';
+import { makeMakeApiRoute } from '@bluedot/ui/src/api';
 import env from './env';
 
 export const makeApiRoute = makeMakeApiRoute({
@@ -170,7 +171,7 @@ const MyComponent: React.FC<MyComponentProps> = ({ error }) => {
 ### Slack Alerting
 
 ```typescript
-import { slackAlert } from '@bluedot/ui';
+import { slackAlert } from '@bluedot/ui/src/api';
 import env from './env';
 
 // Send alerts to Slack for monitoring
@@ -185,7 +186,7 @@ await slackAlert(env, [
 Use `logger`, not `console`. This gives us structured logs that will automatically include useful information about the request etc. when in production.
 
 ```typescript
-import { logger } from '@bluedot/ui';
+import { logger } from '@bluedot/ui/src/api';
 
 logger.warn('(chuckles) I\'m in danger');
 logger.error('Things went kaboom:', err);
