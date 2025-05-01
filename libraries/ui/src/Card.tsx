@@ -73,6 +73,7 @@ export const Card: React.FC<CardProps> = ({
         {showBottomSection && (
           <div className="card__bottom-section flex flex-col gap-space-between">
             {showCTA && (
+              {/* When isEntireCardClickable is true, the CTALinkOrButton does not render a URL because the Wrapper already handles the clickability. */}
               <CTALinkOrButton
                 className="card__cta"
                 url={isEntireCardClickable ? undefined : ctaUrl}
