@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui';
 
-import imgSrc from '../../public/images/logo/BlueDot_Impact_Logo.svg';
 import { Nav } from './Nav';
-import { A } from '../Text';
 
 /**
  * Wrapper to add a min-height so the viewport doesn't collapse completely
