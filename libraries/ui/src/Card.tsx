@@ -60,11 +60,12 @@ export const Card: React.FC<CardProps> = ({
           />
         </div>
       )}
-
-      <div className={clsx(
-        'card__content flex gap-6 w-full flex-1 justify-between',
-        isFullWidth ? 'flex-row w-full' : 'flex-col',
-      )}>
+      <div
+        className={clsx(
+          'card__content flex gap-6 w-full flex-1 justify-between',
+          isFullWidth ? 'flex-row w-full' : 'flex-col',
+        )}
+      >
         <div className="card__text">
           <p className="card__title bluedot-h4 mb-2">{title}</p>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
