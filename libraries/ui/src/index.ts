@@ -82,6 +82,7 @@ export { addQueryParam } from './utils/addQueryParam';
 export { maybePlural } from './utils';
 export { asError } from './utils/asError';
 export { useAuthStore, withAuth, type Auth } from './utils/auth';
+export { logger } from './utils/logger';
 export {
   makeMakeApiRoute, StreamingResponseSchema, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
 } from './utils/makeMakeApiRoute';

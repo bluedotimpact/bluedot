@@ -1,7 +1,12 @@
 import createHttpError from 'http-errors';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import { z, ZodType } from 'zod';
+import {
+  trace, metrics,
+  SpanStatusCode,
+} from '@opentelemetry/api';
 import { slackAlert } from './slackAlert';
+import { logger } from './logger';
 
 export type RouteOptions<ReqZT extends ZodType, ResZT extends ZodType, RequiresAuth extends boolean> = {
   /** The shape of the request body. @default ZodLiteral<null> */
@@ -35,6 +40,12 @@ const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.liter
 const streamingPlaceholder = Symbol('streamingPlaceholder');
 export const StreamingResponseSchema = EmptyBodySchema.transform(() => streamingPlaceholder as unknown as null | undefined | void);
 
+// Use the meter for API request metrics
+const meter = metrics.getMeter('api-routes');
+const requestCounter = meter.createCounter('api_requests_total', {
+  description: 'Total number of API requests',
+});
+
 export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verifyAndDecodeToken }: {
   env: MakeMakeApiRouteEnv,
   verifyAndDecodeToken?: (bearerToken: string) => AuthResult | Promise<AuthResult>,
@@ -45,6 +56,17 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
       req,
       res,
     ) => {
+      // Extract method and path for instrumentation
+      const method = req.method || 'UNKNOWN';
+      const path = req.url || 'UNKNOWN';
+
+      // Get the current active span
+      const activeSpan = trace.getActiveSpan();
+      activeSpan?.setAttribute('http.method', method);
+      activeSpan?.setAttribute('http.url', path);
+
+      let statusCode = 200;
+
       try {
         const optsFull: Required<RouteOptions<ReqZT, ResZT, RequiresAuth>> = {
           requireAuth: opts.requireAuth ?? true as RequiresAuth,
@@ -53,6 +75,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
         };
 
         const auth = await getAuth(req, optsFull.requireAuth, verifyAndDecodeToken);
+        activeSpan?.setAttribute('user.email', auth?.email ?? 'anonymous');
 
         const requestParseResult = optsFull.requestBody.safeParse(req.body);
         if (!requestParseResult.success) {
@@ -76,29 +99,63 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
 
         if (responseParseResult.data === streamingPlaceholder) {
           // noop, handler should deal with streaming response to client
+          // We can't know the status code here, so we'll use 200 as default
         } else if (responseParseResult.data === null) {
+          statusCode = 204;
           res.status(204).end();
         } else {
+          statusCode = 200;
           res.status(200).json(responseParseResult.data);
         }
+
+        activeSpan?.setAttribute('http.status_code', statusCode);
+        activeSpan?.setStatus({ code: SpanStatusCode.OK });
+        requestCounter.add(1, {
+          method,
+          path,
+          status_code: statusCode.toString(),
+        });
       } catch (err: unknown) {
         if (createHttpError.isHttpError(err) && err.expose) {
+          statusCode = err.statusCode;
+
+          activeSpan?.setAttribute('http.status_code', err.statusCode);
+          activeSpan?.setStatus({ code: SpanStatusCode.ERROR, message: err.message });
+          requestCounter.add(1, {
+            method,
+            path,
+            status_code: err.statusCode.toString(),
+          });
+
+          logger.warn('Client error handling request:', err);
+
           res.status(err.statusCode).json({ error: err.message });
+
           return;
         }
 
-        // eslint-disable-next-line no-console
-        console.error(`Internal error handling request on route ${req.method} ${req.url}:`, err);
+        statusCode = createHttpError.isHttpError(err) ? err.statusCode : 500;
+
+        activeSpan?.setAttribute('http.status_code', statusCode);
+        activeSpan?.setStatus({ code: SpanStatusCode.ERROR, message: err instanceof Error ? err.message : String(err) });
+        requestCounter.add(1, {
+          method,
+          path,
+          status_code: statusCode.toString(),
+        });
+
+        logger.error('Internal error handling request:', err);
+
         try {
           await slackAlert(env, [
             `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
             ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
           ]);
         } catch (slackError) {
-          // eslint-disable-next-line no-console
-          console.error('Failed to send Slack', slackError);
+          logger.error('Failed to send Slack alert', slackError);
         }
-        res.status(createHttpError.isHttpError(err) ? err.statusCode : 500).json({
+
+        res.status(statusCode).json({
           error: 'Internal Server Error',
         });
       }

@@ -46,6 +46,19 @@ const withDefaultBlueDotNextConfig = async (config) => ({
     },
     ...(config?.headers ?? [])];
   },
+  webpack: (webpackConfig, context, ...args) => {
+    // Exclude packages from webpack bundling
+
+    // Only used server side. Trying to import it client-side results in an error
+    if (!context.isServer) {
+      webpackConfig.externals.push('winston');
+    }
+
+    // @opentelemetry/winston-transport is conditionally required by @opentelemetry/instrumentation-winston, but we don't actually use it
+    webpackConfig.externals.push('@opentelemetry/winston-transport');
+
+    return config?.webpack?.(config, context, ...args) ?? webpackConfig;
+  },
 });
 
 module.exports = { withDefaultBlueDotNextConfig };

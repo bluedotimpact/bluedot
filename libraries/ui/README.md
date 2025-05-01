@@ -44,7 +44,7 @@ Then in other files you can import and use environment variables, e.g.:
 ```typescript
 import env from './env';
 
-console.log(`This app is ${env.APP_NAME}`);
+console.log(`Is this the Krusty Krab? NO,THIS IS ${env.APP_NAME}!!!!`);
 ```
 
 ### API Route Creation
@@ -178,4 +178,15 @@ await slackAlert(env, [
   'Critical error occurred in payment processing',
   'Some more details to add to the thread',
 ]);
+```
+
+### Logging
+
+Use `logger`, not `console`. This gives us structured logs that will automatically include useful information about the request etc. when in production.
+
+```typescript
+import { logger } from '@bluedot/ui';
+
+logger.warn('(chuckles) I\'m in danger');
+logger.error('Things went kaboom:', err);
 ```
