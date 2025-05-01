@@ -168,7 +168,7 @@ exports[`Nav > renders with courses 1`] = `
           />
         </a>
         <div
-          class="nav-links flex gap-9 [&>*]:w-fit desktop-nav-links__nav-links hidden lg:flex"
+          class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
         >
           <div
             class="explore-dropdown"
