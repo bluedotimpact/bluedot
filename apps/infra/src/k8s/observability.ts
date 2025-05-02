@@ -225,6 +225,7 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
       'prom-exporter': {
         enabled: true,
         containerPort: 8889,
+        servicePort: 8889,
         hostPort: 8889,
         protocol: 'TCP',
       },
@@ -237,6 +238,12 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
       extraLabels: {
         release: 'kube-prometheus-stack',
       },
+    },
+    // So the nodes can push to the OpenTelemetry Collector
+    // Alternative considered: we could get the node IP and use the exposed port, but injecting extra environment variables is more hassle
+    // See https://github.com/open-telemetry/opentelemetry-helm-charts/issues/749
+    service: {
+      enabled: true,
     },
   },
 }, { provider });
