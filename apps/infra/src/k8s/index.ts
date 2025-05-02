@@ -4,3 +4,4 @@ import './postgres';
 import './certManager';
 import './observability';
 import './services';
+import './backups';
