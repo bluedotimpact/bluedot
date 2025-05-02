@@ -23,11 +23,12 @@ const NAMESPACES_TO_BACKUP = ['default', 'monitoring'];
 
 // Install the k8up CRDs before the helm chart
 // Related: https://github.com/k8up-io/k8up/issues/1050
-export const k8upCRDs = new k8s.yaml.ConfigFile('k8up-crds', {
+const k8upCRDs = new k8s.yaml.ConfigFile('k8up-crds', {
   file: 'https://github.com/k8up-io/k8up/releases/download/k8up-4.8.4/k8up-crd.yaml',
 }, { provider });
 
-export const k8upOperator = new k8s.helm.v3.Release('k8up', {
+const k8upOperator = new k8s.helm.v3.Release('k8up', {
+  name: 'k8up',
   chart: 'k8up',
   version: '4.8.4',
   repositoryOpts: {
