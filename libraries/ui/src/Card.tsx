@@ -14,7 +14,6 @@ export type CardProps = {
   imageSrc?: string;
   isEntireCardClickable?: boolean;
   isFullWidth?: boolean;
-  withCTA?: boolean;
   subtitle?: string;
   subtitleClassName?: string;
 };
