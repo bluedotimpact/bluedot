@@ -1,0 +1,2 @@
+Contact: mailto:security@bluedot.org
+Preferred-Languages: en
