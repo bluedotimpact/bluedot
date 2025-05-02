@@ -1,4 +1,4 @@
-import { validateEnv } from '@bluedot/ui';
+import { validateEnv } from '@bluedot/ui/src/api';
 
 const env = validateEnv([
   'APP_NAME',

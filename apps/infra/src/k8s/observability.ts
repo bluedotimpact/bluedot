@@ -58,7 +58,8 @@ const grafanaService = {
   name: 'grafana',
   hosts: ['grafana.k8s.bluedot.org'],
 };
-export const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
+const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
+  name: 'kube-prometheus-stack',
   chart: 'kube-prometheus-stack',
   repositoryOpts: {
     repo: 'https://prometheus-community.github.io/helm-charts',
@@ -66,8 +67,18 @@ export const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
   createNamespace: true,
   namespace: 'monitoring',
   values: {
-    // Disable kubelet metrics collection in kube-prometheus-stack since we collect these via the OpenTelemetry Collector
+    // Disable collecting these metrics in kube-prometheus-stack since we collect these via the OpenTelemetry Collector
+    nodeExporter: {
+      enabled: false,
+    },
     kubelet: {
+      enabled: false,
+    },
+    // Disable alerting given we do this in Grafana
+    defaultRules: {
+      create: false,
+    },
+    alertmanager: {
       enabled: false,
     },
     grafana: {
@@ -136,7 +147,8 @@ new k8s.networking.v1.Ingress(`${grafanaService.name}-ingress`, {
 }, { provider, dependsOn: [ingressNginx, certManager] });
 
 // OpenTelemetry Collector
-export const opentelemetryCollector = new k8s.helm.v3.Release('opentelemetry-collector', {
+new k8s.helm.v3.Release('opentelemetry-collector', {
+  name: 'opentelemetry-collector',
   chart: 'opentelemetry-collector',
   repositoryOpts: {
     repo: 'https://open-telemetry.github.io/opentelemetry-helm-charts',
@@ -157,32 +169,15 @@ export const opentelemetryCollector = new k8s.helm.v3.Release('opentelemetry-col
         includeCollectorLogs: true,
       },
       // Collect node, pod and container metrics from the kubelet
+      hostMetrics: {
+        enabled: true,
+      },
       kubeletMetrics: {
         enabled: true,
       },
       // Add Kubernetes metadata to telemetry
       kubernetesAttributes: {
         enabled: true,
-      },
-    },
-    // Enable metrics port for ServiceMonitor
-    ports: {
-      metrics: {
-        enabled: true,
-      },
-    },
-    // Enable ServiceMonitor for the OpenTelemetry Collector
-    serviceMonitor: {
-      enabled: true,
-      metricsEndpoints: [
-        {
-          port: 'metrics',
-          interval: '15s',
-        },
-      ],
-      // Add labels to match the Prometheus Operator's configuration
-      extraLabels: {
-        release: 'kube-prometheus',
       },
     },
     config: {
@@ -225,11 +220,37 @@ export const opentelemetryCollector = new k8s.helm.v3.Release('opentelemetry-col
         },
       },
     },
+    // So we can have Prometheus pull from the OpenTelemetry Collector
+    ports: {
+      'prom-exporter': {
+        enabled: true,
+        containerPort: 8889,
+        servicePort: 8889,
+        hostPort: 8889,
+        protocol: 'TCP',
+      },
+    },
+    podMonitor: {
+      enabled: true,
+      metricsEndpoints: [{
+        port: 'prom-exporter',
+      }],
+      extraLabels: {
+        release: 'kube-prometheus-stack',
+      },
+    },
+    // So the nodes can push to the OpenTelemetry Collector
+    // Alternative considered: we could get the node IP and use the exposed port, but injecting extra environment variables is more hassle
+    // See https://github.com/open-telemetry/opentelemetry-helm-charts/issues/749
+    service: {
+      enabled: true,
+    },
   },
 }, { provider });
 
 // Loki
 new k8s.helm.v3.Release('loki', {
+  name: 'loki',
   chart: 'loki',
   repositoryOpts: {
     repo: 'https://grafana.github.io/helm-charts',
