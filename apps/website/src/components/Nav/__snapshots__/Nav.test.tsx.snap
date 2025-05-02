@@ -6,7 +6,7 @@ exports[`Nav > renders with courses 1`] = `
     class="nav sticky top-0 z-50 w-full container-elevated transition-all duration-300 bg-color-canvas"
   >
     <div
-      class="relative nav__container section-base"
+      class="nav__container section-base"
     >
       <div
         class="nav__bar w-full flex justify-between items-center h-[72px] sm:h-[100px]"
@@ -46,7 +46,7 @@ exports[`Nav > renders with courses 1`] = `
             </svg>
           </button>
           <div
-            class="mobile-nav-links__drawer absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+            class="mobile-nav-links__drawer absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 opacity-0 pb-0"
           >
             <div
               class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -58,7 +58,7 @@ exports[`Nav > renders with courses 1`] = `
                   class="explore-dropdown"
                 >
                   <button
-                    class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation no-underline"
+                    class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
                     type="button"
                   >
                     Explore
@@ -77,10 +77,10 @@ exports[`Nav > renders with courses 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 opacity-0 pb-0"
                   >
                     <div
-                      class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty"
+                      class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
                     >
                       <h3
                         class="bluedot-h3 not-prose explore-dropdown__dropdown-title font-bold pt-4"
@@ -88,14 +88,14 @@ exports[`Nav > renders with courses 1`] = `
                         Our courses
                       </h3>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                         href="/course1"
                         tabindex="0"
                       >
                         Course 1
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                         href="/course2"
                         tabindex="0"
                       >
@@ -110,28 +110,28 @@ exports[`Nav > renders with courses 1`] = `
                   </div>
                 </div>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/about"
                   tabindex="0"
                 >
                   About us
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/join-us"
                   tabindex="0"
                 >
                   Join us
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/blog"
                   tabindex="0"
                 >
                   Blog
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
                   tabindex="0"
                 >
@@ -174,7 +174,7 @@ exports[`Nav > renders with courses 1`] = `
             class="explore-dropdown"
           >
             <button
-              class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation no-underline"
+              class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
               type="button"
             >
               Explore
@@ -193,10 +193,10 @@ exports[`Nav > renders with courses 1`] = `
               </svg>
             </button>
             <div
-              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x pb-10 transition-[max-height,opacity] duration-300 bg-color-canvas max-h-0 opacity-0"
+              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 opacity-0 absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 opacity-0 pb-0"
             >
               <div
-                class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty"
+                class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
               >
                 <h3
                   class="bluedot-h3 not-prose explore-dropdown__dropdown-title font-bold pt-4"
@@ -204,14 +204,14 @@ exports[`Nav > renders with courses 1`] = `
                   Our courses
                 </h3>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/course1"
                   tabindex="0"
                 >
                   Course 1
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/course2"
                   tabindex="0"
                 >
@@ -226,28 +226,28 @@ exports[`Nav > renders with courses 1`] = `
             </div>
           </div>
           <a
-            class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="/about"
             tabindex="0"
           >
             About us
           </a>
           <a
-            class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="/join-us"
             tabindex="0"
           >
             Join us
           </a>
           <a
-            class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="/blog"
             tabindex="0"
           >
             Blog
           </a>
           <a
-            class="bluedot-a not-prose nav-link nav-link-animation no-underline"
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
             tabindex="0"
           >

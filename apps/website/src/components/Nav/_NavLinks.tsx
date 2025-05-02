@@ -85,7 +85,7 @@ const ExploreDropdown: React.FC<{
           className,
         )}
       >
-        <div className="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty">
+        <div className={clsx('explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty', !expandedSections.explore && 'hidden')}>
           <H3 className="explore-dropdown__dropdown-title font-bold pt-4">Our courses</H3>
           {courses?.map((course) => (
             <A key={course.url} href={course.url} className={NAV_LINK_CLASSES(isScrolled)}>
