@@ -1,4 +1,4 @@
-import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import { P } from '../Text';
 import { CmsJobPosting } from '../../lib/api/db/tables';
@@ -34,30 +34,15 @@ const JobListItem = ({ job }: {
 
   return (
     <div className="jobs-list__listing">
-      {isMobile ? (
-        <Card
-          className="jobs-list__card--mobile container-lined p-6 max-w-full"
-          title={job.title}
-          subtitle={job.subtitle}
-          ctaText="Learn more"
-          ctaUrl={url}
-        />
-      ) : (
-        <div className="jobs-list__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined">
-          <div className="flex-1">
-            <strong className="jobs-list__title">{job.title}</strong>
-            <P className="jobs-list__subtitle">{job.subtitle}</P>
-          </div>
-          <CTALinkOrButton
-            className="jobs-list__cta-button"
-            variant="secondary"
-            withChevron
-            url={url}
-          >
-            Learn more
-          </CTALinkOrButton>
-        </div>
-      )}
+      <Card
+        className="jobs-list__card container-lined hover:container-elevated p-8"
+        ctaText="Learn more"
+        ctaUrl={url}
+        isEntireCardClickable={!isMobile}
+        isFullWidth={!isMobile}
+        subtitle={job.subtitle}
+        title={job.title}
+      />
     </div>
   );
 };

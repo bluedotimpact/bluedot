@@ -44,7 +44,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                class="card flex items-start transition-transform duration-200 flex-col values-section__value"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -56,7 +56,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"
@@ -81,7 +81,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                class="card flex items-start transition-transform duration-200 flex-col values-section__value"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -93,7 +93,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"
@@ -118,7 +118,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex flex-col items-start transition-transform duration-200 values-section__value"
+                class="card flex items-start transition-transform duration-200 flex-col values-section__value"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -130,7 +130,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"

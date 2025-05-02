@@ -49,7 +49,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <a
-                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] projects__project"
+                class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
                 href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
               >
                 <div
@@ -62,7 +62,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"
@@ -87,7 +87,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <a
-                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] projects__project"
+                class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
                 href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
               >
                 <div
@@ -100,7 +100,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"
@@ -125,7 +125,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <a
-                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] projects__project"
+                class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
                 href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
               >
                 <div
@@ -138,7 +138,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"
@@ -163,7 +163,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <a
-                class="card flex flex-col items-start transition-transform duration-200 hover:scale-[1.01] projects__project"
+                class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
                 href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
               >
                 <div
@@ -176,7 +176,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                 >
                   <div
                     class="card__text"

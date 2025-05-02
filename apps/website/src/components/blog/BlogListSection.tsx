@@ -62,30 +62,15 @@ export const BlogListItem = ({ blog }: {
 
   return (
     <div className="blog-list__listing">
-      {isMobile ? (
-        <Card
-          className="blog-list__card--mobile container-lined p-6 max-w-full"
-          title={blog.title}
-          subtitle={`${formattedDate} • ${blog.authorName}`}
-          ctaText="Read more"
-          ctaUrl={url}
-        />
-      ) : (
-        <div className="blog-list__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined">
-          <div className="flex-1">
-            <strong className="blog-list__title">{blog.title}</strong>
-            <P className="blog-list__subtitle">{formattedDate} • {blog.authorName}</P>
-          </div>
-          <CTALinkOrButton
-            className="blog-list__cta-button"
-            variant="secondary"
-            withChevron
-            url={url}
-          >
-            Read more
-          </CTALinkOrButton>
-        </div>
-      )}
+      <Card
+        className="blog-list__card container-lined hover:container-elevated p-8"
+        ctaText="Read more"
+        ctaUrl={url}
+        isEntireCardClickable={!isMobile}
+        isFullWidth={!isMobile}
+        subtitle={`${blog.authorName} • ${formattedDate}`}
+        title={blog.title}
+      />
     </div>
   );
 };

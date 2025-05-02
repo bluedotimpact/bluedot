@@ -31,104 +31,120 @@ exports[`JobsListSection > renders default as expected 1`] = `
         <div
           class="jobs-list__listing"
         >
-          <div
-            class="jobs-list__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
+          <a
+            class="card flex items-start transition-transform duration-200 flex-row w-full hover:scale-[1.01] jobs-list__card container-lined hover:container-elevated p-8"
+            href="/join-us/software-engineer"
           >
             <div
-              class="flex-1"
+              class="card__content flex gap-6 w-full flex-1 justify-between flex-row w-full"
             >
-              <strong
-                class="jobs-list__title"
+              <div
+                class="card__text"
               >
-                Software Engineer
-              </strong>
-              <p
-                class="bluedot-p not-prose jobs-list__subtitle"
-              >
-                Full-time position
-              </p>
-            </div>
-            <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
-              href="/join-us/software-engineer"
-              tabindex="0"
-            >
-              <span
-                class="cta-button__text"
-              >
-                Learn more
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
-              >
-                <svg
-                  class="cta-button__chevron-icon size-2"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 320 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
+                <p
+                  class="card__title bluedot-h4 mb-2"
                 >
-                  <path
-                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                  />
-                </svg>
-              </span>
-            </a>
-          </div>
+                  Software Engineer
+                </p>
+                <p
+                  class="card__subtitle bluedot-p "
+                >
+                  Full-time position
+                </p>
+              </div>
+              <div
+                class="card__bottom-section flex flex-col gap-space-between"
+              >
+                <button
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  type="button"
+                >
+                  <span
+                    class="cta-button__text"
+                  >
+                    Learn more
+                  </span>
+                  <span
+                    class="cta-button__chevron ml-3"
+                  >
+                    <svg
+                      class="cta-button__chevron-icon size-2"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
         </div>
         <div
           class="jobs-list__listing"
         >
-          <div
-            class="jobs-list__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined"
+          <a
+            class="card flex items-start transition-transform duration-200 flex-row w-full hover:scale-[1.01] jobs-list__card container-lined hover:container-elevated p-8"
+            href="/join-us/product-manager"
           >
             <div
-              class="flex-1"
+              class="card__content flex gap-6 w-full flex-1 justify-between flex-row w-full"
             >
-              <strong
-                class="jobs-list__title"
+              <div
+                class="card__text"
               >
-                Product Manager
-              </strong>
-              <p
-                class="bluedot-p not-prose jobs-list__subtitle"
-              >
-                Full-time position
-              </p>
-            </div>
-            <a
-              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter jobs-list__cta-button"
-              href="/join-us/product-manager"
-              tabindex="0"
-            >
-              <span
-                class="cta-button__text"
-              >
-                Learn more
-              </span>
-              <span
-                class="cta-button__chevron ml-3"
-              >
-                <svg
-                  class="cta-button__chevron-icon size-2"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 320 512"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
+                <p
+                  class="card__title bluedot-h4 mb-2"
                 >
-                  <path
-                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                  />
-                </svg>
-              </span>
-            </a>
-          </div>
+                  Product Manager
+                </p>
+                <p
+                  class="card__subtitle bluedot-p "
+                >
+                  Full-time position
+                </p>
+              </div>
+              <div
+                class="card__bottom-section flex flex-col gap-space-between"
+              >
+                <button
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                  type="button"
+                >
+                  <span
+                    class="cta-button__text"
+                  >
+                    Learn more
+                  </span>
+                  <span
+                    class="cta-button__chevron ml-3"
+                  >
+                    <svg
+                      class="cta-button__chevron-icon size-2"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -203,10 +219,10 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
           class="jobs-list__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 jobs-list__card--mobile container-lined p-6 max-w-full"
+            class="card flex items-start transition-transform duration-200 flex-col jobs-list__card container-lined hover:container-elevated p-8"
           >
             <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
             >
               <div
                 class="card__text"
@@ -235,6 +251,24 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
                   >
                     Learn more
                   </span>
+                  <span
+                    class="cta-button__chevron ml-3"
+                  >
+                    <svg
+                      class="cta-button__chevron-icon size-2"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </a>
               </div>
             </div>
@@ -244,10 +278,10 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
           class="jobs-list__listing"
         >
           <div
-            class="card flex flex-col items-start transition-transform duration-200 jobs-list__card--mobile container-lined p-6 max-w-full"
+            class="card flex items-start transition-transform duration-200 flex-col jobs-list__card container-lined hover:container-elevated p-8"
           >
             <div
-              class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+              class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
             >
               <div
                 class="card__text"
@@ -275,6 +309,24 @@ exports[`JobsListSection > renders mobile as expected 1`] = `
                     class="cta-button__text"
                   >
                     Learn more
+                  </span>
+                  <span
+                    class="cta-button__chevron ml-3"
+                  >
+                    <svg
+                      class="cta-button__chevron-icon size-2"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
                   </span>
                 </a>
               </div>
