@@ -33,7 +33,6 @@ export const Card: React.FC<CardProps> = ({
   isFullWidth = false,
   subtitle,
   subtitleClassName = '',
-  withCTA = false,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
@@ -43,7 +42,7 @@ export const Card: React.FC<CardProps> = ({
     className,
   );
 
-  const showCTA = withCTA || (!isEntireCardClickable && ctaUrl);
+  const showCTA = ctaText || (!isEntireCardClickable && ctaUrl);
   const showBottomSection = !!(showCTA || children);
 
   return (
@@ -78,7 +77,7 @@ export const Card: React.FC<CardProps> = ({
                 className="card__cta"
                 url={isEntireCardClickable ? undefined : ctaUrl}
                 variant="secondary"
-                withChevron={false}
+                withChevron
               >
                 {ctaText}
               </CTALinkOrButton>

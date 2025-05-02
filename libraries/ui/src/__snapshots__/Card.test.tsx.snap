@@ -44,6 +44,24 @@ exports[`Card > renders default as expected 1`] = `
           >
             LinkedIn
           </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <svg
+              class="cta-button__chevron-icon size-2"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
         </a>
       </div>
     </div>
@@ -82,6 +100,38 @@ exports[`Card > renders with isEntireCardClickable as expected 1`] = `
         >
           Developer
         </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <button
+          class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+          type="button"
+        >
+          <span
+            class="cta-button__text"
+          >
+            LinkedIn
+          </span>
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <svg
+              class="cta-button__chevron-icon size-2"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
   </a>

@@ -63,13 +63,13 @@ export const BlogListItem = ({ blog }: {
   return (
     <div className="blog-list__listing">
       <Card
-        className="blog-list__card container-lined"
+        className="blog-list__card container-lined hover:container-elevated p-8"
         ctaText="Read more"
         ctaUrl={url}
+        isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}
         subtitle={`${blog.authorName} • ${formattedDate}`}
         title={blog.title}
-        withCTA
       />
     </div>
   );

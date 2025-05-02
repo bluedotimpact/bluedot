@@ -41,6 +41,5 @@ export const FullWidthCard: Story = {
     isFullWidth: true,
     subtitle: 'This entire card is clickable.',
     title: 'Clickable card',
-    withCTA: true,
   },
 };

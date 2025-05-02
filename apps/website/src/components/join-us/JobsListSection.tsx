@@ -35,13 +35,13 @@ const JobListItem = ({ job }: {
   return (
     <div className="jobs-list__listing">
       <Card
-        className="jobs-list__card container-lined"
+        className="jobs-list__card container-lined hover:container-elevated p-8"
         ctaText="Learn more"
         ctaUrl={url}
+        isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}
         subtitle={job.subtitle}
         title={job.title}
-        withCTA
       />
     </div>
   );
