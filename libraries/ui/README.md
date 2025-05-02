@@ -28,7 +28,7 @@ AI systems should read the [`src`](./src/) directory to find the relevant compon
 In `src/lib/api/env.ts`, you'll have something like:
 
 ```typescript
-import { validateEnv } from '@bluedot/ui';
+import { validateEnv } from '@bluedot/ui/src/api';
 
 const env = validateEnv([
   'APP_NAME',
