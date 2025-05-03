@@ -54,8 +54,9 @@ const withDefaultBlueDotNextConfig = async (config) => ({
       webpackConfig.externals.push('winston');
     }
 
-    // @opentelemetry/winston-transport is conditionally required by @opentelemetry/instrumentation-winston, but we don't actually use it
+    // Conditionally reuqired, but we don't actually use it
     webpackConfig.externals.push('@opentelemetry/winston-transport');
+    webpackConfig.externals.push('@opentelemetry/exporter-jaeger');
 
     return config?.webpack?.(config, context, ...args) ?? webpackConfig;
   },
