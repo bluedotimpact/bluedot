@@ -80,7 +80,7 @@ const ExploreDropdown: React.FC<{
       <div
         className={clsx(
           `explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
-          expanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+          expanded ? 'max-h-96 opacity-100' : 'max-h-0 hidden',
           !expandedSections.mobileNav && DRAWER_CLASSES(isScrolled, expanded),
           className,
         )}
