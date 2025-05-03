@@ -1,6 +1,7 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg } from './postgres';
+import { minioPvc } from './pvc';
 
 export const services: ServiceDefinition[] = [
   {
@@ -225,6 +226,52 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['login.bluedot.org'],
+  },
+  {
+    name: 'minio',
+    spec: {
+      containers: [{
+        name: 'minio',
+        image: 'minio/minio:RELEASE.2025-04-22T22-12-26Z',
+        args: ['server', '/data', '--address', ':8080'],
+        env: [
+          { name: 'MINIO_ROOT_USER', value: 'admin' },
+          { name: 'MINIO_ROOT_PASSWORD', valueFrom: envVarSources.minioRootPassword },
+          { name: 'MINIO_BROWSER', value: 'false' },
+        ],
+        volumeMounts: [
+          {
+            name: 'minio-data',
+            mountPath: '/data',
+          },
+        ],
+        livenessProbe: {
+          httpGet: {
+            path: '/minio/health/live',
+            port: 9000,
+          },
+          initialDelaySeconds: 120,
+          periodSeconds: 30,
+        },
+        readinessProbe: {
+          httpGet: {
+            path: '/minio/health/ready',
+            port: 9000,
+          },
+          initialDelaySeconds: 120,
+          periodSeconds: 30,
+        },
+      }],
+      volumes: [
+        {
+          name: 'minio-data',
+          persistentVolumeClaim: {
+            claimName: minioPvc.metadata.name,
+          },
+        },
+      ],
+    },
+    hosts: ['storage.k8s.bluedot.org'],
   },
 ];
 

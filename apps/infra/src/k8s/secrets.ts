@@ -13,6 +13,7 @@ const toK8s = [
   'loginProxySharedSecret',
   'loginProxyKeycloakClientSecret',
   'roomDisplayBearerToken',
+  'minioRootPassword',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

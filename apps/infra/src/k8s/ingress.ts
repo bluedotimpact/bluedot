@@ -16,6 +16,9 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
 
         // Sometimes the headers returned from Keycloak are really long
         'proxy-buffer-size': '8k',
+
+        // Allow large file uploads
+        'proxy-body-size': '100m',
       },
       ingressClassResource: {
         default: 'true',
