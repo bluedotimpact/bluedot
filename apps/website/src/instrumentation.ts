@@ -1,6 +1,9 @@
-import { registerDefaultInstrumentation } from '@bluedot/ui/src/default-config/instrumentation';
-import env from './lib/api/env';
-
 export async function register() {
-  await registerDefaultInstrumentation(env);
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { registerDefaultInstrumentation } = await import('@bluedot/ui/src/default-config/instrumentation');
+    const { default: env } = await import('./lib/api/env');
+
+    await registerDefaultInstrumentation(env);
+  }
 }
