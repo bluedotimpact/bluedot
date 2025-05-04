@@ -1,7 +1,12 @@
 import { BuildColumns } from 'drizzle-orm/column-builder';
+import { NodePgClient, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import {
+  PgDatabase, PgInsertBuilder, PgQueryResultHKT, PgTable,
+
   pgTable, text, PgColumnBuilderBase, PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
+import { ExtractTablesWithRelations, TablesRelationalConfig } from 'drizzle-orm/relations';
+import { Pool } from 'pg';
 
 type PgAirtableColumnInput = {
   pgColumn: PgColumnBuilderBase;
@@ -27,6 +32,27 @@ type BasePgTableType<
   columns: BuildColumns<TTableName, ExtractPgColumns<TColumnsMap>, 'pg'>;
   dialect: 'pg';
 }>;
+
+// TODO write wrapper which:
+// - passes through read queries to the default drizzle client
+// - adds new functions to insert and update
+export class PgAirtableDatabase<
+  TSchema extends Record<string, unknown> = Record<string, never>,
+  TClient extends NodePgClient = Pool,
+> {
+  public readDb: NodePgDatabase<TSchema> & {
+    $client: TClient;
+  };
+
+  public writeDb: NodePgDatabase<TSchema> & {
+    $client: TClient;
+  };
+
+  constructor(readDb: typeof this.readDb, writeDb: typeof this.writeDb) {
+    this.readDb = readDb;
+    this.writeDb = writeDb;
+  }
+}
 
 export type PgAirtableTable<
   TTableName extends string,
