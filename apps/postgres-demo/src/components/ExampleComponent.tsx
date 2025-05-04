@@ -1,5 +1,7 @@
 import { NewText } from '@bluedot/ui';
 
+// TODO remove
+
 export type ExampleComponentProps = {
   name?: string,
 };
