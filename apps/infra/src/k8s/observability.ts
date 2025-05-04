@@ -3,6 +3,7 @@ import { provider } from './provider';
 import { getConnectionDetails, grafanaPg } from './postgres';
 import { ingressNginx } from './ingress';
 import { certManager } from './certManager';
+import { lokiBuckets } from '../minio';
 
 // Observability Stack Data Flow
 //
@@ -196,7 +197,7 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
         },
         // Send logs to Loki
         'otlphttp/loki': {
-          endpoint: 'http://loki-headless:3100/otlp',
+          endpoint: 'http://loki:3100/otlp',
         },
       },
       service: {
@@ -283,6 +284,12 @@ new k8s.helm.v3.Release('loki', {
         volume_enabled: true,
       },
       storage: {
+        s3: {
+          s3: 'https://storage.k8s.bluedot.org',
+          accessKeyId: lokiBuckets.readWriteUser.name,
+          secretAccessKey: lokiBuckets.readWriteUser.secret,
+          s3ForcePathStyle: true,
+        },
         bucketNames: {
           chunks: 'loki-chunks',
           ruler: 'loki-ruler',
@@ -292,11 +299,6 @@ new k8s.helm.v3.Release('loki', {
       // We have no need for multitenancy, so we disable auth_enabled
       // https://grafana.com/docs/loki/latest/operations/multi-tenancy/
       auth_enabled: false,
-    },
-    // In the future, this could be replaced with external object storage
-    // with read and append-only access for better security and isolation
-    minio: {
-      enabled: true,
     },
     deploymentMode: 'SingleBinary',
     singleBinary: {

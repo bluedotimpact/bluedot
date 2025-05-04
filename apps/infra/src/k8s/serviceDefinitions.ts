@@ -235,7 +235,7 @@ export const services: ServiceDefinition[] = [
         image: 'minio/minio:RELEASE.2025-04-22T22-12-26Z',
         args: ['server', '/data', '--address', ':8080'],
         env: [
-          { name: 'MINIO_ROOT_USER', value: 'admin' },
+          { name: 'MINIO_ROOT_USER', value: 'root' },
           { name: 'MINIO_ROOT_PASSWORD', valueFrom: envVarSources.minioRootPassword },
           { name: 'MINIO_BROWSER', value: 'false' },
         ],
@@ -245,21 +245,11 @@ export const services: ServiceDefinition[] = [
             mountPath: '/data',
           },
         ],
-        livenessProbe: {
-          httpGet: {
-            path: '/minio/health/live',
-            port: 9000,
-          },
-          initialDelaySeconds: 120,
-          periodSeconds: 30,
-        },
         readinessProbe: {
           httpGet: {
             path: '/minio/health/ready',
-            port: 9000,
+            port: 8080,
           },
-          initialDelaySeconds: 120,
-          periodSeconds: 30,
         },
       }],
       volumes: [
