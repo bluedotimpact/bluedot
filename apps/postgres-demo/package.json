@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@bluedot/ui": "*",
+    "@bluedot/db": "*",
     "airtable-ts": "^1.5.0",
     "axios-hooks": "^5.0.2",
     "drizzle-orm": "^0.43.1",

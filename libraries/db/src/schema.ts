@@ -1,5 +1,6 @@
 import { pgTable, text, boolean } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
+import { timestamp } from 'drizzle-orm/pg-core';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -16,12 +17,20 @@ export const metaTable = pgTable('meta', {
 });
 
 export const userTable = pgAirtable('user', {
-  baseId: 'appnJbsG1eWbAdEvf', // TODO make it possible to vary this
+  baseId: 'appgnRJNcgW90cbj0', // Copy of "Course builder" that isn't connected to anything (TODO make it possible to use env vars for this)
   tableId: 'tblCgeKADNDSCXPpR',
   columns: {
     email: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldLAGRfn7S6uEVRo',
+    },
+    name: {
+      pgColumn: text(),
+      airtableId: 'fldULI4CXDWAUmRM2',
+    },
+    completedMoocAt: {
+      pgColumn: timestamp(),
+      airtableId: 'fldTCSAIKNs4nPfDn',
     },
   },
 });

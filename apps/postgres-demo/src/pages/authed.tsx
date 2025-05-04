@@ -3,7 +3,6 @@ import {
   ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { Person, personTable } from '../lib/api/db/tables';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
   const router = useRouter();
@@ -31,7 +30,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 export default AuthedPage;
 
 const PeopleListView: React.FC = withAuth(({ auth }) => {
-  const [{ data, loading, error }] = useAxios<Person[]>({
+  const [{ data, loading, error }] = useAxios({
     method: 'post',
     url: '/api/public/people',
     headers: {

@@ -1,6 +1,6 @@
 import { BuildColumns } from 'drizzle-orm/column-builder';
 import {
-  pgTable, text, PgColumnBuilderBase, PgTableWithColumns
+  pgTable, text, PgColumnBuilderBase, PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
 
 type PgAirtableColumnInput = {
@@ -35,8 +35,7 @@ export type PgAirtableTable<
   readonly airtableBaseId: string;
   readonly airtableTableId: string;
   readonly airtableFieldMap: ReadonlyMap<string, string>;
-}
-
+};
 
 export function pgAirtable<
     TTableName extends string,
@@ -70,9 +69,10 @@ export function pgAirtable<
   return result;
 }
 
+// TODO fix types
 export function isPgAirtableTable(table: any): table is PgAirtableTable<string, any> {
-  return table && typeof table === 'object' &&
-         typeof table.airtableBaseId === 'string' &&
-         typeof table.airtableTableId === 'string' &&
-         table.airtableFieldMap instanceof Map
+  return table && typeof table === 'object'
+         && typeof table.airtableBaseId === 'string'
+         && typeof table.airtableTableId === 'string'
+         && table.airtableFieldMap instanceof Map;
 }
