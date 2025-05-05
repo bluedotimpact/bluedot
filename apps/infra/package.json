@@ -9,12 +9,14 @@
     "postinstall:create_passphrase_file": "touch passphrase.prod.txt",
     "deploy:cd": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi up --stack prod --yes",
     "config:secret": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi config set --secret",
+    "config:public": "PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi config set",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@ediri/vultr": "2.20.1",
     "@pulumi/kubernetes": "^4.5.5",
+    "@pulumi/minio": "^0.16.4",
     "@pulumi/pulumi": "^3.95.0"
   },
   "devDependencies": {
