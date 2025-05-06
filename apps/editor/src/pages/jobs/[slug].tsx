@@ -1,5 +1,6 @@
 import {
   ErrorSection,
+  NewText,
   ProgressDots,
   withAuth,
 } from '@bluedot/ui';
@@ -53,6 +54,7 @@ const JobPostPage = withAuth(({ auth }) => {
       <BodyEditor auth={auth} onSave={saveJob}>
         {data.job.body}
       </BodyEditor>
+      <NewText.P><NewText.A href={`https://airtable.com/app63L1YChHfS6RJF/pagJUhKs6oHyiFhQd?QaMci=${data.job.id}`}>Return to Airtable</NewText.A></NewText.P>
     </>
   );
 });
