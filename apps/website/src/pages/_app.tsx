@@ -48,11 +48,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     <PostHogProvider client={posthog}>
       <Head>
         <title>BlueDot Impact</title>
-        <link rel="icon" type="image/png" href="images/logo/favicon/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" href="images/logo/favicon/favicon.ico" />
         <link rel="icon" type="image/svg+xml" href="images/logo/favicon/favicon.svg" />
-        <link rel="shortcut icon" href="images/logo/favicon/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
-        <link rel="manifest" href="images/logo/favicon/site.webmanifest" />
       </Head>
       {/* TODO: remove this logic after people stop going here */}
       {/* eslint-disable-next-line no-nested-ternary */}
