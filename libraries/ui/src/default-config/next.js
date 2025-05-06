@@ -59,7 +59,7 @@ const withDefaultBlueDotNextConfig = async (config) => ({
     webpackConfig.ignoreWarnings = webpackConfig.ignoreWarnings ?? [];
     webpackConfig.ignoreWarnings.push({ module: /opentelemetry/, message: /the request of a dependency is an expression/ });
 
-    // Conditionally reuqired, but we don't actually use it
+    // Conditionally required, but we don't actually use it
     webpackConfig.externals.push('@opentelemetry/winston-transport');
     webpackConfig.externals.push('@opentelemetry/exporter-jaeger');
 
