@@ -165,7 +165,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
               reader.addEventListener('load', () => {
                 uploadFile(reader.result as ArrayBuffer, file.type).then(({ url }) => {
                   resolve({
-                    name: file.name,
+                    name: '',
                     type: file.type,
                     size: file.size,
                     url,
@@ -185,12 +185,16 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       Gapcursor,
       Dropcursor,
     ],
-    content: children,
+    content: children?.replace(
+      /<Embed\s+url="([^"]+)"\s*\/>/g,
+      (match, url) => `![](${url})`,
+    ),
     onUpdate: () => {
       const markdownOutput = editor?.storage.markdown.getMarkdown()
-        .replace(/!\[[^\]]*\]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/g, (match: unknown, filename: string) => {
-          return `<Embed url="${filename.trim()}" />\n`;
-        });
+        .replace(
+          /!\[[^\]]*\]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/g,
+          (match: unknown, filename: string) => `<Embed url="${filename.trim()}" />\n`,
+        );
       onChange?.(markdownOutput);
     },
     immediatelyRender: false,

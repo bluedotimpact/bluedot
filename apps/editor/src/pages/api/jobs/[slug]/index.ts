@@ -11,7 +11,10 @@ export type GetJobResponse = {
 };
 
 export default makeApiRoute({
-  requireAuth: false,
+  requireAuth: true,
+  requestBody: z.object({
+    body: z.string(),
+  }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
     job: z.any(),
@@ -33,8 +36,28 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('Job posting not found');
   }
 
-  return {
-    type: 'success' as const,
-    job,
-  };
+  switch (raw.req.method) {
+    case 'GET': {
+      return {
+        type: 'success' as const,
+        job,
+      };
+    }
+    case 'PUT': {
+      if (!body) {
+        throw new createHttpError.BadRequest('Expected PUT request to include body');
+      }
+      const updatedJob = await db.update(jobPostingtable, {
+        id: job.id,
+        body: body.body,
+      });
+      return {
+        type: 'success' as const,
+        blog: updatedJob,
+      };
+    }
+    default: {
+      throw new createHttpError.MethodNotAllowed();
+    }
+  }
 });

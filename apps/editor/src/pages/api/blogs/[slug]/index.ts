@@ -11,7 +11,10 @@ export type GetBlogResponse = {
 };
 
 export default makeApiRoute({
-  requireAuth: false,
+  requireAuth: true,
+  requestBody: z.object({
+    body: z.string(),
+  }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
     blog: z.any(),
@@ -33,8 +36,28 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('Blog post not found');
   }
 
-  return {
-    type: 'success' as const,
-    blog,
-  };
+  switch (raw.req.method) {
+    case 'GET': {
+      return {
+        type: 'success' as const,
+        blog,
+      };
+    }
+    case 'PUT': {
+      if (!body) {
+        throw new createHttpError.BadRequest('Expected PUT request to include body');
+      }
+      const updatedBlog = await db.update(blogTable, {
+        id: blog.id,
+        body: body.body,
+      });
+      return {
+        type: 'success' as const,
+        blog: updatedBlog,
+      };
+    }
+    default: {
+      throw new createHttpError.MethodNotAllowed();
+    }
+  }
 });

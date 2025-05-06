@@ -7,27 +7,27 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { GetBlogResponse } from '../api/blogs/[slug]';
+import { GetJobResponse } from '../api/jobs/[slug]';
 import { BodyEditor } from '../../components/BodyEditor';
 
-const BlogPostPage = withAuth(({ auth }) => {
+const JobPostPage = withAuth(({ auth }) => {
   const { query: { slug } } = useRouter();
   if (typeof slug !== 'string') {
-    return 'Invalid blog slug';
+    return 'Invalid job slug';
   }
 
-  const [{ data, loading, error }] = useAxios<GetBlogResponse>({
+  const [{ data, loading, error }] = useAxios<GetJobResponse>({
     method: 'get',
-    url: `/api/blogs/${slug}`,
+    url: `/api/jobs/${slug}`,
     headers: {
       Authorization: `Bearer ${auth.token}`,
     },
   });
 
-  const saveBlog = async (body: string) => {
+  const saveJob = async (body: string) => {
     await axios({
       method: 'put',
-      url: `/api/blogs/${slug}`,
+      url: `/api/jobs/${slug}`,
       data: {
         body,
       },
@@ -48,13 +48,13 @@ const BlogPostPage = withAuth(({ auth }) => {
   return (
     <>
       <Head>
-        <title>{`${data.blog.title} | BlueDot Editor`}</title>
+        <title>{`${data.job.title} | BlueDot Editor`}</title>
       </Head>
-      <BodyEditor auth={auth} onSave={saveBlog}>
-        {data.blog.body}
+      <BodyEditor auth={auth} onSave={saveJob}>
+        {data.job.body}
       </BodyEditor>
     </>
   );
 });
 
-export default BlogPostPage;
+export default JobPostPage;

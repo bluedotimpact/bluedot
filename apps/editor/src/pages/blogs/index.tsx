@@ -32,6 +32,7 @@ const BlogsPage = withAuth(({ auth }) => {
     <div className="blog-list__container flex flex-col gap-4">
       {data.blogs.map((blog) => (
         <Card
+          key={blog.id}
           className="blog-list__card container-lined hover:container-elevated p-8"
           ctaText="Edit"
           ctaUrl={`/blogs/${blog.slug}`}

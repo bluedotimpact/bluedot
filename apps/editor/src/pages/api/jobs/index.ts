@@ -9,7 +9,7 @@ export type GetJobsResponse = {
 };
 
 export default makeApiRoute({
-  requireAuth: false,
+  requireAuth: true,
   responseBody: z.object({
     type: z.literal('success'),
     jobs: z.array(z.any()),

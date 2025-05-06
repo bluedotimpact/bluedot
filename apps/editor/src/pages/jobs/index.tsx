@@ -25,14 +25,15 @@ const JobsPage = withAuth(({ auth }) => {
   }
 
   if (data.jobs.length === 0) {
-    return <div>No blog posts available at the moment.</div>;
+    return <div>No jobs available at the moment.</div>;
   }
 
   return (
-    <div className="blog-list__container flex flex-col gap-4">
+    <div className="job-list__container flex flex-col gap-4">
       {data.jobs.map((job) => (
         <Card
-          className="blog-list__card container-lined hover:container-elevated p-8"
+          key={job.id}
+          className="job-list__card container-lined hover:container-elevated p-8"
           ctaText="Edit"
           ctaUrl={`/jobs/${job.slug}`}
           isEntireCardClickable
