@@ -86,6 +86,21 @@ export const services: ServiceDefinition[] = [
     hosts: ['storybook.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-editor',
+    spec: {
+      containers: [{
+        name: 'bluedot-editor',
+        image: 'ghcr.io/bluedotimpact/bluedot-editor:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['editor.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-miniextensions-proxy',
     spec: {
       containers: [{

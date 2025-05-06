@@ -30,7 +30,7 @@ import {
   FaQuoteLeft,
   FaCode,
 } from 'react-icons/fa6';
-import { ClickTarget } from '@bluedot/ui';
+import { ClickTarget } from '@bluedot/ui/src/ClickTarget';
 
 type ToolbarButtonProps = {
   onClick: () => void;
@@ -120,7 +120,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
   );
 };
 
-type MarkdownEditorProps = {
+export type MarkdownEditorProps = {
   children?: string;
   onChange?: (markdown: string) => void;
 };
@@ -164,12 +164,12 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
   }
 
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
+    <div className="border border-gray-300 rounded-lg overflow-hidden bg-white">
       <Toolbar editor={editor} />
 
       <EditorContent
         editor={editor}
-        className="prose p-4 min-h-[200px]"
+        className="prose px-4 py-3 min-h-[200px]"
       />
     </div>
   );
