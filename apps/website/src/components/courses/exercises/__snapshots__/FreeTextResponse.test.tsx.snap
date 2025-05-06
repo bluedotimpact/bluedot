@@ -26,7 +26,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
         />
       </div>
     </div>
@@ -99,7 +99,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
         />
       </div>
     </div>
@@ -152,7 +152,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
         />
       </div>
     </div>

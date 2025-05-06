@@ -218,7 +218,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__content flex flex-col flex-1 max-w-[728px] gap-6"
           >
             <div
-              class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+              class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
             />
             <div
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
