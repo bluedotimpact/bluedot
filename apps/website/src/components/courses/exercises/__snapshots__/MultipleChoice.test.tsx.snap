@@ -26,7 +26,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none multiple-choice__description"
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none multiple-choice__description"
         />
       </div>
     </div>
@@ -165,7 +165,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none multiple-choice__description"
+          class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none multiple-choice__description"
         />
       </div>
     </div>
