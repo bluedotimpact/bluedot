@@ -22,6 +22,7 @@ import {
   History,
   Gapcursor,
   Dropcursor,
+  UploaderData,
 } from '@syfxlin/tiptap-starter-kit';
 import { Markdown } from 'tiptap-markdown';
 import {
@@ -29,12 +30,13 @@ import {
   FaItalic,
   FaQuoteLeft,
   FaCode,
+  FaImage,
 } from 'react-icons/fa6';
 import { ClickTarget } from '@bluedot/ui';
 
 type ToolbarButtonProps = {
   onClick: () => void;
-  isActive: boolean;
+  isActive?: boolean;
   icon: React.ReactNode;
   'aria-label'?: string;
 };
@@ -106,26 +108,32 @@ const Toolbar: React.FC<ToolbarProps> = ({ editor }) => {
             )}
           />
         ))}
-
-        <ToolbarDivider />
-
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           isActive={editor.isActive('blockquote')}
           aria-label="Blockquote"
           icon={<FaQuoteLeft size={16} />}
         />
+
+        <ToolbarDivider />
+
+        <ToolbarButton
+          onClick={() => editor.chain().focus().setImage({ src: '' }).run()}
+          aria-label="Insert image"
+          icon={<FaImage size={16} />}
+        />
       </div>
     </div>
   );
 };
 
-type MarkdownEditorProps = {
+export type MarkdownEditorProps = {
   children?: string;
   onChange?: (markdown: string) => void;
+  uploadFile?: (data: ArrayBuffer, fileType: string) => Promise<{ url: string }>;
 };
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) => {
+const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, uploadFile }) => {
   const editor = useEditor({
     extensions: [
       Bold,
@@ -144,7 +152,32 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
       OrderedList,
       ListItem,
       Image,
-      Uploader,
+      Uploader.configure({
+        upload: async (files) => {
+          if (!uploadFile) {
+            throw new Error('File uploading not supported');
+          }
+
+          const items: File[] = [...files];
+          const upload = (file: File) => {
+            return new Promise<UploaderData>((resolve) => {
+              const reader = new FileReader();
+              reader.addEventListener('load', () => {
+                uploadFile(reader.result as ArrayBuffer, file.type).then(({ url }) => {
+                  resolve({
+                    name: '',
+                    type: file.type,
+                    size: file.size,
+                    url,
+                  });
+                });
+              }, false);
+              reader.readAsArrayBuffer(file);
+            });
+          };
+          return Promise.all(items.map((item) => upload(item)));
+        },
+      }),
       // NB: we use this instead of the tiptap starter kit because it handles input with newlines better
       Markdown,
       Clipboard,
@@ -152,11 +185,19 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
       Gapcursor,
       Dropcursor,
     ],
-    content: children,
+    content: children?.replace(
+      /<Embed\s+url="([^"]+)"\s*\/>/g,
+      (match, url) => `![](${url})`,
+    ),
     onUpdate: () => {
-      const markdownOutput = editor?.storage.markdown.getMarkdown();
+      const markdownOutput = editor?.storage.markdown.getMarkdown()
+        .replace(
+          /!\[[^\]]*\]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/g,
+          (match: string, filename: string) => `<Embed url="${filename.trim()}" />\n`,
+        );
       onChange?.(markdownOutput);
     },
+    immediatelyRender: false,
   });
 
   if (!editor) {
@@ -164,12 +205,12 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange }) =
   }
 
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden">
+    <div className="border border-gray-300 rounded-lg overflow-hidden bg-white">
       <Toolbar editor={editor} />
 
       <EditorContent
         editor={editor}
-        className="prose p-4 min-h-[200px]"
+        className="prose max-w-none px-4 py-3 min-h-[200px]"
       />
     </div>
   );
