@@ -54,7 +54,12 @@ const withDefaultBlueDotNextConfig = async (config) => ({
       webpackConfig.externals.push('winston');
     }
 
-    // Conditionally reuqired, but we don't actually use it
+    // https://github.com/open-telemetry/opentelemetry-js/issues/4173
+    // eslint-disable-next-line no-param-reassign
+    webpackConfig.ignoreWarnings = webpackConfig.ignoreWarnings ?? [];
+    webpackConfig.ignoreWarnings.push({ module: /opentelemetry/, message: /the request of a dependency is an expression/ });
+
+    // Conditionally required, but we don't actually use it
     webpackConfig.externals.push('@opentelemetry/winston-transport');
     webpackConfig.externals.push('@opentelemetry/exporter-jaeger');
 
