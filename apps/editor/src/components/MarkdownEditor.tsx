@@ -32,7 +32,7 @@ import {
   FaCode,
   FaImage,
 } from 'react-icons/fa6';
-import { ClickTarget } from '@bluedot/ui/src/ClickTarget';
+import { ClickTarget } from '@bluedot/ui';
 
 type ToolbarButtonProps = {
   onClick: () => void;
