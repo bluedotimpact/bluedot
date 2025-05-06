@@ -193,7 +193,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       const markdownOutput = editor?.storage.markdown.getMarkdown()
         .replace(
           /!\[[^\]]*\]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/g,
-          (match: unknown, filename: string) => `<Embed url="${filename.trim()}" />\n`,
+          (match: string, filename: string) => `<Embed url="${filename.trim()}" />\n`,
         );
       onChange?.(markdownOutput);
     },

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { JobPosting, jobPostingtable } from '../../../lib/api/db/tables';
+import { JobPosting, jobPostingTable } from '../../../lib/api/db/tables';
 
 export type GetJobsResponse = {
   type: 'success',
@@ -15,7 +15,7 @@ export default makeApiRoute({
     jobs: z.array(z.any()),
   }),
 }, async () => {
-  const allJobs = await db.scan(jobPostingtable);
+  const allJobs = await db.scan(jobPostingTable);
 
   // Sort jobs alphabetically by title
   const sortedJobs = allJobs.sort((a, b) => a.title.localeCompare(b.title));

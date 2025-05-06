@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 import { formula } from 'airtable-ts-formula';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { JobPosting, jobPostingtable } from '../../../../lib/api/db/tables';
+import { JobPosting, jobPostingTable } from '../../../../lib/api/db/tables';
 
 export type GetJobResponse = {
   type: 'success',
@@ -25,8 +25,8 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const job = (await db.scan(jobPostingtable, {
-    filterByFormula: formula(await db.table(jobPostingtable), [
+  const job = (await db.scan(jobPostingTable, {
+    filterByFormula: formula(await db.table(jobPostingTable), [
       'AND',
       ['=', { field: 'slug' }, slug],
     ]),
@@ -47,7 +47,7 @@ export default makeApiRoute({
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
-      const updatedJob = await db.update(jobPostingtable, {
+      const updatedJob = await db.update(jobPostingTable, {
         id: job.id,
         body: body.body,
       });

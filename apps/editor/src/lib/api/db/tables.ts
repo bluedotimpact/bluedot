@@ -45,7 +45,7 @@ export type JobPosting = {
   publicationStatus: string,
 } & Item;
 
-export const jobPostingtable: Table<JobPosting> = {
+export const jobPostingTable: Table<JobPosting> = {
   name: 'Job posting',
   baseId: 'app63L1YChHfS6RJF',
   tableId: 'tblGv8yisIfJMjT6K',
