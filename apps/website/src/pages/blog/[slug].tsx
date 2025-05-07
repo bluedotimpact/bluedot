@@ -12,9 +12,11 @@ import {
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
+import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
 import { GetBlogResponse } from '../api/cms/blogs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
+import { A } from '../../components/Text';
 
 const BlogPostPage = () => {
   const { query: { slug } } = useRouter();
@@ -34,7 +36,7 @@ const BlogPostPage = () => {
   };
 
   const formattedDate = data?.blog?.publishedAt
-    ? new Date(data.blog.publishedAt).toLocaleDateString('en-US', {
+    ? new Date(data.blog.publishedAt * 1000).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -52,8 +54,9 @@ const BlogPostPage = () => {
             <meta name="description" content={`${data.blog.title} - Blog post by ${data.blog.authorName}`} />
           </Head>
           <HeroSection>
+            <HeroMiniTitle>Blog</HeroMiniTitle>
             <HeroH1>{data.blog.title}</HeroH1>
-            <HeroH2>{formattedDate} • {data.blog.authorName}</HeroH2>
+            <HeroH2><A href={data.blog.authorUrl} className="text-white">{data.blog.authorName}</A> • {formattedDate}</HeroH2>
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
