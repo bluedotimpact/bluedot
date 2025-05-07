@@ -6,6 +6,7 @@ import env from '../../lib/api/env';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 
 const s3Client = new S3Client({
+  region: 'minio',
   endpoint: 'https://storage.k8s.bluedot.org',
   forcePathStyle: true,
   credentials: {
@@ -33,7 +34,7 @@ export default makeApiRoute({
     fileUrl: z.string(),
   }),
 }, async (body) => {
-  const fileName = `editor/${randomUUID()}`;
+  const fileName = `editor/${randomUUID()}${getFileExtension(body.contentType)}`;
 
   const { url: uploadUrl, fields } = await createPresignedPost(s3Client, {
     Bucket: BUCKET_NAME,
@@ -56,3 +57,8 @@ export default makeApiRoute({
     fileUrl,
   };
 });
+
+const getFileExtension = (contentType: string) => {
+  const parts = contentType.split('/');
+  return `.${parts[parts.length - 1]}`;
+};
