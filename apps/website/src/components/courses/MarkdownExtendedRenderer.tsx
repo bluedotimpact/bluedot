@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
+import { Collapsible } from '@bluedot/ui';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
@@ -51,6 +52,7 @@ export type MarkdownRendererProps = {
 export const getSupportedComponents = () => ({
   Greeting,
   Embed,
+  Collapsible,
   Callout,
   Exercise,
   ResourceListCourseContent,
