@@ -54,7 +54,7 @@ export const BlogListItem = ({ blog }: {
   blog: Omit<CmsBlog, 'body'>
 }) => {
   const url = `/blog/${blog.slug}`;
-  const formattedDate = new Date(blog.publishedAt).toLocaleDateString('en-US', {
+  const formattedDate = new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

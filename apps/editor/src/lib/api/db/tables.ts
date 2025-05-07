@@ -74,6 +74,7 @@ export type Project = {
   body: string,
   authorName: string,
   authorUrl: string,
+  coverImageSrc: string,
   publishedAt: number,
   publicationStatus: string,
   course: string,
@@ -81,7 +82,7 @@ export type Project = {
 } & Item;
 
 export const projectTable: Table<Project> = {
-  name: 'Projects',
+  name: 'Project',
   baseId: 'app63L1YChHfS6RJF',
   tableId: 'tblYCFWqPy29YIWe6',
   mappings: {
@@ -90,6 +91,7 @@ export const projectTable: Table<Project> = {
     body: 'fldjW7BnaXVCttBQn',
     authorName: 'fldGpZHynFhhAx13S',
     authorUrl: 'fldJiHv2mFQzEdz7L',
+    coverImageSrc: 'fldliLiVCys4rLX7S',
     publishedAt: 'fldoTpdgfEBNQgej9',
     publicationStatus: 'fldn7RrnTe80QUEt6',
     course: 'fldNHNMuxmQjaokmY',
@@ -101,6 +103,7 @@ export const projectTable: Table<Project> = {
     body: 'string',
     authorName: 'string',
     authorUrl: 'string',
+    coverImageSrc: 'string',
     publishedAt: 'number',
     publicationStatus: 'string',
     course: 'string',
