@@ -104,6 +104,20 @@ export const services: ServiceDefinition[] = [
     hosts: ['editor.k8s.bluedot.org'],
   },
   {
+    name: 'bluedot-website-old-lander',
+    spec: {
+      containers: [{
+        name: 'bluedot-website-old-lander',
+        image: 'ghcr.io/bluedotimpact/bluedot-website-old-lander:latest',
+        env: [
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['website-old-lander.k8s.bluedot.org'],
+  },
+  {
     name: 'bluedot-miniextensions-proxy',
     spec: {
       containers: [{

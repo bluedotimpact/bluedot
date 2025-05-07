@@ -1,0 +1,47 @@
+{
+  "name": "@bluedot/website-old-lander",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "shx cp -n .env.local.template .env.local",
+    "start": "next dev -p 8000",
+    "start:docker": "docker-scripts start",
+    "build": "next build",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "deploy:cd": "docker-scripts deploy"
+  },
+  "dependencies": {
+    "@bluedot/ui": "*",
+    "airtable-ts": "^1.5.0",
+    "axios-hooks": "^5.0.2",
+    "http-errors": "^2.0.0",
+    "next": "^15.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@bluedot/docker-scripts": "*",
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@testing-library/react": "^15.0.2",
+    "@types/node": "^22.13.2",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "happy-dom": "^14.7.1",
+    "node-mocks-http": "^1.14.1",
+    "postcss": "^8.4.38",
+    "shx": "^0.4.0",
+    "tailwindcss": "^4.0.6",
+    "typescript": "^5.8.3",
+    "vitest": "^1.5.0"
+  }
+}
