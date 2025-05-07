@@ -50,7 +50,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             >
               <a
                 class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
-                href="https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/"
+                href="/projects/contextual-constitutional-ai"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -88,7 +88,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             >
               <a
                 class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
-                href="https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/"
+                href="/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -126,7 +126,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             >
               <a
                 class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
-                href="https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/"
+                href="/projects/societal-adaptation-to-ai-human-labor-automation"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -164,7 +164,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
             >
               <a
                 class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] projects__project"
-                href="https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/"
+                href="/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -254,7 +254,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
       </div>
       <a
         class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter projects__link h-fit py-3"
-        href="https://aisafetyfundamentals.com/projects/"
+        href="/projects"
         tabindex="0"
       >
         <span

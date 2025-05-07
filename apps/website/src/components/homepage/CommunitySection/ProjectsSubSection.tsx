@@ -1,6 +1,7 @@
 import {
   Card, CTALinkOrButton, SectionHeading, SlideList,
 } from '@bluedot/ui';
+import { ROUTES } from '../../../lib/routes';
 
 type Project = {
   id: number;
@@ -16,28 +17,28 @@ const projects: Project[] = [
     title: 'Contextual Constitutional AI',
     authorName: 'Akshat Naik',
     imageSrc: '/images/project-winners/akshat-naik.png',
-    ctaUrl: 'https://aisafetyfundamentals.com/projects/contextual-constitutional-ai/',
+    ctaUrl: `${ROUTES.projects.url}/contextual-constitutional-ai`,
   },
   {
     id: 2,
     title: 'Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration',
     authorName: 'Ella Duus',
     imageSrc: '/images/project-winners/ella-duus.png',
-    ctaUrl: 'https://aisafetyfundamentals.com/projects/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration/',
+    ctaUrl: `${ROUTES.projects.url}/safety-haven-justifying-and-exploring-an-antitrust-safe-haven-for-ai-safety-research-collaboration`,
   },
   {
     id: 3,
     title: 'Societal Adaptation to AI Human-Labor Automation',
     authorName: 'Yuval Rymon',
     imageSrc: '/images/project-winners/yuval-rymon.png',
-    ctaUrl: 'https://aisafetyfundamentals.com/projects/societal-adaptation-to-ai-human-labor-automation/',
+    ctaUrl: `${ROUTES.projects.url}/societal-adaptation-to-ai-human-labor-automation`,
   },
   {
     id: 4,
     title: 'Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research',
     authorName: 'Naci Cankaya',
     imageSrc: '/images/project-winners/naci-cankaya.png',
-    ctaUrl: 'https://aisafetyfundamentals.com/projects/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research/',
+    ctaUrl: `${ROUTES.projects.url}/are-you-secretly-training-ai-methods-for-uncovering-covert-ai-training-a-framework-for-feasibility-and-future-research`,
   },
 ];
 
@@ -67,7 +68,7 @@ const ProjectsSubSection = () => {
         </SlideList>
         <CTALinkOrButton
           className="projects__link h-fit py-3"
-          url="https://aisafetyfundamentals.com/projects/"
+          url={ROUTES.projects.url}
           variant="secondary"
           withChevron
         >
