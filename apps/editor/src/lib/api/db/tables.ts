@@ -66,3 +66,44 @@ export const jobPostingTable: Table<JobPosting> = {
     publicationStatus: 'string',
   },
 };
+
+export type Project = {
+  id: string,
+  title: string,
+  slug: string,
+  body: string,
+  authorName: string,
+  authorUrl: string,
+  publishedAt: number,
+  publicationStatus: string,
+  course: string,
+  tag: string[],
+} & Item;
+
+export const projectTable: Table<Project> = {
+  name: 'Projects',
+  baseId: 'app63L1YChHfS6RJF',
+  tableId: 'tblYCFWqPy29YIWe6',
+  mappings: {
+    title: 'fldGyQnG2U6q5p5ny',
+    slug: 'fldX2rzTLpj9P9fdP',
+    body: 'fldjW7BnaXVCttBQn',
+    authorName: 'fldGpZHynFhhAx13S',
+    authorUrl: 'fldJiHv2mFQzEdz7L',
+    publishedAt: 'fldoTpdgfEBNQgej9',
+    publicationStatus: 'fldn7RrnTe80QUEt6',
+    course: 'fldNHNMuxmQjaokmY',
+    tag: 'fldeTqWZOvybdopnK',
+  },
+  schema: {
+    title: 'string',
+    slug: 'string',
+    body: 'string',
+    authorName: 'string',
+    authorUrl: 'string',
+    publishedAt: 'number',
+    publicationStatus: 'string',
+    course: 'string',
+    tag: 'string[]',
+  },
+};

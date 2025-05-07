@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import { formula, AirtableTsTable } from 'airtable-ts-formula';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { Blog, blogTable } from '../../../../lib/api/db/tables';
+import { Project, projectTable } from '../../../../lib/api/db/tables';
 
-export type GetBlogResponse = {
+export type GetProjectResponse = {
   type: 'success',
-  blog: Blog,
+  project: Project,
 };
 
 export default makeApiRoute({
@@ -17,7 +17,7 @@ export default makeApiRoute({
   }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
-    blog: z.any(),
+    project: z.any(),
   }),
 }, async (body, { raw }) => {
   const { slug } = raw.req.query;
@@ -25,34 +25,36 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const blog = (await db.scan(blogTable, {
-    filterByFormula: formula(await db.table(blogTable), ['AND',
+  const project = (await db.scan(projectTable, {
+    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
+    filterByFormula: formula(await db.table(projectTable) as AirtableTsTable<Project>, [
+      'AND',
       ['=', { field: 'slug' }, slug],
     ]),
   }))[0];
 
-  if (!blog) {
-    throw new createHttpError.NotFound('Blog post not found');
+  if (!project) {
+    throw new createHttpError.NotFound('Project posting not found');
   }
 
   switch (raw.req.method) {
     case 'GET': {
       return {
         type: 'success' as const,
-        blog,
+        project,
       };
     }
     case 'PUT': {
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
-      const updatedBlog = await db.update(blogTable, {
-        id: blog.id,
+      const updatedProject = await db.update(projectTable, {
+        id: project.id,
         body: body.body,
       });
       return {
         type: 'success' as const,
-        blog: updatedBlog,
+        blog: updatedProject,
       };
     }
     default: {
