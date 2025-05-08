@@ -41,8 +41,39 @@ const JobPostingPage = () => {
       {data?.job && (
         <>
           <Head>
-            <title>{`${data.job.title} | BlueDot Impact`}</title>
-            <meta name="description" content={data.job.subtitle} />
+            <title>{`${data?.job?.title} | BlueDot Impact`}</title>
+            <meta name="description" content={data?.job?.subtitle} />
+            <script
+              type="application/ld+json"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'JobPosting',
+                  title: data?.job?.title,
+                  description: data?.job?.body,
+                  datePosted: data?.job?.publishedAt,
+                  hiringOrganization: {
+                    '@type': 'Organization',
+                    name: 'BlueDot Impact',
+                    sameAs: 'https://bluedot.org',
+                  },
+                  jobLocation: {
+                    '@type': 'Place',
+                    address: {
+                      '@type': 'PostalAddress',
+                      addressLocality: 'London',
+                      addressCountry: 'United Kingdom',
+                    },
+                  },
+                  identifier: data?.job?.id,
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': `${ROUTES.joinUs.url}/${slug}`,
+                  },
+                }),
+              }}
+            />
           </Head>
           <HeroSection>
             <HeroH1>{data.job.title}</HeroH1>
