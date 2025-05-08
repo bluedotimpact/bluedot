@@ -8,12 +8,15 @@ import {
   CookieBanner, Footer, constants,
 } from '@bluedot/ui';
 import { useEffect } from 'react';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { Analytics } from '../components/Analytics';
 import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+  const fromSiteParam = useRouter().query.from_site as string;
+  const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
+
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
       // eslint-disable-next-line no-console
@@ -69,6 +72,11 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           : (
             <>
               <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+              {fromSite && (
+                <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
+                  <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
+                </AnnouncementBanner>
+              )}
               <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
                 <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
               </AnnouncementBanner>

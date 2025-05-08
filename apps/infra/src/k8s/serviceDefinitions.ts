@@ -43,7 +43,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-website-proxy:latest',
       }],
     },
-    hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org'],
+    hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org', 'www.aisafetyfundamentals.com', 'aisafetyfundamentals.com', 'www.biosecurityfundamentals.com', 'biosecurityfundamentals.com'],
   },
   {
     name: 'bluedot-website',
