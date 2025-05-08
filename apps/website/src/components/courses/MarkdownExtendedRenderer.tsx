@@ -7,6 +7,7 @@ import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
 import { Collapsible } from '@bluedot/ui';
+import remarkGfm from 'remark-gfm';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
@@ -67,7 +68,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
 
     (async () => {
       const evalResult = await evaluate(children, {
-        remarkPlugins: [remarkUnescapeMdxAttributes],
+        remarkPlugins: [remarkUnescapeMdxAttributes, remarkGfm],
         Fragment: React.Fragment,
         jsx: React.createElement,
         jsxs: React.createElement,
