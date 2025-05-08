@@ -52,6 +52,34 @@ const BlogPostPage = () => {
           <Head>
             <title>{`${data.blog.title} | BlueDot Impact`}</title>
             <meta name="description" content={`${data.blog.title} - Blog post by ${data.blog.authorName}`} />
+            <script
+              type="application/ld+json"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'BlogPosting',
+                  headline: data.blog.title,
+                  author: {
+                    '@type': 'Person',
+                    name: data.blog.authorName,
+                    url: data.blog.authorUrl,
+                  },
+                  datePublished: new Date(data.blog.publishedAt * 1000).toISOString(),
+                  dateModified: new Date(data.blog.publishedAt * 1000).toISOString(),
+                  mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': `${ROUTES.blog.url}/${slug}`,
+                  },
+                  description: data.blog.title,
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'BlueDot Impact',
+                    url: 'https://bluedot.org',
+                  },
+                }),
+              }}
+            />
           </Head>
           <HeroSection>
             <HeroMiniTitle>Blog</HeroMiniTitle>
