@@ -124,7 +124,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <a
                       class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="https://aisafetyfundamentals.com/economics-of-tai/"
+                      href="/courses/economics-of-tai"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -195,7 +195,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <a
                       class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="https://aisafetyfundamentals.com/alignment/"
+                      href="/courses/alignment"
                     >
                       <div
                         class="card__image-container w-full mb-4"
@@ -266,7 +266,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <a
                       class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="https://aisafetyfundamentals.com/governance/"
+                      href="/courses/governance"
                     >
                       <div
                         class="card__image-container w-full mb-4"
