@@ -18,7 +18,7 @@ export const COURSES: Course[] = [
     courseType: 'Self-paced',
     courseLength: '',
     imageSrc: '/images/courses/future-of-ai.png',
-    url: '/courses/future-of-ai/',
+    url: '/courses/future-of-ai',
     isNew: true,
     isFeatured: true,
   },
@@ -28,7 +28,7 @@ export const COURSES: Course[] = [
     courseType: 'In-depth course',
     courseLength: '9 weeks',
     imageSrc: '/images/courses/econ.jpg',
-    url: 'https://aisafetyfundamentals.com/economics-of-tai/',
+    url: '/courses/economics-of-tai',
   },
   {
     title: 'AI Alignment',
@@ -36,7 +36,7 @@ export const COURSES: Course[] = [
     courseType: 'In-depth course',
     courseLength: '12 weeks',
     imageSrc: '/images/courses/alignment.jpg',
-    url: 'https://aisafetyfundamentals.com/alignment/',
+    url: '/courses/alignment',
   },
   {
     title: 'AI Governance',
@@ -44,7 +44,7 @@ export const COURSES: Course[] = [
     courseType: 'In-depth course',
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
-    url: 'https://aisafetyfundamentals.com/governance/',
+    url: '/courses/governance',
   },
 ] as const;
 
