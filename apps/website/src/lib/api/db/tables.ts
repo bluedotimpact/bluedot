@@ -430,6 +430,7 @@ export type CmsJobPosting = {
   body: string,
   /** "Published" | "Unlisted" | "Unpublished" */
   publicationStatus: string,
+  publishedAt: number | null,
 } & Item;
 
 export const cmsJobPostingTable: Table<CmsJobPosting> = {
@@ -443,6 +444,7 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     applicationUrl: 'fldtkliaGs8JLy0BS',
     body: 'fldiBF58TPRIMhgvq',
     publicationStatus: 'fld4cZjg7YiEDaZXg',
+    publishedAt: 'fldI1yVd0G5eCvWiy',
   },
   schema: {
     title: 'string',
@@ -451,6 +453,7 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     applicationUrl: 'string',
     body: 'string',
     publicationStatus: 'string',
+    publishedAt: 'number | null',
   },
 };
 
