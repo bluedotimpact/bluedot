@@ -24,7 +24,7 @@ import {
   Dropcursor,
   UploaderData,
 } from '@syfxlin/tiptap-starter-kit';
-import { Markdown } from 'tiptap-markdown';
+import { Markdown, MarkdownNodeSpec } from 'tiptap-markdown';
 import {
   FaBold,
   FaItalic,
@@ -148,10 +148,45 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       Blockquote,
       CodeBlock,
       HorizontalRule,
-      BulletList,
-      OrderedList,
+      // These custom extensions are needed when serializing Markdown for Airtable, because it requires 4 spaces for indentation
+      BulletList.extend({
+        addStorage() {
+          return {
+            markdown: {
+              serialize: (state, node) => {
+                state.renderList(node, '    ', () => `${node.attrs.bullet || '*'} `);
+              },
+            } as MarkdownNodeSpec,
+          };
+        },
+      }),
+      OrderedList.extend({
+        addStorage() {
+          return {
+            markdown: {
+              serialize: (state, node) => {
+                const start = node.attrs.order || 1;
+                state.renderList(node, '    ', (i) => {
+                  const nStr = String(start + i);
+                  return `${nStr}. `;
+                });
+              },
+            } as MarkdownNodeSpec,
+          };
+        },
+      }),
       ListItem,
-      Image,
+      Image.extend({
+        addStorage() {
+          return {
+            markdown: {
+              serialize: (state, node) => {
+                state.write(`<Embed url="${node.attrs.src}" />`);
+              },
+            } as MarkdownNodeSpec,
+          };
+        },
+      }),
       Uploader.configure({
         upload: async (files) => {
           if (!uploadFile) {
@@ -190,11 +225,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       (match, url) => `![](${url})`,
     ),
     onUpdate: () => {
-      const markdownOutput = editor?.storage.markdown.getMarkdown()
-        .replace(
-          /!\[[^\]]*\]\((?<filename>.*?)(?="|\))(?<optionalpart>".*")?\)/g,
-          (match: string, filename: string) => `<Embed url="${filename.trim()}" />\n`,
-        );
+      const markdownOutput = editor?.storage.markdown.getMarkdown();
       onChange?.(markdownOutput);
     },
     immediatelyRender: false,
