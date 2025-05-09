@@ -7,7 +7,7 @@ IMAGE_NAME="bluedot-$APP_NAME-production"
 VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 
 # Use the corresponding env file for production environment.
-cp .env.production.template .env.production
+cp .env.production.template .env.production.local
 
 # Build
 APP_NAME=$APP_NAME VERSION_TAG=$VERSION_TAG npm run build --if-present
