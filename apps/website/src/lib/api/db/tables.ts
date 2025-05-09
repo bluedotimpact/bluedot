@@ -349,8 +349,6 @@ export type User = {
   utmSource: string,
   utmCampaign: string,
   utmContent: string,
-  courseSitesVisitedCsv: string,
-  completedMoocAt: number | null,
 } & Item;
 
 export const userTable: Table<User> = {
@@ -367,8 +365,6 @@ export const userTable: Table<User> = {
     utmSource: 'fldl1gTMXI44BvCUS',
     utmCampaign: 'fldcNcqMxSFpmiGWT',
     utmContent: 'fldlpjcdh7jpZhHhv',
-    courseSitesVisitedCsv: 'fldgbXANYvYCEw4OV',
-    completedMoocAt: 'fldTCSAIKNs4nPfDn',
   },
   schema: {
     email: 'string',
@@ -380,8 +376,6 @@ export const userTable: Table<User> = {
     utmSource: 'string',
     utmCampaign: 'string',
     utmContent: 'string',
-    courseSitesVisitedCsv: 'string',
-    completedMoocAt: 'number | null',
   },
 };
 
