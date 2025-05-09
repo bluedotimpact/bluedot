@@ -16,7 +16,6 @@ export type GetUserResponse = {
 export type PatchUserBody = {
   name?: string;
   referredById?: string;
-  completedMoocAt?: number;
 };
 
 export default makeApiRoute({
@@ -24,7 +23,6 @@ export default makeApiRoute({
   requestBody: z.object({
     name: z.string().optional(),
     referredById: z.string().optional(),
-    completedMoocAt: z.number().optional(),
   }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
