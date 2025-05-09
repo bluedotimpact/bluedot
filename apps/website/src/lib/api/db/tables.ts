@@ -342,7 +342,7 @@ export type User = {
   id: string,
   email: string,
   createdAt: string,
-  lastSeenAt: string,
+  lastSeenAt: string | null,
   name: string,
   referralId: string,
   referredById: string,
@@ -373,7 +373,7 @@ export const userTable: Table<User> = {
   schema: {
     email: 'string',
     createdAt: 'string',
-    lastSeenAt: 'string',
+    lastSeenAt: 'string | null',
     name: 'string',
     referralId: 'string',
     referredById: 'string',
