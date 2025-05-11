@@ -1,6 +1,11 @@
-import { pgTable, text, boolean } from 'drizzle-orm/pg-core';
+import {
+  pgTable, text, boolean, timestamp,
+} from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
-import { timestamp } from 'drizzle-orm/pg-core';
+
+// FIXME envvar handling
+const COURSE_BUILDER_BASE_ID = process.env.COURSE_BUILDER_BASE_ID || 'appbiNKDcn1sGPGOG';
+const APPLICATIONS_BASE_ID = process.env.APPLICATIONS_BASE_ID || 'appnJbsG1eWbAdEvf';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -17,7 +22,7 @@ export const metaTable = pgTable('meta', {
 });
 
 export const userTable = pgAirtable('user', {
-  baseId: 'appgnRJNcgW90cbj0', // Copy of "Course builder" that isn't connected to anything (TODO make it possible to use env vars for this)
+  baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblCgeKADNDSCXPpR',
   columns: {
     email: {

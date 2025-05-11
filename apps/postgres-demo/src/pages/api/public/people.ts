@@ -9,10 +9,12 @@ export default makeApiRoute({
   responseBody: z.any(),
 }, async () => {
   // Do some stuff with users as a test
-  await db.insert(userTable).values({
+  await db.airtableInsert(userTable, {
     id: Math.random().toString(36).substring(2, 15),
     email: 'johndoe@example.com',
   });
+
+  console.log({ db });
 
   const allUsers = await db.select().from(userTable);
 

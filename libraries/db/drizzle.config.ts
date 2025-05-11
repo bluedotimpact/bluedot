@@ -5,6 +5,7 @@ export default defineConfig({
   schema: './src/schema.ts',
   dialect: 'postgresql',
   dbCredentials: {
+    // FIXME envvar handling
     url: process.env.PG_URL!,
   },
 });

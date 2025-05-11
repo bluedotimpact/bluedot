@@ -8,7 +8,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { Pool } from 'pg';
 
-type PgAirtableColumnInput = {
+export type PgAirtableColumnInput = {
   pgColumn: PgColumnBuilderBase;
   airtableId: string;
 };
