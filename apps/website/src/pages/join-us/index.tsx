@@ -39,11 +39,11 @@ const JoinUsPage = () => {
         </HeroCTAContainer>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <CultureSection />
-      <ValuesSection />
       {loading && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
       {error && <ErrorSection error={error} />}
       {data?.jobs && <JobsListSection jobs={data.jobs} />}
+      <CultureSection />
+      <ValuesSection />
     </div>
   );
 };
