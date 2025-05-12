@@ -95,6 +95,43 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </nav>
     </div>
     <section
+      class="section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+          >
+            Careers at BlueDot Impact
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="progress-dots flex justify-center space-x-2 my-6"
+        >
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 0ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 150ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 300ms;"
+          />
+        </div>
+      </div>
+    </section>
+    <section
       class="section section-body culture-section"
     >
       <div
@@ -375,43 +412,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
               </svg>
             </button>
           </div>
-        </div>
-      </div>
-    </section>
-    <section
-      class="section section-body"
-    >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Careers at BlueDot Impact
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <div
-          class="progress-dots flex justify-center space-x-2 my-6"
-        >
-          <span
-            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-            style="animation-delay: 0ms;"
-          />
-          <span
-            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-            style="animation-delay: 150ms;"
-          />
-          <span
-            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-            style="animation-delay: 300ms;"
-          />
         </div>
       </div>
     </section>
