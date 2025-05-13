@@ -13,7 +13,7 @@ export const GoogleTagManager: React.FC = () => {
 const ActiveGoogleTagManager: React.FC = () => {
   return (
     <>
-      <NextGoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_GTM_ID}`} />;
+      <NextGoogleTagManager gtmId={`${process.env.NEXT_PUBLIC_GTM_ID}`} />
       <GoogleTagManagerConsentListener />
     </>
   );

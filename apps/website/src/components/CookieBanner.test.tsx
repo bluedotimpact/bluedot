@@ -2,10 +2,11 @@ import {
   beforeEach,
   describe,
   expect,
+  MockedFunction,
   test,
   vi,
 } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { CookieBanner } from './CookieBanner';
 import { useConsentStore } from './analytics/consent';
 
@@ -30,15 +31,15 @@ vi.mock('./analytics/consent', () => {
 
 describe('CookieBanner', () => {
   // Mock functions for the store
-  let mockAccept: ReturnType<typeof vi.fn>;
-  let mockReject: ReturnType<typeof vi.fn>;
+  let mockAccept: MockedFunction<() => void>;
+  let mockReject: MockedFunction<() => void>;
   let mockState: { isConsented: boolean | undefined, accept: () => void, reject: () => void };
 
   beforeEach(() => {
     mockState = useConsentStore.getState();
     mockState.isConsented = undefined;
-    mockAccept = mockState.accept as unknown as ReturnType<typeof vi.fn>;
-    mockReject = mockState.reject as unknown as ReturnType<typeof vi.fn>;
+    mockAccept = vi.mocked(mockState.accept);
+    mockReject = vi.mocked(mockState.reject);
   });
 
   test('renders as expected', () => {
@@ -47,24 +48,19 @@ describe('CookieBanner', () => {
   });
 
   test('calls accept method from consent store when accepted', () => {
-    const { container } = render(<CookieBanner />);
-    const acceptButton = container.querySelector('.cookie-banner__button--accept');
+    render(<CookieBanner />);
+    const acceptButton = screen.getByText('Accept all');
 
-    expect(acceptButton).not.toBeNull();
-
-    fireEvent.click(acceptButton!);
+    fireEvent.click(acceptButton);
 
     expect(mockAccept).toHaveBeenCalled();
   });
 
   test('calls reject method from consent store when rejected', () => {
-    const { container } = render(<CookieBanner />);
-    const rejectButton = container.querySelector('.cookie-banner__button--reject');
+    render(<CookieBanner />);
+    const rejectButton = screen.getByText('Reject all');
 
-    expect(rejectButton).not.toBeNull();
-
-    fireEvent.click(rejectButton!);
-
+    fireEvent.click(rejectButton);
     expect(mockReject).toHaveBeenCalled();
   });
 
