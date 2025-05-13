@@ -1,9 +1,7 @@
 import {
-  CTALinkOrButton,
   HeroSection,
   HeroH1,
   HeroH2,
-  HeroCTAContainer,
   Section,
   Breadcrumbs,
   BluedotRoute,
@@ -13,9 +11,9 @@ import {
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { ROUTES } from '../../lib/routes';
-import { GetJobResponse } from '../api/cms/jobs/[slug]';
-import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
+import { GetAshbyJobsResponse } from '../../components/join-us/JobsListSection';
 
 const JobPostingPage = () => {
   const { query: { ashbyId } } = useRouter();
@@ -23,15 +21,15 @@ const JobPostingPage = () => {
     return 'Invalid job Ashby id';
   }
 
-  // TODO: get from Ashby API, either directly or via their embed code
-  // https://www.ashbyhq.com/job-board-embed-examples/full-job-board
-  const [{ data, loading, error }] = useAxios<GetJobResponse>({
+  const [{ data, loading, error }] = useAxios<GetAshbyJobsResponse>({
     method: 'get',
-    url: `/api/cms/jobs/${ashbyId}`,
+    url: 'https://api.ashbyhq.com/posting-api/job-board/bluedot',
   });
 
+  const job = data?.jobs.find((j) => j.id === ashbyId);
+
   const currentRoute: BluedotRoute = {
-    title: data?.job?.title || 'Job Posting',
+    title: job?.title || 'Job Posting',
     url: `${ROUTES.joinUs.url}/${ashbyId}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
@@ -40,11 +38,11 @@ const JobPostingPage = () => {
     <div>
       {loading && <ProgressDots />}
       {error && <ErrorSection error={error} />}
-      {data?.job && (
+      {job && (
         <>
           <Head>
-            <title>{`${data?.job?.title} | BlueDot Impact`}</title>
-            <meta name="description" content={data?.job?.subtitle} />
+            <title>{`${job?.title} | BlueDot Impact`}</title>
+            <meta name="description" content={job.location} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
@@ -52,9 +50,9 @@ const JobPostingPage = () => {
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
                   '@type': 'JobPosting',
-                  title: data?.job?.title,
-                  description: data?.job?.body,
-                  datePosted: data?.job?.publishedAt,
+                  title: job.title,
+                  description: job.descriptionHtml,
+                  datePosted: job.publishedAt,
                   hiringOrganization: {
                     '@type': 'Organization',
                     name: 'BlueDot Impact',
@@ -68,7 +66,7 @@ const JobPostingPage = () => {
                       addressCountry: 'United Kingdom',
                     },
                   },
-                  identifier: data?.job?.id,
+                  identifier: job.id,
                   mainEntityOfPage: {
                     '@type': 'WebPage',
                     '@id': `${ROUTES.joinUs.url}/${ashbyId}`,
@@ -78,28 +76,34 @@ const JobPostingPage = () => {
             />
           </Head>
           <HeroSection>
-            <HeroH1>{data.job.title}</HeroH1>
-            {data.job.subtitle && <HeroH2>{data.job.subtitle}</HeroH2>}
-            {data.job.applicationUrl && (
-              <HeroCTAContainer>
-                <CTALinkOrButton url={data.job.applicationUrl}>Apply Now</CTALinkOrButton>
-              </HeroCTAContainer>
-            )}
+            <HeroH1>{job.title}</HeroH1>
+            {job.location && <HeroH2>{job.location}</HeroH2>}
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
-            <MarkdownExtendedRenderer>
-              {data.job.body}
-            </MarkdownExtendedRenderer>
-            {data.job.applicationUrl && (
-              <div className="my-8">
-                <CTALinkOrButton url={data.job.applicationUrl}>Apply Now</CTALinkOrButton>
-              </div>
-            )}
+            {/* eslint-disable-next-line react/no-danger */}
+            <div className="prose" dangerouslySetInnerHTML={{ __html: job.descriptionHtml }} />
+            <AshbyApplicationFormEmbed id={ashbyId} />
           </Section>
         </>
       )}
     </div>
+  );
+};
+
+const AshbyApplicationFormEmbed = ({ id }: { id: string }) => {
+  return (
+    <>
+      <div id="ashby_embed" className="application-form-embed-container mt-6" />
+      <Script
+        id="ashby-script"
+        src="https://jobs.ashbyhq.com/bluedot/embed?version=2"
+        onLoad={() => {
+          // eslint-disable-next-line no-underscore-dangle
+          window.__Ashby.iFrame().load({ jobPostingId: id, displayMode: 'application-form-only', autoScroll: false });
+        }}
+      />
+    </>
   );
 };
 
