@@ -204,12 +204,16 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
         if (typeof user.id_token !== 'string') {
           throw new Error('Bad login response: user.id_token is missing or not a string');
         }
+        if (typeof user.profile.email !== 'string') {
+          throw new Error('Bad login response: user.profile.email is missing or not a string');
+        }
 
         const auth = {
           expiresAt: user.expires_at * 1000,
           token: user.id_token,
           refreshToken: user.refresh_token,
           oidcSettings: loginPreset.oidcSettings,
+          email: user.profile.email,
         };
         setAuth(auth);
         if (onLoginComplete) {
