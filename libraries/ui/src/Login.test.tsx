@@ -43,11 +43,11 @@ describe('LoginRedirectPage', () => {
     }, expect.anything());
   });
 
-  test('if not authed, should createSigninRequest with with redirect_to query param', async () => {
+  test.skip('if not authed, should createSigninRequest with with redirect_to query param', async () => {
     // TODO #720
   });
 
-  test('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
+  test.skip('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
     // TODO #720
   });
 });

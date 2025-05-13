@@ -47,6 +47,7 @@ export const loggedInStory = () => ({
     useAuthStore.getState().setAuth({
       token: 'mockToken',
       expiresAt: Date.now() + 3600000, // Expires in 1 hour
+      email: 'test+storybook@bluedot.org',
     });
   },
 });

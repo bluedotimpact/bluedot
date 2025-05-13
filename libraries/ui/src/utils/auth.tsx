@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import React from 'react';
 import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
+import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
@@ -29,6 +30,7 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
     expiresAt: user.expires_at * 1000,
     refreshToken: user.refresh_token ?? auth.refreshToken,
     oidcSettings: auth.oidcSettings,
+    email: user.profile.email ?? auth.email,
   };
 };
 
@@ -38,6 +40,7 @@ export type Auth = {
   expiresAt: number,
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
+  email: string,
 };
 
 export const useAuthStore = create<{
@@ -56,8 +59,11 @@ export const useAuthStore = create<{
 
     if (!auth) {
       set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null });
+      posthog.reset();
       return;
     }
+
+    posthog.identify(auth.email);
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
@@ -99,7 +105,7 @@ export const useAuthStore = create<{
   internal_refreshTimer: null,
 }), {
   name: 'bluedot_auth',
-  version: 20250428,
+  version: 20250513,
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
