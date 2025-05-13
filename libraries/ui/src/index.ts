@@ -15,9 +15,6 @@ export type { ClickTargetProps } from './ClickTarget';
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
 
-export { CookieBanner } from './CookieBanner';
-export type { CookieBannerProps } from './CookieBanner';
-
 export { CourseCard } from './CourseCard';
 export type { CourseCardProps } from './CourseCard';
 

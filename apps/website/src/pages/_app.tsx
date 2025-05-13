@@ -1,59 +1,26 @@
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import posthog from 'posthog-js';
-import { PostHogProvider } from 'posthog-js/react';
-import {
-  CTALinkOrButton,
-  CookieBanner, Footer, constants,
-} from '@bluedot/ui';
-import { useEffect } from 'react';
-import { Router, useRouter } from 'next/router';
-import { Analytics } from '../components/Analytics';
+import { CTALinkOrButton, Footer, constants } from '@bluedot/ui';
+import { useRouter } from 'next/router';
+import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
+import { PostHogProvider } from '../components/analytics/PostHogProvider';
 import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
+import { CookieBanner } from '../components/CookieBanner';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSiteParam = useRouter().query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
 
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-      // eslint-disable-next-line no-console
-      console.warn('NEXT_PUBLIC_POSTHOG_KEY is missing, disabling analytics...');
-      return undefined;
-    }
-
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: 'https://analytics.k8s.bluedot.org',
-      loaded: (instance) => {
-        // Can't specify debug reliably via config :(
-        // https://github.com/PostHog/posthog-js/issues/1387
-        const shouldDebug = process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true';
-        // This if prevents unnecessary logs about debug mode changing
-        if (instance.config.debug !== shouldDebug) {
-          instance.debug(shouldDebug);
-        }
-      },
-      persistence: localStorage.getItem('cookies') === 'accepted' ? 'localStorage+cookie' : 'memory',
-    });
-
-    // Setup page view tracking
-    const handleRouteChange = () => posthog.capture('$pageview');
-    Router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, []);
-
   return (
-    <PostHogProvider client={posthog}>
+    <PostHogProvider>
       <Head>
         <title>BlueDot Impact</title>
         <link rel="icon" href="images/logo/favicon/favicon.ico" />
         <link rel="icon" type="image/svg+xml" href="images/logo/favicon/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
+        <GoogleTagManager />
       </Head>
       {/* TODO: remove this logic after people stop going here */}
       {/* eslint-disable-next-line no-nested-ternary */}
@@ -87,7 +54,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             </>
           ))}
       <CookieBanner />
-      <Analytics />
     </PostHogProvider>
   );
 };
