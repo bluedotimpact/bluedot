@@ -16,6 +16,7 @@ import {
 import {
   FaAward,
   FaBoltLightning,
+  FaClock,
   FaLightbulb,
 } from 'react-icons/fa6';
 
@@ -29,14 +30,15 @@ const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) 
     <div className="future-of-ai-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
       <H3 className="future-of-ai-lander__banner-title">{title}</H3>
       <CTALinkOrButton className="future-of-ai-lander__banner-cta" url={ctaUrl} withChevron>
-        Start learning for free
+        Start the free course
       </CTALinkOrButton>
     </div>
   );
 };
 
+const customMiniTitle = 'The Future of AI Course';
 const customTitle = 'AI is shaping the future. So can you.';
-const customDescription = 'A free 2-hour course that explains AI simply — empowering you to help build a future that works for all of us.';
+const customDescription = 'Take this free online course to understand AI’s impact and be part of the conversation about its future.';
 
 const quotes: Quote[] = [
   {
@@ -82,33 +84,32 @@ const testimonials: Testimonial[] = [
 
 const features = [
   {
-    title: 'No-Nonsense Learning',
-    description: 'Lost in AI buzzwords? Our bite-sized modules transform complex concepts into clear language. You\'ll quickly build the vocabulary to discuss AI confidently at work and with friends.',
-    ctaText: 'Start learning for free',
+    title: 'Learn on your terms',
+    description: 'Cover the fundamentals in just 2 hours. Go at your own pace, learn when it suits you, and finish feeling confident and informed– all for free.',
+    ctaText: 'Get started',
     desktopImageSrc: '/images/lander/foai/learn-desktop.png',
     mobileImageSrc: '/images/lander/foai/learn-mobile.png',
   },
   {
-    title: 'Try it yourself',
-    description: 'Don\'t just read about AI—use it. Our interactive demos let you create with cutting-edge tools right in your browser.',
-    ctaText: 'Experience AI',
+    title: 'Try cutting-edge tools',
+    description: 'Get hands-on with the AI tools making headlines. Interactive demos let you experience the future of AI– not just read about it.',
+    ctaText: 'Explore AI in action',
     desktopImageSrc: '/images/lander/foai/try-desktop.png',
     mobileImageSrc: '/images/lander/foai/try-mobile.png',
   },
   {
-    title: 'Join the community',
-    description: 'Turn individual concern into collective impact. Connect with thousands working toward safe and secure AI.',
-    ctaText: 'Get connected',
-    ctaUrl: 'https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=lander',
-    desktopImageSrc: '/images/lander/foai/community-desktop.png',
-    mobileImageSrc: '/images/lander/foai/community-mobile.png',
-  },
-  {
     title: 'Get certified',
-    description: 'Prove your AI knowledge without a lengthy degree. Our industry-recognised certificate demonstrates your understanding of AI\'s foundations and implications.',
-    ctaText: 'Get certified for free',
+    description: 'Earn an industry-recognized certificate that shows you’re engaged with the future of AI and helps you stand out in roles focused on AI, policy, or the public good.',
+    ctaText: 'Earn your certificate',
     desktopImageSrc: '/images/lander/foai/cert-desktop.png',
     mobileImageSrc: '/images/lander/foai/cert-mobile.png',
+  },
+  {
+    title: 'Join the conversation',
+    description: 'Join a community of thousands of people who care about AI’s impact and are working together to share knowledge and opportunities.',
+    ctaText: 'Take the first step',
+    desktopImageSrc: '/images/lander/foai/community-desktop.png',
+    mobileImageSrc: '/images/lander/foai/community-mobile.png',
   },
 ];
 
@@ -125,23 +126,26 @@ const FutureOfAiLander = ({
       {/* Hero section */}
       {isMobile ? (
         <HeroSection>
-          <HeroMiniTitle>{courseData?.course.title}</HeroMiniTitle>
+          <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
           <HeroH1>{customTitle}</HeroH1>
           <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
           <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
             <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaBoltLightning /> 2 hours
+              <FaClock /> Just 2 hours
             </div>
             <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaAward /> Free certification
+              <FaBoltLightning /> Self-paced
             </div>
             <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaLightbulb /> No experience required
+              <FaAward /> Free certificate
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+              <FaLightbulb /> No AI experience needed
             </div>
           </div>
           {courseData.units?.[0]?.path && (
             <HeroCTAContainer>
-              <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+              <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
             </HeroCTAContainer>
           )}
         </HeroSection>
@@ -155,20 +159,23 @@ const FutureOfAiLander = ({
               <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{courseData?.course.title}</H1>
               <H2 className="text-color-text-on-dark bluedot-h1">{customTitle}</H2>
               <p className="text-color-text-on-dark mt-4">{customDescription}</p>
-              <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+              <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-4">
                 <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaBoltLightning /> 2 hours
+                  <FaClock /> Just 2 hours
                 </div>
                 <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaAward /> Free certification
+                  <FaBoltLightning /> Self-paced
                 </div>
                 <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaLightbulb /> No experience required
+                  <FaAward /> Free certificate
+                </div>
+                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                  <FaLightbulb /> No AI experience needed
                 </div>
               </div>
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
-                  <CTALinkOrButton url={courseData.units[0].path} withChevron>Start learning for free</CTALinkOrButton>
+                  <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
                 </HeroCTAContainer>
               )}
             </div>
@@ -181,7 +188,7 @@ const FutureOfAiLander = ({
       <GraduateSection />
 
       {/* Features section */}
-      <Section>
+      <Section title="Course benefits" titleLevel="h2">
         <div className="future-of-ai-lander__features-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto">
           {features.map((feature, index) => (
             <div key={feature.title} className="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4">
@@ -197,7 +204,7 @@ const FutureOfAiLander = ({
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
-                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={feature.ctaUrl || courseData.units?.[0]?.path} withChevron>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path} withChevron>
                   {feature.ctaText}
                 </CTALinkOrButton>
               </div>
@@ -207,7 +214,7 @@ const FutureOfAiLander = ({
       </Section>
 
       {/* Testimonials */}
-      <Section title="What our graduates say" titleLevel="h3">
+      <Section title="What learners are saying" titleLevel="h3">
         {isMobile ? (
           <QuoteCarousel quotes={testimonials} />
         ) : (
@@ -216,7 +223,7 @@ const FutureOfAiLander = ({
       </Section>
 
       {/* Banner */}
-      <FutureOfAiBanner title="Ready to have a say in your future?" ctaUrl={courseData.units?.[0]?.path ?? ''} />
+      <FutureOfAiBanner title="Understand AI today – and be ready to engage in what’s coming next." ctaUrl={courseData.units?.[0]?.path ?? ''} />
     </>
   );
 };
