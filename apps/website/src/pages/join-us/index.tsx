@@ -12,17 +12,16 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { GetJobsResponse } from '../api/cms/jobs';
 import CultureSection from '../../components/join-us/CultureSection';
 import ValuesSection from '../../components/join-us/ValuesSection';
-import JobsListSection from '../../components/join-us/JobsListSection';
+import JobsListSection, { GetAshbyJobsResponse } from '../../components/join-us/JobsListSection';
 
 const CURRENT_ROUTE = ROUTES.joinUs;
 
 const JoinUsPage = () => {
-  const [{ data, loading, error }] = useAxios<GetJobsResponse>({
+  const [{ data, loading, error }] = useAxios<GetAshbyJobsResponse>({
     method: 'get',
-    url: '/api/cms/jobs',
+    url: 'https://api.ashbyhq.com/posting-api/job-board/bluedot',
   });
 
   return (

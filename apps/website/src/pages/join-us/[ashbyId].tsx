@@ -18,19 +18,21 @@ import { GetJobResponse } from '../api/cms/jobs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 
 const JobPostingPage = () => {
-  const { query: { slug } } = useRouter();
-  if (typeof slug !== 'string') {
-    return 'Invalid job slug';
+  const { query: { ashbyId } } = useRouter();
+  if (typeof ashbyId !== 'string') {
+    return 'Invalid job Ashby id';
   }
 
+  // TODO: get from Ashby API, either directly or via their embed code
+  // https://www.ashbyhq.com/job-board-embed-examples/full-job-board
   const [{ data, loading, error }] = useAxios<GetJobResponse>({
     method: 'get',
-    url: `/api/cms/jobs/${slug}`,
+    url: `/api/cms/jobs/${ashbyId}`,
   });
 
   const currentRoute: BluedotRoute = {
     title: data?.job?.title || 'Job Posting',
-    url: `${ROUTES.joinUs.url}/${slug}`,
+    url: `${ROUTES.joinUs.url}/${ashbyId}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
 
@@ -69,7 +71,7 @@ const JobPostingPage = () => {
                   identifier: data?.job?.id,
                   mainEntityOfPage: {
                     '@type': 'WebPage',
-                    '@id': `${ROUTES.joinUs.url}/${slug}`,
+                    '@id': `${ROUTES.joinUs.url}/${ashbyId}`,
                   },
                 }),
               }}

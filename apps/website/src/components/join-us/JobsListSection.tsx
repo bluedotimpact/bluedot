@@ -1,11 +1,26 @@
 import { Card, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import { P } from '../Text';
-import { CmsJobPosting } from '../../lib/api/db/tables';
 import { ROUTES } from '../../lib/routes';
 
+export type GetAshbyJobsResponse = {
+  jobs: {
+    id: string;
+    title: string;
+    department: string;
+    team: string;
+    employmentType: string;
+    location: string;
+    shouldDisplayCompensationOnJobPostings: boolean;
+    publishedAt: string;
+    isListed: boolean;
+    isRemote: boolean;
+    descriptionHtml: string;
+  }[]
+};
+
 export type JobsListSectionProps = {
-  jobs: Omit<CmsJobPosting, 'body'>[]
+  jobs: GetAshbyJobsResponse['jobs']
 };
 
 const JobsListSection = ({ jobs }: JobsListSectionProps) => {
@@ -28,9 +43,9 @@ const JobsListSection = ({ jobs }: JobsListSectionProps) => {
 };
 
 const JobListItem = ({ job }: {
-  job: Omit<CmsJobPosting, 'body'>
+  job: GetAshbyJobsResponse['jobs'][number]
 }) => {
-  const url = `${ROUTES.joinUs.url}/${job.slug}`;
+  const url = `${ROUTES.joinUs.url}/${job.id}`;
 
   return (
     <div className="jobs-list__listing">
@@ -40,7 +55,7 @@ const JobListItem = ({ job }: {
         ctaUrl={url}
         isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}
-        subtitle={job.subtitle}
+        subtitle={job.location}
         title={job.title}
       />
     </div>
