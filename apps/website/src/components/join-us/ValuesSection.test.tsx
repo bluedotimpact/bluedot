@@ -1,5 +1,10 @@
 import { render } from '@testing-library/react';
-import { describe, expect, test, vi } from 'vitest';
+import {
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import * as deviceDetect from 'react-device-detect';
 import ValuesSection from './ValuesSection';
 

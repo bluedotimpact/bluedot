@@ -30,13 +30,13 @@ const ValuesSection = () => {
           {values.map((value) => (
             <div className="values-card flex flex-row gap-4">
               <img
-                className='values-card__image object-cover rounded-lg size-[102px]'
+                className="values-card__image object-cover rounded-lg size-[102px]"
                 src={value.mobileImageSrc}
                 alt={`${value.title}`}
               />
               <div className="values-card__content">
                 <p className="values-card__title bluedot-h4 mb-2">{value.title}</p>
-                {value.subtitle && (<p className={`values-card__subtitle bluedot-p`}>{value.subtitle}</p>)}
+                {value.subtitle && (<p className="values-card__subtitle bluedot-p">{value.subtitle}</p>)}
               </div>
             </div>
           ))}
