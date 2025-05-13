@@ -1,30 +1,20 @@
 import {
   HeroSection,
   HeroH1,
-  Section,
   Breadcrumbs,
-  ErrorSection,
-  ProgressDots,
   HeroCTAContainer,
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { GetJobsResponse } from '../api/cms/jobs';
 import CultureSection from '../../components/join-us/CultureSection';
 import ValuesSection from '../../components/join-us/ValuesSection';
-import JobsListSection from '../../components/join-us/JobsListSection';
+import AshbyEmbed from '../../components/join-us/AshbyEmbed';
 
 const CURRENT_ROUTE = ROUTES.joinUs;
 
 const JoinUsPage = () => {
-  const [{ data, loading, error }] = useAxios<GetJobsResponse>({
-    method: 'get',
-    url: '/api/cms/jobs',
-  });
-
   return (
     <div>
       <Head>
@@ -39,9 +29,7 @@ const JoinUsPage = () => {
         </HeroCTAContainer>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      {loading && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
-      {error && <ErrorSection error={error} />}
-      {data?.jobs && <JobsListSection jobs={data.jobs} />}
+      <AshbyEmbed />
       <CultureSection />
       <ValuesSection />
     </div>
