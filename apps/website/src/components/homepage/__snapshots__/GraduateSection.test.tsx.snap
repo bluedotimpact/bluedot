@@ -72,23 +72,44 @@ exports[`GraduateSection > renders default as expected 1`] = `
           >
             <li>
               <img
+                alt="OpenAI"
+                class="h-6"
+                src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="AI Security Institute"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="United Nations"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
                 alt="Anthropic"
-                class="h-3"
+                class="h-6 !h-3"
                 src="/images/third-party-logos/anthropic.svg"
               />
             </li>
             <li>
               <img
-                alt="Centre for the Study of Existential Risk"
+                alt="Amnesty International"
                 class="h-6"
-                src="/images/third-party-logos/exrisk.svg"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
               <img
-                alt="OpenAI"
+                alt="Time"
                 class="h-6"
-                src="/images/third-party-logos/openai.svg"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
@@ -100,16 +121,37 @@ exports[`GraduateSection > renders default as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Centre for Governance of AI"
+                alt="NATO"
                 class="h-6"
-                src="/images/third-party-logos/govai.png"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
               <img
-                alt="METR"
+                alt="OECD"
                 class="h-6"
-                src="/images/third-party-logos/metr.png"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Stanford University: Human Centered Artificial Intelligence Institute"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Apple"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Harvard Kennedy School"
+                class="h-6"
+                src="/images/third-party-logos/"
               />
             </li>
           </ul>
@@ -119,23 +161,44 @@ exports[`GraduateSection > renders default as expected 1`] = `
           >
             <li>
               <img
+                alt="OpenAI"
+                class="h-6"
+                src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="AI Security Institute"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="United Nations"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
                 alt="Anthropic"
-                class="h-3"
+                class="h-6 !h-3"
                 src="/images/third-party-logos/anthropic.svg"
               />
             </li>
             <li>
               <img
-                alt="Centre for the Study of Existential Risk"
+                alt="Amnesty International"
                 class="h-6"
-                src="/images/third-party-logos/exrisk.svg"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
               <img
-                alt="OpenAI"
+                alt="Time"
                 class="h-6"
-                src="/images/third-party-logos/openai.svg"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
@@ -147,16 +210,37 @@ exports[`GraduateSection > renders default as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Centre for Governance of AI"
+                alt="NATO"
                 class="h-6"
-                src="/images/third-party-logos/govai.png"
+                src="/images/third-party-logos/"
               />
             </li>
             <li>
               <img
-                alt="METR"
+                alt="OECD"
                 class="h-6"
-                src="/images/third-party-logos/metr.png"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Stanford University: Human Centered Artificial Intelligence Institute"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Apple"
+                class="h-6"
+                src="/images/third-party-logos/"
+              />
+            </li>
+            <li>
+              <img
+                alt="Harvard Kennedy School"
+                class="h-6"
+                src="/images/third-party-logos/"
               />
             </li>
           </ul>
