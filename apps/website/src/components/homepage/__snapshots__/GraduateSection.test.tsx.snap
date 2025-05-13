@@ -81,14 +81,14 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="AI Security Institute"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/aisi.png"
               />
             </li>
             <li>
               <img
                 alt="United Nations"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/un.png"
               />
             </li>
             <li>
@@ -102,14 +102,14 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="Amnesty International"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/amnesty.png"
               />
             </li>
             <li>
               <img
                 alt="Time"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/time.png"
               />
             </li>
             <li>
@@ -123,35 +123,35 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="NATO"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/nato.png"
               />
             </li>
             <li>
               <img
                 alt="OECD"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/oecd.png"
               />
             </li>
             <li>
               <img
                 alt="Stanford University: Human Centered Artificial Intelligence Institute"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/hai.png"
               />
             </li>
             <li>
               <img
                 alt="Apple"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/apple.png"
               />
             </li>
             <li>
               <img
                 alt="Harvard Kennedy School"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/harvard.png"
               />
             </li>
           </ul>
@@ -170,14 +170,14 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="AI Security Institute"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/aisi.png"
               />
             </li>
             <li>
               <img
                 alt="United Nations"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/un.png"
               />
             </li>
             <li>
@@ -191,14 +191,14 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="Amnesty International"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/amnesty.png"
               />
             </li>
             <li>
               <img
                 alt="Time"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/time.png"
               />
             </li>
             <li>
@@ -212,35 +212,35 @@ exports[`GraduateSection > renders default as expected 1`] = `
               <img
                 alt="NATO"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/nato.png"
               />
             </li>
             <li>
               <img
                 alt="OECD"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/oecd.png"
               />
             </li>
             <li>
               <img
                 alt="Stanford University: Human Centered Artificial Intelligence Institute"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/hai.png"
               />
             </li>
             <li>
               <img
                 alt="Apple"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/apple.png"
               />
             </li>
             <li>
               <img
                 alt="Harvard Kennedy School"
                 class="h-6"
-                src="/images/third-party-logos/"
+                src="/images/third-party-logos/harvard.png"
               />
             </li>
           </ul>

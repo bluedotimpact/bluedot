@@ -10,17 +10,17 @@ const faces = [
 
 const logos = [
   { src: '/images/third-party-logos/openai.svg', alt: 'OpenAI' },
-  { src: '/images/third-party-logos/', alt: 'AI Security Institute' },
-  { src: '/images/third-party-logos/', alt: 'United Nations' },
+  { src: '/images/third-party-logos/aisi.png', alt: 'AI Security Institute' },
+  { src: '/images/third-party-logos/un.png', alt: 'United Nations' },
   { src: '/images/third-party-logos/anthropic.svg', alt: 'Anthropic', customClassName: '!h-3' },
-  { src: '/images/third-party-logos/', alt: 'Amnesty International' },
-  { src: '/images/third-party-logos/', alt: 'Time' },
+  { src: '/images/third-party-logos/amnesty.png', alt: 'Amnesty International', customClassName: '' },
+  { src: '/images/third-party-logos/time.png', alt: 'Time' },
   { src: '/images/third-party-logos/deepmind.svg', alt: 'Google DeepMind' },
-  { src: '/images/third-party-logos/', alt: 'NATO' },
-  { src: '/images/third-party-logos/', alt: 'OECD' },
-  { src: '/images/third-party-logos/', alt: 'Stanford University: Human Centered Artificial Intelligence Institute' },
-  { src: '/images/third-party-logos/', alt: 'Apple' },
-  { src: '/images/third-party-logos/', alt: 'Harvard Kennedy School' },
+  { src: '/images/third-party-logos/nato.png', alt: 'NATO' },
+  { src: '/images/third-party-logos/oecd.png', alt: 'OECD' },
+  { src: '/images/third-party-logos/hai.png', alt: 'Stanford University: Human Centered Artificial Intelligence Institute' },
+  { src: '/images/third-party-logos/apple.png', alt: 'Apple' },
+  { src: '/images/third-party-logos/harvard.png', alt: 'Harvard Kennedy School' },
 ];
 
 const GraduateSection = () => {
