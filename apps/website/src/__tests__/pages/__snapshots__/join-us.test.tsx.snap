@@ -229,7 +229,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 values-section__values"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 values-section__values--desktop"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"
@@ -251,7 +251,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -259,7 +259,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     <img
                       alt="Own the mission"
                       class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/care.png"
+                      src="/images/values/mission.gif"
                     />
                   </div>
                   <div
@@ -288,7 +288,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -296,7 +296,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     <img
                       alt="Find the fastest, best way to do everything"
                       class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/think.png"
+                      src="/images/values/fast.gif"
                     />
                   </div>
                   <div
@@ -325,7 +325,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -333,7 +333,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     <img
                       alt="Say the uncomfortable truth"
                       class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/powering.png"
+                      src="/images/values/speak.gif"
                     />
                   </div>
                   <div
