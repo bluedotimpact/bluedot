@@ -243,7 +243,7 @@ exports[`Nav > renders with courses 1`] = `
           class="nav-cta flex flex-row items-center gap-6"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav-cta__secondary-cta"
             href="http://localhost:3000/login?redirect_to=%2F"
             tabindex="0"
           >
@@ -254,7 +254,7 @@ exports[`Nav > renders with courses 1`] = `
             </span>
           </a>
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta"
             href="http://localhost:3000/login?register=true&redirect_to=%2F"
             tabindex="0"
           >
