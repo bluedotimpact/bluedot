@@ -4,7 +4,6 @@ import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
 
 import { NavLinks } from './_NavLinks';
 import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
-import { NavCta } from './_NavCta';
 
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;

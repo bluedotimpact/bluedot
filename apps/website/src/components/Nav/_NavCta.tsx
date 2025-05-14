@@ -43,7 +43,7 @@ export const NavCta: React.FC<{
       ) : (
         <>
           <CTALinkOrButton
-            className="nav-cta__secondary-cta"
+            className="nav-cta__secondary-cta hidden sm:block" // Hide on small screens
             variant="secondary"
             url={loginUrl}
           >
