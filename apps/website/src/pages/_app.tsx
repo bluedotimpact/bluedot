@@ -17,9 +17,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     <PostHogProvider>
       <Head>
         <title>BlueDot Impact</title>
-        <link rel="icon" href="images/logo/favicon/favicon.ico" />
-        <link rel="icon" type="image/svg+xml" href="images/logo/favicon/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
+        <link rel="icon" href="/images/logo/favicon/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/images/logo/favicon/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon/apple-touch-icon.png" />
         <GoogleTagManager />
       </Head>
       {/* TODO: remove this logic after people stop going here */}
