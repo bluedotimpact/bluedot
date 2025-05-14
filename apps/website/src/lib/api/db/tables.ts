@@ -296,7 +296,7 @@ export type CourseRegistration = {
   firstName: string,
   lastName: string,
   fullName: string,
-  /** Linked record field */
+  /** Link to the course record in the applications base */
   courseApplicationsBaseId: string,
   /** Underlying id, consistent with course builder. Read only */
   courseId: string,
