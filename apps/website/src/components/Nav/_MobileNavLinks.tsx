@@ -4,7 +4,6 @@ import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
 
 import { NavLinks } from './_NavLinks';
 import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
-import { SecondaryNavCta } from './_SecondaryNavCta';
 
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -43,9 +42,6 @@ export const MobileNavLinks: React.FC<{
             courses={courses}
             isScrolled={isScrolled}
           />
-          <div className="mobile-nav-links__secondary-cta flex justify-end mt-20">
-            <SecondaryNavCta />
-          </div>
         </div>
       </div>
     </div>

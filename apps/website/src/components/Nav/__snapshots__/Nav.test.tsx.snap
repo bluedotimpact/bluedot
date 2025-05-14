@@ -138,21 +138,6 @@ exports[`Nav > renders with courses 1`] = `
                   Events
                 </a>
               </div>
-              <div
-                class="mobile-nav-links__secondary-cta flex justify-end mt-20"
-              >
-                <a
-                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  <span
-                    class="cta-button__text"
-                  >
-                    Support us
-                  </span>
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -255,21 +240,10 @@ exports[`Nav > renders with courses 1`] = `
           </a>
         </div>
         <div
-          class="nav__cta-container flex flex-row items-center gap-6"
+          class="nav-cta flex flex-row items-center gap-6"
         >
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav__secondary-cta hidden lg:block"
-            href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-            tabindex="0"
-          >
-            <span
-              class="cta-button__text"
-            >
-              Support us
-            </span>
-          </a>
-          <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav__primary-cta"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav-cta__secondary-cta hidden sm:block"
             href="http://localhost:3000/login?redirect_to=%2F"
             tabindex="0"
           >
@@ -277,6 +251,17 @@ exports[`Nav > renders with courses 1`] = `
               class="cta-button__text"
             >
               Login
+            </span>
+          </a>
+          <a
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta"
+            href="http://localhost:3000/login?register=true&redirect_to=%2F"
+            tabindex="0"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Join for free
             </span>
           </a>
         </div>

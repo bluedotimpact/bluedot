@@ -5,6 +5,11 @@ const login: BluedotRoute = {
   url: '/login',
 };
 
+const join: BluedotRoute = {
+  title: 'Join for free',
+  url: '/login?register=true',
+};
+
 const home: BluedotRoute = {
   title: 'Home',
   url: '/',
@@ -79,6 +84,7 @@ export const ROUTES = {
   contact,
   courses,
   home,
+  join,
   joinUs,
   login,
   logout,

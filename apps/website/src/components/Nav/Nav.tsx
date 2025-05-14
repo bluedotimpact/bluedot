@@ -4,8 +4,7 @@ import ClickAwayListener from 'react-click-away-listener';
 import { useAuthStore } from '@bluedot/ui';
 
 import { NavLogo } from './_NavLogo';
-import { SecondaryNavCta } from './_SecondaryNavCta';
-import { LoginOrProfileCta } from './_LoginOrProfileCta';
+import { NavCta } from './_NavCta';
 import { MobileNavLinks } from './_MobileNavLinks';
 import { DesktopNavLinks } from './_DesktopNavLinks';
 import { ExpandedSectionsState, TRANSITION_DURATION_CLASS } from './utils';
@@ -79,15 +78,12 @@ export const Nav: React.FC<NavProps> = ({
             />
 
             {/* CTA Buttons */}
-            <div className="nav__cta-container flex flex-row items-center gap-6">
-              <SecondaryNavCta className="hidden lg:block" />
-              <LoginOrProfileCta
-                isLoggedIn={isLoggedIn}
-                isScrolled={isScrolled}
-                expandedSections={expandedSections}
-                updateExpandedSections={updateExpandedSections}
-              />
-            </div>
+            <NavCta
+              isLoggedIn={isLoggedIn}
+              isScrolled={isScrolled}
+              expandedSections={expandedSections}
+              updateExpandedSections={updateExpandedSections}
+            />
           </div>
         </div>
       </ClickAwayListener>
