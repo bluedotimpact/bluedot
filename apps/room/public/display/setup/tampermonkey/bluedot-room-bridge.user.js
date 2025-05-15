@@ -4,7 +4,7 @@
 // @description  Passes URL information to and from BlueDot room app
 // @version      1.0
 // @match        *://*/*
-// @icon         https://bluedot.org/images/logo/favicon/favicon.svg
+// @icon         https://bluedot.org/favicon.svg
 // @grant        window.onurlchange
 // @noframes
 // ==/UserScript==
