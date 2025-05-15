@@ -29,7 +29,7 @@ const JobPostingPage = () => {
   });
 
   const currentRoute: BluedotRoute = {
-    title: data?.job?.title || 'Job Posting',
+    title: data?.job.title || 'Job Posting',
     url: `${ROUTES.joinUs.url}/${slug}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
@@ -41,8 +41,8 @@ const JobPostingPage = () => {
       {data?.job && (
         <>
           <Head>
-            <title>{`${data?.job?.title} | BlueDot Impact`}</title>
-            <meta name="description" content={data?.job?.subtitle} />
+            <title>{`${data.job.title} | BlueDot Impact`}</title>
+            <meta name="description" content={data.job.subtitle} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
@@ -50,13 +50,14 @@ const JobPostingPage = () => {
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
                   '@type': 'JobPosting',
-                  title: data?.job?.title,
-                  description: data?.job?.body,
-                  datePosted: data?.job?.publishedAt,
+                  title: data.job.title,
+                  description: data.job.body,
+                  datePosted: data.job.publishedAt ? new Date(data.job.publishedAt * 1000).toISOString() : undefined,
                   hiringOrganization: {
                     '@type': 'Organization',
                     name: 'BlueDot Impact',
                     sameAs: 'https://bluedot.org',
+                    logo: 'https://bluedot.org/images/logo/icon-on-blue.svg',
                   },
                   jobLocation: {
                     '@type': 'Place',
@@ -66,7 +67,7 @@ const JobPostingPage = () => {
                       addressCountry: 'United Kingdom',
                     },
                   },
-                  identifier: data?.job?.id,
+                  identifier: data.job.id,
                   mainEntityOfPage: {
                     '@type': 'WebPage',
                     '@id': `${ROUTES.joinUs.url}/${slug}`,
