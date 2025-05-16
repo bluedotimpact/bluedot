@@ -24,8 +24,6 @@ const PrivacyPolicyPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
-## Privacy Policy
-
 BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number [14964572](https://find-and-update.company-information.service.gov.uk/company/14964572)). You can contact us via the details on [our contact page](${ROUTES.contact.url}).
 
 We are a data controller. This means we make decisions about how your information is used, and have a responsibility to protect your rights when we do so.
