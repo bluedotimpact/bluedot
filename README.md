@@ -61,7 +61,7 @@ If you run into any difficulties, raise an issue or [contact us](https://bluedot
 <summary>What if I want to use BlueDot Impact's software myself?</summary>
 You're very welcome to use and adapt our software for your own purposes, subject to <a href="./LICENSE">the repository license</a>. In general most of our apps are packaged as Docker containers, and most of our libraries are TypeScript NPM packages.
 
-There isn't yet extensive documentation on using our software for your own purposes. We'd be happy would accept contributions that make it easier for others to use our software. This could be by improving the way apps are structured or adding documentation.
+There isn't yet extensive documentation on using our software for your own purposes. We'd be happy to accept contributions that make it easier for others to use our software. This could be by improving the way apps are structured or adding documentation.
 </details>
 
 <details>
