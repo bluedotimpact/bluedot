@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   HeroSection,
   HeroH1,
@@ -14,6 +15,7 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import Script from 'next/script';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ROUTES } from '../../lib/routes';
 import { GetAshbyJobsResponse } from '../../components/join-us/JobsListSection';
 import { GetJobResponse } from '../api/cms/jobs/[slug]';
@@ -190,15 +192,23 @@ const AshbyJobPostingPage = ({ ashbyId }: { ashbyId: string }) => {
 };
 
 const AshbyApplicationFormEmbed = ({ id }: { id: string }) => {
+  const [scriptError, setScriptError] = useState(null);
+
   return (
     <>
       <div id="ashby_embed" className="application-form-embed-container mt-6" />
+      {scriptError && (
+        <ErrorView error={new Error('Failed to load application form. Try refreshing the page, or contact us.', { cause: scriptError })} />
+      )}
       <Script
         id="ashby-script"
         src="https://jobs.ashbyhq.com/bluedot/embed?version=2"
         onLoad={() => {
           // eslint-disable-next-line no-underscore-dangle
           window.__Ashby.iFrame().load({ jobPostingId: id, displayMode: 'application-form-only', autoScroll: false });
+        }}
+        onError={(e) => {
+          setScriptError(e);
         }}
       />
     </>
