@@ -45,7 +45,7 @@ const JoinUsPage = () => {
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
       {(cmsLoading || ashbyLoading) && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
-      {(cmsError || ashbyError) && <ErrorSection error={cmsError || ashbyData} />}
+      {(cmsError || ashbyError) && <ErrorSection error={cmsError || ashbyError} />}
       {(cmsData && ashbyData) && <JobsListSection cmsJobs={cmsData.jobs} ashbyJobs={ashbyData.jobs} />}
       <CultureSection />
       <ValuesSection />

@@ -22,7 +22,7 @@ import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedR
 const JobPostingPage = () => {
   const { query: { ashbyIdOrCmsSlug } } = useRouter();
   if (typeof ashbyIdOrCmsSlug !== 'string') {
-    return 'Invalid job Ashby id';
+    return <ErrorSection error={new Error('Job not found: invalid path')} />;
   }
 
   // ashbyIds are always uuids
@@ -114,12 +114,12 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
 };
 
 const AshbyJobPostingPage = ({ ashbyId }: { ashbyId: string }) => {
-  const [{ data: ashbyData, loading, error }] = useAxios<GetAshbyJobsResponse>({
+  const [{ data, loading, error }] = useAxios<GetAshbyJobsResponse>({
     method: 'get',
     url: 'https://api.ashbyhq.com/posting-api/job-board/bluedot',
   });
 
-  const job = ashbyData?.jobs.find((j) => j.id === ashbyId);
+  const job = data?.jobs.find((j) => j.id === ashbyId);
 
   const currentRoute: BluedotRoute = {
     title: job?.title || 'Job Posting',
@@ -130,11 +130,11 @@ const AshbyJobPostingPage = ({ ashbyId }: { ashbyId: string }) => {
   return (
     <div>
       {loading && <ProgressDots />}
-      {error && <ErrorSection error={error} />}
+      {(error || (data && !job)) && <ErrorSection error={error || new Error('Job not found. This job posting may have been closed.')} />}
       {job && (
         <>
           <Head>
-            <title>{`${job?.title} | BlueDot Impact`}</title>
+            <title>{`${job.title} | BlueDot Impact`}</title>
             <meta name="description" content={job.location} />
             <script
               type="application/ld+json"
