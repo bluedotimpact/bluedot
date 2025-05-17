@@ -1,31 +1,25 @@
-# Summary
+# Description
+<!-- Explain why you've made the changes, and highlight any areas of 'weirdness' -->
 
-<!-- One line summary of your change -->
+
 
 ## Issue
-<!-- Link to the relevant GitHub issue. Learn more about [linking issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) -->
-Fixes # (issue)
-<!-- If you have no related issue, make sure to link this PR to the relevant project -->
+<!-- If this PR is related to a project, and there's no related issue, link this PR to the project -->
 
-## Description
-
-<!-- Description of the changes you've made -->
+Fixes #
 
 ## Developer checklist
-- [ ] Used [BEM naming convention](https://getbem.com/naming/) for classNames
-- [ ] Added or updated Jest tests
-- [ ] Added or updated Storybook stories
+
+- [ ] Front-end code follows the [BEM class name convention](https://getbem.com/naming/)
+- [ ] Considered adding tests
+- [ ] Considered adding Storybook stories
+
+<!-- You might also want to check the tests locally with `npm run test`, although CI will check this for you -->
 
 ## Screenshot
+<!-- If this PR results in visual changes -->
 
 | 📸 |  |
 |---------|---|
-| 📕 | <!-- Include a **Storybook** screenshot or screen recording demonstrating your change--> |
-| 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
 | 📱  | <!-- Include a **Mobile** screenshot or screen recording demonstrating your change--> |
-
-## Testing
-```
-$ npm run test:update
-<!-- Run `npm run test` from the base `bluedot` dir and include the output here -->
-```
+| 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
