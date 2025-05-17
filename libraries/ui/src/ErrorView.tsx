@@ -23,10 +23,12 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
       <Collapsible title="Show full error details" className="-my-6 max-w-full">
         <div className="flex flex-col gap-4 overflow-x-auto [&_pre]:max-w-0">
           <ErrorDetails error={error} />
+          {typeof window !== 'undefined' && (
           <div>
             <p className="font-bold">Page URL</p>
             <pre>{window.location.href}</pre>
           </div>
+          )}
           <div>
             <p className="font-bold">Timestamp</p>
             <pre>{new Date().toISOString()}</pre>

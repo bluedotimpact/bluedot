@@ -4,11 +4,33 @@ import { P } from '../Text';
 import { CmsJobPosting } from '../../lib/api/db/tables';
 import { ROUTES } from '../../lib/routes';
 
-export type JobsListSectionProps = {
-  jobs: Omit<CmsJobPosting, 'body'>[]
+export type GetAshbyJobsResponse = {
+  jobs: {
+    id: string;
+    title: string;
+    department: string;
+    team: string;
+    employmentType: string;
+    location: string;
+    shouldDisplayCompensationOnJobPostings: boolean;
+    publishedAt: string;
+    isListed: boolean;
+    isRemote: boolean;
+    descriptionHtml: string;
+  }[]
 };
 
-const JobsListSection = ({ jobs }: JobsListSectionProps) => {
+export type JobsListSectionProps = {
+  ashbyJobs: GetAshbyJobsResponse['jobs']
+  cmsJobs: Omit<CmsJobPosting, 'body'>[],
+};
+
+const JobsListSection = ({ ashbyJobs, cmsJobs }: JobsListSectionProps) => {
+  const jobs = [
+    ...cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle })),
+    ...ashbyJobs,
+  ];
+
   return (
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
@@ -28,9 +50,9 @@ const JobsListSection = ({ jobs }: JobsListSectionProps) => {
 };
 
 const JobListItem = ({ job }: {
-  job: Omit<CmsJobPosting, 'body'>
+  job: { id: string; title: string; location: string };
 }) => {
-  const url = `${ROUTES.joinUs.url}/${job.slug}`;
+  const url = `${ROUTES.joinUs.url}/${job.id}`;
 
   return (
     <div className="jobs-list__listing">
@@ -40,7 +62,7 @@ const JobListItem = ({ job }: {
         ctaUrl={url}
         isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}
-        subtitle={job.subtitle}
+        subtitle={job.location}
         title={job.title}
       />
     </div>
