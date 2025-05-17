@@ -4,7 +4,7 @@
 
 
 ## Issue
-<!-- If this PR is related to a project, and there's no related issue, link this PR the project -->
+<!-- If this PR is related to a project, and there's no related issue, link this PR to the project -->
 
 Fixes #
 
