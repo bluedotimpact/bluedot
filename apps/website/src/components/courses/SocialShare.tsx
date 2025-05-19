@@ -9,16 +9,6 @@ type SocialShareProps = {
 };
 
 const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, text }) => {
-  const auth = useAuthStore((s) => s.auth);
-
-  const [{ data: referralData, loading: referralLoading, error: referralError }] = useAxios<GetReferralResponse>({
-    method: 'get',
-    url: '/api/referral',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-    },
-  });
-
   const constructFullCourseUrl = (campaign: string) => {
     const baseUrl = window.location.origin;
     const url = `${baseUrl}${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
