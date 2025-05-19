@@ -1,4 +1,4 @@
-import { ClickTarget } from '@bluedot/ui';
+import { addQueryParam, ClickTarget } from '@bluedot/ui';
 import React from 'react';
 import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa6';
 
@@ -12,7 +12,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, tex
   const constructFullCourseUrl = (campaign: string) => {
     const baseUrl = window.location.origin;
     const url = `${baseUrl}${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
-    return referralCode ? `${url}&r=${referralCode}` : url;
+    return referralCode ? addQueryParam(url, 'r', referralCode) : url;
   };
 
   return (

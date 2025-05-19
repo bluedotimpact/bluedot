@@ -7,7 +7,7 @@ describe('SocialShare', () => {
     const { container } = render(
       <SocialShare
         coursePath="/courses/future-of-ai"
-        referralCode="5SR7C4"
+        referralCode="ABCDEF"
         text="I've just completed a free, 2-hour course on the future of AI and its impacts on society. Here are my takeaways:"
       />,
     );
