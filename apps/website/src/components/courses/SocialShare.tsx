@@ -1,18 +1,33 @@
-import { addQueryParam, ClickTarget } from '@bluedot/ui';
+import { addQueryParam, ClickTarget, useAuthStore } from '@bluedot/ui';
 import React from 'react';
 import { FaFacebook, FaLinkedin, FaTwitter } from 'react-icons/fa6';
+import useAxios from 'axios-hooks';
 
 type SocialShareProps = {
   coursePath: string;
-  referralCode?: string;
   text?: string;
 };
 
-const SocialShare: React.FC<SocialShareProps> = ({ coursePath, referralCode, text }) => {
+type GetReferralResponse = {
+  type: 'success';
+  referralId: string;
+};
+
+const SocialShare: React.FC<SocialShareProps> = ({ coursePath, text }) => {
+  const auth = useAuthStore((s) => s.auth);
+
+  const [{ data }] = useAxios<GetReferralResponse>({
+    method: 'get',
+    url: '/api/referrals',
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  });
+
   const constructFullCourseUrl = (campaign: string) => {
     const baseUrl = window.location.origin;
     const url = `${baseUrl}${coursePath}?utm_source=referral&utm_campaign=${campaign}`;
-    return referralCode ? addQueryParam(url, 'r', referralCode) : url;
+    return data?.referralId ? addQueryParam(url, 'r', data.referralId) : url;
   };
 
   return (

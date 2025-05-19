@@ -110,7 +110,7 @@ exports[`Congratulations > renders with custom args 1`] = `
     >
       <a
         class="social-share__link size-6"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin%26r%3DABCDEF&text=This is a custom text I've written for this course!"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=This is a custom text I've written for this course!"
         tabindex="0"
         target="_blank"
       >
@@ -131,7 +131,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       </a>
       <a
         class="social-share__link size-6"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter%26r%3DABCDEF&text=This is a custom text I've written for this course!"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=This is a custom text I've written for this course!"
         tabindex="0"
         target="_blank"
       >

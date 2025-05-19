@@ -23,7 +23,7 @@ import { GetCoursesResponse } from './api/courses';
 import { ROUTES } from '../lib/routes';
 import { H2, H3, P } from '../components/Text';
 import SocialShare from '../components/courses/SocialShare';
-import { Course, CourseRegistration, User } from '../lib/api/db/tables';
+import { Course, CourseRegistration } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 
 const CURRENT_ROUTE = ROUTES.profile;
@@ -103,7 +103,7 @@ const ProfilePage = withAuth(({ auth }) => {
               )}
               {enrolledCourses.length > 0 && (
                 <>
-                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} user={userData.user} />)}
+                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} />)}
                   <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
                 </>
               )}
@@ -119,10 +119,9 @@ const ProfilePage = withAuth(({ auth }) => {
 type ProfileCourseCardProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  user: User;
 };
 
-const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration, user }) => {
+const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration }) => {
   const isCompleted = !!courseRegistration.certificateId;
   const formattedCompletionDate = new Date(
     courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
@@ -191,7 +190,6 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             </P>
             <SocialShare
               coursePath={course.path}
-              referralCode={user.referralId}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>
