@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import { formula } from 'airtable-ts-formula';
-import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import db from '../../../lib/api/db';
+import { makeApiRoute } from '../../lib/api/makeApiRoute';
+import db from '../../lib/api/db';
 import {
   userTable,
-} from '../../../lib/api/db/tables';
+} from '../../lib/api/db/tables';
 
 export type GetReferralResponse = {
   type: 'success';
@@ -32,7 +32,7 @@ export default makeApiRoute({
   }))[0];
 
   if (!user) {
-    throw new createHttpError.NotFound('User not found');
+    throw new createHttpError.NotFound(`User not found for email: ${auth.email}`);
   }
 
   return {

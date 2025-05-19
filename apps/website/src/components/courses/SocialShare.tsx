@@ -18,7 +18,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ coursePath, text }) => {
 
   const [{ data }] = useAxios<GetReferralResponse>({
     method: 'get',
-    url: '/api/users/referrals',
+    url: '/api/referrals',
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
