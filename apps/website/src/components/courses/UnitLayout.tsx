@@ -70,7 +70,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
             {!nextUnit ? (
               <>
-                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
+                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath}/>
                 <CertificateLinkCard courseId={unit.courseId} />
                 <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
                   <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">

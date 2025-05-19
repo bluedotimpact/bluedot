@@ -191,7 +191,6 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             </P>
             <SocialShare
               coursePath={course.path}
-              referralCode={user.referralId}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>

@@ -20,7 +20,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     coursePath: '/courses/future-of-ai',
-    referralCode: 'ABCDEF',
     text: 'This is my custom text for this course!',
   },
 };

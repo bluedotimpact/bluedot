@@ -21,7 +21,6 @@ export const Default: Story = {
   args: {
     courseTitle: 'Future of AI',
     coursePath: '/courses/future-of-ai',
-    referralCode: 'ABCDEF',
     text: '',
   },
 };
