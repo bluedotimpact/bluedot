@@ -8,13 +8,10 @@ import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  courses: { title: string; url: string; isNew?: boolean }[];
   isScrolled: boolean;
-  isLoggedIn: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
-  courses,
   isScrolled,
 }) => {
   const onToggleMobileNav = () => {
@@ -39,7 +36,6 @@ export const MobileNavLinks: React.FC<{
             className="mobile-nav-links__nav-links flex-col"
             expandedSections={expandedSections}
             updateExpandedSections={updateExpandedSections}
-            courses={courses}
             isScrolled={isScrolled}
           />
         </div>

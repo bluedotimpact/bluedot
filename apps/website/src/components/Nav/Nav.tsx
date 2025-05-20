@@ -68,9 +68,7 @@ export const Nav: React.FC<NavProps> = ({
             <MobileNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              courses={courses}
               isScrolled={isScrolled}
-              isLoggedIn={isLoggedIn}
             />
 
             {/* Logo */}
@@ -80,7 +78,6 @@ export const Nav: React.FC<NavProps> = ({
             <DesktopNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              courses={courses}
               isScrolled={isScrolled}
             />
 
