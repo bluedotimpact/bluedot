@@ -80,7 +80,7 @@ exports[`Nav > renders with courses 1`] = `
                     class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
                   >
                     <div
-                      class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
                     >
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
@@ -144,7 +144,7 @@ exports[`Nav > renders with courses 1`] = `
                     class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
                   >
                     <div
-                      class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
                     >
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
@@ -228,7 +228,7 @@ exports[`Nav > renders with courses 1`] = `
               class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
             >
               <div
-                class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
               >
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
@@ -292,7 +292,7 @@ exports[`Nav > renders with courses 1`] = `
               class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
             >
               <div
-                class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
               >
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"

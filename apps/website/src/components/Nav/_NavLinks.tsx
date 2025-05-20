@@ -3,7 +3,7 @@ import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
 import { constants } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
-import { A, H3 } from '../Text';
+import { A } from '../Text';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
@@ -105,7 +105,7 @@ const NavDropdown: React.FC<{
           className,
         )}
       >
-        <div className={clsx('nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty', !isExpanded && 'hidden')}>
+        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty', !isExpanded && 'hidden')}>
           {links?.map((link) => (
             <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
               {link.title}
