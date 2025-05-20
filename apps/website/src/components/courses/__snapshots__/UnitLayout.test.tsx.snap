@@ -4,7 +4,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs hidden md:block md:sticky md:top-[100px] z-10"
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
     >
       <nav
         aria-label="Breadcrumbs"
@@ -86,7 +86,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       </nav>
     </div>
     <div
-      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3 unit__mobile-header md:hidden sticky top-[72px] z-10"
+      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3 unit__mobile-header md:hidden sticky top-16 z-10"
     >
       <nav
         class="mobile-unit-header__nav flex flex-row justify-between"
