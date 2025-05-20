@@ -28,8 +28,9 @@ export const Nav: React.FC<NavProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
-    mobileNav: false,
+    about: false,
     explore: false,
+    mobileNav: false,
     profile: false,
   });
 
@@ -54,7 +55,13 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <ClickAwayListener onClickAway={() => setExpandedSections({ mobileNav: false, explore: false, profile: false })}>
+      <ClickAwayListener onClickAway={() => setExpandedSections({
+        about: false,
+        explore: false,
+        mobileNav: false,
+        profile: false,
+      })}
+      >
         <div className="nav__container section-base">
           <div className="nav__bar w-full flex justify-between items-center h-16">
             {/* Mobile & Tablet: Hamburger Button */}

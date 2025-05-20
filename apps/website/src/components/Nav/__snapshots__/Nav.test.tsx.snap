@@ -55,13 +55,13 @@ exports[`Nav > renders with courses 1`] = `
                 class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
               >
                 <div
-                  class="explore-dropdown"
+                  class="nav-dropdown"
                 >
                   <button
-                    class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
                     type="button"
                   >
-                    Explore
+                    Courses
                     <svg
                       fill="currentColor"
                       height="1em"
@@ -77,52 +77,99 @@ exports[`Nav > renders with courses 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+                    class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
                   >
                     <div
-                      class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
+                      class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
                     >
-                      <h3
-                        class="bluedot-h3 not-prose explore-dropdown__dropdown-title font-bold pt-4"
-                      >
-                        Our courses
-                      </h3>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                        href="/course1"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/future-of-ai"
                         tabindex="0"
                       >
-                        Course 1
+                        The Future of AI Course
+                        <span
+                          class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
+                        >
+                          New
+                        </span>
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                        href="/course2"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/economics-of-tai"
                         tabindex="0"
                       >
-                        <span
-                          class="explore-dropdown__new-badge text-bluedot-normal font-black pr-2"
-                        >
-                          New!
-                        </span>
-                        Course 2
+                        Economics of Transformative AI
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/alignment"
+                        tabindex="0"
+                      >
+                        AI Alignment
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/governance"
+                        tabindex="0"
+                      >
+                        AI Governance
                       </a>
                     </div>
                   </div>
                 </div>
-                <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                  href="/about"
-                  tabindex="0"
+                <div
+                  class="nav-dropdown"
                 >
-                  About us
-                </a>
-                <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                  href="/join-us"
-                  tabindex="0"
-                >
-                  Join us
-                </a>
+                  <button
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+                    type="button"
+                  >
+                    About
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+                  >
+                    <div
+                      class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                    >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        Our story
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Careers
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact
+                      </a>
+                    </div>
+                  </div>
+                </div>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="/blog"
@@ -156,13 +203,13 @@ exports[`Nav > renders with courses 1`] = `
           class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
         >
           <div
-            class="explore-dropdown"
+            class="nav-dropdown"
           >
             <button
-              class="explore-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+              class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
               type="button"
             >
-              Explore
+              Courses
               <svg
                 fill="currentColor"
                 height="1em"
@@ -178,52 +225,99 @@ exports[`Nav > renders with courses 1`] = `
               </svg>
             </button>
             <div
-              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+              class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
             >
               <div
-                class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
+                class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
               >
-                <h3
-                  class="bluedot-h3 not-prose explore-dropdown__dropdown-title font-bold pt-4"
-                >
-                  Our courses
-                </h3>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                  href="/course1"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/future-of-ai"
                   tabindex="0"
                 >
-                  Course 1
+                  The Future of AI Course
+                  <span
+                    class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
+                  >
+                    New
+                  </span>
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                  href="/course2"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/economics-of-tai"
                   tabindex="0"
                 >
-                  <span
-                    class="explore-dropdown__new-badge text-bluedot-normal font-black pr-2"
-                  >
-                    New!
-                  </span>
-                  Course 2
+                  Economics of Transformative AI
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/alignment"
+                  tabindex="0"
+                >
+                  AI Alignment
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/governance"
+                  tabindex="0"
+                >
+                  AI Governance
                 </a>
               </div>
             </div>
           </div>
-          <a
-            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-            href="/about"
-            tabindex="0"
+          <div
+            class="nav-dropdown"
           >
-            About us
-          </a>
-          <a
-            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-            href="/join-us"
-            tabindex="0"
-          >
-            Join us
-          </a>
+            <button
+              class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+              type="button"
+            >
+              About
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </button>
+            <div
+              class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+            >
+              <div
+                class="nav-dropdown___dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+              >
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/about"
+                  tabindex="0"
+                >
+                  Our story
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Careers
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>
           <a
             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="/blog"
