@@ -56,7 +56,7 @@ export const Nav: React.FC<NavProps> = ({
     >
       <ClickAwayListener onClickAway={() => setExpandedSections({ mobileNav: false, explore: false, profile: false })}>
         <div className="nav__container section-base">
-          <div className="nav__bar w-full flex justify-between items-center h-[72px] sm:h-[100px]">
+          <div className="nav__bar w-full flex justify-between items-center h-16">
             {/* Mobile & Tablet: Hamburger Button */}
             <MobileNavLinks
               expandedSections={expandedSections}

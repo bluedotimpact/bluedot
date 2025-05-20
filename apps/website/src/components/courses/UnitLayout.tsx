@@ -89,7 +89,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </Head>
 
       <Breadcrumbs
-        className="unit__breadcrumbs hidden md:block md:sticky md:top-[100px] z-10"
+        className="unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
         route={{
           title: unit.courseTitle,
           url: unit.coursePath,
@@ -110,7 +110,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         </div>
       </Breadcrumbs>
 
-      <MobileHeader className="unit__mobile-header md:hidden sticky top-[72px] z-10" unit={unit} prevUnit={prevUnit} nextUnit={nextUnit} />
+      <MobileHeader className="unit__mobile-header md:hidden sticky top-16 z-10" unit={unit} prevUnit={prevUnit} nextUnit={nextUnit} />
 
       <Section className="unit__main">
         <div className="unit__content-container flex flex-col md:flex-row">

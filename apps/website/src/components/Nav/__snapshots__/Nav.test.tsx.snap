@@ -9,7 +9,7 @@ exports[`Nav > renders with courses 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar w-full flex justify-between items-center h-[72px] sm:h-[100px]"
+        class="nav__bar w-full flex justify-between items-center h-16"
       >
         <div
           class="mobile-nav-links lg:hidden"
@@ -46,7 +46,7 @@ exports[`Nav > renders with courses 1`] = `
             </svg>
           </button>
           <div
-            class="mobile-nav-links__drawer absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+            class="mobile-nav-links__drawer absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
           >
             <div
               class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -77,7 +77,7 @@ exports[`Nav > renders with courses 1`] = `
                     </svg>
                   </button>
                   <div
-                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+                    class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
                   >
                     <div
                       class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
@@ -178,7 +178,7 @@ exports[`Nav > renders with courses 1`] = `
               </svg>
             </button>
             <div
-              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-[71px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] lg:top-[92px] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
+              class="explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-color-canvas max-h-0 hidden pb-0"
             >
               <div
                 class="explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty hidden"
