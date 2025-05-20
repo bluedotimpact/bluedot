@@ -44,7 +44,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <div className="mobile-unit-header__prev-unit-container size-8">
           {prevUnit && (
             <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline" href={prevUnit?.path} aria-label="Previous unit">
-              <img src="/icons/bubble-arrow.svg" alt="Previous unit" className="size-8" />
+              <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
             </A>
           )}
         </div>
@@ -58,7 +58,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <div className="mobile-unit-header__next-unit-container size-8">
           {nextUnit && (
             <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline" href={nextUnit?.path} aria-label="Next unit">
-              <img src="/icons/bubble-arrow.svg" alt="Next unit" className="size-8 rotate-180" />
+              <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
             </A>
           )}
         </div>
