@@ -45,6 +45,8 @@
     --font-serif:
         'Reckless Neue', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 
+    --text-size-xxs: var(--text-size-xxs);
+    --text-size-xxs--line-height: 1.2;
     --text-size-xs: var(--text-size-xs);
     --text-size-xs--line-height: 1.2;
     --text-size-sm: var(--text-size-sm);
@@ -235,6 +237,7 @@
     --space-between-sm: 0.5rem; /* 8px */
   
     /* Default breakpoint values */
+    --text-size-xxs: 0.75rem; /* 12px */
     --text-size-xs: 0.875rem; /* 14px */
     --text-size-sm: 1rem; /* 16px */
     --text-size-md: 1.125rem; /* 18px */

@@ -3,131 +3,110 @@
 exports[`SideBar > renders default as expected 1`] = `
 <div>
   <div
-    class="sidebar w-full md:w-[332px] flex flex-col"
+    class="sidebar w-full md:w-[320px] flex flex-col"
   >
     <div
-      class="sidebar__content flex flex-col gap-6"
+      class="sidebar__header-container flex flex-row gap-2 pb-6"
     >
-      <a
-        class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-        href="/courses/test-course/1"
-        tabindex="0"
+      <img
+        alt=""
+        class="size-11"
+        src="/icons/course.svg"
+      />
+      <div
+        class="sidebar__title-container flex flex-col"
       >
-        <div
-          class="unit-card__item flex flex-col gap-2"
+        <p
+          class="sidebar__course-header text-size-sm text-charcoal-light"
+        >
+          Course
+        </p>
+        <p
+          class="sidebar__course-title bluedot-h4"
+        >
+          The Future of AI
+        </p>
+      </div>
+    </div>
+    <div
+      class="sidebar__content flex flex-col container-lined bg-white"
+    >
+      <details
+        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+        open=""
+      >
+        <summary
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
-            class="unit-card__number uppercase text-size-xs font-bold"
+            class="sidebar-collapsible__title font-bold"
           >
-            Unit 
             1
-          </p>
-          <p
-            class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-          >
+            . 
             Basic Principles of Fish
           </p>
-          <p
-            class="unit-card__description"
-          />
-        </div>
-      </a>
-      <a
-        class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-        href="/courses/test-course/2"
-        tabindex="0"
+        </summary>
+      </details>
+      <details
+        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
       >
-        <div
-          class="unit-card__item flex flex-col gap-2"
+        <summary
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
-            class="unit-card__number uppercase text-size-xs font-bold"
+            class="sidebar-collapsible__title font-bold"
           >
-            Unit 
             2
-          </p>
-          <p
-            class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-          >
+            . 
             What Fish Are People Catching, and Why?
           </p>
-          <p
-            class="unit-card__description"
-          />
-        </div>
-      </a>
-      <a
-        class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-        href="/courses/test-course/3"
-        tabindex="0"
+        </summary>
+      </details>
+      <details
+        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
       >
-        <div
-          class="unit-card__item flex flex-col gap-2"
+        <summary
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
-            class="unit-card__number uppercase text-size-xs font-bold"
+            class="sidebar-collapsible__title font-bold"
           >
-            Unit 
             3
-          </p>
-          <p
-            class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-          >
+            . 
             The Promise of Fish
           </p>
-          <p
-            class="unit-card__description"
-          />
-        </div>
-      </a>
-      <a
-        class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-        href="/courses/test-course/4"
-        tabindex="0"
+        </summary>
+      </details>
+      <details
+        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
       >
-        <div
-          class="unit-card__item flex flex-col gap-2"
+        <summary
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
-            class="unit-card__number uppercase text-size-xs font-bold"
+            class="sidebar-collapsible__title font-bold"
           >
-            Unit 
             4
-          </p>
-          <p
-            class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-          >
+            . 
             The Risks of Fish
           </p>
-          <p
-            class="unit-card__description"
-          />
-        </div>
-      </a>
-      <a
-        class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-        href="/courses/test-course/5"
-        tabindex="0"
+        </summary>
+      </details>
+      <details
+        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
       >
-        <div
-          class="unit-card__item flex flex-col gap-2"
+        <summary
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
-            class="unit-card__number uppercase text-size-xs font-bold"
+            class="sidebar-collapsible__title font-bold"
           >
-            Unit 
             5
-          </p>
-          <p
-            class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-          >
+            . 
             Contributing to Fish Safety
           </p>
-          <p
-            class="unit-card__description"
-          />
-        </div>
-      </a>
+        </summary>
+      </details>
     </div>
   </div>
 </div>
