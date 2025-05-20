@@ -12,17 +12,11 @@ import { ExpandedSectionsState, TRANSITION_DURATION_CLASS } from './utils';
 export type NavProps = {
   className?: string;
   logo?: string;
-  courses: {
-    title: string;
-    url: string;
-    isNew?: boolean;
-  }[];
 };
 
 export const Nav: React.FC<NavProps> = ({
   className,
   logo,
-  courses,
 }) => {
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const [isScrolled, setIsScrolled] = useState(false);
