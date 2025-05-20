@@ -33,7 +33,7 @@ exports[`Error404Page > should render correctly 1`] = `
     >
       <nav
         aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base"
+        class="breadcrumbs__nav section-base flex flex-row justify-between"
       >
         <ol
           class="breadcrumbs__list flex"

@@ -127,7 +127,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             tabindex="0"
           >
             <img
-              alt="Next unit"
+              alt=""
               class="size-8 rotate-180"
               src="/icons/bubble-arrow.svg"
             />
