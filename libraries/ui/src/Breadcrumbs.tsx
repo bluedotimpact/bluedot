@@ -19,17 +19,20 @@ export type BluedotRoute = {
 };
 
 export type BreadcrumbsProps = {
+  // Required
   route: BluedotRoute;
+  // Optional
+  children?: React.ReactNode;
   className?: string;
 };
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) => {
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, children, className }) => {
   const items = [...(route.parentPages ?? []), route];
 
   return (
     <div className={clsx('breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between', className)}>
       <nav
-        className="breadcrumbs__nav section-base"
+        className="breadcrumbs__nav section-base flex flex-row justify-between"
         aria-label="Breadcrumbs"
       >
         <ol className="breadcrumbs__list flex">
@@ -42,6 +45,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ route, className }) =>
             </li>
           ))}
         </ol>
+        {children}
       </nav>
     </div>
   );
