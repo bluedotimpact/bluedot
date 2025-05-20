@@ -20,12 +20,7 @@ const meta = {
     layout: 'fullscreen',
   },
   // Note: autodocs removed because it doesn't work with the global logged in/out
-  args: {
-    courses: [
-      { title: 'Course 1', url: '#1' },
-      { title: 'Course 2', url: '#2' },
-    ],
-  },
+  args: {},
   ...loggedOutStory(),
 } satisfies Meta<typeof NavWrapper>;
 
