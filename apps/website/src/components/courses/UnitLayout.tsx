@@ -46,7 +46,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
           <img src="/icons/course.svg" className="size-8" alt="" />
           <div className="mobile-unit-header__course-title-container flex flex-col">
-            <p className="mobile-unit-header__course-header text-size-xxs text-charcoal-light">{unit.courseTitle}</p>
+            <p className="mobile-unit-header__course-header text-size-xxs text-[#999eb3]">{unit.courseTitle}</p>
             <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
@@ -101,7 +101,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
       <Section className="unit__main">
         <div className="unit__content-container flex flex-col md:flex-row">
-          <SideBar className="hidden md:block" units={units} currentUnitNumber={unitNumber} />
+          <SideBar courseTitle={unit.courseTitle} className="hidden md:block" units={units} currentUnitNumber={unitNumber} />
           <div className="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x">
             <div className="unit__title-container">
               <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>

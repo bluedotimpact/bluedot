@@ -137,7 +137,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="mobile-unit-header__course-title-container flex flex-col"
           >
             <p
-              class="mobile-unit-header__course-header text-size-xxs text-charcoal-light"
+              class="mobile-unit-header__course-header text-size-xxs text-[#999eb3]"
             >
               What the fish [Test Course]
             </p>
@@ -186,14 +186,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="sidebar__title-container flex flex-col"
               >
                 <p
-                  class="sidebar__course-header text-size-sm text-charcoal-light"
+                  class="sidebar__course-header text-size-sm text-[#999eb3]"
                 >
                   Course
                 </p>
                 <p
                   class="sidebar__course-title bluedot-h4"
                 >
-                  The Future of AI
+                  What the fish [Test Course]
                 </p>
               </div>
             </div>
