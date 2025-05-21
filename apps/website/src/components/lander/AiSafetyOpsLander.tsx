@@ -30,7 +30,7 @@ const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
 
 const customMiniTitle = 'AI Safety Operations Bootcamp';
 const customTitle = 'Are you an operations specialist who wants to make the future go well?';
-const customDescription = "There are 4 roles at AISI so impactful that we've built a course to help you land and excel at them.";
+const customDescription = "There are 4 roles at AISI so impactful that we've built a bootcamp to help you land and excel at them.";
 
 const testimonials1: Testimonial[] = [
   {
@@ -152,13 +152,13 @@ This research critically depends on many operational tasks: from recruiting stud
 
 **Role location:** London, UK
 
-## Why take this course?
+## Why join the bootcamp?
 
-We have crafted this course to help you land and excel at these roles.
+We have crafted this bootcamp to help you land and excel at these roles.
 
 We’ll do this by making you exceptional at AI safety operations, not teaching you to the test. This means that even if you don’t secure one of these roles, we’re confident you’ll have useful skills for future opportunities that we expect demand to grow even further for in the next few months.
 
-By the end of this course, you’ll be able to:
+By the end of this bootcamp, you’ll be able to:
 - Talk confidently about core AI and AI safety concepts
 - Explain the role AISI plays in global AI security
 - Communicate how these teams contribute to AISI’s mission, and AI safety more broadly
