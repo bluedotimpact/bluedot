@@ -8,6 +8,8 @@ type SideBarProps = {
   // Required
   units: Unit[];
   currentUnitNumber: number;
+  // Optional
+  className?: string;
 };
 
 type SideBarCollapsibleProps = {
@@ -44,6 +46,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 const SideBar: React.FC<SideBarProps> = ({
+  className,
   units,
   currentUnitNumber,
 }) => {
@@ -51,7 +54,7 @@ const SideBar: React.FC<SideBarProps> = ({
     return currentUnitNumber === Number(unit.unitNumber);
   };
   return (
-    <div className="sidebar w-full md:w-[320px] flex flex-col">
+    <div className={clsx('sidebar w-full md:w-[320px] flex flex-col', className)}>
       <div className="sidebar__header-container flex flex-row gap-2 pb-6">
         <img src="/icons/course.svg" className="size-11" alt="" />
         <div className="sidebar__title-container flex flex-col">
