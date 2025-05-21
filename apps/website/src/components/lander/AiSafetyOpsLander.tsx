@@ -139,14 +139,14 @@ const AiSafetyOpsLander = () => {
         <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto max-w-3xl">
           <MarkdownExtendedRenderer>{`## What roles does this bootcamp prepare you for?
 
-This bootcamp prepares you for early-to-mid-career operations roles in AI safety, optimised for the 4 open "Delivery Adviser" roles at the UK Government’s AI security institute.
+This bootcamp prepares you for early-to-mid-career **operations roles in AI safety**. We've optimised for the 4 open "Delivery Adviser" roles in the UK Government’s AI Security Institute's Research Unit.
 
-These will accelerate crucial AI safety research in:
-- human influence: investigate how AI systems can manipulate, persuade, deceive or subtly steer human behaviours, for example by running large-scale human studies to measure these impacts ([more details](https://www.aisi.gov.uk/research-agenda#human-influence)).
-- cyber and autonomous systems: mapping dangerous AI capabilities that could threaten cybersecurity and human control over autonomous systems, for example [developing evaluations for whether AI systems can copy themselves across systems](https://www.aisi.gov.uk/work/replibench-measuring-autonomous-replication-capabilities-in-ai-systems) (more on [cyber](https://www.aisi.gov.uk/research-agenda#cyber-misuse), [autonomous systems](https://www.aisi.gov.uk/research-agenda#autonomous-systems))
-- societal resilience: understanding how AI capabilities might be used for harm, and interventions we can put in place to protect the world - for example, collaborating with the above teams to safeguard democratic institutions or AI-proofing critical national infrastructure from cyberattacks ([more details](https://www.aisi.gov.uk/research-agenda#societal-resilience)).
+The research done here critically depends on many operational tasks: from recruiting study participants, to getting access to the right datasets across government, to negotiating contracts with AI companies.
 
-This research critically depends on many operational tasks: from recruiting study participants, to getting access to the right datasets across government, to negotiating contracts with AI companies.
+These operations roles will accelerate crucial AI safety research in:
+- **human influence**: this team investigates how AI systems can manipulate, persuade, deceive or subtly steer human behaviours, for example by running large-scale human studies to measure these impacts ([more details](https://www.aisi.gov.uk/research-agenda#human-influence)).
+- **cyber and autonomous systems**: this team maps dangerous AI capabilities that could threaten cybersecurity and human control over autonomous systems, for example developing [evaluations for whether AI systems can copy themselves across systems](https://www.aisi.gov.uk/work/replibench-measuring-autonomous-replication-capabilities-in-ai-systems) (more on [cyber](https://www.aisi.gov.uk/research-agenda#cyber-misuse), [autonomous systems](https://www.aisi.gov.uk/research-agenda#autonomous-systems))
+- **societal resilience**: this team studies how AI capabilities might be used for harm, and interventions we can put in place to protect the world - for example, collaborating with the above teams to safeguard democratic institutions or AI-proofing critical national infrastructure from cyberattacks ([more details](https://www.aisi.gov.uk/research-agenda#societal-resilience)).
 
 **Role salary:** £44,195 - £48,620, plus 28.97% pension (total ~£59,850)
 
@@ -156,7 +156,7 @@ This research critically depends on many operational tasks: from recruiting stud
 
 We have crafted this bootcamp to help you land and excel at these roles.
 
-We’ll do this by making you exceptional at AI safety operations, not teaching you to the test. This means that even if you don’t secure one of these roles, we’re confident you’ll have useful skills for future opportunities that we expect demand to grow even further for in the next few months.
+We’ll do this by making you exceptional at AI safety operations, not teaching you to the test. This means that even if you don't get one of these roles, your skills will be valuable for a market that's heating up for these skills.
 
 By the end of this bootcamp, you’ll be able to:
 - Talk confidently about core AI and AI safety concepts
@@ -169,6 +169,22 @@ By the end of this bootcamp, you’ll be able to:
 You’ll commit to 6 hours of upskilling next week, which can be done alongside a full-time job:
 - 4 hours independent study
 - 2x 1-hour group discussions, over your lunch break or after work
+
+## Who is this bootcamp for?
+
+This bootcamp is ideal for early-to-mid career professionals **who get shit done**. You don't need AI or AI safety experience.
+
+You'd be a great fit if:
+- **You have 2-5 years of relevant experience** – You've worked in operational and/or project delivery roles
+  - Bonus: experience working in startup or R&D environments, technical project management, contract management, stakeholder engagement
+  - Bonus: you can describe an impressive operations success, where you've run through walls to make things happen
+- **You move fast** – You hit the ground running and have experience managing complex projects under rapid timelines
+- **You're solutions-oriented** – You proactively identify answers to complex problems while maintaining delivery momentum
+- **You work autonomously** – You identify clear paths forward and unlock issues, working effectively with wider operational teams
+- **You have can work in London** – You're willing to work from AISI's London office, and have right to work in the UK
+
+This is NOT for you if:
+- You're primarily seeking a policy, strategy or technical AI research position
 
 ## Why are we doing this?
 
