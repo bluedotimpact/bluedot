@@ -60,9 +60,31 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         <div
           class="unit__breadcrumbs-cta-container flex flex-row items-center gap-6"
         >
+          <button
+            aria-label="Previous unit"
+            class="bluedot-a not-prose unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+              />
+            </svg>
+             Prev
+          </button>
           <a
             aria-label="Next unit"
-            class="bluedot-a not-prose unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline"
+            class="bluedot-a not-prose unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
             href="/courses/test-course/2"
             tabindex="0"
           >
@@ -91,9 +113,18 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       <nav
         class="mobile-unit-header__nav flex flex-row justify-between"
       >
-        <div
-          class="mobile-unit-header__prev-unit-container size-8"
-        />
+        <button
+          aria-label="Previous unit"
+          class="bluedot-a not-prose mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          disabled=""
+          type="button"
+        >
+          <img
+            alt=""
+            class="size-8"
+            src="/icons/bubble-arrow.svg"
+          />
+        </button>
         <div
           class="mobile-unit-header__course-container flex flex-row gap-2 items-center"
         >
@@ -117,22 +148,18 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </p>
           </div>
         </div>
-        <div
-          class="mobile-unit-header__next-unit-container size-8"
+        <a
+          aria-label="Next unit"
+          class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          href="/courses/test-course/2"
+          tabindex="0"
         >
-          <a
-            aria-label="Next unit"
-            class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline"
-            href="/courses/test-course/2"
-            tabindex="0"
-          >
-            <img
-              alt=""
-              class="size-8 rotate-180"
-              src="/icons/bubble-arrow.svg"
-            />
-          </a>
-        </div>
+          <img
+            alt=""
+            class="size-8 rotate-180"
+            src="/icons/bubble-arrow.svg"
+          />
+        </a>
       </nav>
     </div>
     <section
