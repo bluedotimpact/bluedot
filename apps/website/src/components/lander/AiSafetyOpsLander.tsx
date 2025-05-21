@@ -1,0 +1,230 @@
+import Head from 'next/head';
+import {
+  CTALinkOrButton,
+  Section,
+  QuoteCarousel,
+} from '@bluedot/ui';
+import {
+  HeroH1,
+  HeroMiniTitle,
+  HeroCTAContainer,
+  HeroSection,
+} from '@bluedot/ui/src/HeroSection';
+import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
+
+import { H1, H2, H3 } from '../Text';
+import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
+
+const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
+  return (
+    <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
+      <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>
+      <CTALinkOrButton className="ai-safety-ops-lander__banner-cta" url={ctaUrl} withChevron>
+        Apply now
+      </CTALinkOrButton>
+    </div>
+  );
+};
+
+const customMiniTitle = 'AI Safety Operations Bootcamp';
+const customTitle = 'Are you an operations specialist who wants to make the future go well?';
+const customDescription = "There are 4 roles at AISI so impactful that we've built a bootcamp to help you land and excel at them.";
+
+const testimonials1: Testimonial[] = [
+  {
+    quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
+    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
+    role: 'AI Alignment Course Graduate',
+    imageSrc: '/images/graduates/sabrina.jpg',
+  },
+  {
+    quote: "BlueDot's course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate.",
+    name: 'Matthew Bradbury: Senior AI Risk Analyst, UK Government',
+    role: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/matthew.png',
+  },
+  {
+    quote: 'Coming from a public sector responsible AI background and having designed several educational programmes myself, I found the BlueDot course truly humbling and impressive pedagogically. This course is suitable for anyone motivated to work on AI Safety and contribute to the wider discourse in one of the most important topics of our time',
+    name: 'Mishka Nemes: Responsible AI & Skills Advisor, Alan Turing Institute',
+    role: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/mishka.jpg',
+  },
+];
+
+const testimonials2 = [
+  {
+    quote: 'Entering the course from a non-technical background, I wasn’t sure what to expect or if I would be able to keep up with the material. It turned out to be the perfect level of challenging yet achievable for me. I learned so much from the readings, insightful conversations and activities during the sessions in particular. I always felt supported and welcome to contribute, and the diversity of knowledge in that virtual room helped all of us to learn and consider new perspectives. I thoroughly enjoyed the course and it became something I really looked forward to every Friday!',
+    name: 'Belle Yeung',
+    role: 'Head of AI Governance, Arcadia Impact',
+    imageSrc: '/images/graduates/belle.jpg',
+  },
+  {
+    quote: 'The course was a game-changer for me. It allowed me not only to gain invaluable knowledge but also to connect with like-minded individuals, engaging in thought-provoking discussions that expanded my understanding. This course played a crucial role in supporting my successful application to the MATS Program, where I\'m now working on AI safety research. It\'s also a testament to the course\'s quality that one of my course group members is now at MATS with me!',
+    name: 'Constantin Weisser',
+    role: 'Founding Engineer, Haize Labs',
+    imageSrc: '/images/graduates/constantin.jpg',
+  },
+  {
+    quote: 'This course is the perfect starting point for anyone interested in AI Safety. The team excels at curating relevant resources, and the curriculum is always accessible for future reference. The community is very active, providing support, interesting research directions, and collaboration opportunities. I left feeling much more confident in my AI Safety and Ethics career, with a strong community of like-minded professionals. I highly recommend this course to anyone looking to make an impact in AI Safety!',
+    name: 'Su Cizem',
+    role: 'AI Governance Analyst, CeSIA',
+    imageSrc: '/images/graduates/su.jpg',
+  },
+];
+
+const AiSafetyOpsLander = () => {
+  const applicationUrl = 'https://example.com';
+
+  return (
+    <>
+      <Head>
+        <title>AI Safety Operations Bootcamp | BlueDot Impact</title>
+        <meta name="description" content={customDescription} />
+      </Head>
+
+      {/* Mobile hero */}
+      <HeroSection className="xl:hidden">
+        <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
+        <HeroH1>{customTitle}</HeroH1>
+        <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
+        <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaCalendarAlt /> 6 hours total
+          </div>
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaUserFriends /> Group discussions
+          </div>
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaLaptop /> Online
+          </div>
+        </div>
+        <HeroCTAContainer>
+          <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+        </HeroCTAContainer>
+      </HeroSection>
+
+      {/* Desktop hero */}
+      <div className="hidden xl:flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative min-h-160">
+        <div className="ai-safety-ops-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
+          <div className="
+              ai-safety-ops-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+          >
+            <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{customMiniTitle}</H1>
+            <H2 className="text-color-text-on-dark">{customTitle}</H2>
+            <p className="text-color-text-on-dark mt-4 bluedot-h3">{customDescription}</p>
+            <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-8">
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaCalendarAlt /> 6 hours total
+              </div>
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaUserFriends /> Group discussions
+              </div>
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaLaptop /> Online
+              </div>
+            </div>
+            <HeroCTAContainer>
+              <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+            </HeroCTAContainer>
+          </div>
+          <QuoteCarousel className="ai-safety-ops-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={testimonials1} />
+        </div>
+      </div>
+
+      {/* Role details section */}
+      <Section>
+        <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto max-w-3xl">
+          <MarkdownExtendedRenderer>{`## What roles does this bootcamp prepare you for?
+
+This bootcamp prepares you for early-to-mid-career **operations roles in AI safety**. We've optimised for the 4 open "Delivery Adviser" roles in the UK Government’s AI Security Institute's Research Unit.
+
+The research done here critically depends on many operational tasks: from recruiting study participants, to getting access to the right datasets across government, to negotiating contracts with AI companies.
+
+These operations roles will accelerate crucial AI safety research in:
+- **human influence**: this team investigates how AI systems can manipulate, persuade, deceive or subtly steer human behaviours, for example by running large-scale human studies to measure these impacts ([more details](https://www.aisi.gov.uk/research-agenda#human-influence)).
+- **cyber and autonomous systems**: this team maps dangerous AI capabilities that could threaten cybersecurity and human control over autonomous systems, for example developing [evaluations for whether AI systems can copy themselves across systems](https://www.aisi.gov.uk/work/replibench-measuring-autonomous-replication-capabilities-in-ai-systems) (more on [cyber](https://www.aisi.gov.uk/research-agenda#cyber-misuse), [autonomous systems](https://www.aisi.gov.uk/research-agenda#autonomous-systems))
+- **societal resilience**: this team studies how AI capabilities might be used for harm, and interventions we can put in place to protect the world - for example, collaborating with the above teams to safeguard democratic institutions or AI-proofing critical national infrastructure from cyberattacks ([more details](https://www.aisi.gov.uk/research-agenda#societal-resilience)).
+
+**Role salary:** £44,195 - £48,620, plus 28.97% pension (total ~£59,850)
+
+**Role location:** London, UK
+
+## Why join the bootcamp?
+
+We have crafted this bootcamp to help you land and excel at these roles.
+
+We’ll do this by making you exceptional at AI safety operations, not teaching you to the test. This means that even if you don't get one of these roles, your skills will be valuable for a market that's heating up for these skills.
+
+By the end of this bootcamp, you’ll be able to:
+- Talk confidently about core AI and AI safety concepts
+- Explain the role AISI plays in global AI security
+- Communicate how these teams contribute to AISI’s mission, and AI safety more broadly
+- Leverage AI and other tools effectively to become a top-tier contributor
+- Apply your new understanding and skills to practical operations challenges
+- Evaluate your fit for these and other similar operations roles
+
+You’ll commit to 6 hours of upskilling next week, which can be done alongside a full-time job:
+- 4 hours independent study
+- 2x 1-hour group discussions, over your lunch break or after work
+
+## Who is this bootcamp for?
+
+This bootcamp is ideal for early-to-mid career professionals **who get shit done**. You don't need AI or AI safety experience.
+
+You'd be a great fit if:
+- **You have 2-5 years of relevant experience** – You've worked in operational and/or project delivery roles
+  - Bonus: experience working in startup or R&D environments, technical project management, contract management, stakeholder engagement
+  - Bonus: you can describe an impressive operations success, where you've run through walls to make things happen
+- **You move fast** – You hit the ground running and have experience managing complex projects under rapid timelines
+- **You're solutions-oriented** – You proactively identify answers to complex problems while maintaining delivery momentum
+- **You work autonomously** – You identify clear paths forward and unlock issues, working effectively with wider operational teams
+- **You have can work in London** – You're willing to work from AISI's London office, and have right to work in the UK
+
+This is NOT for you if:
+- You're primarily seeking a policy, strategy or technical AI research position
+
+## Why are we doing this?
+
+We’re a non-profit education organisation building the workforce that protects humanity. We think safely navigating the transition to transformative AI might be one of the biggest challenges humanity has ever faced, and we’ll need excellent people in key roles to make this happen.
+
+We train excellent people to fill these important roles - so far we’ve trained thousands of people who now work at organisations such as AISI, Anthropic, the UN and NATO.
+
+We think AISI is one of the most important organisations in the world for ensuring AI is developed safely, being a government body AND the global leader working to evaluate and pre-empt AI risks.
+
+Having reviewed the open jobs across AI safety organisations in May 2025, and spoken to the hiring managers for this and other jobs, we think this role is important and neglected. This means if you are (or have the capacity to be from our training) an awesome person, we’re keen to help get you in this role.
+
+This program is led, managed and run by BlueDot Impact. While we have tailored this to AISI’s job roles, and spoken to some of the hiring managers at AISI about this, this is not an official AISI project.
+
+## More details
+
+The roles on Civil Service Jobs:
+
+- [Human influence + societal resilience](https://www.civilservicejobs.service.gov.uk/csr/jobs.cgi?jcode=1952892)
+- [Cyber and autonomous systems](https://www.civilservicejobs.service.gov.uk/csr/jobs.cgi?jcode=1952889)
+
+Got questions or feedback? We’d love to hear from you - email [adam@bluedot.org](mailto:adam@bluedot.org) and we’ll try to get back to you ASAP.`}
+          </MarkdownExtendedRenderer>
+        </div>
+      </Section>
+
+      {/* Banner */}
+      <AiSafetyOpsBanner title="Join our AI Safety Operations Bootcamp and accelerate your impact in AI safety." ctaUrl={applicationUrl} />
+
+      <Section className="mt-8">
+        {/* Testimonials mobile */}
+        <div className="xl:hidden">
+          <TestimonialSubSection testimonials={[...testimonials1, ...testimonials2]} title="What people say about our other courses" />
+        </div>
+
+        {/* Testimonials desktop */}
+        <div className="hidden xl:block">
+          <TestimonialSubSection testimonials={testimonials2} title="What people say about our other courses" />
+        </div>
+      </Section>
+    </>
+  );
+};
+
+export default AiSafetyOpsLander;
