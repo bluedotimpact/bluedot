@@ -47,15 +47,20 @@ export function createDbClient(url: string): PgAirtableDatabase {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: PgInsertValue<PgAirtableTable<TTableName, TColumnsMap>>,
   ): Promise<PgAirtableTable<TTableName, TColumnsMap>['$inferSelect']> => {
-    airtableClient.insert(table, data);
-    const result = await pgClient.insert(table).values(data).returning();
+    console.log('Here again', { table: table.getAirtableTable(), data });
+
+    const airtableResult = await airtableClient.insert(table.getAirtableTable(), data);
+
+    console.log({ airtableResult });
+
+    // TODO change to ensureReplicated
+    const result = await pgClient.insert(table).values(airtableResult).returning();
 
     console.log({ result });
 
     // @ts-expect-error
     return result[0];
   };
-
 
   const handler: ProxyHandler<PgAirtableDatabase> = {
     get(target, propKey, receiver) {

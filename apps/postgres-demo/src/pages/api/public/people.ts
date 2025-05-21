@@ -8,17 +8,18 @@ export default makeApiRoute({
   requireAuth: true,
   responseBody: z.any(),
 }, async () => {
-  // Do some stuff with users as a test
-  await db.airtableInsert(userTable, {
-    id: Math.random().toString(36).substring(2, 15),
-    email: 'johndoe@example.com',
-  });
+  try {
+    // Do some stuff with users as a test
+    await db.airtableInsert(userTable, {
+      email: 'johndoe@example.com',
+      name: 'John Doe',
+    });
 
-  console.log({ db });
-
-  const allUsers = await db.select().from(userTable);
-
-  console.log(allUsers);
+    const allUsers = await db.select().from(userTable);
+    console.log({ allUsers });
+  } catch (e) {
+    console.error('An error occurred:', e);
+  }
 
   return [];
 });

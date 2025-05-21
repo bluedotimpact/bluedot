@@ -1,12 +1,11 @@
+import { Table } from 'airtable-ts';
 import { BuildColumns } from 'drizzle-orm/column-builder';
-import { NodePgClient, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import {
   pgTable,
   text,
   PgColumnBuilderBase,
   PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
-import { Pool } from 'pg';
 
 export type PgAirtableColumnInput = {
   pgColumn: PgColumnBuilderBase;
@@ -40,6 +39,7 @@ export type PgAirtableTable<
   readonly airtableBaseId: string;
   readonly airtableTableId: string;
   readonly airtableFieldMap: ReadonlyMap<string, string>;
+  getAirtableTable(): Table<any>;
 };
 
 export function pgAirtable<
@@ -69,15 +69,36 @@ export function pgAirtable<
     airtableBaseId: config.baseId,
     airtableTableId: config.tableId,
     airtableFieldMap: fieldMap as ReadonlyMap<string, string>,
+    getAirtableTable(): Table<any> {
+      const mappings: Record<string, string> = {};
+      // TODO infer actual types
+      const schema: Record<string, 'string | null'> = {};
+
+      for (const columnName of Object.keys(config.columns).filter((n) => n !== 'id')) {
+        const columnConfig = config.columns[columnName as keyof TColumnsMap];
+        if (columnConfig) {
+          mappings[columnName] = columnConfig.airtableId;
+          schema[columnName] = 'string | null';
+        }
+      }
+
+      return {
+        name,
+        baseId: config.baseId,
+        tableId: config.tableId,
+        mappings,
+        schema,
+      };
+    },
   });
 
   return result;
 }
 
-// TODO fix types
 export function isPgAirtableTable(table: any): table is PgAirtableTable<string, any> {
   return table && typeof table === 'object'
          && typeof table.airtableBaseId === 'string'
          && typeof table.airtableTableId === 'string'
-         && table.airtableFieldMap instanceof Map;
+         && table.airtableFieldMap instanceof Map
+         && typeof table.getAirtableTable === 'function';
 }
