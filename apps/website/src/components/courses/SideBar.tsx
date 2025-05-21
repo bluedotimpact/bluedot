@@ -6,6 +6,7 @@ import { Unit } from '../../lib/api/db/tables';
 
 type SideBarProps = {
   // Required
+  courseTitle: string;
   units: Unit[];
   currentUnitNumber: number;
   // Optional
@@ -46,6 +47,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 const SideBar: React.FC<SideBarProps> = ({
+  courseTitle,
   className,
   units,
   currentUnitNumber,
@@ -58,8 +60,8 @@ const SideBar: React.FC<SideBarProps> = ({
       <div className="sidebar__header-container flex flex-row gap-2 pb-6">
         <img src="/icons/course.svg" className="size-11" alt="" />
         <div className="sidebar__title-container flex flex-col">
-          <p className="sidebar__course-header text-size-sm text-charcoal-light">Course</p>
-          <p className="sidebar__course-title bluedot-h4">The Future of AI</p>
+          <p className="sidebar__course-header text-size-sm text-[#999eb3]">Course</p>
+          <p className="sidebar__course-title bluedot-h4">{courseTitle}</p>
         </div>
       </div>
       <div className="sidebar__content flex flex-col container-lined bg-white">
