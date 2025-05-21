@@ -44,8 +44,8 @@ export const Nav: React.FC<NavProps> = ({
   return (
     <nav
       className={clsx(
-        `nav sticky top-0 z-50 w-full container-elevated transition-all ${TRANSITION_DURATION_CLASS}`,
-        isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-color-canvas',
+        `nav sticky top-0 z-50 w-full transition-all ${TRANSITION_DURATION_CLASS}`,
+        isScrolled ? 'bg-color-canvas-dark **:text-white' : 'bg-white border-b border-color-divider',
         className,
       )}
     >
