@@ -40,13 +40,9 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3', className)}>
       <nav className="mobile-unit-header__nav flex flex-row justify-between">
-        <div className="mobile-unit-header__prev-unit-container size-8">
-          {prevUnit && (
-            <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline" href={prevUnit?.path} aria-label="Previous unit">
-              <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
-            </A>
-          )}
-        </div>
+        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!prevUnit} href={prevUnit?.path} aria-label="Previous unit">
+          <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
+        </A>
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
           <img src="/icons/course.svg" className="size-8" alt="" />
           <div className="mobile-unit-header__course-title-container flex flex-col">
@@ -54,13 +50,9 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
-        <div className="mobile-unit-header__next-unit-container size-8">
-          {nextUnit && (
-            <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline" href={nextUnit?.path} aria-label="Next unit">
-              <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
-            </A>
-          )}
-        </div>
+        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!nextUnit} href={nextUnit?.path} aria-label="Next unit">
+          <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
+        </A>
       </nav>
     </div>
   );
@@ -96,16 +88,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         }}
       >
         <div className="unit__breadcrumbs-cta-container flex flex-row items-center gap-6">
-          {prevUnit && (
-            <A className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline" href={prevUnit?.path} aria-label="Previous unit">
-              <FaArrowLeft className="size-3" /> Prev
-            </A>
-          )}
-          {nextUnit && (
-            <A className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline" href={nextUnit?.path} aria-label="Next unit">
-              Next <FaArrowRight className="size-3" />
-            </A>
-          )}
+          <A className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed" disabled={!prevUnit} href={prevUnit?.path} aria-label="Previous unit">
+            <FaArrowLeft className="size-3" /> Prev
+          </A>
+          <A className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed" disabled={!nextUnit} href={nextUnit?.path} aria-label="Next unit">
+            Next <FaArrowRight className="size-3" />
+          </A>
         </div>
       </Breadcrumbs>
 
