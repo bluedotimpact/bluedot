@@ -1,14 +1,21 @@
 import clsx from 'clsx';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
+import { constants } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
-import { A, H3 } from '../Text';
+import { A } from '../Text';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
   NAV_LINK_CLASSES,
   TRANSITION_DURATION_CLASS,
 } from './utils';
+
+const ABOUT = [
+  { title: 'Our story', url: ROUTES.about.url },
+  { title: 'Careers', url: ROUTES.joinUs.url },
+  { title: 'Contact', url: ROUTES.contact.url },
+];
 
 const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
@@ -17,13 +24,11 @@ const isCurrentPath = (url: string): boolean => {
 };
 
 export const NavLinks: React.FC<{
-  courses: { title: string; url: string; isNew?: boolean }[];
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   className?: string;
   isScrolled: boolean;
 }> = ({
-  courses,
   expandedSections,
   updateExpandedSections,
   className,
@@ -31,70 +36,84 @@ export const NavLinks: React.FC<{
 }) => {
   return (
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
-      <ExploreDropdown
-        expanded={expandedSections.explore}
-        courses={courses}
-        isScrolled={isScrolled}
+      <NavDropdown
         expandedSections={expandedSections}
-        updateExpandedSections={updateExpandedSections}
+        isExpanded={expandedSections.explore}
+        isScrolled={isScrolled}
+        links={constants.COURSES}
+        onToggle={() => updateExpandedSections({
+          about: false,
+          explore: !expandedSections.explore,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        title="Courses"
       />
-      <A href={ROUTES.about.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.about.url))}>About us</A>
-      <A href={ROUTES.joinUs.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.joinUs.url))}>Join us</A>
+      <NavDropdown
+        expandedSections={expandedSections}
+        isExpanded={expandedSections.about}
+        isScrolled={isScrolled}
+        links={ABOUT}
+        onToggle={() => updateExpandedSections({
+          about: !expandedSections.about,
+          explore: false,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        title="About"
+      />
       <A href={ROUTES.blog.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.blog.url))}>Blog</A>
       <A href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={NAV_LINK_CLASSES(isScrolled)}>Events</A>
     </div>
   );
 };
 
-const ExploreDropdown: React.FC<{
-  expanded: boolean;
-  className?: string;
-  courses: { title: string; url: string; isNew?: boolean }[];
-  isScrolled: boolean;
+const NavDropdown: React.FC<{
+  // Required
   expandedSections: ExpandedSectionsState;
-  updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+  isExpanded: boolean;
+  isScrolled: boolean;
+  links: { title: string; url: string; isNew?: boolean }[];
+  onToggle: () => void;
+  title: string;
+  // Optional
+  className?: string;
 }> = ({
-  expanded,
-  className,
-  courses,
-  isScrolled,
   expandedSections,
-  updateExpandedSections,
+  isExpanded,
+  isScrolled,
+  links,
+  onToggle,
+  title,
+  className,
 }) => {
-  const onToggleExplore = () => updateExpandedSections({
-    mobileNav: expandedSections.mobileNav,
-    explore: !expandedSections.explore,
-    profile: false,
-  });
-
   return (
-    <div className="explore-dropdown">
+    <div className="nav-dropdown">
       <button
         type="button"
-        onClick={onToggleExplore}
-        className={clsx('explore-dropdown__btn flex items-center gap-2 cursor-pointer', NAV_LINK_CLASSES(isScrolled))}
+        onClick={onToggle}
+        className={clsx('nav-dropdown__btn flex items-center gap-2 cursor-pointer', NAV_LINK_CLASSES(isScrolled))}
       >
-        Explore
-        {expandedSections.explore ? <FaChevronUp /> : <FaChevronDown />}
+        {title}
+        {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
       </button>
       <div
         className={clsx(
-          `explore-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
-          expanded ? 'max-h-96 opacity-100' : 'max-h-0 hidden',
-          !expandedSections.mobileNav && DRAWER_CLASSES(isScrolled, expanded),
+          `nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
+          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 hidden',
+          !expandedSections.mobileNav ? DRAWER_CLASSES(isScrolled, isExpanded) : 'pt-4',
           className,
         )}
       >
-        <div className={clsx('explore-dropdown___dropdown-content flex flex-col gap-[14px] w-fit overflow-hidden mx-auto text-pretty', !expandedSections.explore && 'hidden')}>
-          <H3 className="explore-dropdown__dropdown-title font-bold pt-4">Our courses</H3>
-          {courses?.map((course) => (
-            <A key={course.url} href={course.url} className={NAV_LINK_CLASSES(isScrolled)}>
-              {course.isNew && (
-                <span className="explore-dropdown__new-badge text-bluedot-normal font-black pr-2">
-                  New!
+        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty', !isExpanded && 'hidden')}>
+          {links?.map((link) => (
+            <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
+              {link.title}
+              {link.isNew && (
+                <span className="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2">
+                  New
                 </span>
               )}
-              {course.title}
             </A>
           ))}
         </div>

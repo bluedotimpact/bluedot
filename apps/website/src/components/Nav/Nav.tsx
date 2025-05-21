@@ -12,24 +12,19 @@ import { ExpandedSectionsState, TRANSITION_DURATION_CLASS } from './utils';
 export type NavProps = {
   className?: string;
   logo?: string;
-  courses: {
-    title: string;
-    url: string;
-    isNew?: boolean;
-  }[];
 };
 
 export const Nav: React.FC<NavProps> = ({
   className,
   logo,
-  courses,
 }) => {
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
-    mobileNav: false,
+    about: false,
     explore: false,
+    mobileNav: false,
     profile: false,
   });
 
@@ -54,16 +49,20 @@ export const Nav: React.FC<NavProps> = ({
         className,
       )}
     >
-      <ClickAwayListener onClickAway={() => setExpandedSections({ mobileNav: false, explore: false, profile: false })}>
+      <ClickAwayListener onClickAway={() => setExpandedSections({
+        about: false,
+        explore: false,
+        mobileNav: false,
+        profile: false,
+      })}
+      >
         <div className="nav__container section-base">
           <div className="nav__bar w-full flex justify-between items-center h-16">
             {/* Mobile & Tablet: Hamburger Button */}
             <MobileNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              courses={courses}
               isScrolled={isScrolled}
-              isLoggedIn={isLoggedIn}
             />
 
             {/* Logo */}
@@ -73,7 +72,6 @@ export const Nav: React.FC<NavProps> = ({
             <DesktopNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              courses={courses}
               isScrolled={isScrolled}
             />
 

@@ -1,7 +1,7 @@
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { CTALinkOrButton, Footer, constants } from '@bluedot/ui';
+import { CTALinkOrButton, Footer } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
@@ -37,7 +37,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           ? <Component {...pageProps} />
           : (
             <>
-              <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+              <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" />
               {fromSite && (
                 <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
                   <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
