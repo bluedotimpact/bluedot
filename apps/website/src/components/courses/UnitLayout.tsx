@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import { isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 import {
   Section,
