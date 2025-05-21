@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import Head from 'next/head';
 import {
   CTALinkOrButton,
@@ -35,7 +34,7 @@ const customDescription = "There are 4 roles at AISI so impactful that we've bui
 const testimonials1: Testimonial[] = [
   {
     quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
-    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Insitute',
+    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
     role: 'AI Alignment Course Graduate',
     imageSrc: '/images/graduates/sabrina.jpg',
   },
@@ -196,7 +195,7 @@ We think AISI is one of the most important organisations in the world for ensuri
 
 Having reviewed the open jobs across AI safety organisations in May 2025, and spoken to the hiring managers for this and other jobs, we think this role is important and neglected. This means if you are (or have the capacity to be from our training) an awesome person, we’re keen to help get you in this role.
 
-This program is lead, managed and run by BlueDot Impact. While we have tailored this to AISI’s job roles, and spoken to some of the hiring managers at AISI about this, this is not an official AISI project.
+This program is led, managed and run by BlueDot Impact. While we have tailored this to AISI’s job roles, and spoken to some of the hiring managers at AISI about this, this is not an official AISI project.
 
 ## More details
 
