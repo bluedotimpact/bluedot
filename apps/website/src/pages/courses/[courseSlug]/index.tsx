@@ -15,6 +15,7 @@ import { ROUTES } from '../../../lib/routes';
 import { GetCourseResponse } from '../../api/courses/[courseSlug]';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
+import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 
@@ -34,16 +35,24 @@ const CoursePage = () => {
     <div>
       {loading && <ProgressDots />}
       {error && <ErrorSection error={error} />}
-      {data?.course && (
-        // Custom lander case for Future of AI
-        courseSlug === 'future-of-ai' ? (
-          <FutureOfAiLander courseData={data} />
-        ) : (
-          <StandardCoursePage courseData={data} />
-        )
-      )}
+      {data?.course && renderCoursePage(courseSlug, data)}
     </div>
   );
+};
+
+// Helper function to render the appropriate course page based on slug
+const renderCoursePage = (slug: string, data: GetCourseResponse) => {
+  // Custom lander cases
+  if (slug === 'future-of-ai') {
+    return <FutureOfAiLander courseData={data} />;
+  }
+
+  if (slug === 'ops') {
+    return <AiSafetyOpsLander />;
+  }
+
+  // Default case
+  return <StandardCoursePage courseData={data} />;
 };
 
 const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) => {
