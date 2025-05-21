@@ -1,7 +1,7 @@
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { CTALinkOrButton, Footer, constants } from '@bluedot/ui';
+import { CTALinkOrButton, Footer } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
