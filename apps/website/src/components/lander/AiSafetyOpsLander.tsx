@@ -1,6 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 import Head from 'next/head';
-import { isMobile } from 'react-device-detect';
 import {
   CTALinkOrButton,
   Section,
@@ -33,7 +32,7 @@ const customMiniTitle = 'AI Safety Operations Bootcamp';
 const customTitle = 'Are you an operations specialist who wants to make the future go well?';
 const customDescription = "There are 4 roles at AISI so impactful that we've built a course to help you land and excel at them.";
 
-const testimonials: Testimonial[] = [
+const testimonials1: Testimonial[] = [
   {
     quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
     name: 'Sabrina Shih: AI Policy Manager, Responsible AI Insitute',
@@ -85,56 +84,55 @@ const AiSafetyOpsLander = () => {
         <meta name="description" content={customDescription} />
       </Head>
 
-      {/* Hero section */}
-      {isMobile ? (
-        <HeroSection>
-          <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
-          <HeroH1>{customTitle}</HeroH1>
-          <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
-          <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaCalendarAlt /> 6 hours total
-            </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaUserFriends /> Group discussions
-            </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-              <FaLaptop /> Online
-            </div>
+      {/* Mobile hero */}
+      <HeroSection className="xl:hidden">
+        <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
+        <HeroH1>{customTitle}</HeroH1>
+        <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
+        <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaCalendarAlt /> 6 hours total
           </div>
-          <HeroCTAContainer>
-            <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
-          </HeroCTAContainer>
-        </HeroSection>
-      ) : (
-        <div className="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative min-h-160">
-          <div className="ai-safety-ops-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
-            <div className="
-              ai-safety-ops-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
-              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
-            >
-              <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{customMiniTitle}</H1>
-              <H2 className="text-color-text-on-dark">{customTitle}</H2>
-              <p className="text-color-text-on-dark mt-4 bluedot-h3">{customDescription}</p>
-              <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-8">
-                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaCalendarAlt /> 6 hours total
-                </div>
-                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaUserFriends /> Group discussions
-                </div>
-                <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaLaptop /> Online
-                </div>
-              </div>
-              <HeroCTAContainer>
-                <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
-              </HeroCTAContainer>
-            </div>
-            <QuoteCarousel className="ai-safety-ops-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={testimonials} />
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaUserFriends /> Group discussions
+          </div>
+          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <FaLaptop /> Online
           </div>
         </div>
-      )}
+        <HeroCTAContainer>
+          <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+        </HeroCTAContainer>
+      </HeroSection>
+
+      {/* Desktop hero */}
+      <div className="hidden xl:flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative min-h-160">
+        <div className="ai-safety-ops-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
+          <div className="
+              ai-safety-ops-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+          >
+            <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{customMiniTitle}</H1>
+            <H2 className="text-color-text-on-dark">{customTitle}</H2>
+            <p className="text-color-text-on-dark mt-4 bluedot-h3">{customDescription}</p>
+            <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-8">
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaCalendarAlt /> 6 hours total
+              </div>
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaUserFriends /> Group discussions
+              </div>
+              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+                <FaLaptop /> Online
+              </div>
+            </div>
+            <HeroCTAContainer>
+              <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+            </HeroCTAContainer>
+          </div>
+          <QuoteCarousel className="ai-safety-ops-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={testimonials1} />
+        </div>
+      </div>
 
       {/* Role details section */}
       <Section>
@@ -200,7 +198,15 @@ Got questions or feedback? We’d love to hear from you - email [adam@bluedot.or
       <AiSafetyOpsBanner title="Join our AI Safety Operations Bootcamp and accelerate your impact in AI safety." ctaUrl={applicationUrl} />
 
       <Section className="mt-8">
-        <TestimonialSubSection testimonials={testimonials2} title="What people say about our other courses" />
+        {/* Testimonials mobile */}
+        <div className="xl:hidden">
+          <TestimonialSubSection testimonials={[...testimonials1, ...testimonials2]} title="What people say about our other courses" />
+        </div>
+
+        {/* Testimonials desktop */}
+        <div className="hidden xl:block">
+          <TestimonialSubSection testimonials={testimonials2} title="What people say about our other courses" />
+        </div>
       </Section>
     </>
   );
