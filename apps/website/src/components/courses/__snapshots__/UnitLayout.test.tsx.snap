@@ -145,7 +145,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="unit__content-container flex flex-col md:flex-row"
         >
           <div
-            class="sidebar w-full md:w-[320px] flex flex-col"
+            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block"
           >
             <div
               class="sidebar__header-container flex flex-row gap-2 pb-6"
@@ -252,7 +252,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </div>
           </div>
           <div
-            class="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6"
+            class="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x"
           >
             <div
               class="unit__title-container"
