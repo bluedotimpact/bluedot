@@ -137,7 +137,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="mobile-unit-header__course-title-container flex flex-col"
           >
             <p
-              class="mobile-unit-header__course-header text-size-xxs text-charcoal-light"
+              class="mobile-unit-header__course-header text-size-xxs text-[#999eb3]"
             >
               What the fish [Test Course]
             </p>

@@ -46,7 +46,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
           <img src="/icons/course.svg" className="size-8" alt="" />
           <div className="mobile-unit-header__course-title-container flex flex-col">
-            <p className="mobile-unit-header__course-header text-size-xxs text-charcoal-light">{unit.courseTitle}</p>
+            <p className="mobile-unit-header__course-header text-size-xxs text-[#999eb3]">{unit.courseTitle}</p>
             <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
