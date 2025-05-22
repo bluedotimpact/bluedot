@@ -152,7 +152,7 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
 
 export type Unit = {
   id: string,
-  chunks: string[],
+  chunks: string[] | null,
   courseId: string,
   courseTitle: string,
   coursePath: string,
@@ -189,7 +189,7 @@ export const unitTable: Table<Unit> = {
     unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
-    chunks: 'string[]',
+    chunks: 'string[] | null',
     courseId: 'string',
     courseTitle: 'string',
     coursePath: 'string',
