@@ -31,6 +31,8 @@ const customMiniTitle = 'AI Safety Operations Bootcamp';
 const customTitle = 'Are you an operations specialist who wants to make the future go well?';
 const customDescription = "There are 4 roles at AISI so impactful that we've built a bootcamp to help you land and excel at them.";
 
+const applicationUrl = 'https://forms.bluedot.org/1W29W7atNVeEF3RTkfCX';
+
 const testimonials1: Testimonial[] = [
   {
     quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
@@ -74,8 +76,6 @@ const testimonials2 = [
 ];
 
 const AiSafetyOpsLander = () => {
-  const applicationUrl = 'https://example.com';
-
   return (
     <>
       <Head>
@@ -167,7 +167,7 @@ By the end of this bootcamp, you’ll be able to:
 
 You’ll commit to 6 hours of upskilling next week, which can be done alongside a full-time job:
 - 4 hours independent study
-- 2x 1-hour group discussions, over your lunch break or after work
+- 2x 1-hour group discussions, over your lunch break (12:30-1:30pm UK time) or after work (7pm-8pm UK time)
 
 ## Who is this bootcamp for?
 
