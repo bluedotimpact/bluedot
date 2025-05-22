@@ -67,11 +67,16 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
             <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description}</MarkdownExtendedRenderer>
-            {courseData.units?.[0]?.path && (
+            <div className="flex flex-row gap-4 justify-center items-center">
+              {courseData.units?.[0]?.path && (
+                <HeroCTAContainer>
+                  <CTALinkOrButton url={courseData.units[0].path}>Browse the curriculum</CTALinkOrButton>
+                </HeroCTAContainer>
+              )}
               <HeroCTAContainer>
-                <CTALinkOrButton url={courseData.units[0].path}>Browse the curriculum for free</CTALinkOrButton>
+                <CTALinkOrButton url="https://forms.bluedot.org/aGd0mXnpcN1gfqlnYNZc">Register interest</CTALinkOrButton>
               </HeroCTAContainer>
-            )}
+            </div>
           </HeroSection>
           <Breadcrumbs
             className="course-serp__breadcrumbs"
