@@ -22,7 +22,15 @@ type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
   [K in keyof T]: T[K]['pgColumn'];
 };
 
-type BasePgTableType<
+export type AirtableItemFromColumnsMap<
+  TColumnsMap extends Record<string, PgAirtableColumnInput>,
+> = {
+  id: string;
+} & {
+  [K in keyof TColumnsMap]: string | null;
+};
+
+export type BasePgTableType<
   TTableName extends string,
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
 > = PgTableWithColumns<{
@@ -32,15 +40,68 @@ type BasePgTableType<
   dialect: 'pg';
 }>;
 
-export type PgAirtableTable<
+// The old PgAirtableTable type is replaced by this class definition.
+export class PgAirtableTable<
   TTableName extends string,
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
-> = BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }> & {
-  readonly airtableBaseId: string;
-  readonly airtableTableId: string;
-  readonly airtableFieldMap: ReadonlyMap<string, string>;
-  getAirtableTable(): Table<any>;
-};
+> {
+  public readonly pg: BasePgTableType<TTableName, TColumnsMap & { id: { pgColumn: ReturnType<typeof text>, airtableId: string } }>;
+
+  public readonly airtable: Table<AirtableItemFromColumnsMap<TColumnsMap>>;
+
+  public readonly airtableFieldMap: ReadonlyMap<string, string>;
+
+  private readonly tableName: TTableName;
+
+  private readonly columnsConfig: TColumnsMap;
+
+  constructor(name: TTableName, config: PgAirtableConfig<TColumnsMap>) {
+    this.tableName = name;
+    this.columnsConfig = config.columns;
+
+    // Initialise Postgres
+    const drizzleTableColsBuilder: Record<string, PgColumnBuilderBase> = {
+      id: text('id').notNull().primaryKey(),
+    };
+
+    for (const [columnName, columnConfig] of Object.entries(config.columns)) {
+      drizzleTableColsBuilder[columnName] = columnConfig.pgColumn;
+    }
+
+    // TODO what's going on with the type here
+    const finalPgColumns: ExtractPgColumns<TColumnsMap & { id: PgAirtableColumnInput }> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap & { id: PgAirtableColumnInput }>;
+
+    this.pg = pgTable(name, finalPgColumns) as BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>;
+
+    // Initialise Airtable
+    const fieldMap = new Map<string, string>();
+    for (const [columnName, columnConfig] of Object.entries(config.columns)) {
+      fieldMap.set(columnName, columnConfig.airtableId);
+    }
+
+    // TODO can probably drop this variable
+    this.airtableFieldMap = fieldMap;
+
+    const mappings: Record<string, string> = {};
+    const schema: Record<string, 'string | null'> = {};
+
+    for (const [columnName, columnConfig] of Object.entries(this.columnsConfig)) {
+      if (columnName !== 'id') {
+        mappings[columnName] = columnConfig.airtableId;
+        // TODO use correct type
+        schema[columnName] = 'string | null';
+      }
+    }
+
+    this.airtable = {
+      name: this.tableName,
+      baseId: config.baseId,
+      tableId: config.tableId,
+      mappings,
+      schema,
+    };
+  }
+}
 
 export function pgAirtable<
     TTableName extends string,
@@ -49,56 +110,9 @@ export function pgAirtable<
   name: TTableName,
   config: PgAirtableConfig<TColumnsMap>,
 ): PgAirtableTable<TTableName, TColumnsMap> {
-  const pgColumns = {
-    id: text('id').notNull().primaryKey(),
-  } as ExtractPgColumns<TColumnsMap & { id: PgAirtableColumnInput }>;
-
-  const fieldMap = new Map<string, string>();
-  for (const columnName of Object.keys(config.columns)) {
-    const key = columnName as keyof TColumnsMap;
-    const columnConfig = config.columns[key];
-    if (columnConfig) {
-      pgColumns[key] = columnConfig.pgColumn;
-      fieldMap.set(columnName, columnConfig.airtableId);
-    }
-  }
-
-  const table = pgTable(name, pgColumns);
-
-  const result = Object.assign(table, {
-    airtableBaseId: config.baseId,
-    airtableTableId: config.tableId,
-    airtableFieldMap: fieldMap as ReadonlyMap<string, string>,
-    getAirtableTable(): Table<any> {
-      const mappings: Record<string, string> = {};
-      // TODO infer actual types
-      const schema: Record<string, 'string | null'> = {};
-
-      for (const columnName of Object.keys(config.columns).filter((n) => n !== 'id')) {
-        const columnConfig = config.columns[columnName as keyof TColumnsMap];
-        if (columnConfig) {
-          mappings[columnName] = columnConfig.airtableId;
-          schema[columnName] = 'string | null';
-        }
-      }
-
-      return {
-        name,
-        baseId: config.baseId,
-        tableId: config.tableId,
-        mappings,
-        schema,
-      };
-    },
-  });
-
-  return result;
+  return new PgAirtableTable(name, config);
 }
 
-export function isPgAirtableTable(table: any): table is PgAirtableTable<string, any> {
-  return table && typeof table === 'object'
-         && typeof table.airtableBaseId === 'string'
-         && typeof table.airtableTableId === 'string'
-         && table.airtableFieldMap instanceof Map
-         && typeof table.getAirtableTable === 'function';
+export function isPgAirtableTable(table: unknown): table is PgAirtableTable<string, Record<string, PgAirtableColumnInput>> {
+  return table instanceof PgAirtableTable;
 }

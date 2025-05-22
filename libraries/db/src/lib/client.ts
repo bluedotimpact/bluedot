@@ -1,9 +1,15 @@
-import { PgInsertValue } from 'drizzle-orm/pg-core';
+import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { AirtableTs } from 'airtable-ts';
-import { PgAirtableColumnInput, PgAirtableTable } from './db-core';
+import {
+  PgAirtableColumnInput, PgAirtableTable, BasePgTableType, AirtableItemFromColumnsMap,
+} from './db-core';
 
-export type PgAirtableDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'update' | 'delete'> & {
+/**
+ * Postgres client which is identical to the standard client in terms of functionality, but
+ * with deprecated write functions to warn developers not to use them directly.
+ */
+type RestrictedPgDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'update' | 'delete'> & {
   /**
    * @deprecated Please use `airtableInsert`, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `insert` function will only write to Postgres.
@@ -19,63 +25,88 @@ export type PgAirtableDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'up
    * Using this raw `delete` function will only write to Postgres.
    */
   delete: ReturnType<typeof drizzle>['delete'];
-
-  // TODO
-  airtableInsert<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    data: PgInsertValue<PgAirtableTable<TTableName, TColumnsMap>>
-  ): Promise<PgAirtableTable<TTableName, TColumnsMap>['$inferSelect']>;
 };
 
-export function createDbClient(url: string): PgAirtableDatabase {
-  if (!url) {
-    throw new Error('Must provide a postgres connection string to create a db client');
+export class PgAirtableDb {
+  private pgUnrestricted: ReturnType<typeof drizzle>;
+
+  public airtableClient: AirtableTs;
+
+  constructor({ pgConnString, airtableApiKey }: { pgConnString: string; airtableApiKey?: string }) {
+    if (!pgConnString) {
+      throw new Error('Must provide a postgres connection string to create a db client');
+    }
+
+    this.airtableClient = new AirtableTs({
+      // FIXME envvar handling
+      // eslint-disable-next-line turbo/no-undeclared-env-vars
+      apiKey: airtableApiKey ?? process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
+    });
+    this.pgUnrestricted = drizzle(pgConnString);
   }
 
-  const airtableClient = new AirtableTs({
-    // FIXME envvar handling
-    // eslint-disable-next-line turbo/no-undeclared-env-vars
-    apiKey: process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
-  });
-  const pgClient = drizzle(url);
+  public get pg(): RestrictedPgDatabase {
+    return this.pgUnrestricted;
+  }
 
-  // TODO move this elsewhere
-  const airtableInsertImplementation = async <
-    TTableName extends string,
-    TColumnsMap extends Record<string, PgAirtableColumnInput>,
-  >(
+  async airtableInsert<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     table: PgAirtableTable<TTableName, TColumnsMap>,
-    data: PgInsertValue<PgAirtableTable<TTableName, TColumnsMap>>,
-  ): Promise<PgAirtableTable<TTableName, TColumnsMap>['$inferSelect']> => {
-    console.log('Here again', { table: table.getAirtableTable(), data });
+    data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
+  ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
+    const fullData = await this.airtableClient.insert(table.airtable, data);
 
-    const airtableResult = await airtableClient.insert(table.getAirtableTable(), data);
+    const pgResult = await this.ensureReplicated(table, fullData.id, fullData);
 
-    console.log({ airtableResult });
+    return pgResult;
+  }
 
-    // TODO change to ensureReplicated
-    const result = await pgClient.insert(table).values(airtableResult).returning();
+  async airtableUpdate<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
+  ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
+    const fullData = await this.airtableClient.update(table.airtable, data);
 
-    console.log({ result });
+    const pgResult = await this.ensureReplicated(table, fullData.id, fullData);
 
-    // @ts-expect-error
-    return result[0];
-  };
+    return pgResult;
+  }
 
-  const handler: ProxyHandler<PgAirtableDatabase> = {
-    get(target, propKey, receiver) {
-      // TODO encapsulate this proxy thing better
-      if (propKey === 'airtableInsert') {
-        return airtableInsertImplementation;
-      }
+  async airtableDelete<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    id: string,
+  ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
+    const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
 
-      return Reflect.get(target, propKey, receiver);
-    },
-  };
+    const pgResult = await this.ensureReplicated(table, resultId);
 
-  // @ts-expect-error
-  const typedBaseClient: PgAirtableDatabase = pgClient;
-  const proxyClient = new Proxy<PgAirtableDatabase>(typedBaseClient, handler);
+    return pgResult;
+  }
 
-  return proxyClient;
+  async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    id: string,
+    /** Optional, if given prevents an extra round trip to airtable */
+    fullData?: AirtableItemFromColumnsMap<TColumnsMap>,
+  ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
+    const data: AirtableItemFromColumnsMap<TColumnsMap> | null = fullData ?? await this.airtableClient.get(table.airtable, id);
+
+    if (data) {
+      // TODO fix type
+      // @ts-expect-error
+      const [result] = await this.pgUnrestricted.insert(table.pg).values(data).onConflictDoUpdate({
+        target: table.pg.id, // Assuming 'id' is the conflict target column
+        set: dataToProcess, // Update all columns with the new data
+      }).returning();
+
+      return result;
+    }
+
+    const [deletedResult] = await this.pgUnrestricted.delete(table.pg).where(eq(table.pg.id, id)).returning();
+
+    return deletedResult;
+  }
+}
+
+export function createDbClient(url: string): PgAirtableDb {
+  return new PgAirtableDb({ pgConnString: url });
 }

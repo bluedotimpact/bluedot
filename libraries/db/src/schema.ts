@@ -1,5 +1,5 @@
 import {
-  pgTable, text, boolean, timestamp,
+  pgTable, text, boolean,
 } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
 
@@ -39,6 +39,8 @@ export const userTable = pgAirtable('User', {
       airtableId: 'fldKNUVGtsr9TD4e0', // TODO revert, this is a test base
     },
     completedMoocAt: {
+      // Note: Currently this is text() to avoid having to create a robust type mapping
+      // between airtable and postgres, over time we can migrate types that become important
       pgColumn: text(),
       // airtableId: 'fldiSuoXoyW50n4yp',
       airtableId: 'fldZMGgpQJ4voCtv6', // TODO revert, this is a test base

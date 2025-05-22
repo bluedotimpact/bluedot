@@ -15,7 +15,7 @@ export default makeApiRoute({
       name: 'John Doe',
     });
 
-    const allUsers = await db.select().from(userTable);
+    const allUsers = await db.pg.select().from(userTable.pg);
     console.log({ allUsers });
   } catch (e) {
     console.error('An error occurred:', e);
