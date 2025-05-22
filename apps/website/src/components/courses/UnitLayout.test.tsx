@@ -5,6 +5,7 @@ import {
   test,
   vi,
 } from 'vitest';
+import { useState } from 'react';
 import UnitLayout from './UnitLayout';
 
 // Mock next/router
@@ -15,6 +16,15 @@ vi.mock('next/router', () => ({
     push: vi.fn(),
   }),
 }));
+
+// Mock useState
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react');
+  return {
+    ...actual,
+    useState: vi.fn((initial) => [initial, vi.fn()]),
+  };
+});
 
 const COURSE_UNITS = [
   {
@@ -150,7 +160,7 @@ describe('UnitLayout', () => {
     expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
   });
 
-  test('renders Congratulations section on final unit', () => {
+  test('does not render Congratulations section if it is not the final chunk of final unit', () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -159,6 +169,26 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
+
+    expect(container.querySelector('.unit__cta-container')).not.toBeNull();
+    expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
+    expect(container.querySelector('.congratulations')).toBeFalsy();
+  });
+
+  test('renders Congratulations section on final chunk of final unit', () => {
+    // Mock useState to return the last chunk index
+    const lastChunkIndex = CHUNKS.length - 1;
+    (vi.mocked(useState) as ReturnType<typeof vi.fn>).mockImplementationOnce(() => [lastChunkIndex, vi.fn()]);
+
+    const { container } = render(
+      <UnitLayout
+        chunks={CHUNKS}
+        unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
+        unitNumber={COURSE_UNITS.length}
+        units={COURSE_UNITS}
+      />,
+    );
+
     expect(container.querySelector('.unit__cta-container')).toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
