@@ -47,8 +47,6 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('Unit not found');
   }
 
-  console.log('looking for matching chunks for unit: ', unit.id);
-
   const chunks = (await db.scan(chunkTable, {
     filterByFormula: formula(await db.table(chunkTable) as AirtableTsTable<Chunk>, [
       '=',
