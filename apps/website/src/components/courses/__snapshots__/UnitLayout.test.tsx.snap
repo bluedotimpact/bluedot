@@ -61,8 +61,8 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="unit__breadcrumbs-cta-container flex flex-row items-center gap-6"
         >
           <button
-            aria-label="Previous unit"
-            class="bluedot-a not-prose unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            aria-label="Previous"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
             disabled=""
             type="button"
           >
@@ -82,11 +82,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </svg>
              Prev
           </button>
-          <a
-            aria-label="Next unit"
-            class="bluedot-a not-prose unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
-            href="/courses/test-course/2"
-            tabindex="0"
+          <button
+            aria-label="Next"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            type="button"
           >
             Next 
             <svg
@@ -103,7 +102,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </nav>
     </div>
@@ -144,22 +143,21 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             <p
               class="mobile-unit-header__course-title bluedot-h4 text-size-xs"
             >
-              Basic Principles of Fish
+              What can AI do today?
             </p>
           </div>
         </div>
-        <a
+        <button
           aria-label="Next unit"
           class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
-          href="/courses/test-course/2"
-          tabindex="0"
+          type="button"
         >
           <img
             alt=""
             class="size-8 rotate-180"
             src="/icons/bubble-arrow.svg"
           />
-        </a>
+        </button>
       </nav>
     </div>
     <section
@@ -205,7 +203,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 open=""
               >
                 <summary
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider cursor-pointer"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -214,13 +212,45 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     . 
                     Basic Principles of Fish
                   </p>
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3 transition-transform group-open:rotate-90"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </summary>
+                <button
+                  class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer border-l-4 border-color-primary bg-bluedot-lightest"
+                  type="button"
+                >
+                  What can AI do today?
+                </button>
+                <button
+                  class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer"
+                  type="button"
+                >
+                  What can AI do today?
+                </button>
               </details>
-              <details
-                class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+              <a
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="/courses/test-course/2"
+                tabindex="0"
               >
-                <summary
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                <div
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -229,13 +259,33 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     . 
                     What Fish Are People Catching, and Why?
                   </p>
-                </summary>
-              </details>
-              <details
-                class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+              <a
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="/courses/test-course/3"
+                tabindex="0"
               >
-                <summary
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                <div
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -244,13 +294,33 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     . 
                     The Promise of Fish
                   </p>
-                </summary>
-              </details>
-              <details
-                class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+              <a
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="/courses/test-course/4"
+                tabindex="0"
               >
-                <summary
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                <div
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -259,13 +329,33 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     . 
                     The Risks of Fish
                   </p>
-                </summary>
-              </details>
-              <details
-                class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+              <a
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="/courses/test-course/5"
+                tabindex="0"
               >
-                <summary
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                <div
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -274,8 +364,26 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     . 
                     Contributing to Fish Safety
                   </p>
-                </summary>
-              </details>
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </a>
             </div>
           </div>
           <div
@@ -293,7 +401,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               <h1
                 class="bluedot-h1 not-prose unit__title font-serif text-[32px]"
               >
-                Basic Principles of Fish
+                What can AI do today?
               </h1>
             </div>
             <div
@@ -302,10 +410,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             <div
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
             >
-              <a
+              <button
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
-                href="/courses/test-course/2"
-                tabindex="0"
+                type="button"
               >
                 <span
                   class="cta-button__text"
@@ -330,7 +437,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     />
                   </svg>
                 </span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -341,10 +448,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 `;
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
-<a
+<button
   class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
-  href="/courses/test-course/3"
-  tabindex="0"
+  type="button"
 >
   <span
     class="cta-button__text"
@@ -369,5 +475,5 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
       />
     </svg>
   </span>
-</a>
+</button>
 `;
