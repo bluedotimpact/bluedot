@@ -73,7 +73,7 @@ exports[`SideBar > renders default as expected 1`] = `
       </details>
       <a
         class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
-        href="/courses/test-course/2"
+        href="http://localhost:3000/courses/test-course/2?chunk=0"
         tabindex="0"
       >
         <div
@@ -108,7 +108,7 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
-        href="/courses/test-course/3"
+        href="http://localhost:3000/courses/test-course/3?chunk=0"
         tabindex="0"
       >
         <div
@@ -143,7 +143,7 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
-        href="/courses/test-course/4"
+        href="http://localhost:3000/courses/test-course/4?chunk=0"
         tabindex="0"
       >
         <div
@@ -178,7 +178,7 @@ exports[`SideBar > renders default as expected 1`] = `
       </a>
       <a
         class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
-        href="/courses/test-course/5"
+        href="http://localhost:3000/courses/test-course/5?chunk=0"
         tabindex="0"
       >
         <div

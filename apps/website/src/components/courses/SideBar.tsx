@@ -1,7 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-
+import { addQueryParam } from '@bluedot/ui';
 import { FaChevronRight } from 'react-icons/fa6';
+
 import { Unit, Chunk } from '../../lib/api/db/tables';
 import { A } from '../Text';
 
@@ -59,7 +60,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
         ))}
       </details>
     ) : (
-      <A href={unit.path} className="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text">
+      <A href={addQueryParam(unit.path, 'chunk', '0')} className="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text">
         <div className="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider">
           <p className="sidebar-collapsible__title font-bold">{unit.unitNumber}. {unit.title}</p>
           <span className="sidebar-collapsible__button flex items-center">
