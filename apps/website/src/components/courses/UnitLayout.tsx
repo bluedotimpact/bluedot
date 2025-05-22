@@ -181,7 +181,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <div className="unit__content-container flex flex-col md:flex-row">
           <SideBar
             courseTitle={unit.courseTitle}
-            className="hidden md:block md:fixed"
+            className="hidden md:block md:fixed md:overflow-y-scroll md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
             units={units}
             currentUnitNumber={unitNumber}
             chunks={chunks}
