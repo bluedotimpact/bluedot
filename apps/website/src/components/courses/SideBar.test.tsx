@@ -1,5 +1,10 @@
 import { render } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import {
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import SideBar from './SideBar';
 import { Unit, Chunk } from '../../lib/api/db/tables';
 
@@ -112,7 +117,7 @@ describe('SideBar', () => {
         currentUnitNumber={1}
         chunks={CHUNKS}
         currentChunkIndex={0}
-        onChunkSelect={() => {}}
+        onChunkSelect={vi.fn()}
       />,
     );
     expect(container).toMatchSnapshot();

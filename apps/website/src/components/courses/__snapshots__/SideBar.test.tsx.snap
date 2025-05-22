@@ -77,7 +77,7 @@ exports[`SideBar > renders default as expected 1`] = `
         tabindex="0"
       >
         <div
-          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
             class="sidebar-collapsible__title font-bold"
@@ -112,7 +112,7 @@ exports[`SideBar > renders default as expected 1`] = `
         tabindex="0"
       >
         <div
-          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
             class="sidebar-collapsible__title font-bold"
@@ -147,7 +147,7 @@ exports[`SideBar > renders default as expected 1`] = `
         tabindex="0"
       >
         <div
-          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
             class="sidebar-collapsible__title font-bold"
@@ -182,7 +182,7 @@ exports[`SideBar > renders default as expected 1`] = `
         tabindex="0"
       >
         <div
-          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
             class="sidebar-collapsible__title font-bold"

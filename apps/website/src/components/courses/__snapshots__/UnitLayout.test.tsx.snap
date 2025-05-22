@@ -62,7 +62,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous"
-            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
             disabled=""
             type="button"
           >
@@ -84,7 +84,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next"
-            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
             type="button"
           >
             Next 
@@ -250,7 +250,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 tabindex="0"
               >
                 <div
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -285,7 +285,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 tabindex="0"
               >
                 <div
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -320,7 +320,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 tabindex="0"
               >
                 <div
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"
@@ -355,7 +355,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 tabindex="0"
               >
                 <div
-                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
                     class="sidebar-collapsible__title font-bold"

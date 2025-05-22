@@ -105,9 +105,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   };
 
   const handlePrevClick = () => {
-    if (isFirstChunk && prevUnit) {
+    if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
-      router.push(`${prevUnit.path}?chunk=${chunks.length - 1}`);
+      router.push(`${prevUnit.path}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(currentChunkIndex - 1);
@@ -115,7 +115,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   };
 
   const handleNextClick = () => {
-    if (isLastChunk && nextUnit) {
+    if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
       router.push(`${nextUnit.path}?chunk=0`);
     } else if (!isLastChunk) {
@@ -194,7 +194,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
             </div>
             <MarkdownExtendedRenderer>
-              {chunks[currentChunkIndex]?.chunkContent}
+              {chunks[currentChunkIndex]?.chunkContent || unit.content}
             </MarkdownExtendedRenderer>
 
             {isLastChunk && (
