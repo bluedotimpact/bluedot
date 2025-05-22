@@ -23,7 +23,9 @@ exports[`SideBar > renders default as expected 1`] = `
         </p>
         <p
           class="sidebar__course-title bluedot-h4"
-        />
+        >
+          What the fish [Test Course]
+        </p>
       </div>
     </div>
     <div
@@ -34,7 +36,7 @@ exports[`SideBar > renders default as expected 1`] = `
         open=""
       >
         <summary
-          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
+          class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider cursor-pointer"
         >
           <p
             class="sidebar-collapsible__title font-bold"
@@ -43,12 +45,38 @@ exports[`SideBar > renders default as expected 1`] = `
             . 
             Basic Principles of Fish
           </p>
+          <span
+            class="sidebar-collapsible__button flex items-center"
+          >
+            <svg
+              class="size-3 transition-transform group-open:rotate-90"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
         </summary>
+        <button
+          class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer border-l-4 border-color-primary bg-bluedot-lightest"
+          type="button"
+        >
+          What can AI do today?
+        </button>
       </details>
-      <details
-        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+      <a
+        class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+        href="/courses/test-course/2"
+        tabindex="0"
       >
-        <summary
+        <div
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
@@ -58,12 +86,32 @@ exports[`SideBar > renders default as expected 1`] = `
             . 
             What Fish Are People Catching, and Why?
           </p>
-        </summary>
-      </details>
-      <details
-        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          <span
+            class="sidebar-collapsible__button flex items-center"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </div>
+      </a>
+      <a
+        class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+        href="/courses/test-course/3"
+        tabindex="0"
       >
-        <summary
+        <div
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
@@ -73,12 +121,32 @@ exports[`SideBar > renders default as expected 1`] = `
             . 
             The Promise of Fish
           </p>
-        </summary>
-      </details>
-      <details
-        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          <span
+            class="sidebar-collapsible__button flex items-center"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </div>
+      </a>
+      <a
+        class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+        href="/courses/test-course/4"
+        tabindex="0"
       >
-        <summary
+        <div
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
@@ -88,12 +156,32 @@ exports[`SideBar > renders default as expected 1`] = `
             . 
             The Risks of Fish
           </p>
-        </summary>
-      </details>
-      <details
-        class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          <span
+            class="sidebar-collapsible__button flex items-center"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </div>
+      </a>
+      <a
+        class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+        href="/courses/test-course/5"
+        tabindex="0"
       >
-        <summary
+        <div
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider"
         >
           <p
@@ -103,8 +191,26 @@ exports[`SideBar > renders default as expected 1`] = `
             . 
             Contributing to Fish Safety
           </p>
-        </summary>
-      </details>
+          <span
+            class="sidebar-collapsible__button flex items-center"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </div>
+      </a>
     </div>
   </div>
 </div>

@@ -43,6 +43,7 @@ const CourseUnitPage = () => {
 
   return (
     <UnitLayout
+      chunks={data.chunks}
       unit={data.unit}
       units={data.units}
       unitNumber={unitNumber}
