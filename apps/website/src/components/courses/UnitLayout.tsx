@@ -201,7 +201,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <UnitFeedback unit={unit} />
             )}
 
-            {!nextUnit ? (
+            {(!nextUnit && isLastChunk) ? (
               <>
                 <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
                 <CertificateLinkCard courseId={unit.courseId} />
