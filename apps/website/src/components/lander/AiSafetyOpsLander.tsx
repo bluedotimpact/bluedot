@@ -180,7 +180,7 @@ You'd be a great fit if:
 - **You move fast** – You hit the ground running and have experience managing complex projects under rapid timelines
 - **You're solutions-oriented** – You proactively identify answers to complex problems while maintaining delivery momentum
 - **You work autonomously** – You identify clear paths forward and unlock issues, working effectively with wider operational teams
-- **You have can work in London** – You're willing to work from AISI's London office, and have right to work in the UK
+- **You can work in London** – You're willing to work from AISI's London office, and have right to work in the UK
 
 This is NOT for you if:
 - You're primarily seeking a policy, strategy or technical AI research position
