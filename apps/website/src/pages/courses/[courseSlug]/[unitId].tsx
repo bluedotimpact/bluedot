@@ -51,4 +51,6 @@ const CourseUnitPage = () => {
   );
 };
 
+CourseUnitPage.hideFooter = true;
+
 export default CourseUnitPage;

@@ -12,6 +12,7 @@ import { CookieBanner } from '../components/CookieBanner';
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSiteParam = useRouter().query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
+  const hideFooter = 'hideFooter' in Component;
 
   return (
     <PostHogProvider>
@@ -49,7 +50,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
               <main className="bluedot-base">
                 <Component {...pageProps} />
               </main>
-              <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+              {!hideFooter && <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />}
             </>
           ))}
       <CookieBanner />
