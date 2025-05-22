@@ -31,14 +31,22 @@ export default makeApiRoute({
 
   const course = (await db.scan(courseTable, {
     // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(courseTable) as AirtableTsTable<Course>, ['=', { field: 'slug' }, courseSlug]),
+    filterByFormula: formula(await db.table(courseTable) as AirtableTsTable<Course>, [
+      '=',
+      { field: 'slug' },
+      courseSlug,
+    ]),
   }))[0];
   if (!course) {
     throw new createHttpError.NotFound('Course not found');
   }
 
   const units = (await db.scan(unitTable, {
-    filterByFormula: formula(await db.table(unitTable), ['=', { field: 'courseSlug' }, courseSlug]),
+    filterByFormula: formula(await db.table(unitTable) as AirtableTsTable<Unit>, [
+      '=',
+      { field: 'courseSlug' },
+      courseSlug,
+    ]),
   })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {

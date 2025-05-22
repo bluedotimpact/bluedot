@@ -1,5 +1,36 @@
 import { Item, Table } from 'airtable-ts';
 
+export type Chunk = {
+  chunkId: string,
+  unitId: string,
+  chunkTitle: string,
+  chunkOrder: string,
+  chunkType: string,
+  chunkContent: string,
+} & Item;
+
+export const chunkTable: Table<Chunk> = {
+  name: 'Chunk',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblNeBgFeQ5Qmebfc',
+  mappings: {
+    chunkId: 'fldzijTU9OYrA2pPR',
+    unitId: 'flddMzU52lvSPS88e',
+    chunkTitle: 'fldsx5tA91DiSejw2',
+    chunkOrder: 'fld20cLGpEqVoDADz',
+    chunkType: 'fldEVAjbup2EIaQaj',
+    chunkContent: 'fldiv4wuePLO9UtHr',
+  },
+  schema: {
+    chunkId: 'string',
+    unitId: 'string',
+    chunkTitle: 'string',
+    chunkOrder: 'string',
+    chunkType: 'string',
+    chunkContent: 'string',
+  },
+};
+
 export type Course = {
   certificationBadgeImage: string,
   certificatonDescription: string,
@@ -121,6 +152,7 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
 
 export type Unit = {
   id: string,
+  chunks: string[] | null,
   courseId: string,
   courseTitle: string,
   coursePath: string,
@@ -141,6 +173,7 @@ export const unitTable: Table<Unit> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
+    chunks: 'fld0TFVKXKf2rIDiT',
     courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     coursePath: 'fldlCrg7Nv1TPTorZ',
@@ -156,6 +189,7 @@ export const unitTable: Table<Unit> = {
     unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
+    chunks: 'string[] | null',
     courseId: 'string',
     courseTitle: 'string',
     coursePath: 'string',
