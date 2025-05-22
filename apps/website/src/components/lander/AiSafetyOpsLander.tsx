@@ -81,6 +81,7 @@ const AiSafetyOpsLander = () => {
       <Head>
         <title>AI Safety Operations Bootcamp | BlueDot Impact</title>
         <meta name="description" content={customDescription} />
+        <meta property="og:image" content="/images/courses/ops-bootcamp-og-image.png" />
       </Head>
 
       {/* Mobile hero */}
