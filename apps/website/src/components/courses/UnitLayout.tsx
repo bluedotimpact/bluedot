@@ -177,18 +177,18 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         onNextClick={handleNextClick}
       />
 
-      <Section className="unit__main">
+      <Section className="unit__main !border-none">
         <div className="unit__content-container flex flex-col md:flex-row">
           <SideBar
             courseTitle={unit.courseTitle}
-            className="hidden md:block"
+            className="hidden md:block md:fixed md:overflow-y-scroll md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
             units={units}
             currentUnitNumber={unitNumber}
             chunks={chunks}
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={handleChunkSelect}
           />
-          <div className="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x">
+          <div className="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x md:ml-[320px]">
             <div className="unit__title-container">
               <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
               <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
