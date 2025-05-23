@@ -19,7 +19,7 @@ const Embed: React.FC<EmbedProps> = ({
     ) : (
       // eslint-disable-next-line jsx-a11y/iframe-has-title
       <iframe
-        src={isYouTube ? url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/') : url}
+        src={isYouTube ? `${url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/')}${url.includes('?') ? '&rel=0' : '?rel=0'}` : url}
         // Width and height should be overriden in css
         width="100%"
         height="100%"
