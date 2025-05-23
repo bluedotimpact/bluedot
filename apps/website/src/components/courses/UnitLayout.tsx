@@ -61,7 +61,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           <img src="/icons/course.svg" className="size-8" alt="" />
           <div className="mobile-unit-header__course-title-container flex flex-col">
             <p className="mobile-unit-header__course-header text-size-xxs text-[#999eb3]">{unit.courseTitle}</p>
-            <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{chunks[currentChunkIndex]?.chunkTitle}</p>
+            <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
         <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
