@@ -27,8 +27,6 @@ type UnitLayoutProps = {
 };
 
 type MobileHeaderProps = {
-  chunks: Chunk[];
-  currentChunkIndex: number;
   className?: string;
   unit: Unit;
   prevUnit?: Unit;
@@ -42,8 +40,6 @@ type MobileHeaderProps = {
 const MobileHeader: React.FC<MobileHeaderProps> = ({
   className,
   unit,
-  chunks,
-  currentChunkIndex,
   prevUnit,
   nextUnit,
   isFirstChunk,
@@ -171,8 +167,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </Breadcrumbs>
 
       <MobileHeader
-        chunks={chunks}
-        currentChunkIndex={currentChunkIndex}
         className="unit__mobile-header md:hidden sticky top-16 z-10"
         unit={unit}
         prevUnit={prevUnit}
