@@ -225,7 +225,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   variant="primary"
                   withChevron
                 >
-                  Complete and continue
+                  {isLastChunk ? 'Complete unit and continue' : 'Continue'}
                 </CTALinkOrButton>
               </div>
             )}
