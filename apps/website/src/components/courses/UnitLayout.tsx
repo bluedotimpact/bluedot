@@ -35,6 +35,8 @@ type MobileHeaderProps = {
   nextUnit?: Unit;
   onPrevClick: () => void;
   onNextClick: () => void;
+  isFirstChunk: boolean;
+  isLastChunk: boolean;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -44,13 +46,15 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   currentChunkIndex,
   prevUnit,
   nextUnit,
+  isFirstChunk,
+  isLastChunk,
   onPrevClick,
   onNextClick,
 }) => {
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3', className)}>
       <nav className="mobile-unit-header__nav flex flex-row justify-between">
-        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!prevUnit} onClick={onPrevClick} aria-label="Previous unit">
+        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isFirstChunk && !prevUnit} onClick={onPrevClick} aria-label="Previous unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
         </A>
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
@@ -60,7 +64,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{chunks[currentChunkIndex]?.chunkTitle}</p>
           </div>
         </div>
-        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!nextUnit} onClick={onNextClick} aria-label="Next unit">
+        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
         </A>
       </nav>
@@ -175,6 +179,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         nextUnit={nextUnit}
         onPrevClick={handlePrevClick}
         onNextClick={handleNextClick}
+        isFirstChunk={isFirstChunk}
+        isLastChunk={isLastChunk}
       />
 
       <Section className="unit__main !border-none">
