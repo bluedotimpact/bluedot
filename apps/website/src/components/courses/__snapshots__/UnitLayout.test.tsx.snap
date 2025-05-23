@@ -170,7 +170,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="unit__content-container flex flex-col md:flex-row"
         >
           <div
-            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block md:fixed md:overflow-y-scroll md:max-h-[calc(100vh-57px-65px-42px)]"
+            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]"
           >
             <div
               class="sidebar__header-container flex flex-row gap-2 pb-6"
