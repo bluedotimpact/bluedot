@@ -417,7 +417,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 <span
                   class="cta-button__text"
                 >
-                  Complete and continue
+                  Continue
                 </span>
                 <span
                   class="cta-button__chevron ml-3"
@@ -455,7 +455,7 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
   <span
     class="cta-button__text"
   >
-    Complete and continue
+    Continue
   </span>
   <span
     class="cta-button__chevron ml-3"
