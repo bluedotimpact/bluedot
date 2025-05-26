@@ -55,7 +55,7 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
     const fullData = await this.airtableClient.insert(table.airtable, data);
 
-    const pgResult = await this.ensureReplicated(table, fullData.id, fullData);
+    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
 
     return pgResult;
   }
@@ -66,7 +66,7 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
     const fullData = await this.airtableClient.update(table.airtable, data);
 
-    const pgResult = await this.ensureReplicated(table, fullData.id, fullData);
+    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
 
     return pgResult;
   }
@@ -77,33 +77,51 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
     const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
 
-    const pgResult = await this.ensureReplicated(table, resultId);
+    const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
 
     return pgResult;
   }
 
   async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    id: string,
-    /** Optional, if given prevents an extra round trip to airtable */
-    fullData?: AirtableItemFromColumnsMap<TColumnsMap>,
+    { table, id, fullData, isDelete = false }: {
+      table: PgAirtableTable<TTableName, TColumnsMap>;
+      /** Optional, if given prevents an extra round trip to airtable */
+      id: string;
+      fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
+      /**
+       * Must be passed explicitly for a record to be deleted, since it failing to be returned
+       * from the API may be due to an error.
+       */
+      isDelete?: boolean;
+    },
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
-    const data: AirtableItemFromColumnsMap<TColumnsMap> | null = fullData ?? await this.airtableClient.get(table.airtable, id);
+    return await this.pgUnrestricted.transaction(async (tx) => {
+      if (isDelete) {
+        const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
+        const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
-    if (data) {
+        if (!deletedResult) {
+          throw new Error("Unknown error: Delete failed to return result");
+        }
+
+        return deletedResult;
+      }
+
+      const data: AirtableItemFromColumnsMap<TColumnsMap> | null = fullData ?? await this.airtableClient.get(table.airtable, id);
+
+      if (!data) {
+        throw new Error("No data found for upsert operation");
+      }
+
       // TODO fix type
       // @ts-expect-error
-      const [result] = await this.pgUnrestricted.insert(table.pg).values(data).onConflictDoUpdate({
-        target: table.pg.id, // Assuming 'id' is the conflict target column
-        set: dataToProcess, // Update all columns with the new data
+      const [result] = await tx.insert(table.pg).values(data).onConflictDoUpdate({
+        target: table.pg.id,
+        set: data,
       }).returning();
 
       return result;
-    }
-
-    const [deletedResult] = await this.pgUnrestricted.delete(table.pg).where(eq(table.pg.id, id)).returning();
-
-    return deletedResult;
+    });
   }
 }
 
