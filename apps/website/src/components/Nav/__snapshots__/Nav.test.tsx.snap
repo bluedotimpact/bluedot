@@ -106,7 +106,7 @@ exports[`Nav > renders with courses 1`] = `
                         href="/courses"
                         tabindex="0"
                       >
-                        All courses
+                        Browse all
                       </a>
                     </div>
                   </div>
@@ -247,7 +247,7 @@ exports[`Nav > renders with courses 1`] = `
                   href="/courses"
                   tabindex="0"
                 >
-                  All courses
+                  Browse all
                 </a>
               </div>
             </div>

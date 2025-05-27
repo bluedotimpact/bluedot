@@ -12,9 +12,12 @@ import {
 } from './utils';
 
 const NAV_COURSES = [
-  constants.COURSES[0]!,
-  constants.COURSES[1]!,
-  { title: 'All courses', url: ROUTES.courses.url },
+  ...(constants?.COURSES.slice(0, 2) || []).map((course) => ({
+    title: course.title,
+    url: course.url,
+    isNew: course.isNew,
+  })),
+  { title: 'Browse all', url: ROUTES.courses.url },
 ];
 
 const ABOUT = [
