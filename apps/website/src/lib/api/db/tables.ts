@@ -117,11 +117,11 @@ export const applicationsCourseTable: Table<ApplicationsCourse> = {
 };
 
 export type UnitFeedback = {
+  unit: string,
   unitId: string,
   overallRating: number,
   anythingElse: string,
   userEmail: string,
-  userFullName: string,
   createdAt: string | null,
   lastModified: string | null,
 } & Item;
@@ -131,20 +131,20 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblBwjMjul1c6l7ea',
   mappings: {
-    unitId: 'fldYqvWII6kuxCCmH',
+    unit: 'fldYqvWII6kuxCCmH',
+    unitId: 'fldggWmmAWzgqEGy6',
     overallRating: 'fld3B8HUudN5NxPIU',
     anythingElse: 'fldYdcPZPdJAqn06w',
     userEmail: 'fld9JsHJXjud5Bhle',
-    userFullName: 'fldPG0z0SRFcGJhNW',
     createdAt: 'fldWyJJz3OVNK0kTn',
     lastModified: 'fldCQ0O6oOf4BcMpJ',
   },
   schema: {
+    unit: 'string',
     unitId: 'string',
     overallRating: 'number',
     anythingElse: 'string',
     userEmail: 'string',
-    userFullName: 'string',
     createdAt: 'string | null',
     lastModified: 'string | null',
   },
