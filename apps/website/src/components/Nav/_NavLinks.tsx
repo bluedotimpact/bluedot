@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
-import { constants } from '@bluedot/ui';
+import { constants, Tag } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
@@ -119,9 +119,9 @@ const NavDropdown: React.FC<{
             <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
               {link.title}
               {link.isNew && (
-                <span className="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2">
+                <Tag variant="secondary" className="uppercase ml-2 !p-1">
                   New
-                </span>
+                </Tag>
               )}
             </A>
           ))}

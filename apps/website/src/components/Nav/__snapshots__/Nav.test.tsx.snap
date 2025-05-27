@@ -96,7 +96,8 @@ exports[`Nav > renders with courses 1`] = `
                       >
                         AI Safety Operations Bootcamp
                         <span
-                          class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
+                          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                          role="status"
                         >
                           New
                         </span>
@@ -237,7 +238,8 @@ exports[`Nav > renders with courses 1`] = `
                 >
                   AI Safety Operations Bootcamp
                   <span
-                    class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
+                    class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                    role="status"
                   >
                     New
                   </span>
