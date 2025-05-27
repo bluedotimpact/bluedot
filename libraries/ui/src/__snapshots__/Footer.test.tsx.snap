@@ -191,10 +191,10 @@ exports[`Footer > renders default as expected 1`] = `
               >
                 <a
                   class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/economics-of-tai"
+                  href="/courses/ops"
                   tabindex="0"
                 >
-                  Economics of Transformative AI
+                  AI Safety Operations Bootcamp
                 </a>
               </li>
               <li
@@ -217,6 +217,17 @@ exports[`Footer > renders default as expected 1`] = `
                   tabindex="0"
                 >
                   AI Governance
+                </a>
+              </li>
+              <li
+                class="footer__item leading-tight"
+              >
+                <a
+                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
+                  href="/courses/economics-of-tai"
+                  tabindex="0"
+                >
+                  Economics of Transformative AI
                 </a>
               </li>
             </ul>
@@ -517,10 +528,10 @@ exports[`Footer > renders with optional args 1`] = `
               >
                 <a
                   class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/economics-of-tai"
+                  href="/courses/ops"
                   tabindex="0"
                 >
-                  Economics of Transformative AI
+                  AI Safety Operations Bootcamp
                 </a>
               </li>
               <li
@@ -543,6 +554,17 @@ exports[`Footer > renders with optional args 1`] = `
                   tabindex="0"
                 >
                   AI Governance
+                </a>
+              </li>
+              <li
+                class="footer__item leading-tight"
+              >
+                <a
+                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
+                  href="/courses/economics-of-tai"
+                  tabindex="0"
+                >
+                  Economics of Transformative AI
                 </a>
               </li>
             </ul>

@@ -88,18 +88,18 @@ exports[`Nav > renders with courses 1`] = `
                         tabindex="0"
                       >
                         The Future of AI Course
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/ops"
+                        tabindex="0"
+                      >
+                        AI Safety Operations Bootcamp
                         <span
                           class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
                         >
                           New
                         </span>
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                        href="/courses/economics-of-tai"
-                        tabindex="0"
-                      >
-                        Economics of Transformative AI
                       </a>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
@@ -114,6 +114,13 @@ exports[`Nav > renders with courses 1`] = `
                         tabindex="0"
                       >
                         AI Governance
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/economics-of-tai"
+                        tabindex="0"
+                      >
+                        Economics of Transformative AI
                       </a>
                     </div>
                   </div>
@@ -236,18 +243,18 @@ exports[`Nav > renders with courses 1`] = `
                   tabindex="0"
                 >
                   The Future of AI Course
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/ops"
+                  tabindex="0"
+                >
+                  AI Safety Operations Bootcamp
                   <span
                     class="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2"
                   >
                     New
                   </span>
-                </a>
-                <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                  href="/courses/economics-of-tai"
-                  tabindex="0"
-                >
-                  Economics of Transformative AI
                 </a>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
@@ -262,6 +269,13 @@ exports[`Nav > renders with courses 1`] = `
                   tabindex="0"
                 >
                   AI Governance
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/economics-of-tai"
+                  tabindex="0"
+                >
+                  Economics of Transformative AI
                 </a>
               </div>
             </div>
