@@ -1,6 +1,5 @@
 import { fastify } from 'fastify';
 import { fastifyCors } from '@fastify/cors';
-import { authPlugin } from './lib/authPlugin';
 import { errorHandlerPlugin } from './lib/errorHandlerPlugin';
 import { routesPlugin } from './routesPlugin';
 
@@ -11,8 +10,6 @@ export const getInstance = async () => {
   await instance.register(fastifyCors);
 
   await instance.register(async (i) => {
-    // TODO re-enable auth (but with a different scheme)
-    // await i.register(authPlugin);
     await i.register(routesPlugin);
   });
 

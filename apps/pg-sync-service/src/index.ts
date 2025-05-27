@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { getInstance } from './app';
+import { startCronJobs } from './lib/cron';
 
 const start = async () => {
   try {
@@ -16,6 +17,8 @@ const start = async () => {
     console.error('Failed to start server', err);
     process.exit(1);
   }
+
+  startCronJobs();
 };
 
 start();

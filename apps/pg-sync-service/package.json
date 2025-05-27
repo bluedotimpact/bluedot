@@ -14,6 +14,8 @@
         "lint:fix": "npm run lint -- --fix"
     },
     "dependencies": {
+        "@bluedot/db": "*",
+        "axios": "^1.6.8",
         "@fastify/cors": "^8.5.0",
         "@ts-rest/core": "^3.41.1",
         "@ts-rest/fastify": "^3.41.1",
@@ -22,6 +24,7 @@
         "fastify-plugin": "^4.5.1",
         "get-jwks": "^9.0.0",
         "http-errors": "^2.0.0",
+        "node-cron": "^4.0.7",
         "zod": "^3.22.4"
     },
     "devDependencies": {
@@ -30,6 +33,7 @@
         "@bluedot/typescript-config": "*",
         "@types/http-errors": "^2.0.4",
         "@types/node": "^22.13.2",
+        "@types/node-cron": "^3.0.11",
         "eslint": "^8.57.0",
         "nodemon": "^3.1.10",
         "tsup": "^8.0.1",

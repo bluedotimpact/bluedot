@@ -83,7 +83,9 @@ export class PgAirtableDb {
   }
 
   async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    { table, id, fullData, isDelete = false }: {
+    {
+      table, id, fullData, isDelete = false,
+    }: {
       table: PgAirtableTable<TTableName, TColumnsMap>;
       /** Optional, if given prevents an extra round trip to airtable */
       id: string;
@@ -95,13 +97,13 @@ export class PgAirtableDb {
       isDelete?: boolean;
     },
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
-    return await this.pgUnrestricted.transaction(async (tx) => {
+    return this.pgUnrestricted.transaction(async (tx) => {
       if (isDelete) {
         const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
         const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
         if (!deletedResult) {
-          throw new Error("Unknown error: Delete failed to return result");
+          throw new Error('Unknown error: Delete failed to return result');
         }
 
         return deletedResult;
@@ -110,7 +112,7 @@ export class PgAirtableDb {
       const data: AirtableItemFromColumnsMap<TColumnsMap> | null = fullData ?? await this.airtableClient.get(table.airtable, id);
 
       if (!data) {
-        throw new Error("No data found for upsert operation");
+        throw new Error('No data found for upsert operation');
       }
 
       // TODO fix type
