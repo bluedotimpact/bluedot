@@ -103,24 +103,10 @@ exports[`Nav > renders with courses 1`] = `
                       </a>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                        href="/courses/alignment"
+                        href="/courses"
                         tabindex="0"
                       >
-                        AI Alignment
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                        href="/courses/governance"
-                        tabindex="0"
-                      >
-                        AI Governance
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                        href="/courses/economics-of-tai"
-                        tabindex="0"
-                      >
-                        Economics of Transformative AI
+                        Browse all
                       </a>
                     </div>
                   </div>
@@ -258,24 +244,10 @@ exports[`Nav > renders with courses 1`] = `
                 </a>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                  href="/courses/alignment"
+                  href="/courses"
                   tabindex="0"
                 >
-                  AI Alignment
-                </a>
-                <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                  href="/courses/governance"
-                  tabindex="0"
-                >
-                  AI Governance
-                </a>
-                <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
-                  href="/courses/economics-of-tai"
-                  tabindex="0"
-                >
-                  Economics of Transformative AI
+                  Browse all
                 </a>
               </div>
             </div>

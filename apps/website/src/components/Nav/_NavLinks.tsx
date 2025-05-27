@@ -11,6 +11,15 @@ import {
   TRANSITION_DURATION_CLASS,
 } from './utils';
 
+const NAV_COURSES = [
+  ...(constants?.COURSES.slice(0, 2) || []).map((course) => ({
+    title: course.title,
+    url: course.url,
+    isNew: course.isNew,
+  })),
+  { title: 'Browse all', url: ROUTES.courses.url },
+];
+
 const ABOUT = [
   { title: 'Our story', url: ROUTES.about.url },
   { title: 'Careers', url: ROUTES.joinUs.url },
@@ -40,7 +49,7 @@ export const NavLinks: React.FC<{
         expandedSections={expandedSections}
         isExpanded={expandedSections.explore}
         isScrolled={isScrolled}
-        links={constants.COURSES}
+        links={NAV_COURSES}
         onToggle={() => updateExpandedSections({
           about: false,
           explore: !expandedSections.explore,
