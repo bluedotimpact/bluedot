@@ -161,24 +161,28 @@ xdg-open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A
 </details>
 
 <details>
-<summary>Other</summary>
+<summary>Windows</summary>
 
 Install the following software:
 
 1. [Visual Studio Code](https://code.visualstudio.com/)
-2. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-3. A container runtime.
-   - On Linux, you might want to use [Docker Engine](https://docs.docker.com/engine/install/) (recommended) or [Podman](https://podman.io/docs/installation#linux)
-   - On Windows, you might want to use [Podman Desktop](https://podman-desktop.io/) (recommended) or [Docker Engine](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce)
-4. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+1. [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+1. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+1. A container runtime. You might want to use [Podman Desktop](https://podman-desktop.io/) (recommended) or [Docker Engine](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce)
+2. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 Then:
 
 1. Open VS Code
-2. Open the Command Palette (`View` > `Command Palette...`) and select `>Dev Containers: Clone Repository in Container Volume`.
-3. Paste in `https://github.com/bluedotimpact/bluedot.git`
-
-P.S. We'd love to improve these docs! If you've figured out how to get it working on your operating system, raise a PR with the instructions added to this README.
+1. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
+1. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
+1. Make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$```
+1. Type `git clone https://github.com/bluedotimpact/bluedot.git`
+1. Select `File` > `Open Folder` and choose the newly created bluedot directory:
+   ```/home/john/bluedot/```
+1. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
+1. VS Code will download the Docker images and build the dev container. This will take a few minutes. At the end you will see `Congrats! Your setup is complete`.
+1. You can navigate to `/apps/app-template` and type `npm start`. This will compile the app and start the local server on port 8000. 
 
 </details>
 
