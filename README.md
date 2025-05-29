@@ -116,6 +116,7 @@ fi
 
 open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
 ```
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 **Troubleshooting**
 - I got asked for permissions / got some permissions warning and didn't click allow in time, and then the script failed.
@@ -157,6 +158,7 @@ fi
 
 xdg-open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
 ```
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 </details>
 
@@ -185,8 +187,6 @@ Then:
 1. You can navigate to `/apps/app-template` and type `npm start`. This will compile the app and start the local server on port 8000. 
 
 </details>
-
-Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 If you the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
 
