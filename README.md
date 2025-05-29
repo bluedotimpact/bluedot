@@ -167,28 +167,30 @@ Once VS Code opens, accept the pop-ups that appear. It might look like nothing i
 
 Install the following software:
 
-1. [Visual Studio Code](https://code.visualstudio.com/)
 1. [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
-1. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-1. A container runtime. You might want to use [Podman Desktop](https://podman-desktop.io/) (recommended) or [Docker Engine](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce)
-2. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+2. [Visual Studio Code](https://code.visualstudio.com/)
+3. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+4. Open a terminal and type `wsl`
+5. Make sure you're on Linux file system (e.g., ```john@johns-box:~$```), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
+6. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+7. Install Git with `sudo apt-get install git`
 
 Then:
 
 1. Open VS Code
-1. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
-1. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
-1. Make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$```
-1. Type `git clone https://github.com/bluedotimpact/bluedot.git`
-1. Select `File` > `Open Folder` and choose the newly created bluedot directory:
+2. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
+3. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
+4. Again, make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$```
+7. Type `git clone https://github.com/bluedotimpact/bluedot.git`
+8. Select `File` > `Open Folder` and choose the newly created bluedot directory:
    ```/home/john/bluedot/```
-1. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
-1. VS Code will download the Docker images and build the dev container. This will take a few minutes. At the end you will see `Congrats! Your setup is complete`.
-1. You can navigate to `/apps/app-template` and type `npm start`. This will compile the app and start the local server on port 8000. 
+9. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
+
+VS Code will download the Docker images and build the dev container. This will take a few minutes. At the end you will see `Congrats! Your setup is complete`.
 
 </details>
 
-If you the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
+If the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
 
 ### Making contributions
 
