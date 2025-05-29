@@ -180,7 +180,7 @@ Then:
 1. Open VS Code
 2. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
 3. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
-4. Again, make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$```
+4. Again, make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$``` (if needed, type `cd ~` to go to your Linux home directory)
 7. Type `git clone https://github.com/bluedotimpact/bluedot.git`
 8. Select `File` > `Open Folder` and choose the newly created bluedot directory:
    ```/home/john/bluedot/```
