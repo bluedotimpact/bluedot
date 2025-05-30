@@ -2,6 +2,11 @@ import { useEffect } from 'react';
 
 export const CircleWidget = () => {
   useEffect(() => {
+    // Check if script already exists
+    if (document.getElementById('mw')) {
+      return;
+    }
+
     const script = document.createElement('script');
     script.innerHTML = `
       (function (w,d,s,o,f,js,fjs) {
@@ -17,12 +22,20 @@ export const CircleWidget = () => {
           default_appearance: 'light'
       });
     `;
-    document.body.appendChild(script);
 
-    return () => {
-      // Cleanup: remove the script when component unmounts
-      document.body.removeChild(script);
-    };
+    try {
+      document.body.appendChild(script);
+    } catch (error) {
+      console.error('Failed to inject Circle widget script:', error);
+    }
+
+    try {
+      if (script.parentNode) {
+        document.body.removeChild(script);
+      }
+    } catch (error) {
+      console.error('Failed to remove Circle widget script:', error);
+    }
   }, []);
 
   return null;
