@@ -26,6 +26,7 @@ export const CircleWidget = () => {
     try {
       document.body.appendChild(script);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to inject Circle widget script:', error);
     }
 
@@ -34,6 +35,7 @@ export const CircleWidget = () => {
         document.body.removeChild(script);
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to remove Circle widget script:', error);
     }
   }, []);
