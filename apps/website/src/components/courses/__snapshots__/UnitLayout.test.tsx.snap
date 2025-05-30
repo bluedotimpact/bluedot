@@ -408,7 +408,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
             />
             <div
-              class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
+              class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
             >
               <button
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
