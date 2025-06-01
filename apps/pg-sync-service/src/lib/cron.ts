@@ -1,10 +1,11 @@
 import cron from 'node-cron';
-import { initializeWebhooks, pollForUpdates } from './pg-sync';
+import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
 
-// Run the task every 30 seconds
-// TODO change this to a setInterval
-cron.schedule('* * * * * *', async () => {
+const POLLING_INTERVAL_SECONDS = 5;
+
+cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, async () => {
   await pollForUpdates();
+  await processUpdateQueue();
 });
 
 export const startCronJobs = () => {

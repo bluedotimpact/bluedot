@@ -107,6 +107,38 @@ export class PgAirtableTable<
   }
 }
 
+// BEGIN Global registry
+// TODO ideally remove this
+const pgAirtableTableRegistry: Record<string, PgAirtableTable<any, any>> = {};
+function makePgAirtableKey(baseId: string, tableId: string): string {
+  return `${baseId}:${tableId}`;
+}
+
+function registerPgAirtableTable<
+  TTableName extends string,
+  TColumnsMap extends Record<string, PgAirtableColumnInput>,
+>({
+  table,
+  baseId,
+  tableId,
+}: {
+  table: PgAirtableTable<TTableName, TColumnsMap>;
+  baseId: string;
+  tableId: string;
+}): void {
+  const key = makePgAirtableKey(baseId, tableId);
+  pgAirtableTableRegistry[key] = table;
+}
+
+export function getPgAirtableFromIds(
+  { baseId, tableId }: { baseId: string; tableId: string; },
+): PgAirtableTable<any, any> | undefined {
+  console.log({ pgAirtableTableRegistry });
+  const key = makePgAirtableKey(baseId, tableId);
+  return pgAirtableTableRegistry[key];
+}
+// END Global registry
+
 export function pgAirtable<
     TTableName extends string,
     TColumnsMap extends Record<string, PgAirtableColumnInput>,
@@ -114,7 +146,11 @@ export function pgAirtable<
   name: TTableName,
   config: PgAirtableConfig<TColumnsMap>,
 ): PgAirtableTable<TTableName, TColumnsMap> {
-  return new PgAirtableTable(name, config);
+  const result = new PgAirtableTable(name, config);
+
+  registerPgAirtableTable({ table: result, baseId: config.baseId, tableId: config.tableId });
+
+  return result;
 }
 
 export function isPgAirtableTable(table: unknown): table is PgAirtableTable<string, Record<string, PgAirtableColumnInput>> {

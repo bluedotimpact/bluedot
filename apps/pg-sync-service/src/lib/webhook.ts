@@ -35,7 +35,7 @@ type AirtableEventPayload = {
   [key: string]: unknown;
 };
 
-export type AirtableUpdateSummary = {
+export type AirtableAction = {
   baseId: string;
   tableId: string;
   recordId: string;
@@ -69,7 +69,7 @@ export class AirtableWebhook {
     });
   }
 
-  public static async create(baseId: string): Promise<AirtableWebhook> {
+  public static async getOrCreate(baseId: string): Promise<AirtableWebhook> {
     const webhook = new AirtableWebhook(baseId);
     await webhook.ensureInitialized();
     return webhook;
@@ -129,10 +129,10 @@ export class AirtableWebhook {
    * pages through all available data, and transforms them into structured AirtableUpdate objects.
    * @returns A Promise that resolves to an array of AirtableUpdate objects.
    */
-  public async popActions(): Promise<AirtableUpdateSummary[]> {
+  public async popActions(): Promise<AirtableAction[]> {
     await this.ensureInitialized();
 
-    const allUpdates: AirtableUpdateSummary[] = [];
+    const allUpdates: AirtableAction[] = [];
     let currentCursor = this.nextPayloadCursor;
     let mightHaveMore = true;
 
@@ -182,7 +182,7 @@ export class AirtableWebhook {
           // Handle updated records
           if (changedRecordsById && typeof changedRecordsById === 'object') {
             for (const [recordId, recordChanges] of Object.entries(changedRecordsById)) {
-              const changedFields = recordChanges.current || {};
+              const changedFields = recordChanges.current.cellValuesByFieldId || {};
               const fieldIds = Object.keys(changedFields);
 
               allUpdates.push({
