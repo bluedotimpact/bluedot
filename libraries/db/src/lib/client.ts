@@ -1,4 +1,5 @@
 import { eq } from 'drizzle-orm';
+import { PgInsertValue, PgUpdateSetSource } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { AirtableTs } from 'airtable-ts';
 import {
@@ -87,8 +88,8 @@ export class PgAirtableDb {
       table, id, fullData, isDelete = false,
     }: {
       table: PgAirtableTable<TTableName, TColumnsMap>;
-      /** Optional, if given prevents an extra round trip to airtable */
       id: string;
+      /** Optional, if given prevents an extra round trip to airtable */
       fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
       /**
        * Must be passed explicitly for a record to be deleted, since it failing to be returned
@@ -99,8 +100,6 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
     return this.pgUnrestricted.transaction(async (tx) => {
       if (isDelete) {
-        // TODO fix
-        // @ts-expect-error
         const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
         const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
@@ -111,20 +110,22 @@ export class PgAirtableDb {
         return deletedResult;
       }
 
-      const data: AirtableItemFromColumnsMap<TColumnsMap> | null = fullData ?? await this.airtableClient.get(table.airtable, id);
+      const data = fullData ?? await this.airtableClient.get(table.airtable, id);
 
       if (!data) {
         throw new Error('No data found for upsert operation');
       }
 
-      // TODO fix type
-      // @ts-expect-error
-      const [result] = await tx.insert(table.pg).values(data).onConflictDoUpdate({
+      const rows = await tx.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
         target: table.pg.id,
-        // TODO fix type
-        // @ts-expect-error
-        set: data,
+        set: data as PgUpdateSetSource<typeof table.pg>,
       }).returning();
+
+      const result = Array.isArray(rows) ? rows[0] : undefined;
+
+      if (!result) {
+        throw new Error('Unexpected error: Nothing returned from upset operation');
+      }
 
       return result;
     });

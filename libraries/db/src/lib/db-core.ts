@@ -19,9 +19,12 @@ type PgAirtableConfig<TColumns extends Record<string, PgAirtableColumnInput>> = 
 };
 
 type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
-  [K in keyof T]: T[K]['pgColumn'];
+  [K in keyof T]: K extends 'id' ? never : T[K]['pgColumn'];
+} & {
+  id: ReturnType<typeof text>;
 };
 
+// TODO map types other than string | null
 export type AirtableItemFromColumnsMap<
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
 > = {
@@ -40,12 +43,16 @@ export type BasePgTableType<
   dialect: 'pg';
 }>;
 
-// The old PgAirtableTable type is replaced by this class definition.
 export class PgAirtableTable<
   TTableName extends string,
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
 > {
-  public readonly pg: BasePgTableType<TTableName, TColumnsMap & { id: { pgColumn: ReturnType<typeof text>, airtableId: string } }>;
+  public readonly pg: Omit<BasePgTableType<TTableName, TColumnsMap>, 'id'> & PgTableWithColumns<{
+    name: TTableName;
+    schema: undefined;
+    columns: BuildColumns<TTableName, { id: ReturnType<typeof text> }, 'pg'>;
+    dialect: 'pg';
+  }>;
 
   public readonly airtable: Table<AirtableItemFromColumnsMap<TColumnsMap>>;
 
@@ -59,6 +66,7 @@ export class PgAirtableTable<
     this.tableName = name;
     this.columnsConfig = config.columns;
 
+
     // Initialise Postgres
     const drizzleTableColsBuilder: Record<string, PgColumnBuilderBase> = {
       id: text('id').notNull().primaryKey(),
@@ -69,9 +77,10 @@ export class PgAirtableTable<
     }
 
     // TODO what's going on with the type here
-    const finalPgColumns: ExtractPgColumns<TColumnsMap & { id: PgAirtableColumnInput }> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap & { id: PgAirtableColumnInput }>;
+    const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
-    this.pg = pgTable(name, finalPgColumns) as BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>;
+    this.pg = pgTable(name, finalPgColumns) as BasePgTableType<TTableName, TColumnsMap>;
+
 
     // Initialise Airtable
     const fieldMap = new Map<string, string>();
