@@ -7,18 +7,18 @@ import * as schema from '../schema';
 import { metaTable } from '../schema';
 
 async function main() {
-  const pg = createDbClient(process.env.PG_URL!);
+  const db = createDbClient(process.env.PG_URL!);
 
   const rowsToInsert: (typeof metaTable.$inferInsert)[] = [];
 
   for (const table of Object.values(schema)) {
     if (isPgAirtableTable(table)) {
-      const tableName = getTableName(table);
+      const tableName = getTableName(table.pg);
 
       for (const [pgFieldName, airtableFieldId] of table.airtableFieldMap.entries()) {
         rowsToInsert.push({
-          airtableBaseId: table.airtableBaseId,
-          airtableTableId: table.airtableTableId,
+          airtableBaseId: table.airtable.baseId,
+          airtableTableId: table.airtable.tableId,
           airtableFieldId,
           pgTable: tableName,
           pgField: pgFieldName,
@@ -37,10 +37,10 @@ async function main() {
 
   try {
     console.log('Clearing meta table...');
-    await pg.delete(metaTable);
+    await db.pg.delete(metaTable);
 
     console.log('Inserting new metadata...');
-    const result = await pg.insert(metaTable).values(rowsToInsert).returning();
+    const result = await db.pg.insert(metaTable).values(rowsToInsert).returning();
 
     console.log(`Successfully inserted ${result.length} rows into meta table.`);
   } catch (error) {

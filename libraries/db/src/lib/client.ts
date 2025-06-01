@@ -99,6 +99,8 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
     return this.pgUnrestricted.transaction(async (tx) => {
       if (isDelete) {
+        // TODO fix
+        // @ts-expect-error
         const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
         const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
@@ -119,6 +121,8 @@ export class PgAirtableDb {
       // @ts-expect-error
       const [result] = await tx.insert(table.pg).values(data).onConflictDoUpdate({
         target: table.pg.id,
+        // TODO fix type
+        // @ts-expect-error
         set: data,
       }).returning();
 

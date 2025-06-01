@@ -97,7 +97,11 @@ export class PgAirtableTable<
       name: this.tableName,
       baseId: config.baseId,
       tableId: config.tableId,
+      // TODO fix
+      // @ts-expect-error
       mappings,
+      // TODO fix
+      // @ts-expect-error
       schema,
     };
   }
