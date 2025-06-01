@@ -58,7 +58,7 @@ export class AirtableWebhook {
 
   private axiosInstance: AxiosInstance;
 
-  constructor(baseId: string) {
+  private constructor(baseId: string) {
     this.baseId = baseId;
     this.axiosInstance = axios.create({
       baseURL: 'https://api.airtable.com/v0',
@@ -69,7 +69,13 @@ export class AirtableWebhook {
     });
   }
 
-  private async initialize(): Promise<void> {
+  public static async create(baseId: string): Promise<AirtableWebhook> {
+    const webhook = new AirtableWebhook(baseId);
+    await webhook.ensureInitialized();
+    return webhook;
+  }
+
+  private async ensureInitialized(): Promise<void> {
     if (this.webhookId && this.nextPayloadCursor) return;
 
     // 1. Get all webhooks for this base
@@ -124,8 +130,7 @@ export class AirtableWebhook {
    * @returns A Promise that resolves to an array of AirtableUpdate objects.
    */
   public async popActions(): Promise<AirtableUpdateSummary[]> {
-    // TODO do this once on startup
-    await this.initialize();
+    await this.ensureInitialized();
 
     const allUpdates: AirtableUpdateSummary[] = [];
     let currentCursor = this.nextPayloadCursor;

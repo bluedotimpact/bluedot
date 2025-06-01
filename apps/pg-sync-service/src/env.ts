@@ -1,4 +1,11 @@
 import { z } from 'zod';
+import dotenv from 'dotenv';
+
+// Copy semantics of NextJs:
+// 1. Load .env
+// 2. Load .env.local
+dotenv.config();
+dotenv.config({ path: '.env.local', override: true });
 
 const envSchema = z.object({
   PG_URL: z.string(),
