@@ -5,8 +5,6 @@
     "scripts": {
         "start": "tsup --watch & dotenv -e .env.local --fallback .env -- nodemon --watch dist --ext js dist/index.js",
         "build": "tsc && tsup && mkdir -p dist_tools && cp ../../package-lock.json dist_tools",
-        "deploy:cd": "echo \"warn: app is deprecated, not deploying\"",
-        "createLock": "tsup tools/createLock.ts --outDir dist_tools --external @npmcli/arborist && NODE_ENV=development node dist_tools/createLock.js",
         "test": "vitest --run",
         "test:watch": "vitest",
         "lint": "eslint . --report-unused-disable-directives --max-warnings=0",

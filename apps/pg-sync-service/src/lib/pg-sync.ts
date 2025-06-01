@@ -1,5 +1,4 @@
-import { eq, inArray, and, or } from 'drizzle-orm';
-import { getPgAirtableFromIds, metaTable } from '@bluedot/db';
+import { eq, inArray, and, getPgAirtableFromIds, metaTable } from '@bluedot/db';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 
@@ -10,7 +9,6 @@ const webhookInstances: Record<string, AirtableWebhook> = {};
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
  */
 export async function initializeWebhooks(): Promise<void> {
-  // TODO be able to import db package
   const uniqueBaseIds = await db.pg
     .selectDistinct({ baseId: metaTable.airtableBaseId })
     .from(metaTable);
