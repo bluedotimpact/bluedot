@@ -5,6 +5,7 @@ import { AirtableTs } from 'airtable-ts';
 import {
   PgAirtableColumnInput, PgAirtableTable, BasePgTableType, AirtableItemFromColumnsMap,
 } from './db-core';
+import env from './env';
 
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
@@ -39,9 +40,7 @@ export class PgAirtableDb {
     }
 
     this.airtableClient = new AirtableTs({
-      // FIXME envvar handling
-      // eslint-disable-next-line turbo/no-undeclared-env-vars
-      apiKey: airtableApiKey ?? process.env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
+      apiKey: airtableApiKey ?? env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
     });
     this.pgUnrestricted = drizzle(pgConnString);
   }

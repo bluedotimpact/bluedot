@@ -2,12 +2,10 @@ import {
   pgTable, text, boolean,
 } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
+import env from './lib/env';
 
-// FIXME envvar handling
-// @ts-expect-error
-const COURSE_BUILDER_BASE_ID: string = process.env.COURSE_BUILDER_BASE_ID;
-// @ts-expect-error
-const APPLICATIONS_BASE_ID: string = process.env.APPLICATIONS_BASE_ID;
+const { COURSE_BUILDER_BASE_ID } = env;
+const { APPLICATIONS_BASE_ID } = env;
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field

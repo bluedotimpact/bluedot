@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@bluedot/db": "*",
+        "@bluedot/ui": "*",
         "axios": "^1.6.8",
         "@fastify/cors": "^8.5.0",
         "@ts-rest/core": "^3.41.1",
@@ -43,7 +44,8 @@
             "src/index.ts"
         ],
         "noExternal": [
-            "@bluedot/db"
+            "@bluedot/db",
+            "@bluedot/ui"
         ],
         "outDir": "dist"
     }

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { env } from '../env';
+import env from '../env';
 
 type AirtableWebhookDescription = {
   id: string;

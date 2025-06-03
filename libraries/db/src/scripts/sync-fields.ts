@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-/* eslint-disable turbo/no-undeclared-env-vars */
 import { getTableName } from 'drizzle-orm';
 import { createDbClient } from '..';
 import { isPgAirtableTable } from '../lib/db-core';
 import * as schema from '../schema';
 import { metaTable } from '../schema';
+import env from '../lib/env';
 
 async function main() {
-  const db = createDbClient(process.env.PG_URL!);
+  const db = createDbClient(env.PG_URL);
 
   const rowsToInsert: (typeof metaTable.$inferInsert)[] = [];
 
