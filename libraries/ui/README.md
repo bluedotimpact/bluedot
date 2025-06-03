@@ -30,11 +30,14 @@ In `src/lib/api/env.ts`, you'll have something like:
 ```typescript
 import { validateEnv } from '@bluedot/ui';
 
-const env = validateEnv([
-  'APP_NAME',
-  'DATABASE_URL',
-  'API_KEY',
-]);
+const env = validateEnv({
+  required: [
+    'APP_NAME',
+    'DATABASE_URL',
+    'API_KEY',
+  ],
+});
+
 
 export default env;
 ```

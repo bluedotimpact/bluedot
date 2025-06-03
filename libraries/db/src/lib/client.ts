@@ -131,6 +131,7 @@ export class PgAirtableDb {
   }
 }
 
+// TODO remove this and directly call PgAirtableDb()
 export function createDbClient(url: string): PgAirtableDb {
   return new PgAirtableDb({ pgConnString: url });
 }

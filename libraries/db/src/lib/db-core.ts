@@ -66,7 +66,6 @@ export class PgAirtableTable<
     this.tableName = name;
     this.columnsConfig = config.columns;
 
-
     // Initialise Postgres
     const drizzleTableColsBuilder: Record<string, PgColumnBuilderBase> = {
       id: text('id').notNull().primaryKey(),
@@ -80,7 +79,6 @@ export class PgAirtableTable<
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
     this.pg = pgTable(name, finalPgColumns) as BasePgTableType<TTableName, TColumnsMap>;
-
 
     // Initialise Airtable
     const fieldMap = new Map<string, string>();

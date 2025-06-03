@@ -4,8 +4,8 @@ import {
 import { pgAirtable } from './lib/db-core';
 import env from './lib/env';
 
-const { COURSE_BUILDER_BASE_ID } = env;
-const { APPLICATIONS_BASE_ID } = env;
+const { COURSE_BUILDER_BASE_ID = 'appgnRJNcgW90cbj0' } = env;
+const { APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf' } = env;
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
