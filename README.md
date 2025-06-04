@@ -171,7 +171,7 @@ Install the following software:
 2. [Visual Studio Code](https://code.visualstudio.com/)
 3. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 4. Open a terminal and type `wsl`
-5. Make sure you're on Linux file system (e.g., ```john@johns-box:~$```), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
+5. Make sure you're on the Linux file system (e.g., `john@johns-box:~$`), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
 6. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 7. Install Git with `sudo apt-get install git`
 
@@ -180,11 +180,11 @@ Then:
 1. Open VS Code
 2. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
 3. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
-4. Again, make sure you're on Linux file system, and not a mounted Windows drive: ```john@johns-box:~$``` (if needed, type `cd ~` to go to your Linux home directory)
-7. Type `git clone https://github.com/bluedotimpact/bluedot.git`
-8. Select `File` > `Open Folder` and choose the newly created bluedot directory:
-   ```/home/john/bluedot/```
-9. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
+4. Make sure you're on the Linux file system (e.g., `john@johns-box:~$`), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
+5. Type `git clone https://github.com/bluedotimpact/bluedot.git`
+6. Select `File` > `Open Folder` and choose the newly created bluedot directory:
+   `/home/john/bluedot/`
+7. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
 
 VS Code will download the Docker images and build the dev container. This will take a few minutes. At the end you will see `Congrats! Your setup is complete`.
 
