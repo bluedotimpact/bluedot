@@ -47,7 +47,6 @@ export default makeApiRoute(
 
     const existingFeedback = (
       await db.scan(unitFeedbackTable, {
-        // Note: Requires adding a Lookup field called "[>] Unit ID", that gets "[*] RecordID" from the Unit table
         filterByFormula: formula(await db.table(unitFeedbackTable), [
           'AND',
           ['=', { field: 'unitId' }, unitId],
@@ -83,7 +82,7 @@ export default makeApiRoute(
       } else {
         // If the feedback does NOT exist, create it
         upsertedFeedback = await db.insert(unitFeedbackTable, {
-          unitId,
+          unit: unitId,
           createdAt: new Date().toISOString(),
           lastModified: new Date().toISOString(),
           userEmail: auth.email,

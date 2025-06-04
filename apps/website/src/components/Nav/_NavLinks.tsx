@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
-import { constants } from '@bluedot/ui';
+import { constants, Tag } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
@@ -10,6 +10,15 @@ import {
   NAV_LINK_CLASSES,
   TRANSITION_DURATION_CLASS,
 } from './utils';
+
+const NAV_COURSES = [
+  ...(constants?.COURSES.slice(0, 2) || []).map((course) => ({
+    title: course.title,
+    url: course.url,
+    isNew: course.isNew,
+  })),
+  { title: 'Browse all', url: ROUTES.courses.url },
+];
 
 const ABOUT = [
   { title: 'Our story', url: ROUTES.about.url },
@@ -40,7 +49,7 @@ export const NavLinks: React.FC<{
         expandedSections={expandedSections}
         isExpanded={expandedSections.explore}
         isScrolled={isScrolled}
-        links={constants.COURSES}
+        links={NAV_COURSES}
         onToggle={() => updateExpandedSections({
           about: false,
           explore: !expandedSections.explore,
@@ -110,9 +119,9 @@ const NavDropdown: React.FC<{
             <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
               {link.title}
               {link.isNew && (
-                <span className="nav-dropdown__new-badge bg-bluedot-lighter rounded-sm p-1 text-bluedot-normal text-size-xxs font-bold uppercase ml-2">
+                <Tag variant="secondary" className="uppercase ml-2 !p-1">
                   New
-                </span>
+                </Tag>
               )}
             </A>
           ))}

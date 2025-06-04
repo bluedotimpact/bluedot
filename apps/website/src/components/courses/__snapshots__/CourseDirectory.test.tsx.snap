@@ -55,13 +55,13 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                     class="flex gap-2"
                   >
                     <span
-                      class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-search-card__level"
+                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__level"
                       role="status"
                     >
                       Beginner
                     </span>
                     <span
-                      class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-search-card__duration"
+                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
                       role="status"
                     >
                       Self-paced
@@ -132,13 +132,13 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                     class="flex gap-2"
                   >
                     <span
-                      class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-search-card__level"
+                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__level"
                       role="status"
                     >
                       Intermediate
                     </span>
                     <span
-                      class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-search-card__duration"
+                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
                       role="status"
                     >
                       Daily

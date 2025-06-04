@@ -19,16 +19,16 @@ export const COURSES: Course[] = [
     courseLength: '',
     imageSrc: '/images/courses/future-of-ai.png',
     url: '/courses/future-of-ai',
-    isNew: true,
     isFeatured: true,
   },
   {
-    title: 'Economics of Transformative AI',
-    description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.',
-    courseType: 'In-depth course',
-    courseLength: '9 weeks',
-    imageSrc: '/images/courses/econ.jpg',
-    url: '/courses/economics-of-tai',
+    title: 'AI Safety Operations Bootcamp',
+    description: 'Excel at early-to-mid-career operations roles in AI safety.',
+    courseType: 'Crash course',
+    courseLength: '6 hours',
+    imageSrc: 'https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2hpdGVib2FyZHxlbnwwfHwwfHx8MA%3D%3D',
+    url: '/courses/ops',
+    isNew: true,
   },
   {
     title: 'AI Alignment',
@@ -45,6 +45,14 @@ export const COURSES: Course[] = [
     courseLength: '12 weeks',
     imageSrc: '/images/courses/gov.jpg',
     url: '/courses/governance',
+  },
+  {
+    title: 'Economics of Transformative AI',
+    description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.',
+    courseType: 'In-depth course',
+    courseLength: '9 weeks',
+    imageSrc: '/images/courses/econ.jpg',
+    url: '/courses/economics-of-tai',
   },
 ] as const;
 

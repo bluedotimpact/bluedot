@@ -21,3 +21,10 @@ export const Default: Story = {
     children: 'This is a tag',
   },
 };
+
+export const Secondary: Story = {
+  args: {
+    children: 'This is a tag',
+    variant: 'secondary',
+  },
+};

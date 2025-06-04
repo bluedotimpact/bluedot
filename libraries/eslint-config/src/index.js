@@ -80,6 +80,7 @@ const rules = {
 
   // Custom rules
   '@bluedot/custom/no-default-tailwind-tokens': ['error'],
+  '@bluedot/custom/no-overflow-scroll': ['error'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */

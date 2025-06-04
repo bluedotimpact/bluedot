@@ -27,40 +27,40 @@ type UnitLayoutProps = {
 };
 
 type MobileHeaderProps = {
-  chunks: Chunk[];
-  currentChunkIndex: number;
   className?: string;
   unit: Unit;
   prevUnit?: Unit;
   nextUnit?: Unit;
   onPrevClick: () => void;
   onNextClick: () => void;
+  isFirstChunk: boolean;
+  isLastChunk: boolean;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
   className,
   unit,
-  chunks,
-  currentChunkIndex,
   prevUnit,
   nextUnit,
+  isFirstChunk,
+  isLastChunk,
   onPrevClick,
   onNextClick,
 }) => {
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3', className)}>
       <nav className="mobile-unit-header__nav flex flex-row justify-between">
-        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!prevUnit} onClick={onPrevClick} aria-label="Previous unit">
+        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isFirstChunk && !prevUnit} onClick={onPrevClick} aria-label="Previous unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
         </A>
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
           <img src="/icons/course.svg" className="size-8" alt="" />
           <div className="mobile-unit-header__course-title-container flex flex-col">
             <p className="mobile-unit-header__course-header text-size-xxs text-[#999eb3]">{unit.courseTitle}</p>
-            <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{chunks[currentChunkIndex]?.chunkTitle}</p>
+            <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
-        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={!nextUnit} onClick={onNextClick} aria-label="Next unit">
+        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
         </A>
       </nav>
@@ -167,21 +167,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </Breadcrumbs>
 
       <MobileHeader
-        chunks={chunks}
-        currentChunkIndex={currentChunkIndex}
         className="unit__mobile-header md:hidden sticky top-16 z-10"
         unit={unit}
         prevUnit={prevUnit}
         nextUnit={nextUnit}
         onPrevClick={handlePrevClick}
         onNextClick={handleNextClick}
+        isFirstChunk={isFirstChunk}
+        isLastChunk={isLastChunk}
       />
 
       <Section className="unit__main !border-none">
         <div className="unit__content-container flex flex-col md:flex-row">
           <SideBar
             courseTitle={unit.courseTitle}
-            className="hidden md:block md:fixed md:overflow-y-scroll md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
+            className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
             units={units}
             currentUnitNumber={unitNumber}
             chunks={chunks}
@@ -212,14 +212,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 </div>
               </>
             ) : (
-              <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1">
+              // Margin-bottom is added to accommodate the Circle widget on mobile screens
+              <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0">
                 <CTALinkOrButton
                   className="unit__cta-link ml-auto"
                   onClick={handleNextClick}
                   variant="primary"
                   withChevron
                 >
-                  Complete and continue
+                  {isLastChunk ? 'Complete unit and continue' : 'Continue'}
                 </CTALinkOrButton>
               </div>
             )}

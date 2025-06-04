@@ -2,19 +2,25 @@ import React from 'react';
 import clsx from 'clsx';
 
 export type TagProps = {
-  className?: string,
+  // Required
   children: React.ReactNode;
+  // Optional
+  className?: string;
+  variant?: 'default' | 'secondary';
 };
 
 export const Tag: React.FC<TagProps> = ({
   className,
   children,
+  variant = 'default',
 }) => {
   return (
     <span
       role="status"
       className={clsx(
-        'tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text',
+        'tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit',
+        variant === 'default' && 'text-color-secondary-text container-lined',
+        variant === 'secondary' && 'text-bluedot-normal bg-[#E5EDFE] rounded-sm',
         className,
       )}
     >

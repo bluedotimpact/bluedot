@@ -88,7 +88,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
               </p>
               <span
-                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                 role="status"
               >
                 Self-paced
@@ -124,15 +124,15 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <a
                       class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="/courses/economics-of-tai"
+                      href="/courses/ops"
                     >
                       <div
                         class="card__image-container w-full mb-4"
                       >
                         <img
-                          alt="Economics of Transformative AI"
+                          alt="AI Safety Operations Bootcamp"
                           class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
-                          src="/images/courses/econ.jpg"
+                          src="https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2hpdGVib2FyZHxlbnwwfHwwfHx8MA%3D%3D"
                         />
                       </div>
                       <div
@@ -144,12 +144,12 @@ exports[`CourseSection > renders as expected 1`] = `
                           <p
                             class="card__title bluedot-h4 mb-2"
                           >
-                            Economics of Transformative AI
+                            AI Safety Operations Bootcamp
                           </p>
                           <p
                             class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
-                            The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.
+                            Excel at early-to-mid-career operations roles in AI safety.
                           </p>
                         </div>
                         <div
@@ -167,14 +167,14 @@ exports[`CourseSection > renders as expected 1`] = `
                                 <span
                                   class="course-card__length font-medium"
                                 >
-                                  9 weeks
+                                  6 hours
                                 </span>
                               </p>
                               <span
-                                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                                 role="status"
                               >
-                                In-depth course
+                                Crash course
                               </span>
                             </div>
                           </div>
@@ -242,7 +242,7 @@ exports[`CourseSection > renders as expected 1`] = `
                                 </span>
                               </p>
                               <span
-                                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                                 role="status"
                               >
                                 In-depth course
@@ -313,7 +313,78 @@ exports[`CourseSection > renders as expected 1`] = `
                                 </span>
                               </p>
                               <span
-                                class="tag container-lined inline-flex items-center px-4 py-2 text-xs font-semibold text-color-secondary-text course-card__type"
+                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
+                                role="status"
+                              >
+                                In-depth course
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </span>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <span>
+                  <div
+                    class="p-[3px] h-full"
+                  >
+                    <a
+                      class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
+                      href="/courses/economics-of-tai"
+                    >
+                      <div
+                        class="card__image-container w-full mb-4"
+                      >
+                        <img
+                          alt="Economics of Transformative AI"
+                          class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
+                          src="/images/courses/econ.jpg"
+                        />
+                      </div>
+                      <div
+                        class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                      >
+                        <div
+                          class="card__text"
+                        >
+                          <p
+                            class="card__title bluedot-h4 mb-2"
+                          >
+                            Economics of Transformative AI
+                          </p>
+                          <p
+                            class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
+                          >
+                            The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.
+                          </p>
+                        </div>
+                        <div
+                          class="card__bottom-section flex flex-col gap-space-between"
+                        >
+                          <div
+                            class="card__footer flex items-center justify-between w-full"
+                          >
+                            <div
+                              class="course-card__footer flex justify-between w-full"
+                            >
+                              <p
+                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
+                              >
+                                <span
+                                  class="course-card__length font-medium"
+                                >
+                                  9 weeks
+                                </span>
+                              </p>
+                              <span
+                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                                 role="status"
                               >
                                 In-depth course
@@ -359,7 +430,7 @@ exports[`CourseSection > renders as expected 1`] = `
               />
               <div
                 class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 33.33333333333333%;"
+                style="width: 25%;"
               />
             </div>
             <button

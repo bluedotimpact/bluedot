@@ -143,7 +143,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             <p
               class="mobile-unit-header__course-title bluedot-h4 text-size-xs"
             >
-              What can AI do today?
+              Basic Principles of Fish
             </p>
           </div>
         </div>
@@ -170,7 +170,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="unit__content-container flex flex-col md:flex-row"
         >
           <div
-            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block md:fixed md:overflow-y-scroll md:max-h-[calc(100vh-57px-65px-42px)]"
+            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]"
           >
             <div
               class="sidebar__header-container flex flex-row gap-2 pb-6"
@@ -408,7 +408,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
             />
             <div
-              class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
+              class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
             >
               <button
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
@@ -417,7 +417,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 <span
                   class="cta-button__text"
                 >
-                  Complete and continue
+                  Continue
                 </span>
                 <span
                   class="cta-button__chevron ml-3"
@@ -455,7 +455,7 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
   <span
     class="cta-button__text"
   >
-    Complete and continue
+    Continue
   </span>
   <span
     class="cta-button__chevron ml-3"
