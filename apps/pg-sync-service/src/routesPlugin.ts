@@ -15,6 +15,15 @@ const localContract = c.router({
       200: z.object({ message: z.string() }),
     },
   },
+  // TODO optionally in the future: Support receiving webhook pings to process changes faster (but for now polling is fine)
+  // webhook: {
+  //   method: 'POST',
+  //   path: '/webhook',
+  //   body: z.any(),
+  //   responses: {
+  //     200: z.object({ success: z.boolean() }),
+  //   },
+  // },
 });
 
 export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
