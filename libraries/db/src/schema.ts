@@ -45,3 +45,4 @@ export const userTable = pgAirtable('User', {
     },
   },
 });
+export const userTablePg = userTable.pg;

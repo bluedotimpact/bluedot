@@ -1,4 +1,7 @@
-import { validateEnv } from '@bluedot/ui';
+// import { validateEnv } from '@bluedot/ui';
+
+// TODO parcel out into utils/ package
+const validateEnv = (...args: any[]) => process.env;
 
 const env = validateEnv({
   required: [

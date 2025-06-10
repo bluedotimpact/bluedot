@@ -78,7 +78,7 @@ export class PgAirtableTable<
     // TODO what's going on with the type here
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
-    this.pg = pgTable(name, finalPgColumns) as BasePgTableType<TTableName, TColumnsMap>;
+    this.pg = pgTable(name, finalPgColumns) as typeof this.pg;
 
     // Initialise Airtable
     const fieldMap = new Map<string, string>();
