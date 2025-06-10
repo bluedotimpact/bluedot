@@ -1,6 +1,6 @@
 ---
-description: when wrapping up work and preparing to create a pull request
-globs: 
+description: "When wrapping up work and preparing to create a pull request."
+globs: []
 alwaysApply: false
 ---
 

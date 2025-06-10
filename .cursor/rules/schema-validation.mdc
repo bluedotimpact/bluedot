@@ -1,6 +1,6 @@
 ---
 description: when working with types or schemas
-globs: 
+globs: []
 alwaysApply: false
 ---
 ## Data Validation and Type Safety

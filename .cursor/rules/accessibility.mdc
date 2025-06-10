@@ -1,6 +1,6 @@
 ---
 description: when working on the front end
-globs: 
+globs: ["**/*.js","**/*.jsx","**/*.ts","**/*.tsx","**/*.html"]
 alwaysApply: false
 ---
 

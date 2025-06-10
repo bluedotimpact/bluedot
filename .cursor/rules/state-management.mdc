@@ -1,6 +1,6 @@
 ---
 description: when working with state management
-globs: 
+globs: ["**/*.tsx", "**/*.ts"]
 alwaysApply: false
 ---
 ## State Management

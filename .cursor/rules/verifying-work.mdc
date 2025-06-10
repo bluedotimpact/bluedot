@@ -1,6 +1,6 @@
 ---
-description: 
-globs: 
+description: "Three-phase workflow for verifying code changes."
+globs: []
 alwaysApply: true
 ---
 # Verifying Work

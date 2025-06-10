@@ -1,6 +1,6 @@
 ---
 description: when making architectural choices or installing packages
-globs: 
+globs: []
 alwaysApply: false
 ---
 
