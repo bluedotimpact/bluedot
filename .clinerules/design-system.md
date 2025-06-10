@@ -1,8 +1,3 @@
----
-trigger: model_decision
-description: when working on ui or visuals
----
-
 ## Design System and UI Components
 
 - **Reference Storybook before making UI changes:** Before modifying UI components, consult the [Storybook app](http://storybook.k8s.bluedot.org/) and/or [Figma](https://www.figma.com/design/62YlFNK7QS6z7SkrPjrwVb/Blue-Dot?node-id=2-2430&p=f) to understand our design system and existing components. 

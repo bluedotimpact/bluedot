@@ -1,5 +1,6 @@
 ---
-pattern: ".*"
+description: "Guidelines for performance and optimization."
+alwaysApply: true
 ---
 
 ## Performance and Optimization

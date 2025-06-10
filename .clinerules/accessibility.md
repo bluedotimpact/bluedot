@@ -1,8 +1,3 @@
----
-trigger: model_decision
-description: when working on the front end
----
-
 ## Accessibility
 
 - **Use semantic HTML elements:** Prefer proper semantic HTML elements (`button`, `nav`, `header`) over generic `div`s with custom styles.

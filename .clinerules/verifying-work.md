@@ -1,10 +1,3 @@
----
-name: verifying-work
-description: Process for verifying changes during development
-applies_to: ["*"]
-priority: high
----
-
 # Verifying Work
 
 For each task, follow a "before, during, and after" workflow:

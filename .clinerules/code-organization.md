@@ -1,8 +1,3 @@
----
-trigger: model_decision
-description: when making architectural choices or installing packages
----
-
 ## Code Organization and Architecture
 
 - **Understand the monorepo structure:** Familiarize yourself with the structure of apps and libraries before making changes. New shared functionality likely belongs in one of the libraries, not duplicated across apps.

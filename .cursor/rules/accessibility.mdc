@@ -1,6 +1,7 @@
 ---
-trigger: model_decision
 description: when working on the front end
+globs: 
+alwaysApply: false
 ---
 
 ## Accessibility

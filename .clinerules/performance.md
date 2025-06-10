@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 ## Performance and Optimization
 
 - **Avoid unnecessary re-renders:** Use React's memoization tools (`useMemo`, `useCallback`, `memo`) for expensive operations or to prevent unnecessary re-renders.

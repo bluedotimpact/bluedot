@@ -1,8 +1,3 @@
----
-trigger: model_decision
-description: when working with state management
----
-
 ## State Management
 
 - **Use Zustand for complex state management:** For complex state that needs to be shared across components, use Zustand stores rather than deeply nested prop drilling or complex React Context usage.

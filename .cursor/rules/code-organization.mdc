@@ -1,6 +1,7 @@
 ---
-trigger: model_decision
 description: when making architectural choices or installing packages
+globs: 
+alwaysApply: false
 ---
 
 ## Code Organization and Architecture

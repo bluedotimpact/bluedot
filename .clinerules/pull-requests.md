@@ -1,8 +1,3 @@
----
-trigger: model_decision
-description: when wrapping up work and preparing to create a pull request
----
-
 ## Pull Request Guidelines
 
 - **Reference issues:** Always link your PR to an issue. If an issue doesn't exist, create one first to discuss the changes.
