@@ -282,9 +282,17 @@ In terms of tools and external libraries, we usually use:
 
 In general, we try to keep to the above structure and tools as much as possible between packages. This reduces the mental effort required to switch between working on different packages, and eases maintenance burden. We're fans of [boring technology](https://boringtechnology.club/).
 
-## Instructions for LLMs
+## Instructions for LLMs and AI Assisted Coding
 
-After reading this README file, you should read all the other READMEs in this repository. If you can't find them, run this bash command to read them all:
+### Instructions for LLMs
+
+After reading this README file, you should read all the other READMEs in this repository. You can do this by running the npm script:
+
+```bash
+npm run read-all-readmes
+```
+
+Alternatively, if you prefer to use the raw bash command (which is what the npm script executes), you can run:
 
 ```bash
 git ls-files --cached --others --exclude-standard | grep -i 'README' | grep -v '^README.md$' | while read file; do
@@ -292,3 +300,9 @@ git ls-files --cached --others --exclude-standard | grep -i 'README' | grep -v '
     cat "$file"
 done
 ```
+
+### Instructions for AI Assisted Coding
+
+To build or refresh your understanding of the apps and libraries in this repository, you can instruct your AI assistant to run the `read-all-readmes` npm script. For example, you can use a prompt like this:
+
+"Please run `npm run read-all-readmes` in the root directory of the repository to gather information about all apps and libraries. Then, create brief and future-proof memories for each, focusing on their core purpose as described in their respective READMEs." 
