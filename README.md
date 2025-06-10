@@ -14,7 +14,9 @@ This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s
   - [Making contributions](#making-contributions)
 - [Guide: Adding a new app](#guide-adding-a-new-app)
 - [Reference: General package structure](#reference-general-package-structure)
-- [Instructions for LLMs](#instructions-for-llms)
+- [Instructions for LLMs and AI Assisted Coding](#instructions-for-llms-and-ai-assisted-coding)
+  - [Instructions for LLMs](#instructions-for-llms)
+  - [Instructions for AI Assisted Coding](#instructions-for-ai-assisted-coding)
 
 ## What's included
 
@@ -305,4 +307,6 @@ done
 
 To build or refresh your understanding of the apps and libraries in this repository, you can instruct your AI assistant to run the `read-all-readmes` npm script. For example, you can use a prompt like this:
 
-"Please run `npm run read-all-readmes` in the root directory of the repository to gather information about all apps and libraries. Then, create brief and future-proof memories for each, focusing on their core purpose as described in their respective READMEs." 
+```
+Please run `npm run read-all-readmes` in the root directory of the repository to gather information about all apps and libraries. Then, create brief and future-proof memories for each, focusing on their core purpose as described in their respective READMEs.
+```
