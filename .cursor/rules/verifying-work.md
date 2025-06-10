@@ -1,0 +1,14 @@
+---
+name: verifying-work
+description: Process for verifying changes during development
+applies_to: ["*"]
+priority: high
+---
+
+# Verifying Work
+
+For each task, follow a "before, during, and after" workflow:
+
+1. **Before:** Confirm the current state and assumptions using available debugging tools, exploring the codebase with search functions, and verifying issues in the browser before making changes.
+2. **During:** Make the necessary code changes, continuing the work with high agency and resourcefulness until it is done or reaching a dead end.
+3. **After:** Verify the behavior and ensure it matches the changes by running tests, checking logs, and previewing the application in the browser.

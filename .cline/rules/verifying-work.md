@@ -1,0 +1,11 @@
+---
+pattern: ".*"
+---
+
+# Verifying Work
+
+For each task, follow a "before, during, and after" workflow:
+
+1. **Before:** Confirm the current state and assumptions by exploring the codebase, and verifying issues in the browser before making changes.
+2. **During:** Make the necessary code changes, continuing the work with high agency and resourcefulness until it is done or reaching a dead end.
+3. **After:** Verify the behavior and ensure it matches the changes by running tests, checking logs, and previewing the application in the browser.
