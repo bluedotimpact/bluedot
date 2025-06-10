@@ -1,0 +1,16 @@
+---
+trigger: model_decision
+description: when making architectural choices or installing packages
+---
+
+## Code Organization and Architecture
+
+- **Understand the monorepo structure:** Familiarize yourself with the structure of apps and libraries before making changes. New shared functionality likely belongs in one of the libraries, not duplicated across apps.
+  - Libraries (`/libraries/*`) contain shared code used across multiple apps
+  - Apps (`/apps/*`) are standalone applications with specific purposes
+
+- **Minimize dependencies:** We prefer "boring technology" - use existing dependencies before adding new ones. If you need to add a new dependency, justify it clearly in your PR description.
+  - Always check if the functionality already exists in our codebase or in libraries we're already using
+
+- **Follow TypeScript patterns:** Use proper typing throughout your code. Avoid `any` types and use interfaces/types consistently.
+  - Define types/interfaces at the top of your files or in dedicated type files when appropriate

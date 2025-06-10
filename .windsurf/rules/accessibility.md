@@ -1,0 +1,12 @@
+---
+trigger: model_decision
+description: when working on the front end
+---
+
+## Accessibility
+
+- **Use semantic HTML elements:** Prefer proper semantic HTML elements (`button`, `nav`, `header`) over generic `div`s with custom styles.
+
+- **Include proper ARIA attributes:** Ensure interactive elements have appropriate ARIA roles and attributes when needed.
+
+- **Maintain keyboard navigation:** Ensure all interactive components are keyboard navigable.
