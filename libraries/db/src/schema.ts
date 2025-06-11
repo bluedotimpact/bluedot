@@ -26,6 +26,85 @@ export const metaTable = pgTable('meta', {
   pgField: text().notNull(),
 });
 
+export const courseTable = pgAirtable('Course', {
+  baseId: COURSE_BUILDER_BASE_ID,
+  tableId: 'tbl6nq5AVLKINBJ73',
+  columns: {
+    certificationBadgeImage: {
+      pgColumn: text(),
+      airtableId: 'fldwOxukk9OyUPWDX',
+    },
+    certificatonDescription: {
+      pgColumn: text(),
+      airtableId: 'fldsxyHg4BLouu7XZ',
+    },
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldCX0bk6SQuXZaI7',
+    },
+    detailsUrl: {
+      pgColumn: text(),
+      airtableId: 'fldblKROooVG5p9UW',
+    },
+    displayOnCourseHubIndex: {
+      pgColumn: boolean(),
+      airtableId: 'fldf7ppu9kN4blXU9',
+    },
+    // TODO re-add these. They don't exist in my copy
+    // durationDescription: {
+    //   pgColumn: text(),
+    //   airtableId: 'fldHxekJ6BioQMF3e',
+    // },
+    // durationHours: {
+    //   pgColumn: numeric({ mode: 'number' }),
+    //   airtableId: 'fld77qMwZ1de2owvx',
+    // },
+    // image: {
+    //   pgColumn: text(),
+    //   airtableId: 'fldh90A6x8HwQSkMy',
+    // },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldHWXKaVuHJAaMbP',
+    },
+    path: {
+      pgColumn: text(),
+      airtableId: 'fldEjx0ZP8SNYcNQR',
+    },
+    // TODO re-add these. They don't exist in my copy
+    // shortDescription: {
+    //   pgColumn: text(),
+    //   airtableId: 'fld0KVXjcZkSpBOIT',
+    // },
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldUyKGqFb7OiY0KF',
+    },
+    units: {
+      pgColumn: text().array(),
+      airtableId: 'fldxi3h4LD2Bs3efO',
+    },
+    cadence: {
+      pgColumn: text(),
+      airtableId: 'fldTI1NI7ocFIWcmv',
+    },
+    // TODO re-add these. They don't exist in my copy
+    // level: {
+    //   pgColumn: text(),
+    //   airtableId: 'fldkL7aWITGCPqzxc',
+    // },
+    // averageRating: {
+    //   pgColumn: numeric({ mode: 'number' }),
+    //   airtableId: 'fldONpnyJ4OG0StDY',
+    // },
+    // publicLastUpdated: {
+    //   pgColumn: text(),
+    //   airtableId: 'fld8g5mMsPqOm75Vz',
+    // },
+  },
+});
+export const courseTablePg = courseTable.pg;
+
 export const unitFeedbackTable = pgAirtable('UnitFeedback', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblBwjMjul1c6l7ea',

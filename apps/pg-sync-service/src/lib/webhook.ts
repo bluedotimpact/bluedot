@@ -8,6 +8,7 @@ type AirtableWebhookDescription = {
     options?: {
       filters?: {
         dataTypes?: string[];
+        watchDataInFieldIds?: string[];
       };
     };
   };
@@ -52,14 +53,17 @@ type ListWebhookPayloadsApiResponse = {
 export class AirtableWebhook {
   private readonly baseId: string;
 
+  private readonly fieldIds: string[];
+
   private webhookId: string | null = null;
 
   private nextPayloadCursor: number | null = null;
 
   private axiosInstance: AxiosInstance;
 
-  private constructor(baseId: string) {
+  private constructor(baseId: string, fieldIds: string[]) {
     this.baseId = baseId;
+    this.fieldIds = fieldIds;
     this.axiosInstance = axios.create({
       baseURL: 'https://api.airtable.com/v0',
       headers: {
@@ -69,8 +73,8 @@ export class AirtableWebhook {
     });
   }
 
-  public static async getOrCreate(baseId: string): Promise<AirtableWebhook> {
-    const webhook = new AirtableWebhook(baseId);
+  public static async getOrCreate(baseId: string, fieldIds: string[]): Promise<AirtableWebhook> {
+    const webhook = new AirtableWebhook(baseId, fieldIds);
     await webhook.ensureInitialized();
     return webhook;
   }
@@ -86,41 +90,58 @@ export class AirtableWebhook {
 
     // 2. Try to find a matching webhook that matches the desired criteria:
     //   a. The dataTypes filter contains 'tableData' or 'tableFields'
-    //   b. There are no other filters
+    //   b. The watchDataInFieldIds matches our field IDs (or no field filter if we have no fields)
     const matchingWebhook = webhooks.find((wh) => {
       const filters = wh?.specification?.options?.filters ?? {};
-      const filterKeys = Object.keys(filters);
       const dataTypes = filters.dataTypes ?? [];
+      const webhookFieldIds = filters.watchDataInFieldIds ?? [];
 
-      return (
-        filterKeys.length === 1
-        && filterKeys[0] === 'dataTypes'
-        && (dataTypes.includes('tableData') || dataTypes.includes('tableFields'))
-      );
+      // Check dataTypes filter
+      const hasRequiredDataTypes = dataTypes.includes('tableData') || dataTypes.includes('tableFields');
+
+      // Check field IDs match
+      const fieldIdsMatch = this.fieldIds.length === 0
+        ? webhookFieldIds.length === 0 // No fields specified, should have no field filter
+        : this.fieldIds.length === webhookFieldIds.length
+          && this.fieldIds.every((id) => webhookFieldIds.includes(id));
+
+      return hasRequiredDataTypes && fieldIdsMatch;
     });
 
     if (matchingWebhook) {
       // Use existing webhook
       this.webhookId = matchingWebhook.id;
       this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
+      console.log(`[AirtableWebhook] Using existing webhook ${this.webhookId} for base ${this.baseId} with ${this.fieldIds.length} field filters`);
     } else {
       // 3. If not found, create the webhook
-      const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
-        `/bases/${this.baseId}/webhooks`,
-        {
-          // notificationUrl, // TODO give it a notification url to receive immediate updates
-          specification: {
-            options: {
-              filters: {
-                dataTypes: ['tableData', 'tableFields'],
-              },
+      const webhookSpec: any = {
+        // notificationUrl, // TODO give it a notification url to receive immediate updates
+        specification: {
+          options: {
+            filters: {
+              dataTypes: ['tableData', 'tableFields'],
             },
           },
         },
+      };
+
+      // Add field filtering if we have specific fields to watch
+      if (this.fieldIds.length > 0) {
+        webhookSpec.specification.options.filters.watchDataInFieldIds = this.fieldIds;
+        console.log(`[AirtableWebhook] Creating webhook for base ${this.baseId} with field filtering: ${this.fieldIds.length} fields`);
+      } else {
+        console.log(`[AirtableWebhook] Creating webhook for base ${this.baseId} with no field filtering`);
+      }
+
+      const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
+        `/bases/${this.baseId}/webhooks`,
+        webhookSpec,
       );
 
       this.webhookId = createResponse.data.id;
       this.nextPayloadCursor = createResponse.data.cursorForNextPayload;
+      console.log(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}`);
     }
   }
 

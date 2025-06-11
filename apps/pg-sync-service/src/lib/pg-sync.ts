@@ -11,15 +11,35 @@ const webhookInstances: Record<string, AirtableWebhook> = {};
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
  */
 export async function initializeWebhooks(): Promise<void> {
-  const uniqueBaseIds = await db.pg
-    .selectDistinct({ baseId: metaTable.airtableBaseId })
-    .from(metaTable);
+  // Get all base IDs and their corresponding field IDs
+  const baseFieldMappings = await db.pg
+    .select({
+      baseId: metaTable.airtableBaseId,
+      fieldId: metaTable.airtableFieldId,
+    })
+    .from(metaTable)
+    .where(eq(metaTable.enabled, true));
 
-  for (const { baseId } of uniqueBaseIds) {
-    // eslint-disable-next-line no-await-in-loop
-    const webhook = await AirtableWebhook.getOrCreate(baseId);
-    webhookInstances[baseId] = webhook;
+  // Group field IDs by base ID
+  const fieldsByBase: Record<string, string[]> = {};
+  for (const { baseId, fieldId } of baseFieldMappings) {
+    if (!fieldsByBase[baseId]) {
+      fieldsByBase[baseId] = [];
+    }
+    fieldsByBase[baseId].push(fieldId);
   }
+
+  // Create webhooks for each base with their specific field filters
+  const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
+    console.log(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
+    return AirtableWebhook.getOrCreate(baseId, fieldIds).then((webhook) => {
+      webhookInstances[baseId] = webhook;
+    });
+  });
+
+  await Promise.all(webhookPromises);
+
+  console.log(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
 }
 
 /**

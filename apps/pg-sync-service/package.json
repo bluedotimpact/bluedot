@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "root": "dotenv -e .env.local -- npm run --prefix ../../",
         "start": "tsup --watch & dotenv -e .env.local --fallback .env -- nodemon --watch dist --ext js dist/index.js",
         "build": "tsc && tsup && mkdir -p dist_tools && cp ../../package-lock.json dist_tools",
         "test": "vitest --run",
