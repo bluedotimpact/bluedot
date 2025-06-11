@@ -1,0 +1,45 @@
+name: Bug Report
+description: Report a bug
+title: "[Bug] Short descriptive title"
+labels: [bug, triage]
+assignees: [bluebotimpact]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 🧩 Summary
+      description: Briefly describe the bug in one or two sentences.
+    required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🛝 Steps to reproduce
+      description: What steps can we take to reproduce the bug?
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See error ...
+    required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What should be true or visible to consider this bug fixed?
+    required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs.
+
+  - type: checkboxes
+    id: urgency
+    attributes:
+      label: How urgent is this?
+      options:
+        - label: 🔥 Today
+        - label: 🕐 Within 1 week
+        - label: 🧊 Non-urgent / backlog
