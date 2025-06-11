@@ -9,14 +9,14 @@ body:
     attributes:
       label: 🧩 Summary
       description: Briefly describe the feature or idea in one or two sentences.
-    required: true
+      required: true
 
   - type: textarea
     id: requirements
     attributes:
       label: ✅ Definition of done
       description: What needs to be true for this task to be considered complete?
-    required: true
+      required: true
 
   - type: textarea
     id: notes
