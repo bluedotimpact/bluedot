@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import env from '../env';
+import { RateLimiter } from './rate-limiter';
 
 type AirtableWebhookDescription = {
   id: string;
@@ -42,6 +43,7 @@ export type AirtableAction = {
   recordId: string;
   fieldIds?: string[];
   isDelete?: boolean;
+  recordData?: Record<string, unknown>;
 };
 
 type ListWebhookPayloadsApiResponse = {
@@ -55,15 +57,18 @@ export class AirtableWebhook {
 
   private readonly fieldIds: string[];
 
+  private readonly rateLimiter: RateLimiter;
+
   private webhookId: string | null = null;
 
   private nextPayloadCursor: number | null = null;
 
   private axiosInstance: AxiosInstance;
 
-  private constructor(baseId: string, fieldIds: string[]) {
+  private constructor(baseId: string, fieldIds: string[], rateLimiter: RateLimiter) {
     this.baseId = baseId;
     this.fieldIds = fieldIds;
+    this.rateLimiter = rateLimiter;
     this.axiosInstance = axios.create({
       baseURL: 'https://api.airtable.com/v0',
       headers: {
@@ -73,8 +78,8 @@ export class AirtableWebhook {
     });
   }
 
-  public static async getOrCreate(baseId: string, fieldIds: string[]): Promise<AirtableWebhook> {
-    const webhook = new AirtableWebhook(baseId, fieldIds);
+  public static async getOrCreate(baseId: string, fieldIds: string[], rateLimiter: RateLimiter): Promise<AirtableWebhook> {
+    const webhook = new AirtableWebhook(baseId, fieldIds, rateLimiter);
     await webhook.ensureInitialized();
     return webhook;
   }
@@ -83,6 +88,7 @@ export class AirtableWebhook {
     if (this.webhookId && this.nextPayloadCursor) return;
 
     // 1. Get all webhooks for this base
+    await this.rateLimiter.acquire();
     const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
       `/bases/${this.baseId}/webhooks`,
     );
@@ -134,6 +140,7 @@ export class AirtableWebhook {
         console.log(`[AirtableWebhook] Creating webhook for base ${this.baseId} with no field filtering`);
       }
 
+      await this.rateLimiter.acquire();
       const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
         `/bases/${this.baseId}/webhooks`,
         webhookSpec,
@@ -159,6 +166,8 @@ export class AirtableWebhook {
 
     // Page through all available data
     while (mightHaveMore && currentCursor !== null) {
+      // eslint-disable-next-line no-await-in-loop
+      await this.rateLimiter.acquire();
       // eslint-disable-next-line no-await-in-loop
       const response = await this.axiosInstance.get<ListWebhookPayloadsApiResponse>(
         `/bases/${this.baseId}/webhooks/${this.webhookId}/payloads`,

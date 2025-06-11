@@ -56,8 +56,8 @@ export type BasePgTableType<
 }>;
 
 export class PgAirtableTable<
-  TTableName extends string,
-  TColumnsMap extends Record<string, PgAirtableColumnInput>,
+  TTableName extends string = string,
+  TColumnsMap extends Record<string, PgAirtableColumnInput> = Record<string, PgAirtableColumnInput>,
 > {
   public readonly pg: Omit<BasePgTableType<TTableName, TColumnsMap>, 'id'> & PgTableWithColumns<{
     name: TTableName;

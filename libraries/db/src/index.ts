@@ -7,6 +7,6 @@ export {
   courseTable,
 } from './schema';
 
-export { getPgAirtableFromIds } from './lib/db-core';
+export { getPgAirtableFromIds, type PgAirtableTable } from './lib/db-core';
 
 export * from 'drizzle-orm';

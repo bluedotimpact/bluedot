@@ -3,9 +3,28 @@ import {
 } from '@bluedot/db';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
+import { RateLimiter } from './rate-limiter';
 
-const updateQueue: AirtableAction[] = [];
+const MAX_RETRIES = 3;
+const highPriorityQueue: AirtableAction[] = [];
+const lowPriorityQueue: AirtableAction[] = [];
+const rateLimiter = new RateLimiter(5);
 const webhookInstances: Record<string, AirtableWebhook> = {};
+
+// Track retry counts for updates
+const retryCountMap = new Map<string, number>();
+
+function getRetryKey(update: AirtableAction): string {
+  return `${update.baseId}::${update.tableId}::${update.recordId}`;
+}
+
+export function addToQueue(updates: AirtableAction[], priority: 'high' | 'low' = 'high'): void {
+  const targetQueue = priority === 'high' ? highPriorityQueue : lowPriorityQueue;
+  targetQueue.push(...updates);
+}
+
+// Export rateLimiter for use by initial sync
+export { rateLimiter };
 
 /**
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
@@ -32,7 +51,7 @@ export async function initializeWebhooks(): Promise<void> {
   // Create webhooks for each base with their specific field filters
   const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
     console.log(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
-    return AirtableWebhook.getOrCreate(baseId, fieldIds).then((webhook) => {
+    return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
       webhookInstances[baseId] = webhook;
     });
   });
@@ -80,103 +99,139 @@ export function deduplicateActions(updates: AirtableAction[]): AirtableAction[] 
 export async function pollForUpdates(): Promise<void> {
   // Gather all updates from each webhook
   const webhooks = Object.values(webhookInstances);
-  const allUpdates = (
-    await Promise.all(webhooks.map((webhook) => webhook.popActions()))
-  ).map(deduplicateActions);
+  const allUpdates: AirtableAction[][] = [];
+
+  for (const webhook of webhooks) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const updates = await webhook.popActions();
+      allUpdates.push(deduplicateActions(updates));
+    } catch (err) {
+      console.error('[pollForUpdates] Failed to poll webhook:', err);
+    }
+  }
 
   for (const updates of allUpdates) {
-    console.log({ updates });
-    updateQueue.push(...updates);
+    if (updates.length > 0) {
+      console.log(`[pollForUpdates] Adding ${updates.length} updates to queue`);
+    }
+    addToQueue(updates, 'high');
   }
 }
 
-/**
- * Process the update queue - stub for now.
- */
-export async function processUpdateQueue(): Promise<void> {
-  const failedUpdates: AirtableAction[] = [];
-
-  let iteration = 0;
-  while (updateQueue.length > 0) {
-    iteration += 1;
-    console.log(`[processUpdateQueue] Iteration ${iteration}, queue length: ${updateQueue.length}`);
-
-    const update = updateQueue.shift();
-
-    if (!update) {
-      console.warn(`[processUpdateQueue] No update found at iteration ${iteration}, skipping.`);
-      continue;
+async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
+  try {
+    // For initial sync updates with recordData, skip rate limiting during processing
+    // (rate limiting was already applied during the fetch phase)
+    if (!update.recordData) {
+      await rateLimiter.acquire();
     }
 
-    console.log('[processUpdateQueue] Processing update:', JSON.stringify(update, null, 2));
+    const metaResult = await db.pg
+      .select()
+      .from(metaTable)
+      .where(
+        and(
+          eq(metaTable.airtableBaseId, update.baseId),
+          eq(metaTable.airtableTableId, update.tableId),
+          ...(!update.isDelete
+            ? [inArray(metaTable.airtableFieldId, update.fieldIds ?? [])]
+            : []),
+        ),
+      ).limit(1);
 
-    try {
-      // Log metaTable query parameters
-      console.log(`[processUpdateQueue] Checking shouldSync for baseId=${update.baseId}, tableId=${update.tableId}, isDelete=${update.isDelete}, fieldIds=${JSON.stringify(update.fieldIds)}`);
+    if (metaResult.length === 0) {
+      return true;
+    }
 
-      // eslint-disable-next-line no-await-in-loop
-      const metaQuery = db.pg
-        .select()
-        .from(metaTable)
-        .where(
-          and(
-            eq(metaTable.airtableBaseId, update.baseId),
-            eq(metaTable.airtableTableId, update.tableId),
-            ...(!update.isDelete
-              ? [inArray(metaTable.airtableFieldId, update.fieldIds ?? [])]
-              : []),
-          ),
-        ).limit(1);
+    const pgAirtable = getPgAirtableFromIds({
+      baseId: update.baseId,
+      tableId: update.tableId,
+    });
 
-      console.log('[processUpdateQueue] About to execute metaTable query:', {
-        baseId: update.baseId,
-        tableId: update.tableId,
+    if (!pgAirtable) {
+      console.warn(`[processSingleUpdate] No pgAirtable found for baseId=${update.baseId}, tableId=${update.tableId}. Skipping update.`);
+      return true;
+    }
+
+    if (update.recordData) {
+      // Fast path: use pre-fetched record data from initial sync
+      await db.ensureReplicated({
+        table: pgAirtable,
+        fullData: update.recordData,
+        id: update.recordId,
         isDelete: update.isDelete,
-        fieldIds: update.fieldIds,
       });
-
-      // eslint-disable-next-line no-await-in-loop
-      const metaResult = await metaQuery;
-      console.log('[processUpdateQueue] metaTable query result:', metaResult);
-
-      const shouldSync = metaResult.length > 0;
-      console.log(`[processUpdateQueue] shouldSync: ${shouldSync}`);
-
-      if (!shouldSync) {
-        console.log('[processUpdateQueue] Skipping update (shouldSync=false):', JSON.stringify(update, null, 2));
-        continue;
-      }
-
-      const pgAirtable = getPgAirtableFromIds({
-        baseId: update.baseId,
-        tableId: update.tableId,
-      });
-
-      if (!pgAirtable) {
-        console.warn(`[processUpdateQueue] No pgAirtable found for baseId=${update.baseId}, tableId=${update.tableId}. Skipping update.`);
-        continue;
-      }
-
-      console.log(`[processUpdateQueue] Found pgAirtable for baseId=${update.baseId}, tableId=${update.tableId}. Proceeding to replicate.`);
-
-      // TODO decide what to do about this too
-      // eslint-disable-next-line no-await-in-loop
+    } else {
+      // Standard path: fetch data via API (webhook updates)
       await db.ensureReplicated({
         table: pgAirtable,
         id: update.recordId,
         isDelete: update.isDelete,
       });
+    }
 
-      console.log(`[processUpdateQueue] Successfully replicated recordId=${update.recordId} (isDelete=${update.isDelete}) for baseId=${update.baseId}, tableId=${update.tableId}`);
-    } catch (err) {
-      console.error('[processUpdateQueue] Failed to process update:', JSON.stringify(update, null, 2), err);
-      failedUpdates.push(update);
+    return true;
+  } catch (err) {
+    console.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
+    return false;
+  }
+}
+
+type UpdateProcessor = (update: AirtableAction) => Promise<boolean>;
+
+export async function processUpdateQueue(processor: UpdateProcessor = processSingleUpdate): Promise<void> {
+  let iteration = 0;
+  let processedCount = 0;
+
+  while (highPriorityQueue.length > 0 || lowPriorityQueue.length > 0) {
+    iteration += 1;
+    
+    // Only log every 100 iterations to reduce noise, regardless of queue size
+    if (iteration % 100 === 1) {
+      console.log(`[processUpdateQueue] Iteration ${iteration}, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
+    }
+
+    let update: AirtableAction | undefined;
+
+    if (highPriorityQueue.length > 0) {
+      update = highPriorityQueue.shift()!;
+    } else if (lowPriorityQueue.length > 0) {
+      update = lowPriorityQueue.shift()!;
+    }
+
+    if (!update) break;
+
+    // eslint-disable-next-line no-await-in-loop -- Sequential processing is intentional for rate limiting
+    const success = await processor(update);
+    if (success) {
+      processedCount += 1;
+      // Clear any retry count
+      const retryKey = getRetryKey(update);
+      retryCountMap.delete(retryKey);
+    } else {
+      const retryKey = getRetryKey(update);
+      const currentRetries = retryCountMap.get(retryKey) || 0;
+
+      if (currentRetries + 1 < MAX_RETRIES) {
+        retryCountMap.set(retryKey, currentRetries + 1);
+        console.log(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        addToQueue([update], 'low');
+      } else {
+        console.error(`[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        retryCountMap.delete(retryKey);
+      }
     }
   }
 
-  if (failedUpdates.length > 0) {
-    console.error('[processUpdateQueue] Failed updates encountered:', JSON.stringify(failedUpdates, null, 2));
-  } else {
-    console.log('[processUpdateQueue] All updates processed successfully.');
+  if (processedCount > 0) {
+    console.log(`[processUpdateQueue] Processing cycle completed. Processed ${processedCount} updates.`);
   }
+}
+
+export function getQueueStatus(): { high: number; low: number } {
+  return {
+    high: highPriorityQueue.length,
+    low: lowPriorityQueue.length,
+  };
 }
