@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { userTable } from '@bluedot/db';
+import { unitFeedbackTable } from '@bluedot/db';
 
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import { db } from '../../../lib/api/db';
@@ -10,13 +10,13 @@ export default makeApiRoute({
 }, async () => {
   try {
     // Do some stuff with users as a test
-    await db.airtableInsert(userTable, {
-      email: 'johndoe@example.com',
-      name: 'John Doe',
-    });
+    // await db.airtableInsert(unitFeedbackTable, {
+    //   unitId: 'abcd',
+    //   overallRating: 4.5,
+    // });
 
-    const allUsers = await db.pg.select().from(userTable.pg);
-    console.log({ allUsers });
+    const results = await db.pg.select().from(unitFeedbackTable.pg);
+    console.log({ results });
   } catch (e) {
     console.error('An error occurred:', e);
   }

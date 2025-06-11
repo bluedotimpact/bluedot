@@ -1,4 +1,6 @@
-import { eq, inArray, and, getPgAirtableFromIds, metaTable } from '@bluedot/db';
+import {
+  eq, inArray, and, getPgAirtableFromIds, metaTable,
+} from '@bluedot/db';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 
@@ -76,7 +78,7 @@ export async function processUpdateQueue(): Promise<void> {
 
   let iteration = 0;
   while (updateQueue.length > 0) {
-    iteration++;
+    iteration += 1;
     console.log(`[processUpdateQueue] Iteration ${iteration}, queue length: ${updateQueue.length}`);
 
     const update = updateQueue.shift();
@@ -86,7 +88,7 @@ export async function processUpdateQueue(): Promise<void> {
       continue;
     }
 
-    console.log(`[processUpdateQueue] Processing update:`, JSON.stringify(update, null, 2));
+    console.log('[processUpdateQueue] Processing update:', JSON.stringify(update, null, 2));
 
     try {
       // Log metaTable query parameters
@@ -106,7 +108,7 @@ export async function processUpdateQueue(): Promise<void> {
           ),
         ).limit(1);
 
-      console.log(`[processUpdateQueue] About to execute metaTable query:`, {
+      console.log('[processUpdateQueue] About to execute metaTable query:', {
         baseId: update.baseId,
         tableId: update.tableId,
         isDelete: update.isDelete,
@@ -115,13 +117,13 @@ export async function processUpdateQueue(): Promise<void> {
 
       // eslint-disable-next-line no-await-in-loop
       const metaResult = await metaQuery;
-      console.log(`[processUpdateQueue] metaTable query result:`, metaResult);
+      console.log('[processUpdateQueue] metaTable query result:', metaResult);
 
       const shouldSync = metaResult.length > 0;
       console.log(`[processUpdateQueue] shouldSync: ${shouldSync}`);
 
       if (!shouldSync) {
-        console.log(`[processUpdateQueue] Skipping update (shouldSync=false):`, JSON.stringify(update, null, 2));
+        console.log('[processUpdateQueue] Skipping update (shouldSync=false):', JSON.stringify(update, null, 2));
         continue;
       }
 
@@ -147,14 +149,14 @@ export async function processUpdateQueue(): Promise<void> {
 
       console.log(`[processUpdateQueue] Successfully replicated recordId=${update.recordId} (isDelete=${update.isDelete}) for baseId=${update.baseId}, tableId=${update.tableId}`);
     } catch (err) {
-      console.error(`[processUpdateQueue] Failed to process update:`, JSON.stringify(update, null, 2), err);
+      console.error('[processUpdateQueue] Failed to process update:', JSON.stringify(update, null, 2), err);
       failedUpdates.push(update);
     }
   }
 
   if (failedUpdates.length > 0) {
-    console.error(`[processUpdateQueue] Failed updates encountered:`, JSON.stringify(failedUpdates, null, 2));
+    console.error('[processUpdateQueue] Failed updates encountered:', JSON.stringify(failedUpdates, null, 2));
   } else {
-    console.log(`[processUpdateQueue] All updates processed successfully.`);
+    console.log('[processUpdateQueue] All updates processed successfully.');
   }
 }

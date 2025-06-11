@@ -7,6 +7,7 @@ import { metaTable } from '../schema';
 import env from '../lib/env';
 
 async function main() {
+  // @ts-expect-error
   const db = createDbClient(env.PG_URL);
 
   const rowsToInsert: (typeof metaTable.$inferInsert)[] = [];

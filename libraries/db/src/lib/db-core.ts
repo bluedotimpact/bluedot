@@ -3,12 +3,17 @@ import { BuildColumns } from 'drizzle-orm/column-builder';
 import {
   pgTable,
   text,
-  PgColumnBuilderBase,
   PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
+import {
+  drizzleColumnToTsTypeString,
+  type TsTypeString,
+  type DrizzleColumnToTsTypeString,
+  type AllowedPgColumn,
+} from './typeUtils';
 
 export type PgAirtableColumnInput = {
-  pgColumn: PgColumnBuilderBase;
+  pgColumn: AllowedPgColumn;
   airtableId: string;
 };
 
@@ -24,13 +29,20 @@ type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
   id: ReturnType<typeof text>;
 };
 
-// TODO map types other than string | null
+// Use proper type-level mapping for each column type
 export type AirtableItemFromColumnsMap<
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
 > = {
   id: string;
 } & {
-  [K in keyof TColumnsMap]: string | null;
+  [K in keyof TColumnsMap]: TColumnsMap[K]['pgColumn'] extends AllowedPgColumn
+    ? DrizzleColumnToTsTypeString<TColumnsMap[K]['pgColumn']> extends `${infer BaseType} | null`
+      ? BaseType extends 'string' ? string | null
+        : BaseType extends 'number' ? number | null
+          : BaseType extends 'boolean' ? boolean | null
+            : string | null
+      : string | null
+    : string | null;
 };
 
 export type BasePgTableType<
@@ -67,7 +79,7 @@ export class PgAirtableTable<
     this.columnsConfig = config.columns;
 
     // Initialise Postgres
-    const drizzleTableColsBuilder: Record<string, PgColumnBuilderBase> = {
+    const drizzleTableColsBuilder: Record<string, AllowedPgColumn> = {
       id: text('id').notNull().primaryKey(),
     };
 
@@ -90,13 +102,13 @@ export class PgAirtableTable<
     this.airtableFieldMap = fieldMap;
 
     const mappings: Record<string, string> = {};
-    const schema: Record<string, 'string | null'> = {};
+    const schema: Record<string, TsTypeString> = {};
 
     for (const [columnName, columnConfig] of Object.entries(this.columnsConfig)) {
       if (columnName !== 'id') {
         mappings[columnName] = columnConfig.airtableId;
-        // TODO use correct type
-        schema[columnName] = 'string | null';
+        // Use correct type based on the drizzle column type
+        schema[columnName] = drizzleColumnToTsTypeString(columnConfig.pgColumn);
       }
     }
 
@@ -115,7 +127,8 @@ export class PgAirtableTable<
 }
 
 // BEGIN Global registry
-// TODO ideally remove this
+// TODO ideally remove this registry and fix the any types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pgAirtableTableRegistry: Record<string, PgAirtableTable<any, any>> = {};
 function makePgAirtableKey(baseId: string, tableId: string): string {
   return `${baseId}:${tableId}`;
@@ -139,8 +152,9 @@ function registerPgAirtableTable<
 
 export function getPgAirtableFromIds(
   { baseId, tableId }: { baseId: string; tableId: string; },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): PgAirtableTable<any, any> | undefined {
-  console.log({ pgAirtableTableRegistry });
+  // console.log({ pgAirtableTableRegistry });
   const key = makePgAirtableKey(baseId, tableId);
   return pgAirtableTableRegistry[key];
 }

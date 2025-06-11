@@ -1,11 +1,16 @@
 import {
-  pgTable, text, boolean,
+  pgTable, text, boolean, numeric,
 } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
 import env from './lib/env';
 
-const { COURSE_BUILDER_BASE_ID = 'appgnRJNcgW90cbj0' } = env;
+const { COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG' } = env;
 const { APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf' } = env;
+
+// TODO remove before merging
+if (COURSE_BUILDER_BASE_ID === 'appbiNKDcn1sGPGOG' || APPLICATIONS_BASE_ID === 'appnJbsG1eWbAdEvf') {
+  throw new Error("Using prod database, you probably didn't mean to do this");
+}
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -21,28 +26,62 @@ export const metaTable = pgTable('meta', {
   pgField: text().notNull(),
 });
 
-export const userTable = pgAirtable('User', {
+export const unitFeedbackTable = pgAirtable('UnitFeedback', {
   baseId: COURSE_BUILDER_BASE_ID,
-  // tableId: 'tbl8aI1ksljv2qZv3',
-  tableId: 'tblUItn8S57DxuGR8', // TODO revert, this is a test base
+  tableId: 'tblBwjMjul1c6l7ea',
   columns: {
-    email: {
+    unitId: {
       pgColumn: text(),
-      // airtableId: 'fldOkUOWaZGphtQWF',
-      airtableId: 'fldEU3o8XWg5sPkMw', // TODO revert, this is a test base
+      airtableId: 'fldYqvWII6kuxCCmH',
     },
-    name: {
-      pgColumn: text(),
-      // airtableId: 'fldQWsI7eAhnPQjQx',
-      airtableId: 'fldKNUVGtsr9TD4e0', // TODO revert, this is a test base
+    overallRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld3B8HUudN5NxPIU',
     },
-    completedMoocAt: {
-      // Note: Currently this is text() to avoid having to create a robust type mapping
-      // between airtable and postgres, over time we can migrate types that become important
+    anythingElse: {
       pgColumn: text(),
-      // airtableId: 'fldiSuoXoyW50n4yp',
-      airtableId: 'fldZMGgpQJ4voCtv6', // TODO revert, this is a test base
+      airtableId: 'fldYdcPZPdJAqn06w',
+    },
+    userEmail: {
+      pgColumn: text(),
+      airtableId: 'fld9JsHJXjud5Bhle',
+    },
+    userFullName: {
+      pgColumn: text(),
+      airtableId: 'fldPG0z0SRFcGJhNW',
+    },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldWyJJz3OVNK0kTn',
+    },
+    lastModified: {
+      pgColumn: text(),
+      airtableId: 'fldCQ0O6oOf4BcMpJ',
     },
   },
 });
-export const userTablePg = userTable.pg;
+export const unitFeedbackTablePg = unitFeedbackTable.pg;
+
+export const exerciseResponseTable = pgAirtable('ExerciseResponse', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tblLNijbqwoLtkd3O',
+  columns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldI5oHurlbNjQJmM',
+    },
+    exerciseId: {
+      pgColumn: text(),
+      airtableId: 'fldSKltln4l3yYdi2',
+    },
+    response: {
+      pgColumn: text(),
+      airtableId: 'fld7Qa3JDnRNwCTlH',
+    },
+    completed: {
+      pgColumn: boolean(),
+      airtableId: 'fldz8rocQd7Ws9s2q',
+    },
+  },
+});
+export const exerciseResponseTablePg = exerciseResponseTable.pg;
