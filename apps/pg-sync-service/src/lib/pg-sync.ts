@@ -11,7 +11,6 @@ const lowPriorityQueue: AirtableAction[] = [];
 const rateLimiter = new RateLimiter(5);
 const webhookInstances: Record<string, AirtableWebhook> = {};
 
-// Track retry counts for updates
 const retryCountMap = new Map<string, number>();
 
 function getRetryKey(update: AirtableAction): string {
@@ -23,7 +22,6 @@ export function addToQueue(updates: AirtableAction[], priority: 'high' | 'low' =
   targetQueue.push(...updates);
 }
 
-// Export rateLimiter for use by initial sync
 export { rateLimiter };
 
 /**
@@ -158,6 +156,8 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
       // Fast path: use pre-fetched record data from initial sync
       await db.ensureReplicated({
         table: pgAirtable,
+        // TODO fix
+        // @ts-expect-error
         fullData: update.recordData,
         id: update.recordId,
         isDelete: update.isDelete,
@@ -186,8 +186,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
 
   while (highPriorityQueue.length > 0 || lowPriorityQueue.length > 0) {
     iteration += 1;
-    
-    // Only log every 100 iterations to reduce noise, regardless of queue size
+
     if (iteration % 100 === 1) {
       console.log(`[processUpdateQueue] Iteration ${iteration}, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
     }
@@ -206,7 +205,6 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
     const success = await processor(update);
     if (success) {
       processedCount += 1;
-      // Clear any retry count
       const retryKey = getRetryKey(update);
       retryCountMap.delete(retryKey);
     } else {

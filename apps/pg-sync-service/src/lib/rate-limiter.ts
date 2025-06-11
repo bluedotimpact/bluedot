@@ -1,5 +1,5 @@
 /**
- * Rate limiter for Airtable API calls using sliding window algorithm
+ * Simple rate limiter for Airtable API calls
  */
 export class RateLimiter {
   private requests: number[] = [];
@@ -40,23 +40,5 @@ export class RateLimiter {
     // Record this request
     this.requests.push(now);
     return Promise.resolve();
-  }
-
-  /**
-   * Get current request count in the sliding window
-   */
-  getCurrentRequestCount(): number {
-    const now = Date.now();
-    this.requests = this.requests.filter((timestamp) => now - timestamp < this.windowMs);
-    return this.requests.length;
-  }
-
-  /**
-   * Check if we can make a request without waiting
-   */
-  canMakeRequest(): boolean {
-    const now = Date.now();
-    this.requests = this.requests.filter((timestamp) => now - timestamp < this.windowMs);
-    return this.requests.length < this.maxRPS;
   }
 }

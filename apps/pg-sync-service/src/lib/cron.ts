@@ -9,7 +9,7 @@ cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, async () => {
     console.log('[cron] Skipping execution - previous cycle still running');
     return;
   }
-  
+
   isProcessing = true;
   try {
     await pollForUpdates();
