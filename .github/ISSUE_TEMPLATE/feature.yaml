@@ -42,4 +42,4 @@ body:
         - 🔥 Today
         - 🕐 Within 1 week
         - 🧊 Non-urgent / backlog
-      default: 🕐 Within 1 week
+      default: 1
