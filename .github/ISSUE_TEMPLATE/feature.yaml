@@ -34,11 +34,11 @@ body:
       description: Include Figma links, screenshots, or Loom walkthroughs.
       placeholder: Add any other context about the feature request here.
 
-  - type: checkboxes
+  - type: dropdown
     id: urgency
     attributes:
       label: How urgent is this?
       options:
-        - label: 🔥 Today
-        - label: 🕐 Within 1 week
-        - label: 🧊 Non-urgent / backlog
+        - 🔥 Today
+        - 🕐 Within 1 week
+        - 🧊 Non-urgent / backlog
