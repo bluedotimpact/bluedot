@@ -4,11 +4,18 @@ title: "[Bug] Short descriptive title"
 labels: [bug, triage]
 assignees: [bluebotimpact]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
   - type: textarea
     id: summary
     attributes:
       label: 🧩 Summary
       description: Briefly describe the bug in one or two sentences.
+      placeholder: A clear and concise description of what the bug is.
+    validations:
       required: true
 
   - type: textarea
@@ -20,6 +27,7 @@ body:
         1. Go to ...
         2. Click on ...
         3. See error ...
+    validations:
       required: true
 
   - type: textarea
@@ -27,6 +35,8 @@ body:
     attributes:
       label: ✅ Definition of done
       description: What should be true or visible to consider this bug fixed?
+      placeholder: A clear description of what you expect to see when the bug is fixed.
+    validations:
       required: true
 
   - type: textarea
@@ -34,6 +44,7 @@ body:
     attributes:
       label: 📌 Notes / Designs
       description: Include Figma links, screenshots, or Loom walkthroughs.
+      placeholder: Add any other context about the problem here.
 
   - type: checkboxes
     id: urgency
