@@ -1,7 +1,7 @@
-name: Feature / Bug Report
-about: Use this template to report bugs, suggest features, or document ideas.
-title: "Short descriptive title"
-labels: triage
+name: Feature Report
+about: Use this template to suggest features or document ideas.
+title: "[Feature] Short descriptive title"
+labels: feature,triage
 assignees: bluebotimpact
 ---
 
@@ -17,7 +17,7 @@ Briefly describe the feature, bug, or idea in one or two sentences.
 
 **What type of issue is this?**
 - [ ] 🐞 Bug
-- [ ] ✨ Feature request
+- [x] ✨ Feature request
 - [ ] 💡 Idea
 
 **How urgent is this?**
