@@ -1,8 +1,11 @@
+---
+
 name: Feature Report
 about: Use this template to suggest features or document ideas.
 title: "[Feature] Short descriptive title"
 labels: feature,triage
 assignees: bluebotimpact
+
 ---
 
 ## 🧩 Summary
