@@ -7,18 +7,22 @@ body:
   - type: textarea
     id: summary
     attributes:
-      label: Summary
-      placeholder: Briefly describe the feature or idea in one or two sentences.
+      label: 🧩 Summary
+      description: Briefly describe the feature or idea in one or two sentences.
+    required: true
 
-  - type: checkboxes
-    id: type
+  - type: textarea
+    id: requirements
     attributes:
-      label: What type of ticket is this?
-      options:
-        - label: 🐞 Bug
-        - label: ✨ Feature request
-          default: true
-        - label: 💡 Idea
+      label: ✅ Definition of done
+      description: What needs to be true for this task to be considered complete?
+    required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs.
 
   - type: checkboxes
     id: urgency
@@ -28,15 +32,3 @@ body:
         - label: 🔥 Today
         - label: 🕐 Within 1 week
         - label: 🧊 Non-urgent / backlog
-
-  - type: textarea
-    id: requirements
-    attributes:
-      label: ✅ Definition of done
-      description: What needs to be true for this to be considered complete?
-
-  - type: textarea
-    id: notes
-    attributes:
-      label: 📌 Notes / Designs
-      description: Include Figma links, screenshots, or Loom walkthroughs
