@@ -1,0 +1,42 @@
+name: Feature Report
+description: Suggest a new feature or document an idea
+title: "[Feature] Short descriptive title"
+labels: [feature, triage]
+assignees: [bluebotimpact]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: Briefly describe the feature or idea in one or two sentences.
+
+  - type: checkboxes
+    id: type
+    attributes:
+      label: What type of ticket is this?
+      options:
+        - label: 🐞 Bug
+        - label: ✨ Feature request
+          default: true
+        - label: 💡 Idea
+
+  - type: checkboxes
+    id: urgency
+    attributes:
+      label: How urgent is this?
+      options:
+        - label: 🔥 Today
+        - label: 🕐 Within 1 week
+        - label: 🧊 Non-urgent / backlog
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What needs to be true for this to be considered complete?
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs
