@@ -18,7 +18,6 @@
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
-    "dotenv-cli": "^8.0.0",
     "turbo": "^2.5.1"
   },
   "engines": {

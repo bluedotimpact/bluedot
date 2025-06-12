@@ -16,16 +16,15 @@
         "test:watch": "vitest"
     },
     "dependencies": {
+        "@bluedot/ui": "*",
         "airtable-ts": "^1.5.0",
         "drizzle-orm": "^0.43.1",
-        "pg": "^8.15.6",
-        "zod": "^3.22.4"
+        "pg": "^8.15.6"
     },
     "devDependencies": {
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
         "@types/node": "^22.15.21",
-        "dotenv": "^16.5.0",
         "drizzle-kit": "^0.31.1",
         "eslint": "^8.57.0",
         "ts-node": "^10.9.1",
