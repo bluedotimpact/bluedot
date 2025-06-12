@@ -1,7 +1,7 @@
 name: Feature Report
 description: Suggest a new feature or document an idea
 title: "[Feature] Short descriptive title"
-labels: [feature, triage]
+labels: [enhancement]
 assignees: [bluebotimpact]
 body:
   - type: markdown
