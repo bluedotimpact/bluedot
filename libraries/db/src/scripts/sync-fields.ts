@@ -1,19 +1,18 @@
 /* eslint-disable no-console */
 import { getTableName } from 'drizzle-orm';
-import { createDbClient } from '..';
-import { isPgAirtableTable } from '../lib/db-core';
+import { PgAirtableTable } from '../lib/db-core';
 import * as schema from '../schema';
 import { metaTable } from '../schema';
 import env from '../lib/env';
+import { PgAirtableDb } from '../lib/client';
 
 async function main() {
-  // @ts-expect-error
-  const db = createDbClient(env.PG_URL);
+  const db = new PgAirtableDb({ pgConnString: env.PG_URL, airtableApiKey: env.AIRTABLE_PERSONAL_ACCESS_TOKEN });
 
   const rowsToInsert: (typeof metaTable.$inferInsert)[] = [];
 
   for (const table of Object.values(schema)) {
-    if (isPgAirtableTable(table)) {
+    if (table instanceof PgAirtableTable) {
       const tableName = getTableName(table.pg);
 
       for (const [pgFieldName, airtableFieldId] of table.airtableFieldMap.entries()) {
@@ -54,7 +53,6 @@ async function main() {
   process.exit(0);
 }
 
-// Check if the script is being run directly
 if (require.main === module) {
   main();
 } else {

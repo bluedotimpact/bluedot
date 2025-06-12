@@ -2,10 +2,8 @@ import { eq } from 'drizzle-orm';
 import { PgInsertValue, PgUpdateSetSource } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { AirtableTs } from 'airtable-ts';
-import {
-  PgAirtableColumnInput, PgAirtableTable, BasePgTableType, AirtableItemFromColumnsMap,
-} from './db-core';
-import env from './env';
+import { PgAirtableTable } from './db-core';
+import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
 
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
@@ -34,13 +32,9 @@ export class PgAirtableDb {
 
   public airtableClient: AirtableTs;
 
-  constructor({ pgConnString, airtableApiKey }: { pgConnString: string; airtableApiKey?: string }) {
-    if (!pgConnString) {
-      throw new Error('Must provide a postgres connection string to create a db client');
-    }
-
+  constructor({ pgConnString, airtableApiKey }: { pgConnString: string; airtableApiKey: string }) {
     this.airtableClient = new AirtableTs({
-      apiKey: airtableApiKey ?? env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
+      apiKey: airtableApiKey,
     });
     this.pgUnrestricted = drizzle(pgConnString);
   }
@@ -49,6 +43,10 @@ export class PgAirtableDb {
     return this.pgUnrestricted;
   }
 
+  /**
+   * Insert `data` into airtable and replicate synchronously to postgres (changes are readable immediately
+   * after awaiting this).
+   */
   async airtableInsert<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
@@ -60,6 +58,10 @@ export class PgAirtableDb {
     return pgResult;
   }
 
+  /**
+   * Update the given record in airtable and replicate synchronously to postgres (changes are
+   * readable immediately after awaiting this).
+   */
   async airtableUpdate<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
@@ -71,6 +73,10 @@ export class PgAirtableDb {
     return pgResult;
   }
 
+  /**
+   * Delete the given record in airtable and replicate synchronously to postgres (changes are
+   * readable immediately after awaiting this).
+   */
   async airtableDelete<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     table: PgAirtableTable<TTableName, TColumnsMap>,
     id: string,
@@ -82,6 +88,15 @@ export class PgAirtableDb {
     return pgResult;
   }
 
+  /**
+   * Ensures that a record from Airtable is replicated in the PostgreSQL database.
+   * @param params.table - The PgAirtableTable instance defining the table schema and mappings
+   * @param params.id - The Airtable record ID to replicate or delete
+   * @param params.fullData - Optional Airtable record data. If provided, prevents an extra
+   *   round trip to Airtable to fetch the data. Ignored when isDelete is true.
+   * @param params.isDelete - Whether this is a delete operation. Defaults to false.
+   *   Must be explicitly set to true for records to be deleted.
+   */
   async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     {
       table, id, fullData, isDelete = false,
@@ -90,10 +105,7 @@ export class PgAirtableDb {
       id: string;
       /** Optional, if given prevents an extra round trip to airtable */
       fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
-      /**
-       * Must be passed explicitly for a record to be deleted, since it failing to be returned
-       * from the API may be due to an error.
-       */
+      /** Must be passed explicitly for a record to be deleted. */
       isDelete?: boolean;
     },
   ): Promise<BasePgTableType<TTableName, TColumnsMap & { id: PgAirtableColumnInput }>['$inferSelect']> {
@@ -115,6 +127,7 @@ export class PgAirtableDb {
         throw new Error('No data found for upsert operation');
       }
 
+      // TODO For updates, check if there are changes with SELECT first to avoid acquiring a lock
       const rows = await tx.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
         target: table.pg.id,
         set: data as PgUpdateSetSource<typeof table.pg>,
@@ -129,9 +142,4 @@ export class PgAirtableDb {
       return result;
     });
   }
-}
-
-// TODO remove this and directly call PgAirtableDb()
-export function createDbClient(url: string): PgAirtableDb {
-  return new PgAirtableDb({ pgConnString: url });
 }

@@ -1,16 +1,23 @@
-#!/usr/bin/env ts-node
 /* eslint-disable no-console */
 import { getTableName, is } from 'drizzle-orm';
 import { PgTable } from 'drizzle-orm/pg-core';
 import * as schema from '../schema';
-import { isPgAirtableTable } from '../lib/db-core';
+import { PgAirtableTable } from '../lib/db-core';
 
+/**
+ * In order for `drizzle-kit` (e.g. `db:push`) to recognise them, tables must be exported
+ * at the top level as a `pgTable` return type, not the `pgAirtable` that we defined.
+ * This requires a line of boilerplate for each defined table:
+ * ```typescript
+ * export const courseTablePg = courseTable.pg;
+ * ```
+ */
 function validateSchemaExports(): boolean {
   const exports = Object.entries(schema);
   const errors: string[] = [];
 
   for (const [exportName, exportValue] of exports) {
-    if (isPgAirtableTable(exportValue)) {
+    if (exportValue instanceof PgAirtableTable) {
       const airtableTableName = getTableName(exportValue.pg);
 
       // Find any exported PgTable with the same table name
@@ -39,6 +46,6 @@ function validateSchemaExports(): boolean {
 if (require.main === module) {
   const isValid = validateSchemaExports();
   process.exit(isValid ? 0 : 1);
+} else {
+  console.error('validate-schema script was imported, it should only be executed directly.');
 }
-
-export { validateSchemaExports };

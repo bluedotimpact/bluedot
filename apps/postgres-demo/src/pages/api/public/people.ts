@@ -10,12 +10,14 @@ export default makeApiRoute({
 }, async () => {
   try {
     // Do some stuff with users as a test
-    // await db.airtableInsert(unitFeedbackTable, {
-    //   unitId: 'abcd',
-    //   overallRating: 4.5,
+    // await db.airtableUpdate(unitFeedbackTable, {
+    //   id: 'rec01bcyFGQhAXirf',
+    //   userEmail: 'w.howard256@gmail.com',
+    //   unitId: 'recxfbBfcGWxgI4pD',
+    //   overallRating: 5,
     // });
 
-    const results = await db.pg.select().from(unitFeedbackTable.pg);
+    const results = await db.pg.select().from(unitFeedbackTable.pg).limit(100);
     console.log({ results });
   } catch (e) {
     console.error('An error occurred:', e);

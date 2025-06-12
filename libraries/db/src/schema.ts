@@ -7,7 +7,7 @@ import env from './lib/env';
 const { COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG' } = env;
 const { APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf' } = env;
 
-// TODO remove before merging
+// TODO remove, here for debugging
 if (COURSE_BUILDER_BASE_ID === 'appbiNKDcn1sGPGOG' || APPLICATIONS_BASE_ID === 'appnJbsG1eWbAdEvf') {
   throw new Error("Using prod database, you probably didn't mean to do this");
 }

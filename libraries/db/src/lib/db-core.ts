@@ -8,52 +8,13 @@ import {
 import {
   drizzleColumnToTsTypeString,
   type TsTypeString,
-  type DrizzleColumnToTsTypeString,
   type AllowedPgColumn,
+  PgAirtableColumnInput,
+  BasePgTableType,
+  AirtableItemFromColumnsMap,
+  PgAirtableConfig,
+  ExtractPgColumns,
 } from './typeUtils';
-
-export type PgAirtableColumnInput = {
-  pgColumn: AllowedPgColumn;
-  airtableId: string;
-};
-
-type PgAirtableConfig<TColumns extends Record<string, PgAirtableColumnInput>> = {
-  baseId: string;
-  tableId: string;
-  columns: TColumns;
-};
-
-type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
-  [K in keyof T]: K extends 'id' ? never : T[K]['pgColumn'];
-} & {
-  id: ReturnType<typeof text>;
-};
-
-// Use proper type-level mapping for each column type
-export type AirtableItemFromColumnsMap<
-  TColumnsMap extends Record<string, PgAirtableColumnInput>,
-> = {
-  id: string;
-} & {
-  [K in keyof TColumnsMap]: TColumnsMap[K]['pgColumn'] extends AllowedPgColumn
-    ? DrizzleColumnToTsTypeString<TColumnsMap[K]['pgColumn']> extends `${infer BaseType} | null`
-      ? BaseType extends 'string' ? string | null
-        : BaseType extends 'number' ? number | null
-          : BaseType extends 'boolean' ? boolean | null
-            : string | null
-      : string | null
-    : string | null;
-};
-
-export type BasePgTableType<
-  TTableName extends string,
-  TColumnsMap extends Record<string, PgAirtableColumnInput>,
-> = PgTableWithColumns<{
-  name: TTableName;
-  schema: undefined;
-  columns: BuildColumns<TTableName, ExtractPgColumns<TColumnsMap>, 'pg'>;
-  dialect: 'pg';
-}>;
 
 export class PgAirtableTable<
   TTableName extends string = string,
@@ -87,7 +48,6 @@ export class PgAirtableTable<
       drizzleTableColsBuilder[columnName] = columnConfig.pgColumn;
     }
 
-    // TODO what's going on with the type here
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
     this.pg = pgTable(name, finalPgColumns) as typeof this.pg;
@@ -98,7 +58,6 @@ export class PgAirtableTable<
       fieldMap.set(columnName, columnConfig.airtableId);
     }
 
-    // TODO can probably drop this variable
     this.airtableFieldMap = fieldMap;
 
     const mappings: Record<string, string> = {};
@@ -107,7 +66,6 @@ export class PgAirtableTable<
     for (const [columnName, columnConfig] of Object.entries(this.columnsConfig)) {
       if (columnName !== 'id') {
         mappings[columnName] = columnConfig.airtableId;
-        // Use correct type based on the drizzle column type
         schema[columnName] = drizzleColumnToTsTypeString(columnConfig.pgColumn);
       }
     }
@@ -116,33 +74,24 @@ export class PgAirtableTable<
       name: this.tableName,
       baseId: config.baseId,
       tableId: config.tableId,
-      // TODO fix
-      // @ts-expect-error
-      mappings,
-      // TODO fix
-      // @ts-expect-error
-      schema,
+      // TODO avoid this casting
+      mappings: mappings as Table<AirtableItemFromColumnsMap<TColumnsMap>>['mappings'],
+      schema: schema as Table<AirtableItemFromColumnsMap<TColumnsMap>>['schema'],
     };
   }
 }
 
-// BEGIN Global registry
-// TODO ideally remove this registry and fix the any types
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pgAirtableTableRegistry: Record<string, PgAirtableTable<any, any>> = {};
+const pgAirtableTableRegistry: Record<string, PgAirtableTable> = {};
 function makePgAirtableKey(baseId: string, tableId: string): string {
   return `${baseId}:${tableId}`;
 }
 
-function registerPgAirtableTable<
-  TTableName extends string,
-  TColumnsMap extends Record<string, PgAirtableColumnInput>,
->({
+function registerPgAirtableTable({
   table,
   baseId,
   tableId,
 }: {
-  table: PgAirtableTable<TTableName, TColumnsMap>;
+  table: PgAirtableTable;
   baseId: string;
   tableId: string;
 }): void {
@@ -152,13 +101,10 @@ function registerPgAirtableTable<
 
 export function getPgAirtableFromIds(
   { baseId, tableId }: { baseId: string; tableId: string; },
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-): PgAirtableTable<any, any> | undefined {
-  // console.log({ pgAirtableTableRegistry });
+): PgAirtableTable | undefined {
   const key = makePgAirtableKey(baseId, tableId);
   return pgAirtableTableRegistry[key];
 }
-// END Global registry
 
 export function pgAirtable<
     TTableName extends string,
@@ -169,11 +115,9 @@ export function pgAirtable<
 ): PgAirtableTable<TTableName, TColumnsMap> {
   const result = new PgAirtableTable(name, config);
 
+  // TODO fix
+  // @ts-expect-error
   registerPgAirtableTable({ table: result, baseId: config.baseId, tableId: config.tableId });
 
   return result;
-}
-
-export function isPgAirtableTable(table: unknown): table is PgAirtableTable<string, Record<string, PgAirtableColumnInput>> {
-  return table instanceof PgAirtableTable;
 }

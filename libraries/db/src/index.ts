@@ -1,4 +1,4 @@
-export { createDbClient } from './lib/client';
+export { PgAirtableDb } from './lib/client';
 
 export {
   metaTable,

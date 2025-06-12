@@ -15,18 +15,17 @@ export class RateLimiter {
 
   /**
    * Acquire permission to make a request. Will wait if rate limit is exceeded.
-   * Uses sliding window algorithm to track request timestamps.
+   * Uses sliding window to track request timestamps.
    */
   async acquire(): Promise<void> {
     const now = Date.now();
 
-    // Remove requests outside the current window
     this.requests = this.requests.filter((timestamp) => now - timestamp < this.windowMs);
 
     // If we're at the limit, wait until we can make another request
     if (this.requests.length >= this.maxRPS) {
       const oldestRequest = Math.min(...this.requests);
-      const waitTime = this.windowMs - (now - oldestRequest) + 1; // +1ms buffer
+      const waitTime = this.windowMs - (now - oldestRequest) + 1;
 
       if (waitTime > 0) {
         console.log(`[AirtableRateLimiter] Rate limit reached, waiting ${waitTime}ms`);
@@ -38,7 +37,7 @@ export class RateLimiter {
     }
 
     // Record this request
-    this.requests.push(now);
+    this.requests.push(now); // TODO give this a limited length
     return Promise.resolve();
   }
 }
