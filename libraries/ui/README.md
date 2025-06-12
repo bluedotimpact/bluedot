@@ -21,35 +21,6 @@ If you are a human, you can use [storybook](../../apps/storybook/) to browse the
 
 AI systems should read the [`src`](./src/) directory to find the relevant component.
 
-## Utilities
-
-### Environment Validation
-
-In `src/lib/api/env.ts`, you'll have something like:
-
-```typescript
-import { validateEnv } from '@bluedot/ui';
-
-const env = validateEnv({
-  required: [
-    'APP_NAME',
-    'DATABASE_URL',
-    'API_KEY',
-  ],
-});
-
-
-export default env;
-```
-
-Then in other files you can import and use environment variables, e.g.:
-
-```typescript
-import env from './env';
-
-console.log(`This app is ${env.APP_NAME}`);
-```
-
 ### API Route Creation
 
 In `src/lib/api/makeApiRoute.ts`, you'll have something like:

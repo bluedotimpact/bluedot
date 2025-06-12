@@ -5,7 +5,6 @@
  * @param required Array of required environment variable names.
  * @param optional Array of optional environment variable names.
  * @param envSource Object to get environment variables from. Defaults to process.env.
- * @returns Typed object with the expected environment variables
  */
 export const validateEnv = <R extends string, O extends string>({
   required,

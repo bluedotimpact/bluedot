@@ -13,11 +13,11 @@
     },
     "dependencies": {
         "@bluedot/db": "*",
-        "@bluedot/ui": "*",
-        "axios": "^1.6.8",
+        "@bluedot/utils": "*",
         "@fastify/cors": "^8.5.0",
         "@ts-rest/core": "^3.41.1",
         "@ts-rest/fastify": "^3.41.1",
+        "axios": "^1.6.8",
         "fastify": "^4.26.2",
         "fastify-plugin": "^4.5.1",
         "http-errors": "^2.0.0",
@@ -31,12 +31,12 @@
         "@types/http-errors": "^2.0.4",
         "@types/node": "^22.13.2",
         "@types/node-cron": "^3.0.11",
+        "dotenv-cli": "^8.0.0",
         "eslint": "^8.57.0",
         "nodemon": "^3.1.10",
         "tsup": "^8.0.1",
         "typescript": "^5.8.3",
-        "vitest": "^1.0.2",
-        "dotenv-cli": "^8.0.0"
+        "vitest": "^1.0.2"
     },
     "tsup": {
         "entry": [
@@ -44,7 +44,7 @@
         ],
         "noExternal": [
             "@bluedot/db",
-            "@bluedot/ui"
+            "@bluedot/utils"
         ],
         "outDir": "dist"
     }

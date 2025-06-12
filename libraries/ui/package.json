@@ -11,6 +11,7 @@
     "test:update": "vitest --u --watch=false"
   },
   "dependencies": {
+    "@bluedot/utils": "*",
     "@adobe/react-spectrum": "^3.32.2",
     "axios": "^1.7.9",
     "clsx": "^2.0.0",

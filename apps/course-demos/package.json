@@ -17,6 +17,7 @@
     "@ai-sdk/anthropic": "^1.1.15",
     "@ai-sdk/react": "^1.1.21",
     "@bluedot/ui": "*",
+    "@bluedot/utils": "*",
     "@codesandbox/sandpack-react": "^2.20.0",
     "ai": "^4.1.54",
     "airtable-ts": "^1.5.0",
