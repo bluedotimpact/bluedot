@@ -4,7 +4,7 @@ const envSchema = z.object({
   DATABASE_CONNECTION_STRING: z.string(),
 });
 
-const localDefaults: Zod.TypeOf<typeof envSchema> = {
+const localDefaults: z.TypeOf<typeof envSchema> = {
   DATABASE_CONNECTION_STRING: 'postgresql://postgres:postgres@localhost:5432/postgres',
 };
 
