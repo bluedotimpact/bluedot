@@ -25,7 +25,7 @@ const start = async () => {
       logger.info('[main] Starting initial sync in parallel with normal operations...');
 
       try {
-        await performInitialSync(addToQueue)
+        await performInitialSync(addToQueue);
         logger.info('[main] Initial sync completed successfully');
       } catch (error) {
         logger.error('[main] Initial sync failed:', error);
