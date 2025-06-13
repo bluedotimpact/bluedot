@@ -14,7 +14,7 @@ import { BodyEditor } from '../../components/BodyEditor';
 const ProjectPostPage = withAuth(({ auth }) => {
   const { query: { slug } } = useRouter();
   if (typeof slug !== 'string') {
-    return 'Invalid project slug';
+    return <ProgressDots />;
   }
 
   const [{ data, loading, error }] = useAxios<GetProjectResponse>({

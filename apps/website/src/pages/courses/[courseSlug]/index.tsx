@@ -23,7 +23,7 @@ const CoursePage = () => {
   const { query: { courseSlug } } = useRouter();
 
   if (typeof courseSlug !== 'string') {
-    return 'Invalid course slug';
+    return <ProgressDots />;
   }
 
   const [{ data, loading, error }] = useAxios<GetCourseResponse>({

@@ -14,7 +14,7 @@ import { BodyEditor } from '../../components/BodyEditor';
 const BlogPostPage = withAuth(({ auth }) => {
   const { query: { slug } } = useRouter();
   if (typeof slug !== 'string') {
-    return 'Invalid blog slug';
+    return <ProgressDots />;
   }
 
   const [{ data, loading, error }] = useAxios<GetBlogResponse>({
