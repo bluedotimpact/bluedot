@@ -26,14 +26,15 @@ export async function processTableForInitialSync(
   // TODO clean this up overall
   try {
     let records;
-    let lastError: Error | null;
+    let lastError: Error | null = null;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
+        // eslint-disable-next-line no-await-in-loop
         records = await db.airtableClient.scan(pgAirtable.airtable);
         break;
       } catch (error) {
-        lastError = error;
+        lastError = error instanceof Error ? error : new Error(String(error));
 
         if (attempt < maxRetries) {
           console.warn(`[${tableId}] Scan failed on attempt ${attempt}/${maxRetries}, retrying in ${retryDelay}ms:`, error);
@@ -117,7 +118,6 @@ export async function performInitialSync(
     addToQueue([action], priority);
   };
 
-  // eslint-disable-next-line no-await-in-loop -- Sequential processing is intentional for rate limiting
   for (const [index, tableKey] of tableKeys.entries()) {
     const parts = tableKey.split('::');
     const baseId = parts[0];

@@ -8,10 +8,6 @@ const env = validateEnv({
     'ALERTS_SLACK_CHANNEL_ID',
     'ALERTS_SLACK_BOT_TOKEN',
   ],
-  optional: [
-    'COURSE_BUILDER_BASE_ID',
-    'APPLICATIONS_BASE_ID',
-  ],
 });
 
 export default env;

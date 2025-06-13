@@ -1,4 +1,4 @@
-import { validateEnv } from '@bluedot/ui/src/api';
+import { validateEnv } from '@bluedot/utils';
 
 const env = validateEnv({
   required: [

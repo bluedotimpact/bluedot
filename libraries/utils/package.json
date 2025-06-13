@@ -10,7 +10,6 @@
     "test": "vitest --run",
     "test:watch": "vitest"
   },
-  "dependencies": {},
   "devDependencies": {
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
@@ -20,6 +19,6 @@
     "eslint": "^8.57.0",
     "happy-dom": "^14.7.1",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.3"
   }
 }

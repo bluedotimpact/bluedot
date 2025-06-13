@@ -36,7 +36,7 @@
         "nodemon": "^3.1.10",
         "tsup": "^8.0.1",
         "typescript": "^5.8.3",
-        "vitest": "^1.0.2"
+        "vitest": "^3.2.3"
     },
     "tsup": {
         "entry": [

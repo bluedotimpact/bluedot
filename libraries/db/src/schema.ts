@@ -2,15 +2,9 @@ import {
   pgTable, text, boolean, numeric,
 } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
-import env from './lib/env';
 
-const { COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG' } = env;
-const { APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf' } = env;
-
-// TODO remove, here for debugging
-if (COURSE_BUILDER_BASE_ID === 'appbiNKDcn1sGPGOG' || APPLICATIONS_BASE_ID === 'appnJbsG1eWbAdEvf') {
-  throw new Error("Using prod database, you probably didn't mean to do this");
-}
+const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
+const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field

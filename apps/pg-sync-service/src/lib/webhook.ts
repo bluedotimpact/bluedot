@@ -123,24 +123,17 @@ export class AirtableWebhook {
       console.log(`[AirtableWebhook] Using existing webhook ${this.webhookId} for base ${this.baseId} with ${this.fieldIds.length} field filters`);
     } else {
       // 3. If not found, create the webhook
-      const webhookSpec: any = {
+      const webhookSpec: unknown = {
         // notificationUrl, // TODO give it a notification url to receive immediate updates
         specification: {
           options: {
             filters: {
               dataTypes: ['tableData', 'tableFields'],
+              ...(this.fieldIds.length > 0 ? { watchDataInFieldIds: this.fieldIds } : {}),
             },
           },
         },
       };
-
-      // Add field filtering if we have specific fields to watch
-      if (this.fieldIds.length > 0) {
-        webhookSpec.specification.options.filters.watchDataInFieldIds = this.fieldIds;
-        console.log(`[AirtableWebhook] Creating webhook for base ${this.baseId} with field filtering: ${this.fieldIds.length} fields`);
-      } else {
-        console.log(`[AirtableWebhook] Creating webhook for base ${this.baseId} with no field filtering`);
-      }
 
       await this.rateLimiter.acquire();
       const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
@@ -150,7 +143,7 @@ export class AirtableWebhook {
 
       this.webhookId = createResponse.data.id;
       this.nextPayloadCursor = createResponse.data.cursorForNextPayload;
-      console.log(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}`);
+      console.log(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}${this.fieldIds.length > 0 ? ` with field filtering: ${this.fieldIds.length} fields` : ''}`);
     }
   }
 
@@ -188,6 +181,7 @@ export class AirtableWebhook {
 
         // Only process payloads with table changes
         if (!changedTablesById || typeof changedTablesById !== 'object') {
+          // eslint-disable-next-line no-continue
           continue;
         }
 

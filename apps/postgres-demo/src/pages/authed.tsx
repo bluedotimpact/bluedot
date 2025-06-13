@@ -3,6 +3,9 @@ import {
   ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
+import { z } from 'zod';
+import { courseTable } from '@bluedot/db/src/schema';
+import { CourseSchema } from './api/public/courses';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
   const router = useRouter();
@@ -30,7 +33,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 export default AuthedPage;
 
 const PeopleListView: React.FC = withAuth(({ auth }) => {
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading, error }] = useAxios<z.infer<typeof CourseSchema>[]>({
     method: 'post',
     url: '/api/public/people',
     headers: {
@@ -48,9 +51,9 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
 
   return (
     <div className="grid md:grid-cols-4 gap-4">
-      {data?.map((person) => (
-        <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-          <NewText.P><NewText.A href={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+      {data?.map((course) => (
+        <Card key={course.id} title={course.title ?? 'Untitled course'} className="container-lined p-4">
+          <NewText.P><NewText.A href={`https://airtable.com/${courseTable.airtable.baseId}/${courseTable.airtable.tableId}/${course.id}`}>View in Airtable</NewText.A></NewText.P>
         </Card>
       ))}
     </div>

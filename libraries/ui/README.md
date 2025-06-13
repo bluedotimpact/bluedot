@@ -28,13 +28,15 @@ AI systems should read the [`src`](./src/) directory to find the relevant compon
 In `src/lib/api/env.ts`, you'll have something like:
 
 ```typescript
-import { validateEnv } from '@bluedot/ui/src/api';
+import { validateEnv } from '@bluedot/utils';
 
-const env = validateEnv([
-  'APP_NAME',
-  'DATABASE_URL',
-  'API_KEY',
-]);
+const env = validateEnv({
+  required: [
+    'APP_NAME',
+    'DATABASE_URL',
+    'API_KEY',
+  ]
+});
 
 export default env;
 ```
