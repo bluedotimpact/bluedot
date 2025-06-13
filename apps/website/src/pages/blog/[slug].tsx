@@ -21,7 +21,7 @@ import { A } from '../../components/Text';
 const BlogPostPage = () => {
   const { query: { slug } } = useRouter();
   if (typeof slug !== 'string') {
-    return 'Invalid blog slug';
+    return <ProgressDots />;
   }
 
   const [{ data, loading, error }] = useAxios<GetBlogResponse>({

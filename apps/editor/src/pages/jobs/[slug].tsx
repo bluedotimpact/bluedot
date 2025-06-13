@@ -14,7 +14,7 @@ import { BodyEditor } from '../../components/BodyEditor';
 const JobPostPage = withAuth(({ auth }) => {
   const { query: { slug } } = useRouter();
   if (typeof slug !== 'string') {
-    return 'Invalid job slug';
+    return <ProgressDots />;
   }
 
   const [{ data, loading, error }] = useAxios<GetJobResponse>({
