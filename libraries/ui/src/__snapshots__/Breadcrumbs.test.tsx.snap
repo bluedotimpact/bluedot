@@ -7,7 +7,7 @@ exports[`Breadcrumbs > renders all urls and titles in the document 1`] = `
   >
     <nav
       aria-label="Breadcrumbs"
-      class="breadcrumbs__nav section-base"
+      class="breadcrumbs__nav section-base flex flex-row justify-between"
     >
       <ol
         class="breadcrumbs__list flex"

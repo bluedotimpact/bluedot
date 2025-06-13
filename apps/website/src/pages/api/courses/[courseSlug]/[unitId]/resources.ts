@@ -1,10 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import { AirtableTsTable, formula } from 'airtable-ts-formula';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import {
-  Exercise, exerciseTable, UnitResource, unitResourceTable, unitTable,
+  Exercise, exerciseTable, Unit, UnitResource, unitResourceTable, unitTable,
 } from '../../../../../lib/api/db/tables';
 
 export type GetUnitResourcesResponse = {
@@ -30,7 +30,7 @@ export default makeApiRoute({
   }
 
   const unit = (await db.scan(unitTable, {
-    filterByFormula: formula(await db.table(unitTable), [
+    filterByFormula: formula(await db.table(unitTable) as AirtableTsTable<Unit>, [
       'AND',
       ['=', { field: 'courseSlug' }, courseSlug],
       ['=', { field: 'unitNumber' }, unitId],

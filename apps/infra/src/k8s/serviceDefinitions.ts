@@ -1,6 +1,8 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg } from './postgres';
+import { minioPvc } from './pvc';
+import { websiteAssetsBucket } from '../minio';
 
 export const services: ServiceDefinition[] = [
   {
@@ -41,7 +43,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-website-proxy:latest',
       }],
     },
-    hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org'],
+    hosts: ['website-proxy.k8s.bluedot.org', 'www.bluedot.org', 'bluedot.org', 'www.aisafetyfundamentals.com', 'aisafetyfundamentals.com', 'www.biosecurityfundamentals.com', 'biosecurityfundamentals.com', 'course.bluedot.org', 'course.aisafetyfundamentals.com', 'course.biosecurityfundamentals.com'],
   },
   {
     name: 'bluedot-website',
@@ -83,6 +85,23 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['storybook.k8s.bluedot.org'],
+  },
+  {
+    name: 'bluedot-editor',
+    spec: {
+      containers: [{
+        name: 'bluedot-editor',
+        image: 'ghcr.io/bluedotimpact/bluedot-editor:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+          { name: 'WEBSITE_ASSETS_BUCKET_ACCESS_KEY_ID', value: websiteAssetsBucket.readWriteUser.name },
+          { name: 'WEBSITE_ASSETS_BUCKET_SECRET_ACCESS_KEY', value: websiteAssetsBucket.readWriteUser.secret },
+        ],
+      }],
+    },
+    hosts: ['editor.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-miniextensions-proxy',
@@ -225,6 +244,42 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['login.bluedot.org'],
+  },
+  {
+    name: 'minio',
+    spec: {
+      containers: [{
+        name: 'minio',
+        image: 'minio/minio:RELEASE.2025-04-22T22-12-26Z',
+        args: ['server', '/data', '--address', ':8080'],
+        env: [
+          { name: 'MINIO_ROOT_USER', value: 'root' },
+          { name: 'MINIO_ROOT_PASSWORD', valueFrom: envVarSources.minioRootPassword },
+          { name: 'MINIO_BROWSER', value: 'false' },
+        ],
+        volumeMounts: [
+          {
+            name: 'minio-data',
+            mountPath: '/data',
+          },
+        ],
+        readinessProbe: {
+          httpGet: {
+            path: '/minio/health/ready',
+            port: 8080,
+          },
+        },
+      }],
+      volumes: [
+        {
+          name: 'minio-data',
+          persistentVolumeClaim: {
+            claimName: minioPvc.metadata.name,
+          },
+        },
+      ],
+    },
+    hosts: ['storage.k8s.bluedot.org'],
   },
 ];
 

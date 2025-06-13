@@ -15,43 +15,31 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    imageSrc: '/images/intro-course.png',
-    title: 'Default card',
-    subtitle: 'This is a default card.',
-    ctaUrl: 'https://example.com',
     ctaText: 'Learn More',
+    ctaUrl: 'https://example.com',
+    imageSrc: '/images/intro-course.png',
+    subtitle: 'This is a default card.',
+    title: 'Default card',
   },
 };
 
 export const ClickableCard: Story = {
   args: {
+    ctaUrl: 'https://example.com',
     imageSrc: '/images/intro-course.png',
-    title: 'Clickable card',
+    isEntireCardClickable: true,
     subtitle: 'This entire card is clickable.',
+    title: 'Clickable card',
+  },
+};
+
+export const FullWidthCard: Story = {
+  args: {
+    ctaText: 'Learn More',
     ctaUrl: 'https://example.com',
     isEntireCardClickable: true,
-  },
-};
-
-export const CardWithFooter: Story = {
-  args: {
-    imageSrc: '/images/intro-course.png',
-    title: 'Card with footer',
-    subtitle: 'This card has footer content.',
-    ctaUrl: 'https://example.com',
-    ctaText: 'Learn More',
-    footerContent: <div>Footer Content Here</div>,
-  },
-};
-
-export const CardWithCustomStyling: Story = {
-  args: {
-    imageSrc: '/images/intro-course.png',
-    title: 'Card with border',
-    subtitle: 'This card has a border.',
-    ctaUrl: 'https://example.com',
-    ctaText: 'Learn More',
-    footerContent: <span>Commonly you will want to add a border or similar via `className`</span>,
-    className: 'w-[250px] container-lined p-4',
+    isFullWidth: true,
+    subtitle: 'This entire card is clickable.',
+    title: 'Clickable card',
   },
 };

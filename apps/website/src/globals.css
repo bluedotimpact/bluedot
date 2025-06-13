@@ -12,51 +12,6 @@
   }
 }
 
-@utility prose {
-  :not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-    /* Bullets should inherit text color */
-    &:where(li) {
-      &::marker {
-        @apply text-inherit
-      }
-    }
-
-    /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
-    &:where(blockquote) {
-      /* Disable quote marks */
-      p:first-of-type::before,
-      p:last-of-type::after {
-        content: none;
-      }
-      /* Disable italics */
-      p {
-        @apply not-italic
-      }
-    }
-
-    /* Disable code backticks */
-    &:where(code) {
-      &::before,
-      &::after {
-        content: none;
-      }
-    }
-
-    /* Hovering link color */
-    &:where(a) {
-      @apply hover:text-color-primary-accent
-    }
-
-    /* Links in headings should be the same font weight
-    * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
-    &:where(h1, h2, h3, h4, h5, h6) {
-      a {
-        font-weight: inherit;
-      }
-    }
-  }
-}
-
 .slide-up-fade-in {
   opacity: 0;
   transform: translateY(50px);

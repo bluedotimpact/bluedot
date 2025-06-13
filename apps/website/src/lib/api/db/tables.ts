@@ -1,5 +1,36 @@
 import { Item, Table } from 'airtable-ts';
 
+export type Chunk = {
+  chunkId: string,
+  unitId: string,
+  chunkTitle: string,
+  chunkOrder: string,
+  chunkType: string,
+  chunkContent: string,
+} & Item;
+
+export const chunkTable: Table<Chunk> = {
+  name: 'Chunk',
+  baseId: 'appbiNKDcn1sGPGOG',
+  tableId: 'tblNeBgFeQ5Qmebfc',
+  mappings: {
+    chunkId: 'fldzijTU9OYrA2pPR',
+    unitId: 'flddMzU52lvSPS88e',
+    chunkTitle: 'fldsx5tA91DiSejw2',
+    chunkOrder: 'fld20cLGpEqVoDADz',
+    chunkType: 'fldEVAjbup2EIaQaj',
+    chunkContent: 'fldiv4wuePLO9UtHr',
+  },
+  schema: {
+    chunkId: 'string',
+    unitId: 'string',
+    chunkTitle: 'string',
+    chunkOrder: 'string',
+    chunkType: 'string',
+    chunkContent: 'string',
+  },
+};
+
 export type Course = {
   certificationBadgeImage: string,
   certificatonDescription: string,
@@ -86,11 +117,11 @@ export const applicationsCourseTable: Table<ApplicationsCourse> = {
 };
 
 export type UnitFeedback = {
+  unit: string,
   unitId: string,
   overallRating: number,
   anythingElse: string,
   userEmail: string,
-  userFullName: string,
   createdAt: string | null,
   lastModified: string | null,
 } & Item;
@@ -100,20 +131,20 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblBwjMjul1c6l7ea',
   mappings: {
-    unitId: 'fldYqvWII6kuxCCmH',
+    unit: 'fldYqvWII6kuxCCmH',
+    unitId: 'fldggWmmAWzgqEGy6',
     overallRating: 'fld3B8HUudN5NxPIU',
     anythingElse: 'fldYdcPZPdJAqn06w',
     userEmail: 'fld9JsHJXjud5Bhle',
-    userFullName: 'fldPG0z0SRFcGJhNW',
     createdAt: 'fldWyJJz3OVNK0kTn',
     lastModified: 'fldCQ0O6oOf4BcMpJ',
   },
   schema: {
+    unit: 'string',
     unitId: 'string',
     overallRating: 'number',
     anythingElse: 'string',
     userEmail: 'string',
-    userFullName: 'string',
     createdAt: 'string | null',
     lastModified: 'string | null',
   },
@@ -121,6 +152,7 @@ export const unitFeedbackTable: Table<UnitFeedback> = {
 
 export type Unit = {
   id: string,
+  chunks: string[] | null,
   courseId: string,
   courseTitle: string,
   coursePath: string,
@@ -141,6 +173,7 @@ export const unitTable: Table<Unit> = {
   baseId: 'appbiNKDcn1sGPGOG',
   tableId: 'tblsDKJ8VCyO619nk',
   mappings: {
+    chunks: 'fld0TFVKXKf2rIDiT',
     courseId: 'fldLmQZ0ISTr7xQUE',
     courseTitle: 'fld4AYVyIcfnzfE3Z',
     coursePath: 'fldlCrg7Nv1TPTorZ',
@@ -156,6 +189,7 @@ export const unitTable: Table<Unit> = {
     unitPodcastUrl: 'fldwByN7lbmcjc3Fj',
   },
   schema: {
+    chunks: 'string[] | null',
     courseId: 'string',
     courseTitle: 'string',
     coursePath: 'string',
@@ -296,7 +330,7 @@ export type CourseRegistration = {
   firstName: string,
   lastName: string,
   fullName: string,
-  /** Linked record field */
+  /** Link to the course record in the applications base */
   courseApplicationsBaseId: string,
   /** Underlying id, consistent with course builder. Read only */
   courseId: string,
@@ -342,15 +376,13 @@ export type User = {
   id: string,
   email: string,
   createdAt: string,
-  lastSeenAt: string,
+  lastSeenAt: string | null,
   name: string,
   referralId: string,
   referredById: string,
   utmSource: string,
   utmCampaign: string,
   utmContent: string,
-  courseSitesVisitedCsv: string,
-  completedMoocAt: number | null,
 } & Item;
 
 export const userTable: Table<User> = {
@@ -367,21 +399,17 @@ export const userTable: Table<User> = {
     utmSource: 'fldl1gTMXI44BvCUS',
     utmCampaign: 'fldcNcqMxSFpmiGWT',
     utmContent: 'fldlpjcdh7jpZhHhv',
-    courseSitesVisitedCsv: 'fldgbXANYvYCEw4OV',
-    completedMoocAt: 'fldTCSAIKNs4nPfDn',
   },
   schema: {
     email: 'string',
     createdAt: 'string',
-    lastSeenAt: 'string',
+    lastSeenAt: 'string | null',
     name: 'string',
     referralId: 'string',
     referredById: 'string',
     utmSource: 'string',
     utmCampaign: 'string',
     utmContent: 'string',
-    courseSitesVisitedCsv: 'string',
-    completedMoocAt: 'number | null',
   },
 };
 
@@ -390,7 +418,7 @@ export type CmsBlog = {
   title: string,
   slug: string,
   body: string,
-  publishedAt: string,
+  publishedAt: number,
   authorName: string,
   authorUrl: string,
   /** "Published" | "Unlisted" | "Unpublished" */
@@ -414,7 +442,7 @@ export const cmsBlogTable: Table<CmsBlog> = {
     title: 'string',
     slug: 'string',
     body: 'string',
-    publishedAt: 'string',
+    publishedAt: 'number',
     authorName: 'string',
     authorUrl: 'string',
     publicationStatus: 'string',
@@ -430,6 +458,7 @@ export type CmsJobPosting = {
   body: string,
   /** "Published" | "Unlisted" | "Unpublished" */
   publicationStatus: string,
+  publishedAt: number | null,
 } & Item;
 
 export const cmsJobPostingTable: Table<CmsJobPosting> = {
@@ -443,6 +472,7 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     applicationUrl: 'fldtkliaGs8JLy0BS',
     body: 'fldiBF58TPRIMhgvq',
     publicationStatus: 'fld4cZjg7YiEDaZXg',
+    publishedAt: 'fldI1yVd0G5eCvWiy',
   },
   schema: {
     title: 'string',
@@ -451,6 +481,51 @@ export const cmsJobPostingTable: Table<CmsJobPosting> = {
     applicationUrl: 'string',
     body: 'string',
     publicationStatus: 'string',
+    publishedAt: 'number | null',
+  },
+};
+
+export type CmsProject = {
+  id: string,
+  title: string,
+  slug: string,
+  body: string,
+  authorName: string,
+  authorUrl: string,
+  coverImageSrc: string,
+  publishedAt: number,
+  publicationStatus: string,
+  course: string,
+  tag: string[],
+} & Item;
+
+export const cmsProjectTable: Table<CmsProject> = {
+  name: 'Project',
+  baseId: 'app63L1YChHfS6RJF',
+  tableId: 'tblYCFWqPy29YIWe6',
+  mappings: {
+    title: 'fldGyQnG2U6q5p5ny',
+    slug: 'fldX2rzTLpj9P9fdP',
+    body: 'fldjW7BnaXVCttBQn',
+    authorName: 'fldGpZHynFhhAx13S',
+    authorUrl: 'fldJiHv2mFQzEdz7L',
+    coverImageSrc: 'fldliLiVCys4rLX7S',
+    publishedAt: 'fldoTpdgfEBNQgej9',
+    publicationStatus: 'fldn7RrnTe80QUEt6',
+    course: 'fldNHNMuxmQjaokmY',
+    tag: 'fldeTqWZOvybdopnK',
+  },
+  schema: {
+    title: 'string',
+    slug: 'string',
+    body: 'string',
+    authorName: 'string',
+    authorUrl: 'string',
+    coverImageSrc: 'string',
+    publishedAt: 'number',
+    publicationStatus: 'string',
+    course: 'string',
+    tag: 'string[]',
   },
 };
 

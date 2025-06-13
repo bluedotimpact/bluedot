@@ -9,43 +9,69 @@ const mockJobs = [
   {
     id: '1',
     title: 'Software Engineer',
-    subtitle: 'Full-time position',
-    slug: 'software-engineer',
-    applicationUrl: 'https://example.com/apply/software-engineer',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    department: 'Engineering',
+    team: 'Frontend',
+    employmentType: 'Full-time',
+    location: 'Remote',
+    shouldDisplayCompensationOnJobPostings: false,
+    publishedAt: new Date().toISOString(),
+    isListed: true,
+    isRemote: true,
+    descriptionHtml: '<p>Job description</p>',
   },
   {
     id: '2',
     title: 'Product Manager',
-    subtitle: 'Full-time position',
-    slug: 'product-manager',
-    applicationUrl: 'https://example.com/apply/product-manager',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    department: 'Product',
+    team: 'Core',
+    employmentType: 'Full-time',
+    location: 'London, UK',
+    shouldDisplayCompensationOnJobPostings: false,
+    publishedAt: new Date().toISOString(),
+    isListed: true,
+    isRemote: false,
+    descriptionHtml: '<p>Job description</p>',
   },
 ];
 
 describe('JobsListSection', () => {
   test('renders default as expected', () => {
-    const { container } = render(<JobsListSection jobs={mockJobs} />);
-    expect(container.querySelector('.jobs-list__card--desktop')).not.toBeNull();
-    expect(container.querySelector('.jobs-list__card--mobile')).toBeNull();
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JobsListSection ashbyJobs={mockJobs} cmsJobs={[]} />);
+
+    // Check if job titles and locations are rendered
+    const content = container.textContent;
+    expect(content).toContain('Software Engineer');
+    expect(content).toContain('Product Manager');
+    expect(content).toContain('Remote');
+    expect(content).toContain('London, UK');
+    expect(content).toContain('Learn more');
+
+    // Check if there are two job listings
+    const jobListings = container.querySelectorAll('.jobs-list__listing');
+    expect(jobListings.length).toBe(2);
   });
 
   test('renders mobile as expected', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
-    const { container } = render(<JobsListSection jobs={mockJobs} />);
-    expect(container).toMatchSnapshot();
-    expect(container.querySelector('.jobs-list__card--desktop')).toBeNull();
-    expect(container.querySelector('.jobs-list__card--mobile')).not.toBeNull();
+    const { container } = render(<JobsListSection ashbyJobs={mockJobs} cmsJobs={[]} />);
+
+    // Check if job titles and locations are rendered
+    const content = container.textContent;
+    expect(content).toContain('Software Engineer');
+    expect(content).toContain('Product Manager');
+    expect(content).toContain('Remote');
+    expect(content).toContain('London, UK');
+    expect(content).toContain('Learn more');
+
+    // Check if there are two job listings
+    const jobListings = container.querySelectorAll('.jobs-list__listing');
+    expect(jobListings.length).toBe(2);
+
     vi.clearAllMocks();
   });
 
   test('renders empty state when no jobs are provided', () => {
-    const { container } = render(<JobsListSection jobs={[]} />);
+    const { container } = render(<JobsListSection ashbyJobs={[]} cmsJobs={[]} />);
     expect(container.textContent).toContain("We're not currently running any open hiring rounds at the moment.");
-    expect(container).toMatchSnapshot();
   });
 });

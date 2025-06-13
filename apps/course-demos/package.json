@@ -20,7 +20,7 @@
     "@bluedot/utils": "*",
     "@codesandbox/sandpack-react": "^2.20.0",
     "ai": "^4.1.54",
-    "airtable-ts": "^1.5.0",
+    "airtable-ts": "^1.6.0",
     "axios": "^1.8.1",
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.1",

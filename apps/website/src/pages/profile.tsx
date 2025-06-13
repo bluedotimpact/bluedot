@@ -23,8 +23,9 @@ import { GetCoursesResponse } from './api/courses';
 import { ROUTES } from '../lib/routes';
 import { H2, H3, P } from '../components/Text';
 import SocialShare from '../components/courses/SocialShare';
-import { Course, CourseRegistration, User } from '../lib/api/db/tables';
+import { Course, CourseRegistration } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -86,14 +87,12 @@ const ProfilePage = withAuth(({ auth }) => {
           className="profile"
         >
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="profile__account-details flex flex-col gap-4">
+            <div className="profile__enrolled-courses flex flex-col gap-4">
               <H3>Account details</H3>
               <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
                 <P><span className="font-bold">Name:</span> {userData.user.name}</P>
                 <P><span className="font-bold">Email:</span> {userData.user.email}</P>
               </div>
-            </div>
-            <div className="profile__enrolled-courses flex flex-col gap-4">
               <H3>Your courses</H3>
               {enrolledCourses.length === 0 && (
               <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
@@ -103,10 +102,14 @@ const ProfilePage = withAuth(({ auth }) => {
               )}
               {enrolledCourses.length > 0 && (
                 <>
-                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} user={userData.user} />)}
+                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} />)}
                   <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
                 </>
               )}
+            </div>
+            <div className="profile__events flex flex-col gap-4">
+              <H3>Connect with your community</H3>
+              <CircleSpaceEmbed spaceSlug="events" style={{ width: '100%', height: '100%', minHeight: '510px' }} />
             </div>
           </div>
         </Section>
@@ -119,10 +122,9 @@ const ProfilePage = withAuth(({ auth }) => {
 type ProfileCourseCardProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  user: User;
 };
 
-const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration, user }) => {
+const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration }) => {
   const isCompleted = !!courseRegistration.certificateId;
   const formattedCompletionDate = new Date(
     courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
@@ -191,7 +193,6 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             </P>
             <SocialShare
               coursePath={course.path}
-              referralCode={user.referralId}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>

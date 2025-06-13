@@ -33,7 +33,7 @@ _To take part in our facilitated courses instead, see the courses linked on [our
 
 _Let us know how you're using our courses [here](https://forms.bluedot.org/UdXLJKhY463CAI0Th2cj), so we can potentially offer more support in the future._
 
-We’re thrilled you’re excited to run an independent version of our course! We’re BlueDot Impact, the team behind [AI Safety Fundamentals](https://aisafetyfundamentals.com/) and [Biosecurity Fundamentals](https://biosecurityfundamentals.com/). This page sets out guidance for branding your course, as well as explains what support we can offer local groups.
+We’re thrilled you’re excited to run an independent version of our course! This page sets out guidance for branding your course, as well as explains what support we can offer local groups.
 
 It's great when friends, workplace groups, student societies and other local organizations run versions of our courses. This helps further our mission of accelerating driven individuals to develop the knowledge, skills and connections needed to have a significant positive impact.
 
@@ -53,7 +53,7 @@ Here’s an example of how you might market your course, following the guideline
 >
 > 🤖 The Greendale Community College AI Society is excited to be hosting a AI alignment course this semester, based on the popular AI Safety Fundamentals courses developed by BlueDot Impact.
 >
-> We’ll be following their curriculum, [available online here](https://course.aisafetyfundamentals.com/alignment). You should do the readings and exercises beforehand, and then each week we’ll host a facilitated group discussion adapted for our university setting.
+> We’ll be following [their curriculum](https://bluedot.org/courses/alignment). You should do the readings and exercises beforehand, and then each week we’ll host a facilitated group discussion adapted for our university setting.
 >
 > The discussions will run every Wednesday from 6-8pm in Group Study Room F starting on 17 September. To join the seminar series, RSVP at https://greendale.edu/ai-soc/ai-alignment.
 >

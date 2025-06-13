@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import { formula } from 'airtable-ts-formula';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import { CmsBlog, cmsBlogTable } from '../../../../../lib/api/db/tables';
@@ -23,8 +23,7 @@ export default makeApiRoute({
   }
 
   const blog = (await db.scan(cmsBlogTable, {
-    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(cmsBlogTable) as AirtableTsTable<CmsBlog>, ['AND',
+    filterByFormula: formula(await db.table(cmsBlogTable), ['AND',
       ['!=', { field: 'publicationStatus' }, 'Unpublished'],
       ['=', { field: 'slug' }, slug],
     ]),

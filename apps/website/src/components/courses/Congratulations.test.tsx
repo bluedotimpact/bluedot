@@ -18,7 +18,6 @@ describe('Congratulations', () => {
       <Congratulations
         courseTitle="Future of AI"
         coursePath="/courses/future-of-ai"
-        referralCode="ABCDEF"
         text="This is a custom text I've written for this course!"
       />,
     );

@@ -20,10 +20,11 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
   const [rating, setRating] = useState<number>(0);
   const [feedbackText, setFeedbackText] = useState<string>('');
   const [error, setError] = useState<unknown | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { courseSlug, id: unitId } = unit;
 
-  const [{ data }, refetch] = useAxios<GetUnitFeedbackResponse>({
+  const [{ data, loading }, refetch] = useAxios<GetUnitFeedbackResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitId}/feedback`,
     headers: {
@@ -40,6 +41,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
     }
 
     setError(null);
+    setIsSubmitting(true);
 
     try {
       await axios.put<unknown, unknown, PutUnitFeedbackRequest>(
@@ -58,6 +60,8 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
       await refetch();
     } catch (e) {
       setError(e);
+    } finally {
+      setIsSubmitting(false);
     }
   }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
 
@@ -109,8 +113,9 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
             variant="primary"
             className="unit-feedback__submit self-start"
             onClick={() => handleSubmit()}
+            disabled={isSubmitting || loading}
           >
-            Send feedback
+            {isSubmitting ? 'Sending...' : 'Send feedback'}
           </CTALinkOrButton>
         </>
       )}

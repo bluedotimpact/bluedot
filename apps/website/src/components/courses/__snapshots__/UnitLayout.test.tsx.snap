@@ -4,29 +4,11 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x unit__hero"
-    >
-      <div
-        class="hero-section__content max-w-[865px] py-12"
-      >
-        <div
-          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
-        >
-          What the fish [Test Course]
-        </div>
-        <h1
-          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
-        >
-          Basic Principles of Fish
-        </h1>
-      </div>
-    </div>
-    <div
-      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs sticky top-[72px] md:top-[100px] z-10"
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
     >
       <nav
         aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base"
+        class="breadcrumbs__nav section-base flex flex-row justify-between"
       >
         <ol
           class="breadcrumbs__list flex"
@@ -75,163 +57,367 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </a>
           </li>
         </ol>
+        <div
+          class="unit__breadcrumbs-cta-container flex flex-row items-center gap-6"
+        >
+          <button
+            aria-label="Previous"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+              />
+            </svg>
+             Prev
+          </button>
+          <button
+            aria-label="Next"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            type="button"
+          >
+            Next 
+            <svg
+              class="size-3"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 448 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+    <div
+      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3 unit__mobile-header md:hidden sticky top-16 z-10"
+    >
+      <nav
+        class="mobile-unit-header__nav flex flex-row justify-between"
+      >
+        <button
+          aria-label="Previous unit"
+          class="bluedot-a not-prose mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          disabled=""
+          type="button"
+        >
+          <img
+            alt=""
+            class="size-8"
+            src="/icons/bubble-arrow.svg"
+          />
+        </button>
+        <div
+          class="mobile-unit-header__course-container flex flex-row gap-2 items-center"
+        >
+          <img
+            alt=""
+            class="size-8"
+            src="/icons/course.svg"
+          />
+          <div
+            class="mobile-unit-header__course-title-container flex flex-col"
+          >
+            <p
+              class="mobile-unit-header__course-header text-size-xxs text-[#999eb3]"
+            >
+              What the fish [Test Course]
+            </p>
+            <p
+              class="mobile-unit-header__course-title bluedot-h4 text-size-xs"
+            >
+              Basic Principles of Fish
+            </p>
+          </div>
+        </div>
+        <button
+          aria-label="Next unit"
+          class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          type="button"
+        >
+          <img
+            alt=""
+            class="size-8 rotate-180"
+            src="/icons/bubble-arrow.svg"
+          />
+        </button>
       </nav>
     </div>
     <section
-      class="section section-body unit__main"
+      class="section section-body unit__main !border-none"
     >
       <div
         class="section__body"
       >
         <div
-          class="unit__content-container flex flex-col md:flex-row gap-16"
+          class="unit__content-container flex flex-col md:flex-row"
         >
           <div
-            class="sidebar w-full md:w-[332px] flex flex-col"
+            class="sidebar w-full md:w-[320px] flex flex-col hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]"
           >
             <div
-              class="sidebar__content flex flex-col gap-6"
+              class="sidebar__header-container flex flex-row gap-2 pb-6"
             >
-              <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between unit-card--active border-color-primary border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-                href="/courses/test-course/1"
-                tabindex="0"
+              <img
+                alt=""
+                class="size-11"
+                src="/icons/course.svg"
+              />
+              <div
+                class="sidebar__title-container flex flex-col"
               >
-                <div
-                  class="unit-card__item flex flex-col gap-2"
+                <p
+                  class="sidebar__course-header text-size-sm text-[#999eb3]"
+                >
+                  Course
+                </p>
+                <p
+                  class="sidebar__course-title bluedot-h4"
+                >
+                  What the fish [Test Course]
+                </p>
+              </div>
+            </div>
+            <div
+              class="sidebar__content flex flex-col container-lined bg-white"
+            >
+              <details
+                class="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+                open=""
+              >
+                <summary
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider cursor-pointer"
                 >
                   <p
-                    class="unit-card__number uppercase text-size-xs font-bold"
+                    class="sidebar-collapsible__title font-bold"
                   >
-                    Unit 
                     1
-                  </p>
-                  <p
-                    class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-                  >
+                    . 
                     Basic Principles of Fish
                   </p>
-                  <p
-                    class="unit-card__description"
-                  />
-                </div>
-              </a>
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3 transition-transform group-open:rotate-90"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <button
+                  class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer border-l-4 border-color-primary bg-bluedot-lightest"
+                  type="button"
+                >
+                  What can AI do today?
+                </button>
+                <button
+                  class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer"
+                  type="button"
+                >
+                  What can AI do today?
+                </button>
+              </details>
               <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-                href="/courses/test-course/2"
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="http://localhost:3000/courses/test-course/2?chunk=0"
                 tabindex="0"
               >
                 <div
-                  class="unit-card__item flex flex-col gap-2"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
-                    class="unit-card__number uppercase text-size-xs font-bold"
+                    class="sidebar-collapsible__title font-bold"
                   >
-                    Unit 
                     2
-                  </p>
-                  <p
-                    class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-                  >
+                    . 
                     What Fish Are People Catching, and Why?
                   </p>
-                  <p
-                    class="unit-card__description"
-                  />
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </div>
               </a>
               <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-                href="/courses/test-course/3"
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="http://localhost:3000/courses/test-course/3?chunk=0"
                 tabindex="0"
               >
                 <div
-                  class="unit-card__item flex flex-col gap-2"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
-                    class="unit-card__number uppercase text-size-xs font-bold"
+                    class="sidebar-collapsible__title font-bold"
                   >
-                    Unit 
                     3
-                  </p>
-                  <p
-                    class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-                  >
+                    . 
                     The Promise of Fish
                   </p>
-                  <p
-                    class="unit-card__description"
-                  />
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </div>
               </a>
               <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-                href="/courses/test-course/4"
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="http://localhost:3000/courses/test-course/4?chunk=0"
                 tabindex="0"
               >
                 <div
-                  class="unit-card__item flex flex-col gap-2"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
-                    class="unit-card__number uppercase text-size-xs font-bold"
+                    class="sidebar-collapsible__title font-bold"
                   >
-                    Unit 
                     4
-                  </p>
-                  <p
-                    class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-                  >
+                    . 
                     The Risks of Fish
                   </p>
-                  <p
-                    class="unit-card__description"
-                  />
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </div>
               </a>
               <a
-                class="unit-card p-4 flex flex-col gap-2 justify-between border-color-divider border rounded-lg hover:bg-bluedot-lightest hover:border-color-primary"
-                href="/courses/test-course/5"
+                class="bluedot-a not-prose sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text"
+                href="http://localhost:3000/courses/test-course/5?chunk=0"
                 tabindex="0"
               >
                 <div
-                  class="unit-card__item flex flex-col gap-2"
+                  class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
                 >
                   <p
-                    class="unit-card__number uppercase text-size-xs font-bold"
+                    class="sidebar-collapsible__title font-bold"
                   >
-                    Unit 
                     5
-                  </p>
-                  <p
-                    class="unit-card__title text-color-secondary-text text-size-md font-[650]"
-                  >
+                    . 
                     Contributing to Fish Safety
                   </p>
-                  <p
-                    class="unit-card__description"
-                  />
+                  <span
+                    class="sidebar-collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="size-3"
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 320 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                      />
+                    </svg>
+                  </span>
                 </div>
               </a>
             </div>
           </div>
           <div
-            class="unit__content flex flex-col flex-1 max-w-[728px] gap-6"
+            class="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x md:ml-[320px]"
           >
             <div
-              class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none"
+              class="unit__title-container"
+            >
+              <p
+                class="bluedot-p not-prose unit__course-title text-size-sm mb-2"
+              >
+                Unit 
+                1
+              </p>
+              <h1
+                class="bluedot-h1 not-prose unit__title font-serif text-[32px]"
+              >
+                What can AI do today?
+              </h1>
+            </div>
+            <div
+              class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
             />
             <div
-              class="unit__cta-container flex flex-row justify-between mt-6 mx-1"
+              class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
             >
-              <a
+              <button
                 class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
-                href="/courses/test-course/2"
-                tabindex="0"
+                type="button"
               >
                 <span
                   class="cta-button__text"
                 >
-                  Next unit
+                  Continue
                 </span>
                 <span
                   class="cta-button__chevron ml-3"
@@ -251,7 +437,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     />
                   </svg>
                 </span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -262,13 +448,17 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 `;
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
-<a
-  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter unit__cta-link mr-auto"
-  href="/courses/test-course/1"
-  tabindex="0"
+<button
+  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+  type="button"
 >
   <span
-    class="cta-button__chevron mr-3"
+    class="cta-button__text"
+  >
+    Continue
+  </span>
+  <span
+    class="cta-button__chevron ml-3"
   >
     <svg
       class="cta-button__chevron-icon size-2"
@@ -281,14 +471,9 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+        d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
       />
     </svg>
   </span>
-  <span
-    class="cta-button__text"
-  >
-    Previous unit
-  </span>
-</a>
+</button>
 `;

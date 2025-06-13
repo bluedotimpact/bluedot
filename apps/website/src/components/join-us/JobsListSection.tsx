@@ -1,14 +1,36 @@
-import { Card, CTALinkOrButton, Section } from '@bluedot/ui';
+import { Card, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import { P } from '../Text';
 import { CmsJobPosting } from '../../lib/api/db/tables';
 import { ROUTES } from '../../lib/routes';
 
-export type JobsListSectionProps = {
-  jobs: Omit<CmsJobPosting, 'body'>[]
+export type GetAshbyJobsResponse = {
+  jobs: {
+    id: string;
+    title: string;
+    department: string;
+    team: string;
+    employmentType: string;
+    location: string;
+    shouldDisplayCompensationOnJobPostings: boolean;
+    publishedAt: string;
+    isListed: boolean;
+    isRemote: boolean;
+    descriptionHtml: string;
+  }[]
 };
 
-const JobsListSection = ({ jobs }: JobsListSectionProps) => {
+export type JobsListSectionProps = {
+  ashbyJobs: GetAshbyJobsResponse['jobs']
+  cmsJobs: Omit<CmsJobPosting, 'body'>[],
+};
+
+const JobsListSection = ({ ashbyJobs, cmsJobs }: JobsListSectionProps) => {
+  const jobs = [
+    ...cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle })),
+    ...ashbyJobs,
+  ];
+
   return (
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
@@ -28,36 +50,21 @@ const JobsListSection = ({ jobs }: JobsListSectionProps) => {
 };
 
 const JobListItem = ({ job }: {
-  job: Omit<CmsJobPosting, 'body'>
+  job: { id: string; title: string; location: string };
 }) => {
-  const url = `${ROUTES.joinUs.url}/${job.slug}`;
+  const url = `${ROUTES.joinUs.url}/${job.id}`;
 
   return (
     <div className="jobs-list__listing">
-      {isMobile ? (
-        <Card
-          className="jobs-list__card--mobile container-lined p-6 max-w-full"
-          title={job.title}
-          subtitle={job.subtitle}
-          ctaText="Learn more"
-          ctaUrl={url}
-        />
-      ) : (
-        <div className="jobs-list__card--desktop w-full flex flex-row items-center justify-between p-8 container-lined">
-          <div className="flex-1">
-            <strong className="jobs-list__title">{job.title}</strong>
-            <P className="jobs-list__subtitle">{job.subtitle}</P>
-          </div>
-          <CTALinkOrButton
-            className="jobs-list__cta-button"
-            variant="secondary"
-            withChevron
-            url={url}
-          >
-            Learn more
-          </CTALinkOrButton>
-        </div>
-      )}
+      <Card
+        className="jobs-list__card container-lined hover:container-elevated p-8"
+        ctaText="Learn more"
+        ctaUrl={url}
+        isEntireCardClickable={!isMobile}
+        isFullWidth={!isMobile}
+        subtitle={job.location}
+        title={job.title}
+      />
     </div>
   );
 };

@@ -15,9 +15,6 @@ export type { ClickTargetProps } from './ClickTarget';
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
 
-export { CookieBanner } from './CookieBanner';
-export type { CookieBannerProps } from './CookieBanner';
-
 export { CourseCard } from './CourseCard';
 export type { CourseCardProps } from './CourseCard';
 
@@ -37,6 +34,9 @@ export {
   HeroSection, HeroH1, HeroH2, HeroCTAContainer,
 } from './HeroSection';
 export type { HeroSectionProps, HeroCTAContainerProps } from './HeroSection';
+
+export { IconButton } from './IconButton';
+export type { IconButtonProps } from './IconButton';
 
 export { Input } from './Input';
 export type { InputProps } from './Input';

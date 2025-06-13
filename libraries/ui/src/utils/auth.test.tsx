@@ -20,6 +20,13 @@ vi.mock('oidc-client-ts', () => ({
   OidcClientSettings: vi.fn(),
 }));
 
+vi.mock('posthog-js', () => ({
+  default: {
+    identify: vi.fn(),
+    reset: vi.fn(),
+  },
+}));
+
 // Helper to create auth object
 const createAuth = (overrides?: Partial<Auth>): Auth => ({
   token: `test-token-${Math.random()}`,
@@ -30,6 +37,7 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
     client_id: 'test-client',
     redirect_uri: 'http://localhost:3000/callback',
   },
+  email: 'test+auth@bluedot.org',
   ...overrides,
 });
 
@@ -38,6 +46,7 @@ const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
   id_token: 'new-test-token',
   expires_at: Math.floor(Date.now() / 1000) + 3600,
   refresh_token: 'new-refresh-token',
+  profile: {},
   ...overrides,
 });
 

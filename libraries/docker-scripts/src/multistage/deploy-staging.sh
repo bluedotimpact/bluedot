@@ -7,7 +7,7 @@ IMAGE_NAME="bluedot-$APP_NAME"
 VERSION_TAG="$(TZ=UTC date +'%Y%m%d.%H%M%S').$(git rev-parse --short HEAD)"
 
 # Use the corresponding env file for staging environment.
-cp .env.staging.template .env.production
+cp .env.staging.template .env.production.local
 
 # Add no index robots.txt to the public folder.
 mkdir -p public

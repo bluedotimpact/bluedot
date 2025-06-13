@@ -1,0 +1,354 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Nav > renders with courses 1`] = `
+<div>
+  <nav
+    class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
+  >
+    <div
+      class="nav__container section-base"
+    >
+      <div
+        class="nav__bar w-full flex justify-between items-center h-16"
+      >
+        <div
+          class="mobile-nav-links lg:hidden"
+        >
+          <button
+            class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+            type="button"
+          >
+            <svg
+              fill="none"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 18H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 24H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+              <path
+                d="M16 30H32"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="mobile-nav-links__drawer absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-white max-h-0 hidden pb-0"
+          >
+            <div
+              class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+            >
+              <div
+                class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+              >
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+                    type="button"
+                  >
+                    Courses
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-white max-h-0 hidden pb-0"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                    >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/future-of-ai"
+                        tabindex="0"
+                      >
+                        The Future of AI Course
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses/ops"
+                        tabindex="0"
+                      >
+                        AI Safety Operations Bootcamp
+                        <span
+                          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                          role="status"
+                        >
+                          New
+                        </span>
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/courses"
+                        tabindex="0"
+                      >
+                        Browse all
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+                    type="button"
+                  >
+                    About
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-white max-h-0 hidden pb-0"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+                    >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        Our story
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Careers
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+                  href="/blog"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+                  href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+                  tabindex="0"
+                >
+                  Events
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a
+          class="bluedot-a not-prose logo shrink-0 w-[200px] no-underline"
+          href="/"
+          tabindex="0"
+        >
+          <img
+            alt="BlueDot Impact Logo"
+            class="logo__img h-6 mr-auto transition-all duration-300"
+            src="logo.png"
+          />
+        </a>
+        <div
+          class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
+        >
+          <div
+            class="nav-dropdown"
+          >
+            <button
+              class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+              type="button"
+            >
+              Courses
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </button>
+            <div
+              class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-white max-h-0 hidden pb-0"
+            >
+              <div
+                class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+              >
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/future-of-ai"
+                  tabindex="0"
+                >
+                  The Future of AI Course
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses/ops"
+                  tabindex="0"
+                >
+                  AI Safety Operations Bootcamp
+                  <span
+                    class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                    role="status"
+                  >
+                    New
+                  </span>
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/courses"
+                  tabindex="0"
+                >
+                  Browse all
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="nav-dropdown"
+          >
+            <button
+              class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline"
+              type="button"
+            >
+              About
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </button>
+            <div
+              class="nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] duration-300 max-h-0 hidden absolute top-16 left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-[max-height,opacity,padding] duration-300 bg-white max-h-0 hidden pb-0"
+            >
+              <div
+                class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty hidden"
+              >
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/about"
+                  tabindex="0"
+                >
+                  Our story
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Careers
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline pt-1"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          </div>
+          <a
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+            href="/blog"
+            tabindex="0"
+          >
+            Blog
+          </a>
+          <a
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+            href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+            tabindex="0"
+          >
+            Events
+          </a>
+        </div>
+        <div
+          class="nav-cta flex flex-row items-center gap-6"
+        >
+          <a
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav-cta__secondary-cta hidden sm:block"
+            href="http://localhost:3000/login?redirect_to=%2F"
+            tabindex="0"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Login
+            </span>
+          </a>
+          <a
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta"
+            href="http://localhost:3000/login?register=true&redirect_to=%2F"
+            tabindex="0"
+          >
+            <span
+              class="cta-button__text"
+            >
+              Join for free
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+`;

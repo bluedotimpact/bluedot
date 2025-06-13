@@ -6,44 +6,24 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import { useEffect, useState } from 'react';
 import { ROUTES } from '../../lib/routes';
-import type { CoursesRequestBody, GetCoursesResponse } from '../api/courses';
+import type { GetCoursesResponse } from '../api/courses';
 import CourseDirectory from '../../components/courses/CourseDirectory';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  const [requestBody, setRequestBody] = useState<CoursesRequestBody>();
-
   const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
     url: '/api/courses',
     method: 'POST',
-    data: requestBody,
   });
-  const [{ data: allCoursesData, loading: allCoursesLoading, error: allCoursesError }, fetchAllCourses] = useAxios<GetCoursesResponse>({
-    url: '/api/courses',
-    method: 'POST',
-  }, { manual: true });
-
-  const noResults = !!(data?.courses && data.courses.length === 0);
-
-  useEffect(() => {
-    if (noResults) {
-      fetchAllCourses();
-    }
-  }, [noResults, fetchAllCourses]);
-
-  const displayData = !noResults ? data : allCoursesData;
-  const displayLoading = loading || (noResults && allCoursesLoading);
-  const displayError = !noResults ? error : allCoursesError;
 
   return (
     <div>
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {displayData?.courses && (
+        {data?.courses && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
@@ -51,7 +31,7 @@ const CoursePage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: displayData.courses.map((course, index) => ({
+                itemListElement: data.courses.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -101,12 +81,10 @@ const CoursePage = () => {
         <HeroH1>Our courses</HeroH1>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      {displayError && <ErrorSection error={displayError} />}
+      {error && <ErrorSection error={error} />}
       <CourseDirectory
-        displayData={displayData}
-        displayLoading={displayLoading}
-        noResults={noResults}
-        refetch={setRequestBody}
+        displayData={data}
+        displayLoading={loading}
       />
     </div>
   );

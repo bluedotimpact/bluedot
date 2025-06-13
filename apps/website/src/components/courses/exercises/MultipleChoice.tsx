@@ -1,10 +1,17 @@
-import { addQueryParam, CTALinkOrButton, Input } from '@bluedot/ui';
+import {
+  addQueryParam,
+  CTALinkOrButton,
+  Input,
+  Tag,
+} from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ROUTES } from '../../../lib/routes';
 import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
+// eslint-disable-next-line import/no-cycle
+import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 type MultipleChoiceProps = {
   // Required
@@ -81,12 +88,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="multiple-choice__header flex flex-col gap-4">
-        <div className="multiple-choice__header-icon">
-          <img src="/icons/lightning_bolt.svg" className="w-15 h-15" alt="" />
-        </div>
+        <Tag variant="secondary" className="uppercase">
+          Quiz
+        </Tag>
         <div className="multiple-choice__header-content flex flex-col gap-2">
-          <p className="multiple-choice__title bluedot-h4">{title}</p>
-          <P className="multiple-choice__description">{description}</P>
+          <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
+          <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
         </div>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">

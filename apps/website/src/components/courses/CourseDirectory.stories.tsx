@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState, useEffect, useCallback } from 'react';
-import type { GetCoursesResponse, CoursesRequestBody } from '../../pages/api/courses';
+import type { GetCoursesResponse } from '../../pages/api/courses';
 import CourseDirectory from './CourseDirectory';
 
 const mockCourseData: GetCoursesResponse = {
@@ -38,59 +37,28 @@ const mockCourseData: GetCoursesResponse = {
   ],
 };
 
-const CourseDirectoryWrapper = () => {
-  const [displayData, setDisplayData] = useState<GetCoursesResponse | undefined>(undefined);
-  const [displayLoading, setDisplayLoading] = useState<boolean>(true);
-  const [noResults, setNoResults] = useState<boolean>(false);
-
-  const refetch = useCallback((filters: CoursesRequestBody) => {
-    setDisplayLoading(true);
-    setNoResults(false);
-    setDisplayData(undefined);
-
-    // Simulate network delay
-    setTimeout(() => {
-      const results = mockCourseData.courses.filter((course) => {
-        const matchesLevel = filters?.level?.includes(course.level);
-        const matchesCadence = filters?.cadence?.includes(course.cadence);
-        return matchesLevel && matchesCadence;
-      });
-
-      setDisplayData({ courses: results, type: 'success' });
-      setNoResults(results.length === 0);
-      setDisplayLoading(false);
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    refetch({
-      cadence: ['MOOC', 'Daily', 'Weekly'],
-      level: ['Beginner', 'Intermediate', 'Advanced'],
-    });
-  }, [refetch]);
-
-  return (
-    <CourseDirectory
-      displayData={displayData}
-      displayLoading={displayLoading}
-      noResults={noResults}
-      refetch={refetch}
-    />
-  );
-};
-
 const meta = {
   title: 'website/courses/CourseDirectory',
-  component: CourseDirectoryWrapper,
+  component: CourseDirectory,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof CourseDirectoryWrapper>;
+} satisfies Meta<typeof CourseDirectory>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    displayData: mockCourseData,
+    displayLoading: false,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    displayData: undefined,
+    displayLoading: true,
+  },
 };

@@ -1,4 +1,4 @@
-import { validateEnv } from '@bluedot/utils';
+import { validateEnv } from '@bluedot/ui/src/api';
 
 export default validateEnv({
   required: [

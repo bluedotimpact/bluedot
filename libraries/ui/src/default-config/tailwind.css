@@ -45,6 +45,8 @@
     --font-serif:
         'Reckless Neue', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 
+    --text-size-xxs: var(--text-size-xxs);
+    --text-size-xxs--line-height: 1.2;
     --text-size-xs: var(--text-size-xs);
     --text-size-xs--line-height: 1.2;
     --text-size-sm: var(--text-size-sm);
@@ -149,6 +151,52 @@
     @apply text-color-text-on-dark hover:text-color-secondary-accent cursor-pointer;
 }
 
+
+@utility prose {
+    :not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+        /* Bullets should inherit text color */
+        &:where(li) {
+            &::marker {
+                @apply text-inherit
+            }
+        }
+    
+        /* https://bluedotimpact.slack.com/archives/C08LQKWBX9B/p1745428606815279 */
+        &:where(blockquote) {
+            /* Disable quote marks */
+            p:first-of-type::before,
+            p:last-of-type::after {
+                content: none;
+            }
+            /* Disable italics */
+            p {
+                @apply not-italic
+            }
+        }
+    
+        /* Disable code backticks */
+        &:where(code) {
+            &::before,
+            &::after {
+                content: none;
+            }
+        }
+    
+        /* Hovering link color */
+        &:where(a) {
+            @apply hover:text-color-primary-accent
+        }
+    
+        /* Links in headings should be the same font weight
+        * See https://github.com/tailwindlabs/tailwindcss-typography/issues/391 */
+        &:where(h1, h2, h3, h4, h5, h6) {
+            a {
+                font-weight: inherit;
+            }
+        }
+    }
+}
+
 :root {
     --bluedot-lightest: #F5F4F7;
     --bluedot-lighter: #CCD7FF;
@@ -189,6 +237,7 @@
     --space-between-sm: 0.5rem; /* 8px */
   
     /* Default breakpoint values */
+    --text-size-xxs: 0.75rem; /* 12px */
     --text-size-xs: 0.875rem; /* 14px */
     --text-size-sm: 1rem; /* 16px */
     --text-size-md: 1.125rem; /* 18px */

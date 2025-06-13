@@ -1,0 +1,57 @@
+name: Bug Report
+description: Report a bug
+title: "[Bug] Short descriptive title"
+labels: [bug]
+assignees: [bluebotimpact]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 🧩 Summary
+      description: Briefly describe the bug in one or two sentences.
+      placeholder: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🛝 Steps to reproduce
+      description: What steps can we take to reproduce the bug?
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See error ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What should be true or visible to consider this bug fixed?
+      placeholder: A clear description of what you expect to see when the bug is fixed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs.
+      placeholder: Add any other context about the problem here.
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How urgent is this?
+      options:
+        - 🔥 Today
+        - 🕐 Within 1 week
+        - 🧊 Non-urgent / backlog
+      default: 1

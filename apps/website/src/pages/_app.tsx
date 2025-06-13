@@ -1,58 +1,27 @@
 import '../globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import posthog from 'posthog-js';
-import { PostHogProvider } from 'posthog-js/react';
-import {
-  CTALinkOrButton,
-  CookieBanner, Footer, constants,
-} from '@bluedot/ui';
-import { useEffect } from 'react';
-import { Router } from 'next/router';
-import { Analytics } from '../components/Analytics';
-import { Nav } from '../components/Nav';
+import { CTALinkOrButton, Footer } from '@bluedot/ui';
+import { useRouter } from 'next/router';
+import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
+import { PostHogProvider } from '../components/analytics/PostHogProvider';
+import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
+import { CookieBanner } from '../components/CookieBanner';
+import { CircleWidget } from '../components/community/CircleWidget';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-      // eslint-disable-next-line no-console
-      console.warn('NEXT_PUBLIC_POSTHOG_KEY is missing, disabling analytics...');
-      return undefined;
-    }
-
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: 'https://analytics.k8s.bluedot.org',
-      loaded: (instance) => {
-        // Can't specify debug reliably via config :(
-        // https://github.com/PostHog/posthog-js/issues/1387
-        const shouldDebug = process.env.NEXT_PUBLIC_DEBUG_POSTHOG === 'true';
-        // This if prevents unnecessary logs about debug mode changing
-        if (instance.config.debug !== shouldDebug) {
-          instance.debug(shouldDebug);
-        }
-      },
-      persistence: localStorage.getItem('cookies') === 'accepted' ? 'localStorage+cookie' : 'memory',
-    });
-
-    // Setup page view tracking
-    const handleRouteChange = () => posthog.capture('$pageview');
-    Router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, []);
+  const fromSiteParam = useRouter().query.from_site as string;
+  const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
+  const hideFooter = 'hideFooter' in Component;
 
   return (
-    <PostHogProvider client={posthog}>
+    <PostHogProvider>
       <Head>
         <title>BlueDot Impact</title>
-        <link rel="icon" type="image/png" href="images/logo/favicon/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="images/logo/favicon/favicon.svg" />
-        <link rel="shortcut icon" href="images/logo/favicon/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="images/logo/favicon/apple-touch-icon.png" />
-        <link rel="manifest" href="images/logo/favicon/site.webmanifest" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </Head>
       {/* TODO: remove this logic after people stop going here */}
       {/* eslint-disable-next-line no-nested-ternary */}
@@ -70,18 +39,24 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           ? <Component {...pageProps} />
           : (
             <>
-              <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" courses={constants.COURSES} />
+              <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" />
+              {fromSite && (
+                <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
+                  <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
+                </AnnouncementBanner>
+              )}
               <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
                 <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
               </AnnouncementBanner>
               <main className="bluedot-base">
                 <Component {...pageProps} />
               </main>
-              <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+              {!hideFooter && <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />}
             </>
           ))}
       <CookieBanner />
-      <Analytics />
+      <GoogleTagManager />
+      <CircleWidget />
     </PostHogProvider>
   );
 };

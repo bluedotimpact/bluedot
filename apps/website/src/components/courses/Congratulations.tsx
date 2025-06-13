@@ -6,7 +6,6 @@ import { H3, P } from '../Text';
 type CongratulationsProps = {
   courseTitle: string;
   coursePath: string;
-  referralCode?: string;
   text?: string;
   className?: string;
 };
@@ -14,7 +13,6 @@ type CongratulationsProps = {
 const Congratulations: React.FC<CongratulationsProps> = ({
   courseTitle,
   coursePath,
-  referralCode,
   text,
   className,
 }) => {
@@ -28,7 +26,6 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </P>
       <SocialShare
         coursePath={coursePath}
-        referralCode={referralCode}
         text={socialShareText}
       />
     </div>

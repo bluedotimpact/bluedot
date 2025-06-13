@@ -1,0 +1,320 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MultiSelect > renders default as expected 1`] = `
+<div>
+  <form
+    class="multiselect container-lined bg-white p-8 flex flex-col gap-6"
+  >
+    <div
+      class="multiselect__header flex flex-col gap-4"
+    >
+      <div
+        class="multiselect__header-icon"
+      >
+        <img
+          alt=""
+          class="w-15 h-15"
+          src="/icons/lightning_bolt.svg"
+        />
+      </div>
+      <div
+        class="multiselect__header-content flex flex-col gap-2"
+      >
+        <p
+          class="multiselect__title bluedot-h4"
+        >
+          Understanding LLMs
+        </p>
+        <p
+          class="bluedot-p not-prose multiselect__description"
+        >
+          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+        </p>
+      </div>
+    </div>
+    <div
+      class="multiselect__options flex flex-col gap-2"
+    >
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          disabled=""
+          name="answers"
+          type="checkbox"
+          value="The community's preference for low-tech fishing traditions"
+        />
+        <span
+          class="input__label"
+        >
+          The community's preference for low-tech fishing traditions
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          disabled=""
+          name="answers"
+          type="checkbox"
+          value="Rising consumer demand for fish with more Omega-3s"
+        />
+        <span
+          class="input__label"
+        >
+          Rising consumer demand for fish with more Omega-3s
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          disabled=""
+          name="answers"
+          type="checkbox"
+          value="Environmental regulations and declining cod stocks"
+        />
+        <span
+          class="input__label"
+        >
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          disabled=""
+          name="answers"
+          type="checkbox"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="input__label"
+        >
+          A cultural shift toward vegetarianism in the region
+        </span>
+      </label>
+    </div>
+    <a
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark multiselect__login-cta"
+      href="http://localhost:3000/login?redirect_to=http%3A%2F%2Flocalhost%3A3000%2F"
+      tabindex="0"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Login to check your answer
+      </span>
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <svg
+          class="cta-button__chevron-icon size-2"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
+      </span>
+    </a>
+  </form>
+</div>
+`;
+
+exports[`MultiSelect > renders logged in as expected 1`] = `
+<div>
+  <form
+    class="multiselect container-lined bg-white p-8 flex flex-col gap-6"
+  >
+    <div
+      class="multiselect__header flex flex-col gap-4"
+    >
+      <div
+        class="multiselect__header-icon"
+      >
+        <img
+          alt=""
+          class="w-15 h-15"
+          src="/icons/lightning_bolt.svg"
+        />
+      </div>
+      <div
+        class="multiselect__header-content flex flex-col gap-2"
+      >
+        <p
+          class="multiselect__title bluedot-h4"
+        >
+          Understanding LLMs
+        </p>
+        <p
+          class="bluedot-p not-prose multiselect__description"
+        >
+          Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+        </p>
+      </div>
+    </div>
+    <div
+      class="multiselect__options flex flex-col gap-2"
+    >
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          name="answers"
+          type="checkbox"
+          value="The community's preference for low-tech fishing traditions"
+        />
+        <span
+          class="input__label"
+        >
+          The community's preference for low-tech fishing traditions
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          name="answers"
+          type="checkbox"
+          value="Rising consumer demand for fish with more Omega-3s"
+        />
+        <span
+          class="input__label"
+        >
+          Rising consumer demand for fish with more Omega-3s
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          name="answers"
+          type="checkbox"
+          value="Environmental regulations and declining cod stocks"
+        />
+        <span
+          class="input__label"
+        >
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              container-lined"
+      >
+        <input
+          class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+          name="answers"
+          type="checkbox"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="input__label"
+        >
+          A cultural shift toward vegetarianism in the region
+        </span>
+      </label>
+    </div>
+    <button
+      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark multiselect__submit"
+      type="button"
+    >
+      <span
+        class="cta-button__text"
+      >
+        Check
+      </span>
+    </button>
+  </form>
+</div>
+`;
+
+exports[`MultiSelect > updates styles for correct options 1`] = `
+<label
+  class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiselect__option--selected container-active
+                multiselect__option--correct bg-[#63C96533] border-[#63C965]
+                false"
+>
+  <input
+    class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+    name="answers"
+    type="checkbox"
+    value="The community's preference for low-tech fishing traditions"
+  />
+  <span
+    class="input__label"
+  >
+    The community's preference for low-tech fishing traditions
+  </span>
+</label>
+`;
+
+exports[`MultiSelect > updates styles for correct options 2`] = `
+<p
+  class="bluedot-p not-prose multiselect__correct-msg"
+>
+  Correct! Quiz completed. 🎉
+</p>
+`;
+
+exports[`MultiSelect > updates styles for incorrect options 1`] = `
+<label
+  class="input flex items-center gap-2 cursor-pointer 
+              multiselect__option flex items-center gap-2 p-4 hover:cursor-pointer
+              multiselect__option--selected container-active
+                false
+                multiselect__option--incorrect bg-[#FF636333] border-[#FF6363]"
+>
+  <input
+    class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+    name="answers"
+    type="checkbox"
+    value="Environmental regulations and declining cod stocks"
+  />
+  <span
+    class="input__label"
+  >
+    Environmental regulations and declining cod stocks
+  </span>
+</label>
+`;
+
+exports[`MultiSelect > updates styles for incorrect options 2`] = `
+<p
+  class="bluedot-p not-prose multiselect__incorrect-msg"
+>
+  Try again. 🤔
+</p>
+`;

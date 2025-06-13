@@ -6,37 +6,42 @@ export type CardProps = {
   // Required
   title: string;
   // Optional
-  imageSrc?: string;
-  subtitle?: string;
-  ctaUrl?: string;
-  ctaText?: string;
-  isEntireCardClickable?: boolean;
-  className?: string;
-  imageClassName?: string;
-  subtitleClassName?: string;
   children?: React.ReactNode;
+  className?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  imageClassName?: string;
+  imageSrc?: string;
+  isEntireCardClickable?: boolean;
+  isFullWidth?: boolean;
+  subtitle?: string;
+  subtitleClassName?: string;
 };
 
 export const Card: React.FC<CardProps> = ({
-  imageSrc,
+  // Required
   title,
-  subtitle,
-  ctaUrl,
-  ctaText,
-  isEntireCardClickable = false,
-  className = '',
-  imageClassName = '',
-  subtitleClassName = '',
+  // Optional
   children,
+  className = '',
+  ctaText,
+  ctaUrl,
+  imageClassName = '',
+  imageSrc,
+  isEntireCardClickable = false,
+  isFullWidth = false,
+  subtitle,
+  subtitleClassName = '',
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
-    'card flex flex-col items-start transition-transform duration-200',
+    'card flex items-start transition-transform duration-200',
+    isFullWidth ? 'flex-row w-full' : 'flex-col',
     isEntireCardClickable && 'hover:scale-[1.01]',
     className,
   );
 
-  const showCTA = !isEntireCardClickable && ctaUrl;
+  const showCTA = ctaText || (!isEntireCardClickable && ctaUrl);
   const showBottomSection = !!(showCTA || children);
 
   return (
@@ -53,20 +58,25 @@ export const Card: React.FC<CardProps> = ({
           />
         </div>
       )}
-
-      <div className="card__content flex flex-col gap-6 w-full flex-1 justify-between">
+      <div
+        className={clsx(
+          'card__content flex gap-6 w-full flex-1 justify-between',
+          isFullWidth ? 'flex-row w-full' : 'flex-col',
+        )}
+      >
         <div className="card__text">
           <p className="card__title bluedot-h4 mb-2">{title}</p>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
+        {/* When isEntireCardClickable is true, the CTALinkOrButton does not render a URL because nested URLs are invalid HTML. */}
         {showBottomSection && (
           <div className="card__bottom-section flex flex-col gap-space-between">
             {showCTA && (
               <CTALinkOrButton
                 className="card__cta"
-                url={ctaUrl}
+                url={isEntireCardClickable ? undefined : ctaUrl}
                 variant="secondary"
-                withChevron={false}
+                withChevron
               >
                 {ctaText}
               </CTALinkOrButton>

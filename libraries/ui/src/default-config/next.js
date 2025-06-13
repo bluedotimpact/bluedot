@@ -46,6 +46,25 @@ const withDefaultBlueDotNextConfig = async (config) => ({
     },
     ...(config?.headers ?? [])];
   },
+  webpack: (webpackConfig, context, ...args) => {
+    // Exclude packages from webpack bundling
+
+    // Only used server side. Trying to import it client-side results in an error
+    if (!context.isServer) {
+      webpackConfig.externals.push('winston');
+    }
+
+    // https://github.com/open-telemetry/opentelemetry-js/issues/4173
+    // eslint-disable-next-line no-param-reassign
+    webpackConfig.ignoreWarnings = webpackConfig.ignoreWarnings ?? [];
+    webpackConfig.ignoreWarnings.push({ module: /opentelemetry/, message: /the request of a dependency is an expression/ });
+
+    // Conditionally required, but we don't actually use it
+    webpackConfig.externals.push('@opentelemetry/winston-transport');
+    webpackConfig.externals.push('@opentelemetry/exporter-jaeger');
+
+    return config?.webpack?.(config, context, ...args) ?? webpackConfig;
+  },
 });
 
 module.exports = { withDefaultBlueDotNextConfig };

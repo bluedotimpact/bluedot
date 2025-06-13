@@ -1,0 +1,6 @@
+/* You usually shouldn't need to edit this file. Instead of putting styles here, use utility classes in a component instead. For more details, see https://tailwindcss.com/docs/styling-with-utility-classes */
+
+@import 'tailwindcss';
+@import '../../../libraries/ui/src/default-config/tailwind.css';
+
+@plugin "@tailwindcss/typography";

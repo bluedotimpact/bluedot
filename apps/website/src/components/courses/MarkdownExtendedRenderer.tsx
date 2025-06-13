@@ -6,6 +6,8 @@ import clsx from 'clsx';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
+import { Collapsible } from '@bluedot/ui';
+import remarkGfm from 'remark-gfm';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
@@ -51,6 +53,7 @@ export type MarkdownRendererProps = {
 export const getSupportedComponents = () => ({
   Greeting,
   Embed,
+  Collapsible,
   Callout,
   Exercise,
   ResourceListCourseContent,
@@ -65,7 +68,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
 
     (async () => {
       const evalResult = await evaluate(children, {
-        remarkPlugins: [remarkUnescapeMdxAttributes],
+        remarkPlugins: [remarkUnescapeMdxAttributes, remarkGfm],
         Fragment: React.Fragment,
         jsx: React.createElement,
         jsxs: React.createElement,
@@ -76,7 +79,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
 
   return (
     // See @utility prose in globals.css for advanced styles
-    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal max-w-none', className)}>
+    <div className={clsx('markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none', className)}>
       {Component && <Component components={getSupportedComponents()} />}
     </div>
   );

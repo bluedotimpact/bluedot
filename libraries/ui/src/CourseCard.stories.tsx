@@ -17,11 +17,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: 'Alignment Fast-Track',
+    title: 'Alignment',
     description: 'AI systems are rapidly becoming more capable and more general. Despite AI’s potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.',
-    courseType: 'Crash course',
+    courseType: 'In-depth course',
     imageSrc: '/images/intro-course.png',
-    url: 'https://aisafetyfundamentals.com/alignment-fast-track/',
+    url: 'https://bluedot.org/courses/alignment',
+    courseLength: '12 weeks',
   },
 };
 
@@ -31,7 +32,8 @@ export const Featured: Story = {
     description: 'The risks and opportunities of advanced AI are evolving at unprecedented speed—and so is the need for capable individuals to shape its trajectory. This intensive 5-day course is for those who want to rapidly develop their understanding of transformative AI and its impact on humanity.',
     courseType: 'Crash course',
     imageSrc: '/images/alignment-course.png',
-    url: 'https://aisafetyfundamentals.com/intro-to-tai/',
+    url: 'https://bluedot.org/courses/intro-to-tai',
     cardType: 'Featured',
+    courseLength: '5 days',
   },
 };

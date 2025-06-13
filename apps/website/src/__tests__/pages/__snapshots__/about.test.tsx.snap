@@ -59,7 +59,7 @@ exports[`AboutPage > should render correctly 1`] = `
     >
       <nav
         aria-label="Breadcrumbs"
-        class="breadcrumbs__nav section-base"
+        class="breadcrumbs__nav section-base flex flex-row justify-between"
       >
         <ol
           class="breadcrumbs__list flex"
@@ -199,7 +199,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -211,7 +211,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -236,7 +236,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -248,7 +248,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -273,7 +273,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -285,7 +285,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -310,7 +310,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 beliefs-section__belief"
+                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -322,7 +322,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -623,7 +623,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -635,7 +635,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -664,6 +664,24 @@ exports[`AboutPage > should render correctly 1`] = `
                         >
                           LinkedIn
                         </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -675,7 +693,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -687,7 +705,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -716,6 +734,24 @@ exports[`AboutPage > should render correctly 1`] = `
                         >
                           LinkedIn
                         </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -727,7 +763,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -739,7 +775,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -768,6 +804,24 @@ exports[`AboutPage > should render correctly 1`] = `
                         >
                           LinkedIn
                         </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -779,7 +833,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -791,7 +845,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -820,6 +874,24 @@ exports[`AboutPage > should render correctly 1`] = `
                         >
                           LinkedIn
                         </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -831,7 +903,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -843,7 +915,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -872,6 +944,24 @@ exports[`AboutPage > should render correctly 1`] = `
                         >
                           LinkedIn
                         </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
+                        </span>
                       </a>
                     </div>
                   </div>
@@ -883,7 +973,7 @@ exports[`AboutPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex flex-col items-start transition-transform duration-200 team-section__card"
+                  class="card flex items-start transition-transform duration-200 flex-col team-section__card"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -895,7 +985,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex flex-col gap-6 w-full flex-1 justify-between"
+                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
                   >
                     <div
                       class="card__text"
@@ -923,6 +1013,24 @@ exports[`AboutPage > should render correctly 1`] = `
                           class="cta-button__text"
                         >
                           LinkedIn
+                        </span>
+                        <span
+                          class="cta-button__chevron ml-3"
+                        >
+                          <svg
+                            class="cta-button__chevron-icon size-2"
+                            fill="currentColor"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 320 512"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                            />
+                          </svg>
                         </span>
                       </a>
                     </div>
