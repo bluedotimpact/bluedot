@@ -1,6 +1,7 @@
 import {
   eq, inArray, and, getPgAirtableFromIds, metaTable,
 } from '@bluedot/db';
+import { logger } from '@bluedot/ui/src/api';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
@@ -48,7 +49,7 @@ export async function initializeWebhooks(): Promise<void> {
 
   // Create webhooks for each base with their specific field filters
   const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
-    console.log(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
+    logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
     return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
       webhookInstances[baseId] = webhook;
     });
@@ -56,7 +57,7 @@ export async function initializeWebhooks(): Promise<void> {
 
   await Promise.all(webhookPromises);
 
-  console.log(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+  logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
 }
 
 /**
@@ -105,13 +106,13 @@ export async function pollForUpdates(): Promise<void> {
       const updates = await webhook.popActions();
       allUpdates.push(deduplicateActions(updates));
     } catch (err) {
-      console.error('[pollForUpdates] Failed to poll webhook:', err);
+      logger.error('[pollForUpdates] Failed to poll webhook:', err);
     }
   }
 
   for (const updates of allUpdates) {
     if (updates.length > 0) {
-      console.log(`[pollForUpdates] Adding ${updates.length} updates to queue`);
+      logger.info(`[pollForUpdates] Adding ${updates.length} updates to queue`);
     }
     addToQueue(updates, 'high');
   }
@@ -148,7 +149,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
     });
 
     if (!pgAirtable) {
-      console.warn(`[processSingleUpdate] No pgAirtable found for baseId=${update.baseId}, tableId=${update.tableId}. Skipping update.`);
+      logger.warn(`[processSingleUpdate] No pgAirtable found for baseId=${update.baseId}, tableId=${update.tableId}. Skipping update.`);
       return true;
     }
 
@@ -173,7 +174,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
 
     return true;
   } catch (err) {
-    console.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
+    logger.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
     return false;
   }
 }
@@ -188,7 +189,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
     iteration += 1;
 
     if (iteration % 100 === 1) {
-      console.log(`[processUpdateQueue] Iteration ${iteration}, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
+      logger.info(`[processUpdateQueue] Iteration ${iteration}, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
     }
 
     let update: AirtableAction | undefined;
@@ -213,17 +214,17 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
 
       if (currentRetries + 1 < MAX_RETRIES) {
         retryCountMap.set(retryKey, currentRetries + 1);
-        console.log(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        logger.info(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
         addToQueue([update], 'low');
       } else {
-        console.error(`[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        logger.error(`[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`);
         retryCountMap.delete(retryKey);
       }
     }
   }
 
   if (processedCount > 0) {
-    console.log(`[processUpdateQueue] Processing cycle completed. Processed ${processedCount} updates.`);
+    logger.info(`[processUpdateQueue] Processing cycle completed. Processed ${processedCount} updates.`);
   }
 }
 

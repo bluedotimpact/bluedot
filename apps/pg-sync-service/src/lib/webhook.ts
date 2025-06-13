@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { logger } from '@bluedot/ui/src/api';
 import env from '../env';
 import { RateLimiter } from './rate-limiter';
 
@@ -120,7 +121,7 @@ export class AirtableWebhook {
       // Use existing webhook
       this.webhookId = matchingWebhook.id;
       this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
-      console.log(`[AirtableWebhook] Using existing webhook ${this.webhookId} for base ${this.baseId} with ${this.fieldIds.length} field filters`);
+      logger.info(`[AirtableWebhook] Using existing webhook ${this.webhookId} for base ${this.baseId} with ${this.fieldIds.length} field filters`);
     } else {
       // 3. If not found, create the webhook
       const webhookSpec: unknown = {
@@ -143,7 +144,7 @@ export class AirtableWebhook {
 
       this.webhookId = createResponse.data.id;
       this.nextPayloadCursor = createResponse.data.cursorForNextPayload;
-      console.log(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}${this.fieldIds.length > 0 ? ` with field filtering: ${this.fieldIds.length} fields` : ''}`);
+      logger.info(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}${this.fieldIds.length > 0 ? ` with field filtering: ${this.fieldIds.length} fields` : ''}`);
     }
   }
 

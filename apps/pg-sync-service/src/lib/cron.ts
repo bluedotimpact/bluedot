@@ -1,4 +1,5 @@
 import cron from 'node-cron';
+import { logger } from '@bluedot/ui/src/api';
 import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
 
 const POLLING_INTERVAL_SECONDS = 5;
@@ -6,7 +7,7 @@ let isProcessing = false;
 
 cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, async () => {
   if (isProcessing) {
-    console.log('[cron] Skipping execution - previous cycle still running');
+    logger.info('[cron] Skipping execution - previous cycle still running');
     return;
   }
 
@@ -15,14 +16,14 @@ cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, async () => {
     await pollForUpdates();
     await processUpdateQueue();
   } catch (error) {
-    console.error('[cron] Error in processing cycle:', error);
+    logger.error('[cron] Error in processing cycle:', error);
   } finally {
     isProcessing = false;
   }
 });
 
 export const startCronJobs = () => {
-  console.log('Starting cron jobs...');
+  logger.info('Starting cron jobs...');
   initializeWebhooks();
   pollForUpdates();
 };

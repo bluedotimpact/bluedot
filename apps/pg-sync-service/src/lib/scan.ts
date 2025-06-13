@@ -1,6 +1,7 @@
 import {
   eq, getPgAirtableFromIds, metaTable, PgAirtableTable,
 } from '@bluedot/db';
+import { logger } from '@bluedot/ui/src/api';
 import { db } from './db';
 import { AirtableAction } from './webhook';
 
@@ -20,7 +21,7 @@ export async function processTableForInitialSync(
 
   const heartbeatInterval = setInterval(() => {
     const elapsed = Math.round((Date.now() - startTime) / 1000);
-    console.log(`[${tableId}] Heartbeat: ${elapsed}s elapsed`);
+    logger.info(`[${tableId}] Heartbeat: ${elapsed}s elapsed`);
   }, 10000);
 
   // TODO clean this up overall
@@ -37,7 +38,7 @@ export async function processTableForInitialSync(
         lastError = error instanceof Error ? error : new Error(String(error));
 
         if (attempt < maxRetries) {
-          console.warn(`[${tableId}] Scan failed on attempt ${attempt}/${maxRetries}, retrying in ${retryDelay}ms:`, error);
+          logger.warn(`[${tableId}] Scan failed on attempt ${attempt}/${maxRetries}, retrying in ${retryDelay}ms:`, error);
           // eslint-disable-next-line no-await-in-loop -- Intentional retry delay
           await new Promise((resolve) => {
             setTimeout(resolve, retryDelay);
@@ -53,7 +54,7 @@ export async function processTableForInitialSync(
     }
 
     const duration = Date.now() - startTime;
-    console.log(`Scanned ${records.length} records from ${tableId} in ${duration}ms`);
+    logger.info(`Scanned ${records.length} records from ${tableId} in ${duration}ms`);
 
     for (const [index, record] of records.entries()) {
       const action: AirtableAction = {
@@ -69,14 +70,14 @@ export async function processTableForInitialSync(
 
       if (records.length > 10000 && (index + 1) % 5000 === 0) {
         const progress = Math.round(((index + 1) / records.length) * 100);
-        console.log(`Progress: ${index + 1}/${records.length} (${progress}%)`);
+        logger.info(`Progress: ${index + 1}/${records.length} (${progress}%)`);
       }
     }
 
-    console.log(`Queued ${records.length} records from ${tableId}`);
+    logger.info(`Queued ${records.length} records from ${tableId}`);
     return records.length;
   } catch (error) {
-    console.error(`Error scanning ${tableId}:`, error);
+    logger.error(`Error scanning ${tableId}:`, error);
     throw error;
   } finally {
     clearInterval(heartbeatInterval);
@@ -89,7 +90,7 @@ export async function processTableForInitialSync(
 export async function performInitialSync(
   addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void,
 ): Promise<void> {
-  console.log('🚀 Starting initial sync...');
+  logger.info('🚀 Starting initial sync...');
 
   const tableFieldMappings = await db.pg
     .select({
@@ -110,7 +111,7 @@ export async function performInitialSync(
   }
 
   const tableKeys = Object.keys(tableFieldMap);
-  console.log(`Found ${tableKeys.length} tables to sync`);
+  logger.info(`Found ${tableKeys.length} tables to sync`);
 
   let totalRecords = 0;
 
@@ -125,16 +126,16 @@ export async function performInitialSync(
     const fieldIds = tableFieldMap[tableKey];
 
     if (!baseId || !tableId || !fieldIds) {
-      console.warn(`Invalid table key: ${tableKey}, skipping`);
+      logger.warn(`Invalid table key: ${tableKey}, skipping`);
       // eslint-disable-next-line no-continue -- Early continue is cleaner than nested if blocks
       continue;
     }
 
-    console.log(`[${index + 1}/${tableKeys.length}] Processing ${tableId}...`);
+    logger.info(`[${index + 1}/${tableKeys.length}] Processing ${tableId}...`);
 
     const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
     if (!pgAirtable) {
-      console.warn(`No pgAirtable config found for ${tableId}, skipping`);
+      logger.warn(`No pgAirtable config found for ${tableId}, skipping`);
       // eslint-disable-next-line no-continue -- Early continue is cleaner than nested if blocks
       continue;
     }
@@ -150,9 +151,9 @@ export async function performInitialSync(
       );
       totalRecords += recordCount;
     } catch (error) {
-      console.error(`Error processing ${tableId}:`, error);
+      logger.error(`Error processing ${tableId}:`, error);
     }
   }
 
-  console.log(`🎉 Initial sync completed! Total records queued: ${totalRecords}`);
+  logger.info(`🎉 Initial sync completed! Total records queued: ${totalRecords}`);
 }

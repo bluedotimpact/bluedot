@@ -1,3 +1,5 @@
+import { logger } from '@bluedot/ui/src/api';
+
 /**
  * Simple rate limiter for Airtable API calls
  */
@@ -28,7 +30,7 @@ export class RateLimiter {
       const waitTime = this.windowMs - (now - oldestRequest) + 1;
 
       if (waitTime > 0) {
-        console.log(`[AirtableRateLimiter] Rate limit reached, waiting ${waitTime}ms`);
+        logger.info(`[AirtableRateLimiter] Rate limit reached, waiting ${waitTime}ms`);
         await new Promise<void>((resolve) => {
           setTimeout(resolve, waitTime);
         });
