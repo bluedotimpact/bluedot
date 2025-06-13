@@ -2,6 +2,7 @@ import {
   eq, inArray, and, getPgAirtableFromIds, metaTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
+import { AirtableItemFromColumnsMap, PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
@@ -157,7 +158,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
       // Fast path: use pre-fetched record data from initial sync
       await db.ensureReplicated({
         table: pgAirtable,
-        fullData: update.recordData,
+        fullData: update.recordData as AirtableItemFromColumnsMap<Record<string, PgAirtableColumnInput>>,
         id: update.recordId,
         isDelete: update.isDelete,
       });

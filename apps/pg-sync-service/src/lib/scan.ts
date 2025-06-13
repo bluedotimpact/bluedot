@@ -63,7 +63,7 @@ export async function processTableForInitialSync(
         recordId: record.id,
         isDelete: false,
         fieldIds,
-        recordData: record as unknown as Record<string, unknown>,
+        recordData: record as { id: string } & Record<string, string | string[] | number | boolean | null>,
       };
 
       addToQueue(action, 'low');

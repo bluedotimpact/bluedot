@@ -44,7 +44,7 @@ export type AirtableAction = {
   recordId: string;
   fieldIds?: string[];
   isDelete?: boolean;
-  recordData?: { id: string & Record<string, string | string[] | number | boolean | null>; }
+  recordData?: { id: string } & Record<string, string | string[] | number | boolean | null>;
 };
 
 type ListWebhookPayloadsApiResponse = {
