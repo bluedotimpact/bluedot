@@ -1,0 +1,1 @@
+export { validateEnv } from './validateEnv';

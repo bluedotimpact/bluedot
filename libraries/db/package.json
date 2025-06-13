@@ -1,0 +1,34 @@
+{
+    "name": "@bluedot/db",
+    "version": "0.0.1",
+    "private": true,
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "scripts": {
+        "sync-fields": "ts-node src/scripts/sync-fields.ts",
+        "validate-schema": "ts-node src/scripts/validate-schema.ts",
+        "push": "npm run validate-schema && drizzle-kit push && npm run sync-fields",
+        "generate": "npm run validate-schema && drizzle-kit generate",
+        "migrate": "drizzle-kit migrate && npm run sync-fields",
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix",
+        "test": "vitest --run",
+        "test:watch": "vitest"
+    },
+    "dependencies": {
+        "@bluedot/utils": "*",
+        "airtable-ts": "^1.5.0",
+        "drizzle-orm": "^0.43.1",
+        "pg": "^8.15.6"
+    },
+    "devDependencies": {
+        "@bluedot/eslint-config": "*",
+        "@bluedot/typescript-config": "*",
+        "@types/node": "^22.15.21",
+        "drizzle-kit": "^0.31.1",
+        "eslint": "^8.57.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.3"
+    }
+}

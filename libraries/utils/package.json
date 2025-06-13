@@ -1,0 +1,24 @@
+{
+  "name": "@bluedot/utils",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "vitest --run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@bluedot/eslint-config": "*",
+    "@bluedot/typescript-config": "*",
+    "@types/node": "^22.15.21",
+    "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^16.4.7",
+    "eslint": "^8.57.0",
+    "happy-dom": "^14.7.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
+  }
+}

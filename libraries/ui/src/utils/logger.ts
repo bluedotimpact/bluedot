@@ -1,5 +1,5 @@
 import winston from 'winston';
-import winstonDevConsole from '@epegzz/winston-dev-console';
+import { consoleFormat } from 'winston-console-format';
 
 export const logger = winston.createLogger({
   level: 'info',
@@ -17,7 +17,8 @@ export const logger = winston.createLogger({
       // in development: stdout, but pretty 🌈
       : new winston.transports.Console({
         format: winston.format.combine(
-          winstonDevConsole.format(),
+          winston.format.colorize({ all: true }),
+          consoleFormat({ metaStrip: ['timestamp'] }),
         ),
       }),
   ],

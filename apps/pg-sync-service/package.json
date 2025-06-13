@@ -1,0 +1,53 @@
+{
+    "name": "@bluedot/pg-sync-service",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "root": "dotenv -e .env.local -- npm run --prefix ../../",
+        "start": "tsup --watch & dotenv -e .env.local --fallback .env -- nodemon --watch dist --ext js dist/index.js",
+        "build": "tsc && tsup && mkdir -p dist_tools && cp ../../package-lock.json dist_tools",
+        "test": "vitest --run",
+        "test:watch": "vitest",
+        "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "dependencies": {
+        "@bluedot/db": "*",
+        "@bluedot/ui": "*",
+        "@bluedot/utils": "*",
+        "@fastify/cors": "^8.5.0",
+        "@ts-rest/core": "^3.41.1",
+        "@ts-rest/fastify": "^3.41.1",
+        "axios": "^1.6.8",
+        "fastify": "^4.26.2",
+        "fastify-plugin": "^4.5.1",
+        "http-errors": "^2.0.0",
+        "node-cron": "^4.0.7",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@bluedot/docker-scripts": "*",
+        "@bluedot/eslint-config": "*",
+        "@bluedot/typescript-config": "*",
+        "@types/http-errors": "^2.0.4",
+        "@types/node": "^22.13.2",
+        "@types/node-cron": "^3.0.11",
+        "dotenv-cli": "^8.0.0",
+        "eslint": "^8.57.0",
+        "nodemon": "^3.1.10",
+        "tsup": "^8.0.1",
+        "typescript": "^5.8.3",
+        "vitest": "^3.2.3"
+    },
+    "tsup": {
+        "entry": [
+            "src/index.ts"
+        ],
+        "noExternal": [
+            "@bluedot/db",
+            "@bluedot/ui",
+            "@bluedot/utils"
+        ],
+        "outDir": "dist"
+    }
+}
