@@ -1,11 +1,12 @@
 import winston from 'winston';
-import winstonDevConsole from '@epegzz/winston-dev-console';
+import { consoleFormat } from 'winston-console-format';
 
 export const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true }),
+    winston.format.splat(),
   ),
   transports: [
     // eslint-disable-next-line turbo/no-undeclared-env-vars
@@ -17,7 +18,8 @@ export const logger = winston.createLogger({
       // in development: stdout, but pretty 🌈
       : new winston.transports.Console({
         format: winston.format.combine(
-          winstonDevConsole.format(),
+          winston.format.colorize({ all: true }),
+          consoleFormat({ metaStrip: ['timestamp'] }),
         ),
       }),
   ],

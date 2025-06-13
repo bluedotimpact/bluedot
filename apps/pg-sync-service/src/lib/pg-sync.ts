@@ -234,3 +234,12 @@ export function getQueueStatus(): { high: number; low: number } {
     low: lowPriorityQueue.length,
   };
 }
+
+/**
+ * Clear all queues and retry counts - used for testing
+ */
+export function clearQueues(): void {
+  highPriorityQueue.length = 0;
+  lowPriorityQueue.length = 0;
+  retryCountMap.clear();
+}

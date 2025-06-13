@@ -2,14 +2,49 @@ import {
   describe,
   expect,
   test,
+  beforeEach,
+  vi,
 } from 'vitest';
 import {
   addToQueue,
   processUpdateQueue,
   getQueueStatus,
   deduplicateActions,
+  clearQueues,
 } from './pg-sync';
 import type { AirtableAction } from './webhook';
+
+// Mock the db module
+vi.mock('./db', () => ({
+  db: {
+    pg: {
+      select: vi.fn().mockReturnValue({
+        from: vi.fn().mockReturnValue({
+          where: vi.fn().mockReturnValue({
+            limit: vi.fn().mockResolvedValue([]),
+          }),
+        }),
+      }),
+    },
+    ensureReplicated: vi.fn().mockResolvedValue(undefined),
+  },
+}));
+
+// Mock the @bluedot/db module
+vi.mock('@bluedot/db', () => ({
+  eq: vi.fn(),
+  inArray: vi.fn(),
+  and: vi.fn(),
+  getPgAirtableFromIds: vi.fn().mockReturnValue({
+    airtable: { name: 'test' },
+  }),
+  metaTable: {
+    airtableBaseId: 'baseId',
+    airtableTableId: 'tableId',
+    airtableFieldId: 'fieldId',
+    enabled: 'enabled',
+  },
+}));
 
 describe('deduplicateActions', () => {
   test('deduplicates actions by baseId, tableId, recordId and unions fieldIds, ORs isDelete', () => {
@@ -86,6 +121,12 @@ describe('deduplicateActions', () => {
 });
 
 describe('pg-sync priority queue', () => {
+  beforeEach(() => {
+    // Clear queues between tests to ensure test isolation
+    clearQueues();
+    vi.clearAllMocks();
+  });
+
   test('should process high priority items first', async () => {
     const processOrder: string[] = [];
 
