@@ -59,6 +59,11 @@ export default makeApiRoute({
 });
 
 const getFileExtension = (contentType: string) => {
+  // Special case
+  if (contentType === 'image/svg+xml') {
+    return '.svg';
+  }
+
   const parts = contentType.split('/');
   return `.${parts[parts.length - 1]}`;
 };
