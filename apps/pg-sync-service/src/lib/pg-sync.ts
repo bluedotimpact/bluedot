@@ -157,8 +157,6 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
       // Fast path: use pre-fetched record data from initial sync
       await db.ensureReplicated({
         table: pgAirtable,
-        // TODO fix
-        // @ts-expect-error
         fullData: update.recordData,
         id: update.recordId,
         isDelete: update.isDelete,

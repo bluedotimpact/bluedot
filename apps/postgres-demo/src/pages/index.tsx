@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   CTALinkOrButton, NewText,
 } from '@bluedot/ui';
-import { ExampleComponent } from '../components/ExampleComponent';
 
 const HomePage = () => {
   const [count, setCount] = useState(0);
@@ -11,7 +10,6 @@ const HomePage = () => {
     <div className="section-body gap-2">
       <NewText.H1>postgres-demo</NewText.H1>
       <NewText.P>This is some example text</NewText.P>
-      <ExampleComponent />
       <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
         count is {count}
       </CTALinkOrButton>

@@ -22,6 +22,7 @@ export class RateLimiter {
   async acquire(): Promise<void> {
     const now = Date.now();
 
+    // Remove timestamps outside the current window
     this.requests = this.requests.filter((timestamp) => now - timestamp < this.windowMs);
 
     // If we're at the limit, wait until we can make another request
@@ -39,7 +40,7 @@ export class RateLimiter {
     }
 
     // Record this request
-    this.requests.push(now); // TODO give this a limited length
+    this.requests.push(now);
     return Promise.resolve();
   }
 }

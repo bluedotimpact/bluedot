@@ -44,9 +44,7 @@ export type AirtableAction = {
   recordId: string;
   fieldIds?: string[];
   isDelete?: boolean;
-  // TODO improve type
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  recordData?: Record<string, any>;
+  recordData?: { id: string & Record<string, string | string[] | number | boolean | null>; }
 };
 
 type ListWebhookPayloadsApiResponse = {

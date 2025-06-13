@@ -96,12 +96,15 @@ function registerPgAirtableTable({
   tableId: string;
 }): void {
   const key = makePgAirtableKey(baseId, tableId);
+  if (pgAirtableTableRegistry[key]) {
+    throw new Error(`Duplicate table key: ${key}`);
+  }
   pgAirtableTableRegistry[key] = table;
 }
 
 export function getPgAirtableFromIds(
   { baseId, tableId }: { baseId: string; tableId: string; },
-): PgAirtableTable | undefined {
+): PgAirtableTable<string, Record<string, PgAirtableColumnInput>> | undefined {
   const key = makePgAirtableKey(baseId, tableId);
   return pgAirtableTableRegistry[key];
 }
@@ -115,9 +118,7 @@ export function pgAirtable<
 ): PgAirtableTable<TTableName, TColumnsMap> {
   const result = new PgAirtableTable(name, config);
 
-  // TODO fix
-  // @ts-expect-error
-  registerPgAirtableTable({ table: result, baseId: config.baseId, tableId: config.tableId });
+  registerPgAirtableTable({ table: result as unknown as PgAirtableTable, baseId: config.baseId, tableId: config.tableId });
 
   return result;
 }

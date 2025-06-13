@@ -34,8 +34,8 @@ export default AuthedPage;
 
 const PeopleListView: React.FC = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<z.infer<typeof CourseSchema>[]>({
-    method: 'post',
-    url: '/api/public/people',
+    method: 'get',
+    url: '/api/public/courses',
     headers: {
       Authorization: `Bearer ${auth.token}`,
     },

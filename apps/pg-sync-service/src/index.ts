@@ -24,16 +24,15 @@ const start = async () => {
     if (hasInitialSyncFlag) {
       logger.info('[main] Starting initial sync in parallel with normal operations...');
 
-      performInitialSync(addToQueue)
-        .then(() => {
-          logger.info('[main] Initial sync completed successfully');
-        })
-        .catch((error) => {
-          logger.error('[main] Initial sync failed:', error);
-        });
+      try {
+        await performInitialSync(addToQueue)
+        logger.info('[main] Initial sync completed successfully');
+      } catch (error) {
+        logger.error('[main] Initial sync failed:', error);
+      }
     }
-  } catch (err) {
-    logger.error('Failed to start server', err);
+  } catch (error) {
+    logger.error('Failed to start server', error);
     process.exit(1);
   }
 };

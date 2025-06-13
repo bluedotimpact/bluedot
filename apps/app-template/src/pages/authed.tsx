@@ -32,7 +32,7 @@ export default AuthedPage;
 
 const PeopleListView: React.FC = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<Person[]>({
-    method: 'post',
+    method: 'get',
     url: '/api/public/people',
     headers: {
       Authorization: `Bearer ${auth.token}`,
