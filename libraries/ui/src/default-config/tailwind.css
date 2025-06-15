@@ -86,7 +86,7 @@
         @apply text-color-secondary-text font-sans text-size-md font-[650];
     }
     .bluedot-p {
-        @apply text-color-text font-sans text-size-sm font-normal;
+        @apply text-color-text font-sans text-size-sm font-normal leading-[1.6];
     }
     .bluedot-a {
         @apply text-color-secondary-text hover:text-color-primary-accent cursor-pointer underline;
