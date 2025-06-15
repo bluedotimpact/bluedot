@@ -82,10 +82,6 @@ export { addQueryParam } from './utils/addQueryParam';
 export { maybePlural } from './utils';
 export { asError } from './utils/asError';
 export { useAuthStore, withAuth, type Auth } from './utils/auth';
-export {
-  makeMakeApiRoute, StreamingResponseSchema, type Handler, type MakeMakeApiRouteEnv, type RouteOptions,
-} from './utils/makeMakeApiRoute';
-export { slackAlert } from './utils/slackAlert';
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
