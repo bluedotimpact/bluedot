@@ -26,12 +26,12 @@ export const metaTable = pgTable('meta', {
  */
 export const syncMetadataTable = pgTable('sync_metadata', {
   id: text().primaryKey().default('singleton'), // Single row table
-  lastFullSyncAt: timestamp('last_full_sync_at'),
-  lastIncrementalSyncAt: timestamp('last_incremental_sync_at'),
-  syncInProgress: boolean('sync_in_progress').default(false),
-  lastSyncStatus: text('last_sync_status'), // 'success', 'failed', 'in_progress'
-  lastSyncError: text('last_sync_error'),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  lastFullSyncAt: timestamp(),
+  lastIncrementalSyncAt: timestamp(),
+  syncInProgress: boolean().default(false),
+  lastSyncStatus: text(), // 'success', 'failed', 'in_progress'
+  lastSyncError: text(),
+  updatedAt: timestamp().defaultNow(),
 });
 
 export const courseTable = pgAirtable('course', {
