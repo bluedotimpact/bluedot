@@ -6,6 +6,9 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
+ARG APP_NAME
+ENV APP_NAME=${APP_NAME}
+
 COPY package.json ./
 COPY dist_tools/package-lock.json ./
 
