@@ -83,7 +83,7 @@ PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-sec
 export KUBECONFIG=$(pwd)/kubeconfig.yaml
 ```
 
-### Connect to the database
+### Connect to the database
 
 1. [Set up your kubectl connection](#connect-to-the-cluster-with-kubectl)
 2. Install a database client, e.g. [Postico](https://eggerapps.at/postico2/)
