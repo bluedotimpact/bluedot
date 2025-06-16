@@ -16,9 +16,10 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
 import { useState } from 'react';
+import React from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
-  FaCubesStacked, FaPen,
+  FaCubesStacked,
 } from 'react-icons/fa6';
 import { GetUserResponse } from './api/users/me';
 import { GetCourseRegistrationsResponse } from './api/course-registrations';
@@ -57,18 +58,34 @@ const ProfilePage = withAuth(({ auth }) => {
   });
 
   // State for name editing
-  const [isEditingName, setIsEditingName] = useState(false);
   const [tempName, setTempName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [nameError, setNameError] = useState('');
+  const [currentSavedName, setCurrentSavedName] = useState('');
+
+  // Initialize tempName and currentSavedName when userData is loaded (only once)
+  const [isInitialized, setIsInitialized] = useState(false);
+  React.useEffect(() => {
+    if (userData?.user && !isInitialized) {
+      const name = userData.user.name || '';
+      setTempName(name);
+      setCurrentSavedName(name);
+      setIsInitialized(true);
+    }
+  }, [userData?.user, isInitialized]);
 
   // Name editing handlers
   const handleSave = async () => {
     const trimmedName = tempName.trim();
     
+    // Check if name is empty
+    if (trimmedName === '') {
+      setNameError('Name cannot be empty.');
+      return;
+    }
+    
     // Check if name hasn't changed
-    if (trimmedName === userData?.user.name) {
-      setIsEditingName(false);
+    if (trimmedName === currentSavedName) {
       return;
     }
 
@@ -86,9 +103,8 @@ const ProfilePage = withAuth(({ auth }) => {
         }
       );
 
-      // Refetch user data to update UI
-      await refetchUser();
-      setIsEditingName(false);
+      // Update the saved name state immediately since save was successful
+      setCurrentSavedName(trimmedName);
     } catch (err: any) {
       if (err.response?.status === 401) {
         setNameError('Session expired. Please refresh the page and try again.');
@@ -104,14 +120,11 @@ const ProfilePage = withAuth(({ auth }) => {
   };
 
   const handleCancel = () => {
-    setTempName(userData?.user.name || '');
-    setIsEditingName(false);
+    setTempName(currentSavedName);
     setNameError('');
   };
 
-  const handleEditStart = () => {
-    setTempName(userData?.user.name || '');
-    setIsEditingName(true);
+  const handleFocus = () => {
     setNameError('');
   };
 
@@ -151,13 +164,12 @@ const ProfilePage = withAuth(({ auth }) => {
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="profile__enrolled-courses flex flex-col gap-4">
               <ProfileAccountDetails
-                userName={userData.user.name}
+                userName={currentSavedName || userData.user.name}
                 userEmail={userData.user.email}
-                isEditingName={isEditingName}
                 tempName={tempName}
                 isSaving={isSaving}
                 nameError={nameError}
-                onEditStart={handleEditStart}
+                onFocus={handleFocus}
                 onNameChange={setTempName}
                 onSave={handleSave}
                 onCancel={handleCancel}
@@ -178,13 +190,12 @@ const ProfilePage = withAuth(({ auth }) => {
 
 // ProfileAccountDetails Component - Pure UI Component
 type ProfileAccountDetailsProps = {
-  userName: string;
+  userName: string | null | undefined;
   userEmail: string;
-  isEditingName: boolean;
   tempName: string;
   isSaving: boolean;
   nameError: string;
-  onEditStart: () => void;
+  onFocus: () => void;
   onNameChange: (name: string) => void;
   onSave: () => void;
   onCancel: () => void;
@@ -193,77 +204,62 @@ type ProfileAccountDetailsProps = {
 const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
   userName,
   userEmail,
-  isEditingName,
   tempName,
   isSaving,
   nameError,
-  onEditStart,
+  onFocus,
   onNameChange,
   onSave,
   onCancel,
 }) => {
+  // Show buttons when value is different from current saved value
+  // Note: We still use userName for display consistency but the logic for showing buttons
+  // is now handled in the parent component using currentSavedName
+  const showButtons = tempName !== (userName || '');
   return (
     <>
       <H3>Account details</H3>
       <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
         <div className="profile-name">
-          {!isEditingName ? (
-            <div 
-              className="profile-name__display cursor-pointer hover:bg-gray-50 group p-2 -m-2 rounded-lg flex items-center justify-between"
-              onClick={onEditStart}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onEditStart();
-                }
-              }}
-            >
-              <P><span className="font-bold">Name:</span> {userName || 'Not set'}</P>
-              <FaPen size={14} className="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-          ) : (
-            <div className="profile-name--editing">
-              <div className="flex flex-col gap-2">
-                <P><span className="font-bold">Name:</span></P>
-                <div className="flex gap-2 items-center">
-                  <Input
-                    inputClassName="profile-name__input"
-                    labelClassName="flex-1 min-w-0"
-                    value={tempName}
-                    onChange={(e) => onNameChange(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') onSave();
-                      if (e.key === 'Escape') onCancel();
-                    }}
-                    placeholder="Enter your name"
-                    autoFocus
-                  />
-                  <div className="profile-name__buttons flex gap-2 flex-shrink-0">
-                    <CTALinkOrButton
-                      variant="primary"
-                      onClick={onSave}
-                      disabled={isSaving}
-                      className="whitespace-nowrap"
-                    >
-                      {isSaving ? 'Saving...' : 'Save'}
-                    </CTALinkOrButton>
-                    <CTALinkOrButton
-                      variant="secondary"
-                      onClick={onCancel}
-                      disabled={isSaving}
-                    >
-                      Cancel
-                    </CTALinkOrButton>
-                  </div>
+          <div className="flex flex-col gap-2">
+            <P><span className="font-bold">Name:</span></P>
+            <div className="flex gap-2 items-center">
+              <Input
+                inputClassName="profile-name__input"
+                labelClassName="flex-1 min-w-0"
+                value={tempName}
+                onChange={(e) => onNameChange(e.target.value)}
+                onFocus={onFocus}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onSave();
+                  if (e.key === 'Escape') onCancel();
+                }}
+                placeholder="Enter your name"
+              />
+              {showButtons && (
+                <div className="profile-name__buttons flex gap-2 flex-shrink-0">
+                  <CTALinkOrButton
+                    variant="primary"
+                    onClick={onSave}
+                    disabled={isSaving}
+                    className="whitespace-nowrap"
+                  >
+                    {isSaving ? 'Saving...' : 'Save'}
+                  </CTALinkOrButton>
+                  <CTALinkOrButton
+                    variant="secondary"
+                    onClick={onCancel}
+                    disabled={isSaving}
+                  >
+                    Cancel
+                  </CTALinkOrButton>
                 </div>
-                {nameError && (
-                  <p className="profile-name--error text-red-600 text-sm mt-1">{nameError}</p>
-                )}
-              </div>
+              )}
             </div>
-          )}
+            {nameError && (
+              <p className="profile-name--error text-red-600 text-sm mt-1">{nameError}</p>
+            )}
+          </div>
         </div>
         <P><span className="font-bold">Email:</span> {userEmail}</P>
       </div>

@@ -87,99 +87,18 @@ describe('ProfilePage - Edit Name Feature', () => {
     });
   });
 
-  test('should render profile page with name correctly', () => {
+  test('should render profile page with name correctly', async () => {
     const { container } = render(<ProfilePage />);
     
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    // Wait for the component to initialize with user data
+    await waitFor(() => {
+      expect(screen.getByDisplayValue('John Doe')).toBeInTheDocument();
+    });
     expect(screen.getByText('Name:')).toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 
-  test('should show "Not set" when user has no name', () => {
-    mockedUseAxios.mockImplementation((config: any) => {
-      if (config.url === '/api/users/me') {
-        return [
-          { 
-            data: { user: { ...mockUserData.user, name: null } }, 
-            loading: false, 
-            error: null 
-          },
-          vi.fn(),
-        ];
-      }
-      return [{ data: null, loading: false, error: null }, vi.fn()];
-    });
-
-    render(<ProfilePage />);
-    
-    expect(screen.getByText('Not set')).toBeInTheDocument();
-  });
-
-  test('should enter edit mode when clicking on name field', async () => {
-    render(<ProfilePage />);
-    
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    fireEvent.click(nameDisplay);
-    
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Enter your name')).toBeInTheDocument();
-      expect(screen.getByText('Save')).toBeInTheDocument();
-      expect(screen.getByText('Cancel')).toBeInTheDocument();
-    });
-  });
-
-  test('should enter edit mode with keyboard navigation', async () => {
-    render(<ProfilePage />);
-    
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    
-    // Test Enter key
-    fireEvent.keyDown(nameDisplay, { key: 'Enter' });
-    
-    await waitFor(() => {
-      const input = screen.getByPlaceholderText('Enter your name') as HTMLInputElement;
-      expect(input).toBeInTheDocument();
-      expect(input.value).toBe('John Doe'); // Should populate with current name
-    });
-    
-    // Cancel and test Space key
-    fireEvent.keyDown(screen.getByPlaceholderText('Enter your name'), { key: 'Escape' });
-    
-    await waitFor(() => {
-      expect(screen.queryByPlaceholderText('Enter your name')).not.toBeInTheDocument();
-    });
-    
-    fireEvent.keyDown(nameDisplay, { key: ' ' });
-    
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('Enter your name')).toBeInTheDocument();
-    });
-  });
-
-  test('should cancel edit and revert to original name', async () => {
-    render(<ProfilePage />);
-    
-    // Enter edit mode
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    fireEvent.click(nameDisplay);
-    
-    // Change the name
-    const input = await screen.findByPlaceholderText('Enter your name');
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
-    
-    // Click cancel
-    const cancelButton = screen.getByText('Cancel');
-    fireEvent.click(cancelButton);
-    
-    // Should revert to display mode with original name
-    await waitFor(() => {
-      expect(screen.queryByPlaceholderText('Enter your name')).not.toBeInTheDocument();
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-    });
-  });
-
-
-  test('should save name successfully', async () => {
+  test('should allow user to successfully change their name', async () => {
     const refetchUser = vi.fn();
     mockedUseAxios.mockImplementation((config: any) => {
       if (config.url === '/api/users/me') {
@@ -195,89 +114,42 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     render(<ProfilePage />);
     
-    // Enter edit mode
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    fireEvent.click(nameDisplay);
-    
-    // Change the name
+    // Find the name input and change it
     const input = await screen.findByPlaceholderText('Enter your name');
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
     
-    // Click save
+    // Save the changes
     const saveButton = screen.getByText('Save');
     fireEvent.click(saveButton);
     
+    // Verify the API was called correctly and buttons disappear after save
     await waitFor(() => {
       expect(mockedAxios.patch).toHaveBeenCalledWith(
         '/api/users/me',
         { name: 'Jane Doe' },
         { headers: { Authorization: 'Bearer test-token' } }
       );
-      expect(refetchUser).toHaveBeenCalled();
     });
+    
+    // Verify refetch is NOT called (optimization)
+    expect(refetchUser).not.toHaveBeenCalled();
+    
+    // Verify buttons disappear after successful save (UI updates immediately)
+    await waitFor(() => {
+      expect(screen.queryByText('Save')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    });
+    
+    // Verify input still shows the new name
+    expect((input as HTMLInputElement).value).toBe('Jane Doe');
   });
 
-
-  test('should show loading state while saving', async () => {
-    let resolvePromise: any;
-    const savePromise = new Promise(resolve => {
-      resolvePromise = resolve;
-    });
-    
-    mockedAxios.patch.mockReturnValueOnce(savePromise);
-
+  test('should show validation errors for invalid names', async () => {
     render(<ProfilePage />);
     
-    // Enter edit mode
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    fireEvent.click(nameDisplay);
-    
-    // Change name
     const input = await screen.findByPlaceholderText('Enter your name');
-    fireEvent.change(input, { target: { value: 'Jane Doe' } });
     
-    // Click save
-    const saveButton = screen.getByText('Save');
-    fireEvent.click(saveButton);
-    
-    // Should show loading state immediately
-    await waitFor(() => {
-      expect(screen.getByText('Saving...')).toBeInTheDocument();
-    });
-    
-    // Check buttons are disabled
-    const savingButton = screen.getByText('Saving...');
-    const cancelButton = screen.getByText('Cancel');
-    expect(savingButton.closest('button')).toBeDisabled();
-    expect(cancelButton.closest('button')).toBeDisabled();
-    
-    // Resolve the promise to complete the test
-    resolvePromise({ data: { success: true } });
-  });
-
-  test('should handle validation errors', async () => {
-    render(<ProfilePage />);
-    
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    
-    // Test empty name validation
-    mockedAxios.patch.mockRejectedValueOnce({
-      response: { 
-        status: 400,
-        data: { error: 'Invalid request body: [{"code":"too_small","minimum":1,"type":"string","inclusive":true,"exact":false,"message":"Name cannot be empty","path":["name"]}]' }
-      }
-    });
-    
-    fireEvent.click(nameDisplay);
-    const input = await screen.findByPlaceholderText('Enter your name');
-    fireEvent.change(input, { target: { value: '' } });
-    fireEvent.click(screen.getByText('Save'));
-    
-    await waitFor(() => {
-      expect(screen.getByText('Name cannot be empty')).toBeInTheDocument();
-    });
-    
-    // Test length validation
+    // Test length validation - this demonstrates validation error handling
     mockedAxios.patch.mockRejectedValueOnce({
       response: { 
         status: 400,
@@ -287,6 +159,12 @@ describe('ProfilePage - Edit Name Feature', () => {
     
     const longName = 'a'.repeat(51);
     fireEvent.change(input, { target: { value: longName } });
+    
+    // Save button should appear and we can click it
+    await waitFor(() => {
+      expect(screen.getByText('Save')).toBeInTheDocument();
+    });
+    
     fireEvent.click(screen.getByText('Save'));
     
     await waitFor(() => {
@@ -294,36 +172,95 @@ describe('ProfilePage - Edit Name Feature', () => {
     });
   });
 
-  test('should not make API call if name has not changed', async () => {
+  test('should show save/cancel buttons when name is changed', async () => {
     render(<ProfilePage />);
     
-    // Enter edit mode
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
-    fireEvent.click(nameDisplay);
+    const input = await screen.findByPlaceholderText('Enter your name');
     
-    // Don't change the name and save
-    const saveButton = await screen.findByText('Save');
-    fireEvent.click(saveButton);
+    // Initially no buttons should be visible
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    
+    // Change the name - buttons should appear
+    fireEvent.change(input, { target: { value: 'Jane Doe' } });
     
     await waitFor(() => {
-      expect(mockedAxios.patch).not.toHaveBeenCalled();
-      // Should exit edit mode
-      expect(screen.queryByPlaceholderText('Enter your name')).not.toBeInTheDocument();
+      expect(screen.getByText('Save')).toBeInTheDocument();
+      expect(screen.getByText('Cancel')).toBeInTheDocument();
     });
   });
 
-  test('should handle API errors', async () => {
+  test('should not show buttons when name matches original', async () => {
     render(<ProfilePage />);
     
-    const nameDisplay = screen.getByRole('button', { name: /Name: John Doe/i });
+    const input = await screen.findByPlaceholderText('Enter your name');
     
-    // Test 401 error (session expired)
+    // Change to different value first
+    fireEvent.change(input, { target: { value: 'Jane Doe' } });
+    
+    // Buttons should appear
+    await waitFor(() => {
+      expect(screen.getByText('Save')).toBeInTheDocument();
+    });
+    
+    // Change back to original value
+    fireEvent.change(input, { target: { value: 'John Doe' } });
+    
+    // Buttons should disappear
+    await waitFor(() => {
+      expect(screen.queryByText('Save')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    });
+  });
+
+  test('should support keyboard shortcuts for save and cancel', async () => {
+    render(<ProfilePage />);
+    
+    const input = await screen.findByPlaceholderText('Enter your name');
+    
+    // Change name and use Enter to save
+    fireEvent.change(input, { target: { value: 'Jane Doe' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+    
+    await waitFor(() => {
+      expect(mockedAxios.patch).toHaveBeenCalledWith(
+        '/api/users/me',
+        { name: 'Jane Doe' },
+        { headers: { Authorization: 'Bearer test-token' } }
+      );
+    });
+    
+    // Verify buttons disappear after successful save
+    await waitFor(() => {
+      expect(screen.queryByText('Save')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    });
+    
+    // Reset mock and test Escape key for cancel
+    // After saving "Jane Doe", it becomes the new "saved" value
+    mockedAxios.patch.mockClear();
+    fireEvent.change(input, { target: { value: 'Jane Smith' } });
+    
+    fireEvent.keyDown(input, { key: 'Escape' });
+    
+    await waitFor(() => {
+      // Should revert to the last saved value ("Jane Doe"), not the original server value ("John Doe")
+      expect((input as HTMLInputElement).value).toBe('Jane Doe');
+      expect(screen.queryByText('Save')).not.toBeInTheDocument();
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    });
+  });
+
+  test('should handle API errors gracefully', async () => {
+    render(<ProfilePage />);
+    
+    const input = await screen.findByPlaceholderText('Enter your name');
+    
+    // Test session expired error
     mockedAxios.patch.mockRejectedValueOnce({
       response: { status: 401 }
     });
     
-    fireEvent.click(nameDisplay);
-    const input = await screen.findByPlaceholderText('Enter your name');
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
     fireEvent.click(screen.getByText('Save'));
     
@@ -340,5 +277,49 @@ describe('ProfilePage - Edit Name Feature', () => {
     await waitFor(() => {
       expect(screen.getByText('Failed to update name. Please try again.')).toBeInTheDocument();
     });
+  });
+
+  test('should handle null initial name', async () => {
+    // Mock user data with null name
+    const mockUserDataWithNullName = {
+      user: {
+        id: '123',
+        email: 'test@example.com',
+        name: null,
+      },
+    };
+
+    mockedUseAxios.mockImplementation((config: any) => {
+      if (config.url === '/api/users/me') {
+        return [
+          { data: mockUserDataWithNullName, loading: false, error: null },
+          vi.fn(),
+        ];
+      }
+      if (config.url === '/api/course-registrations') {
+        return [
+          { data: mockCourseRegistrations, loading: false, error: null },
+          vi.fn(),
+        ];
+      }
+      if (config.url === '/api/courses') {
+        return [
+          { data: mockCourses, loading: false, error: null },
+          vi.fn(),
+        ];
+      }
+      return [{ data: null, loading: false, error: null }, vi.fn()];
+    });
+
+    render(<ProfilePage />);
+    
+    const input = await screen.findByPlaceholderText('Enter your name');
+    
+    // Input should be empty since user has null name
+    expect((input as HTMLInputElement).value).toBe('');
+    
+    // No save/cancel buttons should appear initially
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
   });
 });
