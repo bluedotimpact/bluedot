@@ -13,7 +13,13 @@ async function runDrizzlePush(): Promise<void> {
   try {
     logger.info('[schema-sync] Running schema push...');
 
-    await (await pushSchema(schema, db.pg)).apply();
+    const pgTables = Object.fromEntries(Object.entries(schema)
+      .filter(([, value]) => 'getSQL' in value || 'pg' in value)
+      .map(([name, value]) => ([name, value instanceof PgAirtableTable ? value.pg : value])));
+    logger.info(`[schema-sync] Pushing tables: ${Object.keys(pgTables).join(', ')}`);
+
+    // TODO: add logic here
+    await (await pushSchema(pgTables, db.pg)).apply();
 
     logger.info('[schema-sync] ✅ Schema push completed successfully');
   } catch (error) {
