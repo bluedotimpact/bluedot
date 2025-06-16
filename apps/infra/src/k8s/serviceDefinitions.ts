@@ -58,8 +58,7 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    // TODO: remove website-25-staging after people stop going to it
-    hosts: ['website-staging.k8s.bluedot.org', 'website-25-staging.k8s.bluedot.org'],
+    hosts: ['website-staging.k8s.bluedot.org'],
   },
   {
     name: 'bluedot-website-production',
