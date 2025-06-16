@@ -87,7 +87,7 @@ const CertificatePage = () => {
               </div>
               <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
             </div>
-            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`https://course.bluedot.org/certification?id=${certificateId}`}>Share your achievement</ShareButton>
+            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`https://bluedot.org/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
         </div>
 

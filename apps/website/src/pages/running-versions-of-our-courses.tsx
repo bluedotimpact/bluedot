@@ -81,7 +81,7 @@ Yes, almost all our software and corresponding documentation is available [on Gi
 
 **Can you we use your facilitator training program?**
 
-Yes! The resources and exercises for our facilitator training course are [available online](https://course.bluedot.org/home/facilitator-training) for self-study.
+Yes! The resources and exercises for our facilitator training course are [available online](https://bluedot.org/courses/facilitator-training) for self-study.
 
 **I’m planning to run a local group / previously participated in a local group run version. Could I join the BlueDot facilitated course?**
 
