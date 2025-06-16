@@ -45,16 +45,16 @@ class SyncManager {
       const thresholdTime = new Date();
       thresholdTime.setHours(thresholdTime.getHours() - this.syncThresholdHours);
 
-      if (metadata.syncInProgress) {
-        logger.warn('[SyncManager] Sync is in progress but updatedAt is not recent, this may indicate a stuck sync. Will try to restart initial sync.');
-      }
-
-      if (metadata.lastFullSyncAt < thresholdTime) {
-        logger.info(`[SyncManager] Last full sync was ${metadata.lastFullSyncAt}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
+      const lastSyncAt = metadata.lastIncrementalSyncAt || metadata.lastFullSyncAt;
+      if (lastSyncAt < thresholdTime) {
+        logger.info(`[SyncManager] Last sync was ${lastSyncAt}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
+        if (metadata.syncInProgress) {
+          logger.warn('[SyncManager] Sync is in progress but updatedAt is not recent, this may indicate a stuck sync. Will try to restart initial sync.');
+        }
         return true;
       }
 
-      logger.info(`[SyncManager] Last full sync was recent (${metadata.lastFullSyncAt}), no initial sync needed`);
+      logger.info(`[SyncManager] Last sync was recent (${lastSyncAt}), no initial sync needed`);
       return false;
     } catch (error) {
       logger.error('[SyncManager] Error checking sync metadata:', error);
