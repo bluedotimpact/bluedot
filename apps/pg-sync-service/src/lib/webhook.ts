@@ -92,7 +92,11 @@ export class AirtableWebhook {
     await this.rateLimiter.acquire();
     const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
       `/bases/${this.baseId}/webhooks`,
-    );
+    ).catch((error) => {
+      const e = new Error(`Failed to list webhooks for base ${this.baseId}. Check your token has webhook:manage permissions.`, { cause: error });
+      logger.error(e);
+      throw e;
+    });
     const { webhooks } = response.data;
 
     // 2. Try to find a matching webhook that matches the desired criteria:

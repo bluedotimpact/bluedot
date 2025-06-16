@@ -26,15 +26,15 @@ export const metaTable = pgTable('meta', {
  */
 export const syncMetadataTable = pgTable('sync_metadata', {
   id: text().primaryKey().default('singleton'), // Single row table
-  lastFullSyncAt: timestamp('last_full_sync_at'),
-  lastIncrementalSyncAt: timestamp('last_incremental_sync_at'),
-  syncInProgress: boolean('sync_in_progress').default(false),
-  lastSyncStatus: text('last_sync_status'), // 'success', 'failed', 'in_progress'
-  lastSyncError: text('last_sync_error'),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  lastFullSyncAt: timestamp(),
+  lastIncrementalSyncAt: timestamp(),
+  syncInProgress: boolean().default(false),
+  lastSyncStatus: text(), // 'success', 'failed', 'in_progress'
+  lastSyncError: text(),
+  updatedAt: timestamp().defaultNow(),
 });
 
-export const courseTable = pgAirtable('Course', {
+export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
   columns: {
@@ -111,9 +111,8 @@ export const courseTable = pgAirtable('Course', {
     // },
   },
 });
-export const courseTablePg = courseTable.pg;
 
-export const unitFeedbackTable = pgAirtable('UnitFeedback', {
+export const unitFeedbackTable = pgAirtable('unit_feedback', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblBwjMjul1c6l7ea',
   columns: {
@@ -147,9 +146,8 @@ export const unitFeedbackTable = pgAirtable('UnitFeedback', {
     },
   },
 });
-export const unitFeedbackTablePg = unitFeedbackTable.pg;
 
-export const exerciseResponseTable = pgAirtable('ExerciseResponse', {
+export const exerciseResponseTable = pgAirtable('exercise_response', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblLNijbqwoLtkd3O',
   columns: {
@@ -171,4 +169,3 @@ export const exerciseResponseTable = pgAirtable('ExerciseResponse', {
     },
   },
 });
-export const exerciseResponseTablePg = exerciseResponseTable.pg;

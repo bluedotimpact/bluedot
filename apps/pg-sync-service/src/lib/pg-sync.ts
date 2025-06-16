@@ -188,7 +188,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
   while (highPriorityQueue.length > 0 || lowPriorityQueue.length > 0) {
     iteration += 1;
 
-    if (iteration % 100 === 1) {
+    if (iteration % 1000 === 1) {
       logger.info(`[processUpdateQueue] Iteration ${iteration}, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
     }
 

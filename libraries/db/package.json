@@ -5,11 +5,6 @@
     "main": "src/index.ts",
     "types": "src/index.ts",
     "scripts": {
-        "sync-fields": "ts-node src/scripts/sync-fields.ts",
-        "validate-schema": "ts-node src/scripts/validate-schema.ts",
-        "push": "npm run validate-schema && drizzle-kit push && npm run sync-fields",
-        "generate": "npm run validate-schema && drizzle-kit generate",
-        "migrate": "drizzle-kit migrate && npm run sync-fields",
         "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
         "lint:fix": "npm run lint -- --fix",
         "test": "vitest --run",

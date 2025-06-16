@@ -5,10 +5,12 @@ import { startCronJobs } from './lib/cron';
 import { performInitialSync } from './lib/scan';
 import { addToQueue } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
+import { ensureSchemaUpToDate } from './lib/schema-sync';
 
 const start = async () => {
   try {
     logger.info('Server starting...');
+    await ensureSchemaUpToDate();
 
     const instance = await getInstance();
     await instance.listen({
