@@ -79,7 +79,7 @@ Yes! These are linked on the individual course webpages.
 
 Yes, almost all our software and corresponding documentation is available [on GitHub](https://github.com/bluedotimpact/). You can raise issues there if you get stuck. We aren't currently able to provide hosted versions of our software, or technical support beyond this. Local groups are also welcome to direct users to our course hub to help learners track their own reading completions and exercises.
 
-**Can you we use your facilitator training program?**
+**Can we use your facilitator training program?**
 
 Yes! The resources and exercises for our facilitator training course are [available online](https://bluedot.org/courses/facilitator-training) for self-study.
 
