@@ -21,12 +21,6 @@ describe('Schema Validation', () => {
 
     // Should have at least some PgAirtableTable instances
     expect(airtableTables.length).toBeGreaterThan(0);
-
-    // Log found tables for debugging
-    console.log(`Found ${airtableTables.length} PgAirtable tables:`);
-    airtableTables.forEach(({ name, tableName }) => {
-      console.log(`  - ${name} (${tableName})`);
-    });
   });
 
   it('should have valid table names for all PgAirtableTable instances', () => {
