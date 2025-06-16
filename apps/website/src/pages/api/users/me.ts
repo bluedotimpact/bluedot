@@ -21,8 +21,17 @@ export type PatchUserBody = {
 export default makeApiRoute({
   requireAuth: true,
   requestBody: z.object({
-    name: z.string().optional(),
-    referredById: z.string().optional(),
+    name: z.string()
+      .trim()
+      .min(1, 'Name cannot be empty')
+      // 50 characters for a name seemed reasonable
+      .max(50, 'Name must be under 50 characters')
+      .regex(/^[a-zA-Z\s\-'.]+$/, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods')
+      .optional(),
+    referredById: z.string()
+      .trim()
+      .min(1, 'Referral ID cannot be empty')
+      .optional(),
   }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
@@ -67,6 +76,11 @@ export default makeApiRoute({
 
       if (!body) {
         throw new createHttpError.BadRequest('PATCH request requires a body');
+      }
+
+      // Validate that at least one field is being updated
+      if (Object.keys(body).length === 0) {
+        throw new createHttpError.BadRequest('At least one field must be provided for update');
       }
 
       // Update user with provided fields

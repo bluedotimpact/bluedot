@@ -10,12 +10,15 @@ import {
   ErrorSection,
   addQueryParam,
   ClickTarget,
+  Input,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
+import axios from 'axios';
+import { useState } from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
-  FaCubesStacked,
+  FaCubesStacked, FaPen,
 } from 'react-icons/fa6';
 import { GetUserResponse } from './api/users/me';
 import { GetCourseRegistrationsResponse } from './api/course-registrations';
@@ -29,8 +32,10 @@ import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
+// Main ProfilePage Component - Contains all API logic
 const ProfilePage = withAuth(({ auth }) => {
-  const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
+  // API calls
+  const [{ data: userData, loading: userLoading, error: userError }, refetchUser] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
     headers: {
@@ -50,6 +55,65 @@ const ProfilePage = withAuth(({ auth }) => {
     method: 'get',
     url: '/api/courses',
   });
+
+  // State for name editing
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [tempName, setTempName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [nameError, setNameError] = useState('');
+
+  // Name editing handlers
+  const handleSave = async () => {
+    const trimmedName = tempName.trim();
+    
+    // Check if name hasn't changed
+    if (trimmedName === userData?.user.name) {
+      setIsEditingName(false);
+      return;
+    }
+
+    setIsSaving(true);
+    setNameError('');
+
+    try {
+      await axios.patch(
+        '/api/users/me',
+        { name: trimmedName },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+
+      // Refetch user data to update UI
+      await refetchUser();
+      setIsEditingName(false);
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        setNameError('Session expired. Please refresh the page and try again.');
+      } else if (err.response?.status === 400) {
+        setNameError(parseZodValidationError(err));
+      } else {
+        setNameError('Failed to update name. Please try again.');
+      }
+      console.error('Name update error:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setTempName(userData?.user.name || '');
+    setIsEditingName(false);
+    setNameError('');
+  };
+
+  const handleEditStart = () => {
+    setTempName(userData?.user.name || '');
+    setIsEditingName(true);
+    setNameError('');
+  };
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrationsData?.courseRegistrations || [])
@@ -83,29 +147,22 @@ const ProfilePage = withAuth(({ auth }) => {
           <HeroH2>See your progress and share your learnings</HeroH2>
         </HeroSection>
         <Breadcrumbs route={CURRENT_ROUTE} />
-        <Section
-          className="profile"
-        >
+        <Section className="profile">
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="profile__enrolled-courses flex flex-col gap-4">
-              <H3>Account details</H3>
-              <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
-                <P><span className="font-bold">Name:</span> {userData.user.name}</P>
-                <P><span className="font-bold">Email:</span> {userData.user.email}</P>
-              </div>
-              <H3>Your courses</H3>
-              {enrolledCourses.length === 0 && (
-              <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-                <P>You haven't started any courses yet</P>
-                <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
-              </div>
-              )}
-              {enrolledCourses.length > 0 && (
-                <>
-                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} />)}
-                  <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
-                </>
-              )}
+              <ProfileAccountDetails
+                userName={userData.user.name}
+                userEmail={userData.user.email}
+                isEditingName={isEditingName}
+                tempName={tempName}
+                isSaving={isSaving}
+                nameError={nameError}
+                onEditStart={handleEditStart}
+                onNameChange={setTempName}
+                onSave={handleSave}
+                onCancel={handleCancel}
+              />
+              <ProfileCourseList enrolledCourses={enrolledCourses} />
             </div>
             <div className="profile__events flex flex-col gap-4">
               <H3>Connect with your community</H3>
@@ -119,6 +176,136 @@ const ProfilePage = withAuth(({ auth }) => {
   );
 });
 
+// ProfileAccountDetails Component - Pure UI Component
+type ProfileAccountDetailsProps = {
+  userName: string;
+  userEmail: string;
+  isEditingName: boolean;
+  tempName: string;
+  isSaving: boolean;
+  nameError: string;
+  onEditStart: () => void;
+  onNameChange: (name: string) => void;
+  onSave: () => void;
+  onCancel: () => void;
+};
+
+const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
+  userName,
+  userEmail,
+  isEditingName,
+  tempName,
+  isSaving,
+  nameError,
+  onEditStart,
+  onNameChange,
+  onSave,
+  onCancel,
+}) => {
+  return (
+    <>
+      <H3>Account details</H3>
+      <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
+        <div className="profile-name">
+          {!isEditingName ? (
+            <div 
+              className="profile-name__display cursor-pointer hover:bg-gray-50 group p-2 -m-2 rounded-lg flex items-center justify-between"
+              onClick={onEditStart}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onEditStart();
+                }
+              }}
+            >
+              <P><span className="font-bold">Name:</span> {userName || 'Not set'}</P>
+              <FaPen size={14} className="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+          ) : (
+            <div className="profile-name--editing">
+              <div className="flex flex-col gap-2">
+                <P><span className="font-bold">Name:</span></P>
+                <div className="flex gap-2 items-center">
+                  <Input
+                    inputClassName="profile-name__input"
+                    labelClassName="flex-1 min-w-0"
+                    value={tempName}
+                    onChange={(e) => onNameChange(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') onSave();
+                      if (e.key === 'Escape') onCancel();
+                    }}
+                    placeholder="Enter your name"
+                    autoFocus
+                  />
+                  <div className="profile-name__buttons flex gap-2 flex-shrink-0">
+                    <CTALinkOrButton
+                      variant="primary"
+                      onClick={onSave}
+                      disabled={isSaving}
+                      className="whitespace-nowrap"
+                    >
+                      {isSaving ? 'Saving...' : 'Save'}
+                    </CTALinkOrButton>
+                    <CTALinkOrButton
+                      variant="secondary"
+                      onClick={onCancel}
+                      disabled={isSaving}
+                    >
+                      Cancel
+                    </CTALinkOrButton>
+                  </div>
+                </div>
+                {nameError && (
+                  <p className="profile-name--error text-red-600 text-sm mt-1">{nameError}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        <P><span className="font-bold">Email:</span> {userEmail}</P>
+      </div>
+    </>
+  );
+};
+
+// ProfileCourseList Component - Pure UI Component
+type ProfileCourseListProps = {
+  enrolledCourses: Array<{
+    course: Course;
+    courseRegistration: CourseRegistration;
+  }>;
+};
+
+const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }) => {
+  return (
+    <>
+      <H3>Your courses</H3>
+      {enrolledCourses.length === 0 && (
+        <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+          <P>You haven't started any courses yet</P>
+          <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
+        </div>
+      )}
+      {enrolledCourses.length > 0 && (
+        <>
+          {enrolledCourses.map(({ course, courseRegistration }) => (
+            <ProfileCourseCard 
+              key={courseRegistration.id} 
+              course={course} 
+              courseRegistration={courseRegistration} 
+            />
+          ))}
+          <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
+        </>
+      )}
+    </>
+  );
+};
+
+// ProfileCourseCard Component
 type ProfileCourseCardProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -209,6 +396,26 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       )}
     </div>
   );
+};
+
+const parseZodValidationError = (err: any): string => {
+  const errorString = err.response?.data?.error;
+  if (typeof errorString === 'string' && errorString.startsWith('Invalid request body: ')) {
+    try {
+      // Extract the JSON array from the error string
+      const jsonPart = errorString.replace('Invalid request body: ', '');
+      const validationErrors = JSON.parse(jsonPart);
+      if (Array.isArray(validationErrors) && validationErrors.length > 0) {
+        return validationErrors[0].message || 'Invalid name format';
+      } else {
+        return 'Invalid name format';
+      }
+    } catch {
+      return 'Invalid name format';
+    }
+  } else {
+    return errorString || 'Invalid name format';
+  }
 };
 
 export default ProfilePage;
