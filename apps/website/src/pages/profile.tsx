@@ -14,9 +14,8 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import axios from 'axios';
-import { useState } from 'react';
-import React from 'react';
+import axios, { AxiosError } from 'axios';
+import React, { useState } from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
   FaCubesStacked,
@@ -33,10 +32,8 @@ import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
-// Main ProfilePage Component - Contains all API logic
 const ProfilePage = withAuth(({ auth }) => {
-  // API calls
-  const [{ data: userData, loading: userLoading, error: userError }, refetchUser] = useAxios<GetUserResponse>({
+  const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
     headers: {
@@ -63,7 +60,6 @@ const ProfilePage = withAuth(({ auth }) => {
   const [nameError, setNameError] = useState('');
   const [currentSavedName, setCurrentSavedName] = useState('');
 
-  // Initialize tempName and currentSavedName when userData is loaded (only once)
   const [isInitialized, setIsInitialized] = useState(false);
   React.useEffect(() => {
     if (userData?.user && !isInitialized) {
@@ -77,13 +73,13 @@ const ProfilePage = withAuth(({ auth }) => {
   // Name editing handlers
   const handleSave = async () => {
     const trimmedName = tempName.trim();
-    
+
     // Check if name is empty
     if (trimmedName === '') {
       setNameError('Name cannot be empty.');
       return;
     }
-    
+
     // Check if name hasn't changed
     if (trimmedName === currentSavedName) {
       return;
@@ -100,20 +96,25 @@ const ProfilePage = withAuth(({ auth }) => {
           headers: {
             Authorization: `Bearer ${auth.token}`,
           },
-        }
+        },
       );
 
       // Update the saved name state immediately since save was successful
       setCurrentSavedName(trimmedName);
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        setNameError('Session expired. Please refresh the page and try again.');
-      } else if (err.response?.status === 400) {
-        setNameError(parseZodValidationError(err));
+    } catch (err) {
+      // Type guard to check if it's an AxiosError
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 401) {
+          setNameError('Session expired. Please refresh the page and try again.');
+        } else if (err.response?.status === 400) {
+          setNameError(parseZodValidationError(err));
+        } else {
+          setNameError('Failed to update name. Please try again.');
+        }
       } else {
+        // Handle non-axios errors
         setNameError('Failed to update name. Please try again.');
       }
-      console.error('Name update error:', err);
     } finally {
       setIsSaving(false);
     }
@@ -188,7 +189,6 @@ const ProfilePage = withAuth(({ auth }) => {
   );
 });
 
-// ProfileAccountDetails Component - Pure UI Component
 type ProfileAccountDetailsProps = {
   userName: string | null | undefined;
   userEmail: string;
@@ -212,9 +212,6 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
   onSave,
   onCancel,
 }) => {
-  // Show buttons when value is different from current saved value
-  // Note: We still use userName for display consistency but the logic for showing buttons
-  // is now handled in the parent component using currentSavedName
   const showButtons = tempName !== (userName || '');
   return (
     <>
@@ -257,7 +254,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
               )}
             </div>
             {nameError && (
-              <p className="profile-name--error text-red-600 text-sm mt-1">{nameError}</p>
+              <p className="profile-name--error text-red-600 text-size-sm mt-1">{nameError}</p>
             )}
           </div>
         </div>
@@ -267,12 +264,11 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
   );
 };
 
-// ProfileCourseList Component - Pure UI Component
 type ProfileCourseListProps = {
-  enrolledCourses: Array<{
+  enrolledCourses: {
     course: Course;
     courseRegistration: CourseRegistration;
-  }>;
+  }[];
 };
 
 const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }) => {
@@ -288,10 +284,10 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
       {enrolledCourses.length > 0 && (
         <>
           {enrolledCourses.map(({ course, courseRegistration }) => (
-            <ProfileCourseCard 
-              key={courseRegistration.id} 
-              course={course} 
-              courseRegistration={courseRegistration} 
+            <ProfileCourseCard
+              key={courseRegistration.id}
+              course={course}
+              courseRegistration={courseRegistration}
             />
           ))}
           <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
@@ -301,7 +297,6 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
   );
 };
 
-// ProfileCourseCard Component
 type ProfileCourseCardProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -394,7 +389,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
   );
 };
 
-const parseZodValidationError = (err: any): string => {
+const parseZodValidationError = (err: AxiosError<{ error?: string }>): string => {
   const errorString = err.response?.data?.error;
   if (typeof errorString === 'string' && errorString.startsWith('Invalid request body: ')) {
     try {
@@ -403,9 +398,8 @@ const parseZodValidationError = (err: any): string => {
       const validationErrors = JSON.parse(jsonPart);
       if (Array.isArray(validationErrors) && validationErrors.length > 0) {
         return validationErrors[0].message || 'Invalid name format';
-      } else {
-        return 'Invalid name format';
       }
+      return 'Invalid name format';
     } catch {
       return 'Invalid name format';
     }
