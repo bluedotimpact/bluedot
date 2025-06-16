@@ -56,6 +56,9 @@ const rules = {
   // Almost always a false positive on the <Link> component
   'jsx-a11y/anchor-is-valid': ['off'],
 
+  // Often makes things worse, given it encourages moving related code out of the class
+  'class-methods-use-this': ['off'],
+
   // Tailwind rules
   'tailwindcss/no-contradicting-classname': ['error'],
   'tailwindcss/no-unnecessary-arbitrary-value': ['error'],

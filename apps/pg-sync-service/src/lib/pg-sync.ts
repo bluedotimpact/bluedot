@@ -6,6 +6,7 @@ import { AirtableItemFromColumnsMap, PgAirtableColumnInput } from '@bluedot/db/s
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
+import { syncManager } from './sync-manager';
 
 const MAX_RETRIES = 3;
 const highPriorityQueue: AirtableAction[] = [];
@@ -222,6 +223,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
     }
   }
 
+  await syncManager.markIncrementalSync();
   if (processedCount > 0) {
     logger.info(`[processUpdateQueue] Processing cycle completed. Processed ${processedCount} updates.`);
   }
