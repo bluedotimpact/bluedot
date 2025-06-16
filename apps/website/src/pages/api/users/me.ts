@@ -26,7 +26,7 @@ export default makeApiRoute({
       .min(1, 'Name cannot be empty')
       // 50 characters for a name seemed reasonable
       .max(50, 'Name must be under 50 characters')
-      .regex(/^[a-zA-Z\s\-'.]+$/, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods')
+      .regex(/^[\p{L}\s\-'.]+$/u, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods')
       .optional(),
     referredById: z.string()
       .trim()

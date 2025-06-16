@@ -80,6 +80,11 @@ const ProfilePage = withAuth(({ auth }) => {
       return;
     }
 
+    if (trimmedName.length > 50) {
+      setNameError('Name must be under 50 characters');
+      return;
+    }
+
     // Check if name hasn't changed
     if (trimmedName === currentSavedName) {
       return;
