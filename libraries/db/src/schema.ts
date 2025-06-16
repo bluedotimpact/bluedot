@@ -1,5 +1,5 @@
 import {
-  pgTable, text, boolean, numeric,
+  pgTable, text, boolean, numeric, timestamp,
 } from 'drizzle-orm/pg-core';
 import { pgAirtable } from './lib/db-core';
 
@@ -18,6 +18,20 @@ export const metaTable = pgTable('meta', {
   airtableFieldId: text().notNull(),
   pgTable: text().notNull(),
   pgField: text().notNull(),
+});
+
+/**
+ * Table used to track sync operations and their status.
+ * This helps determine when initial sync is needed.
+ */
+export const syncMetadataTable = pgTable('sync_metadata', {
+  id: text().primaryKey().default('singleton'), // Single row table
+  lastFullSyncAt: timestamp('last_full_sync_at'),
+  lastIncrementalSyncAt: timestamp('last_incremental_sync_at'),
+  syncInProgress: boolean('sync_in_progress').default(false),
+  lastSyncStatus: text('last_sync_status'), // 'success', 'failed', 'in_progress'
+  lastSyncError: text('last_sync_error'),
+  updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const courseTable = pgAirtable('Course', {

@@ -2,6 +2,7 @@ export { PgAirtableDb } from './lib/client';
 
 export {
   metaTable,
+  syncMetadataTable,
   unitFeedbackTable,
   exerciseResponseTable,
   courseTable,

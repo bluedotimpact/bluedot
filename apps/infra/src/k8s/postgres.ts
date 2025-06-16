@@ -41,6 +41,20 @@ export const grafanaPg = new k8s.apiextensions.CustomResource('grafana-pg', {
   },
 }, { provider, dependsOn: [cloudNativePg] });
 
+export const airtableSyncPg = new k8s.apiextensions.CustomResource('airtable-sync-pg', {
+  apiVersion: 'postgresql.cnpg.io/v1',
+  kind: 'Cluster',
+  metadata: {
+    name: 'airtable-sync-pg',
+  },
+  spec: {
+    instances: 1,
+    storage: {
+      size: '10Gi',
+    },
+  },
+}, { provider, dependsOn: [cloudNativePg] });
+
 export type PgConnectionDetails = {
   /** @example 'some-pg-rw' */
   host: Input<string>,

@@ -1,6 +1,6 @@
 import { core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
-import { getConnectionDetails, keycloakPg } from './postgres';
+import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
 import { minioPvc } from './pvc';
 import { websiteAssetsBucket } from '../minio';
 
@@ -243,6 +243,38 @@ export const services: ServiceDefinition[] = [
       }],
     },
     hosts: ['login.bluedot.org'],
+  },
+  {
+    name: 'bluedot-pg-sync-service',
+    spec: {
+      containers: [{
+        name: 'bluedot-pg-sync-service',
+        image: 'ghcr.io/bluedotimpact/bluedot-pg-sync-service:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['pg-sync-service.k8s.bluedot.org'],
+  },
+  {
+    name: 'bluedot-postgres-demo',
+    spec: {
+      containers: [{
+        name: 'bluedot-postgres-demo',
+        image: 'ghcr.io/bluedotimpact/bluedot-postgres-demo:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['postgres-demo.k8s.bluedot.org'],
   },
   {
     name: 'minio',
