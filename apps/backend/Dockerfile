@@ -19,4 +19,4 @@ COPY --chown=node:node ./dist/ .
 
 EXPOSE 8080
 
-CMD dumb-init PORT=8080 node index.js
+CMD PORT="8080" dumb-init node index.js
