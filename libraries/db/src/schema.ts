@@ -34,7 +34,7 @@ export const syncMetadataTable = pgTable('sync_metadata', {
   updatedAt: timestamp('updated_at').defaultNow(),
 });
 
-export const courseTable = pgAirtable('Course', {
+export const courseTable = pgAirtable('course', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tbl6nq5AVLKINBJ73',
   columns: {
@@ -111,9 +111,8 @@ export const courseTable = pgAirtable('Course', {
     // },
   },
 });
-export const courseTablePg = courseTable.pg;
 
-export const unitFeedbackTable = pgAirtable('UnitFeedback', {
+export const unitFeedbackTable = pgAirtable('unit_feedback', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblBwjMjul1c6l7ea',
   columns: {
@@ -147,9 +146,8 @@ export const unitFeedbackTable = pgAirtable('UnitFeedback', {
     },
   },
 });
-export const unitFeedbackTablePg = unitFeedbackTable.pg;
 
-export const exerciseResponseTable = pgAirtable('ExerciseResponse', {
+export const exerciseResponseTable = pgAirtable('exercise_response', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblLNijbqwoLtkd3O',
   columns: {
@@ -171,4 +169,3 @@ export const exerciseResponseTable = pgAirtable('ExerciseResponse', {
     },
   },
 });
-export const exerciseResponseTablePg = exerciseResponseTable.pg;

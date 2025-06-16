@@ -9,11 +9,7 @@
     "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
     "test": "turbo run test",
-    "test:update": "turbo run test -- -u",
-    "db:sync-fields": "npm run -w @bluedot/db sync-fields",
-    "db:push": "npm run -w @bluedot/db push",
-    "db:generate": "npm run -w @bluedot/db generate",
-    "db:migrate": "npm run -w @bluedot/db migrate"
+    "test:update": "turbo run test -- -u"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
