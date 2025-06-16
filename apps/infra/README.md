@@ -76,12 +76,18 @@ If you want to use your secret as an environment variable, add it to the `toK8s`
 
 If you want to use your secret 'raw', import config from [config.ts](./src/config.ts) and then call `config.requireSecret('key')`.
 
-### Connecting with kubectl
+### Connect to the cluster with kubectl
 
 ```bash
 PULUMI_CONFIG_PASSPHRASE_FILE=passphrase.prod.txt pulumi stack output --show-secrets k8sConfig > kubeconfig.yaml
 export KUBECONFIG=$(pwd)/kubeconfig.yaml
 ```
+
+### Connect to the database
+
+1. [Set up your kubectl connection](#connect-to-the-cluster-with-kubectl)
+2. Install a database client, e.g. [Postico](https://eggerapps.at/postico2/)
+3. Run: `./tools/connectDb.sh`
 
 ## Things we set up manually
 
