@@ -73,7 +73,8 @@ const ProfilePage = withAuth(({ auth }) => {
 
   // Name editing handlers
   const handleSave = async () => {
-    const validationResult = meRequestBodySchema.safeParse({ name: tempName });
+    const trimmedName = tempName.trim();
+    const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
     if (!validationResult.success) {
       // Extract the first error message from Zod validation
       const firstError = validationResult.error.issues[0];
@@ -96,7 +97,8 @@ const ProfilePage = withAuth(({ auth }) => {
       );
 
       // Update the saved name state immediately since save was successful
-      setCurrentSavedName(tempName);
+      setCurrentSavedName(trimmedName);
+    setTempName(trimmedName);
     } catch (err) {
       // Handle non-axios errors first
       if (!axios.isAxiosError(err)) {
@@ -224,8 +226,8 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
             <P className="profile-account-details__name-label"><span className="font-bold">Name:</span></P>
             <div className="profile-account-details__name-input-container flex gap-2 items-center">
               <Input
-                inputClassName="profile-account-details__input"
-                labelClassName="profile-account-details__input-wrapper flex-1 min-w-0"
+                inputClassName="profile-account-details__name-input"
+                labelClassName="profile-account-details__name-input-wrapper flex-1 min-w-0"
                 value={tempName}
                 onChange={(e) => onNameChange(e.target.value)}
                 onFocus={onFocus}
@@ -236,12 +238,12 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                 placeholder="Enter your name"
               />
               {showButtons && (
-                <div className="profile-account-details__buttons flex gap-2 flex-shrink-0">
+                <div className="profile-account-details__name-buttons flex gap-2 flex-shrink-0">
                   <CTALinkOrButton
                     variant="primary"
                     onClick={onSave}
                     disabled={isSaving}
-                    className="profile-account-details__save-button whitespace-nowrap"
+                    className="profile-account-details__name-save-button whitespace-nowrap"
                   >
                     {isSaving ? 'Saving...' : 'Save'}
                   </CTALinkOrButton>
@@ -249,7 +251,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                     variant="secondary"
                     onClick={onCancel}
                     disabled={isSaving}
-                    className="profile-account-details__cancel-button"
+                    className="profile-account-details__name-cancel-button"
                   >
                     Cancel
                   </CTALinkOrButton>
@@ -257,7 +259,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
               )}
             </div>
             {nameError && (
-              <p className="profile-account-details__error text-red-600 text-size-sm mt-1">{nameError}</p>
+              <p className="profile-account-details__name-error text-red-600 text-size-sm mt-1">{nameError}</p>
             )}
           </div>
         </div>

@@ -24,7 +24,7 @@ const mockedAxios = axios as typeof axios & {
 };
 
 // Setup axios.isAxiosError to return true for our mock errors
-mockedAxios.isAxiosError = vi.fn((error) => error.isAxiosError === true);
+(mockedAxios.isAxiosError as any) = vi.fn((error) => error.isAxiosError === true);
 
 // Mock axios-hooks
 vi.mock('axios-hooks');
@@ -66,6 +66,22 @@ const mockCourses = {
   courses: [],
 };
 
+// Test helper function for selecting elements by class name
+const getNameInput = (container: HTMLElement): HTMLInputElement => {
+  const input = container.querySelector('.profile-account-details__name-input') as HTMLInputElement;
+  expect(input).toBeInTheDocument();
+  return input;
+};
+
+// Helper functions for other stable selectors
+const getNameSaveButton = (container: HTMLElement): HTMLElement | null => {
+  return container.querySelector('.profile-account-details__name-save-button');
+};
+
+const getNameCancelButton = (container: HTMLElement): HTMLElement | null => {
+  return container.querySelector('.profile-account-details__name-cancel-button');
+};
+
 describe('ProfilePage - Edit Name Feature', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -99,7 +115,8 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     // Wait for the component to initialize with user data
     await waitFor(() => {
-      expect(screen.getByDisplayValue('John Doe')).toBeInTheDocument();
+      const nameInput = getNameInput(container);
+      expect(nameInput.value).toBe('John Doe');
     });
     expect(screen.getByText('Name:')).toBeInTheDocument();
     expect(container).toMatchSnapshot();
@@ -119,10 +136,13 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     mockedAxios.patch.mockResolvedValueOnce({ data: { success: true } });
 
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
     // Find the name input and change it
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
 
     // Save the changes
@@ -152,9 +172,12 @@ describe('ProfilePage - Edit Name Feature', () => {
   });
 
   test('should show validation errors for invalid names', async () => {
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Test length validation - client-side validation now happens before API call
     const longName = 'a'.repeat(51);
@@ -185,34 +208,40 @@ describe('ProfilePage - Edit Name Feature', () => {
   });
 
   test('should show save/cancel buttons when name is changed', async () => {
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Initially no buttons should be visible
-    expect(screen.queryByText('Save')).not.toBeInTheDocument();
-    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    expect(getNameSaveButton(container)).not.toBeInTheDocument();
+    expect(getNameCancelButton(container)).not.toBeInTheDocument();
 
     // Change the name - buttons should appear
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
 
     await waitFor(() => {
-      expect(screen.getByText('Save')).toBeInTheDocument();
-      expect(screen.getByText('Cancel')).toBeInTheDocument();
+      expect(getNameSaveButton(container)).toBeInTheDocument();
+      expect(getNameCancelButton(container)).toBeInTheDocument();
     });
   });
 
   test('should not show buttons when name matches original', async () => {
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Change to different value first
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
 
     // Buttons should appear
     await waitFor(() => {
-      expect(screen.getByText('Save')).toBeInTheDocument();
+      expect(getNameSaveButton(container)).toBeInTheDocument();
     });
 
     // Change back to original value
@@ -220,8 +249,8 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     // Buttons should disappear
     await waitFor(() => {
-      expect(screen.queryByText('Save')).not.toBeInTheDocument();
-      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+      expect(getNameSaveButton(container)).not.toBeInTheDocument();
+      expect(getNameCancelButton(container)).not.toBeInTheDocument();
     });
   });
 
@@ -229,9 +258,12 @@ describe('ProfilePage - Edit Name Feature', () => {
     // Mock successful API response
     mockedAxios.patch.mockResolvedValueOnce({ data: { success: true } });
 
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Change name and use Enter to save
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
@@ -267,9 +299,12 @@ describe('ProfilePage - Edit Name Feature', () => {
   });
 
   test('should handle API errors gracefully', async () => {
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Test session expired error
     const axiosError401 = {
@@ -345,9 +380,12 @@ describe('ProfilePage - Edit Name Feature', () => {
       return [{ data: null, loading: false, error: null }, vi.fn()];
     });
 
-    render(<ProfilePage />);
+    const { container } = render(<ProfilePage />);
 
-    const input = await screen.findByPlaceholderText('Enter your name');
+    const input = await waitFor(() => {
+      const nameInput = getNameInput(container);
+      return nameInput;
+    });
 
     // Input should be empty since user has null name
     expect((input as HTMLInputElement).value).toBe('');

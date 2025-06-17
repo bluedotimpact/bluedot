@@ -106,13 +106,13 @@ exports[`ProfilePage - Edit Name Feature > should render profile page with name 
                       class="profile-account-details__name-input-container flex gap-2 items-center"
                     >
                       <label
-                        class="input flex flex-col gap-2 profile-account-details__input-wrapper flex-1 min-w-0"
+                        class="input flex flex-col gap-2 profile-account-details__name-input-wrapper flex-1 min-w-0"
                       >
                         <span
                           class="input__label"
                         />
                         <input
-                          class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal profile-account-details__input"
+                          class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal profile-account-details__name-input"
                           placeholder="Enter your name"
                           type="text"
                           value="John Doe"
