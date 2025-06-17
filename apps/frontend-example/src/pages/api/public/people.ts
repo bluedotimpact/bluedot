@@ -1,7 +1,9 @@
 import { z } from 'zod';
+import { eq, personTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { Person, personTable } from '../../../lib/api/db/tables';
+
+type Person = InferSelectModel<typeof personTable.pg>;
 
 export type GetPeopleResponse = {
   type: 'success',
@@ -15,8 +17,7 @@ export default makeApiRoute({
     persons: z.array(z.any()),
   }),
 }, async () => {
-  const allPeople = await db.scan(personTable);
-  const publicPeople = allPeople.filter((p) => p.isProfilePublic);
+  const publicPeople = await db.pg.select().from(personTable.pg).where(eq(personTable.pg.isProfilePublic, true));
 
   return {
     type: 'success' as const,
