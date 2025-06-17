@@ -6,6 +6,7 @@ export {
   unitFeedbackTable,
   exerciseResponseTable,
   courseTable,
+  formConfigurationTable,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

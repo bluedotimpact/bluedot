@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { eq, formConfigurationTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { formConfigurationTable } from '../../../lib/api/db/tables';
 
 export type GetFormResponse = {
   type: 'success',
@@ -18,8 +18,8 @@ export default makeApiRoute({
     minimumLength: z.number(),
   }),
 }, async (body, { raw }) => {
-  const records = await db.scan(formConfigurationTable);
-  const targetRecord = records.find((record) => record.Slug === raw.req.query.slug);
+  const records = await db.pg.select().from(formConfigurationTable.pg).where(eq(formConfigurationTable.pg.slug, raw.req.query.slug as string));
+  const targetRecord = records[0];
 
   if (!targetRecord) {
     throw new createHttpError.NotFound('Form not found');
@@ -27,7 +27,7 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    title: targetRecord.Title || 'Unnamed form', // Title for the page
-    minimumLength: targetRecord['Minimum length'] ?? 90, // Min required time for form validation
+    title: targetRecord.title || 'Unnamed form', // Title for the page
+    minimumLength: targetRecord.minimumLength ?? 90, // Min required time for form validation
   };
 });
