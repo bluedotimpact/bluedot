@@ -5,7 +5,7 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import { db } from '../../../lib/api/db';
 
 export const CourseSchema = z.object({
-  id: z.string().nullable(),
+  id: z.string(),
   title: z.string().nullable(),
   slug: z.string().nullable(),
 });

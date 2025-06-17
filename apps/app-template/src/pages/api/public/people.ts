@@ -1,7 +1,7 @@
 import { z } from 'zod';
+import { eq, personTable } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { personTable } from '../../../lib/api/db/tables';
 
 export default makeApiRoute({
   requireAuth: true,
@@ -17,8 +17,17 @@ export default makeApiRoute({
     isProfilePublic: z.boolean(),
   })),
 }, async () => {
-  const allPeople = await db.scan(personTable);
-  const publicPeople = allPeople.filter((p) => p.isProfilePublic);
+  const allPeople = await db.pg.select().from(personTable.pg).where(eq(personTable.pg.isProfilePublic, true));
 
-  return publicPeople;
+  return allPeople.map((person) => ({
+    id: person.id || '',
+    email: person.email || '',
+    firstName: person.firstName || '',
+    lastName: person.lastName || '',
+    ethnicGroup: person.ethnicGroup || '',
+    careerPlans: person.careerPlans || '',
+    biography: person.biography || '',
+    appliedToOpportunities: person.appliedToOpportunities || [],
+    isProfilePublic: person.isProfilePublic || false,
+  }));
 });

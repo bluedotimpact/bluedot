@@ -1,9 +1,7 @@
 import { Table } from 'airtable-ts';
-import { BuildColumns } from 'drizzle-orm/column-builder';
 import {
   pgTable,
   text,
-  PgTableWithColumns,
 } from 'drizzle-orm/pg-core';
 import {
   drizzleColumnToTsTypeString,
@@ -20,12 +18,7 @@ export class PgAirtableTable<
   TTableName extends string = string,
   TColumnsMap extends Record<string, PgAirtableColumnInput> = Record<string, PgAirtableColumnInput>,
 > {
-  public readonly pg: Omit<BasePgTableType<TTableName, TColumnsMap>, 'id'> & PgTableWithColumns<{
-    name: TTableName;
-    schema: undefined;
-    columns: BuildColumns<TTableName, { id: ReturnType<typeof text> }, 'pg'>;
-    dialect: 'pg';
-  }>;
+  public readonly pg: BasePgTableType<TTableName, TColumnsMap>;
 
   public readonly airtable: Table<AirtableItemFromColumnsMap<TColumnsMap>>;
 
@@ -41,7 +34,7 @@ export class PgAirtableTable<
 
     // Initialise Postgres
     const drizzleTableColsBuilder: Record<string, AllowedPgColumn> = {
-      id: text('id').notNull().primaryKey(),
+      id: text('id').primaryKey(),
     };
 
     for (const [columnName, columnConfig] of Object.entries(config.columns)) {

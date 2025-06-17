@@ -6,6 +6,7 @@ import { pgAirtable } from './lib/db-core';
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
 const AVAILABILITY_BASE_ID = 'app6dkBHka8c4WaEj';
+const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -190,6 +191,72 @@ export const formConfigurationTable = pgAirtable('form_configuration', {
     minimumLength: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUiReJ8a7hdV37E',
+    },
+  },
+});
+
+export const personTable = pgAirtable('person', {
+  baseId: MOCK_DATA_BASE_ID,
+  tableId: 'tblA0UsJCiOt9MN0k',
+  columns: {
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldJzIWg2HMBmwPjZ',
+    },
+    firstName: {
+      pgColumn: text(),
+      airtableId: 'fldxyoC98EoVQDrqa',
+    },
+    lastName: {
+      pgColumn: text(),
+      airtableId: 'fldrfvKXru0YEXLvh',
+    },
+    ethnicGroup: {
+      pgColumn: text(),
+      airtableId: 'fldaLQ2MnUVa9tdRf',
+    },
+    careerPlans: {
+      pgColumn: text(),
+      airtableId: 'fldqq4LyZ5pf26NsN',
+    },
+    biography: {
+      pgColumn: text(),
+      airtableId: 'fldg9GSGb1dY59kf4',
+    },
+    appliedToOpportunities: {
+      pgColumn: text().array(),
+      airtableId: 'fldhI1cqdvrXwbJb7',
+    },
+    isProfilePublic: {
+      pgColumn: boolean(),
+      airtableId: 'fldNW3O0U3vCBk0Nf',
+    },
+  },
+});
+
+export const opportunityTable = pgAirtable('opportunity', {
+  baseId: MOCK_DATA_BASE_ID,
+  tableId: 'tblneFg0pOTRI3kfD',
+  columns: {
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldEMP8VzGIUGD1l6',
+    },
+    organizationName: {
+      pgColumn: text(),
+      airtableId: 'fldpvKKPIODumUdfj',
+    },
+    opportunitySummary: {
+      pgColumn: text(),
+      airtableId: 'fldSJWSbDKXITt71D',
+    },
+    opportunityDescription: {
+      pgColumn: text(),
+      airtableId: 'fldO5FAmTx20HixOT',
+    },
+    applicants: {
+      pgColumn: text().array(),
+      airtableId: 'fldOCFhSNFqg12mjO',
     },
   },
 });
