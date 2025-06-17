@@ -30,6 +30,7 @@ import { Course, CourseRegistration } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 import { meRequestBodySchema } from '../lib/schemas/me.schema';
+import { parseZodValidationError } from '../lib/utils';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -113,7 +114,7 @@ const ProfilePage = withAuth(({ auth }) => {
       }
 
       if (err.response?.status === 400) {
-        setNameError(parseZodValidationError(err));
+        setNameError(parseZodValidationError(err, "Invalid name format"));
         return;
       }
 
@@ -281,7 +282,7 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
     <>
       <H3>Your courses</H3>
       {enrolledCourses.length === 0 && (
-        <div className="profile-course-list__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+        <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
           <P>You haven't started any courses yet</P>
           <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
         </div>
@@ -392,25 +393,6 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       )}
     </div>
   );
-};
-
-const parseZodValidationError = (err: AxiosError<{ error?: string }>): string => {
-  const errorString = err.response?.data?.error;
-  if (typeof errorString === 'string' && errorString.startsWith('Invalid request body: ')) {
-    try {
-      // Extract the JSON array from the error string
-      const jsonPart = errorString.replace('Invalid request body: ', '');
-      const validationErrors = JSON.parse(jsonPart);
-      if (Array.isArray(validationErrors) && validationErrors.length > 0) {
-        return validationErrors[0].message || 'Invalid name format';
-      }
-      return 'Invalid name format';
-    } catch {
-      return 'Invalid name format';
-    }
-  } else {
-    return errorString || 'Invalid name format';
-  }
 };
 
 export default ProfilePage;
