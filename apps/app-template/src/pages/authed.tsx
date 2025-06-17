@@ -3,7 +3,22 @@ import {
   ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { Person, personTable } from '../lib/api/db/tables';
+
+type Person = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  ethnicGroup: string;
+  careerPlans: string;
+  biography: string;
+  appliedToOpportunities: string[];
+  isProfilePublic: boolean;
+};
+
+// Airtable base and table IDs for direct links
+const PERSON_TABLE_BASE_ID = 'appRcVrzrkGoSrfR4';
+const PERSON_TABLE_ID = 'tblA0UsJCiOt9MN0k';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
   const router = useRouter();
@@ -51,7 +66,7 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
     <div className="grid md:grid-cols-4 gap-4">
       {data?.map((person) => (
         <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-          <NewText.P><NewText.A href={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+          <NewText.P><NewText.A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
         </Card>
       ))}
     </div>

@@ -7,6 +7,8 @@ export {
   exerciseResponseTable,
   courseTable,
   formConfigurationTable,
+  personTable,
+  opportunityTable,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
