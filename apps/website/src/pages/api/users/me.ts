@@ -7,6 +7,7 @@ import {
   userTable,
   User,
 } from '../../../lib/api/db/tables';
+import { meRequestBodySchema } from '../../../lib/schemas/me.schema';
 
 export type GetUserResponse = {
   type: 'success';
@@ -20,19 +21,7 @@ export type PatchUserBody = {
 
 export default makeApiRoute({
   requireAuth: true,
-  requestBody: z.object({
-    name: z.string()
-      .trim()
-      .min(1, 'Name cannot be empty')
-      // 50 characters for a name seemed reasonable
-      .max(50, 'Name must be under 50 characters')
-      .regex(/^[\p{L}\s\-'.]+$/u, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods')
-      .optional(),
-    referredById: z.string()
-      .trim()
-      .min(1, 'Referral ID cannot be empty')
-      .optional(),
-  }).optional(),
+  requestBody: meRequestBodySchema,
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
@@ -79,7 +68,8 @@ export default makeApiRoute({
       }
 
       // Validate that at least one field is being updated
-      if (Object.keys(body).length === 0) {
+      const hasUpdates = Object.values(body).some(value => value !== undefined && value !== null);
+      if (!hasUpdates) {
         throw new createHttpError.BadRequest('At least one field must be provided for update');
       }
 

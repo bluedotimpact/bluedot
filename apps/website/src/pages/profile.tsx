@@ -29,6 +29,7 @@ import SocialShare from '../components/courses/SocialShare';
 import { Course, CourseRegistration } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
+import { meRequestBodySchema } from '../lib/schemas/me.schema';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -72,21 +73,11 @@ const ProfilePage = withAuth(({ auth }) => {
 
   // Name editing handlers
   const handleSave = async () => {
-    const trimmedName = tempName.trim();
-
-    // Check if name is empty
-    if (trimmedName === '') {
-      setNameError('Name cannot be empty.');
-      return;
-    }
-
-    if (trimmedName.length > 50) {
-      setNameError('Name must be under 50 characters');
-      return;
-    }
-
-    // Check if name hasn't changed
-    if (trimmedName === currentSavedName) {
+    const validationResult = meRequestBodySchema.safeParse({ name: tempName });
+    if (!validationResult.success) {
+      // Extract the first error message from Zod validation
+      const firstError = validationResult.error.issues[0];
+      setNameError(firstError?.message || "Failed to update name. Please try again.");
       return;
     }
 
@@ -96,7 +87,7 @@ const ProfilePage = withAuth(({ auth }) => {
     try {
       await axios.patch(
         '/api/users/me',
-        { name: trimmedName },
+        { name: tempName },
         {
           headers: {
             Authorization: `Bearer ${auth.token}`,
@@ -105,21 +96,27 @@ const ProfilePage = withAuth(({ auth }) => {
       );
 
       // Update the saved name state immediately since save was successful
-      setCurrentSavedName(trimmedName);
+      setCurrentSavedName(tempName);
     } catch (err) {
-      // Type guard to check if it's an AxiosError
-      if (axios.isAxiosError(err)) {
-        if (err.response?.status === 401) {
-          setNameError('Session expired. Please refresh the page and try again.');
-        } else if (err.response?.status === 400) {
-          setNameError(parseZodValidationError(err));
-        } else {
-          setNameError('Failed to update name. Please try again.');
-        }
-      } else {
-        // Handle non-axios errors
+      // Handle non-axios errors first
+      if (!axios.isAxiosError(err)) {
         setNameError('Failed to update name. Please try again.');
+        return;
       }
+
+      // Handle specific HTTP status codes
+      if (err.response?.status === 401) {
+        setNameError('Session expired. Please refresh the page and try again.');
+        return;
+      }
+
+      if (err.response?.status === 400) {
+        setNameError(parseZodValidationError(err));
+        return;
+      }
+
+      // Default axios error case
+      setNameError('Failed to update name. Please try again.');
     } finally {
       setIsSaving(false);
     }
