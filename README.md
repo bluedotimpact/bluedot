@@ -116,6 +116,7 @@ fi
 
 open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
 ```
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 **Troubleshooting**
 - I got asked for permissions / got some permissions warning and didn't click allow in time, and then the script failed.
@@ -157,34 +158,39 @@ fi
 
 xdg-open 'vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https%3A%2F%2Fgithub.com%2Fbluedotimpact%2Fbluedot.git'
 ```
+Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
 
 </details>
 
 <details>
-<summary>Other</summary>
+<summary>Windows</summary>
 
 Install the following software:
 
-1. [Visual Studio Code](https://code.visualstudio.com/)
-2. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-3. A container runtime.
-   - On Linux, you might want to use [Docker Engine](https://docs.docker.com/engine/install/) (recommended) or [Podman](https://podman.io/docs/installation#linux)
-   - On Windows, you might want to use [Podman Desktop](https://podman-desktop.io/) (recommended) or [Docker Engine](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce)
-4. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+1. [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+2. [Visual Studio Code](https://code.visualstudio.com/)
+3. [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+4. Open a terminal and type `wsl`
+5. Make sure you're on the Linux file system (e.g., `john@johns-box:~$`), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
+6. Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+7. Install Git with `sudo apt-get install git`
 
 Then:
 
 1. Open VS Code
-2. Open the Command Palette (`View` > `Command Palette...`) and select `>Dev Containers: Clone Repository in Container Volume`.
-3. Paste in `https://github.com/bluedotimpact/bluedot.git`
+2. Open the Command Palette (`View` > `Command Palette...`, or CTRL+SHIFT+P) and select `>WSL: Connect to WSL`.
+3. Once connected, open a Terminal Pane (`View` > `Terminal`, or CTRL+~)
+4. Make sure you're on the Linux file system (e.g., `john@johns-box:~$`), and not a mounted Windows drive. If on a mounted drive, type `cd ~`
+5. Type `git clone https://github.com/bluedotimpact/bluedot.git`
+6. Select `File` > `Open Folder` and choose the newly created bluedot directory:
+   `/home/john/bluedot/`
+7. You will see a message that a Dev Container configuration was detected. Select `Reopen in Container`
 
-P.S. We'd love to improve these docs! If you've figured out how to get it working on your operating system, raise a PR with the instructions added to this README.
+VS Code will download the Docker images and build the dev container. This will take a few minutes. At the end you will see `Congrats! Your setup is complete`.
 
 </details>
 
-Once VS Code opens, accept the pop-ups that appear. It might look like nothing is happening for a couple of minutes, and it'll take about 5 minutes for everything to open properly. You'll know it's done once you see the message `Congrats! Your setup is complete` on your screen.
-
-If you the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
+If the above instructions don't get you set up properly, [raise an issue on the repository](https://github.com/bluedotimpact/bluedot/issues/new).
 
 ### Making contributions
 
