@@ -2,9 +2,9 @@ import { z } from 'zod';
 import { parseIntervals } from 'weekly-availabilities';
 import axios from 'axios';
 import createHttpError from 'http-errors';
+import { eq, formConfigurationTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { formConfigurationTable } from '../../../lib/api/db/tables';
 
 export type SubmitRequest = {
   email: string,
@@ -38,14 +38,18 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid time availability expression');
   }
 
-  const records = await db.scan(formConfigurationTable);
-  const targetRecord = records.find((record) => record.Slug === raw.req.query.slug);
+  const records = await db.pg.select().from(formConfigurationTable.pg).where(eq(formConfigurationTable.pg.slug, raw.req.query.slug as string));
+  const targetRecord = records[0];
 
   if (!targetRecord) {
     throw new createHttpError.NotFound('Form not found');
   }
 
-  const webhookResponse = await axios.post(targetRecord.Webhook, {
+  if (!targetRecord.webhook) {
+    throw new createHttpError.InternalServerError('Form webhook not configured');
+  }
+
+  const webhookResponse = await axios.post(targetRecord.webhook, {
     Comments: body.comments,
     Email: body.email,
     'Time availability in UTC': body.availability,

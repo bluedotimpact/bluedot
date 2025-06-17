@@ -14,9 +14,9 @@
     "deploy:cd": "docker-scripts deploy"
   },
   "dependencies": {
+    "@bluedot/db": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
-    "airtable-ts": "^1.6.0",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "http-errors": "^2.0.0",

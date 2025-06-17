@@ -5,6 +5,7 @@ import { pgAirtable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
+const AVAILABILITY_BASE_ID = 'app6dkBHka8c4WaEj';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -166,6 +167,29 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
     completed: {
       pgColumn: boolean(),
       airtableId: 'fldz8rocQd7Ws9s2q',
+    },
+  },
+});
+
+export const formConfigurationTable = pgAirtable('form_configuration', {
+  baseId: AVAILABILITY_BASE_ID,
+  tableId: 'tblvsaRl69XV8azGZ',
+  columns: {
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldrw0oSjFSMezFJ2',
+    },
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldHiGrJmyBvSdGUm',
+    },
+    webhook: {
+      pgColumn: text(),
+      airtableId: 'fldoGERxuxQ17adXI',
+    },
+    minimumLength: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldUiReJ8a7hdV37E',
     },
   },
 });
