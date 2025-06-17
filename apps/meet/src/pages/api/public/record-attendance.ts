@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { eq, groupDiscussionTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { groupDiscussionTable } from '../../../lib/api/db/tables';
 
 export type RecordAttendanceRequest = {
   groupDiscussionId: string,
@@ -35,9 +35,18 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Missing participant id.');
   }
 
-  const groupDiscussion = await db.get(groupDiscussionTable, body.groupDiscussionId);
-  if (!groupDiscussion.Attendees.includes(body.participantId)) {
-    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, body.participantId] });
+  const groupDiscussions = await db.pg.select().from(groupDiscussionTable.pg).where(eq(groupDiscussionTable.pg.id, body.groupDiscussionId));
+  const groupDiscussion = groupDiscussions[0];
+  if (!groupDiscussion) {
+    throw new createHttpError.NotFound('Group discussion not found.');
+  }
+
+  const currentAttendees = groupDiscussion.attendees || [];
+  if (!currentAttendees.includes(body.participantId)) {
+    await db.airtableUpdate(groupDiscussionTable, {
+      id: body.groupDiscussionId,
+      attendees: [...currentAttendees, body.participantId],
+    });
   }
 
   return {

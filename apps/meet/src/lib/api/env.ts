@@ -3,6 +3,7 @@ import { validateEnv } from '@bluedot/utils';
 export default validateEnv({
   required: [
     'APP_NAME',
+    'PG_URL',
     'AIRTABLE_PERSONAL_ACCESS_TOKEN',
 
     'NEXT_PUBLIC_ZOOM_CLIENT_ID',

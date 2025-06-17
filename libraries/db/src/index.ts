@@ -13,6 +13,12 @@ export {
   blogTable,
   jobPostingTable,
   projectTable,
+  groupTable,
+  groupDiscussionTable,
+  meetPersonTable,
+  zoomAccountTable,
+  roundTable,
+  meetCourseTable,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

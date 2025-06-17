@@ -282,6 +282,104 @@ export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
   },
 });
 
+export const groupTable = pgAirtable('group', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblyiJSPoniwhi17T',
+  columns: {
+    groupDiscussions: {
+      pgColumn: text().array(),
+      airtableId: 'fldwEeC65sHvGGRGb',
+    },
+    round: {
+      pgColumn: text(),
+      airtableId: 'fldtzy3nSP0piVApO',
+    },
+  },
+});
+
+export const groupDiscussionTable = pgAirtable('group_discussion', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblDNME0bA9OoApTk',
+  columns: {
+    facilitators: {
+      pgColumn: text().array(),
+      airtableId: 'fldP5BqdFfcn8enfc',
+    },
+    participantsExpected: {
+      pgColumn: text().array(),
+      airtableId: 'fldEKYwcacAa6nBEE',
+    },
+    attendees: {
+      pgColumn: text().array(),
+      airtableId: 'fldo0xEi6vJKSJlFN',
+    },
+    startDateTime: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'flduTqIxS6OEHNr4H',
+    },
+    endDateTime: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'flda1ONwG37ROVo8e',
+    },
+    group: {
+      pgColumn: text(),
+      airtableId: 'fldjISs1XFGAwT5k5',
+    },
+    zoomAccount: {
+      pgColumn: text(),
+      airtableId: 'fldH0pKnEELPI65Qs',
+    },
+  },
+});
+
+export const meetPersonTable = pgAirtable('meet_person', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblBeMxAM1FAW06n4',
+  columns: {
+    name: {
+      pgColumn: text(),
+      airtableId: 'fldP4ejaYy137J5Md',
+    },
+  },
+});
+
+export const zoomAccountTable = pgAirtable('zoom_account', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblF61F1xXUnpB13S',
+  columns: {
+    meetingLink: {
+      pgColumn: text(),
+      airtableId: 'fldF5V0uf7jYAxHu5',
+    },
+    hostKey: {
+      pgColumn: text(),
+      airtableId: 'fldprdNVzdeAU1cRH',
+    },
+  },
+});
+
+export const roundTable = pgAirtable('round', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblu6u7F2NHfCMgsk',
+  columns: {
+    course: {
+      pgColumn: text(),
+      airtableId: 'fldvx7D6Uw0VxMPr0',
+    },
+  },
+});
+
+export const meetCourseTable = pgAirtable('meet_course', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblO0sgD3ioedaqDw',
+  columns: {
+    courseSite: {
+      pgColumn: text(),
+      airtableId: 'fldzJ2h89blzv6MSb',
+    },
+  },
+});
+
 export const blogTable = pgAirtable('blog', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblT8jgeG4QWX2Fj4',

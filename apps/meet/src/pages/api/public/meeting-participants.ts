@@ -1,12 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import AirtableError from 'airtable/lib/airtable_error';
+import {
+  eq, inArray, groupTable, groupDiscussionTable, meetPersonTable, zoomAccountTable,
+} from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import {
-  Group, groupDiscussionTable, groupTable, personTable, zoomAccountTable,
-} from '../../../lib/api/db/tables';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingParticipantsRequest = {
@@ -59,25 +57,24 @@ export default makeApiRoute({
     }),
   ]),
 }, async (body) => {
-  let group: Group;
-  try {
-    group = await db.get(groupTable, body.groupId);
-  } catch (err) {
-    if (err instanceof AirtableError && err.statusCode === 404) {
-      throw new createHttpError.NotFound(`Group ${body.groupId} not found`);
-    }
-    throw err;
+  // Get the group
+  const groups = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, body.groupId));
+  const group = groups[0];
+
+  if (!group) {
+    throw new createHttpError.NotFound(`Group ${body.groupId} not found`);
   }
-  const groupDiscussions = await Promise.all(
-    group.groupDiscussions
-      .map((groupDiscussionId) => db.get(groupDiscussionTable, groupDiscussionId)),
-  );
+
+  // Get group discussions for this group
+  const groupDiscussions = await db.pg.select().from(groupDiscussionTable.pg).where(eq(groupDiscussionTable.pg.group, body.groupId));
+
   const groupDiscussionsWithDistance = groupDiscussions
-    .filter((groupDiscussion) => !!groupDiscussion['Start date/time'] && !!groupDiscussion['End date/time'])
+    .filter((groupDiscussion) => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
     .map((groupDiscussion) => ({
       groupDiscussion,
-      distance: Math.abs((Date.now() / 1000) - groupDiscussion['Start date/time']!),
+      distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime!)),
     }));
+
   if (groupDiscussionsWithDistance.length === 0) {
     throw new createHttpError.NotFound('No discussions found for this group.');
   }
@@ -90,31 +87,46 @@ export default makeApiRoute({
   });
   const { groupDiscussion } = nearestGroupDiscussionWithDistance;
 
-  if (!groupDiscussion['Zoom account']) {
+  if (!groupDiscussion.zoomAccount) {
     throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
   }
-  const zoomAccount = await db.get(zoomAccountTable, groupDiscussion['Zoom account']);
-  const facilitators = await Promise.all(groupDiscussion.Facilitators.map((facilitatorId) => db.get(personTable, facilitatorId)));
-  const participants = await Promise.all(
-    groupDiscussion['Participants (Expected)']
-      .map((participantId) => db.get(personTable, participantId)),
-  );
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount['Meeting link']);
-  const meetingHostKey = zoomAccount['Host key'];
+
+  // Get zoom account
+  const zoomAccounts = await db.pg.select().from(zoomAccountTable.pg).where(eq(zoomAccountTable.pg.id, groupDiscussion.zoomAccount));
+  const zoomAccount = zoomAccounts[0];
+
+  if (!zoomAccount) {
+    throw new createHttpError.InternalServerError(`Zoom account ${groupDiscussion.zoomAccount} not found`);
+  }
+
+  // Get facilitators and participants
+  const facilitatorIds = groupDiscussion.facilitators || [];
+  const participantIds = groupDiscussion.participantsExpected || [];
+
+  const facilitators = facilitatorIds.length > 0
+    ? await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, facilitatorIds))
+    : [];
+
+  const participants = participantIds.length > 0
+    ? await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, participantIds))
+    : [];
+
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink || '');
+  const meetingHostKey = zoomAccount.hostKey || '';
 
   return {
     type: 'success' as const,
-    groupDiscussionId: groupDiscussion.id,
+    groupDiscussionId: groupDiscussion.id || '',
     participants: [
-      ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
-      ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
+      ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name || '', role: 'host' as const })),
+      ...participants.map((participant) => ({ id: participant.id, name: participant.name || '', role: 'participant' as const })),
     // eslint-disable-next-line no-nested-ternary
     ].sort((a, b) => ((a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0)),
     meetingNumber,
     meetingPassword,
     meetingHostKey,
-    meetingStartTime: groupDiscussion['Start date/time']!,
-    meetingEndTime: groupDiscussion['End date/time']!,
+    meetingStartTime: groupDiscussion.startDateTime!,
+    meetingEndTime: groupDiscussion.endDateTime!,
   };
 });
 
