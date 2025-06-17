@@ -9,11 +9,13 @@ import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
 import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
+import { useCourses } from '../lib/hooks/useCourses';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSiteParam = useRouter().query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
+  const { courses, loading } = useCourses();
 
   return (
     <PostHogProvider>
@@ -39,7 +41,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             <main className="bluedot-base">
               <Component {...pageProps} />
             </main>
-            {!hideFooter && <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />}
+            {!hideFooter && (
+              <Footer courses={courses} loading={loading} logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
+            )}
           </>
         )}
       <CookieBanner />

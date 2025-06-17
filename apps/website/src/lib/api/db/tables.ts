@@ -33,7 +33,7 @@ export const chunkTable: Table<Chunk> = {
 
 export type Course = {
   certificationBadgeImage: string,
-  certificatonDescription: string,
+  certificationDescription: string,
   description: string,
   detailsUrl: string,
   displayOnCourseHubIndex: boolean,
@@ -50,6 +50,8 @@ export type Course = {
   level: string,
   averageRating: number | null,
   publicLastUpdated: string | null,
+  isFeatured: boolean | null,
+  isNew: boolean | null,
   // numGraduates: number, // TODO
 } & Item;
 
@@ -59,7 +61,7 @@ export const courseTable: Table<Course> = {
   tableId: 'tbl6nq5AVLKINBJ73',
   mappings: {
     certificationBadgeImage: 'fldwOxukk9OyUPWDX',
-    certificatonDescription: 'fldsxyHg4BLouu7XZ',
+    certificationDescription: 'fldsxyHg4BLouu7XZ',
     description: 'fldCX0bk6SQuXZaI7',
     detailsUrl: 'fldblKROooVG5p9UW',
     displayOnCourseHubIndex: 'fldf7ppu9kN4blXU9',
@@ -75,11 +77,13 @@ export const courseTable: Table<Course> = {
     level: 'fldkL7aWITGCPqzxc',
     averageRating: 'fldONpnyJ4OG0StDY',
     publicLastUpdated: 'fld8g5mMsPqOm75Vz',
+    isFeatured: 'fldFFndUplP3mEFe7',
+    isNew: 'fldDXwQyHpHtUspFY',
     // numGraduates: '', // TODO
   },
   schema: {
     certificationBadgeImage: 'string',
-    certificatonDescription: 'string',
+    certificationDescription: 'string',
     description: 'string',
     detailsUrl: 'string',
     displayOnCourseHubIndex: 'boolean',
@@ -95,6 +99,8 @@ export const courseTable: Table<Course> = {
     level: 'string',
     averageRating: 'number | null',
     publicLastUpdated: 'string | null',
+    isFeatured: 'boolean | null',
+    isNew: 'boolean | null',
     // numGraduates: 'number', // TODO
   },
 };
