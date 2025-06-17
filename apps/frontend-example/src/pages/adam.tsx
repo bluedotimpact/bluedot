@@ -4,7 +4,10 @@ import {
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetPeopleResponse } from './api/public/people';
-import { personTable } from '../lib/api/db/tables';
+
+// Airtable base and table IDs for direct links
+const PERSON_TABLE_BASE_ID = 'appRcVrzrkGoSrfR4';
+const PERSON_TABLE_ID = 'tblA0UsJCiOt9MN0k';
 
 const HomePage = () => {
   const [value, setValue] = useState(0);
@@ -35,7 +38,7 @@ const HomePage = () => {
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
               <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-                <NewText.P><NewText.A href={`https://airtable.com/${personTable.baseId}/${personTable.tableId}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+                <NewText.P><NewText.A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
               </Card>
             ))}
           </div>
