@@ -38,8 +38,8 @@ const ProjectsPage = withAuth(({ auth }) => {
           ctaUrl={`/projects/${project.slug}`}
           isEntireCardClickable
           isFullWidth
-          subtitle={`${project.course}${project.tag.length > 0 ? ` • ${project.tag.join(', ')}` : ''} • ${project.authorName} • ${project.publicationStatus}`}
-          title={project.title}
+          subtitle={`${project.course || ''}${project.tag && project.tag.length > 0 ? ` • ${project.tag.join(', ')}` : ''} • ${project.authorName || ''} • ${project.publicationStatus || ''}`}
+          title={project.title || 'Untitled'}
         />
       ))}
     </div>

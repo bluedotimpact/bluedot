@@ -38,8 +38,8 @@ const JobsPage = withAuth(({ auth }) => {
           ctaUrl={`/jobs/${job.slug}`}
           isEntireCardClickable
           isFullWidth
-          subtitle={`${job.subtitle} • ${job.publicationStatus}`}
-          title={job.title}
+          subtitle={`${job.subtitle || ''} • ${job.publicationStatus || ''}`}
+          title={job.title || 'Untitled'}
         />
       ))}
     </div>

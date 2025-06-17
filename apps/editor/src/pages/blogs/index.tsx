@@ -38,8 +38,8 @@ const BlogsPage = withAuth(({ auth }) => {
           ctaUrl={`/blogs/${blog.slug}`}
           isEntireCardClickable
           isFullWidth
-          subtitle={`${blog.authorName} • ${blog.publicationStatus} • ${new Date(blog.publishedAt * 1000).toLocaleDateString()}`}
-          title={blog.title}
+          subtitle={`${blog.authorName || ''} • ${blog.publicationStatus || ''} • ${blog.publishedAt ? new Date(blog.publishedAt * 1000).toLocaleDateString() : 'No date'}`}
+          title={blog.title || 'Untitled'}
         />
       ))}
     </div>

@@ -16,6 +16,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.803.0",
     "@aws-sdk/s3-presigned-post": "^3.803.0",
+    "@bluedot/db": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
     "@mdx-js/mdx": "^3.1.0",
@@ -23,7 +24,6 @@
     "@tailwindcss/typography": "^0.5.16",
     "@tiptap/pm": "^2.12.0",
     "@tiptap/react": "^2.12.0",
-    "airtable-ts": "^1.6.0",
     "airtable-ts-formula": "^1.0.0",
     "axios": "^1.9.0",
     "axios-hooks": "^5.0.2",

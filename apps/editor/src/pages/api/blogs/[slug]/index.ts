@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import { eq, blogTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { Blog, blogTable } from '../../../../lib/api/db/tables';
+
+type Blog = InferSelectModel<typeof blogTable.pg>;
 
 export type GetBlogResponse = {
   type: 'success',
@@ -25,11 +26,8 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const blog = (await db.scan(blogTable, {
-    filterByFormula: formula(await db.table(blogTable), ['AND',
-      ['=', { field: 'slug' }, slug],
-    ]),
-  }))[0];
+  const blogs = await db.pg.select().from(blogTable.pg).where(eq(blogTable.pg.slug, slug));
+  const blog = blogs[0];
 
   if (!blog) {
     throw new createHttpError.NotFound('Blog post not found');
@@ -46,13 +44,16 @@ export default makeApiRoute({
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
-      const updatedBlog = await db.update(blogTable, {
+      await db.airtableUpdate(blogTable, {
         id: blog.id,
         body: body.body,
       });
       return {
         type: 'success' as const,
-        blog: updatedBlog,
+        blog: {
+          ...blog,
+          body: body.body,
+        },
       };
     }
     default: {

@@ -5,9 +5,10 @@ import { pgAirtable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
-const AVAILABILITY_BASE_ID = 'app6dkBHka8c4WaEj';
+const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
+const AVAILABILITY_FORMS_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
-const COURSE_DEMOS_BASE_ID = 'appPs3sb9BrYZN69z';
+const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -174,7 +175,7 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
 });
 
 export const formConfigurationTable = pgAirtable('form_configuration', {
-  baseId: AVAILABILITY_BASE_ID,
+  baseId: AVAILABILITY_FORMS_BASE_ID,
   tableId: 'tblvsaRl69XV8azGZ',
   columns: {
     slug: {
@@ -263,7 +264,7 @@ export const opportunityTable = pgAirtable('opportunity', {
 });
 
 export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
-  baseId: COURSE_DEMOS_BASE_ID,
+  baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tbl9WE3N4B0OjocEB',
   columns: {
     type: {
@@ -277,6 +278,119 @@ export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
     createdAt: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldNfaTMCepyRY3Nj',
+    },
+  },
+});
+
+export const blogTable = pgAirtable('blog', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblT8jgeG4QWX2Fj4',
+  columns: {
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldB4uHuTqUd4JOsw',
+    },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldSy5THCV7WOtYiN',
+    },
+    body: {
+      pgColumn: text(),
+      airtableId: 'fldesLVb1tJpsNkVl',
+    },
+    authorName: {
+      pgColumn: text(),
+      airtableId: 'fldBVD1meb54zRK8Q',
+    },
+    authorUrl: {
+      pgColumn: text(),
+      airtableId: 'fldEOlPQdbEmDxicJ',
+    },
+    publishedAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldjp3x46apAPAXo7',
+    },
+    publicationStatus: {
+      pgColumn: text(),
+      airtableId: 'fldiDvLbKKWNPeny4',
+    },
+  },
+});
+
+export const jobPostingTable = pgAirtable('job_posting', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblGv8yisIfJMjT6K',
+  columns: {
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldN51J9NLxyRBEDf',
+    },
+    subtitle: {
+      pgColumn: text(),
+      airtableId: 'fldhiAectnNMEmUt5',
+    },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldiMgiy9wHuvIM2f',
+    },
+    applicationUrl: {
+      pgColumn: text(),
+      airtableId: 'fldtkliaGs8JLy0BS',
+    },
+    body: {
+      pgColumn: text(),
+      airtableId: 'fldiBF58TPRIMhgvq',
+    },
+    publicationStatus: {
+      pgColumn: text(),
+      airtableId: 'fld4cZjg7YiEDaZXg',
+    },
+  },
+});
+
+export const projectTable = pgAirtable('project', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblYCFWqPy29YIWe6',
+  columns: {
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldGyQnG2U6q5p5ny',
+    },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldX2rzTLpj9P9fdP',
+    },
+    body: {
+      pgColumn: text(),
+      airtableId: 'fldjW7BnaXVCttBQn',
+    },
+    authorName: {
+      pgColumn: text(),
+      airtableId: 'fldGpZHynFhhAx13S',
+    },
+    authorUrl: {
+      pgColumn: text(),
+      airtableId: 'fldJiHv2mFQzEdz7L',
+    },
+    coverImageSrc: {
+      pgColumn: text(),
+      airtableId: 'fldliLiVCys4rLX7S',
+    },
+    publishedAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldoTpdgfEBNQgej9',
+    },
+    publicationStatus: {
+      pgColumn: text(),
+      airtableId: 'fldn7RrnTe80QUEt6',
+    },
+    course: {
+      pgColumn: text(),
+      airtableId: 'fldNHNMuxmQjaokmY',
+    },
+    tag: {
+      pgColumn: text().array(),
+      airtableId: 'fldeTqWZOvybdopnK',
     },
   },
 });

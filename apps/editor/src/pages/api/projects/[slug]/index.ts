@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula, AirtableTsTable } from 'airtable-ts-formula';
+import { eq, projectTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { Project, projectTable } from '../../../../lib/api/db/tables';
+
+type Project = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectResponse = {
   type: 'success',
@@ -25,16 +26,11 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const project = (await db.scan(projectTable, {
-    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(projectTable) as AirtableTsTable<Project>, [
-      'AND',
-      ['=', { field: 'slug' }, slug],
-    ]),
-  }))[0];
+  const projects = await db.pg.select().from(projectTable.pg).where(eq(projectTable.pg.slug, slug));
+  const project = projects[0];
 
   if (!project) {
-    throw new createHttpError.NotFound('Project posting not found');
+    throw new createHttpError.NotFound('Project not found');
   }
 
   switch (raw.req.method) {
@@ -48,13 +44,16 @@ export default makeApiRoute({
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
-      const updatedProject = await db.update(projectTable, {
+      await db.airtableUpdate(projectTable, {
         id: project.id,
         body: body.body,
       });
       return {
         type: 'success' as const,
-        blog: updatedProject,
+        project: {
+          ...project,
+          body: body.body,
+        },
       };
     }
     default: {
