@@ -45,7 +45,7 @@ export default makeApiRoute({
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
       await db.airtableUpdate(projectTable, {
-        id: project.id!,
+        id: project.id,
         body: body.body,
       });
       return {
