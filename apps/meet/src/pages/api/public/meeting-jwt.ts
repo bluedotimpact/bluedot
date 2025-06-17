@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
+import { eq, groupDiscussionTable, zoomAccountTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { groupDiscussionTable, zoomAccountTable } from '../../../lib/api/db/tables';
 import env from '../../../lib/api/env';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
@@ -40,22 +40,42 @@ export default makeApiRoute({
     meetingPassword: z.string(),
   }),
 }, async (body) => {
-  const groupDiscussion = await db.get(groupDiscussionTable, body.groupDiscussionId);
-  if (body.participantId && !groupDiscussion.Attendees.includes(body.participantId)) {
-    await db.update(groupDiscussionTable, { ...groupDiscussion, Attendees: [...groupDiscussion.Attendees, body.participantId] });
+  // Get the group discussion
+  const groupDiscussions = await db.pg.select().from(groupDiscussionTable.pg).where(eq(groupDiscussionTable.pg.id, body.groupDiscussionId));
+  const groupDiscussion = groupDiscussions[0];
+  if (!groupDiscussion) {
+    throw new createHttpError.NotFound(`Group discussion ${body.groupDiscussionId} not found`);
   }
-  if (!groupDiscussion['Zoom account']) {
+
+  if (body.participantId) {
+    const currentAttendees = groupDiscussion.attendees || [];
+    if (!currentAttendees.includes(body.participantId)) {
+      await db.airtableUpdate(groupDiscussionTable, {
+        id: body.groupDiscussionId,
+        attendees: [...currentAttendees, body.participantId],
+      });
+    }
+  }
+
+  if (!groupDiscussion.zoomAccount) {
     throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
   }
-  const zoomAccount = await db.get(zoomAccountTable, groupDiscussion['Zoom account']);
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount['Meeting link']);
+
+  const zoomAccounts = await db.pg.select().from(zoomAccountTable.pg).where(eq(zoomAccountTable.pg.id, groupDiscussion.zoomAccount));
+  const zoomAccount = zoomAccounts[0];
+  if (!zoomAccount) {
+    throw new createHttpError.InternalServerError(`Zoom account ${groupDiscussion.zoomAccount} not found`);
+  }
+
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink || '');
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;
+  const facilitators = groupDiscussion.facilitators || [];
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,
-    role: body.participantId && groupDiscussion.Facilitators.includes(body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
+    role: body.participantId && facilitators.includes(body.participantId) ? ZOOM_ROLE.HOST : ZOOM_ROLE.PARTICIPANT,
     iat: issuedAt,
     exp: expiresAt,
     tokenExp: expiresAt,
