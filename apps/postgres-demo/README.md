@@ -1,3 +1,0 @@
-# postgres-demo
-
-TODO

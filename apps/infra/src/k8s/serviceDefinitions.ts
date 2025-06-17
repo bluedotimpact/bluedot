@@ -267,22 +267,6 @@ export const services: ServiceDefinition[] = [
     hosts: ['pg-sync-service.k8s.bluedot.org'],
   },
   {
-    name: 'bluedot-postgres-demo',
-    spec: {
-      containers: [{
-        name: 'bluedot-postgres-demo',
-        image: 'ghcr.io/bluedotimpact/bluedot-postgres-demo:latest',
-        env: [
-          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
-          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
-          { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
-          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
-        ],
-      }],
-    },
-    hosts: ['postgres-demo.k8s.bluedot.org'],
-  },
-  {
     name: 'minio',
     spec: {
       containers: [{
