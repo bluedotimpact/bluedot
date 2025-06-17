@@ -2,7 +2,7 @@ name: Bug Report
 description: Report a bug
 title: "[Bug] Short descriptive title"
 labels: [bug]
-assignees: [bluebotimpact]
+assignees: []
 body:
   - type: markdown
     attributes:
