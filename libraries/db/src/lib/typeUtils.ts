@@ -29,13 +29,13 @@ export type AllowedPgColumn =
   ReturnType<ReturnType<typeof numeric<'number'>>['array']> |
   ReturnType<ReturnType<typeof pgBoolean>['array']>;
 
-export type DrizzleColumnToTsTypeString<T extends AllowedPgColumn> =
-  T extends ReturnType<typeof numeric<'number'>> ? 'number | null' :
-    T extends ReturnType<typeof pgBoolean> ? 'boolean | null' :
-      T extends ReturnType<typeof text>['array'] ? 'string[] | null' :
-        T extends ReturnType<typeof numeric<'number'>>['array'] ? 'number[] | null' :
-          T extends ReturnType<typeof pgBoolean>['array'] ? 'boolean[] | null' :
-            'string | null';
+export type DrizzleColumnToTsType<T extends AllowedPgColumn> =
+  T extends ReturnType<ReturnType<typeof text>['array']> ? string[] | null :
+    T extends ReturnType<ReturnType<typeof numeric<'number'>>['array']> ? number[] | null :
+      T extends ReturnType<ReturnType<typeof pgBoolean>['array']> ? boolean[] | null :
+        T extends ReturnType<typeof numeric<'number'>> ? number | null :
+          T extends ReturnType<typeof pgBoolean> ? boolean | null :
+            string | null;
 
 export type PgAirtableColumnInput = {
   pgColumn: AllowedPgColumn;
@@ -57,14 +57,7 @@ export type AirtableItemFromColumnsMap<
 > = {
   id: string;
 } & {
-  [K in keyof TColumnsMap]: TColumnsMap[K]['pgColumn'] extends AllowedPgColumn
-    ? DrizzleColumnToTsTypeString<TColumnsMap[K]['pgColumn']> extends `${infer BaseType} | null`
-      ? BaseType extends 'string' ? string | null
-        : BaseType extends 'number' ? number | null
-          : BaseType extends 'boolean' ? boolean | null
-            : string | null
-      : string | null
-    : string | null;
+  [K in keyof TColumnsMap]: DrizzleColumnToTsType<TColumnsMap[K]['pgColumn']>;
 };
 
 export type BasePgTableType<
