@@ -48,12 +48,8 @@ export type PgAirtableConfig<TColumns extends Record<string, PgAirtableColumnInp
   columns: TColumns;
 };
 
-const textPrimaryKey = text().primaryKey();
-
 export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
-  [K in keyof T]: K extends 'id' ? never : T[K]['pgColumn'];
-} & {
-  id: typeof textPrimaryKey;
+  [K in keyof T]: T[K]['pgColumn'];
 };
 
 export type AirtableItemFromColumnsMap<
@@ -74,10 +70,15 @@ export type AirtableItemFromColumnsMap<
 export type BasePgTableType<
   TTableName extends string,
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
-> = PgTableWithColumns<{
+> = Omit<PgTableWithColumns<{
   name: TTableName;
   schema: undefined;
   columns: BuildColumns<TTableName, ExtractPgColumns<TColumnsMap>, 'pg'>;
+  dialect: 'pg';
+}>, 'id'> & PgTableWithColumns<{
+  name: TTableName;
+  schema: undefined;
+  columns: BuildColumns<TTableName, { id: ReturnType<ReturnType<typeof text>['primaryKey']> }, 'pg'>;
   dialect: 'pg';
 }>;
 
