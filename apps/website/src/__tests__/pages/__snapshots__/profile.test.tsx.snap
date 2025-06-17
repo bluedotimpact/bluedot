@@ -76,59 +76,63 @@ exports[`ProfilePage - Edit Name Feature > should render profile page with name 
           <div
             class="profile__enrolled-courses flex flex-col gap-4"
           >
-            <h3
-              class="bluedot-h3 not-prose"
-            >
-              Account details
-            </h3>
             <div
-              class="flex flex-col gap-4 container-lined bg-white p-8 h-fit"
+              class="profile-account-details"
             >
+              <h3
+                class="bluedot-h3 not-prose profile-account-details__title"
+              >
+                Account details
+              </h3>
               <div
-                class="profile-name"
+                class="profile-account-details__container flex flex-col gap-4 container-lined bg-white p-8 h-fit"
               >
                 <div
-                  class="flex flex-col gap-2"
+                  class="profile-account-details__name-section"
                 >
-                  <p
-                    class="bluedot-p not-prose"
-                  >
-                    <span
-                      class="font-bold"
-                    >
-                      Name:
-                    </span>
-                  </p>
                   <div
-                    class="flex gap-2 items-center"
+                    class="profile-account-details__name-container flex flex-col gap-2"
                   >
-                    <label
-                      class="input flex flex-col gap-2 flex-1 min-w-0"
+                    <p
+                      class="bluedot-p not-prose profile-account-details__name-label"
                     >
                       <span
-                        class="input__label"
-                      />
-                      <input
-                        class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal profile-name__input"
-                        placeholder="Enter your name"
-                        type="text"
-                        value="John Doe"
-                      />
-                    </label>
+                        class="font-bold"
+                      >
+                        Name:
+                      </span>
+                    </p>
+                    <div
+                      class="profile-account-details__name-input-container flex gap-2 items-center"
+                    >
+                      <label
+                        class="input flex flex-col gap-2 profile-account-details__input-wrapper flex-1 min-w-0"
+                      >
+                        <span
+                          class="input__label"
+                        />
+                        <input
+                          class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal profile-account-details__input"
+                          placeholder="Enter your name"
+                          type="text"
+                          value="John Doe"
+                        />
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <p
-                class="bluedot-p not-prose"
-              >
-                <span
-                  class="font-bold"
+                <p
+                  class="bluedot-p not-prose profile-account-details__email"
                 >
-                  Email:
-                </span>
-                 
-                test@example.com
-              </p>
+                  <span
+                    class="font-bold"
+                  >
+                    Email:
+                  </span>
+                   
+                  test@example.com
+                </p>
+              </div>
             </div>
             <h3
               class="bluedot-h3 not-prose"

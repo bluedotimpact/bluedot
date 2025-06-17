@@ -68,7 +68,7 @@ export default makeApiRoute({
       }
 
       // Validate that at least one field is being updated
-      const hasUpdates = Object.values(body).some(value => value !== undefined && value !== null);
+      const hasUpdates = Object.values(body).some((value) => value !== undefined && value !== null);
       if (!hasUpdates) {
         throw new createHttpError.BadRequest('At least one field must be provided for update');
       }

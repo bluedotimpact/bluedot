@@ -77,7 +77,7 @@ const ProfilePage = withAuth(({ auth }) => {
     if (!validationResult.success) {
       // Extract the first error message from Zod validation
       const firstError = validationResult.error.issues[0];
-      setNameError(firstError?.message || "Failed to update name. Please try again.");
+      setNameError(firstError?.message || 'Failed to update name. Please try again.');
       return;
     }
 
@@ -216,16 +216,16 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
 }) => {
   const showButtons = tempName !== (userName || '');
   return (
-    <>
-      <H3>Account details</H3>
-      <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
-        <div className="profile-name">
-          <div className="flex flex-col gap-2">
-            <P><span className="font-bold">Name:</span></P>
-            <div className="flex gap-2 items-center">
+    <div className="profile-account-details">
+      <H3 className="profile-account-details__title">Account details</H3>
+      <div className="profile-account-details__container flex flex-col gap-4 container-lined bg-white p-8 h-fit">
+        <div className="profile-account-details__name-section">
+          <div className="profile-account-details__name-container flex flex-col gap-2">
+            <P className="profile-account-details__name-label"><span className="font-bold">Name:</span></P>
+            <div className="profile-account-details__name-input-container flex gap-2 items-center">
               <Input
-                inputClassName="profile-name__input"
-                labelClassName="flex-1 min-w-0"
+                inputClassName="profile-account-details__input"
+                labelClassName="profile-account-details__input-wrapper flex-1 min-w-0"
                 value={tempName}
                 onChange={(e) => onNameChange(e.target.value)}
                 onFocus={onFocus}
@@ -236,12 +236,12 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                 placeholder="Enter your name"
               />
               {showButtons && (
-                <div className="profile-name__buttons flex gap-2 flex-shrink-0">
+                <div className="profile-account-details__buttons flex gap-2 flex-shrink-0">
                   <CTALinkOrButton
                     variant="primary"
                     onClick={onSave}
                     disabled={isSaving}
-                    className="whitespace-nowrap"
+                    className="profile-account-details__save-button whitespace-nowrap"
                   >
                     {isSaving ? 'Saving...' : 'Save'}
                   </CTALinkOrButton>
@@ -249,6 +249,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                     variant="secondary"
                     onClick={onCancel}
                     disabled={isSaving}
+                    className="profile-account-details__cancel-button"
                   >
                     Cancel
                   </CTALinkOrButton>
@@ -256,13 +257,13 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
               )}
             </div>
             {nameError && (
-              <p className="profile-name--error text-red-600 text-size-sm mt-1">{nameError}</p>
+              <p className="profile-account-details__error text-red-600 text-size-sm mt-1">{nameError}</p>
             )}
           </div>
         </div>
-        <P><span className="font-bold">Email:</span> {userEmail}</P>
+        <P className="profile-account-details__email"><span className="font-bold">Email:</span> {userEmail}</P>
       </div>
-    </>
+    </div>
   );
 };
 

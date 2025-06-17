@@ -12,7 +12,7 @@ import {
   beforeEach,
   type Mock,
 } from 'vitest';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import useAxios from 'axios-hooks';
 import ProfilePage from '../../pages/profile';
 
@@ -20,7 +20,11 @@ import ProfilePage from '../../pages/profile';
 vi.mock('axios');
 const mockedAxios = axios as typeof axios & {
   patch: Mock;
+  isAxiosError: Mock;
 };
+
+// Setup axios.isAxiosError to return true for our mock errors
+mockedAxios.isAxiosError = vi.fn((error) => error.isAxiosError === true);
 
 // Mock axios-hooks
 vi.mock('axios-hooks');
@@ -41,6 +45,7 @@ vi.mock('next/head', () => ({
 }));
 
 // Mock CircleSpaceEmbed to avoid iframe errors
+// Courses will be part of another page soon
 vi.mock('../../components/courses/exercises/CircleSpaceEmbed', () => ({
   default: () => null,
 }));
@@ -151,14 +156,7 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     const input = await screen.findByPlaceholderText('Enter your name');
 
-    // Test length validation - this demonstrates validation error handling
-    mockedAxios.patch.mockRejectedValueOnce({
-      response: {
-        status: 400,
-        data: { error: 'Invalid request body: [{"code":"too_big","maximum":50,"type":"string","inclusive":true,"exact":false,"message":"Name must be under 50 characters","path":["name"]}]' },
-      },
-    });
-
+    // Test length validation - client-side validation now happens before API call
     const longName = 'a'.repeat(51);
     fireEvent.change(input, { target: { value: longName } });
 
@@ -169,8 +167,20 @@ describe('ProfilePage - Edit Name Feature', () => {
 
     fireEvent.click(screen.getByText('Save'));
 
+    // Client-side validation should show error immediately
     await waitFor(() => {
       expect(screen.getByText('Name must be under 50 characters')).toBeInTheDocument();
+    });
+
+    // Verify that no API call was made due to client-side validation
+    expect(mockedAxios.patch).not.toHaveBeenCalled();
+
+    // Test regex validation for invalid characters
+    fireEvent.change(input, { target: { value: 'John@123' } });
+    fireEvent.click(screen.getByText('Save'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Name can only contain letters, spaces, hyphens, apostrophes, and periods')).toBeInTheDocument();
     });
   });
 
@@ -216,6 +226,9 @@ describe('ProfilePage - Edit Name Feature', () => {
   });
 
   test('should support keyboard shortcuts for save and cancel', async () => {
+    // Mock successful API response
+    mockedAxios.patch.mockResolvedValueOnce({ data: { success: true } });
+
     render(<ProfilePage />);
 
     const input = await screen.findByPlaceholderText('Enter your name');
@@ -259,16 +272,35 @@ describe('ProfilePage - Edit Name Feature', () => {
     const input = await screen.findByPlaceholderText('Enter your name');
 
     // Test session expired error
-    mockedAxios.patch.mockRejectedValueOnce({
-      response: { status: 401 },
-    });
+    const axiosError401 = {
+      message: 'Request failed with status code 401',
+      name: 'AxiosError',
+      isAxiosError: true,
+      response: {
+        status: 401,
+        statusText: 'Unauthorized',
+        data: {},
+        headers: {},
+        config: {},
+      },
+      config: {},
+      toJSON: () => ({}),
+    };
+    mockedAxios.patch.mockRejectedValueOnce(axiosError401);
 
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
     fireEvent.click(screen.getByText('Save'));
 
     await waitFor(() => {
+      expect(mockedAxios.patch).toHaveBeenCalled();
+    });
+
+    await waitFor(() => {
       expect(screen.getByText('Session expired. Please refresh the page and try again.')).toBeInTheDocument();
     });
+
+    // Clear the error by clicking on the input
+    fireEvent.focus(input);
 
     // Test generic network error
     mockedAxios.patch.mockRejectedValueOnce(new Error('Network error'));
