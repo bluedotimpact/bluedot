@@ -3,18 +3,7 @@ import {
   ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-
-type Person = {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  ethnicGroup: string;
-  careerPlans: string;
-  biography: string;
-  appliedToOpportunities: string[];
-  isProfilePublic: boolean;
-};
+import { personTable } from '@bluedot/db';
 
 // Airtable base and table IDs for direct links
 const PERSON_TABLE_BASE_ID = 'appRcVrzrkGoSrfR4';
@@ -46,7 +35,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 export default AuthedPage;
 
 const PeopleListView: React.FC = withAuth(({ auth }) => {
-  const [{ data, loading, error }] = useAxios<Person[]>({
+  const [{ data, loading, error }] = useAxios<typeof personTable.pg.$inferSelect[]>({
     method: 'get',
     url: '/api/public/people',
     headers: {

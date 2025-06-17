@@ -1,6 +1,6 @@
 import { BuildColumns } from 'drizzle-orm/column-builder';
 import {
-  type numeric, boolean as pgBoolean, PgTableWithColumns, type text,
+  type numeric, boolean as pgBoolean, PgTableWithColumns, text,
 } from 'drizzle-orm/pg-core';
 
 // BEGIN vendored from airtable-ts/src/mapping/typeUtils.ts
@@ -48,10 +48,12 @@ export type PgAirtableConfig<TColumns extends Record<string, PgAirtableColumnInp
   columns: TColumns;
 };
 
+const textPrimaryKey = text().primaryKey();
+
 export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
   [K in keyof T]: K extends 'id' ? never : T[K]['pgColumn'];
 } & {
-  id: ReturnType<typeof text>;
+  id: typeof textPrimaryKey;
 };
 
 export type AirtableItemFromColumnsMap<
