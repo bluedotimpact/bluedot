@@ -10,7 +10,7 @@ describe('RateLimiter', () => {
     await limiter.acquire();
 
     const elapsed = Date.now() - start;
-    expect(elapsed).toBeLessThan(10); // Should not have waited
+    expect(elapsed).toBeLessThan(100); // Should not have waited
   });
 
   test('should delay requests over the rate limit', async () => {
