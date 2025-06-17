@@ -24,7 +24,6 @@ This repository has the code for:
 - [course-demos](./apps/course-demos/): Interactive demos to be embedded on our courses
 - [meet](./apps/meet/): Record meeting attendance, and host meetings with the Zoom Web SDK
 - [login](./apps/login/): A custom build of Keycloak
-- [login-account-proxy](./apps/login-account-proxy/): An app for setting up users in Keycloak from Bubble
 - [miniextensions-proxy](./apps/miniextensions-proxy/) (forms.bluedot.org): Host forms on a custom domain
 - [posthog-proxy](./apps/posthog-proxy/) (analytics.k8s.bluedot.org): Reverse proxy to send analytics to PostHog
 - [storybook](./apps/storybook/) (storybook.k8s.bluedot.org): App to demo and document design system components
