@@ -85,12 +85,12 @@ export async function processTableForInitialSync(
 }
 
 /**
- * Performs initial sync by discovering all tracked tables and processing each one.
+ * Performs full sync by discovering all tracked tables and processing each one.
  */
-export async function performInitialSync(
+export async function performFullSync(
   addToQueue: (actions: AirtableAction[], priority: 'low' | 'high') => void,
 ): Promise<void> {
-  logger.info('🚀 Starting initial sync...');
+  logger.info('🚀 Starting full sync...');
 
   const tableFieldMappings = await db.pg
     .select({
@@ -155,5 +155,5 @@ export async function performInitialSync(
     }
   }
 
-  logger.info(`🎉 Initial sync completed! Total records queued: ${totalRecords}`);
+  logger.info(`🎉 Full sync completed! Total records queued: ${totalRecords}`);
 }
