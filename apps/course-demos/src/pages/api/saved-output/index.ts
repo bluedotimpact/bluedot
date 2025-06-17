@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { sharedDemoOutputTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import db, { demoTypes, sharedDemoOutputTable } from '../../../lib/api/db';
+import db, { demoTypes } from '../../../lib/api/db';
 
 export default makeApiRoute({
   requireAuth: false,
@@ -12,7 +13,7 @@ export default makeApiRoute({
     savedDemoOutputId: z.string(),
   }),
 }, async (body) => {
-  const record = await db.insert(sharedDemoOutputTable, {
+  const record = await db.airtableInsert(sharedDemoOutputTable, {
     type: body.type,
     data: body.data,
     createdAt: Math.floor(Date.now() / 1000),

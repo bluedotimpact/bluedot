@@ -9,6 +9,7 @@ export {
   formConfigurationTable,
   personTable,
   opportunityTable,
+  sharedDemoOutputTable,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

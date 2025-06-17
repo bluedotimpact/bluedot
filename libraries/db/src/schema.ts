@@ -7,6 +7,7 @@ const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
 const APPLICATIONS_BASE_ID = 'appnJbsG1eWbAdEvf';
 const AVAILABILITY_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
+const COURSE_DEMOS_BASE_ID = 'appPs3sb9BrYZN69z';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -257,6 +258,25 @@ export const opportunityTable = pgAirtable('opportunity', {
     applicants: {
       pgColumn: text().array(),
       airtableId: 'fldOCFhSNFqg12mjO',
+    },
+  },
+});
+
+export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
+  baseId: COURSE_DEMOS_BASE_ID,
+  tableId: 'tbl9WE3N4B0OjocEB',
+  columns: {
+    type: {
+      pgColumn: text(),
+      airtableId: 'fldpAHTnZOJc8wbFV',
+    },
+    data: {
+      pgColumn: text(),
+      airtableId: 'fldsh10gNDXfkosfJ',
+    },
+    createdAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldNfaTMCepyRY3Nj',
     },
   },
 });

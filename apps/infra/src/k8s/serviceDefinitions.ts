@@ -179,6 +179,7 @@ export const services: ServiceDefinition[] = [
         image: 'ghcr.io/bluedotimpact/bluedot-course-demos:latest',
         env: [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
           { name: 'OPENAI_API_KEY', valueFrom: envVarSources.openaiApiKey },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
