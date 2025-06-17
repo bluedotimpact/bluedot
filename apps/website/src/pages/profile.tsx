@@ -279,7 +279,7 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
     <>
       <H3>Your courses</H3>
       {enrolledCourses.length === 0 && (
-        <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+        <div className="profile-course-list__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
           <P>You haven't started any courses yet</P>
           <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
         </div>
