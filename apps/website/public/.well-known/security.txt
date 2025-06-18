@@ -1,2 +1,2 @@
-Contact: mailto:security@bluedot.org
+Contact: mailto:software@bluedot.org
 Preferred-Languages: en
