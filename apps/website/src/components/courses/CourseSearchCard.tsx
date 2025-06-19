@@ -60,7 +60,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
               <Tag className="course-search-card__level">{level}</Tag>
             )}
             {cadence && (
-              <Tag className="course-search-card__duration">{cadence === 'MOOC' ? 'Self-paced' : cadence}</Tag>
+              <Tag className="course-search-card__duration">{cadence}</Tag>
             )}
           </div>
           {typeof averageRating === 'number' && (
