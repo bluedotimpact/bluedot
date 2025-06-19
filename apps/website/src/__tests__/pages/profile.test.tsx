@@ -24,7 +24,9 @@ const mockedAxios = axios as typeof axios & {
 };
 
 // Setup axios.isAxiosError to return true for our mock errors
-(mockedAxios.isAxiosError as any) = vi.fn((error) => error.isAxiosError === true);
+vi.spyOn(axios, 'isAxiosError').mockImplementation(
+  (error: any): error is AxiosError => error?.isAxiosError === true,
+);
 
 // Mock axios-hooks
 vi.mock('axios-hooks');
@@ -84,8 +86,8 @@ const getNameCancelButton = (container: HTMLElement): HTMLElement | null => {
 
 // Helper functions for error messages and validation
 const getErrorMessage = (container: HTMLElement, message: string): HTMLElement | null => {
-  return container.querySelector(`[data-testid="error-message"]`) || 
-         Array.from(container.querySelectorAll('*')).find(el => el.textContent === message) as HTMLElement || null;
+  return container.querySelector('[data-testid="error-message"]')
+         || Array.from(container.querySelectorAll('*')).find((el) => el.textContent === message) as HTMLElement || null;
 };
 
 describe('ProfilePage - Edit Name Feature', () => {

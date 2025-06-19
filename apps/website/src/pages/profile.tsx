@@ -170,7 +170,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, aut
       }
 
       if (err.response?.status === 400) {
-        setNameError(parseZodValidationError(err, "Invalid name format"));
+        setNameError(parseZodValidationError(err, 'Invalid name format'));
         return;
       }
 
