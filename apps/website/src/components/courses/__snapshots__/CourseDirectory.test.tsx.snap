@@ -64,7 +64,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                       class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
                       role="status"
                     >
-                      Self-paced
+                      MOOC
                     </span>
                   </div>
                   <div

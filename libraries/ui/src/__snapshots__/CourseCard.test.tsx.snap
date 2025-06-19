@@ -57,12 +57,16 @@ exports[`CourseCard > renders Featured as expected 1`] = `
       >
         <span
           class="course-card__length font-medium"
-        />
+        >
+          10 hours
+        </span>
       </p>
       <span
         class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
         role="status"
-      />
+      >
+        Self-paced
+      </span>
     </div>
   </a>
 </div>
@@ -117,12 +121,16 @@ exports[`CourseCard > renders default as expected 1`] = `
               >
                 <span
                   class="course-card__length font-medium"
-                />
+                >
+                  10 hours
+                </span>
               </p>
               <span
                 class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                 role="status"
-              />
+              >
+                Self-paced
+              </span>
             </div>
           </div>
         </div>
@@ -135,7 +143,9 @@ exports[`CourseCard > renders default as expected 1`] = `
 exports[`CourseCard > renders with optional args 1`] = `
 <span
   class="course-card__length font-medium"
-/>
+>
+  10 hours
+</span>
 `;
 
 exports[`CourseCard > renders with optional args 2`] = `
