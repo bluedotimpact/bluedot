@@ -14,8 +14,8 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import axios, { AxiosError } from 'axios';
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
   FaCubesStacked,
@@ -26,7 +26,7 @@ import { GetCoursesResponse } from './api/courses';
 import { ROUTES } from '../lib/routes';
 import { H2, H3, P } from '../components/Text';
 import SocialShare from '../components/courses/SocialShare';
-import { Course, CourseRegistration } from '../lib/api/db/tables';
+import { Course, CourseRegistration, User } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 import { meRequestBodySchema } from '../lib/schemas/user/me.schema';
@@ -55,84 +55,6 @@ const ProfilePage = withAuth(({ auth }) => {
     method: 'get',
     url: '/api/courses',
   });
-
-  // State for name editing
-  const [tempName, setTempName] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
-  const [nameError, setNameError] = useState('');
-  const [currentSavedName, setCurrentSavedName] = useState('');
-
-  const [isInitialized, setIsInitialized] = useState(false);
-  React.useEffect(() => {
-    if (userData?.user && !isInitialized) {
-      const name = userData.user.name || '';
-      setTempName(name);
-      setCurrentSavedName(name);
-      setIsInitialized(true);
-    }
-  }, [userData?.user, isInitialized]);
-
-  // Name editing handlers
-  const handleSave = async () => {
-    const trimmedName = tempName.trim();
-    const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
-    if (!validationResult.success) {
-      // Extract the first error message from Zod validation
-      const firstError = validationResult.error.issues[0];
-      setNameError(firstError?.message || 'Failed to update name. Please try again.');
-      return;
-    }
-
-    setIsSaving(true);
-    setNameError('');
-
-    try {
-      await axios.patch(
-        '/api/users/me',
-        { name: tempName },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        },
-      );
-
-      // Update the saved name state immediately since save was successful
-      setCurrentSavedName(trimmedName);
-    setTempName(trimmedName);
-    } catch (err) {
-      // Handle non-axios errors first
-      if (!axios.isAxiosError(err)) {
-        setNameError('Failed to update name. Please try again.');
-        return;
-      }
-
-      // Handle specific HTTP status codes
-      if (err.response?.status === 401) {
-        setNameError('Session expired. Please refresh the page and try again.');
-        return;
-      }
-
-      if (err.response?.status === 400) {
-        setNameError(parseZodValidationError(err, "Invalid name format"));
-        return;
-      }
-
-      // Default axios error case
-      setNameError('Failed to update name. Please try again.');
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setTempName(currentSavedName);
-    setNameError('');
-  };
-
-  const handleFocus = () => {
-    setNameError('');
-  };
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrationsData?.courseRegistrations || [])
@@ -170,15 +92,8 @@ const ProfilePage = withAuth(({ auth }) => {
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="profile__enrolled-courses flex flex-col gap-4">
               <ProfileAccountDetails
-                userName={currentSavedName || userData.user.name}
-                userEmail={userData.user.email}
-                tempName={tempName}
-                isSaving={isSaving}
-                nameError={nameError}
-                onFocus={handleFocus}
-                onNameChange={setTempName}
-                onSave={handleSave}
-                onCancel={handleCancel}
+                user={userData.user}
+                authToken={auth.token}
               />
               <ProfileCourseList enrolledCourses={enrolledCourses} />
             </div>
@@ -195,29 +110,87 @@ const ProfilePage = withAuth(({ auth }) => {
 });
 
 type ProfileAccountDetailsProps = {
-  userName: string | null | undefined;
-  userEmail: string;
-  tempName: string;
-  isSaving: boolean;
-  nameError: string;
-  onFocus: () => void;
-  onNameChange: (name: string) => void;
-  onSave: () => void;
-  onCancel: () => void;
+  user: User;
+  authToken: string;
 };
 
-const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
-  userName,
-  userEmail,
-  tempName,
-  isSaving,
-  nameError,
-  onFocus,
-  onNameChange,
-  onSave,
-  onCancel,
-}) => {
-  const showButtons = tempName !== (userName || '');
+const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, authToken }) => {
+  // State for name editing
+  const [tempName, setTempName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [nameError, setNameError] = useState('');
+  const [currentSavedName, setCurrentSavedName] = useState('');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize state when user data loads
+  useEffect(() => {
+    if (user && !isInitialized) {
+      const name = user.name || '';
+      setTempName(name);
+      setCurrentSavedName(name);
+      setIsInitialized(true);
+    }
+  }, [user, isInitialized]);
+
+  // Name editing handlers
+  const handleSave = async () => {
+    const trimmedName = tempName.trim();
+    const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
+      setNameError(firstError?.message || 'Failed to update name. Please try again.');
+      return;
+    }
+
+    setIsSaving(true);
+    setNameError('');
+
+    try {
+      await axios.patch(
+        '/api/users/me',
+        { name: tempName },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+      );
+
+      setCurrentSavedName(trimmedName);
+      setTempName(trimmedName);
+    } catch (err) {
+      if (!axios.isAxiosError(err)) {
+        setNameError('Failed to update name. Please try again.');
+        return;
+      }
+
+      if (err.response?.status === 401) {
+        setNameError('Session expired. Please refresh the page and try again.');
+        return;
+      }
+
+      if (err.response?.status === 400) {
+        setNameError(parseZodValidationError(err, "Invalid name format"));
+        return;
+      }
+
+      setNameError('Failed to update name. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setTempName(currentSavedName);
+    setNameError('');
+  };
+
+  const handleFocus = () => {
+    setNameError('');
+  };
+
+  const showButtons = tempName !== currentSavedName;
+
   return (
     <div className="profile-account-details">
       <H3 className="profile-account-details__title">Account details</H3>
@@ -230,11 +203,11 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                 inputClassName="profile-account-details__name-input"
                 labelClassName="profile-account-details__name-input-wrapper flex-1 min-w-0"
                 value={tempName}
-                onChange={(e) => onNameChange(e.target.value)}
-                onFocus={onFocus}
+                onChange={(e) => setTempName(e.target.value)}
+                onFocus={handleFocus}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') onSave();
-                  if (e.key === 'Escape') onCancel();
+                  if (e.key === 'Enter') handleSave();
+                  if (e.key === 'Escape') handleCancel();
                 }}
                 placeholder="Enter your name"
               />
@@ -242,7 +215,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                 <div className="profile-account-details__name-buttons flex gap-2 flex-shrink-0">
                   <CTALinkOrButton
                     variant="primary"
-                    onClick={onSave}
+                    onClick={handleSave}
                     disabled={isSaving}
                     className="profile-account-details__name-save-button whitespace-nowrap"
                   >
@@ -250,7 +223,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
                   </CTALinkOrButton>
                   <CTALinkOrButton
                     variant="secondary"
-                    onClick={onCancel}
+                    onClick={handleCancel}
                     disabled={isSaving}
                     className="profile-account-details__name-cancel-button"
                   >
@@ -264,7 +237,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({
             )}
           </div>
         </div>
-        <P className="profile-account-details__email"><span className="font-bold">Email:</span> {userEmail}</P>
+        <P className="profile-account-details__email"><span className="font-bold">Email:</span> {user.email}</P>
       </div>
     </div>
   );
@@ -282,7 +255,7 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
     <>
       <H3>Your courses</H3>
       {enrolledCourses.length === 0 && (
-        <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+        <div className="profile-course-list__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
           <P>You haven't started any courses yet</P>
           <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
         </div>
