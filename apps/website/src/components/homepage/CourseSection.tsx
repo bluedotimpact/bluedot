@@ -1,18 +1,37 @@
 import {
   CourseCard,
   Section,
-  constants,
+  ProgressDots,
 } from '@bluedot/ui';
 import { SlideList } from '@bluedot/ui/src/SlideList';
 import { withClickTracking } from '../../lib/withClickTracking';
-
-const featuredCourse = constants.COURSES.find((course) => course.isFeatured)!;
+import { useCourses } from '../../lib/hooks/useCourses';
 
 const CourseCardWithTracking = withClickTracking(CourseCard, {
   eventName: 'course_card_click',
 });
 
 const CourseSection = () => {
+  const { courses, loading } = useCourses();
+
+  if (loading) {
+    return (
+      <Section className="course-section">
+        <ProgressDots />
+      </Section>
+    );
+  }
+
+  if (courses.length === 0) {
+    return null;
+  }
+
+  const featuredCourse = courses.find((course) => course.isFeatured);
+
+  if (!featuredCourse) {
+    return null;
+  }
+
   return (
     <Section
       className="course-section"
@@ -24,9 +43,14 @@ const CourseSection = () => {
         <CourseCardWithTracking
           trackingEventParams={{
             course_title: featuredCourse.title,
-            course_url: featuredCourse.url,
+            course_url: featuredCourse.path,
           }}
-          {...featuredCourse}
+          title={featuredCourse.title}
+          description={featuredCourse.description}
+          cadence={featuredCourse.cadence}
+          courseLength={featuredCourse.durationDescription}
+          imageSrc={featuredCourse.image}
+          url={featuredCourse.path}
           cardType="Featured"
           className="course-section__featured"
         />
@@ -36,16 +60,21 @@ const CourseSection = () => {
           minItemWidth={300}
           className="course-section__carousel"
         >
-          {constants.COURSES.filter(
-            (course) => course !== featuredCourse,
+          {courses.filter(
+            (course) => course.id !== featuredCourse.id,
           ).map((course) => (
             <CourseCardWithTracking
               trackingEventParams={{
                 course_title: course.title,
-                course_url: course.url,
+                course_url: course.path,
               }}
               key={course.title}
-              {...course}
+              title={course.title}
+              description={course.description}
+              cadence={course.cadence}
+              courseLength={course.durationDescription}
+              imageSrc={course.image}
+              url={course.path}
             />
           ))}
         </SlideList>

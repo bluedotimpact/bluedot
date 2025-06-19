@@ -49,7 +49,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 <h3
                   class="course-card__title mb-6 bluedot-h3"
                 >
-                  The Future of AI Course
+                  Featured Course
                 </h3>
                 <button
                   class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
@@ -64,7 +64,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 <p
                   class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
                 >
-                  A self-paced, 2-hour course designed for people with no technical background to learn how AI will reshape our world.
+                  Featured course description
                 </p>
               </div>
               <div
@@ -73,7 +73,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 <img
                   alt=""
                   class="course-card__image size-full object-cover"
-                  src="/images/courses/future-of-ai.png"
+                  src="/images/courses/featured.jpg"
                 />
               </div>
             </div>
@@ -85,13 +85,15 @@ exports[`CourseSection > renders as expected 1`] = `
               >
                 <span
                   class="course-card__length font-medium"
-                />
+                >
+                  4 weeks
+                </span>
               </p>
               <span
                 class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                 role="status"
               >
-                Self-paced
+                Weekly
               </span>
             </div>
           </a>
@@ -130,9 +132,9 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="card__image-container w-full mb-4"
                       >
                         <img
-                          alt="AI Safety Operations Bootcamp"
+                          alt="New Course"
                           class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
-                          src="https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2hpdGVib2FyZHxlbnwwfHwwfHx8MA%3D%3D"
+                          src="/images/courses/new.jpg"
                         />
                       </div>
                       <div
@@ -144,12 +146,12 @@ exports[`CourseSection > renders as expected 1`] = `
                           <p
                             class="card__title bluedot-h4 mb-2"
                           >
-                            AI Safety Operations Bootcamp
+                            New Course
                           </p>
                           <p
                             class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
-                            Excel at early-to-mid-career operations roles in AI safety.
+                            New course description
                           </p>
                         </div>
                         <div
@@ -167,14 +169,14 @@ exports[`CourseSection > renders as expected 1`] = `
                                 <span
                                   class="course-card__length font-medium"
                                 >
-                                  6 hours
+                                  2 weeks
                                 </span>
                               </p>
                               <span
                                 class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                                 role="status"
                               >
-                                Crash course
+                                Daily
                               </span>
                             </div>
                           </div>
@@ -195,15 +197,15 @@ exports[`CourseSection > renders as expected 1`] = `
                   >
                     <a
                       class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="/courses/alignment"
+                      href="/courses/another"
                     >
                       <div
                         class="card__image-container w-full mb-4"
                       >
                         <img
-                          alt="AI Alignment"
+                          alt="Another Course"
                           class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
-                          src="/images/courses/alignment.jpg"
+                          src="/images/courses/another.jpg"
                         />
                       </div>
                       <div
@@ -215,12 +217,12 @@ exports[`CourseSection > renders as expected 1`] = `
                           <p
                             class="card__title bluedot-h4 mb-2"
                           >
-                            AI Alignment
+                            Another Course
                           </p>
                           <p
                             class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
-                            AI systems are rapidly becoming more capable and more general. Despite AI's potential to radically improve human society, there are still open questions about how we build AI systems that are controllable, aligned with our intentions and interpretable.
+                            Another course description
                           </p>
                         </div>
                         <div
@@ -238,156 +240,14 @@ exports[`CourseSection > renders as expected 1`] = `
                                 <span
                                   class="course-card__length font-medium"
                                 >
-                                  12 weeks
+                                  3 weeks
                                 </span>
                               </p>
                               <span
                                 class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
                                 role="status"
                               >
-                                In-depth course
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </span>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <span>
-                  <div
-                    class="p-[3px] h-full"
-                  >
-                    <a
-                      class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="/courses/governance"
-                    >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="AI Governance"
-                          class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
-                          src="/images/courses/gov.jpg"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title bluedot-h4 mb-2"
-                          >
-                            AI Governance
-                          </p>
-                          <p
-                            class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-                          >
-                            The rise of any powerful technology demands a thoughtful approach to its governance and regulation. There has been increasing interest in how AI governance can and should mitigate extreme risks from AI, but it can be difficult to get up to speed on research and ideas in this area.
-                          </p>
-                        </div>
-                        <div
-                          class="card__bottom-section flex flex-col gap-space-between"
-                        >
-                          <div
-                            class="card__footer flex items-center justify-between w-full"
-                          >
-                            <div
-                              class="course-card__footer flex justify-between w-full"
-                            >
-                              <p
-                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
-                              >
-                                <span
-                                  class="course-card__length font-medium"
-                                >
-                                  12 weeks
-                                </span>
-                              </p>
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
-                                role="status"
-                              >
-                                In-depth course
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </span>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <span>
-                  <div
-                    class="p-[3px] h-full"
-                  >
-                    <a
-                      class="card flex items-start transition-transform duration-200 flex-col hover:scale-[1.01] course-card course-card--regular container-lined p-5 flex flex-col max-w-full h-full hover:container-elevated"
-                      href="/courses/economics-of-tai"
-                    >
-                      <div
-                        class="card__image-container w-full mb-4"
-                      >
-                        <img
-                          alt="Economics of Transformative AI"
-                          class="card__image max-w-full max-h-full object-cover rounded-lg course-card__image w-full h-[165px] object-cover rounded-none"
-                          src="/images/courses/econ.jpg"
-                        />
-                      </div>
-                      <div
-                        class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
-                      >
-                        <div
-                          class="card__text"
-                        >
-                          <p
-                            class="card__title bluedot-h4 mb-2"
-                          >
-                            Economics of Transformative AI
-                          </p>
-                          <p
-                            class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-                          >
-                            The risks and opportunities of advanced AI are evolving at unprecedented speed—and economists play a crucial role in shaping how society prepares for this transformation. This 9-week course is designed for economists who want to develop their understanding of transformative AI and its economic impacts.
-                          </p>
-                        </div>
-                        <div
-                          class="card__bottom-section flex flex-col gap-space-between"
-                        >
-                          <div
-                            class="card__footer flex items-center justify-between w-full"
-                          >
-                            <div
-                              class="course-card__footer flex justify-between w-full"
-                            >
-                              <p
-                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
-                              >
-                                <span
-                                  class="course-card__length font-medium"
-                                >
-                                  9 weeks
-                                </span>
-                              </p>
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
-                                role="status"
-                              >
-                                In-depth course
+                                MOOC
                               </span>
                             </div>
                           </div>
@@ -430,7 +290,7 @@ exports[`CourseSection > renders as expected 1`] = `
               />
               <div
                 class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 25%;"
+                style="width: 50%;"
               />
             </div>
             <button

@@ -1,0 +1,25 @@
+import type { Course } from '../lib/api/db/tables';
+
+export const mockCourse = (overrides: Partial<Course>): Course => ({
+  certificationBadgeImage: 'badge.png',
+  certificationDescription: 'Certificate description',
+  description: 'Course description',
+  detailsUrl: 'https://example.com',
+  displayOnCourseHubIndex: true,
+  durationDescription: '4 weeks',
+  durationHours: 40,
+  id: 'course-id',
+  image: '/images/courses/default.jpg',
+  slug: 'course-slug',
+  path: '/courses/course-slug',
+  shortDescription: 'Short description',
+  title: 'Course Title',
+  units: [],
+  cadence: 'Weekly',
+  level: 'Beginner',
+  averageRating: 4.5,
+  publicLastUpdated: null,
+  isFeatured: false,
+  isNew: false,
+  ...overrides,
+});
