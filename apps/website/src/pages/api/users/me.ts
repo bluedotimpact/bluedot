@@ -7,7 +7,7 @@ import {
   userTable,
   User,
 } from '../../../lib/api/db/tables';
-import { meRequestBodySchema } from '../../../lib/schemas/me.schema';
+import { meRequestBodySchema } from '../../../lib/schemas/user/me.schema';
 
 export type GetUserResponse = {
   type: 'success';

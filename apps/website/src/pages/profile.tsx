@@ -29,7 +29,7 @@ import SocialShare from '../components/courses/SocialShare';
 import { Course, CourseRegistration } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
-import { meRequestBodySchema } from '../lib/schemas/me.schema';
+import { meRequestBodySchema } from '../lib/schemas/user/me.schema';
 import { parseZodValidationError } from '../lib/utils';
 
 const CURRENT_ROUTE = ROUTES.profile;
