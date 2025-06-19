@@ -26,7 +26,7 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
     } catch {
       return defaultErrorMessage;
     }
-  } else {
-    return errorString || defaultErrorMessage;
   }
+
+  return defaultErrorMessage;
 };

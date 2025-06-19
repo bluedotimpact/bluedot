@@ -140,7 +140,7 @@ exports[`ProfilePage - Edit Name Feature > should render profile page with name 
               Your courses
             </h3>
             <div
-              class="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4"
+              class="profile-course-list__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4"
             >
               <p
                 class="bluedot-p not-prose"
