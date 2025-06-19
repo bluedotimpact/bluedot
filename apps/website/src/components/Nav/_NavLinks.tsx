@@ -1,24 +1,16 @@
 import clsx from 'clsx';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
-import { constants, Tag } from '@bluedot/ui';
+import { Tag, ProgressDots } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
+import { useCourses } from '../../lib/hooks/useCourses';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
   NAV_LINK_CLASSES,
   TRANSITION_DURATION_CLASS,
 } from './utils';
-
-const NAV_COURSES = [
-  ...(constants?.COURSES.slice(0, 2) || []).map((course) => ({
-    title: course.title,
-    url: course.url,
-    isNew: course.isNew,
-  })),
-  { title: 'Browse all', url: ROUTES.courses.url },
-];
 
 const ABOUT = [
   { title: 'Our story', url: ROUTES.about.url },
@@ -43,13 +35,24 @@ export const NavLinks: React.FC<{
   className,
   isScrolled,
 }) => {
+  const { courses, loading } = useCourses();
+
+  const navCourses = loading ? [] : [
+    ...(courses.slice(0, 2) || []).map((course) => ({
+      title: course.title,
+      url: course.path,
+      isNew: course.isNew,
+    })),
+    { title: 'Browse all', url: ROUTES.courses.url },
+  ];
+
   return (
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
       <NavDropdown
         expandedSections={expandedSections}
         isExpanded={expandedSections.explore}
         isScrolled={isScrolled}
-        links={NAV_COURSES}
+        links={navCourses}
         onToggle={() => updateExpandedSections({
           about: false,
           explore: !expandedSections.explore,
@@ -57,6 +60,7 @@ export const NavLinks: React.FC<{
           profile: false,
         })}
         title="Courses"
+        loading={loading}
       />
       <NavDropdown
         expandedSections={expandedSections}
@@ -70,6 +74,7 @@ export const NavLinks: React.FC<{
           profile: false,
         })}
         title="About"
+        loading={false}
       />
       <A href={ROUTES.blog.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.blog.url))}>Blog</A>
       <A href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={NAV_LINK_CLASSES(isScrolled)}>Events</A>
@@ -82,11 +87,12 @@ const NavDropdown: React.FC<{
   expandedSections: ExpandedSectionsState;
   isExpanded: boolean;
   isScrolled: boolean;
-  links: { title: string; url: string; isNew?: boolean }[];
+  links: { title: string; url: string; isNew?: boolean | null }[];
   onToggle: () => void;
   title: string;
   // Optional
   className?: string;
+  loading: boolean;
 }> = ({
   expandedSections,
   isExpanded,
@@ -95,6 +101,7 @@ const NavDropdown: React.FC<{
   onToggle,
   title,
   className,
+  loading,
 }) => {
   return (
     <div className="nav-dropdown">
@@ -115,16 +122,22 @@ const NavDropdown: React.FC<{
         )}
       >
         <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty', !isExpanded && 'hidden')}>
-          {links?.map((link) => (
-            <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
-              {link.title}
-              {link.isNew && (
-                <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                  New
-                </Tag>
-              )}
-            </A>
-          ))}
+          {loading ? (
+            <div className="py-2">
+              <ProgressDots />
+            </div>
+          ) : (
+            links?.map((link) => (
+              <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
+                {link.title}
+                {link.isNew && (
+                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                    New
+                  </Tag>
+                )}
+              </A>
+            ))
+          )}
         </div>
       </div>
     </div>

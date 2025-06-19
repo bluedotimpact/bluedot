@@ -15,13 +15,11 @@ export type CourseCardProps = React.PropsWithChildren<{
   // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
   // eslint-disable-next-line react/no-unused-prop-types
-  courseType: CourseType,
+  cadence: string,
   // eslint-disable-next-line react/no-unused-prop-types
   courseLength: string, // Expected format: "5 days"
   imageClassName?: string,
 }>;
-
-type CourseType = 'Crash course' | 'Self-paced' | 'In-depth course';
 
 const applyByText = (applicationDeadline: string | undefined) => {
   return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Start learning for free';
@@ -92,7 +90,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   url,
   applicationDeadline,
   cardType = 'Regular',
-  courseType,
+  cadence,
   courseLength,
   imageSrc,
   imageClassName,
@@ -102,7 +100,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       <p className="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p">
         <span className="course-card__length font-medium">{courseLength}</span>
       </p>
-      <Tag className="course-card__type">{courseType}</Tag>
+      <Tag className="course-card__type">{cadence}</Tag>
     </div>
   );
 
@@ -115,7 +113,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       applicationDeadline={applicationDeadline}
       imageSrc={imageSrc}
       imageClassName={imageClassName}
-      courseType={courseType}
+      cadence={cadence}
       courseLength={courseLength}
     >
       {courseCardFooter}

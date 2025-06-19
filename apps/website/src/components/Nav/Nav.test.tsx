@@ -6,11 +6,52 @@ import {
   render, screen, waitFor, fireEvent,
 } from '@testing-library/react';
 import { useAuthStore } from '@bluedot/ui';
+import useAxios from 'axios-hooks';
+import type { GetCoursesResponse } from '../../pages/api/courses';
 import { Nav } from './Nav';
+import { mockCourse } from '../../__tests__/testUtils';
+
+type UseAxiosResult = ReturnType<typeof useAxios<GetCoursesResponse>>;
+
+// Mock axios-hooks
+vi.mock('axios-hooks', () => ({
+  default: () => [{
+    data: {
+      type: 'success',
+      courses: [
+        mockCourse({
+          id: '1',
+          title: 'Featured Course',
+          description: 'Featured course description',
+          path: '/courses/future-of-ai',
+          image: '/images/courses/featured.jpg',
+          durationDescription: '4 weeks',
+          cadence: 'Weekly',
+          isFeatured: true,
+          isNew: false,
+        }),
+        mockCourse({
+          id: '2',
+          title: 'New Course',
+          description: 'New course description',
+          path: '/courses/ops',
+          image: '/images/courses/new.jpg',
+          durationDescription: '2 weeks',
+          cadence: 'Daily',
+          isFeatured: false,
+          isNew: true,
+        }),
+      ],
+    },
+    loading: false,
+    error: null,
+  }, null!, null!] as UseAxiosResult,
+}));
 
 const withLoggedInUser = () => {
   useAuthStore.setState({
     auth: {
+      email: 'test@example.com',
       token: 'mockToken',
       expiresAt: Date.now() + 86400_000,
     },
@@ -24,24 +65,66 @@ const withLoggedOutUser = () => {
 };
 
 describe('Nav', () => {
+  const testDropdownLinks = async (container: HTMLElement, variant: 'mobile' | 'desktop') => {
+    const selector = variant === 'mobile' ? '.mobile-nav-links' : '.nav-links:not(.mobile-nav-links__nav-links)';
+
+    // Find the correct button based on variant
+    const coursesButton = screen.getAllByText('Courses')
+      .find((btn) => (variant === 'mobile'
+        ? btn.closest('.mobile-nav-links')
+        : !btn.closest('.mobile-nav-links')));
+    expect(coursesButton).not.toBeNull();
+
+    // Click to open dropdown
+    fireEvent.click(coursesButton!);
+
+    // Wait for and verify course links
+    await waitFor(() => {
+      const courseLinks = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a`);
+
+      // Check specific course links and their URLs
+      const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
+      const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
+      const browseAll = Array.from(courseLinks).find((link) => link.textContent === 'Browse all');
+
+      expect(featuredCourse).toBeDefined();
+      expect(featuredCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
+
+      expect(newCourse).toBeDefined();
+      expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
+
+      expect(browseAll).toBeDefined();
+      expect(browseAll?.getAttribute('href')).toBe('/courses');
+
+      // Verify "New" tag
+      const newTags = container.querySelectorAll(`${selector} .tag`);
+      expect(newTags).toHaveLength(1);
+      expect(newTags[0]!.textContent).toBe('New');
+    });
+  };
+
   test('renders with courses', () => {
     const { container } = render(
-      <Nav
-        logo="logo.png"
-        courses={[
-          { title: 'Course 1', url: '/course1' },
-          { title: 'Course 2', url: '/course2', isNew: true },
-        ]}
-      />,
+      <Nav logo="logo.png" />,
     );
     expect(container).toMatchSnapshot();
+  });
+
+  test('renders course links in mobile dropdown', async () => {
+    const { container } = render(<Nav />);
+    await testDropdownLinks(container, 'mobile');
+  });
+
+  test('renders course links in desktop dropdown', async () => {
+    const { container } = render(<Nav />);
+    await testDropdownLinks(container, 'desktop');
   });
 
   test('clicking the hamburger button expands the mobile nav drawer', async () => {
     withLoggedInUser();
 
     const { container } = render(
-      <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
+      <Nav />,
     );
 
     const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
@@ -69,7 +152,7 @@ describe('Nav', () => {
     withLoggedInUser();
 
     const { container } = render(
-      <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
+      <Nav />,
     );
 
     const profileButton = container.querySelector('.profile-links__btn');
@@ -97,7 +180,7 @@ describe('Nav', () => {
 
   test('clicking outside the nav closes the drawer', async () => {
     const { container } = render(
-      <Nav courses={[{ title: 'Course 1', url: '/course1' }]} />,
+      <Nav />,
     );
 
     const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
@@ -130,7 +213,7 @@ describe('Nav', () => {
       pathname: mockPathname,
     });
 
-    render(<Nav courses={[{ title: 'Course 1', url: '/course1' }]} />);
+    render(<Nav />);
 
     // Check that the href includes the redirect_to parameter on all login buttons
     const loginButtons = screen.getAllByText('Login')

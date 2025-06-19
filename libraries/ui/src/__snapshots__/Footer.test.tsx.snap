@@ -174,63 +174,7 @@ exports[`Footer > renders default as expected 1`] = `
             </h3>
             <ul
               class="footer__list space-y-4 mb-auto list-none p-0"
-            >
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/future-of-ai"
-                  tabindex="0"
-                >
-                  The Future of AI Course
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/ops"
-                  tabindex="0"
-                >
-                  AI Safety Operations Bootcamp
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/alignment"
-                  tabindex="0"
-                >
-                  AI Alignment
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/governance"
-                  tabindex="0"
-                >
-                  AI Governance
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/economics-of-tai"
-                  tabindex="0"
-                >
-                  Economics of Transformative AI
-                </a>
-              </li>
-            </ul>
+            />
           </div>
         </div>
         <div
@@ -511,63 +455,7 @@ exports[`Footer > renders with optional args 1`] = `
             </h3>
             <ul
               class="footer__list space-y-4 mb-auto list-none p-0"
-            >
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/future-of-ai"
-                  tabindex="0"
-                >
-                  The Future of AI Course
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/ops"
-                  tabindex="0"
-                >
-                  AI Safety Operations Bootcamp
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/alignment"
-                  tabindex="0"
-                >
-                  AI Alignment
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/governance"
-                  tabindex="0"
-                >
-                  AI Governance
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/courses/economics-of-tai"
-                  tabindex="0"
-                >
-                  Economics of Transformative AI
-                </a>
-              </li>
-            </ul>
+            />
           </div>
         </div>
         <div
