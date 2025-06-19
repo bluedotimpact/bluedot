@@ -189,7 +189,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, aut
     setNameError('');
   };
 
-  const showButtons = tempName !== currentSavedName;
+  const showButtons = tempName.trim() !== currentSavedName.trim();
 
   return (
     <div className="profile-account-details">
