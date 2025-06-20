@@ -266,7 +266,7 @@ In terms of tools and external libraries, we usually use:
 - Coding language: [TypeScript](https://www.typescriptlang.org/)
 - Script management: [NPM](https://docs.npmjs.com/cli/v10/using-npm/scripts)
 - Custom dev tooling: Node.js or Bash (in the `tools` folder)
-- Databases: Usually Airtable (via [airtable-ts](https://www.npmjs.com/package/airtable-ts)). Sometimes Postgres (via [kysely](https://www.npmjs.com/package/kysely) and [kanel](https://www.npmjs.com/package/kanel)).
+- Databases: Unified database abstraction via [@bluedot/db](./libraries/db/) package, which provides an interface to unified Airtable+Postgres operations using [airtable-ts](https://github.com/domdomegg/airtable-ts) and [Drizzle ORM](https://orm.drizzle.team/), plus some custom syncing logic (run in `pg-sync-service`).
 - APIs: JSON via REST. Use path parameters and request bodies to send information. Web services should respond with an X-BlueDot-Version header in the format `yyyyMMdd.hhmmss.git_short_hash` (via environment variable `VERSION_TAG`).
 - Authentication: JSON web tokens (JWTs), with sign-in via Open ID Connect (OIDC)
 - Linting tool: [eslint](https://eslint.org/)
