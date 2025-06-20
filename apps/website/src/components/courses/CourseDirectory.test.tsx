@@ -31,8 +31,8 @@ const defaultDisplayData: GetCoursesResponse = {
 };
 
 const defaultProps: CourseDirectoryProps = {
-  displayData: defaultDisplayData,
-  displayLoading: false,
+  courses: defaultDisplayData,
+  loading: false,
 };
 
 describe('CourseDirectory', () => {

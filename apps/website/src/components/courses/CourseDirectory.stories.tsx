@@ -88,14 +88,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    displayData: mockCourseData,
-    displayLoading: false,
+    courses: mockCourseData,
+    loading: false,
   },
 };
 
 export const Loading: Story = {
   args: {
-    displayData: undefined,
-    displayLoading: true,
+    courses: undefined,
+    loading: true,
   },
 };

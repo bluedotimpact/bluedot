@@ -12,7 +12,7 @@ export type CourseSearchCardProps = React.PropsWithChildren<{
   className?: string,
   description?: string,
   cadence?: string,
-  level?: string,
+  courseLength?: string,
   averageRating?: number | null;
   imageSrc?: string,
 }>;
@@ -24,7 +24,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   className,
   description,
   cadence,
-  level,
+  courseLength,
   averageRating,
   imageSrc,
   title,
@@ -56,8 +56,8 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
         </div>
         <div className="course-search-card__footer flex flex-wrap gap-4">
           <div className="flex gap-2">
-            {level && (
-              <Tag className="course-search-card__level">{level}</Tag>
+            {courseLength && (
+              <Tag className="course-search-card__level">{courseLength}</Tag>
             )}
             {cadence && (
               <Tag className="course-search-card__duration">{cadence}</Tag>
