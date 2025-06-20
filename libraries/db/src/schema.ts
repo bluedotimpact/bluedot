@@ -502,7 +502,6 @@ export const projectTable = pgAirtable('project', {
   },
 });
 
-// Additional tables needed for website app
 export const chunkTable = pgAirtable('chunk', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblNeBgFeQ5Qmebfc',

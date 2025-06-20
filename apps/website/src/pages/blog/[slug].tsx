@@ -65,8 +65,10 @@ const BlogPostPage = () => {
                     name: data.blog.authorName,
                     url: data.blog.authorUrl,
                   },
-                  datePublished: new Date((data.blog.publishedAt || 0) * 1000).toISOString(),
-                  dateModified: new Date((data.blog.publishedAt || 0) * 1000).toISOString(),
+                  ...(data.blog.publishedAt ? {
+                    datePublished: new Date(data.blog.publishedAt * 1000).toISOString(),
+                    dateModified: new Date(data.blog.publishedAt * 1000).toISOString(),
+                  } : {}),
                   mainEntityOfPage: {
                     '@type': 'WebPage',
                     '@id': `${ROUTES.blog.url}/${slug}`,

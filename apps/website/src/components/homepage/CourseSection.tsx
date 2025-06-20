@@ -49,8 +49,8 @@ const CourseSection = () => {
           title={featuredCourse.title || ''}
           description={featuredCourse.description || ''}
           cadence={featuredCourse.cadence || ''}
-          courseLength=""
-          imageSrc=""
+          courseLength={featuredCourse.durationDescription || ''}
+          imageSrc={featuredCourse.image || undefined}
           url={featuredCourse.path || '#'}
           cardType="Featured"
           className="course-section__featured"
@@ -73,7 +73,8 @@ const CourseSection = () => {
               title={course.title || ''}
               description={course.description || ''}
               cadence={course.cadence || ''}
-              courseLength=""
+              courseLength={course.durationDescription || ''}
+              imageSrc={course.image || undefined}
               url={course.path || '#'}
             />
           ))}

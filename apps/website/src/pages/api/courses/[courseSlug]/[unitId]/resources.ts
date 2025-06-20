@@ -60,8 +60,8 @@ export default makeApiRoute({
     if (isCoreA !== isCoreB) {
       return isCoreB - isCoreA;
     }
-    const orderA = parseInt(a.readingOrder || '0') || Infinity;
-    const orderB = parseInt(b.readingOrder || '0') || Infinity;
+    const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
+    const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
     return orderA - orderB;
   });
 
