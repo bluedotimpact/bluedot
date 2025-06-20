@@ -71,7 +71,7 @@ export const Default: Story = {
         units: [],
         certificationBadgeImage: null,
         certificationDescription: null,
-        detailsUrl: 'https://bluedot.org/courses/ai-danger',
+        detailsUrl: 'https://bluedot.org/courses/state-management-strategies',
         displayOnCourseHubIndex: true,
         image: null,
         durationDescription: '12 weeks',

@@ -58,10 +58,10 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
 const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) => {
   return (
     <div>
-      {courseData?.course && (
+      {courseData.course && (
         <>
           <Head>
-            <title>{`${courseData?.course.title} | BlueDot Impact`}</title>
+            <title>{`${courseData.course.title} | BlueDot Impact`}</title>
             <meta name="description" content={courseData.course.description} />
           </Head>
           <HeroSection>

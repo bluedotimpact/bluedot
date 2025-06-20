@@ -55,7 +55,7 @@ const CourseSection = () => {
           cadence={featuredCourse.cadence}
           courseLength={featuredCourse.durationDescription}
           imageSrc={featuredCourse.image || undefined}
-          url={featuredCourse.path || '#'}
+          url={featuredCourse.path}
           cardType="Featured"
           className="course-section__featured"
         />

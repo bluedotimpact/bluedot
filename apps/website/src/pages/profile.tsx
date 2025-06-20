@@ -330,7 +330,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
                 <FaAward size={18} className="mr-2" />
                 View your certificate
               </ClickTarget>
-              <ClickTarget url={course.path || '#'} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={course.path} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaBookOpen size={18} className="mr-2" />
                 Browse course materials
               </ClickTarget>
@@ -353,7 +353,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
               Share your achievement
             </P>
             <SocialShare
-              coursePath={course.path || '#'}
+              coursePath={course.path}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>
@@ -363,7 +363,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       {/* Continue learning button */}
       {!isCompleted && (
       <div className="bg-stone-50 p-6">
-        <CTALinkOrButton url={course.path || '#'} variant="primary" className="w-full">
+        <CTALinkOrButton url={course.path} variant="primary" className="w-full">
           Continue learning
         </CTALinkOrButton>
       </div>

@@ -33,7 +33,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
                   cadence={course.cadence}
                   courseLength={course.durationDescription}
                   imageSrc={course.image || undefined}
-                  url={course.path || '#'}
+                  url={course.path}
                 />
               ))}
           </div>

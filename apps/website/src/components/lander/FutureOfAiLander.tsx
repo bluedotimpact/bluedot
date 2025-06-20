@@ -119,7 +119,7 @@ const FutureOfAiLander = ({
   return (
     <>
       <Head>
-        <title>{courseData?.course.title} | BlueDot Impact</title>
+        <title>{courseData.course.title} | BlueDot Impact</title>
         <meta name="description" content={customDescription} />
       </Head>
 
@@ -156,7 +156,7 @@ const FutureOfAiLander = ({
               future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
               after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
             >
-              <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{courseData?.course.title}</H1>
+              <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{courseData.course.title}</H1>
               <H2 className="text-color-text-on-dark bluedot-h1">{customTitle}</H2>
               <p className="text-color-text-on-dark mt-4">{customDescription}</p>
               <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-4">
@@ -204,7 +204,7 @@ const FutureOfAiLander = ({
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
-                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path || '#'} withChevron>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path} withChevron>
                   {feature.ctaText}
                 </CTALinkOrButton>
               </div>
