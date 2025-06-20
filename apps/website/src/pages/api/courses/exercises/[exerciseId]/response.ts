@@ -74,7 +74,7 @@ export default makeApiRoute({
       // If the exercise response does exist, update it
       if (exerciseResponse) {
         updatedExerciseResponse = await db.airtableUpdate(exerciseResponseTable, {
-          id: exerciseResponse.id || '',
+          id: exerciseResponse.id,
           exerciseId,
           response: body.response,
           completed: body.completed ?? false,

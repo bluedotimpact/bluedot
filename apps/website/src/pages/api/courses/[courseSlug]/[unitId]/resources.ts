@@ -7,7 +7,6 @@ import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
 type Exercise = InferSelectModel<typeof exerciseTable.pg>;
-type Unit = InferSelectModel<typeof unitTable.pg>;
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 export type GetUnitResourcesResponse = {
@@ -47,7 +46,7 @@ export default makeApiRoute({
   const unitResources = await db.pg.select()
     .from(unitResourceTable.pg)
     .where(and(
-      eq(unitResourceTable.pg.unitId, unit.id || ''),
+      eq(unitResourceTable.pg.unitId, unit.id),
       or(
         eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'),
         eq(unitResourceTable.pg.coreFurtherMaybe, 'Further'),
@@ -69,7 +68,7 @@ export default makeApiRoute({
   const unitExercises = await db.pg.select()
     .from(exerciseTable.pg)
     .where(and(
-      eq(exerciseTable.pg.unitId, unit.id || ''),
+      eq(exerciseTable.pg.unitId, unit.id),
       eq(exerciseTable.pg.status, 'Active'),
     ))
     .orderBy(asc(exerciseTable.pg.exerciseNumber));

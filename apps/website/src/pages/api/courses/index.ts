@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  eq, and, or, courseTable, InferSelectModel,
+  eq, courseTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';

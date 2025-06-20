@@ -67,7 +67,7 @@ export default makeApiRoute({
 
       // Update user with provided fields
       const updatedUser = await db.airtableUpdate(userTable, {
-        id: existingUser.id || '',
+        id: existingUser.id,
         ...body,
       });
 

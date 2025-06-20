@@ -76,7 +76,7 @@ export default makeApiRoute({
       // If the resource completion does exist, update it
       if (resourceCompletion) {
         updatedResourceCompletion = await db.airtableUpdate(resourceCompletionTable, {
-          id: resourceCompletion.id || '',
+          id: resourceCompletion.id,
           unitResourceIdWrite: unitResourceId,
           rating: body.rating ?? resourceCompletion.rating,
           isCompleted: body.isCompleted ?? resourceCompletion.isCompleted,

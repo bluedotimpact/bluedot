@@ -81,8 +81,8 @@ Please complete all exercises before requesting a certificate.`);
       }
 
       const updatedCourseRegistration = await db.airtableUpdate(courseRegistrationTable, {
-        id: courseRegistration.id || '',
-        certificateId: courseRegistration.id || '',
+        id: courseRegistration.id,
+        certificateId: courseRegistration.id,
         certificateCreatedAt: Math.floor(Date.now() / 1000),
       });
 

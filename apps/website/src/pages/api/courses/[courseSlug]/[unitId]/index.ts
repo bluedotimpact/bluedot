@@ -45,7 +45,7 @@ export default makeApiRoute({
 
   const chunks = await db.pg.select()
     .from(chunkTable.pg)
-    .where(eq(chunkTable.pg.unitId, unit.id || ''))
+    .where(eq(chunkTable.pg.unitId, unit.id))
     .orderBy(asc(chunkTable.pg.chunkOrder));
 
   return {

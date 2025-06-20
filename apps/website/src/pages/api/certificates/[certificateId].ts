@@ -55,7 +55,7 @@ export default makeApiRoute({
     recipientName: courseRegistration.fullName || '',
     courseName: course.title || '',
     courseDetailsUrl: course.detailsUrl || '',
-    certificationDescription: course.certificatonDescription || '',
+    certificationDescription: course.certificationDescription || '',
     certificationBadgeImageSrc: course.certificationBadgeImage || '',
   };
 

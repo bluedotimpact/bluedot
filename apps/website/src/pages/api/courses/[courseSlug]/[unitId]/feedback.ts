@@ -73,7 +73,7 @@ export default makeApiRoute(
       // If the feedback does exist, update it
       if (existingFeedback) {
         upsertedFeedback = await db.airtableUpdate(unitFeedbackTable, {
-          id: existingFeedback.id || '',
+          id: existingFeedback.id,
           lastModified: new Date().toISOString(),
           overallRating,
           anythingElse,

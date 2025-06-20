@@ -46,7 +46,7 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldwOxukk9OyUPWDX',
     },
-    certificatonDescription: {
+    certificationDescription: {
       pgColumn: text(),
       airtableId: 'fldsxyHg4BLouu7XZ',
     },
@@ -109,6 +109,14 @@ export const courseTable = pgAirtable('course', {
     publicLastUpdated: {
       pgColumn: text(),
       airtableId: 'fld8g5mMsPqOm75Vz',
+    },
+    isNew: {
+      pgColumn: boolean(),
+      airtableId: 'fldFFndUplP3mEFe7',
+    },
+    isFeatured: {
+      pgColumn: boolean(),
+      airtableId: 'fldDXwQyHpHtUspFY',
     },
   },
 });

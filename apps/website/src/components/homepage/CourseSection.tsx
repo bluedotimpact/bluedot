@@ -26,8 +26,8 @@ const CourseSection = () => {
     return null;
   }
 
-  // Since isFeatured doesn't exist in the new schema, just use the first course as featured
-  const featuredCourse = courses[0];
+  // Find the first featured course, or fall back to the first course
+  const featuredCourse = courses.find((course) => course.isFeatured) || courses[0];
 
   if (!featuredCourse) {
     return null;
@@ -69,12 +69,11 @@ const CourseSection = () => {
                 course_title: course.title || '',
                 course_url: course.path || '',
               }}
-              key={course.title || course.id}
+              key={course.id}
               title={course.title || ''}
               description={course.description || ''}
               cadence={course.cadence || ''}
               courseLength=""
-              imageSrc=""
               url={course.path || '#'}
             />
           ))}

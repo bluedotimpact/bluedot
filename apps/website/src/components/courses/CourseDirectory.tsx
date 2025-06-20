@@ -27,7 +27,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
               && displayData.courses.length > 0
               && displayData.courses.map((course) => (
                 <CourseSearchCard
-                  key={course.title || course.id}
+                  key={course.id}
                   description={course.description || ''}
                   cadence={course.cadence || ''}
                   level=""
