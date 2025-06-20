@@ -67,7 +67,7 @@ export default makeApiRoute({
     throw new createHttpError.InternalServerError(`Zoom account ${groupDiscussion.zoomAccount} not found`);
   }
 
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink || '');
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;

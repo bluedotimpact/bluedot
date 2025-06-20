@@ -22,7 +22,7 @@ export default makeApiRoute({
     .where(eq(jobPostingTable.pg.publicationStatus, 'Published'));
 
   // Sort jobs alphabetically by title
-  const sortedJobs = allJobs.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+  const sortedJobs = allJobs.sort((a, b) => (a.title).localeCompare(b.title));
 
   // Remove the body field from each job to make the response lighter
   const jobSummaries = sortedJobs.map(({ body, ...rest }) => rest);

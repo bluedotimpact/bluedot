@@ -110,7 +110,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const handlePrevClick = () => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
-      router.push(`${prevUnit.path || ''}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
+      router.push(`${prevUnit.path}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(currentChunkIndex - 1);
@@ -120,7 +120,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const handleNextClick = () => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      router.push(`${nextUnit.path || ''}?chunk=0`);
+      router.push(`${nextUnit.path}?chunk=0`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
       handleChunkSelect(currentChunkIndex + 1);
@@ -135,15 +135,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   return (
     <div>
       <Head>
-        <title>{`${unit.courseTitle || ''}: Unit ${unitNumber}`}</title>
-        <meta name="description" content={unit.title || ''} />
+        <title>{`${unit.courseTitle}: Unit ${unitNumber}`}</title>
+        <meta name="description" content={unit.title} />
       </Head>
 
       <Breadcrumbs
         className="unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
         route={{
-          title: unit.courseTitle || '',
-          url: unit.coursePath || '',
+          title: unit.courseTitle,
+          url: unit.coursePath,
           parentPages: [ROUTES.home, ROUTES.courses],
         }}
       >
@@ -183,7 +183,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <Section className="unit__main !border-none">
         <div className="unit__content-container flex flex-col md:flex-row">
           <SideBar
-            courseTitle={unit.courseTitle || ''}
+            courseTitle={unit.courseTitle}
             className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
             units={units}
             currentUnitNumber={unitNumber}
@@ -193,7 +193,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           />
           <div className="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x md:ml-[320px]">
             <div className="unit__title-container">
-              <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber || ''}</P>
+              <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
               <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
             </div>
             <MarkdownExtendedRenderer>
@@ -206,10 +206,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
             {(!nextUnit && isLastChunk) ? (
               <>
-                <Congratulations courseTitle={unit.courseTitle || ''} coursePath={unit.coursePath || ''} />
-                <CertificateLinkCard courseId={unit.courseId || ''} />
+                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
+                <CertificateLinkCard courseId={unit.courseId} />
                 <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
-                  <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath || ''} variant="secondary">
+                  <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
                     Back to course
                   </CTALinkOrButton>
                 </div>

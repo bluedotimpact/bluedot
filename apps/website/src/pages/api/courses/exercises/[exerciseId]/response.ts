@@ -58,7 +58,7 @@ export default makeApiRoute({
         exerciseResponse: exerciseResponse ? {
           ...exerciseResponse,
           // For some reason Airtable often adds a newline to the end of the response
-          response: exerciseResponse.response?.trimEnd() || '',
+          response: exerciseResponse.response?.trimEnd(),
         } : undefined,
       };
     }

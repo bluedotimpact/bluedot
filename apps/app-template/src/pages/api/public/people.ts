@@ -21,12 +21,12 @@ export default makeApiRoute({
 
   return allPeople.map((person) => ({
     id: person.id,
-    email: person.email || '',
-    firstName: person.firstName || '',
-    lastName: person.lastName || '',
-    ethnicGroup: person.ethnicGroup || '',
-    careerPlans: person.careerPlans || '',
-    biography: person.biography || '',
+    email: person.email,
+    firstName: person.firstName,
+    lastName: person.lastName,
+    ethnicGroup: person.ethnicGroup,
+    careerPlans: person.careerPlans,
+    biography: person.biography,
     appliedToOpportunities: person.appliedToOpportunities || [],
     isProfilePublic: person.isProfilePublic || false,
   }));

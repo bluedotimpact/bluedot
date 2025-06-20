@@ -129,7 +129,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, aut
   // Initialize state when user data loads
   useEffect(() => {
     if (user && !isInitialized) {
-      const name = user.name || '';
+      const { name } = user;
       setTempName(name);
       setCurrentSavedName(name);
       setIsInitialized(true);
@@ -321,12 +321,12 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             {/* Course metadata */}
             <div className="flex gap-2 items-center text-gray-500">
               <FaCubesStacked size={16} />
-              <span>{course.units?.length || 0} {course.units?.length === 1 ? 'unit' : 'units'}</span>
+              <span>{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
             </div>
 
             {isCompleted && (
             <div className="flex flex-col gap-2">
-              <ClickTarget url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId || '')} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaAward size={18} className="mr-2" />
                 View your certificate
               </ClickTarget>

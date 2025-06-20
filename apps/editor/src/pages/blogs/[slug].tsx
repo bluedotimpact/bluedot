@@ -52,7 +52,7 @@ const BlogPostPage = withAuth(({ auth }) => {
         <title>{`${data.blog.title} | BlueDot Editor`}</title>
       </Head>
       <BodyEditor auth={auth} onSave={saveBlog}>
-        {data.blog.body || ''}
+        {data.blog.body}
       </BodyEditor>
       <NewText.P><NewText.A href={`https://airtable.com/app63L1YChHfS6RJF/pagR4C2qmcFgavPlo?QaMci=${data.blog.id}`}>Return to Airtable</NewText.A></NewText.P>
     </>
