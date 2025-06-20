@@ -10,9 +10,12 @@ import {
   ErrorSection,
   addQueryParam,
   ClickTarget,
+  Input,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
   FaCubesStacked,
@@ -23,9 +26,11 @@ import { GetCoursesResponse } from './api/courses';
 import { ROUTES } from '../lib/routes';
 import { H2, H3, P } from '../components/Text';
 import SocialShare from '../components/courses/SocialShare';
-import { Course, CourseRegistration } from '../lib/api/db/tables';
+import { Course, CourseRegistration, User } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
+import { meRequestBodySchema } from '../lib/schemas/user/me.schema';
+import { parseZodValidationError } from '../lib/utils';
 
 const CURRENT_ROUTE = ROUTES.profile;
 
@@ -83,29 +88,14 @@ const ProfilePage = withAuth(({ auth }) => {
           <HeroH2>See your progress and share your learnings</HeroH2>
         </HeroSection>
         <Breadcrumbs route={CURRENT_ROUTE} />
-        <Section
-          className="profile"
-        >
+        <Section className="profile">
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="profile__enrolled-courses flex flex-col gap-4">
-              <H3>Account details</H3>
-              <div className="flex flex-col gap-4 container-lined bg-white p-8 h-fit">
-                <P><span className="font-bold">Name:</span> {userData.user.name}</P>
-                <P><span className="font-bold">Email:</span> {userData.user.email}</P>
-              </div>
-              <H3>Your courses</H3>
-              {enrolledCourses.length === 0 && (
-              <div className="profile__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
-                <P>You haven't started any courses yet</P>
-                <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
-              </div>
-              )}
-              {enrolledCourses.length > 0 && (
-                <>
-                  {enrolledCourses.map(({ course, courseRegistration }) => <ProfileCourseCard key={courseRegistration.id} course={course} courseRegistration={courseRegistration} />)}
-                  <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
-                </>
-              )}
+              <ProfileAccountDetails
+                user={userData.user}
+                authToken={auth.token}
+              />
+              <ProfileCourseList enrolledCourses={enrolledCourses} />
             </div>
             <div className="profile__events flex flex-col gap-4">
               <H3>Connect with your community</H3>
@@ -118,6 +108,173 @@ const ProfilePage = withAuth(({ auth }) => {
     </div>
   );
 });
+
+type ProfileAccountDetailsProps = {
+  user: User;
+  authToken: string;
+};
+
+const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, authToken }) => {
+  // State for name editing
+  const [tempName, setTempName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [nameError, setNameError] = useState('');
+  const [currentSavedName, setCurrentSavedName] = useState('');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize state when user data loads
+  useEffect(() => {
+    if (user && !isInitialized) {
+      const name = user.name || '';
+      setTempName(name);
+      setCurrentSavedName(name);
+      setIsInitialized(true);
+    }
+  }, [user, isInitialized]);
+
+  // Name editing handlers
+  const handleSave = async () => {
+    const trimmedName = tempName.trim();
+    const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
+    if (!validationResult.success) {
+      const firstError = validationResult.error.issues[0];
+      setNameError(firstError?.message || 'Failed to update name. Please try again.');
+      return;
+    }
+
+    setIsSaving(true);
+    setNameError('');
+
+    try {
+      await axios.patch(
+        '/api/users/me',
+        { name: tempName },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        },
+      );
+
+      setCurrentSavedName(trimmedName);
+      setTempName(trimmedName);
+    } catch (err) {
+      if (!axios.isAxiosError(err)) {
+        setNameError('Failed to update name. Please try again.');
+        return;
+      }
+
+      if (err.response?.status === 401) {
+        setNameError('Session expired. Please refresh the page and try again.');
+        return;
+      }
+
+      if (err.response?.status === 400) {
+        setNameError(parseZodValidationError(err, 'Invalid name format'));
+        return;
+      }
+
+      setNameError('Failed to update name. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setTempName(currentSavedName);
+    setNameError('');
+  };
+
+  const handleFocus = () => {
+    setNameError('');
+  };
+
+  const showButtons = tempName.trim() !== currentSavedName.trim();
+
+  return (
+    <div className="profile-account-details">
+      <H3 className="profile-account-details__title">Account details</H3>
+      <div className="profile-account-details__container flex flex-col gap-4 container-lined bg-white p-8 h-fit">
+        <div className="profile-account-details__name-section">
+          <div className="profile-account-details__name-container flex flex-col gap-2">
+            <P className="profile-account-details__name-label"><span className="font-bold">Name:</span></P>
+            <div className="profile-account-details__name-input-container flex gap-2 items-center">
+              <Input
+                inputClassName="profile-account-details__name-input"
+                labelClassName="profile-account-details__name-input-wrapper flex-1 min-w-0"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                onFocus={handleFocus}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSave();
+                  if (e.key === 'Escape') handleCancel();
+                }}
+                placeholder="Enter your name"
+              />
+              {showButtons && (
+                <div className="profile-account-details__name-buttons flex gap-2 flex-shrink-0">
+                  <CTALinkOrButton
+                    variant="primary"
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="profile-account-details__name-save-button whitespace-nowrap"
+                  >
+                    {isSaving ? 'Saving...' : 'Save'}
+                  </CTALinkOrButton>
+                  <CTALinkOrButton
+                    variant="secondary"
+                    onClick={handleCancel}
+                    disabled={isSaving}
+                    className="profile-account-details__name-cancel-button"
+                  >
+                    Cancel
+                  </CTALinkOrButton>
+                </div>
+              )}
+            </div>
+            {nameError && (
+              <p className="profile-account-details__name-error text-red-600 text-size-sm mt-1">{nameError}</p>
+            )}
+          </div>
+        </div>
+        <P className="profile-account-details__email"><span className="font-bold">Email:</span> {user.email}</P>
+      </div>
+    </div>
+  );
+};
+
+type ProfileCourseListProps = {
+  enrolledCourses: {
+    course: Course;
+    courseRegistration: CourseRegistration;
+  }[];
+};
+
+const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }) => {
+  return (
+    <>
+      <H3>Your courses</H3>
+      {enrolledCourses.length === 0 && (
+        <div className="profile-course-list__no-courses flex flex-col gap-4 container-lined bg-white p-8 mb-4">
+          <P>You haven't started any courses yet</P>
+          <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
+        </div>
+      )}
+      {enrolledCourses.length > 0 && (
+        <>
+          {enrolledCourses.map(({ course, courseRegistration }) => (
+            <ProfileCourseCard
+              key={courseRegistration.id}
+              course={course}
+              courseRegistration={courseRegistration}
+            />
+          ))}
+          <CTALinkOrButton url={ROUTES.courses.url}>Join another course</CTALinkOrButton>
+        </>
+      )}
+    </>
+  );
+};
 
 type ProfileCourseCardProps = {
   course: Course;

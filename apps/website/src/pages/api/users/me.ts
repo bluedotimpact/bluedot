@@ -7,6 +7,7 @@ import {
   userTable,
   User,
 } from '../../../lib/api/db/tables';
+import { meRequestBodySchema } from '../../../lib/schemas/user/me.schema';
 
 export type GetUserResponse = {
   type: 'success';
@@ -20,10 +21,7 @@ export type PatchUserBody = {
 
 export default makeApiRoute({
   requireAuth: true,
-  requestBody: z.object({
-    name: z.string().optional(),
-    referredById: z.string().optional(),
-  }).optional(),
+  requestBody: meRequestBodySchema,
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
@@ -67,6 +65,12 @@ export default makeApiRoute({
 
       if (!body) {
         throw new createHttpError.BadRequest('PATCH request requires a body');
+      }
+
+      // Validate that at least one field is being updated
+      const hasUpdates = Object.values(body).some((value) => value !== undefined && value !== null);
+      if (!hasUpdates) {
+        throw new createHttpError.BadRequest('At least one field must be provided for update');
       }
 
       // Update user with provided fields
