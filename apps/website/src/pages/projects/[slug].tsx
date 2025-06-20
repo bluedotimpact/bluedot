@@ -55,12 +55,12 @@ const ProjectPostPage = () => {
           <HeroSection>
             <HeroMiniTitle>{data.project.course} Project</HeroMiniTitle>
             <HeroH1>{data.project.title}</HeroH1>
-            <HeroH2><A href={data.project.authorUrl} className="text-white">{data.project.authorName}</A>{data.project.tag.length > 0 ? ` • ${data.project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
+            <HeroH2><A href={data.project.authorUrl || '#'} className="text-white">{data.project.authorName}</A>{data.project.tag?.length ? ` • ${data.project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
             <MarkdownExtendedRenderer>
-              {data.project.body}
+              {data.project.body || ''}
             </MarkdownExtendedRenderer>
             <div className="my-8 border-t border-color-divider pt-8">
               <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>

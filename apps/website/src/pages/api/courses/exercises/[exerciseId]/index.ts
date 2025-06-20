@@ -1,11 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
+import { eq, exerciseTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import {
-  Exercise,
-  exerciseTable,
-} from '../../../../../lib/api/db/tables';
+
+type Exercise = InferSelectModel<typeof exerciseTable.pg>;
 
 export type GetExercise = {
   type: 'success',
@@ -26,7 +25,14 @@ export default makeApiRoute({
 
   switch (raw.req.method) {
     case 'GET': {
-      const exercise = await db.get(exerciseTable, exerciseId);
+      const exercises = await db.pg.select()
+        .from(exerciseTable.pg)
+        .where(eq(exerciseTable.pg.id, exerciseId));
+
+      const exercise = exercises[0];
+      if (!exercise) {
+        throw new createHttpError.NotFound('Exercise not found');
+      }
 
       return {
         type: 'success' as const,

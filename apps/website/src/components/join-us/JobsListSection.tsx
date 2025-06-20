@@ -1,8 +1,10 @@
 import { Card, Section } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
+import { jobPostingTable, InferSelectModel } from '@bluedot/db';
 import { P } from '../Text';
-import { CmsJobPosting } from '../../lib/api/db/tables';
 import { ROUTES } from '../../lib/routes';
+
+type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 
 export type GetAshbyJobsResponse = {
   jobs: {
@@ -27,7 +29,7 @@ export type JobsListSectionProps = {
 
 const JobsListSection = ({ ashbyJobs, cmsJobs }: JobsListSectionProps) => {
   const jobs = [
-    ...cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle })),
+    ...cmsJobs.map((j) => ({ id: j.slug || '', title: j.title || '', location: j.subtitle || '' })),
     ...ashbyJobs,
   ];
 

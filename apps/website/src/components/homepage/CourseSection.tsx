@@ -26,7 +26,8 @@ const CourseSection = () => {
     return null;
   }
 
-  const featuredCourse = courses.find((course) => course.isFeatured);
+  // Since isFeatured doesn't exist in the new schema, just use the first course as featured
+  const featuredCourse = courses[0];
 
   if (!featuredCourse) {
     return null;
@@ -42,15 +43,15 @@ const CourseSection = () => {
       <div className="course-section__content flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch">
         <CourseCardWithTracking
           trackingEventParams={{
-            course_title: featuredCourse.title,
-            course_url: featuredCourse.path,
+            course_title: featuredCourse.title || '',
+            course_url: featuredCourse.path || '',
           }}
-          title={featuredCourse.title}
-          description={featuredCourse.description}
-          cadence={featuredCourse.cadence}
-          courseLength={featuredCourse.durationDescription}
-          imageSrc={featuredCourse.image}
-          url={featuredCourse.path}
+          title={featuredCourse.title || ''}
+          description={featuredCourse.description || ''}
+          cadence={featuredCourse.cadence || ''}
+          courseLength=""
+          imageSrc=""
+          url={featuredCourse.path || '#'}
           cardType="Featured"
           className="course-section__featured"
         />
@@ -65,16 +66,16 @@ const CourseSection = () => {
           ).map((course) => (
             <CourseCardWithTracking
               trackingEventParams={{
-                course_title: course.title,
-                course_url: course.path,
+                course_title: course.title || '',
+                course_url: course.path || '',
               }}
-              key={course.title}
-              title={course.title}
-              description={course.description}
-              cadence={course.cadence}
-              courseLength={course.durationDescription}
-              imageSrc={course.image}
-              url={course.path}
+              key={course.title || course.id}
+              title={course.title || ''}
+              description={course.description || ''}
+              cadence={course.cadence || ''}
+              courseLength=""
+              imageSrc=""
+              url={course.path || '#'}
             />
           ))}
         </SlideList>

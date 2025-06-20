@@ -1,7 +1,11 @@
 import { z } from 'zod';
+import {
+  eq, and, or, courseTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-import { Course, courseTable } from '../../../lib/api/db/tables';
+
+type Course = InferSelectModel<typeof courseTable.pg>;
 
 export type GetCoursesResponse = {
   type: 'success',
@@ -42,14 +46,11 @@ export default makeApiRoute({
     type: z.literal('success'),
     courses: z.array(z.any()),
   }),
-}, async (body) => {
-  const { cadence, level } = body ?? { cadence: undefined, level: undefined };
-
-  const filterFormula = buildFormula({ cadence, level });
-
-  const courses = await db.scan(courseTable, {
-    filterByFormula: filterFormula,
-  });
+}, async () => {
+  // For now, just get all courses that should be displayed on the course hub
+  const courses = await db.pg.select()
+    .from(courseTable.pg)
+    .where(eq(courseTable.pg.displayOnCourseHubIndex, true));
 
   return {
     type: 'success' as const,

@@ -1,11 +1,8 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import { eq, userTable } from '@bluedot/db';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 import db from '../../lib/api/db';
-import {
-  userTable,
-} from '../../lib/api/db/tables';
 
 export type GetReferralResponse = {
   type: 'success';
@@ -23,13 +20,11 @@ export default makeApiRoute({
     throw new createHttpError.MethodNotAllowed();
   }
 
-  const user = (await db.scan(userTable, {
-    filterByFormula: formula(await db.table(userTable), [
-      '=',
-      { field: 'email' },
-      auth.email,
-    ]),
-  }))[0];
+  const users = await db.pg.select()
+    .from(userTable.pg)
+    .where(eq(userTable.pg.email, auth.email));
+
+  const user = users[0];
 
   if (!user) {
     throw new createHttpError.NotFound(`User not found for email: ${auth.email}`);
@@ -37,6 +32,6 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    referralId: user.referralId,
+    referralId: user.referralId || '',
   };
 });

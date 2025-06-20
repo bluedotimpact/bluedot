@@ -1,14 +1,13 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import {
+  eq, asc, chunkTable, unitTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import {
-  chunkTable,
-  Unit,
-  unitTable,
-  Chunk,
-} from '../../../../../lib/api/db/tables';
+
+type Unit = InferSelectModel<typeof unitTable.pg>;
+type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 export type GetUnitResponse = {
   type: 'success',
@@ -34,26 +33,20 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  const units = (await db.scan(unitTable, {
-    filterByFormula: formula(await db.table(unitTable) as AirtableTsTable<Unit>, [
-      '=',
-      { field: 'courseSlug' },
-      courseSlug,
-    ]),
-  })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+  const units = await db.pg.select()
+    .from(unitTable.pg)
+    .where(eq(unitTable.pg.courseSlug, courseSlug))
+    .orderBy(asc(unitTable.pg.unitNumber));
 
   const unit = units.find((u) => u.unitNumber === unitId);
   if (!unit) {
     throw new createHttpError.NotFound('Unit not found');
   }
 
-  const chunks = (await db.scan(chunkTable, {
-    filterByFormula: formula(await db.table(chunkTable) as AirtableTsTable<Chunk>, [
-      '=',
-      { field: 'unitId' },
-      unit.id,
-    ]),
-  })).sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
+  const chunks = await db.pg.select()
+    .from(chunkTable.pg)
+    .where(eq(chunkTable.pg.unitId, unit.id || ''))
+    .orderBy(asc(chunkTable.pg.chunkOrder));
 
   return {
     type: 'success' as const,

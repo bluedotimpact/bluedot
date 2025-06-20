@@ -1,9 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, ne, jobPostingTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import { CmsJobPosting, cmsJobPostingTable } from '../../../../../lib/api/db/tables';
+
+type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 
 export type GetJobResponse = {
   type: 'success',
@@ -22,13 +25,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const job = (await db.scan(cmsJobPostingTable, {
-    filterByFormula: formula(await db.table(cmsJobPostingTable), [
-      'AND',
-      ['!=', { field: 'publicationStatus' }, 'Unpublished'],
-      ['=', { field: 'slug' }, slug],
-    ]),
-  }))[0];
+  const jobs = await db.pg.select()
+    .from(jobPostingTable.pg)
+    .where(and(
+      ne(jobPostingTable.pg.publicationStatus, 'Unpublished'),
+      eq(jobPostingTable.pg.slug, slug),
+    ));
+
+  const job = jobs[0];
 
   if (!job) {
     throw new createHttpError.NotFound('Job posting not found');

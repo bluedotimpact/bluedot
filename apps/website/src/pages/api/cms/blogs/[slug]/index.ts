@@ -1,9 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, ne, blogTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import { CmsBlog, cmsBlogTable } from '../../../../../lib/api/db/tables';
+
+type CmsBlog = InferSelectModel<typeof blogTable.pg>;
 
 export type GetBlogResponse = {
   type: 'success',
@@ -22,12 +25,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const blog = (await db.scan(cmsBlogTable, {
-    filterByFormula: formula(await db.table(cmsBlogTable), ['AND',
-      ['!=', { field: 'publicationStatus' }, 'Unpublished'],
-      ['=', { field: 'slug' }, slug],
-    ]),
-  }))[0];
+  const blogs = await db.pg.select()
+    .from(blogTable.pg)
+    .where(and(
+      ne(blogTable.pg.publicationStatus, 'Unpublished'),
+      eq(blogTable.pg.slug, slug),
+    ));
+
+  const blog = blogs[0];
 
   if (!blog) {
     throw new createHttpError.NotFound('Blog post not found');

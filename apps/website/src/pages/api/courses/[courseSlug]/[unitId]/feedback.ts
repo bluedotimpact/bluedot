@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
 import {
-  UnitFeedback,
-  unitFeedbackTable,
-} from '../../../../../lib/api/db/tables';
+  eq, and, unitFeedbackTable, InferSelectModel,
+} from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
+
+type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
 
 export type GetUnitFeedbackResponse = {
   type: 'success';
@@ -45,15 +45,14 @@ export default makeApiRoute(
       createHttpError.MethodNotAllowed();
     }
 
-    const existingFeedback = (
-      await db.scan(unitFeedbackTable, {
-        filterByFormula: formula(await db.table(unitFeedbackTable), [
-          'AND',
-          ['=', { field: 'unitId' }, unitId],
-          ['=', { field: 'userEmail' }, auth.email],
-        ]),
-      })
-    )[0];
+    const existingFeedbacks = await db.pg.select()
+      .from(unitFeedbackTable.pg)
+      .where(and(
+        eq(unitFeedbackTable.pg.unitId, unitId),
+        eq(unitFeedbackTable.pg.userEmail, auth.email),
+      ));
+
+    const existingFeedback = existingFeedbacks[0];
 
     if (method === 'GET') {
       return {
@@ -73,16 +72,16 @@ export default makeApiRoute(
 
       // If the feedback does exist, update it
       if (existingFeedback) {
-        upsertedFeedback = await db.update(unitFeedbackTable, {
-          id: existingFeedback.id,
+        upsertedFeedback = await db.airtableUpdate(unitFeedbackTable, {
+          id: existingFeedback.id || '',
           lastModified: new Date().toISOString(),
           overallRating,
           anythingElse,
         });
       } else {
         // If the feedback does NOT exist, create it
-        upsertedFeedback = await db.insert(unitFeedbackTable, {
-          unit: unitId,
+        upsertedFeedback = await db.airtableInsert(unitFeedbackTable, {
+          unitId,
           createdAt: new Date().toISOString(),
           lastModified: new Date().toISOString(),
           userEmail: auth.email,

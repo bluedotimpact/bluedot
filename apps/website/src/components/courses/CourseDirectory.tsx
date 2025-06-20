@@ -27,14 +27,14 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
               && displayData.courses.length > 0
               && displayData.courses.map((course) => (
                 <CourseSearchCard
-                  key={course.title}
-                  description={course.shortDescription}
-                  cadence={course.cadence}
-                  level={course.level}
-                  averageRating={course.averageRating}
-                  imageSrc={course.image}
-                  title={course.title}
-                  url={course.path}
+                  key={course.title || course.id}
+                  description={course.description || ''}
+                  cadence={course.cadence || ''}
+                  level=""
+                  averageRating={0}
+                  imageSrc=""
+                  title={course.title || ''}
+                  url={course.path || ''}
                 />
               ))}
           </div>

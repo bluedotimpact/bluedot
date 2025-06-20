@@ -65,8 +65,8 @@ const BlogPostPage = () => {
                     name: data.blog.authorName,
                     url: data.blog.authorUrl,
                   },
-                  datePublished: new Date(data.blog.publishedAt * 1000).toISOString(),
-                  dateModified: new Date(data.blog.publishedAt * 1000).toISOString(),
+                  datePublished: new Date((data.blog.publishedAt || 0) * 1000).toISOString(),
+                  dateModified: new Date((data.blog.publishedAt || 0) * 1000).toISOString(),
                   mainEntityOfPage: {
                     '@type': 'WebPage',
                     '@id': `${ROUTES.blog.url}/${slug}`,
@@ -84,12 +84,12 @@ const BlogPostPage = () => {
           <HeroSection>
             <HeroMiniTitle>Blog</HeroMiniTitle>
             <HeroH1>{data.blog.title}</HeroH1>
-            <HeroH2><A href={data.blog.authorUrl} className="text-white">{data.blog.authorName}</A> • {formattedDate}</HeroH2>
+            <HeroH2><A href={data.blog.authorUrl || '#'} className="text-white">{data.blog.authorName || 'Unknown Author'}</A> • {formattedDate}</HeroH2>
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
             <MarkdownExtendedRenderer>
-              {data.blog.body}
+              {data.blog.body ?? ''}
             </MarkdownExtendedRenderer>
             <div className="my-8 border-t border-color-divider pt-8">
               <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withBackChevron>

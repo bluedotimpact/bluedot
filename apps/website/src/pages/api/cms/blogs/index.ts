@@ -1,8 +1,11 @@
 import { z } from 'zod';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, desc, blogTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { CmsBlog, cmsBlogTable } from '../../../../lib/api/db/tables';
+
+type CmsBlog = InferSelectModel<typeof blogTable.pg>;
 
 export type GetBlogsResponse = {
   type: 'success',
@@ -16,17 +19,13 @@ export default makeApiRoute({
     blogs: z.array(z.any()),
   }),
 }, async () => {
-  const allBlogs = await db.scan(cmsBlogTable, {
-    filterByFormula: formula(await db.table(cmsBlogTable), ['=', { field: 'publicationStatus' }, 'Published']),
-  });
-
-  // Sort blogs by publishedAt date in descending order (newest first)
-  const sortedBlogs = allBlogs.sort((a, b) => {
-    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
-  });
+  const allBlogs = await db.pg.select()
+    .from(blogTable.pg)
+    .where(eq(blogTable.pg.publicationStatus, 'Published'))
+    .orderBy(desc(blogTable.pg.publishedAt));
 
   // Remove the body field from each blog to make the response lighter
-  const blogSummaries = sortedBlogs.map(({ body, ...rest }) => rest);
+  const blogSummaries = allBlogs.map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

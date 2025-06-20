@@ -7,18 +7,11 @@ export const useCourses = () => {
     method: 'POST',
   });
 
-  // Sort courses: featured first, then new, then alphabetically
+  // Sort courses alphabetically by title (since isFeatured and isNew don't exist in new schema)
   const sortedCourses = [...(data?.courses ?? [])].sort((a, b) => {
-    // Featured courses come first
-    if (!!a.isFeatured && !b.isFeatured) return -1;
-    if (!a.isFeatured && !!b.isFeatured) return 1;
-
-    // Then new courses
-    if (!!a.isNew && !b.isNew) return -1;
-    if (!a.isNew && !!b.isNew) return 1;
-
-    // Finally sort alphabetically by title
-    return a.title.localeCompare(b.title);
+    const titleA = a.title || '';
+    const titleB = b.title || '';
+    return titleA.localeCompare(titleB);
   });
 
   return {

@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, resourceCompletionTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import {
-  ResourceCompletion,
-  resourceCompletionTable,
-} from '../../../../../lib/api/db/tables';
+
+type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 
 export type GetResourceCompletionResponse = {
   type: 'success',
@@ -39,13 +39,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  const resourceCompletion = (await db.scan(resourceCompletionTable, {
-    filterByFormula: formula(await db.table(resourceCompletionTable), [
-      'AND',
-      ['=', { field: 'unitResourceIdRead' }, unitResourceId],
-      ['=', { field: 'email' }, auth.email],
-    ]),
-  }))[0];
+  const resourceCompletions = await db.pg.select()
+    .from(resourceCompletionTable.pg)
+    .where(and(
+      eq(resourceCompletionTable.pg.unitResourceIdRead, unitResourceId),
+      eq(resourceCompletionTable.pg.email, auth.email),
+    ));
+
+  const resourceCompletion = resourceCompletions[0];
 
   switch (raw.req.method) {
     // Get resource completion
@@ -59,7 +60,7 @@ export default makeApiRoute({
         resourceCompletion: {
           ...resourceCompletion,
           // For some reason Airtable often adds a newline to the end of the feedback
-          feedback: resourceCompletion.feedback.trimEnd(),
+          feedback: resourceCompletion.feedback?.trimEnd() || '',
         },
       };
     }
@@ -74,8 +75,8 @@ export default makeApiRoute({
 
       // If the resource completion does exist, update it
       if (resourceCompletion) {
-        updatedResourceCompletion = await db.update(resourceCompletionTable, {
-          id: resourceCompletion.id,
+        updatedResourceCompletion = await db.airtableUpdate(resourceCompletionTable, {
+          id: resourceCompletion.id || '',
           unitResourceIdWrite: unitResourceId,
           rating: body.rating ?? resourceCompletion.rating,
           isCompleted: body.isCompleted ?? resourceCompletion.isCompleted,
@@ -83,7 +84,7 @@ export default makeApiRoute({
         });
       } else {
         // If the resource completion does NOT exist, create it
-        updatedResourceCompletion = await db.insert(resourceCompletionTable, {
+        updatedResourceCompletion = await db.airtableInsert(resourceCompletionTable, {
           email: auth.email,
           unitResourceIdWrite: unitResourceId,
           rating: body.rating,
@@ -97,7 +98,7 @@ export default makeApiRoute({
         resourceCompletion: {
           ...updatedResourceCompletion,
           // For some reason Airtable often adds a newline to the end of the feedback
-          feedback: updatedResourceCompletion.feedback.trimEnd(),
+          feedback: updatedResourceCompletion.feedback?.trimEnd() || '',
         },
       };
     }

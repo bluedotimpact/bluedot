@@ -17,6 +17,7 @@
     "deploy:multistage:staging": "docker-scripts multistage-deploy-staging"
   },
   "dependencies": {
+    "@bluedot/db": "*",
     "@bluedot/docker-scripts": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
@@ -27,7 +28,6 @@
     "@tanstack/react-query": "^5.29.0",
     "@ts-rest/core": "^3.41.1",
     "@ts-rest/react-query": "^3.41.1",
-    "airtable-ts": "^1.6.0",
     "airtable-ts-formula": "^1.0.0",
     "axios": "^1.6.8",
     "axios-hooks": "^5.0.2",

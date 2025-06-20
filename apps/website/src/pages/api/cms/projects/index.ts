@@ -1,8 +1,11 @@
 import { z } from 'zod';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import {
+  eq, desc, projectTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { CmsProject, cmsProjectTable } from '../../../../lib/api/db/tables';
+
+type CmsProject = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectsResponse = {
   type: 'success',
@@ -16,18 +19,13 @@ export default makeApiRoute({
     projects: z.array(z.any()),
   }),
 }, async () => {
-  const allProjects = await db.scan(cmsProjectTable, {
-    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(cmsProjectTable) as AirtableTsTable<CmsProject>, ['=', { field: 'publicationStatus' }, 'Published']),
-  });
-
-  // Sort projects by publishedAt date in descending order (newest first)
-  const sortedProjects = allProjects.sort((a, b) => {
-    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
-  });
+  const allProjects = await db.pg.select()
+    .from(projectTable.pg)
+    .where(eq(projectTable.pg.publicationStatus, 'Published'))
+    .orderBy(desc(projectTable.pg.publishedAt));
 
   // Remove the body field from each project to make the response lighter
-  const projectSummaries = sortedProjects.map(({ body, ...rest }) => rest);
+  const projectSummaries = allProjects.map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

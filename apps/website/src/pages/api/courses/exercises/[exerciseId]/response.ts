@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, exerciseResponseTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import {
-  ExerciseResponse,
-  exerciseResponseTable,
-} from '../../../../../lib/api/db/tables';
+
+type ExerciseResponse = InferSelectModel<typeof exerciseResponseTable.pg>;
 
 export type GetExerciseResponseResponse = {
   type: 'success',
@@ -37,13 +37,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  const exerciseResponse = (await db.scan(exerciseResponseTable, {
-    filterByFormula: formula(await db.table(exerciseResponseTable), [
-      'AND',
-      ['=', { field: 'exerciseId' }, exerciseId],
-      ['=', { field: 'email' }, auth.email],
-    ]),
-  }))[0];
+  const exerciseResponses = await db.pg.select()
+    .from(exerciseResponseTable.pg)
+    .where(and(
+      eq(exerciseResponseTable.pg.exerciseId, exerciseId),
+      eq(exerciseResponseTable.pg.email, auth.email),
+    ));
+
+  const exerciseResponse = exerciseResponses[0];
 
   switch (raw.req.method) {
     // Get exercise response
@@ -57,7 +58,7 @@ export default makeApiRoute({
         exerciseResponse: exerciseResponse ? {
           ...exerciseResponse,
           // For some reason Airtable often adds a newline to the end of the response
-          response: exerciseResponse.response.trimEnd(),
+          response: exerciseResponse.response?.trimEnd() || '',
         } : undefined,
       };
     }
@@ -72,15 +73,15 @@ export default makeApiRoute({
 
       // If the exercise response does exist, update it
       if (exerciseResponse) {
-        updatedExerciseResponse = await db.update(exerciseResponseTable, {
-          id: exerciseResponse.id,
+        updatedExerciseResponse = await db.airtableUpdate(exerciseResponseTable, {
+          id: exerciseResponse.id || '',
           exerciseId,
           response: body.response,
           completed: body.completed ?? false,
         });
       } else {
         // If the exercise response does NOT exist, create it
-        updatedExerciseResponse = await db.insert(exerciseResponseTable, {
+        updatedExerciseResponse = await db.airtableInsert(exerciseResponseTable, {
           email: auth.email,
           exerciseId,
           response: body.response,
