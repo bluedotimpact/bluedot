@@ -1,9 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import {
+  eq, and, ne, projectTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import { CmsProject, cmsProjectTable } from '../../../../../lib/api/db/tables';
+
+type CmsProject = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectResponse = {
   type: 'success',
@@ -22,13 +25,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const project = (await db.scan(cmsProjectTable, {
-    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(cmsProjectTable) as AirtableTsTable<CmsProject>, ['AND',
-      ['!=', { field: 'publicationStatus' }, 'Unpublished'],
-      ['=', { field: 'slug' }, slug],
-    ]),
-  }))[0];
+  const projects = await db.pg.select()
+    .from(projectTable.pg)
+    .where(and(
+      ne(projectTable.pg.publicationStatus, 'Unpublished'),
+      eq(projectTable.pg.slug, slug),
+    ));
+
+  const project = projects[0];
 
   if (!project) {
     throw new createHttpError.NotFound('Project post not found');

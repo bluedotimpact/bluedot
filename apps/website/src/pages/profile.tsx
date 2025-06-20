@@ -20,19 +20,23 @@ import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
   FaCubesStacked,
 } from 'react-icons/fa6';
+import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import { GetUserResponse } from './api/users/me';
 import { GetCourseRegistrationsResponse } from './api/course-registrations';
 import { GetCoursesResponse } from './api/courses';
 import { ROUTES } from '../lib/routes';
 import { H2, H3, P } from '../components/Text';
 import SocialShare from '../components/courses/SocialShare';
-import { Course, CourseRegistration, User } from '../lib/api/db/tables';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
 import CircleSpaceEmbed from '../components/courses/exercises/CircleSpaceEmbed';
 import { meRequestBodySchema } from '../lib/schemas/user/me.schema';
 import { parseZodValidationError } from '../lib/utils';
 
 const CURRENT_ROUTE = ROUTES.profile;
+
+type Course = typeof courseTable.pg.$inferSelect;
+type CourseRegistration = typeof courseRegistrationTable.pg.$inferSelect;
+type User = GetUserResponse['user'];
 
 const ProfilePage = withAuth(({ auth }) => {
   const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
@@ -277,8 +281,8 @@ const ProfileCourseList: React.FC<ProfileCourseListProps> = ({ enrolledCourses }
 };
 
 type ProfileCourseCardProps = {
-  course: Course;
-  courseRegistration: CourseRegistration;
+  course: typeof courseTable.pg.$inferSelect;
+  courseRegistration: typeof courseRegistrationTable.pg.$inferSelect;
 };
 
 const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseRegistration }) => {
@@ -317,7 +321,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             {/* Course metadata */}
             <div className="flex gap-2 items-center text-gray-500">
               <FaCubesStacked size={16} />
-              <span>{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
+              <span>{course.units?.length || 0} {course.units?.length === 1 ? 'unit' : 'units'}</span>
             </div>
 
             {isCompleted && (
@@ -326,7 +330,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
                 <FaAward size={18} className="mr-2" />
                 View your certificate
               </ClickTarget>
-              <ClickTarget url={course.path} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={course.path || '#'} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaBookOpen size={18} className="mr-2" />
                 Browse course materials
               </ClickTarget>
@@ -349,7 +353,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
               Share your achievement
             </P>
             <SocialShare
-              coursePath={course.path}
+              coursePath={course.path || '#'}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>
@@ -359,7 +363,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       {/* Continue learning button */}
       {!isCompleted && (
       <div className="bg-stone-50 p-6">
-        <CTALinkOrButton url={course.path} variant="primary" className="w-full">
+        <CTALinkOrButton url={course.path || '#'} variant="primary" className="w-full">
           Continue learning
         </CTALinkOrButton>
       </div>

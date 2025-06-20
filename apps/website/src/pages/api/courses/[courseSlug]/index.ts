@@ -1,14 +1,13 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import {
+  eq, asc, courseTable, unitTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import {
-  Course,
-  courseTable,
-  Unit,
-  unitTable,
-} from '../../../../lib/api/db/tables';
+
+type Course = InferSelectModel<typeof courseTable.pg>;
+type Unit = InferSelectModel<typeof unitTable.pg>;
 
 export type GetCourseResponse = {
   type: 'success',
@@ -29,25 +28,19 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid course slug');
   }
 
-  const course = (await db.scan(courseTable, {
-    // TODO: remove this unnecessary cast after we drop array support for mappings in airtable-ts
-    filterByFormula: formula(await db.table(courseTable) as AirtableTsTable<Course>, [
-      '=',
-      { field: 'slug' },
-      courseSlug,
-    ]),
-  }))[0];
+  const courses = await db.pg.select()
+    .from(courseTable.pg)
+    .where(eq(courseTable.pg.slug, courseSlug));
+
+  const course = courses[0];
   if (!course) {
     throw new createHttpError.NotFound('Course not found');
   }
 
-  const units = (await db.scan(unitTable, {
-    filterByFormula: formula(await db.table(unitTable) as AirtableTsTable<Unit>, [
-      '=',
-      { field: 'courseSlug' },
-      courseSlug,
-    ]),
-  })).sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+  const units = await db.pg.select()
+    .from(unitTable.pg)
+    .where(eq(unitTable.pg.courseSlug, courseSlug))
+    .orderBy(asc(unitTable.pg.unitNumber));
 
   return {
     type: 'success' as const,

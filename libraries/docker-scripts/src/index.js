@@ -37,5 +37,5 @@ child.on('error', (error) => {
 });
 
 child.on('exit', (code) => {
-  process.exit(code || 0);
+  process.exit(code);
 });

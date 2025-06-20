@@ -4,8 +4,11 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
+import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitId]';
-import { Unit, Chunk } from '../../../../../lib/api/db/tables';
+
+type Unit = InferSelectModel<typeof unitTable.pg>;
+type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 // Mock next/router
 vi.mock('next/router', () => ({

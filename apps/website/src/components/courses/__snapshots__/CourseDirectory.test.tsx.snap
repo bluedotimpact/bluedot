@@ -28,7 +28,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                 <img
                   alt="Test Course 1"
                   class="course-search-card__image size-full object-cover rounded-lg"
-                  src="img1.jpg"
+                  src="/images/courses/default.jpg"
                 />
               </div>
               <div
@@ -42,11 +42,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   >
                     Test Course 1
                   </h3>
-                  <p
-                    class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
-                  >
-                    Desc 1
-                  </p>
                 </div>
                 <div
                   class="course-search-card__footer flex flex-wrap gap-4"
@@ -54,12 +49,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   <div
                     class="flex gap-2"
                   >
-                    <span
-                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__level"
-                      role="status"
-                    >
-                      Beginner
-                    </span>
                     <span
                       class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
                       role="status"
@@ -73,7 +62,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                     <span
                       class="course-card__rating flex gap-[3px] items-start font-bold pb-2"
                     >
-                      4.5
                        
                       <svg
                         class="mt-px"
@@ -105,7 +93,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                 <img
                   alt="Test Course 2"
                   class="course-search-card__image size-full object-cover rounded-lg"
-                  src="img2.jpg"
+                  src="/images/courses/default.jpg"
                 />
               </div>
               <div
@@ -119,11 +107,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   >
                     Test Course 2
                   </h3>
-                  <p
-                    class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
-                  >
-                    Desc 2
-                  </p>
                 </div>
                 <div
                   class="course-search-card__footer flex flex-wrap gap-4"
@@ -131,12 +114,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                   <div
                     class="flex gap-2"
                   >
-                    <span
-                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__level"
-                      role="status"
-                    >
-                      Intermediate
-                    </span>
                     <span
                       class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
                       role="status"
@@ -150,7 +127,6 @@ exports[`CourseDirectory > renders default as expected 1`] = `
                     <span
                       class="course-card__rating flex gap-[3px] items-start font-bold pb-2"
                     >
-                      4.0
                        
                       <svg
                         class="mt-px"

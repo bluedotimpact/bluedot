@@ -1,13 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, applicationsCourseTable, courseRegistrationTable, InferSelectModel,
+} from '@bluedot/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import db from '../../../../lib/api/db';
-import {
-  applicationsCourseTable,
-  CourseRegistration,
-  courseRegistrationTable,
-} from '../../../../lib/api/db/tables';
+
+type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 
 export type GetCourseRegistrationResponse = {
   type: 'success';
@@ -28,14 +27,15 @@ export default makeApiRoute({
         throw new createHttpError.BadRequest('Invalid courseId parameter');
       }
 
-      const courseRegistration = (await db.scan(courseRegistrationTable, {
-        filterByFormula: formula(await db.table(courseRegistrationTable), [
-          'AND',
-          ['=', { field: 'email' }, auth.email],
-          ['=', { field: 'courseId' }, courseId],
-          ['=', { field: 'decision' }, 'Accept'],
-        ]),
-      }))[0];
+      const courseRegistrations = await db.pg.select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, auth.email),
+          eq(courseRegistrationTable.pg.courseId, courseId),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+        ));
+
+      const courseRegistration = courseRegistrations[0];
       if (courseRegistration) {
         return {
           type: 'success' as const,
@@ -43,14 +43,16 @@ export default makeApiRoute({
         };
       }
 
-      const courseApplicationsBaseId = (await db.scan(applicationsCourseTable))
-        .find((c) => c.courseBuilderId === raw.req.query.courseId)
-        ?.id;
+      const applicationsCourses = await db.pg.select()
+        .from(applicationsCourseTable.pg)
+        .where(eq(applicationsCourseTable.pg.courseBuilderId, courseId));
+
+      const courseApplicationsBaseId = applicationsCourses[0]?.id;
       if (!courseApplicationsBaseId) {
         throw new createHttpError.NotFound('Course not found');
       }
 
-      const newCourseRegistration = await db.insert(courseRegistrationTable, {
+      const newCourseRegistration = await db.airtableInsert(courseRegistrationTable, {
         email: auth.email,
         courseApplicationsBaseId,
         role: 'Participant',

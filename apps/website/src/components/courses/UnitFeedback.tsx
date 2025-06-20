@@ -5,10 +5,12 @@ import { CTALinkOrButton, ErrorSection, useAuthStore } from '@bluedot/ui';
 import { FaCircleCheck } from 'react-icons/fa6';
 import axios from 'axios';
 
-import { Unit } from '../../lib/api/db/tables';
+import { unitTable, InferSelectModel } from '@bluedot/db';
 import { GetUnitFeedbackResponse, PutUnitFeedbackRequest } from '../../pages/api/courses/[courseSlug]/[unitId]/feedback';
 import StarRating from './StarRating';
 import { H4, P } from '../Text';
+
+type Unit = InferSelectModel<typeof unitTable.pg>;
 
 type UnitFeedbackProps = {
   unit: Pick<Unit, 'id' | 'courseSlug'>;

@@ -5,8 +5,11 @@ import {
   test,
   vi,
 } from 'vitest';
+import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import SideBar from './SideBar';
-import { Unit, Chunk } from '../../lib/api/db/tables';
+
+type Unit = InferSelectModel<typeof unitTable.pg>;
+type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 const COURSE_UNITS: Unit[] = [
   {

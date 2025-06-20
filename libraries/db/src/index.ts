@@ -19,6 +19,14 @@ export {
   zoomAccountTable,
   roundTable,
   meetCourseTable,
+  chunkTable,
+  unitTable,
+  unitResourceTable,
+  exerciseTable,
+  applicationsCourseTable,
+  courseRegistrationTable,
+  userTable,
+  resourceCompletionTable,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

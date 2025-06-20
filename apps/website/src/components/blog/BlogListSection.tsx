@@ -3,10 +3,12 @@ import {
 } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import useAxios from 'axios-hooks';
+import { blogTable, InferSelectModel } from '@bluedot/db';
 import { P } from '../Text';
-import { CmsBlog } from '../../lib/api/db/tables';
 import { GetBlogsResponse } from '../../pages/api/cms/blogs';
 import { ROUTES } from '../../lib/routes';
+
+type CmsBlog = InferSelectModel<typeof blogTable.pg>;
 
 export type BlogListSectionProps = {
   maxItems?: number | undefined,
@@ -53,12 +55,14 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
 export const BlogListItem = ({ blog }: {
   blog: Omit<CmsBlog, 'body'>
 }) => {
-  const url = `/blog/${blog.slug}`;
-  const formattedDate = new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const url = `/blog/${blog.slug || ''}`;
+  const formattedDate = blog.publishedAt
+    ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    : 'Unknown date';
 
   return (
     <div className="blog-list__listing">
@@ -68,8 +72,8 @@ export const BlogListItem = ({ blog }: {
         ctaUrl={url}
         isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}
-        subtitle={`${blog.authorName} • ${formattedDate}`}
-        title={blog.title}
+        subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
+        title={blog.title || 'Untitled'}
       />
     </div>
   );

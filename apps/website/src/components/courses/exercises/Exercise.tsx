@@ -72,7 +72,9 @@ const Exercise: React.FC<ExerciseProps> = ({
         <FreeTextResponse
           className={exerciseClassNames}
           {...exerciseData.exercise}
-          exerciseResponse={responseData?.exerciseResponse?.response}
+          description={exerciseData.exercise.description || ''}
+          title={exerciseData.exercise.title || ''}
+          exerciseResponse={responseData?.exerciseResponse?.response || undefined}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
@@ -82,7 +84,11 @@ const Exercise: React.FC<ExerciseProps> = ({
         <MultipleChoice
           className={exerciseClassNames}
           {...exerciseData.exercise}
-          exerciseResponse={responseData?.exerciseResponse?.response}
+          answer={exerciseData.exercise.answer || ''}
+          title={exerciseData.exercise.title || ''}
+          description={exerciseData.exercise.description || ''}
+          options={exerciseData.exercise.options || ''}
+          exerciseResponse={responseData?.exerciseResponse?.response || undefined}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />

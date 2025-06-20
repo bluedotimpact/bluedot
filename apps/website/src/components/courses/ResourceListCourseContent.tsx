@@ -7,8 +7,8 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { FaRegSquare, FaSquareCheck } from 'react-icons/fa6';
+import { unitResourceTable, InferSelectModel } from '@bluedot/db';
 import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitId]/resources';
-import { UnitResource } from '../../lib/api/db/tables';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import StarRating from './StarRating';
 import {
@@ -20,6 +20,8 @@ import Callout from './Callout';
 import Exercise from './exercises/Exercise';
 import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitId]';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+
+type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 const ResourceListCourseContent: React.FC = () => {
   const { query: { courseSlug, unitId } } = useRouter();
@@ -121,8 +123,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
     if (completionData?.resourceCompletion && !hasCompletionLoaded) {
       setHasCompletionLoaded(true);
       setRating(completionData.resourceCompletion.rating);
-      setFeedback(completionData.resourceCompletion.feedback);
-      setIsCompleted(completionData.resourceCompletion.isCompleted);
+      setFeedback(completionData.resourceCompletion.feedback || '');
+      setIsCompleted(completionData.resourceCompletion.isCompleted || false);
     }
   }, [completionData]);
 
@@ -211,7 +213,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
               <span className="hidden sm:inline resource-item__type px-2 py-1 bg-blue-100 text-blue-800 rounded-full mr-2">
                 {resource.resourceType || 'Resource'}
               </span>
-              {resource.authors && <span className="resource-item__author">by {resource.authors} ({resource.timeFocusOnMins || 0} mins)</span>}
+              {resource.authors && <span className="resource-item__author">by {resource.authors}{resource.timeFocusOnMins && ` (${resource.timeFocusOnMins} mins)`}</span>}
             </P>
           </div>
         </div>

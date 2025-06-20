@@ -20,7 +20,7 @@ export default makeApiRoute({
   const allPeople = await db.pg.select().from(personTable.pg).where(eq(personTable.pg.isProfilePublic, true));
 
   return allPeople.map((person) => ({
-    id: person.id || '',
+    id: person.id,
     email: person.email || '',
     firstName: person.firstName || '',
     lastName: person.lastName || '',

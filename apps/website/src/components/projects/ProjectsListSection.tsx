@@ -4,10 +4,12 @@ import {
 } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import useAxios from 'axios-hooks';
+import { projectTable, InferSelectModel } from '@bluedot/db';
 import { H3, P } from '../Text';
-import { CmsProject } from '../../lib/api/db/tables';
 import { GetProjectsResponse } from '../../pages/api/cms/projects';
 import { ROUTES } from '../../lib/routes';
+
+type CmsProject = InferSelectModel<typeof projectTable.pg>;
 
 export type ProjectsListSectionProps = {
   maxItems?: number | undefined,
@@ -17,7 +19,8 @@ export type ProjectsListSectionProps = {
 export const ProjectListItem = ({ project }: {
   project: Omit<CmsProject, 'body'>
 }) => {
-  const url = `/projects/${project.slug}`;
+  const url = `/projects/${project.slug || ''}`;
+  const tags = project.tag || [];
 
   return (
     <Card
@@ -25,9 +28,9 @@ export const ProjectListItem = ({ project }: {
       ctaText="Read more"
       ctaUrl={url}
       isEntireCardClickable={!isMobile}
-      subtitle={`${project.authorName}${project.tag.length > 0 ? ` • ${project.tag.join(' • ')}` : ''}`}
-      title={project.title}
-      imageSrc={project.coverImageSrc}
+      subtitle={`${project.authorName || ''}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
+      title={project.title || ''}
+      imageSrc={project.coverImageSrc || undefined}
     />
   );
 };
@@ -57,8 +60,8 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
 
     // Sort groups by the latest publishedAt date of any project in the group
     groupsArray.sort((a, b) => {
-      const aLatest = Math.max(...a[1].map((p) => p.publishedAt));
-      const bLatest = Math.max(...b[1].map((p) => p.publishedAt));
+      const aLatest = Math.max(...a[1].map((p) => p.publishedAt || Infinity));
+      const bLatest = Math.max(...b[1].map((p) => p.publishedAt || Infinity));
       return bLatest - aLatest; // Sort newest first
     });
 

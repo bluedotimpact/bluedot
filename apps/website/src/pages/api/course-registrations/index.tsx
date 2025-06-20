@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { formula } from 'airtable-ts-formula';
+import {
+  eq, and, courseRegistrationTable, InferSelectModel,
+} from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import {
-  CourseRegistration,
-  courseRegistrationTable,
-} from '../../../lib/api/db/tables';
+
+type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 
 export type GetCourseRegistrationsResponse = {
   type: 'success';
@@ -22,13 +22,12 @@ export default makeApiRoute({
 }, async (body, { auth, raw }) => {
   switch (raw.req.method) {
     case 'GET': {
-      const courseRegistrations = (await db.scan(courseRegistrationTable, {
-        filterByFormula: formula(await db.table(courseRegistrationTable), [
-          'AND',
-          ['=', { field: 'email' }, auth.email],
-          ['=', { field: 'decision' }, 'Accept'],
-        ]),
-      }));
+      const courseRegistrations = await db.pg.select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, auth.email),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+        ));
 
       return {
         type: 'success' as const,

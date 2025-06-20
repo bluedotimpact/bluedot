@@ -1,11 +1,13 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { AirtableTsTable, formula } from 'airtable-ts-formula';
+import {
+  eq, and, or, asc, exerciseTable, unitResourceTable, unitTable, InferSelectModel,
+} from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import {
-  Exercise, exerciseTable, Unit, UnitResource, unitResourceTable, unitTable,
-} from '../../../../../lib/api/db/tables';
+
+type Exercise = InferSelectModel<typeof exerciseTable.pg>;
+type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 export type GetUnitResourcesResponse = {
   type: 'success',
@@ -29,24 +31,27 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  const unit = (await db.scan(unitTable, {
-    filterByFormula: formula(await db.table(unitTable) as AirtableTsTable<Unit>, [
-      'AND',
-      ['=', { field: 'courseSlug' }, courseSlug],
-      ['=', { field: 'unitNumber' }, unitId],
-    ]),
-  }))[0];
+  const units = await db.pg.select()
+    .from(unitTable.pg)
+    .where(and(
+      eq(unitTable.pg.courseSlug, courseSlug),
+      eq(unitTable.pg.unitNumber, unitId),
+    ));
+
+  const unit = units[0];
   if (!unit) {
     throw new createHttpError.NotFound('Unit not found');
   }
 
-  const unitResources = await db.scan(unitResourceTable, {
-    filterByFormula: formula(await db.table(unitResourceTable), [
-      'AND',
-      ['=', { field: 'unitId' }, unit.id],
-      ['OR', ['=', { field: 'coreFurtherMaybe' }, 'Core'], ['=', { field: 'coreFurtherMaybe' }, 'Further']],
-    ]),
-  });
+  const unitResources = await db.pg.select()
+    .from(unitResourceTable.pg)
+    .where(and(
+      eq(unitResourceTable.pg.unitId, unit.id),
+      or(
+        eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'),
+        eq(unitResourceTable.pg.coreFurtherMaybe, 'Further'),
+      ),
+    ));
 
   // Sort resources by core/further, then reading order
   unitResources.sort((a, b) => {
@@ -55,20 +60,18 @@ export default makeApiRoute({
     if (isCoreA !== isCoreB) {
       return isCoreB - isCoreA;
     }
-    const orderA = parseInt(a.readingOrder) || Infinity;
-    const orderB = parseInt(b.readingOrder) || Infinity;
+    const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
+    const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
     return orderA - orderB;
   });
 
-  const unitExercises = await db.scan(exerciseTable, {
-    filterByFormula: formula(await db.table(exerciseTable), [
-      'AND',
-      ['=', { field: 'unitId' }, unit.id],
-      ['=', { field: 'status' }, 'Active'],
-    ]),
-  });
-
-  unitExercises.sort((a, b) => Number(a.exerciseNumber) - Number(b.exerciseNumber));
+  const unitExercises = await db.pg.select()
+    .from(exerciseTable.pg)
+    .where(and(
+      eq(exerciseTable.pg.unitId, unit.id),
+      eq(exerciseTable.pg.status, 'Active'),
+    ))
+    .orderBy(asc(exerciseTable.pg.exerciseNumber));
 
   return {
     type: 'success' as const,
