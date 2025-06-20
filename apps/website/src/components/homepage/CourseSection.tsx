@@ -29,6 +29,10 @@ const CourseSection = () => {
   // Find the first featured course, or fall back to the first course
   const featuredCourse = courses.find((course) => course.isFeatured) || courses[0];
 
+  if (loading) {
+    return <ProgressDots />;
+  }
+
   if (!featuredCourse) {
     return null;
   }
@@ -47,7 +51,7 @@ const CourseSection = () => {
             course_url: featuredCourse.path || '',
           }}
           title={featuredCourse.title || ''}
-          description={featuredCourse.description || ''}
+          description={featuredCourse.shortDescription || ''}
           cadence={featuredCourse.cadence || ''}
           courseLength={featuredCourse.durationDescription || ''}
           imageSrc={featuredCourse.image || undefined}
@@ -71,7 +75,7 @@ const CourseSection = () => {
               }}
               key={course.id}
               title={course.title || ''}
-              description={course.description || ''}
+              description={course.shortDescription || ''}
               cadence={course.cadence || ''}
               courseLength={course.durationDescription || ''}
               imageSrc={course.image || undefined}

@@ -2,13 +2,12 @@ import { render } from '@testing-library/react';
 import {
   describe, expect, test,
 } from 'vitest';
-import type { GetCoursesResponse } from '../../pages/api/courses';
-import CourseDirectory, { CourseDirectoryProps } from './CourseDirectory';
+import CourseDirectory from './CourseDirectory';
 
-const defaultDisplayData: GetCoursesResponse = {
+const defaultProps = {
   courses: [
-    // @ts-expect-error not all values are needed
     {
+      id: 'course-1',
       title: 'Test Course 1',
       shortDescription: 'Desc 1',
       cadence: 'MOOC',
@@ -16,9 +15,21 @@ const defaultDisplayData: GetCoursesResponse = {
       averageRating: 4.5,
       image: 'img1.jpg',
       path: '/course1',
+      durationDescription: '4 weeks',
+      displayOnCourseHubIndex: true,
+      certificationBadgeImage: null,
+      certificationDescription: null,
+      description: null,
+      detailsUrl: null,
+      durationHours: null,
+      slug: null,
+      units: null,
+      publicLastUpdated: null,
+      isNew: null,
+      isFeatured: null,
     },
-    // @ts-expect-error not all values are needed
     {
+      id: 'course-2',
       title: 'Test Course 2',
       shortDescription: 'Desc 2',
       cadence: 'Daily',
@@ -26,13 +37,21 @@ const defaultDisplayData: GetCoursesResponse = {
       averageRating: 4.0,
       image: 'img2.jpg',
       path: '/course2',
+      durationDescription: '6 weeks',
+      displayOnCourseHubIndex: true,
+      certificationBadgeImage: null,
+      certificationDescription: null,
+      description: null,
+      detailsUrl: null,
+      durationHours: null,
+      slug: null,
+      units: null,
+      publicLastUpdated: null,
+      isNew: null,
+      isFeatured: null,
     },
   ],
-};
-
-const defaultProps: CourseDirectoryProps = {
-  displayData: defaultDisplayData,
-  displayLoading: false,
+  loading: false,
 };
 
 describe('CourseDirectory', () => {
@@ -45,13 +64,13 @@ describe('CourseDirectory', () => {
   test('displays loading indicator when displayLoading is true', () => {
     const props = {
       ...defaultProps,
-      displayLoading: true,
-      displayData: undefined,
+      loading: true,
+      courses: undefined,
     };
     const { container, queryByText } = render(<CourseDirectory {...props} />);
 
-    expect(queryByText(defaultDisplayData.courses[0]!.title!)).toBeNull();
-    expect(queryByText(defaultDisplayData.courses[1]!.title!)).toBeNull();
+    expect(queryByText(defaultProps.courses[0]!.title!)).toBeNull();
+    expect(queryByText(defaultProps.courses[1]!.title!)).toBeNull();
 
     const progressDotsElement = container.querySelector('.progress-dots');
     expect(progressDotsElement).not.toBeNull();

@@ -5,25 +5,21 @@ import {
   ErrorSection,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
 import { ROUTES } from '../../lib/routes';
-import type { GetCoursesResponse } from '../api/courses';
 import CourseDirectory from '../../components/courses/CourseDirectory';
+import { useCourses } from '../../lib/hooks/useCourses';
 
 const CURRENT_ROUTE = ROUTES.courses;
 
 const CoursePage = () => {
-  const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
-    url: '/api/courses',
-    method: 'POST',
-  });
+  const { courses, loading, error } = useCourses();
 
   return (
     <div>
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {data?.courses && (
+        {courses && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
@@ -31,7 +27,7 @@ const CoursePage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: data.courses.map((course, index) => ({
+                itemListElement: courses.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -83,8 +79,8 @@ const CoursePage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       {error && <ErrorSection error={error} />}
       <CourseDirectory
-        displayData={data}
-        displayLoading={loading}
+        courses={courses}
+        loading={loading}
       />
     </div>
   );
