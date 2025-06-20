@@ -93,7 +93,8 @@ const CertificatePage = () => {
 
         <div className="flex flex-col sm:flex-row gap-8 my-12">
           <div className="max-w-sm mx-auto sm:w-1/3">
-            <img src={certificate.certificationBadgeImageSrc} alt="Certificate badge" />
+            {/* TODO: fix images with postgres sync <img src={certificate.certificationBadgeImageSrc} alt="Certificate badge" /> */}
+            <img src="https://storage.k8s.bluedot.org/website-assets/editor/8258c691-866c-4f81-826d-be26322d6681.svg" alt="Certificate badge" />
           </div>
 
           <div className="sm:w-2/3 space-y-4">
