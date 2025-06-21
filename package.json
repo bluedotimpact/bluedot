@@ -9,7 +9,10 @@
     "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
     "test": "turbo run test",
-    "test:update": "turbo run test -- -u"
+    "test:update": "turbo run test -- -u",
+    "read-all-readmes": "npm run read-library-readmes && npm run read-app-readmes",
+    "read-library-readmes": "find libraries -name 'README.md' -not -path '*/node_modules/*' -print0 | xargs -0 -I {} bash -c 'echo \"\\n===== {} =====\\n\"; cat \"{}\"; echo \"\\n--------------------\\n\"'",
+    "read-app-readmes": "find apps -name 'README.md' -not -path '*/node_modules/*' -print0 | xargs -0 -I {} bash -c 'echo \"\\n===== {} =====\\n\"; cat \"{}\"; echo \"\\n--------------------\\n\"'"
   },
   "devDependencies": {
     "@bluedot/eslint-config": "*",
