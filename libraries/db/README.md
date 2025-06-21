@@ -25,7 +25,7 @@ const courses = await db.scan(courseTable);
 ## Important
 
 - **Use `db.get`, `db.scan` or `db.pg.select`** for reads - this queries PostgreSQL directly for speed
-- **Use `db.insert`, `db.update`, `db.delete`** for writes - these update Airtable and sync to PostgreSQL
+- **Use `db.insert`, `db.update`, `db.remove`** for writes - these update Airtable and sync to PostgreSQL
 - **Don't use raw `db.pg.insert`/`db.pg.update`/`db.pg.delete`** - these only write to PostgreSQL and break sync
 
 The [pg-sync-service](../../apps/pg-sync-service/) handles remotely syncing the databases via webhooks.
