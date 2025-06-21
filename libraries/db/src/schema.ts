@@ -304,7 +304,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       airtableId: 'fldjISs1XFGAwT5k5',
     },
     zoomAccount: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldH0pKnEELPI65Qs',
     },
   },
