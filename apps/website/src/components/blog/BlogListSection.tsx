@@ -55,7 +55,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
 export const BlogListItem = ({ blog }: {
   blog: Omit<CmsBlog, 'body'>
 }) => {
-  const url = `/blog/${blog.slug || ''}`;
+  const url = `/blog/${blog.slug}`;
   const formattedDate = blog.publishedAt
     ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
       year: 'numeric',

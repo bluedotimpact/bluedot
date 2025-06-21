@@ -35,7 +35,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     register, handleSubmit, setValue, formState: { isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
-      answer: exerciseResponse || '',
+      answer: exerciseResponse,
     },
   });
 

@@ -54,7 +54,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     register, handleSubmit, setValue, formState: { isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
-      answer: formattedExerciseResponse || '',
+      answer: formattedExerciseResponse,
     },
   });
 

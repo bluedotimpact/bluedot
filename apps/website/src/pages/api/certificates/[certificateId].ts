@@ -42,7 +42,7 @@ export default makeApiRoute({
 
   const courses = await db.pg.select()
     .from(courseTable.pg)
-    .where(eq(courseTable.pg.id, courseRegistration.courseId || ''));
+    .where(eq(courseTable.pg.id, courseRegistration.courseId));
 
   const course = courses[0];
   if (!course) {
@@ -52,9 +52,9 @@ export default makeApiRoute({
   const certificate: Certificate = {
     certificateId,
     certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
-    recipientName: courseRegistration.fullName || '',
-    courseName: course.title || '',
-    courseDetailsUrl: course.detailsUrl || '',
+    recipientName: courseRegistration.fullName,
+    courseName: course.title,
+    courseDetailsUrl: course.detailsUrl,
     certificationDescription: course.certificationDescription || '',
     certificationBadgeImageSrc: course.certificationBadgeImage || '',
   };

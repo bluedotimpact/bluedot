@@ -58,15 +58,15 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
 const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) => {
   return (
     <div>
-      {courseData?.course && (
+      {courseData.course && (
         <>
           <Head>
-            <title>{`${courseData?.course.title} | BlueDot Impact`}</title>
-            <meta name="description" content={courseData.course.description || ''} />
+            <title>{`${courseData.course.title} | BlueDot Impact`}</title>
+            <meta name="description" content={courseData.course.description} />
           </Head>
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
-            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description || ''}</MarkdownExtendedRenderer>
+            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description}</MarkdownExtendedRenderer>
             <div className="flex flex-row gap-4 justify-center items-center">
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
@@ -81,8 +81,8 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
           <Breadcrumbs
             className="course-serp__breadcrumbs"
             route={{
-              title: courseData.course.title || '',
-              url: courseData.course.path || '',
+              title: courseData.course.title,
+              url: courseData.course.path,
               parentPages: [ROUTES.home, ROUTES.courses],
             }}
           />

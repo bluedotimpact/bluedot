@@ -20,8 +20,8 @@ export const useCourses = () => {
     }
 
     // Finally, sort alphabetically by title
-    const titleA = a.title || '';
-    const titleB = b.title || '';
+    const titleA = a.title;
+    const titleB = b.title;
     return titleA.localeCompare(titleB);
   });
 

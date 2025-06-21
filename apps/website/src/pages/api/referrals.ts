@@ -32,6 +32,6 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    referralId: user.referralId || '',
+    referralId: user.referralId,
   };
 });

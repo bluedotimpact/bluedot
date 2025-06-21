@@ -8,7 +8,6 @@ export {
   courseTable,
   formConfigurationTable,
   personTable,
-  opportunityTable,
   sharedDemoOutputTable,
   blogTable,
   jobPostingTable,

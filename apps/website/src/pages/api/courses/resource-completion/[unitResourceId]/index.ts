@@ -60,7 +60,7 @@ export default makeApiRoute({
         resourceCompletion: {
           ...resourceCompletion,
           // For some reason Airtable often adds a newline to the end of the feedback
-          feedback: resourceCompletion.feedback?.trimEnd() || '',
+          feedback: resourceCompletion.feedback?.trimEnd(),
         },
       };
     }
@@ -98,7 +98,7 @@ export default makeApiRoute({
         resourceCompletion: {
           ...updatedResourceCompletion,
           // For some reason Airtable often adds a newline to the end of the feedback
-          feedback: updatedResourceCompletion.feedback?.trimEnd() || '',
+          feedback: updatedResourceCompletion.feedback?.trimEnd(),
         },
       };
     }

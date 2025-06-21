@@ -28,7 +28,7 @@ export default makeApiRoute({
   }
 
   return {
-    type: (record.type || 'generate-react-component') as SavedDemoOutput['type'],
-    data: record.data || '',
+    type: record.type as SavedDemoOutput['type'],
+    data: record.data,
   };
 });

@@ -19,7 +19,7 @@ export type ProjectsListSectionProps = {
 export const ProjectListItem = ({ project }: {
   project: Omit<CmsProject, 'body'>
 }) => {
-  const url = `/projects/${project.slug || ''}`;
+  const url = `/projects/${project.slug}`;
   const tags = project.tag || [];
 
   return (
@@ -28,8 +28,8 @@ export const ProjectListItem = ({ project }: {
       ctaText="Read more"
       ctaUrl={url}
       isEntireCardClickable={!isMobile}
-      subtitle={`${project.authorName || ''}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
-      title={project.title || ''}
+      subtitle={`${project.authorName}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
+      title={project.title}
       imageSrc={project.coverImageSrc || undefined}
     />
   );

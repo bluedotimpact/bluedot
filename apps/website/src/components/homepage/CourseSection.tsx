@@ -47,15 +47,15 @@ const CourseSection = () => {
       <div className="course-section__content flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch">
         <CourseCardWithTracking
           trackingEventParams={{
-            course_title: featuredCourse.title || '',
-            course_url: featuredCourse.path || '',
+            course_title: featuredCourse.title,
+            course_url: featuredCourse.path,
           }}
-          title={featuredCourse.title || ''}
-          description={featuredCourse.shortDescription || ''}
-          cadence={featuredCourse.cadence || ''}
-          courseLength={featuredCourse.durationDescription || ''}
+          title={featuredCourse.title}
+          description={featuredCourse.shortDescription}
+          cadence={featuredCourse.cadence}
+          courseLength={featuredCourse.durationDescription}
           imageSrc={featuredCourse.image || undefined}
-          url={featuredCourse.path || '#'}
+          url={featuredCourse.path}
           cardType="Featured"
           className="course-section__featured"
         />
@@ -70,16 +70,16 @@ const CourseSection = () => {
           ).map((course) => (
             <CourseCardWithTracking
               trackingEventParams={{
-                course_title: course.title || '',
-                course_url: course.path || '',
+                course_title: course.title,
+                course_url: course.path,
               }}
               key={course.id}
-              title={course.title || ''}
-              description={course.shortDescription || ''}
-              cadence={course.cadence || ''}
-              courseLength={course.durationDescription || ''}
+              title={course.title}
+              description={course.shortDescription}
+              cadence={course.cadence}
+              courseLength={course.durationDescription}
               imageSrc={course.image || undefined}
-              url={course.path || '#'}
+              url={course.path}
             />
           ))}
         </SlideList>

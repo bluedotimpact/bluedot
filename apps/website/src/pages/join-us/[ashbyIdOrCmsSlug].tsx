@@ -55,7 +55,7 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
         <>
           <Head>
             <title>{`${data.job.title} | BlueDot Impact`}</title>
-            <meta name="description" content={data.job.subtitle || ''} />
+            <meta name="description" content={data.job.subtitle} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
@@ -101,7 +101,7 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
             <MarkdownExtendedRenderer>
-              {data.job.body || ''}
+              {data.job.body}
             </MarkdownExtendedRenderer>
             {data.job.applicationUrl && (
               <div className="my-8">

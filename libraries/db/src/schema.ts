@@ -51,19 +51,19 @@ export const courseTable = pgAirtable('course', {
       airtableId: 'fldsxyHg4BLouu7XZ',
     },
     description: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldCX0bk6SQuXZaI7',
     },
     detailsUrl: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldblKROooVG5p9UW',
     },
     displayOnCourseHubIndex: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldf7ppu9kN4blXU9',
     },
     durationDescription: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldHxekJ6BioQMF3e',
     },
     durationHours: {
@@ -75,31 +75,31 @@ export const courseTable = pgAirtable('course', {
       airtableId: 'fldh90A6x8HwQSkMy',
     },
     slug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldHWXKaVuHJAaMbP',
     },
     path: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldEjx0ZP8SNYcNQR',
     },
     shortDescription: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld0KVXjcZkSpBOIT',
     },
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldUyKGqFb7OiY0KF',
     },
     units: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldxi3h4LD2Bs3efO',
     },
     cadence: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldTI1NI7ocFIWcmv',
     },
     level: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldkL7aWITGCPqzxc',
     },
     averageRating: {
@@ -111,11 +111,11 @@ export const courseTable = pgAirtable('course', {
       airtableId: 'fld8g5mMsPqOm75Vz',
     },
     isNew: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldFFndUplP3mEFe7',
     },
     isFeatured: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldDXwQyHpHtUspFY',
     },
   },
@@ -126,7 +126,7 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
   tableId: 'tblBwjMjul1c6l7ea',
   columns: {
     unitId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldYqvWII6kuxCCmH',
     },
     overallRating: {
@@ -134,15 +134,15 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
       airtableId: 'fld3B8HUudN5NxPIU',
     },
     anythingElse: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldYdcPZPdJAqn06w',
     },
     userEmail: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld9JsHJXjud5Bhle',
     },
     userFullName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldPG0z0SRFcGJhNW',
     },
     createdAt: {
@@ -161,19 +161,19 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
   tableId: 'tblLNijbqwoLtkd3O',
   columns: {
     email: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldI5oHurlbNjQJmM',
     },
     exerciseId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldSKltln4l3yYdi2',
     },
     response: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld7Qa3JDnRNwCTlH',
     },
     completed: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldz8rocQd7Ws9s2q',
     },
   },
@@ -184,15 +184,15 @@ export const formConfigurationTable = pgAirtable('form_configuration', {
   tableId: 'tblvsaRl69XV8azGZ',
   columns: {
     slug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldrw0oSjFSMezFJ2',
     },
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldHiGrJmyBvSdGUm',
     },
     webhook: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldoGERxuxQ17adXI',
     },
     minimumLength: {
@@ -207,27 +207,27 @@ export const personTable = pgAirtable('person', {
   tableId: 'tblA0UsJCiOt9MN0k',
   columns: {
     email: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldJzIWg2HMBmwPjZ',
     },
     firstName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldxyoC98EoVQDrqa',
     },
     lastName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldrfvKXru0YEXLvh',
     },
     ethnicGroup: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldaLQ2MnUVa9tdRf',
     },
     careerPlans: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldqq4LyZ5pf26NsN',
     },
     biography: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldg9GSGb1dY59kf4',
     },
     appliedToOpportunities: {
@@ -235,35 +235,8 @@ export const personTable = pgAirtable('person', {
       airtableId: 'fldhI1cqdvrXwbJb7',
     },
     isProfilePublic: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldNW3O0U3vCBk0Nf',
-    },
-  },
-});
-
-export const opportunityTable = pgAirtable('opportunity', {
-  baseId: MOCK_DATA_BASE_ID,
-  tableId: 'tblneFg0pOTRI3kfD',
-  columns: {
-    title: {
-      pgColumn: text(),
-      airtableId: 'fldEMP8VzGIUGD1l6',
-    },
-    organizationName: {
-      pgColumn: text(),
-      airtableId: 'fldpvKKPIODumUdfj',
-    },
-    opportunitySummary: {
-      pgColumn: text(),
-      airtableId: 'fldSJWSbDKXITt71D',
-    },
-    opportunityDescription: {
-      pgColumn: text(),
-      airtableId: 'fldO5FAmTx20HixOT',
-    },
-    applicants: {
-      pgColumn: text().array(),
-      airtableId: 'fldOCFhSNFqg12mjO',
     },
   },
 });
@@ -273,15 +246,15 @@ export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
   tableId: 'tbl9WE3N4B0OjocEB',
   columns: {
     type: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldpAHTnZOJc8wbFV',
     },
     data: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldsh10gNDXfkosfJ',
     },
     createdAt: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldNfaTMCepyRY3Nj',
     },
   },
@@ -292,11 +265,11 @@ export const groupTable = pgAirtable('group', {
   tableId: 'tblyiJSPoniwhi17T',
   columns: {
     groupDiscussions: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldwEeC65sHvGGRGb',
     },
     round: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldtzy3nSP0piVApO',
     },
   },
@@ -307,31 +280,31 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
   tableId: 'tblDNME0bA9OoApTk',
   columns: {
     facilitators: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldP5BqdFfcn8enfc',
     },
     participantsExpected: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldEKYwcacAa6nBEE',
     },
     attendees: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldo0xEi6vJKSJlFN',
     },
     startDateTime: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'flduTqIxS6OEHNr4H',
     },
     endDateTime: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'flda1ONwG37ROVo8e',
     },
     group: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldjISs1XFGAwT5k5',
     },
     zoomAccount: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldH0pKnEELPI65Qs',
     },
   },
@@ -342,7 +315,7 @@ export const meetPersonTable = pgAirtable('meet_person', {
   tableId: 'tblBeMxAM1FAW06n4',
   columns: {
     name: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldP4ejaYy137J5Md',
     },
   },
@@ -353,11 +326,11 @@ export const zoomAccountTable = pgAirtable('zoom_account', {
   tableId: 'tblF61F1xXUnpB13S',
   columns: {
     meetingLink: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldF5V0uf7jYAxHu5',
     },
     hostKey: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldprdNVzdeAU1cRH',
     },
   },
@@ -368,7 +341,7 @@ export const roundTable = pgAirtable('round', {
   tableId: 'tblu6u7F2NHfCMgsk',
   columns: {
     course: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
     },
   },
@@ -379,7 +352,7 @@ export const meetCourseTable = pgAirtable('meet_course', {
   tableId: 'tblO0sgD3ioedaqDw',
   columns: {
     courseSite: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldzJ2h89blzv6MSb',
     },
   },
@@ -390,19 +363,19 @@ export const blogTable = pgAirtable('blog', {
   tableId: 'tblT8jgeG4QWX2Fj4',
   columns: {
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldB4uHuTqUd4JOsw',
     },
     slug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldSy5THCV7WOtYiN',
     },
     body: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldesLVb1tJpsNkVl',
     },
     authorName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldBVD1meb54zRK8Q',
     },
     authorUrl: {
@@ -410,7 +383,7 @@ export const blogTable = pgAirtable('blog', {
       airtableId: 'fldEOlPQdbEmDxicJ',
     },
     publishedAt: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldjp3x46apAPAXo7',
     },
     publicationStatus: {
@@ -425,15 +398,15 @@ export const jobPostingTable = pgAirtable('job_posting', {
   tableId: 'tblGv8yisIfJMjT6K',
   columns: {
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldN51J9NLxyRBEDf',
     },
     subtitle: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldhiAectnNMEmUt5',
     },
     slug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldiMgiy9wHuvIM2f',
     },
     applicationUrl: {
@@ -441,7 +414,7 @@ export const jobPostingTable = pgAirtable('job_posting', {
       airtableId: 'fldtkliaGs8JLy0BS',
     },
     body: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldiBF58TPRIMhgvq',
     },
     publicationStatus: {
@@ -449,7 +422,7 @@ export const jobPostingTable = pgAirtable('job_posting', {
       airtableId: 'fld4cZjg7YiEDaZXg',
     },
     publishedAt: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldI1yVd0G5eCvWiy',
     },
   },
@@ -460,19 +433,19 @@ export const projectTable = pgAirtable('project', {
   tableId: 'tblYCFWqPy29YIWe6',
   columns: {
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldGyQnG2U6q5p5ny',
     },
     slug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldX2rzTLpj9P9fdP',
     },
     body: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldjW7BnaXVCttBQn',
     },
     authorName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldGpZHynFhhAx13S',
     },
     authorUrl: {
@@ -484,19 +457,19 @@ export const projectTable = pgAirtable('project', {
       airtableId: 'fldliLiVCys4rLX7S',
     },
     publishedAt: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldoTpdgfEBNQgej9',
     },
     publicationStatus: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldn7RrnTe80QUEt6',
     },
     course: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldNHNMuxmQjaokmY',
     },
     tag: {
-      pgColumn: text().array(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldeTqWZOvybdopnK',
     },
   },
@@ -507,27 +480,27 @@ export const chunkTable = pgAirtable('chunk', {
   tableId: 'tblNeBgFeQ5Qmebfc',
   columns: {
     chunkId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldzijTU9OYrA2pPR',
     },
     unitId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'flddMzU52lvSPS88e',
     },
     chunkTitle: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldsx5tA91DiSejw2',
     },
     chunkOrder: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld20cLGpEqVoDADz',
     },
     chunkType: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldEVAjbup2EIaQaj',
     },
     chunkContent: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldiv4wuePLO9UtHr',
     },
   },
@@ -542,27 +515,27 @@ export const unitTable = pgAirtable('unit', {
       airtableId: 'fld0TFVKXKf2rIDiT',
     },
     courseId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldLmQZ0ISTr7xQUE',
     },
     courseTitle: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld4AYVyIcfnzfE3Z',
     },
     coursePath: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldlCrg7Nv1TPTorZ',
     },
     courseSlug: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldr9I5YGRIia8xln',
     },
     path: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldEY7ZHZtXrBL3nv',
     },
     title: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldN9BV8GGUHFu9sz',
     },
     content: {
@@ -574,7 +547,7 @@ export const unitTable = pgAirtable('unit', {
       airtableId: 'fldGdibgcMgRbnuvp',
     },
     unitNumber: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldimS5GIqSKuyA9C',
     },
     menuText: {
@@ -582,7 +555,7 @@ export const unitTable = pgAirtable('unit', {
       airtableId: 'flddCXEeJ9oFOhfNb',
     },
     description: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldpJLWVPh0IXHfmm',
     },
     learningOutcomes: {
@@ -601,7 +574,7 @@ export const unitResourceTable = pgAirtable('unit_resource', {
   tableId: 'tblSicSC1u6Ifddrq',
   columns: {
     resourceName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldXFZQpHtS5EqHyh',
     },
     resourceType: {
@@ -633,7 +606,7 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       airtableId: 'fldBfLUY8GkI88jJF',
     },
     unitId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldJX4h1sTNkacKru',
     },
     avgRating: {
@@ -652,11 +625,11 @@ export const exerciseTable = pgAirtable('exercise', {
       airtableId: 'fldFcZVVo8Wg4GSmA',
     },
     courseIdWrite: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldxcJ5gCihs3iRyE',
     },
     courseIdRead: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldc9oyPwJSkeMiAW',
     },
     exerciseNumber: {
@@ -676,11 +649,11 @@ export const exerciseTable = pgAirtable('exercise', {
       airtableId: 'fldVlrg0E4bV2xAcs',
     },
     type: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldGXsdS2o3EnjNg9',
     },
     unitId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld2KJRxb50MbtrJc',
     },
     unitNumber: {
@@ -699,7 +672,7 @@ export const applicationsCourseTable = pgAirtable('applications_course', {
   tableId: 'tblc3Yvrco2AZEBlx',
   columns: {
     courseBuilderId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld9QUbMmJF2vtRCK',
     },
   },
@@ -714,19 +687,19 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       airtableId: 'fldyVcp78eIfqmai3',
     },
     email: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld0g392xytratknm',
     },
     firstName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldIhZ4wc5t1Yabgz',
     },
     lastName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldHa6GR5aBsOBtkz',
     },
     fullName: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld1rOZGAHBRcdJcM',
     },
     courseApplicationsBaseId: {
@@ -734,7 +707,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       airtableId: 'fldPkqPbeoIhERqSY',
     },
     courseId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldFTXtevzOc29Qte',
     },
     decision: {
@@ -761,7 +734,7 @@ export const userTable = pgAirtable('user', {
   tableId: 'tblCgeKADNDSCXPpR',
   columns: {
     email: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldLAGRfn7S6uEVRo',
     },
     createdAt: {
@@ -773,11 +746,11 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldOFCUM6lD5Mne9Y',
     },
     name: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldULI4CXDWAUmRM2',
     },
     referralId: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldTT0LY0pZsOwQ4w',
     },
     referredById: {
@@ -804,11 +777,11 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   tableId: 'tblu6YnR7Lh0Bsl6v',
   columns: {
     unitResourceIdWrite: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldk4dbWAohE312Qn',
     },
     unitResourceIdRead: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldoTb7xx0QQVHXvM',
     },
     rating: {
@@ -816,11 +789,11 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       airtableId: 'fldq6J5taZX4xLDfD',
     },
     isCompleted: {
-      pgColumn: boolean(),
+      pgColumn: boolean().notNull(),
       airtableId: 'fldm74UNAQuC1XkQc',
     },
     email: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fldXqD5YKVZuTGT35',
     },
     feedback: {

@@ -29,7 +29,7 @@ export type JobsListSectionProps = {
 
 const JobsListSection = ({ ashbyJobs, cmsJobs }: JobsListSectionProps) => {
   const jobs = [
-    ...cmsJobs.map((j) => ({ id: j.slug || '', title: j.title || '', location: j.subtitle || '' })),
+    ...cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle })),
     ...ashbyJobs,
   ];
 

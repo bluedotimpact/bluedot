@@ -129,7 +129,7 @@ const ProfileAccountDetails: React.FC<ProfileAccountDetailsProps> = ({ user, aut
   // Initialize state when user data loads
   useEffect(() => {
     if (user && !isInitialized) {
-      const name = user.name || '';
+      const { name } = user;
       setTempName(name);
       setCurrentSavedName(name);
       setIsInitialized(true);
@@ -321,16 +321,16 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
             {/* Course metadata */}
             <div className="flex gap-2 items-center text-gray-500">
               <FaCubesStacked size={16} />
-              <span>{course.units?.length || 0} {course.units?.length === 1 ? 'unit' : 'units'}</span>
+              <span>{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
             </div>
 
             {isCompleted && (
             <div className="flex flex-col gap-2">
-              <ClickTarget url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId || '')} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaAward size={18} className="mr-2" />
                 View your certificate
               </ClickTarget>
-              <ClickTarget url={course.path || '#'} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
+              <ClickTarget url={course.path} className="flex items-center text-bluedot-normal hover:text-bluedot-dark">
                 <FaBookOpen size={18} className="mr-2" />
                 Browse course materials
               </ClickTarget>
@@ -353,7 +353,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
               Share your achievement
             </P>
             <SocialShare
-              coursePath={course.path || '#'}
+              coursePath={course.path}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
             />
           </div>
@@ -363,7 +363,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       {/* Continue learning button */}
       {!isCompleted && (
       <div className="bg-stone-50 p-6">
-        <CTALinkOrButton url={course.path || '#'} variant="primary" className="w-full">
+        <CTALinkOrButton url={course.path} variant="primary" className="w-full">
           Continue learning
         </CTALinkOrButton>
       </div>

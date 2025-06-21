@@ -20,9 +20,9 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
                 className="course-units-section__unit h-full"
                 description={unit.menuText || undefined}
                 duration={unit.duration || undefined}
-                title={unit.title || ''}
-                unitNumber={unit.unitNumber || ''}
-                url={unit.path || ''}
+                title={unit.title}
+                unitNumber={unit.unitNumber}
+                url={unit.path}
               />
             </div>
           ))}
