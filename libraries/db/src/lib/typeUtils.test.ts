@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { text, numeric, boolean as pgBoolean } from 'drizzle-orm/pg-core';
+import { text, numeric, boolean } from 'drizzle-orm/pg-core';
 import { describe, expect, test } from 'vitest';
-import { DrizzleColumnToTsType, AirtableItemFromColumnsMap } from './typeUtils';
+import { DrizzleColumnToTsType, AirtableItemFromColumnsMap, drizzleColumnToTsTypeString } from './typeUtils';
 
 // Test DrizzleColumnToTsType for basic types
 type TextColumn = ReturnType<typeof text>;
 type NumericColumn = ReturnType<typeof numeric<'number'>>;
-type BooleanColumn = ReturnType<typeof pgBoolean>;
+type BooleanColumn = ReturnType<typeof boolean>;
 
 // Test DrizzleColumnToTsType for array types
 type TextArrayColumn = ReturnType<ReturnType<typeof text>['array']>;
 type NumericArrayColumn = ReturnType<ReturnType<typeof numeric<'number'>>['array']>;
-type BooleanArrayColumn = ReturnType<ReturnType<typeof pgBoolean>['array']>;
+type BooleanArrayColumn = ReturnType<ReturnType<typeof boolean>['array']>;
 
 // Type tests for DrizzleColumnToTsType
 type TextType = DrizzleColumnToTsType<TextColumn>;
@@ -139,5 +139,38 @@ describe('DrizzleColumnToTsType type tests', () => {
     expect(validItem.tags).toEqual(['tag1', 'tag2']);
     expect(validItem.scores).toEqual([95, 87, 92]);
     expect(validItem.flags).toEqual([true, false, true]);
+  });
+});
+
+describe('drizzleColumnToTsTypeString', () => {
+  test.each([
+    [text(), 'string | null'],
+    [text().notNull(), 'string'],
+    [boolean(), 'boolean | null'],
+    [boolean().notNull(), 'boolean'],
+    [numeric({ mode: 'number' }), 'number | null'],
+    [numeric({ mode: 'number' }).notNull(), 'number'],
+    [text().array(), 'string[] | null'],
+    [text().array().notNull(), 'string[]'],
+    [numeric({ mode: 'number' }).array(), 'number[] | null'],
+    [numeric({ mode: 'number' }).array().notNull(), 'number[]'],
+  ])('%s -> %s', (column, expectedType) => {
+    const result = drizzleColumnToTsTypeString(column);
+    expect(result).toBe(expectedType);
+  });
+
+  test('should throw error for unsupported column type', () => {
+    // Create a mock column with unsupported type
+    const mockColumn = {
+      config: {
+        dataType: 'bleh',
+        notNull: false,
+      },
+    };
+
+    expect(() => {
+      // @ts-expect-error - we're testing an unsupported type
+      drizzleColumnToTsTypeString(mockColumn);
+    }).toThrow('Unsupported column type: bleh');
   });
 });

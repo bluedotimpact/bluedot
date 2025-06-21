@@ -1,3 +1,4 @@
+import { ColumnBuilderRuntimeConfig } from 'drizzle-orm';
 import { BuildColumns } from 'drizzle-orm/column-builder';
 import {
   type numeric, boolean as pgBoolean, PgTableWithColumns, text,
@@ -81,53 +82,18 @@ export type BasePgTableType<
  * array columns, defaults to 'string | null'.
  */
 export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeString {
-  let returnType: TsTypeString;
+  // @ts-expect-error
+  const columnConfig: ColumnBuilderRuntimeConfig<unknown> = pgColumn.config;
+  // @ts-expect-error
+  const baseColumnConfig: ColumnBuilderRuntimeConfig<unknown> | undefined = columnConfig.baseBuilder?.config;
 
-  if (isArrayColumn(pgColumn)) {
-    if (isNumericArrayColumn(pgColumn)) {
-      returnType = 'number[] | null';
-    } else if (isBooleanArrayColumn(pgColumn)) {
-      returnType = 'boolean[] | null';
-    } else {
-      returnType = 'string[] | null';
-    }
-  } else if (isNumericColumn(pgColumn)) {
-    returnType = 'number | null';
-  } else if (isBooleanColumn(pgColumn)) {
-    returnType = 'boolean | null';
-  } else {
-    returnType = 'string | null';
+  const baseType = baseColumnConfig?.dataType ?? columnConfig.dataType;
+  const isArray = columnConfig.dataType === 'array';
+  const isNullable = !columnConfig.notNull;
+
+  if (!['string', 'number', 'boolean'].includes(baseType)) {
+    throw new Error(`Unsupported column type: ${baseType}`);
   }
 
-  return returnType;
-}
-
-function isArrayColumn(column: AllowedPgColumn): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { config } = (column as any);
-  return config?.dataType === 'array';
-}
-
-function isNumericColumn(column: AllowedPgColumn): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { config } = (column as any);
-  return config?.dataType === 'number';
-}
-
-function isBooleanColumn(column: AllowedPgColumn): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { config } = (column as any);
-  return config?.dataType === 'boolean';
-}
-
-function isNumericArrayColumn(column: AllowedPgColumn): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { config, baseColumn } = (column as any);
-  return config?.dataType === 'array' && baseColumn?.config?.dataType === 'number';
-}
-
-function isBooleanArrayColumn(column: AllowedPgColumn): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { config, baseColumn } = (column as any);
-  return config?.dataType === 'array' && baseColumn?.config?.dataType === 'boolean';
+  return `${baseType}${isArray ? '[]' : ''}${isNullable ? ' | null' : ''}` as TsTypeString;
 }
