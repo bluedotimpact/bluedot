@@ -141,10 +141,6 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
       pgColumn: text().notNull(),
       airtableId: 'fld9JsHJXjud5Bhle',
     },
-    userFullName: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldPG0z0SRFcGJhNW',
-    },
     createdAt: {
       pgColumn: text(),
       airtableId: 'fldWyJJz3OVNK0kTn',
