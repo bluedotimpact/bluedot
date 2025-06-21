@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { eq, personTable } from '@bluedot/db';
+import { personTable } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
@@ -17,7 +17,7 @@ export default makeApiRoute({
     isProfilePublic: z.boolean(),
   })),
 }, async () => {
-  const allPeople = await db.pg.select().from(personTable.pg).where(eq(personTable.pg.isProfilePublic, true));
+  const allPeople = await db.scan(personTable, { isProfilePublic: true });
 
   return allPeople.map((person) => ({
     id: person.id,

@@ -13,19 +13,19 @@ const db = new PgAirtableDb({
 });
 
 // Write to Airtable and sync to PostgreSQL
-const course = await db.airtableInsert(courseTable, {
+const course = await db.insert(courseTable, {
   title: 'AI Safety Fundamentals',
   slug: 'aisf'
 });
 
 // Read from PostgreSQL (fast)
-const courses = await db.pg.select().from(courseTable.pg);
+const courses = await db.scan(courseTable);
 ```
 
 ## Important
 
-- **Use `airtableInsert`, `airtableUpdate`, `airtableDelete`** for writes - these update Airtable and sync to PostgreSQL
-- **Use `db.pg.select()`** for reads - this queries PostgreSQL directly for speed
-- **Don't use raw `insert`/`update`/`delete`** - these only write to PostgreSQL and break sync
+- **Use `db.get`, `db.scan` or `db.pg.select`** for reads - this queries PostgreSQL directly for speed
+- **Use `db.insert`, `db.update`, `db.remove`** for writes - these update Airtable and sync to PostgreSQL
+- **Don't use raw `db.pg.insert`/`db.pg.update`/`db.pg.delete`** - these only write to PostgreSQL and break sync
 
 The [pg-sync-service](../../apps/pg-sync-service/) handles remotely syncing the databases via webhooks.
