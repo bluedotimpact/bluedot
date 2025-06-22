@@ -250,7 +250,6 @@ export const services: ServiceDefinition[] = [
         ],
       }],
     },
-    hosts: ['pg-sync-service.k8s.bluedot.org'],
   },
   {
     name: 'minio',
