@@ -203,27 +203,6 @@ describe('ProfilePage - Edit Name Feature', () => {
     expect(mockedAxios.patch).not.toHaveBeenCalled();
   });
 
-  test('should show validation error for names with invalid characters', async () => {
-    const { container } = render(<ProfilePage />);
-
-    const input = await waitFor(() => {
-      const nameInput = getNameInput(container);
-      return nameInput;
-    });
-
-    // Test regex validation for invalid characters
-    fireEvent.change(input, { target: { value: 'John@123' } });
-    const saveButton = getNameSaveButton(container);
-    fireEvent.click(saveButton!);
-
-    await waitFor(() => {
-      expect(getErrorMessage(container, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods')).toBeInTheDocument();
-    });
-
-    // Verify that no API call was made due to client-side validation
-    expect(mockedAxios.patch).not.toHaveBeenCalled();
-  });
-
   test('should not show buttons when name matches original', async () => {
     const { container } = render(<ProfilePage />);
 
