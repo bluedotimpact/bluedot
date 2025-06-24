@@ -76,6 +76,9 @@ export * as NewText from './Text';
 export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';
 
+export { BugReportModal } from './BugReportModal';
+export type { BugReportModalProps } from './BugReportModal';
+
 // Utils
 
 export { addQueryParam } from './utils/addQueryParam';
