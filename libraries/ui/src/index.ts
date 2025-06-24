@@ -88,3 +88,5 @@ export { useAuthStore, withAuth, type Auth } from './utils/auth';
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
+
+export * from './SocialShare';

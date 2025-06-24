@@ -1,31 +1,9 @@
 import React, { useState } from 'react';
-import {
-  FaEnvelope,
-  FaGithub,
-  FaXTwitter,
-  FaLinkedin,
-} from 'react-icons/fa6';
 import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
-
-type SocialLinkProps = {
-  icon: React.ReactNode;
-  href: string;
-  label: string;
-};
-
-const SocialLink: React.FC<SocialLinkProps> = ({ icon, href, label }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex items-center justify-center size-12 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors"
-    aria-label={label}
-  >
-    {icon}
-  </a>
-);
+import { SocialShare } from './SocialShare';
+import { A } from './Text';
 
 export type BugReportModalProps = {
   onSubmit?: (message: string) => void;
@@ -71,14 +49,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             <p className="text-gray-600 mb-2">
               Found a bug or have an improvement to suggest?
               Please create an issue on{' '}
-              <a
+              <A
                 href={githubLink}
                 target="_blank"
-                rel="noopener noreferrer"
                 className="text-blue-600 hover:underline"
               >
                 GitHub
-              </a>
+              </A>
               .
             </p>
             {showTextarea && (
@@ -100,28 +77,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
             <div className="text-center">
               <p className="text-gray-500 mb-3">Or reach us via these channels</p>
-              <div className="flex justify-center gap-4">
-                <SocialLink
-                  icon={<FaEnvelope size={20} />}
-                  href={emailLink}
-                  label="Email"
-                />
-                <SocialLink
-                  icon={<FaGithub size={20} />}
-                  href={githubOrgLink}
-                  label="GitHub"
-                />
-                <SocialLink
-                  icon={<FaXTwitter size={20} />}
-                  href={twitterLink}
-                  label="X (Twitter)"
-                />
-                <SocialLink
-                  icon={<FaLinkedin size={20} />}
-                  href={linkedinLink}
-                  label="LinkedIn"
-                />
-              </div>
+              <SocialShare
+                variant="contact"
+                emailLink={emailLink}
+                githubOrgLink={githubOrgLink}
+                twitterLink={twitterLink}
+                linkedinLink={linkedinLink}
+              />
             </div>
           </div>
         </form>
