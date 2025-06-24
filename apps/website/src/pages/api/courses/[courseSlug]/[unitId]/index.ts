@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, asc, chunkTable, unitTable, InferSelectModel,
+  eq, and, asc, chunkTable, unitTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -35,13 +35,19 @@ export default makeApiRoute({
 
   const units = await db.pg.select()
     .from(unitTable.pg)
-    .where(eq(unitTable.pg.courseSlug, courseSlug))
+    .where(and(
+      eq(unitTable.pg.courseSlug, courseSlug),
+      eq(unitTable.pg.unitStatus, 'Active'),
+    ))
     .orderBy(asc(unitTable.pg.unitNumber));
 
-  const unit = units.find((u) => u.unitNumber === unitId);
+  const unit = units.find((u) => parseInt(u.unitNumber) === parseInt(unitId));
   if (!unit) {
     throw new createHttpError.NotFound('Unit not found');
   }
+
+  // Sort units numerically since database text sorting might not handle numbers correctly
+  units.sort((a, b) => parseInt(a.unitNumber) - parseInt(b.unitNumber));
 
   const chunks = await db.pg.select()
     .from(chunkTable.pg)
