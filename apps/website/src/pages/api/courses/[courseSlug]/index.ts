@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, asc, courseTable, unitTable, InferSelectModel,
+  eq, and, asc, courseTable, unitTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
@@ -39,7 +39,10 @@ export default makeApiRoute({
 
   const units = await db.pg.select()
     .from(unitTable.pg)
-    .where(eq(unitTable.pg.courseSlug, courseSlug))
+    .where(and(
+      eq(unitTable.pg.courseSlug, courseSlug),
+      eq(unitTable.pg.unitStatus, 'Active'),
+    ))
     .orderBy(asc(unitTable.pg.unitNumber));
 
   return {
