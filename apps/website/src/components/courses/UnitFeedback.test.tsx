@@ -70,7 +70,7 @@ describe('UnitFeedback', () => {
 
     await waitFor(() => {
       expect(axios.put).toHaveBeenCalledWith(
-        '/api/courses/slug/unit123/feedback',
+        '/api/courses/slug/1/feedback',
         { overallRating: 4, anythingElse: '' },
         { headers: { Authorization: 'Bearer mockToken' } },
       );
@@ -94,7 +94,7 @@ describe('UnitFeedback', () => {
 
     await waitFor(() => {
       expect(axios.put).toHaveBeenCalledWith(
-        '/api/courses/slug/unit123/feedback',
+        '/api/courses/slug/1/feedback',
         { overallRating: 5, anythingElse: 'Great course!' },
         { headers: { Authorization: 'Bearer mockToken' } },
       );
