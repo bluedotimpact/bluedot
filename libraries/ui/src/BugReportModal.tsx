@@ -79,7 +79,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             )}
 
             <div className="text-center">
-              <p className="text-gray-500 mb-3">Or reach us via these channels</p>
+              <p className="text-gray-500 mb-3">Reach us via these channels</p>
               <SocialShare
                 variant="contact"
                 emailLink={emailLink}
