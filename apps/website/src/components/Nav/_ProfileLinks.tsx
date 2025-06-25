@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { IconButton, BugReportModal, useAuthStore } from '@bluedot/ui';
+import { IconButton, BugReportModal } from '@bluedot/ui';
 import { useState } from 'react';
 
 import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from './utils';
