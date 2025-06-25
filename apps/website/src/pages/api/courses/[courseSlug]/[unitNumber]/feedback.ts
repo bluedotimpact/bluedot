@@ -43,7 +43,7 @@ export default makeApiRoute(
 
     const { method } = raw.req;
     if (method !== 'GET' && method !== 'PUT') {
-      createHttpError.MethodNotAllowed();
+      throw createHttpError.MethodNotAllowed();
     }
 
     const unit = await db.get(unitTable, { courseSlug, unitNumber });
