@@ -43,6 +43,7 @@ const COURSE_UNITS = [
     learningOutcomes: 'Understand fish anatomy, behavior, and aquatic principles',
     unitPodcastUrl: '',
     id: 'recySscaN1b0Cm1jn',
+    unitStatus: 'Active',
   },
   {
     chunks: ['recuC87TILbjW4eF4', 'recuC87TILbjW4eF4', 'recuC87TILbjW4eF4'],
@@ -60,6 +61,7 @@ const COURSE_UNITS = [
     learningOutcomes: 'Understand modern fishing practices and their economic impact',
     unitPodcastUrl: '',
     id: 'recyGMcsDLhp9mPqH',
+    unitStatus: 'Active',
   },
   {
     chunks: ['recuC87TILbjW4eF4', 'recuC87TILbjW4eF4', 'recuC87TILbjW4eF4'],
@@ -77,6 +79,7 @@ const COURSE_UNITS = [
     learningOutcomes: 'Explore innovative applications of fish technology',
     unitPodcastUrl: '',
     id: 'recjPDtSupcowWbmw',
+    unitStatus: 'Active',
   },
   {
     chunks: ['recuC87TILbjW4eF4', 'recuC87TILbjW4eF4', 'recuC87TILbjW4eF4'],
@@ -94,6 +97,7 @@ const COURSE_UNITS = [
     learningOutcomes: 'Understand potential risks and challenges in fish technology',
     unitPodcastUrl: '',
     id: 'recc6cSN9fn3VfTvZ',
+    unitStatus: 'Active',
   },
   {
     chunks: ['recuC87TILbjW4eF4', 'recuC87TILbjW4eF4', 'recuC87TILbjW4eF4'],
@@ -111,6 +115,7 @@ const COURSE_UNITS = [
     learningOutcomes: 'Apply knowledge to improve fish-human relations',
     unitPodcastUrl: '',
     id: 'recIztjGqTNNpLTe1',
+    unitStatus: 'Active',
   },
 ];
 

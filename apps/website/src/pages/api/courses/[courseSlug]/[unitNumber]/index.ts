@@ -25,11 +25,11 @@ export default makeApiRoute({
     chunks: z.array(z.any()),
   }),
 }, async (body, { raw }) => {
-  const { courseSlug, unitId } = raw.req.query;
+  const { courseSlug, unitNumber } = raw.req.query;
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (typeof unitId !== 'string') {
+  if (typeof unitNumber !== 'string') {
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
@@ -41,7 +41,7 @@ export default makeApiRoute({
     ))
     .orderBy(asc(unitTable.pg.unitNumber));
 
-  const unit = units.find((u) => parseInt(u.unitNumber) === parseInt(unitId));
+  const unit = units.find((u) => parseInt(u.unitNumber) === parseInt(unitNumber));
   if (!unit) {
     throw new createHttpError.NotFound('Unit not found');
   }

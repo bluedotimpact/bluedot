@@ -3,15 +3,19 @@ import useAxios from 'axios-hooks';
 import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
 import UnitLayout from '../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitId]';
+import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitNumber]';
 import { GetCourseRegistrationResponse } from '../../api/course-registrations/[courseId]';
 
 const CourseUnitPage = () => {
-  const { query: { courseSlug, unitId } } = useRouter();
+  const { query: { courseSlug, unitNumber } } = useRouter();
+
+  if (typeof unitNumber !== 'string') {
+    return <ProgressDots />;
+  }
 
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
     method: 'get',
-    url: `/api/courses/${courseSlug}/${unitId}`,
+    url: `/api/courses/${courseSlug}/${unitNumber}`,
   });
 
   // If we're logged in, ensures a course registration is recorded for this course
@@ -31,8 +35,6 @@ const CourseUnitPage = () => {
     }
   }, [auth, data?.unit.courseId]);
 
-  const unitNumber = typeof unitId === 'string' ? parseInt(unitId) : 0;
-
   if (loading) {
     return <ProgressDots />;
   }
@@ -46,7 +48,7 @@ const CourseUnitPage = () => {
       chunks={data.chunks}
       unit={data.unit}
       units={data.units}
-      unitNumber={unitNumber}
+      unitNumber={parseInt(unitNumber)}
     />
   );
 };

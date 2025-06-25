@@ -8,7 +8,7 @@ import {
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { FaRegSquare, FaSquareCheck } from 'react-icons/fa6';
 import { unitResourceTable, InferSelectModel } from '@bluedot/db';
-import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitId]/resources';
+import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/resources';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import StarRating from './StarRating';
 import {
@@ -18,23 +18,23 @@ import { ROUTES } from '../../lib/routes';
 import Callout from './Callout';
 // eslint-disable-next-line import/no-cycle
 import Exercise from './exercises/Exercise';
-import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitId]';
+import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 const ResourceListCourseContent: React.FC = () => {
-  const { query: { courseSlug, unitId } } = useRouter();
+  const { query: { courseSlug, unitNumber } } = useRouter();
 
   const [{ data: resourcesData, loading: resourcesLoading, error: resourcesError }] = useAxios<GetUnitResourcesResponse>({
     method: 'get',
-    url: `/api/courses/${courseSlug}/${unitId}/resources`,
+    url: `/api/courses/${courseSlug}/${unitNumber}/resources`,
   });
 
   // This will almost always hit useAxios's built-in cache, because we render this on the unit page
   const [{ data: unitData, loading: unitLoading, error: unitError }] = useAxios<GetUnitResponse>({
     method: 'get',
-    url: `/api/courses/${courseSlug}/${unitId}`,
+    url: `/api/courses/${courseSlug}/${unitNumber}`,
   });
 
   if (resourcesLoading || unitLoading) {
