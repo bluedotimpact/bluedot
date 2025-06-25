@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { eq, personTable, InferSelectModel } from '@bluedot/db';
+import { personTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
@@ -17,7 +17,7 @@ export default makeApiRoute({
     persons: z.array(z.any()),
   }),
 }, async () => {
-  const publicPeople = await db.pg.select().from(personTable.pg).where(eq(personTable.pg.isProfilePublic, true));
+  const publicPeople = await db.scan(personTable, { isProfilePublic: true });
 
   return {
     type: 'success' as const,

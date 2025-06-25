@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { eq, blogTable, InferSelectModel } from '@bluedot/db';
+import { blogTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 
@@ -26,12 +26,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const blogs = await db.pg.select().from(blogTable.pg).where(eq(blogTable.pg.slug, slug));
-  const blog = blogs[0];
-
-  if (!blog) {
-    throw new createHttpError.NotFound('Blog post not found');
-  }
+  const blog = await db.get(blogTable, { slug });
 
   switch (raw.req.method) {
     case 'GET': {
@@ -44,7 +39,7 @@ export default makeApiRoute({
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
-      await db.airtableUpdate(blogTable, {
+      await db.update(blogTable, {
         id: blog.id,
         body: body.body,
       });

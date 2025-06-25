@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { asc, jobPostingTable, InferSelectModel } from '@bluedot/db';
+import { jobPostingTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
@@ -17,10 +17,12 @@ export default makeApiRoute({
     jobs: z.array(z.any()),
   }),
 }, async () => {
-  const allJobs = await db.pg.select().from(jobPostingTable.pg).orderBy(asc(jobPostingTable.pg.title));
+  const allJobs = await db.scan(jobPostingTable);
 
-  // Remove the body field from each job to make the response lighter
-  const jobSummaries = allJobs.map(({ body, ...rest }) => rest);
+  // Sort by title ascending and remove the body field from each job to make the response lighter
+  const jobSummaries = allJobs
+    .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

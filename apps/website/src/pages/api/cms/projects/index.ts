@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  eq, desc, projectTable, InferSelectModel,
+  projectTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
@@ -19,13 +19,12 @@ export default makeApiRoute({
     projects: z.array(z.any()),
   }),
 }, async () => {
-  const allProjects = await db.pg.select()
-    .from(projectTable.pg)
-    .where(eq(projectTable.pg.publicationStatus, 'Published'))
-    .orderBy(desc(projectTable.pg.publishedAt));
+  const allProjects = await db.scan(projectTable, { publicationStatus: 'Published' });
 
-  // Remove the body field from each project to make the response lighter
-  const projectSummaries = allProjects.map(({ body, ...rest }) => rest);
+  // Sort by publishedAt descending and remove the body field from each project to make the response lighter
+  const projectSummaries = allProjects
+    .sort((a, b) => (b.publishedAt || 0) - (a.publishedAt || 0))
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

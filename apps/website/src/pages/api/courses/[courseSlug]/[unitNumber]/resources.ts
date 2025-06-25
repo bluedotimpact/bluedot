@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, or, asc, exerciseTable, unitResourceTable, unitTable, InferSelectModel,
+  exerciseTable, unitResourceTable, unitTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -31,47 +31,26 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  const units = await db.pg.select()
-    .from(unitTable.pg)
-    .where(and(
-      eq(unitTable.pg.courseSlug, courseSlug),
-      eq(unitTable.pg.unitNumber, unitNumber),
-    ));
+  const unit = await db.get(unitTable, { courseSlug, unitNumber });
 
-  const unit = units[0];
-  if (!unit) {
-    throw new createHttpError.NotFound('Unit not found');
-  }
+  // Get unit resources and filter for Core/Further, then sort
+  const allUnitResources = await db.scan(unitResourceTable, { unitId: unit.id });
+  const unitResources = allUnitResources
+    .filter((resource) => resource.coreFurtherMaybe === 'Core' || resource.coreFurtherMaybe === 'Further')
+    .sort((a, b) => {
+      const isCoreA = a.coreFurtherMaybe === 'Core' ? 1 : 0;
+      const isCoreB = b.coreFurtherMaybe === 'Core' ? 1 : 0;
+      if (isCoreA !== isCoreB) {
+        return isCoreB - isCoreA;
+      }
+      const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
+      const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
+      return orderA - orderB;
+    });
 
-  const unitResources = await db.pg.select()
-    .from(unitResourceTable.pg)
-    .where(and(
-      eq(unitResourceTable.pg.unitId, unit.id),
-      or(
-        eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'),
-        eq(unitResourceTable.pg.coreFurtherMaybe, 'Further'),
-      ),
-    ));
-
-  // Sort resources by core/further, then reading order
-  unitResources.sort((a, b) => {
-    const isCoreA = a.coreFurtherMaybe === 'Core' ? 1 : 0;
-    const isCoreB = b.coreFurtherMaybe === 'Core' ? 1 : 0;
-    if (isCoreA !== isCoreB) {
-      return isCoreB - isCoreA;
-    }
-    const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
-    const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
-    return orderA - orderB;
-  });
-
-  const unitExercises = await db.pg.select()
-    .from(exerciseTable.pg)
-    .where(and(
-      eq(exerciseTable.pg.unitId, unit.id),
-      eq(exerciseTable.pg.status, 'Active'),
-    ))
-    .orderBy(asc(exerciseTable.pg.exerciseNumber));
+  // Get unit exercises with active status and sort by exercise number
+  const allUnitExercises = await db.scan(exerciseTable, { unitId: unit.id, status: 'Active' });
+  const unitExercises = allUnitExercises.sort((a, b) => (a.exerciseNumber || '').localeCompare(b.exerciseNumber || ''));
 
   return {
     type: 'success' as const,

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { eq, courseRegistrationTable, courseTable } from '@bluedot/db';
+import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 
@@ -31,23 +31,9 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Missing certificateId');
   }
 
-  const courseRegistrations = await db.pg.select()
-    .from(courseRegistrationTable.pg)
-    .where(eq(courseRegistrationTable.pg.certificateId, certificateId));
+  const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
 
-  const courseRegistration = courseRegistrations[0];
-  if (!courseRegistration) {
-    throw new createHttpError.NotFound('Certificate not found');
-  }
-
-  const courses = await db.pg.select()
-    .from(courseTable.pg)
-    .where(eq(courseTable.pg.id, courseRegistration.courseId));
-
-  const course = courses[0];
-  if (!course) {
-    throw new createHttpError.NotFound('Course not found');
-  }
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
   const certificate: Certificate = {
     certificateId,

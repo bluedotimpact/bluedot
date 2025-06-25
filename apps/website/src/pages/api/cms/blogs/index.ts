@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  eq, desc, blogTable, InferSelectModel,
+  blogTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
@@ -19,13 +19,12 @@ export default makeApiRoute({
     blogs: z.array(z.any()),
   }),
 }, async () => {
-  const allBlogs = await db.pg.select()
-    .from(blogTable.pg)
-    .where(eq(blogTable.pg.publicationStatus, 'Published'))
-    .orderBy(desc(blogTable.pg.publishedAt));
+  const allBlogs = await db.scan(blogTable, { publicationStatus: 'Published' });
 
-  // Remove the body field from each blog to make the response lighter
-  const blogSummaries = allBlogs.map(({ body, ...rest }) => rest);
+  // Sort by publishedAt descending and remove the body field from each blog to make the response lighter
+  const blogSummaries = allBlogs
+    .sort((a, b) => (b.publishedAt || 0) - (a.publishedAt || 0))
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

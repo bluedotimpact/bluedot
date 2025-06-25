@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, asc, courseTable, unitTable, InferSelectModel,
+  courseTable, unitTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
@@ -28,22 +28,11 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid course slug');
   }
 
-  const courses = await db.pg.select()
-    .from(courseTable.pg)
-    .where(eq(courseTable.pg.slug, courseSlug));
+  const course = await db.get(courseTable, { slug: courseSlug });
 
-  const course = courses[0];
-  if (!course) {
-    throw new createHttpError.NotFound('Course not found');
-  }
-
-  const units = await db.pg.select()
-    .from(unitTable.pg)
-    .where(and(
-      eq(unitTable.pg.courseSlug, courseSlug),
-      eq(unitTable.pg.unitStatus, 'Active'),
-    ))
-    .orderBy(asc(unitTable.pg.unitNumber));
+  // Get units for this course with active status, then sort by unit number
+  const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const units = allUnits.sort((a, b) => (a.unitNumber || '').localeCompare(b.unitNumber || ''));
 
   return {
     type: 'success' as const,

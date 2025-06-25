@@ -15,5 +15,5 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('First name cannot be blank.');
   }
 
-  await db.airtableUpdate(personTable, { id: body.personId, firstName: body.newFirstName });
+  await db.update(personTable, { id: body.personId, firstName: body.newFirstName });
 });

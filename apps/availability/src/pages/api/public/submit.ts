@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { parseIntervals } from 'weekly-availabilities';
 import axios from 'axios';
 import createHttpError from 'http-errors';
-import { eq, formConfigurationTable } from '@bluedot/db';
+import { formConfigurationTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 
@@ -38,12 +38,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid time availability expression');
   }
 
-  const records = await db.pg.select().from(formConfigurationTable.pg).where(eq(formConfigurationTable.pg.slug, raw.req.query.slug as string));
-  const targetRecord = records[0];
-
-  if (!targetRecord) {
-    throw new createHttpError.NotFound('Form not found');
-  }
+  const targetRecord = await db.get(formConfigurationTable, { slug: raw.req.query.slug as string });
 
   if (!targetRecord.webhook) {
     throw new createHttpError.InternalServerError('Form webhook not configured');

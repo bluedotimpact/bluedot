@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { eq, userTable, InferSelectModel } from '@bluedot/db';
+import { userTable, InferSelectModel } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { meRequestBodySchema } from '../../../lib/schemas/user/me.schema';
@@ -25,24 +25,26 @@ export default makeApiRoute({
     user: z.any(),
   }).optional(),
 }, async (body, { auth, raw }) => {
-  const existingUsers = await db.pg.select()
-    .from(userTable.pg)
-    .where(eq(userTable.pg.email, auth.email));
-
-  const existingUser = existingUsers[0];
+  // Try to get existing user
+  let existingUser: User | null = null;
+  try {
+    existingUser = await db.get(userTable, { email: auth.email });
+  } catch (error) {
+    // User doesn't exist, which is fine for GET requests
+  }
 
   switch (raw.req.method) {
     case 'GET': {
       let user: User;
       if (!existingUser) {
         // Create user if doesn't exist
-        user = await db.airtableInsert(userTable, {
+        user = await db.insert(userTable, {
           email: auth.email,
           lastSeenAt: new Date().toISOString(),
         });
       } else {
         // Update last seen timestamp if does exist
-        user = await db.airtableUpdate(userTable, {
+        user = await db.update(userTable, {
           id: existingUser.id,
           lastSeenAt: new Date().toISOString(),
         });
@@ -70,7 +72,7 @@ export default makeApiRoute({
       }
 
       // Update user with provided fields
-      const updatedUser = await db.airtableUpdate(userTable, {
+      const updatedUser = await db.update(userTable, {
         id: existingUser.id,
         ...body,
       });

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-  eq, courseTable, InferSelectModel,
+  courseTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
@@ -48,9 +48,7 @@ export default makeApiRoute({
   }),
 }, async () => {
   // For now, just get all courses that should be displayed on the course hub
-  const courses = await db.pg.select()
-    .from(courseTable.pg)
-    .where(eq(courseTable.pg.displayOnCourseHubIndex, true));
+  const courses = await db.scan(courseTable, { displayOnCourseHubIndex: true });
 
   return {
     type: 'success' as const,

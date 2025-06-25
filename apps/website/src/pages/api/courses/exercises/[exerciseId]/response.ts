@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, exerciseResponseTable, InferSelectModel,
+  exerciseResponseTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -37,14 +37,13 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  const exerciseResponses = await db.pg.select()
-    .from(exerciseResponseTable.pg)
-    .where(and(
-      eq(exerciseResponseTable.pg.exerciseId, exerciseId),
-      eq(exerciseResponseTable.pg.email, auth.email),
-    ));
-
-  const exerciseResponse = exerciseResponses[0];
+  // Try to get existing exercise response
+  let exerciseResponse: ExerciseResponse | null = null;
+  try {
+    exerciseResponse = await db.get(exerciseResponseTable, { exerciseId, email: auth.email });
+  } catch (error) {
+    // Exercise response doesn't exist, which is fine for PUT requests
+  }
 
   switch (raw.req.method) {
     // Get exercise response
@@ -73,7 +72,7 @@ export default makeApiRoute({
 
       // If the exercise response does exist, update it
       if (exerciseResponse) {
-        updatedExerciseResponse = await db.airtableUpdate(exerciseResponseTable, {
+        updatedExerciseResponse = await db.update(exerciseResponseTable, {
           id: exerciseResponse.id,
           exerciseId,
           response: body.response,
@@ -81,7 +80,7 @@ export default makeApiRoute({
         });
       } else {
         // If the exercise response does NOT exist, create it
-        updatedExerciseResponse = await db.airtableInsert(exerciseResponseTable, {
+        updatedExerciseResponse = await db.insert(exerciseResponseTable, {
           email: auth.email,
           exerciseId,
           response: body.response,
