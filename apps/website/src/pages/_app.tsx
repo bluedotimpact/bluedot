@@ -8,7 +8,7 @@ import { PostHogProvider } from '../components/analytics/PostHogProvider';
 import { Nav } from '../components/Nav/Nav';
 import { AnnouncementBanner } from '../components/AnnouncementBanner';
 import { CookieBanner } from '../components/CookieBanner';
-import { CommunityWidgets } from '../components/community/CommunityWidgets';
+import { CircleWidget } from '../components/community/CircleWidget';
 import { useCourses } from '../lib/hooks/useCourses';
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
@@ -55,7 +55,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         )}
       <CookieBanner />
       <GoogleTagManager />
-      <CommunityWidgets />
+      <CircleWidget />
     </PostHogProvider>
   );
 };

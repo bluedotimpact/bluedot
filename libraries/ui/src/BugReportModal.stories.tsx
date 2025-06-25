@@ -1,11 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import { BugReportModal } from './BugReportModal';
+import { CTALinkOrButton } from './CTALinkOrButton';
 
 // Wrapper component to handle the modal state
 const BugReportModalDemo: React.FC<{ showTextarea?: boolean }> = ({ showTextarea }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <BugReportModal showTextarea={showTextarea} />
+      <CTALinkOrButton onClick={() => setIsOpen(true)}>
+        Submit Feedback
+      </CTALinkOrButton>
+      <BugReportModal
+        showTextarea={showTextarea}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </div>
   );
 };

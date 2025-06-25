@@ -12,21 +12,29 @@ describe('BugReportModal', () => {
     vi.clearAllMocks();
   });
 
-  it('renders correctly', () => {
-    render(<BugReportModal />);
-    // Button should be visible, but modal content should not
-    expect(screen.getByText('Report an issue')).toBeInTheDocument();
-    expect(screen.queryByPlaceholderText('Your message')).not.toBeInTheDocument();
+  it('renders correctly when open', () => {
+    render(<BugReportModal isOpen />);
+    expect(screen.getByText('Submit feedback')).toBeInTheDocument();
+  });
+
+  it('does not render when closed', () => {
+    render(<BugReportModal isOpen={false} />);
+    expect(screen.queryByText('Submit feedback')).not.toBeInTheDocument();
   });
 
   it('handles message submission successfully', async () => {
     const mockOnSubmit = vi.fn();
+    const mockSetIsOpen = vi.fn();
     const testMessage = 'Test bug report';
 
-    render(<BugReportModal showTextarea onSubmit={mockOnSubmit} />);
-
-    // Open modal by clicking the button
-    fireEvent.click(screen.getByText('Report an issue'));
+    render(
+      <BugReportModal
+        showTextarea
+        onSubmit={mockOnSubmit}
+        isOpen
+        setIsOpen={mockSetIsOpen}
+      />,
+    );
 
     const textarea = screen.getByPlaceholderText('Your message');
     fireEvent.change(textarea, { target: { value: testMessage } });
@@ -34,8 +42,7 @@ describe('BugReportModal', () => {
 
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalledWith(testMessage);
-      // Modal should close after successful submission
-      expect(screen.queryByPlaceholderText('Your message')).not.toBeInTheDocument();
+      expect(mockSetIsOpen).toHaveBeenCalledWith(false);
     });
   });
 
@@ -44,36 +51,30 @@ describe('BugReportModal', () => {
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
     const testMessage = 'Test bug report';
 
-    render(<BugReportModal showTextarea onSubmit={mockOnSubmit} />);
-
-    // Open modal by clicking the button
-    fireEvent.click(screen.getByText('Report an issue'));
+    render(
+      <BugReportModal
+        showTextarea
+        onSubmit={mockOnSubmit}
+        isOpen
+      />,
+    );
 
     const textarea = screen.getByPlaceholderText('Your message');
     fireEvent.change(textarea, { target: { value: testMessage } });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      // Look for the error message
       expect(screen.getByText(testError.message)).toBeInTheDocument();
-      // Verify modal stays open and message is preserved
       expect(textarea).toHaveValue(testMessage);
-      expect(screen.getByPlaceholderText('Your message')).toBeInTheDocument();
     });
   });
 
   it('renders social media links with default values', () => {
-    render(<BugReportModal />);
-
-    // Open modal by clicking the button
-    fireEvent.click(screen.getByText('Report an issue'));
-
+    render(<BugReportModal isOpen />);
     const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(5); // GitHub text link + 4 social media icons
+    expect(links).toHaveLength(5);
 
-    // GitHub text link
     expect(links[0]).toHaveAttribute('href', 'https://github.com/bluedotimpact/bluedot/issues/new?template=bug.yaml');
-    // Social media icons
     expect(links[1]).toHaveAttribute('href', 'mailto:team@bluedot.org');
     expect(links[2]).toHaveAttribute('href', 'https://github.com/bluedotimpact');
     expect(links[3]).toHaveAttribute('href', 'https://x.com/BlueDotImpact');
@@ -91,8 +92,7 @@ describe('BugReportModal', () => {
 
     render(<BugReportModal {...customLinks} />);
 
-    // Open modal by clicking the button
-    fireEvent.click(screen.getByText('Report an issue'));
+    fireEvent.click(screen.getByText('Submit feedback'));
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(5);

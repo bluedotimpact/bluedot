@@ -7,6 +7,8 @@ import { A } from './Text';
 
 export type BugReportModalProps = {
   onSubmit?: (message: string) => void;
+  isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
   // Social media links
   showTextarea?: boolean;
   emailLink?: string;
@@ -18,6 +20,8 @@ export type BugReportModalProps = {
 
 export const BugReportModal: React.FC<BugReportModalProps> = ({
   onSubmit = () => {},
+  isOpen = false,
+  setIsOpen = () => {},
   showTextarea = false,
   emailLink = 'mailto:team@bluedot.org',
   githubOrgLink = 'https://github.com/bluedotimpact',
@@ -25,7 +29,6 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   twitterLink = 'https://x.com/BlueDotImpact',
   linkedinLink = 'https://www.linkedin.com/company/bluedotimpact/',
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState<Error | null>(null);
 
@@ -41,14 +44,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   };
 
   return (
-    isOpen ? (
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Report an issue">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    isOpen && (
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Submit feedback">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl mx-auto">
           {error && <ErrorView error={error} />}
           <div>
             <p className="text-gray-600 mb-2">
-              Found a bug or have an improvement to suggest?
-              Please create an issue on{' '}
+              Found a bug that is pestering you or have an idea on how to make the experience better?
+              Great, we'd love to hear from you! Bonus points if you can submit your feedback as an issue in {' '}
               <A
                 href={githubLink}
                 target="_blank"
@@ -88,10 +91,6 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
           </div>
         </form>
       </Modal>
-    ) : (
-      <CTALinkOrButton onClick={() => setIsOpen(true)}>
-        Report an issue
-      </CTALinkOrButton>
     )
   );
 };

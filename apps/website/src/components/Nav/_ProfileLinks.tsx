@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { IconButton } from '@bluedot/ui';
+import { IconButton, BugReportModal, useAuthStore } from '@bluedot/ui';
+import { useState } from 'react';
 
 import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from './utils';
 import { ROUTES } from '../../lib/routes';
@@ -15,6 +16,8 @@ export const ProfileLinks: React.FC<{
   expandedSections,
   updateExpandedSections,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const onToggleProfile = () => updateExpandedSections({
     about: false,
     explore: false,
@@ -34,9 +37,20 @@ export const ProfileLinks: React.FC<{
         <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
           <A href={ROUTES.profile.url} className={NAV_LINK_CLASSES(isScrolled)}>Profile</A>
           <A href={ROUTES.contact.url} className={NAV_LINK_CLASSES(isScrolled)}>Help</A>
+          <button
+            type="button"
+            onClick={() => {
+              setIsModalOpen(true);
+              updateExpandedSections({ profile: false });
+            }}
+            className={NAV_LINK_CLASSES(isScrolled)}
+          >
+            Submit Feedback
+          </button>
           <A href={ROUTES.logout.url} className={NAV_LINK_CLASSES(isScrolled)}>Log out</A>
         </div>
       </div>
+      <BugReportModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
     </div>
   );
 };
