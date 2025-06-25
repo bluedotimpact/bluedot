@@ -23,11 +23,11 @@ const AboutPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="Our mission is to ensure humanity safely navigates the transition to transformative AI." />
+        <meta name="description" content="Our mission is to build the workforce needed to safely navigate to transformative AI." />
       </Head>
       <HeroSection>
         <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
-        <HeroH1>Our mission is to ensure humanity safely navigates the transition to transformative AI.</HeroH1>
+        <HeroH1>Our mission is to build the workforce needed to safely navigate to transformative AI.</HeroH1>
         <HeroCTAContainer>
           <CTALinkOrButton url={ROUTES.joinUs.url} withChevron>Join us</CTALinkOrButton>
         </HeroCTAContainer>
