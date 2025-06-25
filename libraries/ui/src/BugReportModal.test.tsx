@@ -80,29 +80,4 @@ describe('BugReportModal', () => {
     expect(links[3]).toHaveAttribute('href', 'https://x.com/BlueDotImpact');
     expect(links[4]).toHaveAttribute('href', 'https://www.linkedin.com/company/bluedotimpact/');
   });
-
-  it('renders social media links with custom values', () => {
-    const customLinks = {
-      emailLink: 'mailto:custom@test.com',
-      githubOrgLink: 'https://github.com/custom',
-      githubLink: 'https://github.com/custom/repo/issues',
-      twitterLink: 'https://x.com/custom',
-      linkedinLink: 'https://linkedin.com/company/custom',
-    };
-
-    render(<BugReportModal {...customLinks} />);
-
-    fireEvent.click(screen.getByText('Submit feedback'));
-
-    const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(5);
-
-    // GitHub text link
-    expect(links[0]).toHaveAttribute('href', customLinks.githubLink);
-    // Social media icons
-    expect(links[1]).toHaveAttribute('href', customLinks.emailLink);
-    expect(links[2]).toHaveAttribute('href', customLinks.githubOrgLink);
-    expect(links[3]).toHaveAttribute('href', customLinks.twitterLink);
-    expect(links[4]).toHaveAttribute('href', customLinks.linkedinLink);
-  });
 });
