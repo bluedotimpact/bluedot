@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, unitFeedbackTable, InferSelectModel,
+  unitFeedbackTable, InferSelectModel,
   unitTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -46,26 +46,15 @@ export default makeApiRoute(
       createHttpError.MethodNotAllowed();
     }
 
-    const [unit] = await db.pg.select()
-      .from(unitTable.pg)
-      .where(and(
-        eq(unitTable.pg.courseSlug, courseSlug),
-        eq(unitTable.pg.unitNumber, unitNumber),
-      ))
-      .limit(1);
+    const unit = await db.get(unitTable, { courseSlug, unitNumber });
 
-    if (!unit) {
-      throw new createHttpError.NotFound('Unit not found');
+    // Try to get existing feedback
+    let existingFeedback: UnitFeedback | null = null;
+    try {
+      existingFeedback = await db.get(unitFeedbackTable, { unitId: unit.id, userEmail: auth.email });
+    } catch (error) {
+      // Feedback doesn't exist, which is fine
     }
-
-    const existingFeedbacks = await db.pg.select()
-      .from(unitFeedbackTable.pg)
-      .where(and(
-        eq(unitFeedbackTable.pg.unitId, unit.id),
-        eq(unitFeedbackTable.pg.userEmail, auth.email),
-      ));
-
-    const existingFeedback = existingFeedbacks[0];
 
     if (method === 'GET') {
       return {
@@ -85,7 +74,7 @@ export default makeApiRoute(
 
       // If the feedback does exist, update it
       if (existingFeedback) {
-        upsertedFeedback = await db.airtableUpdate(unitFeedbackTable, {
+        upsertedFeedback = await db.update(unitFeedbackTable, {
           id: existingFeedback.id,
           lastModified: new Date().toISOString(),
           overallRating,
@@ -93,7 +82,7 @@ export default makeApiRoute(
         });
       } else {
         // If the feedback does NOT exist, create it
-        upsertedFeedback = await db.airtableInsert(unitFeedbackTable, {
+        upsertedFeedback = await db.insert(unitFeedbackTable, {
           unitId: unit.id,
           createdAt: new Date().toISOString(),
           lastModified: new Date().toISOString(),

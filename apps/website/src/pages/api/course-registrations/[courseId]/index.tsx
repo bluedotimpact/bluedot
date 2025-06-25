@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, applicationsCourseTable, courseRegistrationTable, InferSelectModel,
+  applicationsCourseTable, courseRegistrationTable, InferSelectModel,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import db from '../../../../lib/api/db';
@@ -27,15 +27,18 @@ export default makeApiRoute({
         throw new createHttpError.BadRequest('Invalid courseId parameter');
       }
 
-      const courseRegistrations = await db.pg.select()
-        .from(courseRegistrationTable.pg)
-        .where(and(
-          eq(courseRegistrationTable.pg.email, auth.email),
-          eq(courseRegistrationTable.pg.courseId, courseId),
-          eq(courseRegistrationTable.pg.decision, 'Accept'),
-        ));
+      // Try to get existing course registration
+      let courseRegistration: CourseRegistration | null = null;
+      try {
+        courseRegistration = await db.get(courseRegistrationTable, {
+          email: auth.email,
+          courseId,
+          decision: 'Accept',
+        });
+      } catch (error) {
+        // Course registration doesn't exist, we'll create one
+      }
 
-      const courseRegistration = courseRegistrations[0];
       if (courseRegistration) {
         return {
           type: 'success' as const,
@@ -43,18 +46,11 @@ export default makeApiRoute({
         };
       }
 
-      const applicationsCourses = await db.pg.select()
-        .from(applicationsCourseTable.pg)
-        .where(eq(applicationsCourseTable.pg.courseBuilderId, courseId));
+      const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });
 
-      const courseApplicationsBaseId = applicationsCourses[0]?.id;
-      if (!courseApplicationsBaseId) {
-        throw new createHttpError.NotFound('Course not found');
-      }
-
-      const newCourseRegistration = await db.airtableInsert(courseRegistrationTable, {
+      const newCourseRegistration = await db.insert(courseRegistrationTable, {
         email: auth.email,
-        courseApplicationsBaseId,
+        courseApplicationsBaseId: applicationsCourse.id,
         role: 'Participant',
         decision: 'Accept',
       });

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, inArray, groupTable, groupDiscussionTable, meetPersonTable, zoomAccountTable,
+  groupTable, groupDiscussionTable, meetPersonTable, zoomAccountTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
@@ -58,15 +58,10 @@ export default makeApiRoute({
   ]),
 }, async (body) => {
   // Get the group
-  const groups = await db.pg.select().from(groupTable.pg).where(eq(groupTable.pg.id, body.groupId));
-  const group = groups[0];
-
-  if (!group) {
-    throw new createHttpError.NotFound(`Group ${body.groupId} not found`);
-  }
+  await db.get(groupTable, { id: body.groupId });
 
   // Get group discussions for this group
-  const groupDiscussions = await db.pg.select().from(groupDiscussionTable.pg).where(eq(groupDiscussionTable.pg.group, body.groupId));
+  const groupDiscussions = await db.scan(groupDiscussionTable, { group: body.groupId });
 
   const groupDiscussionsWithDistance = groupDiscussions
     .filter((groupDiscussion) => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
@@ -92,24 +87,16 @@ export default makeApiRoute({
   }
 
   // Get zoom account
-  const zoomAccounts = await db.pg.select().from(zoomAccountTable.pg).where(eq(zoomAccountTable.pg.id, groupDiscussion.zoomAccount));
-  const zoomAccount = zoomAccounts[0];
-
-  if (!zoomAccount) {
-    throw new createHttpError.InternalServerError(`Zoom account ${groupDiscussion.zoomAccount} not found`);
-  }
+  const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
   // Get facilitators and participants
   const facilitatorIds = groupDiscussion.facilitators || [];
   const participantIds = groupDiscussion.participantsExpected || [];
 
-  const facilitators = facilitatorIds.length > 0
-    ? await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, facilitatorIds))
-    : [];
-
-  const participants = participantIds.length > 0
-    ? await db.pg.select().from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, participantIds))
-    : [];
+  // Get all people and filter by IDs
+  const allPeople = await db.scan(meetPersonTable);
+  const facilitators = allPeople.filter((person) => facilitatorIds.includes(person.id));
+  const participants = allPeople.filter((person) => participantIds.includes(person.id));
 
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
   const meetingHostKey = zoomAccount.hostKey;

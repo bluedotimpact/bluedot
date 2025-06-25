@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { eq, sharedDemoOutputTable } from '@bluedot/db';
+import { sharedDemoOutputTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db, { demoTypes } from '../../../lib/api/db';
 
@@ -20,12 +20,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Missing savedDemoOutputId');
   }
 
-  const records = await db.pg.select().from(sharedDemoOutputTable.pg).where(eq(sharedDemoOutputTable.pg.id, savedDemoOutputId));
-  const record = records[0];
-
-  if (!record) {
-    throw new createHttpError.NotFound('Saved demo output not found');
-  }
+  const record = await db.get(sharedDemoOutputTable, { id: savedDemoOutputId });
 
   return {
     type: record.type as SavedDemoOutput['type'],

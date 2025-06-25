@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { asc, projectTable, InferSelectModel } from '@bluedot/db';
+import { projectTable, InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
@@ -17,10 +17,12 @@ export default makeApiRoute({
     projects: z.array(z.any()),
   }),
 }, async () => {
-  const allProjects = await db.pg.select().from(projectTable.pg).orderBy(asc(projectTable.pg.title));
+  const allProjects = await db.scan(projectTable);
 
-  // Remove the body field from each project to make the response lighter
-  const projectSummaries = allProjects.map(({ body, ...rest }) => rest);
+  // Sort by title ascending and remove the body field from each project to make the response lighter
+  const projectSummaries = allProjects
+    .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

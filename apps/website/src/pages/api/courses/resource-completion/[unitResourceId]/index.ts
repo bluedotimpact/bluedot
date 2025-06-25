@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, resourceCompletionTable, InferSelectModel,
+  resourceCompletionTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -39,14 +39,13 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  const resourceCompletions = await db.pg.select()
-    .from(resourceCompletionTable.pg)
-    .where(and(
-      eq(resourceCompletionTable.pg.unitResourceIdRead, unitResourceId),
-      eq(resourceCompletionTable.pg.email, auth.email),
-    ));
-
-  const resourceCompletion = resourceCompletions[0];
+  // Try to get existing resource completion
+  let resourceCompletion: ResourceCompletion | null = null;
+  try {
+    resourceCompletion = await db.get(resourceCompletionTable, { unitResourceIdRead: unitResourceId, email: auth.email });
+  } catch (error) {
+    // Resource completion doesn't exist, which is fine for PUT requests
+  }
 
   switch (raw.req.method) {
     // Get resource completion
@@ -75,7 +74,7 @@ export default makeApiRoute({
 
       // If the resource completion does exist, update it
       if (resourceCompletion) {
-        updatedResourceCompletion = await db.airtableUpdate(resourceCompletionTable, {
+        updatedResourceCompletion = await db.update(resourceCompletionTable, {
           id: resourceCompletion.id,
           unitResourceIdWrite: unitResourceId,
           rating: body.rating ?? resourceCompletion.rating,
@@ -84,7 +83,7 @@ export default makeApiRoute({
         });
       } else {
         // If the resource completion does NOT exist, create it
-        updatedResourceCompletion = await db.airtableInsert(resourceCompletionTable, {
+        updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: auth.email,
           unitResourceIdWrite: unitResourceId,
           rating: body.rating,

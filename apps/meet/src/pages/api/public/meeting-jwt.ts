@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import jsonwebtoken from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import { eq, groupDiscussionTable, zoomAccountTable } from '@bluedot/db';
+import { groupDiscussionTable, zoomAccountTable } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import env from '../../../lib/api/env';
@@ -41,16 +41,12 @@ export default makeApiRoute({
   }),
 }, async (body) => {
   // Get the group discussion
-  const groupDiscussions = await db.pg.select().from(groupDiscussionTable.pg).where(eq(groupDiscussionTable.pg.id, body.groupDiscussionId));
-  const groupDiscussion = groupDiscussions[0];
-  if (!groupDiscussion) {
-    throw new createHttpError.NotFound(`Group discussion ${body.groupDiscussionId} not found`);
-  }
+  const groupDiscussion = await db.get(groupDiscussionTable, { id: body.groupDiscussionId });
 
   if (body.participantId) {
     const currentAttendees = groupDiscussion.attendees || [];
     if (!currentAttendees.includes(body.participantId)) {
-      await db.airtableUpdate(groupDiscussionTable, {
+      await db.update(groupDiscussionTable, {
         id: body.groupDiscussionId,
         attendees: [...currentAttendees, body.participantId],
       });
@@ -61,11 +57,7 @@ export default makeApiRoute({
     throw new createHttpError.InternalServerError(`Group discussion ${groupDiscussion.id} missing Zoom account`);
   }
 
-  const zoomAccounts = await db.pg.select().from(zoomAccountTable.pg).where(eq(zoomAccountTable.pg.id, groupDiscussion.zoomAccount));
-  const zoomAccount = zoomAccounts[0];
-  if (!zoomAccount) {
-    throw new createHttpError.InternalServerError(`Zoom account ${groupDiscussion.zoomAccount} not found`);
-  }
+  const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
   const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
 

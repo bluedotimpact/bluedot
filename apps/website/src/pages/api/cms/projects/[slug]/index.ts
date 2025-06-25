@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  eq, and, ne, projectTable, InferSelectModel,
+  projectTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -25,18 +25,8 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const projects = await db.pg.select()
-    .from(projectTable.pg)
-    .where(and(
-      ne(projectTable.pg.publicationStatus, 'Unpublished'),
-      eq(projectTable.pg.slug, slug),
-    ));
-
-  const project = projects[0];
-
-  if (!project) {
-    throw new createHttpError.NotFound('Project post not found');
-  }
+  // Get project by slug and filter out unpublished ones
+  const project = await db.get(projectTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
   return {
     type: 'success' as const,
