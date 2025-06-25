@@ -1,0 +1,12 @@
+---
+description: when working on performance and optimization
+trigger: always_on
+---
+
+## Performance and Optimization
+
+- **Avoid unnecessary re-renders:** Use React's memoization tools (`useMemo`, `useCallback`, `memo`) for expensive operations or to prevent unnecessary re-renders.
+
+- **Optimize images and assets:** Use appropriate image formats, sizes, and the Next.js Image component to optimize loading performance.
+
+- **Implement proper loading states:** Always handle loading states gracefully with appropriate UI feedback.
