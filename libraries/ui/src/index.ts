@@ -76,6 +76,9 @@ export * as NewText from './Text';
 export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';
 
+export { BugReportModal } from './BugReportModal';
+export type { BugReportModalProps } from './BugReportModal';
+
 // Utils
 
 export { addQueryParam } from './utils/addQueryParam';
@@ -85,3 +88,5 @@ export { useAuthStore, withAuth, type Auth } from './utils/auth';
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
+
+export * from './SocialShare';
