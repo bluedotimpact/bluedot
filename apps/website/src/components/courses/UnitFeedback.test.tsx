@@ -40,7 +40,7 @@ vi.mock('@bluedot/ui', async () => {
 });
 
 describe('UnitFeedback', () => {
-  const fakeUnit = { courseSlug: 'slug', id: 'unit123' };
+  const fakeUnit = { courseSlug: 'slug', id: 'unit123', unitNumber: '1' };
 
   test('should render correctly', () => {
     const { container } = render(<UnitFeedback unit={fakeUnit} />);

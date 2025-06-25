@@ -5,7 +5,7 @@ import {
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
-import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitId]';
+import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -13,7 +13,7 @@ type Chunk = InferSelectModel<typeof chunkTable.pg>;
 // Mock next/router
 vi.mock('next/router', () => ({
   useRouter: vi.fn(() => ({
-    query: { courseSlug: 'test-course', unitId: '3' },
+    query: { courseSlug: 'test-course', unitNumber: '3' },
   })),
 }));
 
@@ -38,7 +38,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   description: `${title} description`,
   learningOutcomes: `Learning outcomes for ${title}`,
   unitPodcastUrl: '',
-  id: `unit-${unitNumber}`,
+  id: `recUnit${unitNumber}`,
 });
 
 const createMockChunk = (unitId: string): Chunk => ({
@@ -54,7 +54,7 @@ const createMockChunk = (unitId: string): Chunk => ({
 describe('CourseUnitPage', () => {
   test('renders unit 0 correctly with 0-indexed units', async () => {
     vi.mocked(useRouter).mockReturnValueOnce({
-      query: { courseSlug: 'test-course', unitId: '0' },
+      query: { courseSlug: 'test-course', unitNumber: '0' },
     } as unknown as NextRouter);
 
     const mockUnits = [

@@ -6,14 +6,14 @@ import { FaCircleCheck } from 'react-icons/fa6';
 import axios from 'axios';
 
 import { unitTable, InferSelectModel } from '@bluedot/db';
-import { GetUnitFeedbackResponse, PutUnitFeedbackRequest } from '../../pages/api/courses/[courseSlug]/[unitId]/feedback';
+import { GetUnitFeedbackResponse, PutUnitFeedbackRequest } from '../../pages/api/courses/[courseSlug]/[unitNumber]/feedback';
 import StarRating from './StarRating';
 import { H4, P } from '../Text';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
 type UnitFeedbackProps = {
-  unit: Pick<Unit, 'id' | 'courseSlug'>;
+  unit: Pick<Unit, 'id' | 'courseSlug' | 'unitNumber'>;
 };
 
 const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
@@ -24,11 +24,11 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
   const [error, setError] = useState<unknown | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { courseSlug, id: unitId } = unit;
+  const { courseSlug, unitNumber } = unit;
 
   const [{ data, loading }, refetch] = useAxios<GetUnitFeedbackResponse>({
     method: 'get',
-    url: `/api/courses/${courseSlug}/${unitId}/feedback`,
+    url: `/api/courses/${courseSlug}/${unitNumber}/feedback`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
@@ -47,7 +47,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
 
     try {
       await axios.put<unknown, unknown, PutUnitFeedbackRequest>(
-        `/api/courses/${courseSlug}/${unitId}/feedback`,
+        `/api/courses/${courseSlug}/${unitNumber}/feedback`,
         {
           overallRating: rating,
           anythingElse: feedbackText,
@@ -65,7 +65,7 @@ const UnitFeedback: React.FC<UnitFeedbackProps> = ({ unit }) => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [rating, feedbackText, courseSlug, unitId, auth, refetch]);
+  }, [rating, feedbackText, courseSlug, unitNumber, auth, refetch]);
 
   // Don't show for logged out users
   if (!data || !auth) {

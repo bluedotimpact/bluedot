@@ -23,11 +23,11 @@ export default makeApiRoute({
     unitExercises: z.array(z.any()),
   }),
 }, async (body, { raw }) => {
-  const { courseSlug, unitId } = raw.req.query;
+  const { courseSlug, unitNumber } = raw.req.query;
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (typeof unitId !== 'string') {
+  if (typeof unitNumber !== 'string') {
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
@@ -35,7 +35,7 @@ export default makeApiRoute({
     .from(unitTable.pg)
     .where(and(
       eq(unitTable.pg.courseSlug, courseSlug),
-      eq(unitTable.pg.unitNumber, unitId),
+      eq(unitTable.pg.unitNumber, unitNumber),
     ));
 
   const unit = units[0];

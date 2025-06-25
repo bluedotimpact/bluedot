@@ -2,6 +2,7 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   eq, and, unitFeedbackTable, InferSelectModel,
+  unitTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
@@ -34,9 +35,9 @@ export default makeApiRoute(
     }),
   },
   async (body, { raw, auth }) => {
-    const { unitId } = raw.req.query;
+    const { courseSlug, unitNumber } = raw.req.query;
 
-    if (!auth.email || typeof unitId !== 'string') {
+    if (!auth.email || typeof courseSlug !== 'string' || typeof unitNumber !== 'string') {
       throw new createHttpError.BadRequest();
     }
 
@@ -45,10 +46,22 @@ export default makeApiRoute(
       createHttpError.MethodNotAllowed();
     }
 
+    const [unit] = await db.pg.select()
+      .from(unitTable.pg)
+      .where(and(
+        eq(unitTable.pg.courseSlug, courseSlug),
+        eq(unitTable.pg.unitNumber, unitNumber),
+      ))
+      .limit(1);
+
+    if (!unit) {
+      throw new createHttpError.NotFound('Unit not found');
+    }
+
     const existingFeedbacks = await db.pg.select()
       .from(unitFeedbackTable.pg)
       .where(and(
-        eq(unitFeedbackTable.pg.unitId, unitId),
+        eq(unitFeedbackTable.pg.unitId, unit.id),
         eq(unitFeedbackTable.pg.userEmail, auth.email),
       ));
 
@@ -81,7 +94,7 @@ export default makeApiRoute(
       } else {
         // If the feedback does NOT exist, create it
         upsertedFeedback = await db.airtableInsert(unitFeedbackTable, {
-          unitId,
+          unitId: unit.id,
           createdAt: new Date().toISOString(),
           lastModified: new Date().toISOString(),
           userEmail: auth.email,
