@@ -107,35 +107,51 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         <div
           class="flex justify-center mt-8"
         >
-          <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
-            href="/courses/test-course/1"
-            tabindex="0"
+          <div
+            class="flex flex-row gap-4"
           >
-            <span
-              class="cta-button__text"
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+              href="/courses/test-course/1"
+              tabindex="0"
             >
-              Start the free course
-            </span>
-            <span
-              class="cta-button__chevron ml-3"
-            >
-              <svg
-                class="cta-button__chevron-icon size-2"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 320 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
+              <span
+                class="cta-button__text"
               >
-                <path
-                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                />
-              </svg>
-            </span>
-          </a>
+                Start the free course
+              </span>
+              <span
+                class="cta-button__chevron ml-3"
+              >
+                <svg
+                  class="cta-button__chevron-icon size-2"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 320 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  />
+                </svg>
+              </span>
+            </a>
+            <a
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+              href="https://community.bluedot.org"
+              tabindex="0"
+              target="_blank"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Join the Community
+              </span>
+            </a>
+          </div>
         </div>
       </div>
       <div
