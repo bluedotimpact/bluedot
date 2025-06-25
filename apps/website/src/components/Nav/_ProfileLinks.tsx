@@ -43,7 +43,7 @@ export const ProfileLinks: React.FC<{
               setIsModalOpen(true);
               updateExpandedSections({ profile: false });
             }}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={clsx('bluedot-a', NAV_LINK_CLASSES(isScrolled))}
           >
             Submit Feedback
           </button>
