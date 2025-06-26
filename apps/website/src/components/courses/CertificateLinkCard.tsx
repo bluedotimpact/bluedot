@@ -15,6 +15,26 @@ type CertificateLinkCardProps = {
   courseId: string;
 };
 
+const CommunitySection = () => (
+  <div className="border-t pt-6">
+    <Card
+      title="Join 3,245 graduates in our graduate community!"
+      className="pt-3"
+      isFullWidth
+    >
+      <div className="flex items-center gap-4">
+        <CTALinkOrButton
+          url="https://community.bluedot.org"
+          variant="primary"
+          target="_blank"
+        >
+          Join the Community
+        </CTALinkOrButton>
+      </div>
+    </Card>
+  </div>
+);
+
 const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
   courseId,
 }) => {
@@ -33,6 +53,7 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
         >
           Log in
         </CTALinkOrButton>
+        <CommunitySection />
       </Card>
     );
   }
@@ -111,21 +132,29 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
         subtitle="View your certificate to share your achievement."
         className="container-lined p-8 bg-white"
       >
-        <div className="flex items-center">
-          <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg">
-            <FaAward size={24} className="text-bluedot-normal" />
-          </div>
+        <div className="flex flex-col gap-8">
           <div>
-            <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
-            <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg">
+                  <FaAward size={24} className="text-bluedot-normal" />
+                </div>
+                <div>
+                  <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
+                  <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
+                </div>
+              </div>
+              <CTALinkOrButton
+                url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
+                variant="primary"
+              >
+                View Certificate
+              </CTALinkOrButton>
+            </div>
           </div>
+
+          <CommunitySection />
         </div>
-        <CTALinkOrButton
-          url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
-          variant="primary"
-        >
-          View Certificate
-        </CTALinkOrButton>
       </Card>
     );
   }
@@ -137,7 +166,10 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
         title="Your Certificate"
         subtitle="This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate."
         className="container-lined p-8 bg-white"
-      />
+      >
+        <CommunitySection />
+
+      </Card>
     );
   }
 
@@ -154,6 +186,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
       >
         Request Certificate
       </CTALinkOrButton>
+      <CommunitySection />
     </Card>
   );
 };
