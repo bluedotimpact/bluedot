@@ -38,3 +38,4 @@ core
 # Misc
 .DS_Store
 *.pem
+.vscode/launch.json

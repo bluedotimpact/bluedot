@@ -31,6 +31,7 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
     refreshToken: user.refresh_token ?? auth.refreshToken,
     oidcSettings: auth.oidcSettings,
     email: user.profile.email ?? auth.email,
+    attribution: auth.attribution,
   };
 };
 
@@ -41,6 +42,14 @@ export type Auth = {
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
   email: string,
+  /** Marketing attribution data */
+  attribution?: {
+    referralCode?: string,
+    utmSource?: string,
+    utmCampaign?: string,
+    utmTerm?: string,
+    utmMedium?: string,
+  }
 };
 
 export const useAuthStore = create<{
@@ -63,7 +72,10 @@ export const useAuthStore = create<{
       return;
     }
 
-    posthog.identify(auth.email);
+    posthog.identify(auth.email, {
+      email: auth.email,
+      ...(auth.attribution || {}),
+    });
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
