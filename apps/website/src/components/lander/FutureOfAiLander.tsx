@@ -145,7 +145,10 @@ const FutureOfAiLander = ({
           </div>
           {courseData.units?.[0]?.path && (
             <HeroCTAContainer>
-              <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+              <div className="flex flex-row gap-4">
+                <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+                <CTALinkOrButton url="https://community.bluedot.org" target="_blank">Join the Community</CTALinkOrButton>
+              </div>
             </HeroCTAContainer>
           )}
         </HeroSection>
@@ -175,7 +178,10 @@ const FutureOfAiLander = ({
               </div>
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
-                  <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+                  <div className="flex flex-row gap-4">
+                    <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+                    <CTALinkOrButton url="https://community.bluedot.org" target="_blank">Join the Community</CTALinkOrButton>
+                  </div>
                 </HeroCTAContainer>
               )}
             </div>
