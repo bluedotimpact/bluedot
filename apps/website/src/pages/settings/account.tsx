@@ -33,7 +33,6 @@ function AccountSettingsPage({ auth }: { auth: { token: string } }) {
       {userData?.user && (
         <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
           <div className="p-8">
-            <H3 className="mb-6">Account Settings</H3>
             
             {/* Profile Name Editor */}
             <ProfileNameEditor 
