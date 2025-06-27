@@ -83,12 +83,7 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
                   </NewText.P>
                   {item.isNew && (
                     <span
-                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold"
-                      style={{
-                        backgroundColor: 'rgba(0, 85, 255, 0.08)',
-                        color: '#0037FF',
-                        fontFamily: 'Roobert, Inter, sans-serif',
-                      }}
+                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold bg-[rgba(0,85,255,0.08)] text-[#0037FF]"
                       aria-label="New feature"
                     >
                       NEW
