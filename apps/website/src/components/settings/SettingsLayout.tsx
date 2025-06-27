@@ -78,9 +78,9 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
                 aria-label={`${item.label} settings${item.isNew ? ' (New feature)' : ''}`}
               >
                 <span className="flex items-center gap-3 w-full">
-                  <span className="text-[13px] leading-[22px] flex-grow">
+                  <NewText.P className={`text-[13px] leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
                     {item.label}
-                  </span>
+                  </NewText.P>
                   {item.isNew && (
                     <span 
                       className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold" 
