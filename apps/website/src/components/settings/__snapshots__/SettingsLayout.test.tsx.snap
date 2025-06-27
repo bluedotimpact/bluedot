@@ -16,7 +16,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           class="breadcrumbs__item flex items-center"
         >
           <a
-            class="bluedot-a not-prose breadcrumbs__link no-underline font-bold"
+            class="bluedot-a not-prose breadcrumbs__link no-underline"
             href="/"
             tabindex="0"
           >
@@ -33,7 +33,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           class="breadcrumbs__item flex items-center"
         >
           <a
-            class="bluedot-a not-prose breadcrumbs__link no-underline font-bold"
+            class="bluedot-a not-prose breadcrumbs__link no-underline"
             href="/settings"
             tabindex="0"
           >
@@ -50,7 +50,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           class="breadcrumbs__item flex items-center"
         >
           <a
-            class="bluedot-a not-prose breadcrumbs__link no-underline"
+            class="bluedot-a not-prose breadcrumbs__link no-underline opacity-50"
             href="/settings/account"
             tabindex="0"
           >
@@ -71,7 +71,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         class="lg:col-span-3"
       >
         <h2
-          class="bluedot-h2 not-prose mb-6"
+          class="bluedot-h2 not-prose mb-6 font-semibold text-xl leading-[1.4]"
         >
           Settings
         </h2>
@@ -79,20 +79,20 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           aria-label="Settings navigation"
         >
           <ul
-            class="space-y-1"
+            class="space-y-3"
           >
             <li>
               <a
                 aria-label="Account settings"
                 class="
-                  block px-4 py-2 rounded-md transition-colors
-                  bg-bluedot-lightest text-bluedot-dark
+                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
+                  bg-[rgba(0,85,255,0.08)] text-bluedot-dark border-[#CCCCCC]
                 "
                 href="/settings/account"
                 tabindex="0"
               >
                 <span
-                  class="flex items-center gap-2"
+                  class="flex items-center gap-3 w-full"
                 >
                   <span
                     aria-hidden="true"
@@ -112,19 +112,20 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Courses settings"
                 class="
-                  block px-4 py-2 rounded-md transition-colors
-                  text-bluedot-normal hover:bg-bluedot-lightest
+                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
+                  text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]
                 "
                 href="/settings/courses"
                 tabindex="0"
               >
                 <span
-                  class="flex items-center gap-2"
+                  class="flex items-center gap-3 w-full"
                 >
                   <span
                     class=""
                   >
                     Courses
+                     (3)
                   </span>
                 </span>
               </a>
@@ -133,14 +134,14 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Community settings (New feature)"
                 class="
-                  block px-4 py-2 rounded-md transition-colors
-                  text-bluedot-normal hover:bg-bluedot-lightest
+                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
+                  text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]
                 "
                 href="/settings/community"
                 tabindex="0"
               >
                 <span
-                  class="flex items-center gap-2"
+                  class="flex items-center gap-3 w-full"
                 >
                   <span
                     class=""
@@ -149,7 +150,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   </span>
                   <span
                     aria-label="New feature"
-                    class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold"
+                    class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold ml-auto"
                   >
                     NEW
                   </span>
@@ -164,7 +165,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         class="lg:col-span-9"
       >
         <div
-          class="container-lined bg-white rounded-lg"
+          class="container-lined"
           role="region"
         >
           <div>

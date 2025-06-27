@@ -28,7 +28,7 @@ function SettingsLayout({ activeTab, children, route }: SettingsLayoutProps) {
 
           {/* Right content area */}
           <main className="lg:col-span-9" aria-label="Settings content">
-            <div className="container-lined bg-white rounded-lg" role="region">
+            <div className="container-lined" role="region">
               {children}
             </div>
           </main>
@@ -51,6 +51,7 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
       label: 'Courses',
       href: '/settings/courses',
       showBullet: false,
+      count: 3,
     },
     {
       id: 'community' as SettingsTab,
@@ -63,7 +64,7 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
 
   return (
     <nav aria-label="Settings navigation">
-      <ul className="space-y-0">
+      <ul className="space-y-3">
         {navigationItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -71,10 +72,10 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
               <ClickTarget
                 url={item.href}
                 className={`
-                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
+                  w-[280px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
                   ${isActive 
-                    ? 'bg-bluedot-lightest text-bluedot-dark border-bluedot-lightest' 
-                    : 'text-bluedot-normal hover:bg-bluedot-lightest border-gray-200'
+                    ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-dark border-[#CCCCCC]' 
+                    : 'text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
@@ -85,7 +86,7 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
                     <span className="text-bluedot-dark" aria-hidden="true">•</span>
                   )}
                   <span className={isActive ? 'font-bold' : ''}>
-                    {item.label}
+                    {item.label}{item.count ? ` (${item.count})` : ''}
                   </span>
                   {item.isNew && (
                     <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold ml-auto" aria-label="New feature">
