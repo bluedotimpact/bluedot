@@ -27,7 +27,7 @@ exports[`StorySection > renders default as expected 1`] = `
         <img
           alt="BlueDot Impact team"
           class="story-section__image max-w-[570px] w-full max-h-[365px] rounded-2xl"
-          src="/images/team/team_1.jpg"
+          src="/images/culture/About-Us_v1.jpg"
         />
         <div
           class="story-section__text-container flex flex-col gap-5"
