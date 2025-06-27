@@ -71,7 +71,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         class="lg:col-span-3"
       >
         <h2
-          class="bluedot-h2 not-prose mb-6 font-semibold text-xl leading-[1.4]"
+          class="bluedot-h2 not-prose mb-6 font-semibold text-size-lg leading-[1.4]"
         >
           Settings
         </h2>
@@ -79,14 +79,14 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           aria-label="Settings navigation"
         >
           <ul
-            class="space-y-3"
+            class="space-y-1"
           >
             <li>
               <a
                 aria-label="Account settings"
                 class="
-                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
-                  bg-[rgba(0,85,255,0.08)] text-bluedot-dark border-[#CCCCCC]
+                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
                 "
                 href="/settings/account"
                 tabindex="0"
@@ -94,17 +94,11 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                 <span
                   class="flex items-center gap-3 w-full"
                 >
-                  <span
-                    aria-hidden="true"
-                    class="text-bluedot-dark"
-                  >
-                    •
-                  </span>
-                  <span
-                    class="font-bold"
+                  <p
+                    class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-semibold"
                   >
                     Account
-                  </span>
+                  </p>
                 </span>
               </a>
             </li>
@@ -112,8 +106,8 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Courses settings"
                 class="
-                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
-                  text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]
+                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
                 "
                 href="/settings/courses"
                 tabindex="0"
@@ -121,12 +115,11 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                 <span
                   class="flex items-center gap-3 w-full"
                 >
-                  <span
-                    class=""
+                  <p
+                    class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-normal"
                   >
                     Courses
-                     (3)
-                  </span>
+                  </p>
                 </span>
               </a>
             </li>
@@ -134,8 +127,8 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Community settings (New feature)"
                 class="
-                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
-                  text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]
+                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
                 "
                 href="/settings/community"
                 tabindex="0"
@@ -143,14 +136,15 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                 <span
                   class="flex items-center gap-3 w-full"
                 >
-                  <span
-                    class=""
+                  <p
+                    class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-normal"
                   >
                     Community
-                  </span>
+                  </p>
                   <span
                     aria-label="New feature"
-                    class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold ml-auto"
+                    class="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold"
+                    style="background-color: rgba(0, 85, 255, 0.08); color: #0037FF; font-family: Roobert, Inter, sans-serif;"
                   >
                     NEW
                   </span>
