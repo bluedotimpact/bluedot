@@ -56,7 +56,7 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
 ### Key Components
 
 - **apps/website**: Main user-facing application (what users see when visiting bluedot.org)
-- **library/ui**: Shared React components following Bluedot branding
+- **libraries/ui**: Shared React components following Bluedot branding
 - **apps/storybook**: Component documentation and visual testing
 - **apps/login**: Keycloak integration
 
@@ -585,7 +585,7 @@ Drawbacks:
 
 ### Usage Guidelines
 
-All components in `library/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
+All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
 
 ---
 
