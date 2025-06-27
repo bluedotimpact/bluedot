@@ -410,18 +410,6 @@ describe('UserProfile', () => {
 });
 ```
 
-**Query Priority (Test Like a User)**:
-```tsx
-// ✅ PREFERRED - How users interact (in order of preference)
-getByRole('button', { name: 'Save Changes' })  // With aria-label
-getByLabelText('Email Address')
-getByText('Welcome back!')
-
-// ⚠️ AVOID - Implementation details
-getByTestId('save-button')  // Only for dynamic content
-container.querySelector('.btn-primary')  // Never use
-```
-
 ### 4.2 Backend Standards
 
 #### API Design
