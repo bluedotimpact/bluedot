@@ -1,22 +1,18 @@
 import {
-  beforeEach,
   describe,
   expect,
   test,
-  vi,
 } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import SettingsLayout from './SettingsLayout';
 import { ROUTES } from '../../lib/routes';
-
 
 describe('SettingsLayout', () => {
   test('renders complete layout structure with correct active tab', () => {
     const { container } = render(
       <SettingsLayout activeTab="account" route={ROUTES.settingsAccount}>
         <div>Test Content</div>
-      </SettingsLayout>
+      </SettingsLayout>,
     );
 
     // Snapshot only covers Settings side bar menu and main content changing
@@ -27,7 +23,7 @@ describe('SettingsLayout', () => {
     const { rerender } = render(
       <SettingsLayout activeTab="account" route={ROUTES.settingsAccount}>
         <div>Account Settings Content</div>
-      </SettingsLayout>
+      </SettingsLayout>,
     );
 
     // Verify account content renders
@@ -38,7 +34,7 @@ describe('SettingsLayout', () => {
     rerender(
       <SettingsLayout activeTab="courses" route={ROUTES.settingsCourses}>
         <div>Courses Settings Content</div>
-      </SettingsLayout>
+      </SettingsLayout>,
     );
 
     // Verify courses content renders
@@ -49,7 +45,7 @@ describe('SettingsLayout', () => {
     rerender(
       <SettingsLayout activeTab="community" route={ROUTES.settingsCommunity}>
         <div>Community Settings Content</div>
-      </SettingsLayout>
+      </SettingsLayout>,
     );
 
     // Verify community content renders

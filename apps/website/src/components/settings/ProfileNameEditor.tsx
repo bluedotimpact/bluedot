@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Input,
@@ -8,12 +8,12 @@ import { P } from '../Text';
 import { meRequestBodySchema } from '../../lib/schemas/user/me.schema';
 import { parseZodValidationError } from '../../lib/utils';
 
-interface ProfileNameEditorProps {
+type ProfileNameEditorProps = {
   initialName: string;
   authToken: string;
-}
+};
 
-function ProfileNameEditor({ initialName, authToken }: ProfileNameEditorProps) {
+const ProfileNameEditor = ({ initialName, authToken }: ProfileNameEditorProps) => {
   const [tempName, setTempName] = useState(initialName);
   const [isSaving, setIsSaving] = useState(false);
   const [nameError, setNameError] = useState('');
@@ -128,8 +128,8 @@ function ProfileNameEditor({ initialName, authToken }: ProfileNameEditorProps) {
           )}
         </div>
         {nameError && (
-          <p 
-            className="text-red-600 text-size-sm mt-1" 
+          <p
+            className="text-red-600 text-size-sm mt-1"
             id="profile-name-error"
             role="alert"
             aria-live="polite"
@@ -140,6 +140,6 @@ function ProfileNameEditor({ initialName, authToken }: ProfileNameEditorProps) {
       </div>
     </div>
   );
-}
+};
 
 export default ProfileNameEditor;

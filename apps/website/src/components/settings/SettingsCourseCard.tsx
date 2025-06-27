@@ -14,10 +14,10 @@ import { H2, P } from '../Text';
 import SocialShare from '../courses/SocialShare';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 
-interface SettingsCourseCardProps {
+type SettingsCourseCardProps = {
   course: typeof courseTable.pg.$inferSelect;
   courseRegistration: typeof courseRegistrationTable.pg.$inferSelect;
-}
+};
 
 const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseRegistration }) => {
   const isCompleted = !!courseRegistration.certificateId;
@@ -26,12 +26,12 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
   ).toLocaleDateString(undefined, { dateStyle: 'long' });
 
   return (
-    <div 
+    <div
       className="container-lined overflow-hidden bg-white"
       aria-label={`Course card for ${course.title}`}
     >
       {/* Status banner */}
-      <div 
+      <div
         className={`px-6 py-3 text-sm flex items-center justify-between ${
           isCompleted ? 'bg-green-100 text-green-800' : 'bg-bluedot-lighter text-bluedot-dark'
         }`}
@@ -55,7 +55,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
             <H2 className="text-size-lg" id={`course-title-${course.id}`}>{course.title}</H2>
 
             {course.description && (
-              <MarkdownExtendedRenderer 
+              <MarkdownExtendedRenderer
                 className="text-gray-600 line-clamp-2"
                 aria-describedby={`course-title-${course.id}`}
               >
@@ -71,16 +71,16 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
 
             {isCompleted && (
             <div className="flex flex-col gap-2" role="navigation" aria-label="Course completion actions">
-              <ClickTarget 
-                url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)} 
+              <ClickTarget
+                url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)}
                 className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
                 aria-label="View your certificate for this completed course"
               >
                 <FaAward size={18} className="mr-2" aria-hidden="true" />
                 View your certificate
               </ClickTarget>
-              <ClickTarget 
-                url={course.path} 
+              <ClickTarget
+                url={course.path}
                 className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
                 aria-label="Browse course materials for this completed course"
               >
@@ -117,9 +117,9 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
       {/* Continue learning button */}
       {!isCompleted && (
       <div className="bg-stone-50 p-6">
-        <CTALinkOrButton 
-          url={course.path} 
-          variant="primary" 
+        <CTALinkOrButton
+          url={course.path}
+          variant="primary"
           className="w-full"
           aria-label={`Continue learning ${course.title}`}
         >

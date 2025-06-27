@@ -55,12 +55,12 @@ describe('ProfileNameEditor', () => {
 
   test('should render with initial name correctly', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const nameInput = getNameInput(container);
     expect(nameInput.value).toBe('John Doe');
-    
+
     // Initially no buttons should be shown
     expect(getNameSaveButton(container)).not.toBeInTheDocument();
     expect(getNameCancelButton(container)).not.toBeInTheDocument();
@@ -70,11 +70,11 @@ describe('ProfileNameEditor', () => {
     mockedAxios.patch.mockResolvedValueOnce({ data: { success: true } });
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const input = getNameInput(container);
-    
+
     // Change the name
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
 
@@ -109,7 +109,7 @@ describe('ProfileNameEditor', () => {
 
   test('should show validation error for names exceeding maximum length', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const input = getNameInput(container);
@@ -134,7 +134,7 @@ describe('ProfileNameEditor', () => {
 
   test('should not show buttons when name matches original', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const input = getNameInput(container);
@@ -159,7 +159,7 @@ describe('ProfileNameEditor', () => {
 
   test('should handle API errors gracefully', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const input = getNameInput(container);
@@ -218,12 +218,12 @@ describe('ProfileNameEditor', () => {
 
   test('should show loading state while saving', async () => {
     // Mock a delayed response
-    mockedAxios.patch.mockImplementation(() => 
-      new Promise(resolve => setTimeout(() => resolve({ data: { success: true } }), 100))
-    );
+    mockedAxios.patch.mockImplementation(() => new Promise((resolve) => {
+      setTimeout(() => resolve({ data: { success: true } }), 100);
+    }));
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />
+      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
     );
 
     const input = getNameInput(container);

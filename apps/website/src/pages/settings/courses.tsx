@@ -6,8 +6,6 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import React from 'react';
-import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import { GetUserResponse } from '../api/users/me';
 import { GetCourseRegistrationsResponse } from '../api/course-registrations';
 import { GetCoursesResponse } from '../api/courses';
@@ -18,7 +16,7 @@ import SettingsCourseCard from '../../components/settings/SettingsCourseCard';
 
 const CURRENT_ROUTE = ROUTES.settingsCourses;
 
-function CoursesSettingsPage({ auth }: { auth: { token: string } }) {
+const CoursesSettingsPage = ({ auth }: { auth: { token: string } }) => {
   const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
@@ -44,9 +42,9 @@ function CoursesSettingsPage({ auth }: { auth: { token: string } }) {
       )}
     </div>
   );
-}
+};
 
-function CoursesList({ authToken }: { authToken: string }) {
+const CoursesList = ({ authToken }: { authToken: string }) => {
   const [{ data: courseRegistrationsData, loading: courseRegistrationsLoading, error: courseRegistrationsError }] = useAxios<GetCourseRegistrationsResponse>({
     method: 'get',
     url: '/api/course-registrations',
@@ -103,7 +101,6 @@ function CoursesList({ authToken }: { authToken: string }) {
       )}
     </>
   );
-}
-
+};
 
 export default withAuth(CoursesSettingsPage);

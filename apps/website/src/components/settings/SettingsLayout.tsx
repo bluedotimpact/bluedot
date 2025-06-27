@@ -1,28 +1,27 @@
 import React from 'react';
 import { ClickTarget, NewText, BluedotRoute } from '@bluedot/ui';
-import { H2 } from '../Text';
 import clsx from 'clsx';
+import { H2 } from '../Text';
 
 type SettingsTab = 'account' | 'courses' | 'community';
 
-interface SettingsLayoutProps {
+type SettingsLayoutProps = {
   activeTab: SettingsTab;
   children: React.ReactNode;
   route: BluedotRoute;
-}
+};
 
-function SettingsLayout({ activeTab, children, route }: SettingsLayoutProps) {
-
+const SettingsLayout = ({ activeTab, children, route }: SettingsLayoutProps) => {
   return (
     <>
       {/* Breadcrumbs */}
       <SettingsBreadcrumbs route={route} />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left sidebar navigation */}
           <aside className="lg:col-span-3" aria-label="Settings sidebar">
-            <H2 className="mb-6 font-semibold text-xl leading-[1.4]">Settings</H2>
+            <H2 className="mb-6 font-semibold text-size-xl leading-[1.4]">Settings</H2>
             <SettingsNavigation activeTab={activeTab} />
           </aside>
 
@@ -36,9 +35,9 @@ function SettingsLayout({ activeTab, children, route }: SettingsLayoutProps) {
       </div>
     </>
   );
-}
+};
 
-function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
+const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
   const navigationItems = [
     {
       id: 'account' as SettingsTab,
@@ -69,9 +68,9 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
                 url={item.href}
                 className={`
                   w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                  ${isActive 
-                    ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold' 
-                    : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
+                  ${isActive
+                  ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold'
+                  : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
@@ -82,12 +81,12 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
                     {item.label}
                   </NewText.P>
                   {item.isNew && (
-                    <span 
-                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold" 
-                      style={{ 
-                        backgroundColor: 'rgba(0, 85, 255, 0.08)', 
+                    <span
+                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold"
+                      style={{
+                        backgroundColor: 'rgba(0, 85, 255, 0.08)',
                         color: '#0037FF',
-                        fontFamily: 'Roobert, Inter, sans-serif'
+                        fontFamily: 'Roobert, Inter, sans-serif',
                       }}
                       aria-label="New feature"
                     >
@@ -102,9 +101,9 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
       </ul>
     </nav>
   );
-}
+};
 
-function SettingsBreadcrumbs({ route }: { route: BluedotRoute }) {
+const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
   const breadcrumbItems = [...(route.parentPages ?? []), route];
 
   return (
@@ -118,11 +117,11 @@ function SettingsBreadcrumbs({ route }: { route: BluedotRoute }) {
             const isLast = index === breadcrumbItems.length - 1;
             return (
               <li key={item.url} className="breadcrumbs__item flex items-center">
-                <NewText.A 
+                <NewText.A
                   className={clsx(
-                    "breadcrumbs__link no-underline",
-                    isLast && "opacity-50"
-                  )} 
+                    'breadcrumbs__link no-underline',
+                    isLast && 'opacity-50',
+                  )}
                   href={item.url}
                   aria-current={isLast ? 'page' : undefined}
                 >
@@ -138,6 +137,6 @@ function SettingsBreadcrumbs({ route }: { route: BluedotRoute }) {
       </nav>
     </div>
   );
-}
+};
 
 export default SettingsLayout;

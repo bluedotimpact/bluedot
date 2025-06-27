@@ -5,16 +5,15 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
-import React from 'react';
 import { GetUserResponse } from '../api/users/me';
 import { ROUTES } from '../../lib/routes';
-import { H3, P } from '../../components/Text';
+import { P } from '../../components/Text';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import ProfileNameEditor from '../../components/settings/ProfileNameEditor';
 
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
-function AccountSettingsPage({ auth }: { auth: { token: string } }) {
+const AccountSettingsPage = ({ auth }: { auth: { token: string } }) => {
   const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
@@ -33,15 +32,15 @@ function AccountSettingsPage({ auth }: { auth: { token: string } }) {
       {userData?.user && (
         <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
           <div className="p-8">
-            
+
             {/* Profile Name Editor */}
-            <ProfileNameEditor 
-              initialName={userData.user.name} 
-              authToken={auth.token} 
+            <ProfileNameEditor
+              initialName={userData.user.name}
+              authToken={auth.token}
             />
 
             {/* Divider */}
-            <div className="border-t border-color-divider my-6"></div>
+            <div className="border-t border-color-divider my-6" />
 
             {/* Email Section */}
             <div>
@@ -53,6 +52,6 @@ function AccountSettingsPage({ auth }: { auth: { token: string } }) {
       )}
     </div>
   );
-}
+};
 
 export default withAuth(AccountSettingsPage);
