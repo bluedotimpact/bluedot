@@ -136,7 +136,7 @@ This is particularly helpful when you're modifying course components and want to
 ### Common Issues & Solutions
 
 #### PG_URL Required Error
-**Problem**: Created a branch where PG_URL is required but development experience isn't finalized. If you're a contractor, just as for PG_URL from Joshua.
+**Problem**: Created a branch where PG_URL is required but development experience isn't finalized. If you're a contractor, just ask for PG_URL from Joshua.
 **Workaround?**: Use an older master branch where PG_URL isn't required yet (temporary solution until #1060 is complete)
 
 #### Airtable Performance (FYI)
