@@ -17,8 +17,7 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
 - [ ] Read Section 4: Development Standards
 
 ### Philosophy
-*From Martin*: Practicality - get 80% of the benefit for 20% of the extra work. Always ask: What specific problem does this solve, and is this the best way to solve it?
-
+*From Martin*: Practicality - get 80% of the benefit for 20% of the extra work.
 ---
 
 ## 1. Table of Contents
@@ -42,16 +41,16 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
 ### System Architecture
 
 ```
-┌─────────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Next.js Frontend  │────▶│     Airtable     │────▶│   PostgreSQL    │
-│   (apps/website)    │     │  (Source of Truth)│     │   (Read Replica) │
-└─────────────────────┘     └──────────────────┘     └─────────────────┘
-         │                            │                         │
-         │                            ▼                         │
-         │                    ┌──────────────────┐            │
-         └───────────────────────────▶│     Keycloak     │◀───────────┘
-                              │ (Authentication)  │
-                              └──────────────────┘
+╔═════════════╗     ╔═════════════╗     ╔═════════════╗
+║   Browser   ║────►║   Next.js   ║────►║  Airtable   ║
+║             ║     ║   Website   ║     ║   (Write)   ║
+╚═════════════╝     ╚══════╤══════╝     ╚══════╤══════╝
+                           │                   │
+                           ▼                   ▼
+                    ╔═════════════╗     ╔═════════════╗
+                    ║ PostgreSQL  ║◄────║ Replication ║
+                    ║   (Read)    ║     ║   Service   ║
+                    ╚═════════════╝     ╚═════════════╝
 ```
 
 ### Key Components
@@ -120,11 +119,25 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
    npm run dev
    ```
 
+### Test Resources
+
+#### Test Course
+Every user is automatically enrolled in a test course that can be accessed at:
+- **URL**: http://bluedot.org/courses/test-course
+
+This is particularly helpful when you're modifying course components and want to see how they look without needing to enroll in a specific course or manipulate test data.
+
+**Use cases**:
+- Testing course UI components
+- Verifying course navigation flow
+- Testing course-specific features without affecting real courses
+- Quick visual checks during development
+
 ### Common Issues & Solutions
 
 #### PG_URL Required Error
-**Problem**: Created a branch where PG_URL is required but development experience isn't finalized  
-**Workaround**: Use an older master branch where PG_URL isn't required yet (temporary solution until #1060 is complete)
+**Problem**: Created a branch where PG_URL is required but development experience isn't finalized. If you're a contractor, just as for PG_URL from Joshua.
+**Workaround?**: Use an older master branch where PG_URL isn't required yet (temporary solution until #1060 is complete)
 
 #### Airtable Performance (FYI)
 **Context**: 
@@ -254,11 +267,7 @@ The following practices make your components easily testable by allowing React T
 - [ ] All interactive elements have accessible names (aria-label or visible text)
 - [ ] Form inputs have associated labels or aria-labels
 - [ ] Buttons have aria-labels if text isn't descriptive enough
-- [ ] Images have alt text (empty string for decorative images)
 - [ ] Use semantic HTML elements (button, nav, main, etc.) over generic divs
-- [ ] Test keyboard navigation works for all interactive elements
-- [ ] Ensure focus indicators are visible
-- [ ] Use ARIA roles only when semantic HTML isn't sufficient
 
 **Testing Query Priority (Simplified)**
 
@@ -422,18 +431,11 @@ container.querySelector('.btn-primary')  // Never use
 
 **File Naming Convention**:
 - New routes should use `index.ts`
-- Files like `api/users/me.ts` are "most likely just a bug and probably need to be refactored"
-
-**Proper Structure**:
-```
-pages/api/
-  users/
-    index.ts
-  courses/
-    index.ts
-```
+- Files like `api/users/me.ts` should probably just be index.ts
 
 #### Validation
+
+**⚠️ Note**: The previous team questioned the maintenance work of keeping separate Zod schemas and preferred to just validate on the backend. However, Martin's opinion is to have the shared schema that both frontend and backend can use.
 
 **Shared Validation with Zod**:
 - Place schemas in `website/src/lib/schemas`
@@ -448,8 +450,6 @@ const schema = z.object({
 });
 ```
 
-**⚠️ Note**: The previous team questioned the maintenance work of keeping separate Zod schemas and preferred to just validate on the backend. However, Martin's opinion is to have the shared schema that both frontend and backend can use.
-
 #### Testing Backend
 
 **Current State**: We don't test the backend - only frontend tests that mock API requests.
@@ -457,8 +457,6 @@ const schema = z.object({
 **Martin's Opinion**: 
 - Prefers integration tests using real services
 - Creating local Airtable might not be accurate or worth it
-
-**Open Question**: How should testing be done since we develop with the production database? 
 
 Adam's proposal: "I think now we have everything flowing through @bluedot/db it should be fairly possible to have a fake in-memory db for tests (either something simple our own, or something like PGlite if we want to properly support pg queries)?"
 
@@ -609,13 +607,13 @@ All components in `library/ui` follow Bluedot branding. **Always reuse these com
 - Update version in: `apps/login/tools/getBluedotKeycloakTheme.sh`
 
 #### Postgres Deployment
-- *[To be filled by Adam Jones]*
+- Undocumented
 
 ### Authentication
 - Production Keycloak instance for auth/password management
 - No password info stored in Airtable
 - Can run locally through "login" app
-- Custom theme available
+- Custom theme available in bluedot-keycloak-theme repo which can be used instead of the "login" app
 
 ---
 
@@ -660,4 +658,4 @@ A: Currently requires production Airtable. Local setup is a known limitation.
 
 This is a living document meant to capture our actual practices and ongoing discussions. Feel free to add comments and suggestions!
 
-*Currently maintained by Martin*
+*Currently maintained by Martin but go ahead and make PRs*
