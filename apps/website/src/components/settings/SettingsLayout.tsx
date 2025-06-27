@@ -21,7 +21,7 @@ const SettingsLayout = ({ activeTab, children, route }: SettingsLayoutProps) => 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left sidebar navigation */}
           <aside className="lg:col-span-3" aria-label="Settings sidebar">
-            <H2 className="mb-6 font-semibold text-size-xl leading-[1.4]">Settings</H2>
+            <H2 className="mb-6 font-semibold text-size-lg leading-[1.4]">Settings</H2>
             <SettingsNavigation activeTab={activeTab} />
           </aside>
 
