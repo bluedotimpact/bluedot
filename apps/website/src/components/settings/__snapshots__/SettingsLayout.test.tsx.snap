@@ -143,8 +143,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   </p>
                   <span
                     aria-label="New feature"
-                    class="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold"
-                    style="background-color: rgba(0, 85, 255, 0.08); color: #0037FF; font-family: Roobert, Inter, sans-serif;"
+                    class="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold bg-[rgba(0,85,255,0.08)] text-[#0037FF]"
                   >
                     NEW
                   </span>
