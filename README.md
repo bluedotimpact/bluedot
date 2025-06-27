@@ -10,7 +10,7 @@ This monorepo contains code for most of [BlueDot Impact](https://bluedot.org/)'s
 - [Get started](#get-started)
 - [Developer setup instructions](#developer-setup-instructions)
   - [Background knowledge to contribute](#background-knowledge-to-contribute)
-  - [For detailed development patterns, standards, and best practices, see our [Development Handbook](./DEVELOPMENT_HANDBOOK.md).](#for-detailed-development-patterns-standards-and-best-practices-see-our-development-handbookmd)
+  - [Development Handbook](./DEVELOPMENT_HANDBOOK.md)
   - [\[15 mins\] One-off setup](#15-mins-one-off-setup)
   - [Making contributions](#making-contributions)
 - [Guide: Adding a new app](#guide-adding-a-new-app)
