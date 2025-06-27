@@ -22,7 +22,7 @@ function SettingsLayout({ activeTab, children, route }: SettingsLayoutProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left sidebar navigation */}
           <aside className="lg:col-span-3" aria-label="Settings sidebar">
-            <H2 className="mb-6">Settings</H2>
+            <H2 className="mb-6 font-semibold text-xl leading-[1.4]">Settings</H2>
             <SettingsNavigation activeTab={activeTab} />
           </aside>
 
@@ -63,7 +63,7 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
 
   return (
     <nav aria-label="Settings navigation">
-      <ul className="space-y-1">
+      <ul className="space-y-0">
         {navigationItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -71,16 +71,16 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
               <ClickTarget
                 url={item.href}
                 className={`
-                  block px-4 py-2 rounded-md transition-colors
+                  w-[200px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
                   ${isActive 
-                    ? 'bg-bluedot-lightest text-bluedot-dark' 
-                    : 'text-bluedot-normal hover:bg-bluedot-lightest'
+                    ? 'bg-bluedot-lightest text-bluedot-dark border-bluedot-lightest' 
+                    : 'text-bluedot-normal hover:bg-bluedot-lightest border-gray-200'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={`${item.label} settings${item.isNew ? ' (New feature)' : ''}`}
               >
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-3 w-full">
                   {isActive && item.showBullet && (
                     <span className="text-bluedot-dark" aria-hidden="true">•</span>
                   )}
@@ -88,7 +88,7 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
                     {item.label}
                   </span>
                   {item.isNew && (
-                    <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold" aria-label="New feature">
+                    <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold ml-auto" aria-label="New feature">
                       NEW
                     </span>
                   )}
@@ -119,7 +119,7 @@ function SettingsBreadcrumbs({ route }: { route: BluedotRoute }) {
                 <NewText.A 
                   className={clsx(
                     "breadcrumbs__link no-underline",
-                    !isLast && "font-bold"
+                    isLast && "opacity-50"
                   )} 
                   href={item.url}
                   aria-current={isLast ? 'page' : undefined}
