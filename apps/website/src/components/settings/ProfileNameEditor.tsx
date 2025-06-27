@@ -87,7 +87,7 @@ function ProfileNameEditor({ initialName, authToken }: ProfileNameEditorProps) {
     <div className="mb-6">
       <div className="flex flex-col gap-2">
         <div id="profile-name-label">
-          <P className="font-semibold">Profile Name</P>
+          <P className="font-semibold">Profile Name*</P>
         </div>
         <div className="flex gap-2 items-center">
           <Input

@@ -44,27 +44,23 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
       id: 'account' as SettingsTab,
       label: 'Account',
       href: '/settings/account',
-      showBullet: true,
     },
     {
       id: 'courses' as SettingsTab,
       label: 'Courses',
       href: '/settings/courses',
-      showBullet: false,
-      count: 3,
     },
     {
       id: 'community' as SettingsTab,
       label: 'Community',
       href: '/settings/community',
-      showBullet: false,
       isNew: true,
     },
   ];
 
   return (
     <nav aria-label="Settings navigation">
-      <ul className="space-y-3">
+      <ul className="space-y-1">
         {navigationItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -72,24 +68,29 @@ function SettingsNavigation({ activeTab }: { activeTab: SettingsTab }) {
               <ClickTarget
                 url={item.href}
                 className={`
-                  w-[280px] h-11 border-b-[0.5px] pt-3 pr-4 pb-3 pl-4 rounded-lg transition-colors flex items-center
+                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   ${isActive 
-                    ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-dark border-[#CCCCCC]' 
-                    : 'text-bluedot-normal hover:bg-[rgba(0,85,255,0.08)] border-[#CCCCCC]'
+                    ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold' 
+                    : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={`${item.label} settings${item.isNew ? ' (New feature)' : ''}`}
               >
                 <span className="flex items-center gap-3 w-full">
-                  {isActive && item.showBullet && (
-                    <span className="text-bluedot-dark" aria-hidden="true">•</span>
-                  )}
-                  <span className={isActive ? 'font-bold' : ''}>
-                    {item.label}{item.count ? ` (${item.count})` : ''}
+                  <span className="text-[13px] leading-[22px] flex-grow">
+                    {item.label}
                   </span>
                   {item.isNew && (
-                    <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold ml-auto" aria-label="New feature">
+                    <span 
+                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold" 
+                      style={{ 
+                        backgroundColor: 'rgba(0, 85, 255, 0.08)', 
+                        color: '#0037FF',
+                        fontFamily: 'Roobert, Inter, sans-serif'
+                      }}
+                      aria-label="New feature"
+                    >
                       NEW
                     </span>
                   )}

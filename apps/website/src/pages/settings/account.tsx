@@ -45,7 +45,7 @@ function AccountSettingsPage({ auth }: { auth: { token: string } }) {
 
             {/* Email Section */}
             <div>
-              <P className="font-semibold mb-2">Email</P>
+              <P className="font-semibold mb-2">Email*</P>
               <P className="text-gray-600">{userData.user.email}</P>
             </div>
           </div>
