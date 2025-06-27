@@ -52,7 +52,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-4">
-            <H2 className="text-size-lg" id={`course-title-${course.id}`}>{course.title}</H2>
+            <H2 className="text-size-lg">{course.title}</H2>
 
             {course.description && (
               <MarkdownExtendedRenderer
