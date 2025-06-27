@@ -17,15 +17,16 @@ const SettingsLayout = ({ activeTab, children, route }: SettingsLayoutProps) => 
       {/* Breadcrumbs */}
       <SettingsBreadcrumbs route={route} />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left sidebar navigation */}
-          <aside className="lg:col-span-3" aria-label="Settings sidebar">
-            <H2 className="mb-6 font-semibold text-size-lg leading-[1.4]">Settings</H2>
+      <div className="container mx-auto px-4 py-6">
+        {/* Mobile and Tablet layout - horizontal navigation */}
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+          {/* Navigation - horizontal on mobile/tablet, sidebar on desktop */}
+          <aside className="lg:col-span-3 mb-6 lg:max-w-[320px]" aria-label="Settings sidebar">
+            <H2 className="mb-4 font-semibold text-size-lg leading-[1.4]">Settings</H2>
             <SettingsNavigation activeTab={activeTab} />
           </aside>
 
-          {/* Right content area */}
+          {/* Content area */}
           <main className="lg:col-span-9" aria-label="Settings content">
             <div className="container-lined" role="region">
               {children}
@@ -59,7 +60,7 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
 
   return (
     <nav aria-label="Settings navigation">
-      <ul className="space-y-1">
+      <ul className="flex gap-2 flex-wrap lg:block lg:space-y-1">
         {navigationItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -67,7 +68,7 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
               <ClickTarget
                 url={item.href}
                 className={`
-                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   ${isActive
                   ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold'
                   : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'

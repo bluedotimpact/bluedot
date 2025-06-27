@@ -61,17 +61,17 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
     </nav>
   </div>
   <div
-    class="container mx-auto px-4 py-8"
+    class="container mx-auto px-4 py-6"
   >
     <div
-      class="grid grid-cols-1 lg:grid-cols-12 gap-8"
+      class="lg:grid lg:grid-cols-12 lg:gap-8"
     >
       <aside
         aria-label="Settings sidebar"
-        class="lg:col-span-3"
+        class="lg:col-span-3 mb-6 lg:max-w-[320px]"
       >
         <h2
-          class="bluedot-h2 not-prose mb-6 font-semibold text-size-lg leading-[1.4]"
+          class="bluedot-h2 not-prose mb-4 font-semibold text-size-lg leading-[1.4]"
         >
           Settings
         </h2>
@@ -79,13 +79,13 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
           aria-label="Settings navigation"
         >
           <ul
-            class="space-y-1"
+            class="flex gap-2 flex-wrap lg:block lg:space-y-1"
           >
             <li>
               <a
                 aria-label="Account settings"
                 class="
-                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
                 "
                 href="/settings/account"
@@ -106,7 +106,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Courses settings"
                 class="
-                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
                 "
                 href="/settings/courses"
@@ -127,7 +127,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
               <a
                 aria-label="Community settings (New feature)"
                 class="
-                  w-[280px] h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
                 "
                 href="/settings/community"
