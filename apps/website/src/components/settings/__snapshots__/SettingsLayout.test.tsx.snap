@@ -1,0 +1,178 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SettingsLayout > renders complete layout structure with correct active tab 1`] = `
+<div>
+  <div
+    class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
+  >
+    <nav
+      aria-label="Breadcrumbs"
+      class="breadcrumbs__nav section-base flex flex-row justify-between"
+    >
+      <ol
+        class="breadcrumbs__list flex"
+      >
+        <li
+          class="breadcrumbs__item flex items-center"
+        >
+          <a
+            class="bluedot-a not-prose breadcrumbs__link no-underline font-bold"
+            href="/"
+            tabindex="0"
+          >
+            Home
+          </a>
+          <span
+            aria-hidden="true"
+            class="breadcrumbs__separator mx-2"
+          >
+            &gt;
+          </span>
+        </li>
+        <li
+          class="breadcrumbs__item flex items-center"
+        >
+          <a
+            class="bluedot-a not-prose breadcrumbs__link no-underline font-bold"
+            href="/settings"
+            tabindex="0"
+          >
+            Settings
+          </a>
+          <span
+            aria-hidden="true"
+            class="breadcrumbs__separator mx-2"
+          >
+            &gt;
+          </span>
+        </li>
+        <li
+          class="breadcrumbs__item flex items-center"
+        >
+          <a
+            class="bluedot-a not-prose breadcrumbs__link no-underline"
+            href="/settings/account"
+            tabindex="0"
+          >
+            Account
+          </a>
+        </li>
+      </ol>
+    </nav>
+  </div>
+  <div
+    class="container mx-auto px-4 py-8"
+  >
+    <div
+      class="grid grid-cols-1 lg:grid-cols-12 gap-8"
+    >
+      <aside
+        aria-label="Settings sidebar"
+        class="lg:col-span-3"
+      >
+        <h2
+          class="bluedot-h2 not-prose mb-6"
+        >
+          Settings
+        </h2>
+        <nav
+          aria-label="Settings navigation"
+        >
+          <ul
+            class="space-y-1"
+          >
+            <li>
+              <a
+                aria-label="Account settings"
+                class="
+                  block px-4 py-2 rounded-md transition-colors
+                  bg-bluedot-lightest text-bluedot-dark
+                "
+                href="/settings/account"
+                tabindex="0"
+              >
+                <span
+                  class="flex items-center gap-2"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="text-bluedot-dark"
+                  >
+                    •
+                  </span>
+                  <span
+                    class="font-bold"
+                  >
+                    Account
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-label="Courses settings"
+                class="
+                  block px-4 py-2 rounded-md transition-colors
+                  text-bluedot-normal hover:bg-bluedot-lightest
+                "
+                href="/settings/courses"
+                tabindex="0"
+              >
+                <span
+                  class="flex items-center gap-2"
+                >
+                  <span
+                    class=""
+                  >
+                    Courses
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                aria-label="Community settings (New feature)"
+                class="
+                  block px-4 py-2 rounded-md transition-colors
+                  text-bluedot-normal hover:bg-bluedot-lightest
+                "
+                href="/settings/community"
+                tabindex="0"
+              >
+                <span
+                  class="flex items-center gap-2"
+                >
+                  <span
+                    class=""
+                  >
+                    Community
+                  </span>
+                  <span
+                    aria-label="New feature"
+                    class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full uppercase font-semibold"
+                  >
+                    NEW
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main
+        aria-label="Settings content"
+        class="lg:col-span-9"
+      >
+        <div
+          class="container-lined bg-white rounded-lg"
+          role="region"
+        >
+          <div>
+            Test Content
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+`;
