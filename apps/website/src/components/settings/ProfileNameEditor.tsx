@@ -40,7 +40,7 @@ const ProfileNameEditor = ({ initialName, authToken }: ProfileNameEditorProps) =
     try {
       await axios.patch(
         '/api/users/me',
-        { name: tempName },
+        { name: trimmedName },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
