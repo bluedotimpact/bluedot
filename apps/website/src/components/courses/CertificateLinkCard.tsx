@@ -17,16 +17,22 @@ type CertificateLinkCardProps = {
 
 const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) => (
   <div className="border-t pt-6">
-    <div className="flex items-center justify-between">
-      {leftContent && <div>{leftContent}</div>}
-      <p className="text-center flex-1 px-4 font-bold">Join 3,245 graduates in our graduate community!</p>
-      <CTALinkOrButton
-        url="https://community.bluedot.org"
-        variant="primary"
-        target="_blank"
-      >
-        Join the Community
-      </CTALinkOrButton>
+    <div className="flex items-center justify-between gap-4">
+      {leftContent ? (
+        <div className="min-w-[160px] flex justify-start">{leftContent}</div>
+      ) : (
+        <div className="min-w-[160px]" />
+      )}
+      <p className="text-center flex-1 font-bold">Join 3,245 graduates in our graduate community!</p>
+      <div className="min-w-[160px] flex justify-end">
+        <CTALinkOrButton
+          url="https://community.bluedot.org"
+          variant="primary"
+          target="_blank"
+        >
+          Join the Community
+        </CTALinkOrButton>
+      </div>
     </div>
   </div>
 );
@@ -44,15 +50,16 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
         className="container-lined p-8 bg-white"
       >
         <div className="mt-8">
-          <CommunitySection 
-            leftContent={
+          <CommunitySection
+            leftContent={(
               <CTALinkOrButton
                 url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
                 variant="primary"
+                className="w-full"
               >
                 Log in
               </CTALinkOrButton>
-            }
+            )}
           />
         </div>
       </Card>
@@ -179,16 +186,17 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
       className="container-lined p-8 bg-white"
     >
       <div className="mt-8">
-        <CommunitySection 
-          leftContent={
+        <CommunitySection
+          leftContent={(
             <CTALinkOrButton
               variant="primary"
               onClick={requestCertificate}
               disabled={certificateRequestLoading}
+              className="w-full"
             >
               Request Certificate
             </CTALinkOrButton>
-          }
+          )}
         />
       </div>
     </Card>
