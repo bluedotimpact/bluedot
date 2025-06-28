@@ -31,7 +31,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  const unit = await db.get(unitTable, { courseSlug, unitNumber });
+  const unit = await db.get(unitTable, { courseSlug, unitNumber, unitStatus: 'Active' });
 
   // Get unit resources and filter for Core/Further, then sort
   const allUnitResources = await db.scan(unitResourceTable, { unitId: unit.id });
