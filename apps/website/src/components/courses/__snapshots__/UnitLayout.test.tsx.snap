@@ -4,6 +4,12 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
+      aria-atomic="true"
+      aria-live="polite"
+      class="absolute -left-[10000px] size-px overflow-hidden"
+      role="status"
+    />
+    <div
       class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
     >
       <nav
@@ -62,8 +68,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous"
-            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
             disabled=""
+            title="Navigate to previous section (use ← arrow key)"
             type="button"
           >
             <svg
@@ -84,7 +91,8 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next"
-            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            class="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            title="Navigate to next section (use → arrow key)"
             type="button"
           >
             Next 
@@ -114,7 +122,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       >
         <button
           aria-label="Previous unit"
-          class="bluedot-a not-prose mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          class="bluedot-a not-prose mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
           disabled=""
           type="button"
         >
@@ -149,7 +157,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         </div>
         <button
           aria-label="Next unit"
-          class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50"
+          class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
           type="button"
         >
           <img
@@ -407,6 +415,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             <div
               class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
             />
+            <div
+              class="unit__keyboard-hint text-size-xs text-color-secondary mt-4"
+            >
+              <p>
+                Tip: Use arrow keys (← →) to navigate between sections
+              </p>
+            </div>
             <div
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
             >
