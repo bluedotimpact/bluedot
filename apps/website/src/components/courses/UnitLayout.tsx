@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
@@ -53,7 +53,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3', className)}>
       <nav className="mobile-unit-header__nav flex flex-row justify-between">
-        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isFirstChunk && !prevUnit} onClick={onPrevClick} aria-label="Previous unit">
+        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2" disabled={isFirstChunk && !prevUnit} onClick={onPrevClick} aria-label="Previous unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
         </A>
         <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
@@ -63,7 +63,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
           </div>
         </div>
-        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
+        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
           <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
         </A>
       </nav>
@@ -79,6 +79,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 }) => {
   const router = useRouter();
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
+  const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const isFirstChunk = currentChunkIndex === 0;
@@ -98,34 +99,80 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     }
   }, [router.query.chunk, chunks.length]);
 
-  const handleChunkSelect = (index: number) => {
+  const handleChunkSelect = useCallback((index: number) => {
     setCurrentChunkIndex(index);
     router.push({
       pathname: router.pathname,
       query: { ...router.query, chunk: index },
     }, undefined, { shallow: true });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
-  const handlePrevClick = () => {
+    // Announce navigation for screen readers
+    const chunkTitle = chunks[index]?.chunkTitle || 'content';
+    setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
+  }, [router, chunks]);
+
+  const handlePrevClick = useCallback(() => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       router.push(`${prevUnit.path}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
+      setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(currentChunkIndex - 1);
     }
-  };
+  }, [isFirstChunk, chunks.length, prevUnit, currentChunkIndex, router, handleChunkSelect]);
 
-  const handleNextClick = () => {
+  const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
       router.push(`${nextUnit.path}?chunk=0`);
+      setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
       handleChunkSelect(currentChunkIndex + 1);
     }
-  };
+  }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect]);
+
+  // Handle keyboard navigation with arrow keys
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ignore if user is typing in an input
+      const { activeElement } = document;
+      if (activeElement && (
+        activeElement.tagName === 'INPUT'
+        || activeElement.tagName === 'TEXTAREA'
+        || activeElement.getAttribute('contenteditable') === 'true'
+      )) {
+        return;
+      }
+
+      // Ignore if modifier keys are pressed
+      if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          handlePrevClick();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          handleNextClick();
+          break;
+        default:
+          // Ignore other keys
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handlePrevClick, handleNextClick]);
 
   if (!unit || unitArrIndex === -1) {
     // Should never happen
@@ -139,6 +186,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <meta name="description" content={unit.title} />
       </Head>
 
+      {/* Aria live region for screen reader announcements */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="absolute -left-[10000px] size-px overflow-hidden"
+      >
+        {navigationAnnouncement}
+      </div>
+
       <Breadcrumbs
         className="unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
         route={{
@@ -150,19 +207,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <div className="unit__breadcrumbs-cta-container flex flex-row items-center gap-6">
           <button
             type="button"
-            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
             disabled={isFirstChunk && !prevUnit}
             onClick={handlePrevClick}
             aria-label="Previous"
+            title="Navigate to previous section (use ← arrow key)"
           >
             <FaArrowLeft className="size-3" /> Prev
           </button>
           <button
             type="button"
-            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed"
+            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
             disabled={isLastChunk && !nextUnit}
             onClick={handleNextClick}
             aria-label="Next"
+            title="Navigate to next section (use → arrow key)"
           >
             Next <FaArrowRight className="size-3" />
           </button>
@@ -199,6 +258,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <MarkdownExtendedRenderer>
               {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
+
+            {/* Keyboard navigation hint */}
+            <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
+              <p>Tip: Use arrow keys (← →) to navigate between sections</p>
+            </div>
 
             {isLastChunk && (
               <UnitFeedback unit={unit} />
