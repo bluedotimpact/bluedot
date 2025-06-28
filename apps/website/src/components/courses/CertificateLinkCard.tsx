@@ -15,14 +15,16 @@ type CertificateLinkCardProps = {
   courseId: string;
 };
 
-const CommunitySection = () => (
+const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) => (
   <div className="border-t pt-6">
-    <Card
-      title="Join 3,245 graduates in our graduate community!"
-      className="pt-3"
-      isFullWidth
-    >
-      <div className="flex items-center gap-4">
+    <div className="flex items-center justify-between gap-4">
+      {leftContent ? (
+        <div className="min-w-[160px] flex justify-start">{leftContent}</div>
+      ) : (
+        <div className="min-w-[160px]" />
+      )}
+      <p className="text-center flex-1 font-bold">Join 3,245 graduates in our graduate community!</p>
+      <div className="min-w-[160px] flex justify-end">
         <CTALinkOrButton
           url="https://community.bluedot.org"
           variant="primary"
@@ -31,7 +33,7 @@ const CommunitySection = () => (
           Join the Community
         </CTALinkOrButton>
       </div>
-    </Card>
+    </div>
   </div>
 );
 
@@ -47,13 +49,19 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
         subtitle="Create a free account to collect course certificates."
         className="container-lined p-8 bg-white"
       >
-        <CTALinkOrButton
-          url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
-          variant="primary"
-        >
-          Log in
-        </CTALinkOrButton>
-        <CommunitySection />
+        <div className="mt-8">
+          <CommunitySection
+            leftContent={(
+              <CTALinkOrButton
+                url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
+                variant="primary"
+                className="w-full"
+              >
+                Log in
+              </CTALinkOrButton>
+            )}
+          />
+        </div>
       </Card>
     );
   }
@@ -133,24 +141,22 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
         className="container-lined p-8 bg-white"
       >
         <div className="flex flex-col gap-8">
-          <div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg">
-                  <FaAward size={24} className="text-bluedot-normal" />
-                </div>
-                <div>
-                  <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
-                  <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
-                </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg">
+                <FaAward size={24} className="text-bluedot-normal" />
               </div>
-              <CTALinkOrButton
-                url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
-                variant="primary"
-              >
-                View Certificate
-              </CTALinkOrButton>
+              <div>
+                <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
+                <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
+              </div>
             </div>
+            <CTALinkOrButton
+              url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
+              variant="primary"
+            >
+              View Certificate
+            </CTALinkOrButton>
           </div>
 
           <CommunitySection />
@@ -179,14 +185,20 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
       subtitle="If you've completed all the course exercises, you're eligible for a free course certificate."
       className="container-lined p-8 bg-white"
     >
-      <CTALinkOrButton
-        variant="primary"
-        onClick={requestCertificate}
-        disabled={certificateRequestLoading}
-      >
-        Request Certificate
-      </CTALinkOrButton>
-      <CommunitySection />
+      <div className="mt-8">
+        <CommunitySection
+          leftContent={(
+            <CTALinkOrButton
+              variant="primary"
+              onClick={requestCertificate}
+              disabled={certificateRequestLoading}
+              className="w-full"
+            >
+              Request Certificate
+            </CTALinkOrButton>
+          )}
+        />
+      </div>
     </Card>
   );
 };
