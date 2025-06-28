@@ -11,7 +11,7 @@ Fixes #
 ## Developer checklist
 
 - [ ] Front-end code follows [Component Accessibility Checklist](../DEVELOPMENT_HANDBOOK.md#component-accessibility-checklist-for-testing)
-- [ ] For the frontend, considered having snapshot tests or happy path functional tests
+- [ ] Considered having snapshot tests and/or happy path functional tests
 - [ ] Considered adding Storybook stories
 
 <!-- You might also want to check the tests locally with `npm run test`, although CI will check this for you -->
