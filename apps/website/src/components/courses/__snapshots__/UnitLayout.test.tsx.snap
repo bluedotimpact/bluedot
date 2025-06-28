@@ -6,7 +6,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
     <div
       aria-atomic="true"
       aria-live="polite"
-      class="absolute -left-[10000px] w-px h-px overflow-hidden"
+      class="absolute -left-[10000px] size-px overflow-hidden"
       role="status"
     />
     <div
