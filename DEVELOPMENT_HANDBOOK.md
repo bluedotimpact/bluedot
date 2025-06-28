@@ -329,7 +329,7 @@ getByTestId('save-button')  // Only for dynamic content
 container.querySelector('.btn-primary')  // Never use
 ```
 
-**Good for Every Component**:
+**Consider for Every Component**:
 
 The general idea is that you get how it's supposed to look from a snapshot test, then you confirm that it does what it should through functional tests.
 
