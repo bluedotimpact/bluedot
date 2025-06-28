@@ -291,6 +291,10 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
     courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
   ).toLocaleDateString(undefined, { dateStyle: 'long' });
 
+  const continueUrl = courseRegistration.lastVisitedUnitNumber !== null && courseRegistration.lastVisitedChunkIndex !== null
+    ? `${course.path}/${courseRegistration.lastVisitedUnitNumber}?chunk=${courseRegistration.lastVisitedChunkIndex}`
+    : course.path;
+
   return (
     <div className="container-lined overflow-hidden bg-white">
       {/* Status banner */}
@@ -363,7 +367,7 @@ const ProfileCourseCard: React.FC<ProfileCourseCardProps> = ({ course, courseReg
       {/* Continue learning button */}
       {!isCompleted && (
       <div className="bg-stone-50 p-6">
-        <CTALinkOrButton url={course.path} variant="primary" className="w-full">
+        <CTALinkOrButton url={continueUrl} variant="primary" className="w-full">
           Continue learning
         </CTALinkOrButton>
       </div>
