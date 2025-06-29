@@ -264,10 +264,13 @@ The `parseZodValidationError` function from `lib/utils.ts` parses backend error 
 
 The following practices make your components easily testable by allowing React Testing Library to find elements the way users would:
 
-- [ ] All interactive elements have accessible names (aria-label or visible text)
-- [ ] Form inputs have associated labels or aria-labels
-- [ ] Buttons have aria-labels if text isn't descriptive enough
-- [ ] Use semantic HTML elements (button, nav, main, etc.) over generic divs
+- [ ] All interactive elements have unique accessible names (text or aria-label)
+- [ ] Generic actions include context ("Delete" → aria-label="Delete user John")
+- [ ] Form inputs have unique labels ("Name" → "Billing Name")
+- [ ] Repeated elements in loops include identifying data in aria-labels
+- [ ] Icon-only buttons have descriptive aria-labels
+- [ ] Links use descriptive text, not "click here"
+- [ ] Use semantic HTML (button, nav, main) over generic divs
 
 **Testing Query Priority (Simplified)**
 
@@ -326,7 +329,7 @@ getByTestId('save-button')  // Only for dynamic content
 container.querySelector('.btn-primary')  // Never use
 ```
 
-**Required for Every Component**:
+**Consider for Every Component**:
 
 The general idea is that you get how it's supposed to look from a snapshot test, then you confirm that it does what it should through functional tests.
 
