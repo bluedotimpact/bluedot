@@ -50,7 +50,7 @@ export const NavCta: React.FC<{
             Login
           </CTALinkOrButton>
           <CTALinkOrButton
-            className="nav-cta__primary-cta"
+            className="nav-cta__primary-cta mr-4 sm:mr-0"
             variant="primary"
             url={joinUrl}
           >
