@@ -260,7 +260,7 @@ The `parseZodValidationError` function from `lib/utils.ts` parses backend error 
 
 **Testing Philosophy**: We follow React Testing Library best practices - "The more your tests resemble the way your software is used, the more confidence they can give you."
 
-**Component Accessibility Checklist (for Testing)**
+**Component Accessibility Checklist**
 
 The following practices make your components easily testable by allowing React Testing Library to find elements the way users would:
 

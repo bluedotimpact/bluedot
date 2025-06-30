@@ -10,7 +10,7 @@ Fixes #
 
 ## Developer checklist
 
-- [ ] Front-end code follows [Component Accessibility Checklist](https://github.com/bluedotimpact/bluedot/blob/master/DEVELOPMENT_HANDBOOK.md)
+- [ ] Front-end code follows [Component Accessibility Checklist (for Testing)](https://github.com/bluedotimpact/bluedot/blob/master/DEVELOPMENT_HANDBOOK.md#component-accessibility-checklist)
 - [ ] Considered having snapshot tests and/or happy path functional tests
 - [ ] Considered adding Storybook stories
 
