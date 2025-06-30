@@ -1,5 +1,4 @@
 import {
-  addQueryParam,
   CTALinkOrButton,
   Input,
   Tag,
@@ -7,9 +6,10 @@ import {
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ROUTES } from '../../../lib/routes';
+import { useRouter } from 'next/router';
 import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
+import { getLoginUrl } from '../../../utils/getLoginUrl';
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
@@ -40,6 +40,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   options,
   title,
 }) => {
+  const router = useRouter();
   /**
    * Options are stored as a string with newlines
    * Format them to be an array of strings with no empty strings (i.e., removing trailing return statements)
@@ -127,7 +128,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <CTALinkOrButton
           className="multiple-choice__login-cta"
           variant="primary"
-          url={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname), 'register', 'true')}
+          url={getLoginUrl(router.asPath, true)}
           withChevron
         >
           Create a free account to check your answer
