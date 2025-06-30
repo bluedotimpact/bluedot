@@ -1,5 +1,6 @@
 import {
-  describe, expect, test,
+  beforeEach,
+  describe, expect, Mock, test,
   vi,
 } from 'vitest';
 import {
@@ -7,11 +8,17 @@ import {
 } from '@testing-library/react';
 import { useAuthStore } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
+import { useRouter } from 'next/router';
 import type { GetCoursesResponse } from '../../pages/api/courses';
 import { Nav } from './Nav';
 import { mockCourse } from '../../__tests__/testUtils';
 
 type UseAxiosResult = ReturnType<typeof useAxios<GetCoursesResponse>>;
+
+// Mock next/router
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 // Mock axios-hooks
 vi.mock('axios-hooks', () => ({
@@ -47,6 +54,16 @@ vi.mock('axios-hooks', () => ({
     error: null,
   }, null!, null!] as UseAxiosResult,
 }));
+
+const mockRouter = {
+  asPath: '/test-page',
+  pathname: '/test-page',
+};
+
+// Setup router mock before each test
+beforeEach(() => {
+  (useRouter as unknown as Mock).mockReturnValue(mockRouter);
+});
 
 const withLoggedInUser = () => {
   useAuthStore.setState({
