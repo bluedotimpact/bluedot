@@ -157,8 +157,12 @@ export const loginPresets = {
  * - redirect_to: The URL to redirect to after login
  * - register: Set to 'true' to prefer taking the user to a registration page instead of login
  */
-export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => {
-  const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
+export const LoginRedirectPage: React.FC<LoginPageProps & { defaultRedirectTo?: string }> = ({
+  loginPreset,
+  defaultRedirectTo = '/',
+}) => {
+  const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to'))
+    || defaultRedirectTo;
   const auth = useAuthStore((s) => s.auth);
 
   useEffect(() => {
@@ -185,7 +189,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
           window.location.href = loginProviderUrl;
         });
     }
-  }, [auth]);
+  }, [auth, redirectTo]);
 
   if (auth) {
     return <Navigate url={redirectTo} />;

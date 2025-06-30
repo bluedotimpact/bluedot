@@ -7,6 +7,8 @@ import useAxios from 'axios-hooks';
 import React from 'react';
 import { FaAward } from 'react-icons/fa6';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
+import { useRouter } from 'next/router';
+import { getLoginUrl } from '../../utils/getLoginUrl';
 import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
 import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
@@ -41,6 +43,7 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
   courseId,
 }) => {
   const auth = useAuthStore((s) => s.auth);
+  const router = useRouter();
 
   if (!auth) {
     return (
@@ -53,7 +56,7 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
           <CommunitySection
             leftContent={(
               <CTALinkOrButton
-                url={typeof window === 'undefined' ? ROUTES.login.url : addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname)}
+                url={getLoginUrl(router.asPath)}
                 variant="primary"
                 className="w-full"
               >

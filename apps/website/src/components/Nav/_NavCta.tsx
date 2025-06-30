@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { addQueryParam, CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton } from '@bluedot/ui';
+import { useRouter } from 'next/router';
+import { getLoginUrl } from '../../utils/getLoginUrl';
 
 import { ProfileLinks } from './_ProfileLinks';
 import { ROUTES } from '../../lib/routes';
@@ -18,19 +20,16 @@ export const NavCta: React.FC<{
   expandedSections,
   updateExpandedSections,
 }) => {
-  const [joinUrl, setJoinUrl] = useState(ROUTES.join.url);
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setJoinUrl(addQueryParam(ROUTES.join.url, 'redirect_to', window.location.pathname));
-    }
-  }, []);
-
+  const router = useRouter();
   const [loginUrl, setLoginUrl] = useState(ROUTES.login.url);
+  const [joinUrl, setJoinUrl] = useState(ROUTES.join.url);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setLoginUrl(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname));
+      setLoginUrl(getLoginUrl(router.asPath));
+      setJoinUrl(getLoginUrl(router.asPath, true));
     }
-  }, []);
+  }, [router.asPath]);
 
   return (
     <div className="nav-cta flex flex-row items-center gap-6">
