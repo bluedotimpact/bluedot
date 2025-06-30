@@ -33,7 +33,7 @@ export const NavCta: React.FC<{
   }, []);
 
   return (
-    <div className="nav-cta flex flex-row items-center gap-6">
+    <div className="nav-cta flex flex-row items-center gap-2 sm:gap-6">
       {isLoggedIn ? (
         <ProfileLinks
           isScrolled={isScrolled}
@@ -50,7 +50,7 @@ export const NavCta: React.FC<{
             Login
           </CTALinkOrButton>
           <CTALinkOrButton
-            className="nav-cta__primary-cta mr-4 sm:mr-0"
+            className="nav-cta__primary-cta"
             variant="primary"
             url={joinUrl}
           >
