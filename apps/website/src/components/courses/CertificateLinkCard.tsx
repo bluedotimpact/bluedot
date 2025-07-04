@@ -99,6 +99,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     try {
       await refetchCertificateRequest();
       await refetch();
+      // Only push to dataLayer if we're in the browser
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'course_completion',
+          course_id: courseId,
+        });
+      }
     } catch {
       // Ignore, handled already by useAxios
     }
