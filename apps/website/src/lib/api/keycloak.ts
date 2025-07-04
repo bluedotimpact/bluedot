@@ -12,7 +12,7 @@ export async function verifyKeycloakPassword(
   // Validate environment variables
   if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
     throw createHttpError.ServiceUnavailable(
-      `Authentication service not configured. Please contact support. `,
+      'Authentication service not configured. Please contact support. ',
     );
   }
 
