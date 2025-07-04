@@ -29,10 +29,6 @@ export default makeApiRoute(
     responseBody: changePasswordResponseSchema,
   },
   async (body, { auth }) => {
-    if (!body) {
-      throw new createHttpError.BadRequest('Request body is required');
-    }
-
     const { currentPassword, newPassword } = body;
     const userEmail = auth.email;
     const userSub = auth.sub;
