@@ -5,6 +5,14 @@ import env from './env';
 // Keycloak configuration
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
 
+let adminTokenCache: {
+  token: string;
+  expiresAtSeconds: number; // Unix timestamp in seconds
+} | null = null;
+
+// Cache expiration buffer (1 minute in seconds)
+const CACHE_EXPIRATION_BUFFER_IN_SECONDS = 60;
+
 export async function verifyKeycloakPassword(
   email: string,
   password: string,
@@ -76,6 +84,11 @@ export async function updateKeycloakPassword(
     );
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      // Clear cache on authentication errors
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        adminTokenCache = null;
+      }
+
       if (error.response?.status === 400) {
         // Password policy violation
         const errorMessage = error.response?.data?.error || 'Password does not meet requirements';
@@ -94,8 +107,13 @@ export async function updateKeycloakPassword(
   }
 }
 
-// Helper function to get admin token (not exported)
 async function getAdminToken(): Promise<string> {
+  // Check if we have a valid cached token
+  const currentTimeSeconds = Math.floor(Date.now() / 1000);
+  if (adminTokenCache && currentTimeSeconds < adminTokenCache.expiresAtSeconds) {
+    return adminTokenCache.token;
+  }
+
   try {
     const response = await axios.post(
       `${KEYCLOAK_BASE_URL}/realms/customers/protocol/openid-connect/token`,
@@ -107,8 +125,25 @@ async function getAdminToken(): Promise<string> {
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
     );
 
-    return response.data.access_token;
+    const { access_token: accessToken, expires_in: expiresIn } = response.data;
+
+    // Cache the token with expiration time
+    // expires_in is already in seconds
+    // Subtract buffer to expire cache 1 minute before actual expiration
+    const expiresAtSeconds = Math.floor(Date.now() / 1000) + expiresIn - CACHE_EXPIRATION_BUFFER_IN_SECONDS;
+
+    adminTokenCache = {
+      token: accessToken,
+      expiresAtSeconds,
+    };
+
+    return accessToken;
   } catch (error) {
+    // Clear cache on authentication errors
+    if (axios.isAxiosError(error) && (error.response?.status === 401 || error.response?.status === 403)) {
+      adminTokenCache = null;
+    }
+
     if (axios.isAxiosError(error)) {
       throw createHttpError.ServiceUnavailable(
         'Authentication service is currently unavailable. Please try again later.',
