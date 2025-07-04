@@ -175,10 +175,10 @@ const ChangePasswordModal = ({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !isLoading) {
+      e.preventDefault();
       handleSubmit();
-    } else if (e.key === 'Escape') {
-      setIsOpen(false);
     }
+    // Let escape key bubble up to Modal component
   };
 
   return (
