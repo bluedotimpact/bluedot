@@ -178,7 +178,6 @@ const ChangePasswordModal = ({
       e.preventDefault();
       handleSubmit();
     }
-    // Let escape key bubble up to Modal component
   };
 
   return (
