@@ -228,17 +228,19 @@ const ChangePasswordModal = ({
             label="New Password*"
             aria-label="New password"
             aria-describedby={
-              errors.new ? 'new-password-hint new-password-error' : 'new-password-hint'
+              errors.new ? 'new-password-error' : 'new-password-hint'
             }
             aria-invalid={!!errors.new}
             disabled={isLoading}
           />
-          <p
-            className="text-gray-600 text-size-sm mt-1"
-            id="new-password-hint"
-          >
-            Password must be at least 8 characters
-          </p>
+          {!errors.new && (
+            <p
+              className="text-gray-600 text-size-sm mt-1"
+              id="new-password-hint"
+            >
+              Password must be at least 8 characters
+            </p>
+          )}
           {errors.new && (
             <p
               className="text-red-600 text-size-sm mt-1"
