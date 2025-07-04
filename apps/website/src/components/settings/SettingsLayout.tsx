@@ -112,7 +112,7 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
           {breadcrumbItems.map((item, index) => {
             const isLast = index === breadcrumbItems.length - 1;
             const isSettingsItem = item.url === '/settings';
-            
+
             return (
               <li key={item.url} className="breadcrumbs__item flex items-center">
                 {isSettingsItem ? (
