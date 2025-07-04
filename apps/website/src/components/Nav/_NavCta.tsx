@@ -32,7 +32,7 @@ export const NavCta: React.FC<{
   }, [router.asPath]);
 
   return (
-    <div className="nav-cta flex flex-row items-center gap-6">
+    <div className="nav-cta flex flex-row items-center gap-2 sm:gap-6">
       {isLoggedIn ? (
         <ProfileLinks
           isScrolled={isScrolled}
