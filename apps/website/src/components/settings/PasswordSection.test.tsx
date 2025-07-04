@@ -26,9 +26,6 @@ vi.mock('axios', () => ({
   },
 }));
 
-// Note: We're not mocking @bluedot/ui components since they work properly in tests
-// The Modal component from react-aria-components renders correctly without portals in test environment
-
 const mockedAxios = axios as typeof axios & {
   post: MockedFunction<typeof axios.post>;
   isAxiosError: MockedFunction<typeof axios.isAxiosError>;
@@ -171,7 +168,7 @@ describe('PasswordSection - User Journeys', () => {
     const errors = await screen.findAllByRole('alert');
     expect(errors).toHaveLength(3);
     expect(errors[0]).toHaveTextContent('Current password is required');
-    expect(errors[1]).toHaveTextContent('New password is required');
+    expect(errors[1]).toHaveTextContent('Password must be at least 8 characters');
     expect(errors[2]).toHaveTextContent('Please confirm your new password');
 
     // No API call should be made
@@ -295,5 +292,33 @@ describe('PasswordSection - User Journeys', () => {
 
     // Loading state is shown
     expect(screen.getByText('Updating...')).toBeInTheDocument();
+  });
+
+  test('User can close modal with Escape key', async () => {
+    render(<PasswordSection authToken={authToken} />);
+
+    openPasswordModal();
+
+    // User fills in some data
+    fillPasswordForm(
+      validPasswords.current,
+      validPasswords.new,
+      'MismatchedPassword',
+    );
+
+    // User presses Escape key in any field
+    fireEvent.keyDown(screen.getByLabelText(/current password/i), {
+      key: 'Escape',
+      code: 'Escape',
+    });
+
+    // Modal closes
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    // When user opens modal again, form is clean
+    openPasswordModal();
+    expect(screen.getByLabelText(/current password/i)).toHaveValue('');
+    expect(screen.getByLabelText(/^new password/i)).toHaveValue('');
+    expect(screen.getByLabelText(/confirm new password/i)).toHaveValue('');
   });
 });

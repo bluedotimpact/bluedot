@@ -3,7 +3,9 @@ import {
   CTALinkOrButton, Modal, Input, ProgressDots,
 } from '@bluedot/ui';
 import axios from 'axios';
+import type { ZodError } from 'zod';
 import { P } from '../Text';
+import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
 
 type PasswordSectionProps = {
   authToken: string;
@@ -97,31 +99,32 @@ const ChangePasswordModal = ({
 
   const validateForm = (): boolean => {
     const newErrors = { current: '', new: '', confirm: '' };
-    let isValid = true;
 
-    if (!currentPassword) {
-      newErrors.current = 'Current password is required';
-      isValid = false;
+    try {
+      changePasswordWithConfirmSchema.parse({
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      });
+      setErrors(newErrors);
+      return true;
+    } catch (error) {
+      if (error instanceof Error && 'errors' in error) {
+        const zodError = error as ZodError;
+        zodError.errors.forEach((err) => {
+          const field = err.path[0] as string;
+          if (field === 'currentPassword') {
+            newErrors.current = err.message;
+          } else if (field === 'newPassword') {
+            newErrors.new = err.message;
+          } else if (field === 'confirmPassword') {
+            newErrors.confirm = err.message;
+          }
+        });
+      }
+      setErrors(newErrors);
+      return false;
     }
-
-    if (!newPassword) {
-      newErrors.new = 'New password is required';
-      isValid = false;
-    } else if (newPassword.length < 8) {
-      newErrors.new = 'Password must be at least 8 characters';
-      isValid = false;
-    }
-
-    if (!confirmPassword) {
-      newErrors.confirm = 'Please confirm your new password';
-      isValid = false;
-    } else if (newPassword !== confirmPassword) {
-      newErrors.confirm = 'Passwords do not match';
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
   };
 
   const handleSubmit = async () => {
@@ -173,6 +176,8 @@ const ChangePasswordModal = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !isLoading) {
       handleSubmit();
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
     }
   };
 

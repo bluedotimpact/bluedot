@@ -5,19 +5,15 @@ import {
   verifyKeycloakPassword,
   updateKeycloakPassword,
 } from '../../../../lib/api/keycloak';
+import { changePasswordSchema } from '../../../../lib/schemas/user/changePassword.schema';
 
-// Request/Response schemas
-const changePasswordRequestSchema = z.object({
-  currentPassword: z.string().min(1, 'Current password is required'),
-  newPassword: z.string().min(1, 'New password is required'),
-});
-
+// Response schema
 const changePasswordResponseSchema = z.object({
   type: z.literal('success'),
   message: z.string(),
 });
 
-export type ChangePasswordRequest = z.infer<typeof changePasswordRequestSchema>;
+export type ChangePasswordRequest = z.infer<typeof changePasswordSchema>;
 export type ChangePasswordResponse = z.infer<
   typeof changePasswordResponseSchema
 >;
@@ -29,7 +25,7 @@ export type ChangePasswordResponse = z.infer<
 export default makeApiRoute(
   {
     requireAuth: true,
-    requestBody: changePasswordRequestSchema,
+    requestBody: changePasswordSchema,
     responseBody: changePasswordResponseSchema,
   },
   async (body, { auth }) => {
