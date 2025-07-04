@@ -183,8 +183,10 @@ describe('PasswordSection - User Journeys', () => {
     submitForm();
 
     // User sees password length error
-    const lengthError = await screen.findByText('Password must be at least 8 characters');
-    expect(lengthError).toHaveAttribute('role', 'alert');
+    const lengthError = await screen.findByText('Password must be at least 8 characters', {
+      selector: '[role="alert"]',
+    });
+    expect(lengthError).toBeInTheDocument();
 
     // User fixes password but confirms don't match
     fillPasswordForm(
@@ -320,5 +322,101 @@ describe('PasswordSection - User Journeys', () => {
     expect(screen.getByLabelText(/current password/i)).toHaveValue('');
     expect(screen.getByLabelText(/^new password/i)).toHaveValue('');
     expect(screen.getByLabelText(/confirm new password/i)).toHaveValue('');
+  });
+
+  test('User sees system error messages when backend has configuration issues', async () => {
+    // Setup 503 error response (service unavailable)
+    const error = {
+      isAxiosError: true,
+      response: {
+        status: 503,
+        data: { error: 'Authentication service not configured. Please contact support.' },
+      },
+    };
+    mockedAxios.post.mockRejectedValueOnce(error);
+
+    render(<PasswordSection authToken={authToken} />);
+
+    // User opens modal and fills form
+    openPasswordModal();
+    fillPasswordForm(
+      validPasswords.current,
+      validPasswords.new,
+      validPasswords.new,
+    );
+
+    // User submits
+    submitForm();
+
+    // User sees the configuration error message
+    const errorMessage = await screen.findByRole('alert');
+    expect(errorMessage).toHaveTextContent('Failed to update password: Authentication service not configured. Please contact support.');
+
+    // Modal stays open
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  test('User sees generic error message for unexpected backend errors', async () => {
+    // Setup 500 error response (internal server error)
+    const error = {
+      isAxiosError: true,
+      response: {
+        status: 500,
+        data: { error: 'An unexpected error occurred during authentication.' },
+      },
+    };
+    mockedAxios.post.mockRejectedValueOnce(error);
+
+    render(<PasswordSection authToken={authToken} />);
+
+    // User opens modal and fills form
+    openPasswordModal();
+    fillPasswordForm(
+      validPasswords.current,
+      validPasswords.new,
+      validPasswords.new,
+    );
+
+    // User submits
+    submitForm();
+
+    // User sees the error message
+    const errorMessage = await screen.findByRole('alert');
+    expect(errorMessage).toHaveTextContent('Failed to update password: An unexpected error occurred during authentication.');
+
+    // Modal stays open
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  test('User sees fallback error message when backend error has no details', async () => {
+    // Setup error response with no error message
+    const error = {
+      isAxiosError: true,
+      response: {
+        status: 500,
+        data: {},
+      },
+    };
+    mockedAxios.post.mockRejectedValueOnce(error);
+
+    render(<PasswordSection authToken={authToken} />);
+
+    // User opens modal and fills form
+    openPasswordModal();
+    fillPasswordForm(
+      validPasswords.current,
+      validPasswords.new,
+      validPasswords.new,
+    );
+
+    // User submits
+    submitForm();
+
+    // User sees the fallback error message
+    const errorMessage = await screen.findByRole('alert');
+    expect(errorMessage).toHaveTextContent('Failed to update password: Please try again.');
+
+    // Modal stays open
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 });
