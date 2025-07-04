@@ -111,18 +111,31 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
         <ol className="breadcrumbs__list flex">
           {breadcrumbItems.map((item, index) => {
             const isLast = index === breadcrumbItems.length - 1;
+            const isSettingsItem = item.url === '/settings';
+            
             return (
               <li key={item.url} className="breadcrumbs__item flex items-center">
-                <NewText.A
-                  className={clsx(
-                    'breadcrumbs__link no-underline',
-                    isLast && 'opacity-50',
-                  )}
-                  href={item.url}
-                  aria-current={isLast ? 'page' : undefined}
-                >
-                  {item.title}
-                </NewText.A>
+                {isSettingsItem ? (
+                  <NewText.P
+                    className={clsx(
+                      'breadcrumbs__link !m-0',
+                      isLast && 'opacity-50',
+                    )}
+                  >
+                    {item.title}
+                  </NewText.P>
+                ) : (
+                  <NewText.A
+                    className={clsx(
+                      'breadcrumbs__link no-underline',
+                      isLast && 'opacity-50',
+                    )}
+                    href={item.url}
+                    aria-current={isLast ? 'page' : undefined}
+                  >
+                    {item.title}
+                  </NewText.A>
+                )}
                 {!isLast && (
                   <span className="breadcrumbs__separator mx-2" aria-hidden="true">{'>'}</span>
                 )}

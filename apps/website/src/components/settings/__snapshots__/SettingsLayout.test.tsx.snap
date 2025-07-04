@@ -32,13 +32,11 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         <li
           class="breadcrumbs__item flex items-center"
         >
-          <a
-            class="bluedot-a not-prose breadcrumbs__link no-underline"
-            href="/settings"
-            tabindex="0"
+          <p
+            class="bluedot-p not-prose breadcrumbs__link !m-0"
           >
             Settings
-          </a>
+          </p>
           <span
             aria-hidden="true"
             class="breadcrumbs__separator mx-2"
