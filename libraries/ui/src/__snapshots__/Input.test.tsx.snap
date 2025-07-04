@@ -31,7 +31,7 @@ exports[`Input > renders default as expected 1`] = `
       This is the label
     </span>
     <input
-      class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+      class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
       label="This is the label"
       placeholder="This is the placeholder"
       type="text"
