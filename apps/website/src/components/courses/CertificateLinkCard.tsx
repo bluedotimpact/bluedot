@@ -99,6 +99,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     try {
       await refetchCertificateRequest();
       await refetch();
+      // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
+        window.dataLayer.push({
+          event: 'completers',
+          course_slug: 'future-of-ai',
+        });
+      }
     } catch {
       // Ignore, handled already by useAxios
     }

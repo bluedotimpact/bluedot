@@ -19,6 +19,7 @@ import {
   FaClock,
   FaLightbulb,
 } from 'react-icons/fa6';
+import { useEffect } from 'react';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
 import { H1, H2, H3 } from '../Text';
@@ -116,6 +117,16 @@ const features = [
 const FutureOfAiLander = ({
   courseData,
 }: { courseData: GetCourseResponse }) => {
+  // Track landing page views
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'newbies',
+        course_slug: 'future-of-ai',
+      });
+    }
+  }, []);
+
   return (
     <>
       <Head>

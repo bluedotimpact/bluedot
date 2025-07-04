@@ -163,6 +163,16 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
 
   useEffect(() => {
     if (!auth) {
+      // Track if user is coming from Future of AI course
+      // @ts-ignore dataLayer was added to window in apps/website in the GoogleTagManager.tsx file
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        // @ts-ignore
+        window.dataLayer.push({
+          event: 'considerers',
+          course_slug: 'future-of-ai',
+        });
+      }
+
       // Add a visible indicator
       const attribution = {
         referralCode: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'r') : undefined,
