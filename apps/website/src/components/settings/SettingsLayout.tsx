@@ -121,6 +121,7 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
                       'breadcrumbs__link !m-0',
                       isLast && 'opacity-50',
                     )}
+                    aria-current={isLast ? 'page' : undefined}
                   >
                     {item.title}
                   </NewText.P>
