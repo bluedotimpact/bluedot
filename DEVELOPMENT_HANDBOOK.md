@@ -583,8 +583,9 @@ All components in `libraries/ui` follow Bluedot branding. **Always reuse these c
 ## 6. Deployment & DevOps
 
 ### Infrastructure
-- **Platform**: Kubernetes with nginx
+- **Platform**: Kubernetes with nginx on Vultr
 - **Infrastructure as Code**: Pulumi (`apps/infra`)
+- **Observability**: OpenTelemetry, Grafana
 
 ### Deployment Processes
 
@@ -605,6 +606,56 @@ All components in `libraries/ui` follow Bluedot branding. **Always reuse these c
 - No password info stored in Airtable
 - Can run locally through "login" app
 - Custom theme available in bluedot-keycloak-theme repo which can be used instead of the "login" app
+
+### Observability Stack Data Flow
+
+```
+ +--------------+
+ | Applications |
+ +--------------+
+         |
+         | (metrics, logs)
+         v
+ +---------------+
+ | OpenTelemetry |
+ |   Collector   |
+ +---------------+
+      |       |
+      |       +------------------+
+      |                          |
+      | (metrics)                | (logs)
+      v                          v
+ +------------------+    +---------------+
+ | Prometheus       |    | Loki          |
+ | (metric storage) |    | (log storage) |
+ +------------------+    +---------------+
+      |                          |
+      |                          |
+      +---------------+----------+
+                      |
+                      v
+           +----------------------+
+           |       Grafana        |
+           | (dashboards, alerts) |
+           +----------------------+
+```
+#### Data Flow:
+ 1. There are multiple applications, across multiple kubernetes nodes. These produce metrics and logs.
+    - Metrics are sent via the OpenTelemetry SDK to a collector. In Next.js apps this is set up with instrumentation.ts.
+    - Logs are sent by logging them to stdout (e.g. with console.log or Winston). Kubernetes automatically saves these logs to files.
+ 2. The OpenTelemetry Collector collects these metrics and logs, enriches them, and sends them on to Prometheus and Loki.
+    - It operates on every node (computer) in the Kubernetes cluster
+    - For metrics, it hosts a HTTP server using the OTLP standard which apps can send metrics to
+    - For logs, it collects logs from Kubernetes's saved log files
+    - It also adds some metadata, e.g. what service and node the metrics or logs are from
+    - It then sends the enriched metrics and logs data on to Prometheus and Loki
+    - The reason we use the OpenTelemetry Collector, instead of apps sending directly to Prometheus and Loki, is:
+      - For custom apps, we can add custom code to send logs and metrics to the right servers. But for off-the-shelf software (e.g. nginx), we can't do this - so need something to collect logs etc.
+      - Even for our custom apps, with the OTel collector we can easily change where we want to send logs and metrics, without making code changes to every app. This allows us to easily experiment to find the best tools, and avoids vendor lock-in.
+      - The collector enriches the data, so that the data is easier to use.
+ 3. Prometheus and Loki store and index metrics and logs respectively
+ 4. Grafana queries both Prometheus and Loki to create dashboards and alerts
+    - Developers can login to view the data at grafana.k8s.bluedot.org
 
 ---
 
