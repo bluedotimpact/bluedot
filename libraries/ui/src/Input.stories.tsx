@@ -57,3 +57,11 @@ export const AllVariants: Story = {
   ],
   args: {},
 };
+
+export const Password: Story = {
+  args: {
+    type: 'password',
+    label: 'Password',
+    placeholder: 'Enter your password',
+  },
+};
