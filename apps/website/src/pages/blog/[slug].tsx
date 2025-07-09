@@ -52,6 +52,11 @@ const BlogPostPage = () => {
           <Head>
             <title>{`${data.blog.title} | BlueDot Impact`}</title>
             <meta name="description" content={`${data.blog.title} - Blog post by ${data.blog.authorName}`} />
+            <meta property="og:title" content={data.blog.title} />
+            <meta property="og:site_name" content="BlueDot Impact" />
+            <meta property="og:description" content={`Blog post by ${data.blog.authorName}`} />
+            <meta property="og:type" content="article" />
+            <meta property="og:url" content={`https://bluedot.org/blog/${slug}`} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
