@@ -31,12 +31,6 @@ const teamMembers = [
     role: 'Community Manager',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
-  {
-    imageSrc: '/images/team/tarin.jpg',
-    name: 'Tarin Rickett',
-    role: 'Engineering',
-    linkedInUrl: 'https://linkedin.com/in/tarinrickett/',
-  },
 ];
 const TeamSection = () => {
   return (

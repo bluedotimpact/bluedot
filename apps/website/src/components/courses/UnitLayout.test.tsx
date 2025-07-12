@@ -5,26 +5,17 @@ import {
   test,
   vi,
 } from 'vitest';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 import UnitLayout from './UnitLayout';
 
 // Mock next/router
 vi.mock('next/router', () => ({
-  useRouter: () => ({
+  useRouter: vi.fn(() => ({
     query: { chunk: '0' },
     pathname: '/courses/test-course/1',
     push: vi.fn(),
-  }),
+  })),
 }));
-
-// Mock useState
-vi.mock('react', async () => {
-  const actual = await vi.importActual('react');
-  return {
-    ...actual,
-    useState: vi.fn((initial) => [initial, vi.fn()]),
-  };
-});
 
 const COURSE_UNITS = [
   {
@@ -181,9 +172,25 @@ describe('UnitLayout', () => {
   });
 
   test('renders Congratulations section on final chunk of final unit', () => {
-    // Mock useState to return the last chunk index
-    const lastChunkIndex = CHUNKS.length - 1;
-    (vi.mocked(useState) as ReturnType<typeof vi.fn>).mockImplementationOnce(() => [lastChunkIndex, vi.fn()]);
+    // Update router mock to show last chunk
+    vi.mocked(useRouter).mockReturnValue({
+      query: { chunk: String(CHUNKS.length - 1) },
+      pathname: '/courses/test-course/5',
+      push: vi.fn(),
+      route: '',
+      asPath: '',
+      basePath: '',
+      isFallback: false,
+      isLocaleDomain: false,
+      isReady: true,
+      isPreview: false,
+      events: { on: vi.fn(), off: vi.fn(), emit: vi.fn() },
+      prefetch: vi.fn(),
+      reload: vi.fn(),
+      replace: vi.fn(),
+      back: vi.fn(),
+      beforePopState: vi.fn(),
+    } as ReturnType<typeof useRouter>);
 
     const { container } = render(
       <UnitLayout
@@ -197,5 +204,37 @@ describe('UnitLayout', () => {
     expect(container.querySelector('.unit__cta-container')).toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
+  });
+
+  test('keyboard navigation hint is displayed', () => {
+    const { container } = render(
+      <UnitLayout
+        chunks={CHUNKS}
+        unit={COURSE_UNITS[0]!}
+        unitNumber={1}
+        units={COURSE_UNITS}
+      />,
+    );
+
+    const hint = container.querySelector('.unit__keyboard-hint');
+    expect(hint).toBeTruthy();
+    expect(hint?.textContent).toContain('Use arrow keys (← →) to navigate between sections');
+  });
+
+  test('navigation buttons have keyboard shortcut tooltips', () => {
+    const { container } = render(
+      <UnitLayout
+        chunks={CHUNKS}
+        unit={COURSE_UNITS[1]!}
+        unitNumber={2}
+        units={COURSE_UNITS}
+      />,
+    );
+
+    const prevButton = container.querySelector('button[aria-label="Previous"]');
+    const nextButton = container.querySelector('button[aria-label="Next"]');
+
+    expect(prevButton?.getAttribute('title')).toBe('Navigate to previous section (use ← arrow key)');
+    expect(nextButton?.getAttribute('title')).toBe('Navigate to next section (use → arrow key)');
   });
 });

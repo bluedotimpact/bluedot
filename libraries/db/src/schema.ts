@@ -726,6 +726,14 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldQJyVjaiQzsVGD9',
     },
+    lastVisitedUnitNumber: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldTz0302G1aNX9uP',
+    },
+    lastVisitedChunkIndex: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldqBkQC2fZLtPEZX',
+    },
   },
 });
 

@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import {
+  beforeEach,
   describe,
   expect,
   Mock,
@@ -7,12 +8,27 @@ import {
   vi,
 } from 'vitest';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
+
+// Mock next/router
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
 
 // Mock axios
 vi.mock('axios');
 // Setup axios mock to resolve successfully
 (axios.put as Mock).mockResolvedValue({ data: {} });
+
+const mockRouter = {
+  asPath: '/test-path',
+};
+
+// Setup router mock before each test
+beforeEach(() => {
+  (useRouter as Mock).mockReturnValue(mockRouter);
+});
 
 const mockArgs = {
   title: 'Understanding LLMs',

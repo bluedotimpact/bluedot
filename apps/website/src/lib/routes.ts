@@ -77,6 +77,30 @@ const logout: BluedotRoute = {
   parentPages: [home],
 };
 
+const settings: BluedotRoute = {
+  title: 'Settings',
+  url: '/settings',
+  parentPages: [home],
+};
+
+const settingsAccount: BluedotRoute = {
+  title: 'Account',
+  url: '/settings/account',
+  parentPages: [home, settings],
+};
+
+const settingsCourses: BluedotRoute = {
+  title: 'Courses',
+  url: '/settings/courses',
+  parentPages: [home, settings],
+};
+
+const settingsCommunity: BluedotRoute = {
+  title: 'Community',
+  url: '/settings/community',
+  parentPages: [home, settings],
+};
+
 export const ROUTES = {
   about,
   blog,
@@ -91,4 +115,8 @@ export const ROUTES = {
   privacyPolicy,
   profile,
   projects,
+  settings,
+  settingsAccount,
+  settingsCourses,
+  settingsCommunity,
 } as const;

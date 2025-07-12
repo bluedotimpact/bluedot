@@ -18,6 +18,16 @@ const CourseUnitPage = () => {
     url: `/api/courses/${courseSlug}/${unitNumber}`,
   });
 
+  // Track visits to Unit 1 of Future of AI course
+  useEffect(() => {
+    if (courseSlug === 'future-of-ai' && unitNumber === '1' && typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
+        event: 'starters',
+        course_slug: courseSlug,
+      });
+    }
+  }, [courseSlug, unitNumber]);
+
   // If we're logged in, ensures a course registration is recorded for this course
   const auth = useAuthStore((s) => s.auth);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

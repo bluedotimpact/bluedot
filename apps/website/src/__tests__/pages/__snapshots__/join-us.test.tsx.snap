@@ -188,7 +188,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <img
               alt="BlueDot Impact team"
               class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
-              src="/images/culture/culture_happy_v1.jpeg"
+              src="/images/culture/culture_cap_v1.jpeg"
             />
             <img
               alt="BlueDot Impact team"
@@ -198,7 +198,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <img
               alt="BlueDot Impact team"
               class="culture-section__image max-h-[100px] sm:max-h-[178px] w-full object-cover rounded-sm"
-              src="/images/culture/culture_prod-eng_v1.jpeg"
+              src="/images/culture/culture_josh_v1.jpg"
             />
             <img
               alt="BlueDot Impact team"

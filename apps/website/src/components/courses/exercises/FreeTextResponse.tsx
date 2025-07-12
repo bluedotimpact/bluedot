@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import { addQueryParam, CTALinkOrButton, Tag } from '@bluedot/ui';
+import { CTALinkOrButton, Tag } from '@bluedot/ui';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ROUTES } from '../../../lib/routes';
+import { useRouter } from 'next/router';
 import { P } from '../../Text';
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
+import { getLoginUrl } from '../../../utils/getLoginUrl';
 
 type FreeTextResponseProps = {
   // Required
@@ -38,6 +39,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       answer: exerciseResponse,
     },
   });
+  const router = useRouter();
 
   useEffect(() => {
     if (exerciseResponse) {
@@ -85,7 +87,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         <CTALinkOrButton
           className="free-text-response__login-cta"
           variant="primary"
-          url={addQueryParam(addQueryParam(ROUTES.login.url, 'redirect_to', window.location.pathname), 'register', 'true')}
+          url={getLoginUrl(router.asPath, true)}
           withChevron
         >
           Create a free account to save your answers
