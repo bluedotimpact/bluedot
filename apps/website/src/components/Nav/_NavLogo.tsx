@@ -8,14 +8,14 @@ export const NavLogo: React.FC<{ logo?: string; isScrolled: boolean }> = ({ logo
     {logo ? (
       <img
         className={clsx(
-          `logo__img h-5 sm:h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`,
+          `logo__img h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`,
           isScrolled && 'brightness-0 invert',
         )}
         src={logo}
         alt="BlueDot Impact Logo"
       />
     ) : (
-      <H3 className="logo__placeholder h-6 sm:h-8 mr-auto">BlueDot Impact</H3>
+      <H3 className="logo__placeholder h-8 mr-auto">BlueDot Impact</H3>
     )}
   </A>
 );
