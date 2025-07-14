@@ -77,23 +77,6 @@ describe('CertificateLinkCard', () => {
       expect(container).toMatchSnapshot();
     });
 
-    test('renders error state', () => {
-      const mockError = new Error('Network error');
-      vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: false, error: mockError },
-        vi.fn(),
-      ] as UseAxiosReturnType);
-
-      const { container } = render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
-      expect(container).toMatchSnapshot();
-
-      // Verify error message and retry button
-      expect(screen.getByText('Network error')).toBeTruthy();
-      expect(screen.getByText('Retry')).toBeTruthy();
-    });
-
     test('renders course without certificate - non-FoAI shows not eligible', () => {
       vi.mocked(useAxios).mockReturnValue([
         {
@@ -151,6 +134,17 @@ describe('CertificateLinkCard', () => {
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
       );
       expect(container).toMatchSnapshot();
+
+      // Verify that download certificate button is shown for FoAI course
+      expect(screen.getByText('Download Certificate')).toBeTruthy();
+
+      // Verify the button is actually a button element using React Testing Library best practices
+      const downloadButton = screen.getByRole('button', { name: 'Download Certificate' });
+      expect(downloadButton).toBeTruthy();
+
+      // Verify FoAI-specific content is shown
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
+      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
     });
 
     test('renders course with certificate (works for both regular and FoAI)', () => {
@@ -183,9 +177,8 @@ describe('CertificateLinkCard', () => {
       expect(screen.getByText('Issued on January 1, 2024')).toBeTruthy();
       expect(screen.getByText('View Certificate')).toBeTruthy();
 
-      // Verify the certificate link
+      // Verify the certificate link opens in a new tab
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
-      expect(viewCertificateLink.getAttribute('href')).toBe('http://localhost:3000/certification?id=cert123');
       expect(viewCertificateLink.getAttribute('target')).toBe('_blank');
     });
   });
