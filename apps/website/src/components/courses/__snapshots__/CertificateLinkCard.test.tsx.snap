@@ -32,13 +32,13 @@ exports[`CertificateLinkCard > Authenticated states > renders course with certif
             class="flex flex-col gap-8"
           >
             <div
-              class="flex items-center justify-between"
+              class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4"
             >
               <div
-                class="flex items-center"
+                class="flex items-center min-w-0"
               >
                 <div
-                  class="mr-4 bg-bluedot-lighter p-3 rounded-lg"
+                  class="mr-4 bg-bluedot-lighter p-3 rounded-lg flex-shrink-0"
                 >
                   <svg
                     class="text-bluedot-normal"
@@ -55,7 +55,9 @@ exports[`CertificateLinkCard > Authenticated states > renders course with certif
                     />
                   </svg>
                 </div>
-                <div>
+                <div
+                  class="min-w-0"
+                >
                   <p
                     class="font-semibold text-bluedot-black"
                   >
@@ -328,7 +330,7 @@ exports[`CertificateLinkCard > Authenticated states > renders error state 1`] = 
                       </p>
                       <pre>
                         Error: Network error
-    at /Users/martin/programming/bluedot-container/bluedot/apps/website/src/components/courses/CertificateLinkCard.test.tsx:76:25
+    at /Users/martin/programming/bluedot-container/bluedot/apps/website/src/components/courses/CertificateLinkCard.test.tsx:81:25
     at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:155:11
     at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:752:26
     at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1894:20

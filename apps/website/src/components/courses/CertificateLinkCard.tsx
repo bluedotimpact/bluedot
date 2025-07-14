@@ -314,12 +314,12 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
         className="container-lined p-8 bg-white"
       >
         <div className="flex flex-col gap-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div className="flex items-center min-w-0">
+              <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg flex-shrink-0">
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
