@@ -313,8 +313,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
         subtitle={hasCertificate.subtitle}
         className="container-lined p-8 bg-white"
       >
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="flex flex-col gap-8 w-full">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 w-full">
             <div className="flex items-center min-w-0">
               <div className="mr-4 bg-bluedot-lighter p-3 rounded-lg flex-shrink-0">
                 <FaAward size={24} className="text-bluedot-normal" />
@@ -328,6 +328,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
               url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
               variant="primary"
               target="_blank"
+              className="lg:ml-auto"
             >
               {hasCertificate.viewButtonLabel}
             </CTALinkOrButton>

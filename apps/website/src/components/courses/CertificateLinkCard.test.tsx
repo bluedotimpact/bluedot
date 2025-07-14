@@ -42,7 +42,7 @@ describe('CertificateLinkCard', () => {
       render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-      
+
       // Verify login prompt is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
       expect(screen.getByText('Create a free account to collect course certificates.')).toBeTruthy();
@@ -77,7 +77,7 @@ describe('CertificateLinkCard', () => {
       render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-      
+
       // Verify loading indicator is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
       // Check for progress dots (ProgressDots component)
