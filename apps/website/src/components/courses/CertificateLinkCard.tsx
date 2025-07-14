@@ -13,68 +13,208 @@ import { GetCourseRegistrationResponse } from '../../pages/api/course-registrati
 import { ROUTES } from '../../lib/routes';
 import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
 
+type CertificateConfig = {
+  useCard: boolean;
+  showCommunity: boolean;
+  texts: {
+    notLoggedIn: {
+      title?: string;
+      subtitle?: string;
+      header?: string;
+      description?: string;
+      buttonLabel: string;
+    };
+    loading: {
+      title: string;
+    };
+    error: {
+      title: string;
+    };
+    hasCertificate: {
+      title: string;
+      subtitle: string;
+      viewButtonLabel: string;
+    };
+    requestCertificate: {
+      title?: string;
+      subtitle?: string;
+      header?: string;
+      description?: string;
+      buttonLabel: string;
+    };
+    notEligible: {
+      title: string;
+      subtitle: string;
+    };
+  };
+};
+
+const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
+
+const regularCourseConfig: CertificateConfig = {
+  useCard: true,
+  showCommunity: true,
+  texts: {
+    notLoggedIn: {
+      title: 'Your Certificate',
+      subtitle: 'Create a free account to collect course certificates.',
+      buttonLabel: 'Log in',
+    },
+    loading: {
+      title: 'Your Certificate',
+    },
+    error: {
+      title: 'Your Certificate',
+    },
+    hasCertificate: {
+      title: 'Your Certificate',
+      subtitle: 'View your certificate to share your achievement.',
+      viewButtonLabel: 'View Certificate',
+    },
+    requestCertificate: {
+      title: 'Your Certificate',
+      subtitle: "If you've completed all the course exercises, you're eligible for a free course certificate.",
+      buttonLabel: 'Request Certificate',
+    },
+    notEligible: {
+      title: 'Your Certificate',
+      subtitle: "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+    },
+  },
+};
+
+const foaiCourseConfig: CertificateConfig = {
+  useCard: false,
+  showCommunity: false,
+  texts: {
+    notLoggedIn: {
+      header: "Download your certificate, show you're taking AI seriously",
+      description: 'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+      buttonLabel: 'Download Certificate',
+    },
+    loading: {
+      title: 'Your Certificate',
+    },
+    error: {
+      title: 'Your Certificate',
+    },
+    hasCertificate: {
+      title: 'Your Certificate',
+      subtitle: 'View your certificate to share your achievement.',
+      viewButtonLabel: 'View Certificate',
+    },
+    requestCertificate: {
+      header: "Download your certificate, show you're taking AI seriously",
+      description: 'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+      buttonLabel: 'Download Certificate',
+    },
+    notEligible: {
+      title: 'Your Certificate',
+      subtitle: "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+    },
+  },
+};
+
 type CertificateLinkCardProps = {
   courseId: string;
 };
 
-const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) => (
-  <div className="border-t pt-6">
-    <div className="flex items-center justify-between gap-4">
-      {leftContent ? (
-        <div className="min-w-[160px] flex justify-start">{leftContent}</div>
-      ) : (
-        <div className="min-w-[160px]" />
-      )}
-      <p className="text-center flex-1 font-bold">Join 3,245 graduates in our graduate community!</p>
-      <div className="min-w-[160px] flex justify-end">
-        <CTALinkOrButton
-          url="https://community.bluedot.org"
-          variant="primary"
-          target="_blank"
-        >
-          Join the Community
-        </CTALinkOrButton>
+const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) => {
+  return (
+    <div className="border-t pt-6">
+      <div className="flex items-center justify-between gap-4">
+        {leftContent ? (
+          <div className="min-w-[160px] flex justify-start">{leftContent}</div>
+        ) : (
+          <div className="min-w-[160px]" />
+        )}
+        <p className="text-center flex-1 font-bold">Join 3,245 graduates in our graduate community!</p>
+        <div className="min-w-[160px] flex justify-end">
+          <CTALinkOrButton
+            url="https://community.bluedot.org"
+            variant="primary"
+            target="_blank"
+          >
+            Join the Community
+          </CTALinkOrButton>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
   courseId,
 }) => {
+  const config = courseId === FOAI_COURSE_ID ? foaiCourseConfig : regularCourseConfig;
   const auth = useAuthStore((s) => s.auth);
   const router = useRouter();
 
   if (!auth) {
-    return (
-      <Card
-        title="Your Certificate"
-        subtitle="Create a free account to collect course certificates."
-        className="container-lined p-8 bg-white"
-      >
-        <div className="mt-8">
-          <CommunitySection
-            leftContent={(
-              <CTALinkOrButton
-                url={getLoginUrl(router.asPath)}
-                variant="primary"
-                className="w-full"
-              >
-                Log in
-              </CTALinkOrButton>
+    const { notLoggedIn } = config.texts;
+    const content = (
+      <>
+        {config.useCard ? null : (
+          <div className="flex flex-col gap-2">
+            {notLoggedIn.header && (
+              <p className="bluedot-h4 mb-2 text-center">{notLoggedIn.header}</p>
             )}
-          />
+            {notLoggedIn.description && (
+              <p className="bluedot-p">{notLoggedIn.description}</p>
+            )}
+          </div>
+        )}
+        <div className={config.useCard ? 'mt-8' : 'mt-4 flex justify-start'}>
+          {config.showCommunity ? (
+            <CommunitySection
+              leftContent={(
+                <CTALinkOrButton
+                  url={getLoginUrl(router.asPath)}
+                  variant="primary"
+                  className="w-full"
+                >
+                  {notLoggedIn.buttonLabel}
+                </CTALinkOrButton>
+              )}
+            />
+          ) : (
+            <CTALinkOrButton
+              url={getLoginUrl(router.asPath)}
+              variant="primary"
+            >
+              {notLoggedIn.buttonLabel}
+            </CTALinkOrButton>
+          )}
         </div>
-      </Card>
+      </>
+    );
+
+    if (config.useCard) {
+      return (
+        <Card
+          title={notLoggedIn.title || ''}
+          subtitle={notLoggedIn.subtitle || ''}
+          className="container-lined p-8 bg-white"
+        >
+          {content}
+        </Card>
+      );
+    }
+
+    return (
+      <div className="container-lined p-8 bg-white">
+        {content}
+      </div>
     );
   }
 
-  return <CertificateLinkCardAuthed courseId={courseId} auth={auth} />;
+  return <CertificateLinkCardAuthed courseId={courseId} auth={auth} config={config} />;
 };
 
-const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Auth }> = ({
+const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Auth; config: CertificateConfig }> = ({
   courseId,
   auth,
+  config,
 }) => {
   const [{ data, loading, error }, refetch] = useAxios<GetCourseRegistrationResponse>({
     method: 'get',
@@ -112,42 +252,65 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   };
 
   if (error || certificateRequestError) {
+    const errorContent = (
+      <div className="flex flex-col gap-4">
+        <ErrorView error={error || certificateRequestError} />
+        <CTALinkOrButton
+          variant="primary"
+          onClick={() => (error ? refetch() : requestCertificate()).catch(() => { /* ignore */ })}
+          disabled={loading || certificateRequestLoading}
+        >
+          Retry
+        </CTALinkOrButton>
+      </div>
+    );
+
+    if (config.useCard) {
+      return (
+        <Card
+          title={config.texts.error.title}
+          className="container-lined p-8 bg-white"
+        >
+          {errorContent}
+        </Card>
+      );
+    }
+
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
-        <div className="flex flex-col gap-4">
-          <ErrorView error={error || certificateRequestError} />
-          <CTALinkOrButton
-            variant="primary"
-            onClick={() => (error ? refetch() : requestCertificate()).catch(() => { /* ignore */ })}
-            disabled={loading || certificateRequestLoading}
-          >
-            Retry
-          </CTALinkOrButton>
-        </div>
-      </Card>
+      <div className="container-lined p-8 bg-white">
+        {errorContent}
+      </div>
     );
   }
 
   if (loading || certificateRequestLoading) {
+    if (config.useCard) {
+      return (
+        <Card
+          title={config.texts.loading.title}
+          className="container-lined p-8 bg-white"
+        >
+          <ProgressDots />
+        </Card>
+      );
+    }
+
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
+      <div className="container-lined p-8 bg-white">
         <ProgressDots />
-      </Card>
+      </div>
     );
   }
 
   if (data?.courseRegistration.certificateId) {
     const formattedCertificateDate = new Date(data.courseRegistration.certificateCreatedAt ? data.courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
+    const { hasCertificate } = config.texts;
+
+    // For FoAI, use Card even though useCard is false, as per the existing behavior
     return (
       <Card
-        title="Your Certificate"
-        subtitle="View your certificate to share your achievement."
+        title={hasCertificate.title}
+        subtitle={hasCertificate.subtitle}
         className="container-lined p-8 bg-white"
       >
         <div className="flex flex-col gap-8">
@@ -164,12 +327,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
             <CTALinkOrButton
               url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
               variant="primary"
+              target="_blank"
             >
-              View Certificate
+              {hasCertificate.viewButtonLabel}
             </CTALinkOrButton>
           </div>
 
-          <CommunitySection />
+          {config.showCommunity && <CommunitySection />}
         </div>
       </Card>
     );
@@ -177,39 +341,75 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
 
   // Only future-of-ai certificates can be earned independently
   if (data?.courseRegistration.courseId !== 'rec0Zgize0c4liMl5') {
+    const { notEligible } = config.texts;
     return (
       <Card
-        title="Your Certificate"
-        subtitle="This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate."
+        title={notEligible.title}
+        subtitle={notEligible.subtitle}
         className="container-lined p-8 bg-white"
       >
-        <CommunitySection />
+        {config.showCommunity && <CommunitySection />}
+      </Card>
+    );
+  }
 
+  // Request certificate state
+  const { requestCertificate: requestCertConfig } = config.texts;
+  const content = (
+    <>
+      {config.useCard ? null : (
+        <div className="flex flex-col gap-2">
+          {requestCertConfig.header && (
+            <p className="bluedot-h4 mb-2 text-center">{requestCertConfig.header}</p>
+          )}
+          {requestCertConfig.description && (
+            <p className="bluedot-p">{requestCertConfig.description}</p>
+          )}
+        </div>
+      )}
+      <div className={config.useCard ? 'mt-8' : 'mt-4 flex justify-start'}>
+        {config.showCommunity ? (
+          <CommunitySection
+            leftContent={(
+              <CTALinkOrButton
+                variant="primary"
+                onClick={requestCertificate}
+                disabled={certificateRequestLoading}
+                className="w-full"
+              >
+                {requestCertConfig.buttonLabel}
+              </CTALinkOrButton>
+            )}
+          />
+        ) : (
+          <CTALinkOrButton
+            variant="primary"
+            onClick={requestCertificate}
+            disabled={certificateRequestLoading}
+          >
+            {requestCertConfig.buttonLabel}
+          </CTALinkOrButton>
+        )}
+      </div>
+    </>
+  );
+
+  if (config.useCard) {
+    return (
+      <Card
+        title={requestCertConfig.title || ''}
+        subtitle={requestCertConfig.subtitle || ''}
+        className="container-lined p-8 bg-white"
+      >
+        {content}
       </Card>
     );
   }
 
   return (
-    <Card
-      title="Your Certificate"
-      subtitle="If you've completed all the course exercises, you're eligible for a free course certificate."
-      className="container-lined p-8 bg-white"
-    >
-      <div className="mt-8">
-        <CommunitySection
-          leftContent={(
-            <CTALinkOrButton
-              variant="primary"
-              onClick={requestCertificate}
-              disabled={certificateRequestLoading}
-              className="w-full"
-            >
-              Request Certificate
-            </CTALinkOrButton>
-          )}
-        />
-      </div>
-    </Card>
+    <div className="container-lined p-8 bg-white">
+      {content}
+    </div>
   );
 };
 

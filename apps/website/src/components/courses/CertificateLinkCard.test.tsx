@@ -1,0 +1,192 @@
+import { render, screen } from '@testing-library/react';
+import {
+  describe, test, expect, beforeEach, vi,
+} from 'vitest';
+import useAxios from 'axios-hooks';
+import { useAuthStore } from '@bluedot/ui';
+import { useRouter } from 'next/router';
+import CertificateLinkCard from './CertificateLinkCard';
+
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
+
+vi.mock('axios-hooks');
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
+
+// Type helpers
+type UseAxiosReturnType = ReturnType<typeof useAxios>;
+
+describe('CertificateLinkCard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(useRouter).mockReturnValue({
+      asPath: '/courses/test-course',
+    } as ReturnType<typeof useRouter>);
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-01-01'));
+  });
+
+  describe('Not authenticated', () => {
+    beforeEach(() => {
+      vi.mocked(useAuthStore).mockReturnValue(null);
+    });
+
+    test('renders regular course', () => {
+      const { container } = render(
+        <CertificateLinkCard courseId="rec123456789" />,
+      );
+      expect(container).toMatchSnapshot();
+    });
+
+    test('renders FoAI course with different content', () => {
+      const { container } = render(
+        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+      );
+      expect(container).toMatchSnapshot();
+
+      // Verify FoAI-specific content
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
+      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+      expect(screen.getByText('Download Certificate')).toBeTruthy();
+    });
+  });
+
+  describe('Authenticated states', () => {
+    const mockAuth = { token: 'test-token', expiresAt: Date.now() + 10000 };
+
+    beforeEach(() => {
+      vi.mocked(useAuthStore).mockReturnValue(mockAuth as ReturnType<typeof useAuthStore>);
+    });
+
+    test('renders loading state', () => {
+      vi.mocked(useAxios).mockReturnValue([
+        { data: undefined, loading: true, error: undefined },
+        vi.fn(),
+      ] as UseAxiosReturnType);
+
+      const { container } = render(
+        <CertificateLinkCard courseId="rec123456789" />,
+      );
+      expect(container).toMatchSnapshot();
+    });
+
+    test('renders error state', () => {
+      const mockError = new Error('Network error');
+      vi.mocked(useAxios).mockReturnValue([
+        { data: undefined, loading: false, error: mockError },
+        vi.fn(),
+      ] as UseAxiosReturnType);
+
+      const { container } = render(
+        <CertificateLinkCard courseId="rec123456789" />,
+      );
+      expect(container).toMatchSnapshot();
+
+      // Verify error message and retry button
+      expect(screen.getByText('Network error')).toBeTruthy();
+      expect(screen.getByText('Retry')).toBeTruthy();
+    });
+
+    test('renders course without certificate - non-FoAI shows not eligible', () => {
+      vi.mocked(useAxios).mockReturnValue([
+        {
+          data: {
+            courseRegistration: {
+              courseId: 'rec123456789',
+              certificateId: null,
+              email: 'user@example.com',
+              fullName: 'Test User',
+            },
+          },
+          loading: false,
+          error: undefined,
+        },
+        vi.fn(),
+      ] as UseAxiosReturnType);
+
+      const { container } = render(
+        <CertificateLinkCard courseId="rec123456789" />,
+      );
+      expect(container).toMatchSnapshot();
+
+      // Verify not eligible message
+      expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
+      expect(screen.getByText('Join the Community')).toBeTruthy();
+    });
+
+    test('renders course without certificate - FoAI shows request button', () => {
+      vi.mocked(useAxios)
+        .mockReturnValueOnce([
+          {
+            data: {
+              courseRegistration: {
+                courseId: 'rec0Zgize0c4liMl5',
+                certificateId: null,
+                email: 'user@example.com',
+                fullName: 'Test User',
+              },
+            },
+            loading: false,
+            error: undefined,
+          },
+          vi.fn(),
+        ] as UseAxiosReturnType)
+        .mockReturnValueOnce([
+          {
+            data: undefined,
+            loading: false,
+            error: undefined,
+          },
+          vi.fn(),
+        ] as UseAxiosReturnType);
+
+      const { container } = render(
+        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+      );
+      expect(container).toMatchSnapshot();
+    });
+
+    test('renders course with certificate (works for both regular and FoAI)', () => {
+      vi.mocked(useAxios).mockReturnValue([
+        {
+          data: {
+            courseRegistration: {
+              courseId: 'rec123456789',
+              certificateId: 'cert123',
+              certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
+              email: 'user@example.com',
+              fullName: 'Test User',
+            },
+          },
+          loading: false,
+          error: undefined,
+        },
+        vi.fn(),
+      ] as UseAxiosReturnType);
+
+      const { container } = render(
+        <CertificateLinkCard courseId="rec123456789" />,
+      );
+
+      // Verify the snapshot
+      expect(container).toMatchSnapshot();
+
+      // Verify specific content
+      expect(screen.getByText('Earned by Test User')).toBeTruthy();
+      expect(screen.getByText('Issued on January 1, 2024')).toBeTruthy();
+      expect(screen.getByText('View Certificate')).toBeTruthy();
+
+      // Verify the certificate link
+      const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
+      expect(viewCertificateLink.getAttribute('href')).toBe('http://localhost:3000/certification?id=cert123');
+      expect(viewCertificateLink.getAttribute('target')).toBe('_blank');
+    });
+  });
+});

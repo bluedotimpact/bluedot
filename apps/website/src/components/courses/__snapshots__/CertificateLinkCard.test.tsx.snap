@@ -1,0 +1,550 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CertificateLinkCard > Authenticated states > renders course with certificate (works for both regular and FoAI) 1`] = `
+<div>
+  <div
+    class="card flex items-start transition-transform duration-200 flex-col container-lined p-8 bg-white"
+  >
+    <div
+      class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+    >
+      <div
+        class="card__text"
+      >
+        <p
+          class="card__title bluedot-h4 mb-2"
+        >
+          Your Certificate
+        </p>
+        <p
+          class="card__subtitle bluedot-p "
+        >
+          View your certificate to share your achievement.
+        </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <div
+          class="card__footer flex items-center justify-between w-full"
+        >
+          <div
+            class="flex flex-col gap-8"
+          >
+            <div
+              class="flex items-center justify-between"
+            >
+              <div
+                class="flex items-center"
+              >
+                <div
+                  class="mr-4 bg-bluedot-lighter p-3 rounded-lg"
+                >
+                  <svg
+                    class="text-bluedot-normal"
+                    fill="currentColor"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 384 512"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM1.3 441.8L44.4 339.3c.2 .1 .3 .2 .4 .4l9.6 19.1c11.7 23.2 36 37.3 62 35.8l21.3-1.3c.2 0 .5 0 .7 .2l17.8 11.8c5.1 3.3 10.5 5.9 16.1 7.7l-37.6 89.3c-2.3 5.5-7.4 9.2-13.3 9.7s-11.6-2.2-14.8-7.2L74.4 455.5l-56.1 8.3c-5.7 .8-11.4-1.5-15-6s-4.3-10.7-2.1-16zm248 60.4L211.7 413c5.6-1.8 11-4.3 16.1-7.7l17.8-11.8c.2-.1 .4-.2 .7-.2l21.3 1.3c26 1.5 50.3-12.6 62-35.8l9.6-19.1c.1-.2 .2-.3 .4-.4l43.2 102.5c2.2 5.3 1.4 11.4-2.1 16s-9.3 6.9-15 6l-56.1-8.3-32.2 49.2c-3.2 5-8.9 7.7-14.8 7.2s-11-4.3-13.3-9.7z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p
+                    class="font-semibold text-bluedot-black"
+                  >
+                    Earned by 
+                    Test User
+                  </p>
+                  <p
+                    class="text-bluedot-darker"
+                  >
+                    Issued on 
+                    January 1, 2024
+                  </p>
+                </div>
+              </div>
+              <a
+                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+                href="http://localhost:3000/certification?id=cert123"
+                tabindex="0"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  View Certificate
+                </span>
+              </a>
+            </div>
+            <div
+              class="border-t pt-6"
+            >
+              <div
+                class="flex items-center justify-between gap-4"
+              >
+                <div
+                  class="min-w-[160px]"
+                />
+                <p
+                  class="text-center flex-1 font-bold"
+                >
+                  Join 3,245 graduates in our graduate community!
+                </p>
+                <div
+                  class="min-w-[160px] flex justify-end"
+                >
+                  <a
+                    class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+                    href="https://community.bluedot.org"
+                    tabindex="0"
+                    target="_blank"
+                  >
+                    <span
+                      class="cta-button__text"
+                    >
+                      Join the Community
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Authenticated states > renders course without certificate - FoAI shows request button 1`] = `
+<div>
+  <div
+    class="container-lined p-8 bg-white"
+  >
+    <div
+      class="flex flex-col gap-2"
+    >
+      <p
+        class="bluedot-h4 mb-2 text-center"
+      >
+        Download your certificate, show you're taking AI seriously
+      </p>
+      <p
+        class="bluedot-p"
+      >
+        Complete all answers to unlock your certificate, then share your accomplishment on social media.
+      </p>
+    </div>
+    <div
+      class="mt-4 flex justify-start"
+    >
+      <button
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        type="button"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Download Certificate
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Authenticated states > renders course without certificate - non-FoAI shows not eligible 1`] = `
+<div>
+  <div
+    class="card flex items-start transition-transform duration-200 flex-col container-lined p-8 bg-white"
+  >
+    <div
+      class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+    >
+      <div
+        class="card__text"
+      >
+        <p
+          class="card__title bluedot-h4 mb-2"
+        >
+          Your Certificate
+        </p>
+        <p
+          class="card__subtitle bluedot-p "
+        >
+          This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.
+        </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <div
+          class="card__footer flex items-center justify-between w-full"
+        >
+          <div
+            class="border-t pt-6"
+          >
+            <div
+              class="flex items-center justify-between gap-4"
+            >
+              <div
+                class="min-w-[160px]"
+              />
+              <p
+                class="text-center flex-1 font-bold"
+              >
+                Join 3,245 graduates in our graduate community!
+              </p>
+              <div
+                class="min-w-[160px] flex justify-end"
+              >
+                <a
+                  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+                  href="https://community.bluedot.org"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  <span
+                    class="cta-button__text"
+                  >
+                    Join the Community
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Authenticated states > renders error state 1`] = `
+<div>
+  <div
+    class="card flex items-start transition-transform duration-200 flex-col container-lined p-8 bg-white"
+  >
+    <div
+      class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+    >
+      <div
+        class="card__text"
+      >
+        <p
+          class="card__title bluedot-h4 mb-2"
+        >
+          Your Certificate
+        </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <div
+          class="card__footer flex items-center justify-between w-full"
+        >
+          <div
+            class="flex flex-col gap-4"
+          >
+            <div
+              class="border-l-4 border-red-500 bg-red-100 text-black p-8 flex flex-col gap-4 not-prose"
+            >
+              <h3
+                class="bluedot-h3 whitespace-pre-line"
+              >
+                Error: 
+                Network error
+              </h3>
+              <p>
+                If the above message doesn't help, try again later or 
+                <a
+                  class="bluedot-a not-prose"
+                  href="https://bluedot.org/contact"
+                  tabindex="0"
+                >
+                  contact us
+                </a>
+                 for support.
+              </p>
+              <details
+                class="collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden -my-6 max-w-full"
+              >
+                <summary
+                  class="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left"
+                >
+                  <span
+                    class="collapsible__title bluedot-h4"
+                  >
+                    Show full error details
+                  </span>
+                  <span
+                    class="collapsible__button flex items-center"
+                  >
+                    <svg
+                      class="collapsible__button-icon size-6 transition-transform group-open:rotate-180"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 9l-7 7-7-7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <div
+                  class="collapsible__content pb-6"
+                >
+                  <div
+                    class="flex flex-col gap-4 overflow-x-auto [&_pre]:max-w-0"
+                  >
+                    <div>
+                      <p
+                        class="font-bold"
+                      >
+                         
+                        Message
+                      </p>
+                      <pre>
+                        Network error
+                      </pre>
+                    </div>
+                    <div>
+                      <p
+                        class="font-bold"
+                      >
+                         
+                        Stack
+                      </p>
+                      <pre>
+                        Error: Network error
+    at /Users/martin/programming/bluedot-container/bluedot/apps/website/src/components/courses/CertificateLinkCard.test.tsx:76:25
+    at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:155:11
+    at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:752:26
+    at file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1894:20
+    at new Promise (&lt;anonymous&gt;)
+    at runWithTimeout (file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1860:10)
+    at runTest (file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1571:12)
+    at runSuite (file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1726:8)
+    at runSuite (file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1726:8)
+    at runSuite (file:///Users/martin/programming/bluedot-container/bluedot/node_modules/@vitest/runner/dist/chunk-hooks.js:1726:8)
+                      </pre>
+                    </div>
+                    <div>
+                      <p
+                        class="font-bold"
+                      >
+                        Page URL
+                      </p>
+                      <pre>
+                        http://localhost:3000/
+                      </pre>
+                    </div>
+                    <div>
+                      <p
+                        class="font-bold"
+                      >
+                        Timestamp
+                      </p>
+                      <pre>
+                        2024-01-01T00:00:00.000Z
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+            <button
+              class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+              type="button"
+            >
+              <span
+                class="cta-button__text"
+              >
+                Retry
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Authenticated states > renders loading state 1`] = `
+<div>
+  <div
+    class="card flex items-start transition-transform duration-200 flex-col container-lined p-8 bg-white"
+  >
+    <div
+      class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+    >
+      <div
+        class="card__text"
+      >
+        <p
+          class="card__title bluedot-h4 mb-2"
+        >
+          Your Certificate
+        </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <div
+          class="card__footer flex items-center justify-between w-full"
+        >
+          <div
+            class="progress-dots flex justify-center space-x-2 my-6"
+          >
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 0ms;"
+            />
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 150ms;"
+            />
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 300ms;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Not authenticated > renders FoAI course with different content 1`] = `
+<div>
+  <div
+    class="container-lined p-8 bg-white"
+  >
+    <div
+      class="flex flex-col gap-2"
+    >
+      <p
+        class="bluedot-h4 mb-2 text-center"
+      >
+        Download your certificate, show you're taking AI seriously
+      </p>
+      <p
+        class="bluedot-p"
+      >
+        Complete all answers to unlock your certificate, then share your accomplishment on social media.
+      </p>
+    </div>
+    <div
+      class="mt-4 flex justify-start"
+    >
+      <a
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        href="http://localhost:3000/login?redirect_to=%2Fcourses%2Ftest-course"
+        tabindex="0"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Download Certificate
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CertificateLinkCard > Not authenticated > renders regular course 1`] = `
+<div>
+  <div
+    class="card flex items-start transition-transform duration-200 flex-col container-lined p-8 bg-white"
+  >
+    <div
+      class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+    >
+      <div
+        class="card__text"
+      >
+        <p
+          class="card__title bluedot-h4 mb-2"
+        >
+          Your Certificate
+        </p>
+        <p
+          class="card__subtitle bluedot-p "
+        >
+          Create a free account to collect course certificates.
+        </p>
+      </div>
+      <div
+        class="card__bottom-section flex flex-col gap-space-between"
+      >
+        <div
+          class="card__footer flex items-center justify-between w-full"
+        >
+          <div
+            class="mt-8"
+          >
+            <div
+              class="border-t pt-6"
+            >
+              <div
+                class="flex items-center justify-between gap-4"
+              >
+                <div
+                  class="min-w-[160px] flex justify-start"
+                >
+                  <a
+                    class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark w-full"
+                    href="http://localhost:3000/login?redirect_to=%2Fcourses%2Ftest-course"
+                    tabindex="0"
+                  >
+                    <span
+                      class="cta-button__text"
+                    >
+                      Log in
+                    </span>
+                  </a>
+                </div>
+                <p
+                  class="text-center flex-1 font-bold"
+                >
+                  Join 3,245 graduates in our graduate community!
+                </p>
+                <div
+                  class="min-w-[160px] flex justify-end"
+                >
+                  <a
+                    class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+                    href="https://community.bluedot.org"
+                    tabindex="0"
+                    target="_blank"
+                  >
+                    <span
+                      class="cta-button__text"
+                    >
+                      Join the Community
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
