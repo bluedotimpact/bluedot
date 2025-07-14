@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FoAICongratulations > renders default as expected 1`] = `
+<div>
+  <div
+    class="congratulations container-lined p-8 bg-white"
+  >
+    <div
+      class="flex flex-col gap-2"
+    >
+      <p
+        class="congratulations__title bluedot-h4 mb-2 text-center"
+      >
+        Congratulations on completing the Future of AI course!
+      </p>
+      <p
+        class="congratulations__description bluedot-p"
+      >
+        Want to connect with others taking AI safety seriously? 
+        <span
+          class="font-semibold"
+        >
+          Join 3,000+ FoAI course graduates
+        </span>
+         turning knowledge into action.
+      </p>
+    </div>
+    <div
+      class="mt-4 flex justify-start"
+    >
+      <a
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        href="https://community.bluedot.org"
+        tabindex="0"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Join the Community
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FoAICongratulations > renders with custom className 1`] = `
+<div>
+  <div
+    class="congratulations container-lined p-8 bg-white max-w-2xl mx-auto"
+  >
+    <div
+      class="flex flex-col gap-2"
+    >
+      <p
+        class="congratulations__title bluedot-h4 mb-2 text-center"
+      >
+        Congratulations on completing the Future of AI course!
+      </p>
+      <p
+        class="congratulations__description bluedot-p"
+      >
+        Want to connect with others taking AI safety seriously? 
+        <span
+          class="font-semibold"
+        >
+          Join 3,000+ FoAI course graduates
+        </span>
+         turning knowledge into action.
+      </p>
+    </div>
+    <div
+      class="mt-4 flex justify-start"
+    >
+      <a
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        href="https://community.bluedot.org"
+        tabindex="0"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Join the Community
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;

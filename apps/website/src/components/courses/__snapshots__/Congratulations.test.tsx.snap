@@ -1,5 +1,50 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Congratulations > renders FoAI course with special component 1`] = `
+<div>
+  <div
+    class="congratulations container-lined p-8 bg-white"
+  >
+    <div
+      class="flex flex-col gap-2"
+    >
+      <p
+        class="congratulations__title bluedot-h4 mb-2 text-center"
+      >
+        Congratulations on completing the Future of AI course!
+      </p>
+      <p
+        class="congratulations__description bluedot-p"
+      >
+        Want to connect with others taking AI safety seriously? 
+        <span
+          class="font-semibold"
+        >
+          Join 3,000+ FoAI course graduates
+        </span>
+         turning knowledge into action.
+      </p>
+    </div>
+    <div
+      class="mt-4 flex justify-start"
+    >
+      <a
+        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        href="https://community.bluedot.org"
+        tabindex="0"
+        target="_blank"
+      >
+        <span
+          class="cta-button__text"
+        >
+          Join the Community
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Congratulations > renders default as expected 1`] = `
 <div>
   <div
@@ -9,7 +54,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       class="bluedot-h3 not-prose congratulations__title text-center"
     >
       Congratulations on completing 
-      Future of AI
+      Test Course
       !
     </h3>
     <p
@@ -23,7 +68,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         aria-label="X (Twitter)"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Future%20of%20AI%20course%20from%20BlueDot%20Impact!%20It%E2%80%99s%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
         tabindex="0"
         target="_blank"
       >
@@ -44,7 +89,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         aria-label="LinkedIn"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Future%20of%20AI%20course%20from%20BlueDot%20Impact!%20It%E2%80%99s%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
         tabindex="0"
         target="_blank"
       >
@@ -65,7 +110,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         aria-label="Facebook"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
         tabindex="0"
         target="_blank"
       >
@@ -97,7 +142,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       class="bluedot-h3 not-prose congratulations__title text-center"
     >
       Congratulations on completing 
-      Future of AI
+      Test Course
       !
     </h3>
     <p
@@ -111,7 +156,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         aria-label="X (Twitter)"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
         tabindex="0"
         target="_blank"
       >
@@ -132,7 +177,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         aria-label="LinkedIn"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
         tabindex="0"
         target="_blank"
       >
@@ -153,7 +198,7 @@ exports[`Congratulations > renders with custom args 1`] = `
       <a
         aria-label="Facebook"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
         tabindex="0"
         target="_blank"
       >

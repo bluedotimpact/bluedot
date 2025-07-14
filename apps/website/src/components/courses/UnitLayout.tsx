@@ -270,7 +270,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
             {(!nextUnit && isLastChunk) ? (
               <>
-                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} />
+                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} courseId={unit.courseId} />
                 <CertificateLinkCard courseId={unit.courseId} />
                 <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
                   <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
