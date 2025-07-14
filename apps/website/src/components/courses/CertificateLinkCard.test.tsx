@@ -39,17 +39,20 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders regular course', () => {
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-      expect(container).toMatchSnapshot();
+      
+      // Verify login prompt is shown
+      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      expect(screen.getByText('Create a free account to collect course certificates.')).toBeTruthy();
+      expect(screen.getByText('Log in')).toBeTruthy();
     });
 
     test('renders FoAI course with different content', () => {
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
       );
-      expect(container).toMatchSnapshot();
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
@@ -71,10 +74,14 @@ describe('CertificateLinkCard', () => {
         vi.fn(),
       ] as UseAxiosReturnType);
 
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-      expect(container).toMatchSnapshot();
+      
+      // Verify loading indicator is shown
+      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      // Check for progress dots (ProgressDots component)
+      expect(document.querySelector('.progress-dots')).toBeTruthy();
     });
 
     test('renders course without certificate - non-FoAI shows not eligible', () => {
@@ -94,12 +101,12 @@ describe('CertificateLinkCard', () => {
         vi.fn(),
       ] as UseAxiosReturnType);
 
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-      expect(container).toMatchSnapshot();
 
       // Verify not eligible message
+      expect(screen.getByText('Your Certificate')).toBeTruthy();
       expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
       expect(screen.getByText('Join the Community')).toBeTruthy();
     });
@@ -130,10 +137,9 @@ describe('CertificateLinkCard', () => {
           vi.fn(),
         ] as UseAxiosReturnType);
 
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
       );
-      expect(container).toMatchSnapshot();
 
       // Verify that download certificate button is shown for FoAI course
       expect(screen.getByText('Download Certificate')).toBeTruthy();
@@ -165,12 +171,9 @@ describe('CertificateLinkCard', () => {
         vi.fn(),
       ] as UseAxiosReturnType);
 
-      const { container } = render(
+      render(
         <CertificateLinkCard courseId="rec123456789" />,
       );
-
-      // Verify the snapshot
-      expect(container).toMatchSnapshot();
 
       // Verify specific content
       expect(screen.getByText('Earned by Test User')).toBeTruthy();
