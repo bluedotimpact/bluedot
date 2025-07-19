@@ -248,74 +248,6 @@ exports[`TeamSection > renders as expected 1`] = `
                 </div>
               </div>
             </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex items-start transition-transform duration-200 flex-col team-section__card"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Adam Jones"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
-                    src="/images/team/adam.jpg"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
-                    >
-                      Adam Jones
-                    </p>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      AI Safety
-                    </p>
-                  </div>
-                  <div
-                    class="card__bottom-section flex flex-col gap-space-between"
-                  >
-                    <a
-                      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                      href="https://www.linkedin.com/in/domdomegg/"
-                      tabindex="0"
-                    >
-                      <span
-                        class="cta-button__text"
-                      >
-                        LinkedIn
-                      </span>
-                      <span
-                        class="cta-button__chevron ml-3"
-                      >
-                        <svg
-                          class="cta-button__chevron-icon size-2"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-width="0"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                          />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
             <div
@@ -349,7 +281,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     <p
                       class="card__subtitle bluedot-p "
                     >
-                      Community Manager
+                      Head of Community
                     </p>
                   </div>
                   <div
