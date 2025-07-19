@@ -183,7 +183,7 @@ exports[`Nav > renders with courses 1`] = `
           </div>
         </div>
         <a
-          class="bluedot-a not-prose logo shrink-0 w-[200px] no-underline"
+          class="bluedot-a not-prose logo shrink-0 no-underline lg:w-[200px] md:w-[180px] sm:w-[160px] w-[140px] max-[320px]:w-[100px]"
           href="/"
           tabindex="0"
         >
@@ -336,7 +336,7 @@ exports[`Nav > renders with courses 1`] = `
             </span>
           </a>
           <a
-            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta"
+            class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta mr-4 sm:mr-0"
             href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-page"
             tabindex="0"
           >

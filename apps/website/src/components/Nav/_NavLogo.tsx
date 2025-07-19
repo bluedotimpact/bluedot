@@ -4,7 +4,13 @@ import { A, H3 } from '../Text';
 import { TRANSITION_DURATION_CLASS } from './utils';
 
 export const NavLogo: React.FC<{ logo?: string; isScrolled: boolean }> = ({ logo, isScrolled }) => (
-  <A href="/" className="logo shrink-0 w-[200px] no-underline">
+  <A
+    href="/"
+    className={clsx(
+      'logo shrink-0 no-underline',
+      'lg:w-[200px] md:w-[180px] sm:w-[160px] w-[140px] max-[320px]:w-[100px]',
+    )}
+  >
     {logo ? (
       <img
         className={clsx(
