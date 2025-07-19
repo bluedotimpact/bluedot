@@ -34,7 +34,7 @@ body:
       description: Include Figma links, screenshots, or Loom walkthroughs.
       placeholder: Add any other context about the feature request here.
 
-   - type: dropdown
+  - type: dropdown
     id: priority
     attributes:
       label: Suggested Priority Level
