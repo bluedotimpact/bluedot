@@ -281,7 +281,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     <p
                       class="card__subtitle bluedot-p "
                     >
-                      Community Manager
+                      Head of Community
                     </p>
                   </div>
                   <div
