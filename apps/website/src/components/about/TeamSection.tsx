@@ -20,15 +20,9 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
-    imageSrc: '/images/team/adam.jpg',
-    name: 'Adam Jones',
-    role: 'AI Safety',
-    linkedInUrl: 'https://www.linkedin.com/in/domdomegg/',
-  },
-  {
     imageSrc: '/images/team/josh_v2.jpeg',
     name: 'Josh Landes',
-    role: 'Community Manager',
+    role: 'Head of Community',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
 ];
