@@ -12,7 +12,7 @@ const CourseDetails = ({ course, isLast = false }: CourseDetailsProps) => {
     <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
       <div>
         {/* Tab navigation - keeping for future expansion */}
-        <nav className="flex flex-col items-start px-8 border-b border-[#CCCCCC] mb-6" style={{ borderBottomWidth: '0.5px' }} aria-label="Course content tabs">
+        <nav className="flex flex-col items-start px-4 sm:px-8 border-b border-[#CCCCCC] mb-6" style={{ borderBottomWidth: '0.5px' }} aria-label="Course content tabs">
           <div className="flex items-start gap-5 h-9">
             <button
               type="button"
@@ -29,11 +29,11 @@ const CourseDetails = ({ course, isLast = false }: CourseDetailsProps) => {
           </div>
         </nav>
 
-        <div className="px-8 pb-6">
-          {/* Two-column layout */}
-          <div className="flex flex-row items-start gap-12">
-            {/* Main content area */}
-            <div className="flex-1 max-w-[520px]">
+        <div className="px-4 sm:px-8 pb-6">
+          {/* Two-column layout on desktop, stacked on mobile */}
+          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-12">
+            {/* Main content area - shown first on mobile */}
+            <div className="flex-1 max-w-full md:max-w-[520px] order-1">
               {/* Course description */}
               <div>
                 <h3 className="text-[13px] font-semibold text-[#00114D] mb-3">About this course</h3>
@@ -43,8 +43,8 @@ const CourseDetails = ({ course, isLast = false }: CourseDetailsProps) => {
               </div>
             </div>
 
-            {/* Details sidebar */}
-            <div className="w-[320px] flex-shrink-0">
+            {/* Details sidebar - shown second on mobile */}
+            <div className="w-full md:w-[320px] flex-shrink-0 order-2">
               <div>
                 <h3 className="text-[13px] font-semibold text-[#00114D] mb-3">Details</h3>
                 <div className="space-y-1">
