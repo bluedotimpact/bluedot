@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseDetails from './CourseDetails';
 
@@ -28,14 +28,18 @@ describe('CourseDetails', () => {
     isNew: false,
   };
 
-  it('displays course overview and duration', () => {
+  it('displays course overview and duration', async () => {
     render(
       <CourseDetails
         course={mockCourse}
       />,
     );
 
-    expect(screen.getByRole('region', { name: 'Expanded details for Introduction to AI Safety' })).toBeInTheDocument();
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(screen.getByRole('region', { name: 'Expanded details for Introduction to AI Safety' })).toBeInTheDocument();
+    });
+
     expect(screen.getByText('About this course')).toBeInTheDocument();
     expect(screen.getByText('Duration: 8 weeks')).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Overview', selected: true })).toBeInTheDocument();

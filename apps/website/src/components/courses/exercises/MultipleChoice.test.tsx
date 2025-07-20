@@ -40,19 +40,29 @@ const mockArgs = {
 };
 
 describe('MultipleChoice', () => {
-  test('renders default as expected', () => {
+  test('renders default as expected', async () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+    });
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
   });
 
-  test('renders logged in as expected', () => {
+  test('renders logged in as expected', async () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+    });
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
@@ -75,10 +85,16 @@ describe('MultipleChoice', () => {
     });
   });
 
-  test('updates styles for correct option', () => {
+  test('updates styles for correct option', async () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+    });
+
     // Expect only one correct option
     expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
     // Expect 'correct' UI
@@ -88,11 +104,17 @@ describe('MultipleChoice', () => {
     expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
   });
 
-  test('updates styles for incorrect option', () => {
+  test('updates styles for incorrect option', async () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { container } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+    });
+
     // Expect only one incorrect option
     expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);
     // Expect 'incorrect' UI

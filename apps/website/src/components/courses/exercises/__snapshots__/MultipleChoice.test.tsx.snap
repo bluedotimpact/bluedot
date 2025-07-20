@@ -24,7 +24,11 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         </p>
         <div
           class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none multiple-choice__description"
-        />
+        >
+          <p>
+            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -160,7 +164,11 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         </p>
         <div
           class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none multiple-choice__description"
-        />
+        >
+          <p>
+            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+          </p>
+        </div>
       </div>
     </div>
     <div
