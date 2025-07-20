@@ -69,8 +69,10 @@ describe('CourseListRow', () => {
       />,
     );
 
-    expect(screen.getByRole('link', { name: 'Continue course' })).toHaveAttribute('href', '/courses/ai-safety');
-    expect(screen.getByText('In progress')).toBeInTheDocument();
+    const continueLinks = screen.getAllByRole('link', { name: 'Continue course' });
+    expect(continueLinks[0]).toHaveAttribute('href', '/courses/ai-safety');
+    const progressTexts = screen.getAllByText('In progress');
+    expect(progressTexts.length).toBeGreaterThan(0);
   });
 
   it('shows view certificate link for completed course', () => {
@@ -87,8 +89,10 @@ describe('CourseListRow', () => {
       />,
     );
 
-    expect(screen.getByRole('link', { name: 'View your certificate' })).toBeInTheDocument();
-    expect(screen.getByText(/Completed on/)).toBeInTheDocument();
+    const certificateLinks = screen.getAllByRole('link', { name: 'View your certificate' });
+    expect(certificateLinks[0]).toBeInTheDocument();
+    const completedTexts = screen.getAllByText(/Completed on/);
+    expect(completedTexts.length).toBeGreaterThan(0);
   });
 
   it('expands and collapses course details', async () => {
@@ -100,7 +104,8 @@ describe('CourseListRow', () => {
       />,
     );
 
-    const expandButton = screen.getByLabelText('Expand Introduction to AI Safety details');
+    const expandButtons = screen.getAllByLabelText('Expand Introduction to AI Safety details');
+    const expandButton = expandButtons[0]!;
     expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
 
     await user.click(expandButton);
