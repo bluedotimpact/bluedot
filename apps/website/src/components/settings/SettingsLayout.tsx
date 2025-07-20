@@ -28,7 +28,7 @@ const SettingsLayout = ({ activeTab, children, route }: SettingsLayoutProps) => 
 
           {/* Content area */}
           <main className="lg:col-span-9" aria-label="Settings content">
-            <div className="container-lined" role="region">
+            <div role="region">
               {children}
             </div>
           </main>

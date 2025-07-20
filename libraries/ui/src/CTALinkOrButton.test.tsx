@@ -51,4 +51,47 @@ describe('CTALinkOrButton', () => {
     expect(button.tagName).toBe('BUTTON');
     expect(button.className).includes('cta-button--secondary');
   });
+
+  test('renders with black variant', () => {
+    render(<CTALinkOrButton variant="black">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button).toBeTruthy();
+    expect(button.className).includes('cta-button--black');
+    expect(button.className).includes('bg-bluedot-darker');
+  });
+
+  test('renders with outline-black variant', () => {
+    render(<CTALinkOrButton variant="outline-black">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button).toBeTruthy();
+    expect(button.className).includes('cta-button--outline-black');
+    expect(button.className).includes('border-black');
+    expect(button.className).includes('text-black');
+  });
+
+  test('renders with medium size by default', () => {
+    render(<CTALinkOrButton>Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button.className).includes('text-sm');
+    expect(button.className).includes('px-4');
+    expect(button.className).includes('py-3');
+  });
+
+  test('renders with small size', () => {
+    render(<CTALinkOrButton size="small">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button.className).includes('text-[13px]');
+    expect(button.className).includes('px-3');
+    expect(button.className).includes('py-2.5');
+    expect(button.className).includes('h-9');
+  });
+
+  test('renders small black variant with chevron', () => {
+    render(<CTALinkOrButton size="small" variant="black" withChevron>Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button.className).includes('cta-button--black');
+    expect(button.className).includes('h-9');
+    const chevron = document.querySelector('.cta-button__chevron');
+    expect(chevron).toBeTruthy();
+  });
 });
