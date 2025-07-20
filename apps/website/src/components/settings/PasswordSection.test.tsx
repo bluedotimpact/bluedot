@@ -298,7 +298,7 @@ describe('PasswordSection - User Journeys', () => {
     const promise = new Promise<void>((resolve) => {
       resolvePromise = resolve;
     });
-    
+
     mockedAxios.post.mockImplementation(() => promise);
 
     render(<PasswordSection authToken={authToken} />);
