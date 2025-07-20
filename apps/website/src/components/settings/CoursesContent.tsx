@@ -37,7 +37,7 @@ const CoursesContent = ({ authToken }: CoursesContentProps) => {
 
   const completedCourses = enrolledCourses.filter(({ courseRegistration }) => !!courseRegistration.certificateCreatedAt).sort((a, b) => {
     // Sort completed courses by completion date (newest first)
-    return (b.courseRegistration.certificateCreatedAt || 0) - (a.courseRegistration.certificateCreatedAt || 0);
+    return (b.courseRegistration.certificateCreatedAt ?? 0) - (a.courseRegistration.certificateCreatedAt ?? 0);
   });
 
   const loading = courseRegistrationsLoading || coursesLoading;

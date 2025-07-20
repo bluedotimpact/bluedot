@@ -5,6 +5,7 @@ import {
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 
 type MockCourseDetailsProps = {
@@ -19,28 +20,17 @@ vi.mock('./CourseDetails', () => ({
 }));
 
 describe('CourseListRow', () => {
-  const mockCourse = {
+  const mockCourse = createMockCourse({
     id: 'course-1',
     title: 'Introduction to AI Safety',
     description: 'Learn the fundamentals of AI safety and alignment.',
     durationDescription: '8 weeks',
     image: '/course-image.jpg',
     path: '/courses/ai-safety',
-    certificationBadgeImage: null,
-    certificationDescription: null,
-    detailsUrl: '',
-    displayOnCourseHubIndex: true,
-    durationHours: 40,
     slug: 'ai-safety',
-    shortDescription: '',
-    units: [],
     cadence: 'Weekly',
     level: 'Beginner',
-    averageRating: null,
-    publicLastUpdated: null,
-    isFeatured: false,
-    isNew: false,
-  };
+  });
 
   const mockCourseRegistration = {
     id: 'reg-1',
