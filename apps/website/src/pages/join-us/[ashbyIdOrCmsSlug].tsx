@@ -22,7 +22,12 @@ import { GetJobResponse } from '../api/cms/jobs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 
 const JobPostingPage = () => {
-  const { query: { ashbyIdOrCmsSlug } } = useRouter();
+  const router = useRouter();
+  if (!router.isReady) {
+    return <ProgressDots />;
+  }
+
+  const { ashbyIdOrCmsSlug } = router.query;
   if (typeof ashbyIdOrCmsSlug !== 'string') {
     return <ErrorSection error={new Error('Job not found: invalid path')} />;
   }
@@ -42,7 +47,7 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
   });
 
   const currentRoute: BluedotRoute = {
-    title: data?.job.title || 'Job Posting',
+    title: data?.job?.title || 'Job Posting',
     url: `${ROUTES.joinUs.url}/${slug}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
@@ -50,7 +55,7 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
   return (
     <div>
       {loading && <ProgressDots />}
-      {error && <ErrorSection error={error} />}
+      {!loading && error && <ErrorSection error={error} />}
       {data?.job && (
         <>
           <Head>
@@ -132,7 +137,9 @@ const AshbyJobPostingPage = ({ ashbyId }: { ashbyId: string }) => {
   return (
     <div>
       {loading && <ProgressDots />}
-      {(error || (data && !job)) && <ErrorSection error={error || new Error('Job not found. This job posting may have been closed.')} />}
+      {!loading && (error || (data && !job)) && (
+        <ErrorSection error={error || new Error('Job not found. This job posting may have been closed.')} />
+      )}
       {job && (
         <>
           <Head>
