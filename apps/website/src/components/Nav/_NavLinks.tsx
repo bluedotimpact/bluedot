@@ -128,7 +128,14 @@ const NavDropdown: React.FC<{
             </div>
           ) : (
             links?.map((link) => (
-              <A key={link.url} href={link.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}>
+              <A
+                key={link.url}
+                href={link.url}
+                className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}
+                onClick={() => {
+                  onToggle();
+                }}
+              >
                 {link.title}
                 {link.isNew && (
                   <Tag variant="secondary" className="uppercase ml-2 !p-1">
