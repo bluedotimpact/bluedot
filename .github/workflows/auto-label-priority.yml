@@ -17,8 +17,8 @@ jobs:
             const issue = context.payload.issue;
             const body = issue.body;
             
-            // Extract priority (P0-P4) from dropdown selection
-            const priorityMatch = body.match(/[{"]?(P[0-4])["}]?\s*=>/);
+            // Extract priority from format: {"P2" => "Medium (Default)"}
+            const priorityMatch = body.match(/\{"(P[0-4])"\s*=>/);
             
             if (!priorityMatch) {
               console.log('Priority not found in issue body');
