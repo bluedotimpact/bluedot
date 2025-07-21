@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import {
   describe,
   expect,
@@ -132,7 +132,7 @@ const CHUNKS = [
 ];
 
 describe('UnitLayout', () => {
-  test('renders first unit as expected', () => {
+  test('renders first unit as expected', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -141,10 +141,16 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container).toMatchSnapshot();
   });
 
-  test('renders previous and next unit buttons for middle unit', () => {
+  test('renders previous and next unit buttons for middle unit', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -153,10 +159,16 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
   });
 
-  test('does not render Congratulations section if it is not the final chunk of final unit', () => {
+  test('does not render Congratulations section if it is not the final chunk of final unit', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -166,12 +178,17 @@ describe('UnitLayout', () => {
       />,
     );
 
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container.querySelector('.unit__cta-container')).not.toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
-  test('renders Congratulations section on final chunk of final unit', () => {
+  test('renders Congratulations section on final chunk of final unit', async () => {
     // Update router mock to show last chunk
     vi.mocked(useRouter).mockReturnValue({
       query: { chunk: String(CHUNKS.length - 1) },
@@ -201,12 +218,17 @@ describe('UnitLayout', () => {
       />,
     );
 
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container.querySelector('.unit__cta-container')).toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 
-  test('keyboard navigation hint is displayed', () => {
+  test('keyboard navigation hint is displayed', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -216,12 +238,17 @@ describe('UnitLayout', () => {
       />,
     );
 
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     const hint = container.querySelector('.unit__keyboard-hint');
     expect(hint).toBeTruthy();
     expect(hint?.textContent).toContain('Use arrow keys (← →) to navigate between sections');
   });
 
-  test('navigation buttons have keyboard shortcut tooltips', () => {
+  test('navigation buttons have keyboard shortcut tooltips', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -230,6 +257,11 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
 
     const prevButton = container.querySelector('button[aria-label="Previous"]');
     const nextButton = container.querySelector('button[aria-label="Next"]');

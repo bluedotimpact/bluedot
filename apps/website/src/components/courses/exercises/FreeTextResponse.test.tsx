@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import {
   beforeEach,
   describe,
@@ -38,28 +38,44 @@ const mockArgs = {
 };
 
 describe('FreeTextResponse', () => {
-  test('renders default as expected', () => {
+  test('renders default as expected', async () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} />,
     );
 
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
   });
 
-  test('renders logged in as expected', () => {
+  test('renders logged in as expected', async () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} isLoggedIn />,
     );
 
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
   });
 
-  test('renders with saved exercise response', () => {
+  test('renders with saved exercise response', async () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
+
+    // Wait for MarkdownExtendedRenderer to complete async rendering
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
     const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
 
     expect(container).toMatchSnapshot();

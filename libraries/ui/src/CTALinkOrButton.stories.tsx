@@ -44,3 +44,120 @@ export const Link: Story = {
     },
   },
 };
+
+export const Primary: Story = {
+  args: {
+    children: 'Primary Button',
+    variant: 'primary',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    children: 'Secondary Button',
+    variant: 'secondary',
+  },
+};
+
+export const Black: Story = {
+  args: {
+    children: 'Black Button',
+    variant: 'black',
+  },
+};
+
+export const OutlineBlack: Story = {
+  args: {
+    children: 'Outline Black Button',
+    variant: 'outline-black',
+  },
+};
+
+export const WithChevron: Story = {
+  args: {
+    children: 'With Chevron',
+    variant: 'primary',
+    withChevron: true,
+  },
+};
+
+export const WithBackChevron: Story = {
+  args: {
+    children: 'With Back Chevron',
+    variant: 'primary',
+    withBackChevron: true,
+  },
+};
+
+export const BlackWithChevron: Story = {
+  args: {
+    children: 'Black With Chevron',
+    variant: 'black',
+    withChevron: true,
+  },
+};
+
+export const BlackWithBackChevron: Story = {
+  args: {
+    children: 'Black With Back Chevron',
+    variant: 'black',
+    withBackChevron: true,
+  },
+};
+
+export const OutlineBlackWithChevron: Story = {
+  args: {
+    children: 'Outline Black With Chevron',
+    variant: 'outline-black',
+    withChevron: true,
+  },
+};
+
+export const OutlineBlackWithBackChevron: Story = {
+  args: {
+    children: 'Outline Black With Back Chevron',
+    variant: 'outline-black',
+    withBackChevron: true,
+  },
+};
+
+export const SmallPrimary: Story = {
+  args: {
+    children: 'Small Primary',
+    variant: 'primary',
+    size: 'small',
+  },
+};
+
+export const SmallSecondary: Story = {
+  args: {
+    children: 'Small Secondary',
+    variant: 'secondary',
+    size: 'small',
+  },
+};
+
+export const SmallBlack: Story = {
+  args: {
+    children: 'Small Black',
+    variant: 'black',
+    size: 'small',
+  },
+};
+
+export const SmallOutlineBlack: Story = {
+  args: {
+    children: 'Small Outline Black',
+    variant: 'outline-black',
+    size: 'small',
+  },
+};
+
+export const SmallWithChevron: Story = {
+  args: {
+    children: 'Small With Chevron',
+    variant: 'primary',
+    size: 'small',
+    withChevron: true,
+  },
+};

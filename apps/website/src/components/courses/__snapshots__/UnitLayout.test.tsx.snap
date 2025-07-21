@@ -414,7 +414,16 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </div>
             <div
               class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
-            />
+            >
+              <p>
+                Five years ago, AI systems struggled to form coherent sentences. Today, &gt;5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks.
+              </p>
+              
+
+              <p>
+                This unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.
+              </p>
+            </div>
             <div
               class="unit__keyboard-hint text-size-xs text-color-secondary mt-4"
             >
@@ -426,7 +435,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
             >
               <button
-                class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
                 type="button"
               >
                 <span
@@ -464,7 +473,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
   type="button"
 >
   <span

@@ -29,7 +29,7 @@ exports[`Congratulations > renders FoAI course with special component 1`] = `
       class="mt-4 flex justify-start"
     >
       <a
-        class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
         href="https://community.bluedot.org"
         tabindex="0"
         target="_blank"

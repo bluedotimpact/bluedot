@@ -156,7 +156,6 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         class="lg:col-span-9"
       >
         <div
-          class="container-lined"
           role="region"
         >
           <div>

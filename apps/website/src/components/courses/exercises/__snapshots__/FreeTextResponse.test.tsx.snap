@@ -24,7 +24,11 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         </p>
         <div
           class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
-        />
+        >
+          <p>
+            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -38,7 +42,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       />
     </div>
     <a
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
       href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
       tabindex="0"
     >
@@ -94,7 +98,11 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         </p>
         <div
           class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
-        />
+        >
+          <p>
+            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -107,7 +115,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       />
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
       type="button"
     >
       <span
@@ -144,7 +152,11 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         </p>
         <div
           class="markdown-extended-renderer prose prose-p:text-size-md prose-li:text-size-md prose-p:leading-normal prose-li:leading-normal max-w-none"
-        />
+        >
+          <p>
+            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
+          </p>
+        </div>
       </div>
     </div>
     <div
@@ -157,7 +169,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       />
     </div>
     <button
-      class="cta-button flex items-center justify-center rounded-sm transition-all duration-200 text-sm px-4 py-3 w-fit font-[650] whitespace-nowrap cursor-pointer not-prose cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
       type="button"
     >
       <span

@@ -87,6 +87,8 @@
     }
     .bluedot-p {
         @apply text-color-text font-sans text-size-sm font-normal leading-[1.6];
+        font-variant-ligatures: none;
+        font-feature-settings: "liga" 0, "clig" 0;
     }
     .bluedot-a {
         @apply text-color-secondary-text hover:text-color-primary-accent cursor-pointer underline;
