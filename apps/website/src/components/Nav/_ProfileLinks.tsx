@@ -35,10 +35,30 @@ export const ProfileLinks: React.FC<{
       />
       <div className={clsx('profile-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.profile))}>
         <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
-          <A href={ROUTES.settingsAccount.url} className={NAV_LINK_CLASSES(isScrolled)}>Account</A>
-          <A href={ROUTES.settingsCourses.url} className={NAV_LINK_CLASSES(isScrolled)}>Courses</A>
-          <A href={ROUTES.settingsCommunity.url} className={NAV_LINK_CLASSES(isScrolled)}>Community</A>
-          <A href={ROUTES.contact.url} className={NAV_LINK_CLASSES(isScrolled)}>Help</A>
+          <A
+            href={ROUTES.settingsAccount.url}
+            className={NAV_LINK_CLASSES(isScrolled)}
+            onClick={onToggleProfile}
+          >Account
+          </A>
+          <A
+            href={ROUTES.settingsCourses.url}
+            className={NAV_LINK_CLASSES(isScrolled)}
+            onClick={onToggleProfile}
+          >Courses
+          </A>
+          <A
+            href={ROUTES.settingsCommunity.url}
+            className={NAV_LINK_CLASSES(isScrolled)}
+            onClick={onToggleProfile}
+          >Community
+          </A>
+          <A
+            href={ROUTES.contact.url}
+            className={NAV_LINK_CLASSES(isScrolled)}
+            onClick={onToggleProfile}
+          >Help
+          </A>
           <button
             type="button"
             onClick={() => {
@@ -49,7 +69,12 @@ export const ProfileLinks: React.FC<{
           >
             Submit Feedback
           </button>
-          <A href={ROUTES.logout.url} className={NAV_LINK_CLASSES(isScrolled)}>Log out</A>
+          <A
+            href={ROUTES.logout.url}
+            className={NAV_LINK_CLASSES(isScrolled)}
+            onClick={onToggleProfile}
+          >Log out
+          </A>
         </div>
       </div>
       <BugReportModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
