@@ -61,6 +61,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
+    setValue('answer', option);
     setIsEditing(true);
   };
 
