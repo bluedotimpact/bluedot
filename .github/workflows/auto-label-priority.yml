@@ -25,12 +25,23 @@ jobs:
               return;
             }
             
-            const priority = priorityMatch[1];
-            console.log(`Applying label: ${priority}`);
+            const priorityCode = priorityMatch[1];
+            
+            // Map to actual label names
+            const labelMap = {
+              'P0': 'P0: Critical',
+              'P1': 'P1: High',
+              'P2': 'P2: Medium',
+              'P3': 'P3: Low',
+              'P4': 'P4: Trivial/Wishlist'
+            };
+            
+            const label = labelMap[priorityCode];
+            console.log(`Applying label: ${label}`);
             
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              labels: [priority]
+              labels: [label]
             });
