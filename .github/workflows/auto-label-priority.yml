@@ -17,36 +17,20 @@ jobs:
             const issue = context.payload.issue;
             const body = issue.body;
             
-            // Extract the priority from the issue body
-            // Looking for pattern like "Suggested Priority Level\n\nP2: Medium (Default)"
-            const lines = body.split('\n');
-            let priority = null;
+            // Extract priority from format: {"P2" => "Medium (Default)"}
+            const priorityMatch = body.match(/\{"(P[0-4])"\s*=>/);
             
-            for (let i = 0; i < lines.length; i++) {
-              if (lines[i].includes('Suggested Priority Level')) {
-                // The selected value appears 2 lines after the label
-                if (i + 2 < lines.length) {
-                  const selectedLine = lines[i + 2];
-                  // Extract P0, P1, P2, P3, or P4
-                  const match = selectedLine.match(/^(P[0-4]):/);
-                  if (match) {
-                    priority = match[1];
-                    break;
-                  }
-                }
-              }
+            if (!priorityMatch) {
+              console.log('Priority not found in issue body');
+              return;
             }
             
-            if (priority) {
-              console.log(`Adding label: ${priority}`);
-              
-              // Add the priority label
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                labels: [priority]
-              });
-            } else {
-              console.log('No priority found in issue body');
-            }
+            const priority = priorityMatch[1];
+            console.log(`Applying label: ${priority}`);
+            
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: [priority]
+            });
