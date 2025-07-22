@@ -49,7 +49,7 @@ export const NavCta: React.FC<{
             Login
           </CTALinkOrButton>
           <CTALinkOrButton
-            className="nav-cta__primary-cta"
+            className="nav-cta__primary-cta min-[370px]:flex hidden" // Hide on very small screens smaller than 380px
             variant="primary"
             url={joinUrl}
           >
