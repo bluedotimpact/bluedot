@@ -350,7 +350,7 @@ exports[`Nav > renders with courses 1`] = `
             </span>
           </a>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta"
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta min-[370px]:flex hidden"
             href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-page"
             tabindex="0"
           >
