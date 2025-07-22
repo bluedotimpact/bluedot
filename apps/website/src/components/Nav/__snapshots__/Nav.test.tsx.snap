@@ -50,6 +50,7 @@ exports[`Nav > renders with courses 1`] = `
           >
             <div
               class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+              role="presentation"
             >
               <div
                 class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"

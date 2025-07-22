@@ -31,7 +31,32 @@ export const MobileNavLinks: React.FC<{
         className="mobile-nav-links__btn"
       />
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.mobileNav))}>
-        <div className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden">
+        <div
+          className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+          onClick={(e) => {
+            // Close mobile nav when any link is clicked
+            if ((e.target as HTMLElement).tagName === 'A') {
+              updateExpandedSections({
+                about: false,
+                explore: false,
+                mobileNav: false,
+                profile: false,
+              });
+            }
+          }}
+          onKeyDown={(e) => {
+            // Also handle keyboard navigation
+            if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'A') {
+              updateExpandedSections({
+                about: false,
+                explore: false,
+                mobileNav: false,
+                profile: false,
+              });
+            }
+          }}
+          role="presentation"
+        >
           <NavLinks
             className="mobile-nav-links__nav-links flex-col"
             expandedSections={expandedSections}
