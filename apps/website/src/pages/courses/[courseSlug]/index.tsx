@@ -6,6 +6,7 @@ import {
   HeroH1,
   HeroSection,
   ProgressDots,
+  useAuthStore,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
@@ -18,6 +19,7 @@ import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
+import { GetCourseRegistrationResponse } from '../../api/course-registrations/[courseId]';
 
 const CoursePage = () => {
   const { query: { courseSlug } } = useRouter();
@@ -56,6 +58,24 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
 };
 
 const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) => {
+  const auth = useAuthStore((s) => s.auth);
+  const [{ data: registration }] = useAxios<GetCourseRegistrationResponse>({
+    method: 'get',
+    url: auth ? `/api/course-registrations/${courseData.course.id}` : '',
+    headers: auth ? { Authorization: `Bearer ${auth.token}` } : {},
+  });
+
+  let courseUrl = '';
+  if (registration?.courseRegistration) {
+    const { lastVisitedUnitNumber, lastVisitedChunkIndex } = registration.courseRegistration;
+    if (lastVisitedUnitNumber !== undefined) {
+      const unit = courseData.units.find((u) => parseInt(u.unitNumber) === lastVisitedUnitNumber);
+      if (unit?.path) {
+        courseUrl = `${unit.path}?chunk=${lastVisitedChunkIndex ?? 0}`;
+      }
+    }
+  }
+
   return (
     <div>
       {courseData.course && (
@@ -70,7 +90,9 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
             <div className="flex flex-row gap-4 justify-center items-center">
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
-                  <CTALinkOrButton url={courseData.units[0].path}>Browse the curriculum</CTALinkOrButton>
+                  <CTALinkOrButton url={courseUrl}>
+                    {courseUrl ? 'Continue learning' : 'Browse the curriculum'}
+                  </CTALinkOrButton>
                 </HeroCTAContainer>
               )}
               <HeroCTAContainer>
