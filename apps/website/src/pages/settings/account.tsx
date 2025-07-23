@@ -1,6 +1,9 @@
-import { ProgressDots, withAuth, ErrorSection } from '@bluedot/ui';
+import {
+  ProgressDots, withAuth, ErrorSection, Modal,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import useAxios from 'axios-hooks';
+import { useState, useEffect } from 'react';
 import { GetUserResponse } from '../api/users/me';
 import { ROUTES } from '../../lib/routes';
 import { P } from '../../components/Text';
@@ -11,13 +14,23 @@ import PasswordSection from '../../components/settings/PasswordSection';
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
 const AccountSettingsPage = ({ auth }: { auth: { token: string } }) => {
-  const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
+  const [{ data: userData, loading: userLoading, error: userError }, refetch] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
     headers: {
       Authorization: `Bearer ${auth.token}`,
     },
   });
+
+  // Add state for the welcome modal
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+  // Check if name is empty when user data loads
+  useEffect(() => {
+    if (userData?.user && (!userData.user.name || userData.user.name.trim() === '')) {
+      setShowWelcomeModal(true);
+    }
+  }, [userData]);
 
   return (
     <div>
@@ -27,30 +40,55 @@ const AccountSettingsPage = ({ auth }: { auth: { token: string } }) => {
       {userLoading && <ProgressDots />}
       {userError && <ErrorSection error={userError} />}
       {userData?.user && (
-        <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
-          <div className="p-8">
-            {/* Profile Name Editor */}
-            <ProfileNameEditor
-              initialName={userData.user.name}
-              authToken={auth.token}
-            />
+        <>
+          <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
+            <div className="p-8">
+              {/* Profile Name Editor */}
+              <ProfileNameEditor
+                initialName={userData.user.name}
+                authToken={auth.token}
+                onSave={() => refetch()}
+              />
 
-            {/* Divider */}
-            <div className="border-t border-color-divider my-6" />
+              {/* Divider */}
+              <div className="border-t border-color-divider my-6" />
 
-            {/* Email Section */}
-            <div className="mb-6">
-              <P className="font-semibold mb-2">Email*</P>
-              <P className="text-gray-600">{userData.user.email}</P>
+              {/* Email Section */}
+              <div className="mb-6">
+                <P className="font-semibold mb-2">Email*</P>
+                <P className="text-gray-600">{userData.user.email}</P>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-color-divider my-6" />
+
+              {/* Password Section */}
+              <PasswordSection authToken={auth.token} />
             </div>
+          </SettingsLayout>
 
-            {/* Divider */}
-            <div className="border-t border-color-divider my-6" />
-
-            {/* Password Section */}
-            <PasswordSection authToken={auth.token} />
-          </div>
-        </SettingsLayout>
+          {/* Welcome Modal */}
+          <Modal
+            isOpen={showWelcomeModal}
+            setIsOpen={setShowWelcomeModal}
+            title="Welcome to BlueDot Impact!"
+          >
+            <div className="space-y-4">
+              <P>
+                Before you continue, please take a moment to set your profile name.
+                This name will be used across our platform and in your course interactions.
+              </P>
+              <ProfileNameEditor
+                initialName={userData.user.name}
+                authToken={auth.token}
+                onSave={() => {
+                  setShowWelcomeModal(false);
+                  refetch();
+                }}
+              />
+            </div>
+          </Modal>
+        </>
       )}
     </div>
   );

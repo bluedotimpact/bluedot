@@ -11,9 +11,10 @@ import { parseZodValidationError } from '../../lib/utils';
 type ProfileNameEditorProps = {
   initialName: string;
   authToken: string;
+  onSave?: () => void;
 };
 
-const ProfileNameEditor = ({ initialName, authToken }: ProfileNameEditorProps) => {
+const ProfileNameEditor = ({ initialName, authToken, onSave }: ProfileNameEditorProps) => {
   const [tempName, setTempName] = useState(initialName);
   const [isSaving, setIsSaving] = useState(false);
   const [nameError, setNameError] = useState('');
@@ -50,6 +51,8 @@ const ProfileNameEditor = ({ initialName, authToken }: ProfileNameEditorProps) =
 
       setCurrentSavedName(trimmedName);
       setTempName(trimmedName);
+      // Call onSave callback if provided
+      onSave?.();
     } catch (err) {
       if (!axios.isAxiosError(err)) {
         setNameError('Failed to update name. Please try again.');
