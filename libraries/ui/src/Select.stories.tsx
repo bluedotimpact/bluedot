@@ -89,17 +89,17 @@ export const WithBothIcons: Story = {
   args: {
     label: 'User Contact',
     icon: <FaUserGroup />,
-    placeholder: 'Select contact method',
+    placeholder: 'Cohort 22: Group A',
     options: [
       {
         value: 'switch-group',
         label: 'Switch Group',
-        icon: <FaRightLeft className="text-gray-600" />,
+        icon: <FaRightLeft className="text-black-200" />,
       },
       {
         value: 'drop-out',
         label: 'Drop out / Defer',
-        icon: <FaArrowRightToBracket className="text-gray-600" />,
+        icon: <FaArrowRightToBracket className="text-black-200" />,
       },
     ],
   },
