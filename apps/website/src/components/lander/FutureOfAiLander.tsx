@@ -125,6 +125,9 @@ const FutureOfAiLander = ({
     method: 'get',
     url: auth ? `/api/course-registrations/${courseData.course.id}` : '',
     headers: auth ? { Authorization: `Bearer ${auth.token}` } : {},
+  }, {
+    manual: false,
+    useCache: false,
   });
 
   // Track landing page views

@@ -222,6 +222,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
+  }, {
+    manual: false,
+    useCache: false,
   });
 
   const [{ loading: certificateRequestLoading, error: certificateRequestError }, refetchCertificateRequest] = useAxios<RequestCertificateResponse, RequestCertificateRequest>({

@@ -63,6 +63,9 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
     method: 'get',
     url: auth ? `/api/course-registrations/${courseData.course.id}` : '',
     headers: auth ? { Authorization: `Bearer ${auth.token}` } : {},
+  }, {
+    manual: false,
+    useCache: false,
   });
 
   let courseUrl = '';
