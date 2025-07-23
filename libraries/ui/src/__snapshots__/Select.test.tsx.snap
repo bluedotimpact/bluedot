@@ -33,15 +33,7 @@ exports[`Select > renders disabled state 1`] = `
         data-rac=""
         id="react-aria-:r15:"
       >
-        <div
-          class="flex items-center gap-2 w-full"
-        >
-          <span
-            class="flex-1 font-medium text-[13px] leading-[22px]"
-          >
-            Cat
-          </span>
-        </div>
+        Cat
       </span>
       <svg
         class="size-[14px] opacity-50"
