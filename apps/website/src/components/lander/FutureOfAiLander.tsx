@@ -6,6 +6,7 @@ import {
   Section,
   QuoteCarousel,
   type Quote,
+  useAuthStore,
 } from '@bluedot/ui';
 import {
   HeroH1,
@@ -20,8 +21,10 @@ import {
   FaLightbulb,
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
+import useAxios from 'axios-hooks';
 
 import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
+import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
@@ -117,6 +120,13 @@ const features = [
 const FutureOfAiLander = ({
   courseData,
 }: { courseData: GetCourseResponse }) => {
+  const auth = useAuthStore((s) => s.auth);
+  const [{ data: registration }] = useAxios<GetCourseRegistrationResponse>({
+    method: 'get',
+    url: auth ? `/api/course-registrations/${courseData.course.id}` : '',
+    headers: auth ? { Authorization: `Bearer ${auth.token}` } : {},
+  });
+
   // Track landing page views
   useEffect(() => {
     if (typeof window !== 'undefined' && window.dataLayer) {
@@ -126,6 +136,17 @@ const FutureOfAiLander = ({
       });
     }
   }, []);
+
+  let courseUrl = courseData.units?.[0]?.path ?? '';
+  if (registration?.courseRegistration) {
+    const { lastVisitedUnitNumber, lastVisitedChunkIndex } = registration.courseRegistration;
+    if (lastVisitedUnitNumber !== undefined) {
+      const unit = courseData.units.find((u) => parseInt(u.unitNumber) === lastVisitedUnitNumber);
+      if (unit?.path) {
+        courseUrl = `${unit.path}?chunk=${lastVisitedChunkIndex ?? 0}`;
+      }
+    }
+  }
 
   return (
     <>
@@ -157,7 +178,9 @@ const FutureOfAiLander = ({
           {courseData.units?.[0]?.path && (
             <HeroCTAContainer>
               <div className="flex flex-row gap-4">
-                <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+                <CTALinkOrButton url={courseUrl} withChevron>
+                  {registration?.courseRegistration ? 'Continue learning' : 'Start the free course'}
+                </CTALinkOrButton>
                 <CTALinkOrButton url="https://community.bluedot.org" target="_blank">Join the Community</CTALinkOrButton>
               </div>
             </HeroCTAContainer>
@@ -190,7 +213,9 @@ const FutureOfAiLander = ({
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
                   <div className="flex flex-row gap-4">
-                    <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
+                    <CTALinkOrButton url={courseUrl} withChevron>
+                      {registration?.courseRegistration ? 'Continue learning' : 'Start the free course'}
+                    </CTALinkOrButton>
                     <CTALinkOrButton url="https://community.bluedot.org" target="_blank">Join the Community</CTALinkOrButton>
                   </div>
                 </HeroCTAContainer>
@@ -221,7 +246,7 @@ const FutureOfAiLander = ({
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
-                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path} withChevron>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseUrl} withChevron>
                   {feature.ctaText}
                 </CTALinkOrButton>
               </div>
@@ -240,7 +265,7 @@ const FutureOfAiLander = ({
       </Section>
 
       {/* Banner */}
-      <FutureOfAiBanner title="Understand AI today – and be ready to engage in what’s coming next." ctaUrl={courseData.units?.[0]?.path ?? ''} />
+      <FutureOfAiBanner title="Understand AI today – and be ready to engage in what's coming next." ctaUrl={courseUrl} />
     </>
   );
 };
