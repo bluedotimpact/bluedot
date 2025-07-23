@@ -20,7 +20,7 @@ exports[`Select > renders disabled state 1`] = `
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="react-aria-:r15: react-aria-:r11:"
-      class="flex items-center px-3 gap-2 w-fit h-[36px] bg-[rgba(0,17,77,0.05)] rounded-[6px] hover:bg-[rgba(0,17,77,0.1)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors data-[pressed]:bg-[rgba(0,17,77,0.1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,17,77,0.05)]"
+      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
       data-disabled="true"
       data-rac=""
       data-react-aria-pressable="true"
@@ -33,11 +33,15 @@ exports[`Select > renders disabled state 1`] = `
         data-rac=""
         id="react-aria-:r15:"
       >
-        <span
-          class="flex-1 font-medium text-[13px] leading-[22px]"
+        <div
+          class="flex items-center gap-2 w-full"
         >
-          Cat
-        </span>
+          <span
+            class="flex-1 font-medium text-[13px] leading-[22px]"
+          >
+            Cat
+          </span>
+        </div>
       </span>
       <svg
         class="size-[14px] opacity-50"
@@ -110,7 +114,7 @@ exports[`Select > renders with icon 1`] = `
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="react-aria-:rr: react-aria-:rn:"
-      class="flex items-center px-3 gap-2 w-fit h-[36px] bg-[rgba(0,17,77,0.05)] rounded-[6px] hover:bg-[rgba(0,17,77,0.1)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors data-[pressed]:bg-[rgba(0,17,77,0.1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,17,77,0.05)]"
+      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
       data-rac=""
       data-react-aria-pressable="true"
       id="react-aria-:rm:"
@@ -118,19 +122,25 @@ exports[`Select > renders with icon 1`] = `
       type="button"
     >
       <span
-        class="size-4 text-bluedot-darker"
-      >
-        <span>
-          👤
-        </span>
-      </span>
-      <span
         class="font-medium text-[13px] leading-[22px] text-left text-bluedot-darker"
         data-placeholder="true"
         data-rac=""
         id="react-aria-:rr:"
       >
-        Select an option
+        <div
+          class="flex items-center gap-2"
+        >
+          <span
+            class="size-4 text-bluedot-darker"
+          >
+            <span>
+              👤
+            </span>
+          </span>
+          <span>
+            Select an option
+          </span>
+        </div>
       </span>
       <svg
         class="size-[14px]"
@@ -203,7 +213,7 @@ exports[`Select > renders with label 1`] = `
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="react-aria-:r7: react-aria-:r3:"
-      class="flex items-center px-3 gap-2 w-fit h-[36px] bg-[rgba(0,17,77,0.05)] rounded-[6px] hover:bg-[rgba(0,17,77,0.1)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors data-[pressed]:bg-[rgba(0,17,77,0.1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,17,77,0.05)]"
+      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
       data-rac=""
       data-react-aria-pressable="true"
       id="react-aria-:r2:"
@@ -283,7 +293,7 @@ exports[`Select > shows placeholder when no value selected 1`] = `
       aria-expanded="false"
       aria-haspopup="listbox"
       aria-labelledby="react-aria-:rh:"
-      class="flex items-center px-3 gap-2 w-fit h-[36px] bg-[rgba(0,17,77,0.05)] rounded-[6px] hover:bg-[rgba(0,17,77,0.1)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors data-[pressed]:bg-[rgba(0,17,77,0.1)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,17,77,0.05)]"
+      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
       data-rac=""
       data-react-aria-pressable="true"
       id="react-aria-:rc:"

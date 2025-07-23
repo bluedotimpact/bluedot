@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Label,
@@ -42,6 +42,28 @@ const ChevronDownIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
+// Style configurations for consistent theming
+const styles = {
+  button: {
+    base: 'flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors',
+    hover: 'hover:bg-[rgba(0,85,255,0.1)]',
+    active: 'data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)]',
+    disabled: 'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]',
+  },
+  text: {
+    base: 'font-medium text-[13px] leading-[22px]',
+    normal: 'text-bluedot-darker',
+    disabled: 'text-gray-500',
+  },
+  icon: {
+    base: 'size-4',
+    normal: 'text-bluedot-darker',
+    disabled: 'text-gray-400',
+  },
+  listItem: 'flex items-center gap-2 cursor-default select-none py-2.5 px-4 outline-none hover:bg-[rgba(0,85,255,0.05)] focus:bg-[rgba(0,85,255,0.05)] focus:text-bluedot-darker w-full',
+  popover: 'w-[var(--trigger-width)] min-w-max max-h-60 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 -mt-1',
+};
+
 export const Select: React.FC<SelectProps> = ({
   label,
   icon,
@@ -54,38 +76,74 @@ export const Select: React.FC<SelectProps> = ({
   onChange,
   name,
 }) => {
+  // Handle controlled/uncontrolled state
+  const [internalValue, setInternalValue] = useState<string | undefined>(value);
+  const selectedValue = value !== undefined ? value : internalValue;
+  const selectedOption = options.find(opt => opt.value === selectedValue);
+  
+  // Update both internal state and call onChange callback
+  const handleChange = (key: React.Key | null) => {
+    if (key !== null) {
+      const newValue = key as string;
+      setInternalValue(newValue);
+      onChange?.(newValue);
+    }
+  };
+  
   return (
     <AriaSelect
       className={clsx('flex flex-col gap-2', className)}
       isDisabled={disabled}
-      selectedKey={value}
-      onSelectionChange={(key) => onChange?.(key as string)}
+      selectedKey={selectedValue}
+      onSelectionChange={handleChange}
       name={name}
       placeholder={placeholder}
     >
       {label && <Label className="text-size-sm font-medium">{label}</Label>}
       <Button className={clsx(
-        'flex items-center px-3 gap-2 w-fit h-[36px] bg-[rgba(0,17,77,0.05)] rounded-[6px] hover:bg-[rgba(0,17,77,0.1)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors',
-        'data-[pressed]:bg-[rgba(0,17,77,0.1)]',
-        'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,17,77,0.05)]',
+        styles.button.base,
+        styles.button.hover,
+        styles.button.active,
+        styles.button.disabled,
         buttonClassName,
       )}
       >
-        {icon && <span className={clsx('size-4', disabled ? 'text-gray-400' : 'text-bluedot-darker')}>{icon}</span>}
-        <SelectValue className={clsx('font-medium text-[13px] leading-[22px] text-left', disabled ? 'text-gray-500' : 'text-bluedot-darker')} />
-        <ChevronDownIcon className={clsx('size-[14px]', disabled ? 'opacity-50' : '')} />
+        <SelectValue className={clsx(styles.text.base, 'text-left', disabled ? styles.text.disabled : styles.text.normal)}>
+          {({ isPlaceholder }) => {
+            // Determine which icon to show: selected option's icon or placeholder icon
+            const displayIcon = selectedOption?.icon || (isPlaceholder && icon);
+            const displayText = selectedOption?.label || placeholder;
+            
+            // Render icon + text if icon exists
+            if (displayIcon) {
+              return (
+                <div className="flex items-center gap-2">
+                  <span className={clsx(styles.icon.base, disabled ? styles.icon.disabled : styles.icon.normal)}>
+                    {displayIcon}
+                  </span>
+                  <span>{displayText}</span>
+                </div>
+              );
+            }
+            return displayText;
+          }}
+        </SelectValue>
+        <ChevronDownIcon className={clsx('size-[14px]', disabled && 'opacity-50')} />
       </Button>
-      <Popover className="w-[var(--trigger-width)] min-w-max max-h-60 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black/5 -mt-1">
-        <ListBox className="outline-none p-1 w-full">
+      <Popover className={styles.popover}>
+        <ListBox className="outline-none py-1 w-full">
+          {/* Render each option with optional icon */}
           {options.map((option) => (
             <ListBoxItem
               key={option.value}
               id={option.value}
               textValue={option.label}
-              className="flex items-center gap-2 cursor-default select-none py-2.5 px-4 outline-none hover:bg-[rgba(0,85,255,0.05)] focus:bg-[rgba(0,85,255,0.05)] focus:text-bluedot-darker w-full"
+              className={styles.listItem}
             >
-              {option.icon && <span className="size-4">{option.icon}</span>}
-              <span className="flex-1 font-medium text-[13px] leading-[22px]">{option.label}</span>
+              <div className="flex items-center gap-2 w-full">
+                {option.icon && <span className="size-4 flex-shrink-0">{option.icon}</span>}
+                <span className={clsx('flex-1', styles.text.base)}>{option.label}</span>
+              </div>
             </ListBoxItem>
           ))}
         </ListBox>
