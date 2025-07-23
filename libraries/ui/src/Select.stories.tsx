@@ -7,8 +7,6 @@ import {
   FaPhone,
   FaGlobe,
   FaArrowRightToBracket,
-  FaUser,
-  FaUsers,
   FaUserGroup,
 } from 'react-icons/fa6';
 import { Select } from './Select';

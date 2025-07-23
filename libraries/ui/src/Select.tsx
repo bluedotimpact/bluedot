@@ -79,8 +79,8 @@ export const Select: React.FC<SelectProps> = ({
   // Handle controlled/uncontrolled state
   const [internalValue, setInternalValue] = useState<string | undefined>(value);
   const selectedValue = value !== undefined ? value : internalValue;
-  const selectedOption = options.find(opt => opt.value === selectedValue);
-  
+  const selectedOption = options.find((opt) => opt.value === selectedValue);
+
   // Update both internal state and call onChange callback
   const handleChange = (key: React.Key | null) => {
     if (key !== null) {
@@ -89,7 +89,7 @@ export const Select: React.FC<SelectProps> = ({
       onChange?.(newValue);
     }
   };
-  
+
   return (
     <AriaSelect
       className={clsx('flex flex-col gap-2', className)}
@@ -113,7 +113,7 @@ export const Select: React.FC<SelectProps> = ({
             // Determine which icon to show: selected option's icon or placeholder icon
             const displayIcon = selectedOption?.icon || (isPlaceholder && icon);
             const displayText = selectedOption?.label || placeholder;
-            
+
             // Render icon + text if icon exists
             if (displayIcon) {
               return (
