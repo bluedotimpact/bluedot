@@ -42,7 +42,9 @@ export const NavCta: React.FC<{
       ) : (
         <>
           <CTALinkOrButton
-            className="nav-cta__secondary-cta hidden sm:block" // Hide on small screens
+            className={`nav-cta__secondary-cta hidden sm:block ${
+              isScrolled ? 'border-white text-white hover:bg-white/10' : ''
+            }`} // Hide on small screens
             variant="secondary"
             url={loginUrl}
           >
