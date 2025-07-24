@@ -6,12 +6,18 @@ export default () => (
   <LoginOauthCallbackPage
     loginPreset={loginPresets.keycloak}
     onLoginComplete={async (auth) => {
-      // This ensures the user is created
-      await axios.get<GetUserResponse>('/api/users/me', {
+      const response = await axios.get<GetUserResponse>('/api/users/me', {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
       });
+
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'CompletedSignup',
+          new_customer: response.data.isNewUser,
+        });
+      }
     }}
   />
 );
