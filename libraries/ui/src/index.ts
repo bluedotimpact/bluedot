@@ -58,6 +58,9 @@ export type { QuoteCarouselProps } from './QuoteCarousel';
 export { Section, SectionHeading } from './Section';
 export type { SectionProps } from './Section';
 
+export { Select } from './Select';
+export type { SelectProps } from './Select';
+
 export { ShareButton } from './ShareButton';
 export type { ShareButtonProps } from './ShareButton';
 
