@@ -23,11 +23,11 @@ type StarRatingProps = {
 };
 
 const TOOLTIP_TEXTS = [
-  { line1: "Struggled to understand", line2: "key concepts" },
-  { line1: "Understood basics but", line2: "found it challenging" },
-  { line1: "Learned adequately but", line2: "had some difficulty" },
-  { line1: "Learned well and felt", line2: "appropriately challenged" },
-  { line1: "Mastered concepts", line2: "with confidence" },
+  { line1: 'Struggled to understand', line2: 'key concepts' },
+  { line1: 'Understood basics but', line2: 'found it challenging' },
+  { line1: 'Learned adequately but', line2: 'had some difficulty' },
+  { line1: 'Learned well and felt', line2: 'appropriately challenged' },
+  { line1: 'Mastered concepts', line2: 'with confidence' },
 ];
 
 const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
@@ -36,7 +36,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
   const getHoverText = (starNumber: number) => {
     const text = TOOLTIP_TEXTS[starNumber - 1];
     if (!text) return null;
-    
+
     return (
       <div className="flex flex-col">
         <span>"{text.line1}</span>
