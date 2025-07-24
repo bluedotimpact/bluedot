@@ -10,6 +10,7 @@ type User = InferSelectModel<typeof userTable.pg>;
 export type GetUserResponse = {
   type: 'success';
   user: User;
+  isNewUser: boolean;
 };
 
 export type PatchUserBody = {
@@ -23,6 +24,7 @@ export default makeApiRoute({
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),
+    isNewUser: z.boolean(),
   }).optional(),
 }, async (body, { auth, raw }) => {
   // Try to get existing user
@@ -36,6 +38,7 @@ export default makeApiRoute({
   switch (raw.req.method) {
     case 'GET': {
       let user: User;
+      const isNewUser = !existingUser;
       if (!existingUser) {
         // Create user if doesn't exist
         user = await db.insert(userTable, {
@@ -53,6 +56,7 @@ export default makeApiRoute({
       return {
         type: 'success' as const,
         user,
+        isNewUser, // Include in response
       };
     }
 
@@ -80,6 +84,7 @@ export default makeApiRoute({
       return {
         type: 'success' as const,
         user: updatedUser,
+        isNewUser: false,
       };
     }
 
