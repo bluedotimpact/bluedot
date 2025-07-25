@@ -39,7 +39,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider cursor-pointer"
         >
           <p
-            class="sidebar-collapsible__title font-bold"
+            class="sidebar-collapsible__title font-bold text-color-secondary-text"
           >
             1
             . 
@@ -65,7 +65,7 @@ exports[`SideBar > renders default as expected 1`] = `
           </span>
         </summary>
         <button
-          class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer border-l-4 border-color-primary bg-bluedot-lightest"
+          class="sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer text-color-secondary-text border-l-4 border-color-primary bg-bluedot-lightest"
           type="button"
         >
           What can AI do today?
@@ -80,7 +80,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
-            class="sidebar-collapsible__title font-bold"
+            class="sidebar-collapsible__title font-bold text-color-secondary-text"
           >
             2
             . 
@@ -115,7 +115,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
-            class="sidebar-collapsible__title font-bold"
+            class="sidebar-collapsible__title font-bold text-color-secondary-text"
           >
             3
             . 
@@ -150,7 +150,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
-            class="sidebar-collapsible__title font-bold"
+            class="sidebar-collapsible__title font-bold text-color-secondary-text"
           >
             4
             . 
@@ -185,7 +185,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider"
         >
           <p
-            class="sidebar-collapsible__title font-bold"
+            class="sidebar-collapsible__title font-bold text-color-secondary-text"
           >
             5
             . 

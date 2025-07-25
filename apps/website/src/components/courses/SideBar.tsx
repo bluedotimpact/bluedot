@@ -42,7 +42,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
         className="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden"
       >
         <summary className={clsx('sidebar-collapsible__header flex justify-between w-full p-4 text-left group-open:border-b border-color-divider', unit.menuText && 'cursor-pointer')}>
-          <p className="sidebar-collapsible__title font-bold">{unit.unitNumber}. {unit.title}</p>
+          <p className="sidebar-collapsible__title font-bold text-color-secondary-text">{unit.unitNumber}. {unit.title}</p>
           <span className="sidebar-collapsible__button flex items-center">
             <FaChevronRight className="size-3 transition-transform group-open:rotate-90" />
           </span>
@@ -53,7 +53,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
             key={chunk.id}
             onClick={() => onChunkSelect(index)}
             className={clsx(
-              'sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer',
+              'sidebar-collapsible__content block w-full text-left p-4 hover:bg-bluedot-lightest cursor-pointer text-color-secondary-text',
               currentChunkIndex === index && 'border-l-4 border-color-primary bg-bluedot-lightest',
             )}
           >
@@ -64,7 +64,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     ) : (
       <A href={addQueryParam(unit.path, 'chunk', '0')} className="sidebar-collapsible max-w-max-width border-b border-color-divider last:border-b-0 no-underline hover:text-color-secondary-text">
         <div className="sidebar-collapsible__header flex justify-between w-full p-4 text-left border-color-divider">
-          <p className="sidebar-collapsible__title font-bold">{unit.unitNumber}. {unit.title}</p>
+          <p className="sidebar-collapsible__title font-bold text-color-secondary-text">{unit.unitNumber}. {unit.title}</p>
           <span className="sidebar-collapsible__button flex items-center">
             <FaChevronRight className="size-3" />
           </span>
