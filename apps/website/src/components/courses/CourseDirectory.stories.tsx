@@ -84,7 +84,7 @@ export const Default: Story = {
         publicLastUpdated: null,
         isNew: false,
         isFeatured: false,
-        hasDroppedOut: false
+        hasDroppedOut: false,
       },
     ] satisfies GetCoursesResponse['courses'],
     loading: false,
