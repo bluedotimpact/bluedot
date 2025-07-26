@@ -118,6 +118,10 @@ export const courseTable = pgAirtable('course', {
       pgColumn: boolean().notNull(),
       airtableId: 'fldDXwQyHpHtUspFY',
     },
+    hasDroppedOut: {
+      pgColumn: boolean().notNull(),
+      airtableId: 'fldygOncl6PuOxQ28',
+    },
   },
 });
 
