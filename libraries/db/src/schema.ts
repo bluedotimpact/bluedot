@@ -118,10 +118,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: boolean().notNull(),
       airtableId: 'fldDXwQyHpHtUspFY',
     },
-    hasDroppedOut: {
-      pgColumn: boolean().notNull(),
-      airtableId: 'fldygOncl6PuOxQ28',
-    },
   },
 });
 
@@ -737,6 +733,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     lastVisitedChunkIndex: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldqBkQC2fZLtPEZX',
+    },
+    hasDroppedOut: {
+      pgColumn: boolean().notNull(),
+      airtableId: 'fldygOncl6PuOxQ28',
     },
   },
 });
