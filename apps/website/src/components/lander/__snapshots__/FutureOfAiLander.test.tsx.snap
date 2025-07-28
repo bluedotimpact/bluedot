@@ -979,7 +979,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
     <h3
       class="bluedot-h3 not-prose future-of-ai-lander__banner-title"
     >
-      Understand AI today – and be ready to engage in what’s coming next.
+      Understand AI today – and be ready to engage in what's coming next.
     </h3>
     <a
       class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"

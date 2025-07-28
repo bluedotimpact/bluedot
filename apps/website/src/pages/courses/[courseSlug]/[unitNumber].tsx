@@ -37,7 +37,7 @@ const CourseUnitPage = () => {
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
-  }, { manual: true });
+  }, { manual: true, useCache: false });
   useEffect(() => {
     const shouldRecordCourseRegistration = !!(auth && data?.unit.courseId);
     if (shouldRecordCourseRegistration) {
