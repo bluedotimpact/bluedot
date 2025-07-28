@@ -734,10 +734,6 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldqBkQC2fZLtPEZX',
     },
-    hasDroppedOut: {
-      pgColumn: boolean().default(false),
-      airtableId: 'fldygOncl6PuOxQ28',
-    },
   },
 });
 
