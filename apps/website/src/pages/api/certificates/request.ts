@@ -31,13 +31,11 @@ export default makeApiRoute({
     case 'POST': {
       // KNOWN ISSUE: Due to race conditions and Airtable limitations, multiple course registrations
       // can be created for the same user/course combination. The course registration creation endpoint
-      // has duplicate prevention logic, but concurrent requests can slip through. Airtable doesn't support unqiue IDs
+      // has duplicate prevention logic, but concurrent requests can slip through. Airtable doesn't support unqiue and solving this would have been trivial if we just were using a traditional DB
       //
       // WORKAROUND: Instead of using db.get() which expects exactly one record, we use db.scan()
       // to find all matching registrations and select the first one based on a stable sort by ID.
       // This ensures consistent behavior even when duplicates exist.
-      //
-      //
 
       const courseRegistrations = await db.scan(courseRegistrationTable, {
         email: auth.email,
