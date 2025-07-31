@@ -14,7 +14,7 @@ const Embed: React.FC<EmbedProps> = ({
   const isImage = url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.gif') || url.endsWith('.webp') || url.endsWith('.svg');
 
   // Check if it's any Suno URL
-  const isSuno = url.includes('suno.com') || url.includes('suno.ai');
+  const isSuno = url.includes('suno.com/') || url.includes('suno.ai/');
 
   // For any Suno URL, always use audio element (no iframe in production)
   if (isSuno) {
