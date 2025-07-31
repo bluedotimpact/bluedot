@@ -395,7 +395,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </div>
           </div>
           <div
-            class="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x md:ml-[320px]"
+            class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x md:ml-[320px]"
           >
             <div
               class="unit__title-container"

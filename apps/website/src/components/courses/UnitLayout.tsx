@@ -250,7 +250,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={handleChunkSelect}
           />
-          <div className="unit__content flex flex-col flex-1 max-w-[680px] mx-auto gap-6 px-0 md:px-spacing-x md:ml-[320px]">
+          <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x md:ml-[320px]">
             <div className="unit__title-container">
               <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
               <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
