@@ -29,11 +29,31 @@ export default makeApiRoute({
 }, async (body, { auth, raw }) => {
   switch (raw.req.method) {
     case 'POST': {
-      const courseRegistration = await db.get(courseRegistrationTable, {
+      // KNOWN ISSUE: Due to race conditions and Airtable limitations, multiple course registrations
+      // can be created for the same user/course combination. The course registration creation endpoint
+      // has duplicate prevention logic, but concurrent requests can slip through. Airtable doesn't support unqiue IDs
+      //
+      // WORKAROUND: Instead of using db.get() which expects exactly one record, we use db.scan()
+      // to find all matching registrations and select the first one based on a stable sort by ID.
+      // This ensures consistent behavior even when duplicates exist.
+      //
+      //
+
+      const courseRegistrations = await db.scan(courseRegistrationTable, {
         email: auth.email,
         courseId: body.courseId,
         decision: 'Accept',
       });
+
+      if (courseRegistrations.length === 0) {
+        throw new createHttpError.NotFound('No course registration found');
+      }
+
+      // Sort by ID to ensure stable selection when multiple records exist
+      // This ensures we always work with the same registration record
+      courseRegistrations.sort((a, b) => a.id.localeCompare(b.id));
+
+      const courseRegistration = courseRegistrations[0]!;
 
       if (courseRegistration.certificateId) {
         // Already created, nothing to do
