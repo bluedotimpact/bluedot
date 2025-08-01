@@ -17,7 +17,7 @@ exports[`AboutPage > should render correctly 1`] = `
         <h1
           class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
         >
-          Our mission is to build the workforce needed to safely navigate to transformative AI.
+          Our mission is to build the workforce needed to safely navigate AGI.
         </h1>
         <div
           class="flex justify-center mt-8"
