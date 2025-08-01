@@ -49,7 +49,7 @@ describe('FreeTextResponse', () => {
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
+    expect(container.querySelector('#save-status-message')).toBeFalsy();
   });
 
   test('renders logged in as expected', async () => {
@@ -63,7 +63,7 @@ describe('FreeTextResponse', () => {
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.free-text-response__saved-msg')).toBeFalsy();
+    expect(container.querySelector('#save-status-message')).toBeFalsy();
   });
 
   test('renders with saved exercise response', async () => {
@@ -79,7 +79,6 @@ describe('FreeTextResponse', () => {
     const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
 
     expect(container).toMatchSnapshot();
-    expect(textareaEl.classList.contains('free-text-response__textarea--saved')).toBeTruthy();
     expect(textareaEl.value).toBe('This is my saved answer.');
   });
 });

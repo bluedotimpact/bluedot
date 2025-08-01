@@ -38,7 +38,7 @@ const Exercise: React.FC<ExerciseProps> = ({
     if (auth) {
       fetchExerciseResponse().catch(() => { /* no op, as we handle errors above */ });
     }
-  }, [auth]);
+  }, [auth, fetchExerciseResponse]);
 
   const handleExerciseSubmit = useCallback(async (exerciseResponse: string, completed?: boolean) => {
     await axios.put<unknown, unknown, PutExerciseResponseRequest>(

@@ -32,14 +32,64 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col gap-2"
+      class="free-text-response__options flex flex-col relative"
     >
-      <textarea
-        class="free-text-response__textarea p-4 container-lined"
-        disabled=""
-        name="answer"
-        placeholder="Create an account to save your answers"
-      />
+      <div
+        class="textarea-wrapper"
+        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
+      >
+        <textarea
+          aria-label="Writing exercise: Understanding LLMs"
+          aria-required="false"
+          class="free-text-response__textarea transition-all duration-200"
+          disabled=""
+          name="answer"
+          placeholder="Create an account to save your answers"
+          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
+        />
+        <div
+          class="drag-notches"
+          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 15 14"
+            width="15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_910_4280)"
+              opacity="0.6"
+            >
+              <path
+                d="M11.875 7L7.5 11.375"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11 2.1875L2.6875 10.5"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_910_4280"
+              >
+                <rect
+                  fill="white"
+                  height="14"
+                  transform="translate(0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+      </div>
     </div>
     <a
       class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
@@ -106,24 +156,65 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col gap-2"
+      class="free-text-response__options flex flex-col relative"
     >
-      <textarea
-        class="free-text-response__textarea p-4 container-lined"
-        name="answer"
-        placeholder="Enter your answer here"
-      />
-    </div>
-    <button
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
-      type="button"
-    >
-      <span
-        class="cta-button__text"
+      <div
+        class="textarea-wrapper"
+        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
       >
-        Save
-      </span>
-    </button>
+        <textarea
+          aria-describedby="save-status-message"
+          aria-label="Writing exercise: Understanding LLMs"
+          aria-required="false"
+          class="free-text-response__textarea transition-all duration-200"
+          name="answer"
+          placeholder="Enter your answer here"
+          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
+        />
+        <div
+          class="drag-notches"
+          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 15 14"
+            width="15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_910_4280)"
+              opacity="0.6"
+            >
+              <path
+                d="M11.875 7L7.5 11.375"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11 2.1875L2.6875 10.5"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_910_4280"
+              >
+                <rect
+                  fill="white"
+                  height="14"
+                  transform="translate(0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
   </form>
 </div>
 `;
@@ -160,29 +251,65 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col gap-2"
+      class="free-text-response__options flex flex-col relative"
     >
-      <textarea
-        class="free-text-response__textarea p-4 free-text-response__textarea--saved container-active bg-[#63C96533] border-[#63C965] text-[#2A5D2A]"
-        name="answer"
-        placeholder="Enter your answer here"
-      />
-    </div>
-    <button
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__submit"
-      type="button"
-    >
-      <span
-        class="cta-button__text"
+      <div
+        class="textarea-wrapper"
+        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
       >
-        Save
-      </span>
-    </button>
-    <p
-      class="bluedot-p not-prose free-text-response__saved-msg"
-    >
-      Saved! 🎉
-    </p>
+        <textarea
+          aria-describedby="save-status-message"
+          aria-label="Writing exercise: Understanding LLMs"
+          aria-required="false"
+          class="free-text-response__textarea transition-all duration-200"
+          name="answer"
+          placeholder="Enter your answer here"
+          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
+        />
+        <div
+          class="drag-notches"
+          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 15 14"
+            width="15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_910_4280)"
+              opacity="0.6"
+            >
+              <path
+                d="M11.875 7L7.5 11.375"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11 2.1875L2.6875 10.5"
+                stroke="#13132E"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_910_4280"
+              >
+                <rect
+                  fill="white"
+                  height="14"
+                  transform="translate(0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
   </form>
 </div>
 `;
