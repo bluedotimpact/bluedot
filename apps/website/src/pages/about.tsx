@@ -23,7 +23,7 @@ const AboutPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="Our mission is to build the workforce needed to safely navigate to transformative AI." />
+        <meta name="description" content="Our mission is to build the workforce needed to safely navigate AGI." />
       </Head>
       <HeroSection>
         <HeroMiniTitle>{CURRENT_ROUTE.title}</HeroMiniTitle>
