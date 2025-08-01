@@ -74,7 +74,7 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
                 </HeroCTAContainer>
               )}
               <HeroCTAContainer>
-                <CTALinkOrButton url="https://forms.bluedot.org/aGd0mXnpcN1gfqlnYNZc">Register interest</CTALinkOrButton>
+                <CTALinkOrButton url="https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc">Register interest</CTALinkOrButton>
               </HeroCTAContainer>
             </div>
           </HeroSection>
