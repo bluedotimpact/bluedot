@@ -23,19 +23,6 @@ type FormData = {
   answer: string;
 };
 
-async function executeWithMinDuration<T>(
-  asyncFn: () => Promise<T>,
-  minDuration: number,
-): Promise<T> {
-  const startTime = Date.now();
-  const result = await asyncFn();
-  const elapsed = Date.now() - startTime;
-  const remainingTime = Math.max(0, minDuration - elapsed);
-  // eslint-disable-next-line no-promise-executor-return
-  await new Promise((resolve) => setTimeout(resolve, remainingTime));
-  return result;
-}
-
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   className,
   description,
@@ -55,6 +42,37 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   });
   const router = useRouter();
 
+  // Inject styles for textarea resize handle
+  useEffect(() => {
+    const styleId = 'free-text-response-styles';
+    if (document.getElementById(styleId)) return;
+
+    const style = document.createElement('style');
+    style.id = styleId;
+    style.textContent = `
+      .free-text-response__textarea {
+        resize: vertical;
+      }
+      .free-text-response__textarea::-webkit-resizer {
+        display: none;
+      }
+      @-moz-document url-prefix() {
+        .drag-notches {
+          display: none !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      const existingStyle = document.getElementById(styleId);
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (exerciseResponse !== undefined) {
       setValue('answer', exerciseResponse);
@@ -71,10 +89,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     setSaveStatus('saving');
 
     try {
-      await executeWithMinDuration(
-        async () => onExerciseSubmit(value, value.trim().length > 0),
-        600,
-      );
+      await onExerciseSubmit(value, value.trim().length > 0);
 
       setLastSavedValue(value);
       setSaveStatus('saved');

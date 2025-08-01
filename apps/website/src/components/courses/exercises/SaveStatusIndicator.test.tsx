@@ -14,7 +14,7 @@ describe('SaveStatusIndicator', () => {
         status="idle"
         isEditing={false}
         id="test-status"
-      />
+      />,
     );
 
     expect(container.firstChild).toBeNull();
@@ -24,9 +24,9 @@ describe('SaveStatusIndicator', () => {
     const { container, getByText } = render(
       <SaveStatusIndicator
         status="typing"
-        isEditing={true}
+        isEditing
         id="test-status"
-      />
+      />,
     );
 
     expect(getByText('Click outside to save your answer')).toBeTruthy();
@@ -37,9 +37,9 @@ describe('SaveStatusIndicator', () => {
     const { container, getByText } = render(
       <SaveStatusIndicator
         status="saving"
-        isEditing={true}
+        isEditing
         id="test-status"
-      />
+      />,
     );
 
     expect(getByText('Saving answer...')).toBeTruthy();
@@ -52,7 +52,7 @@ describe('SaveStatusIndicator', () => {
         status="saved"
         isEditing={false}
         id="test-status"
-      />
+      />,
     );
 
     expect(getByText('Answer saved')).toBeTruthy();
@@ -62,19 +62,19 @@ describe('SaveStatusIndicator', () => {
 
   test('renders error status with retry button when error', () => {
     const mockRetry = vi.fn();
-    const { container, getByText, getByRole } = render(
+    const { getByText, getByRole } = render(
       <SaveStatusIndicator
         status="error"
         isEditing={false}
         id="test-status"
         onRetry={mockRetry}
-      />
+      />,
     );
 
     expect(getByText("Couldn't save answer.")).toBeTruthy();
     const retryButton = getByRole('button', { name: /retry/i });
     expect(retryButton).toBeTruthy();
-    
+
     // Test retry functionality
     retryButton.click();
     expect(mockRetry).toHaveBeenCalledOnce();
@@ -84,9 +84,9 @@ describe('SaveStatusIndicator', () => {
     const { container } = render(
       <SaveStatusIndicator
         status="saving"
-        isEditing={true}
+        isEditing
         id="accessibility-test"
-      />
+      />,
     );
 
     const statusElement = container.querySelector('#accessibility-test');

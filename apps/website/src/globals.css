@@ -25,19 +25,3 @@
   }
 }
 
-/* Hide native textarea resize handle while keeping resize functionality */
-.free-text-response__textarea {
-  resize: vertical;
-}
-
-/* Hide the native resize grabber in WebKit browsers */
-.free-text-response__textarea::-webkit-resizer {
-  display: none;
-}
-
-/* For Firefox, hide the custom drag notches and use native handle */
-@-moz-document url-prefix() {
-  .drag-notches {
-    display: none !important;
-  }
-}
