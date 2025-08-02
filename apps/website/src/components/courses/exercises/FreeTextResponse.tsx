@@ -42,20 +42,14 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   });
   const router = useRouter();
 
-  // Inject styles for textarea resize handle
+  // Inject style for Firefox to hide drag notches
   useEffect(() => {
-    const styleId = 'free-text-response-styles';
+    const styleId = 'free-text-response-firefox-styles';
     if (document.getElementById(styleId)) return;
 
     const style = document.createElement('style');
     style.id = styleId;
     style.textContent = `
-      .free-text-response__textarea {
-        resize: vertical;
-      }
-      .free-text-response__textarea::-webkit-resizer {
-        display: none;
-      }
       @-moz-document url-prefix() {
         .drag-notches {
           display: none !important;
@@ -134,58 +128,31 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   }, [watch, lastSavedValue, handleSave]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={clsx('free-text-response container-lined bg-white p-8 flex flex-col gap-6', className)}>
-      <div className="free-text-response__header flex flex-col gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
+      <div className="flex flex-col gap-4">
         <Tag variant="secondary" className="uppercase">
           Think it through
         </Tag>
-        <div className="free-text-response__header-content flex flex-col gap-2">
-          <p className="free-text-response__title bluedot-h4 not-prose">{title}</p>
+        <div className="flex flex-col gap-2">
+          <p className="bluedot-h4 not-prose">{title}</p>
           <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
       </div>
-      <div className="free-text-response__options flex flex-col relative">
+      <div className="flex flex-col relative">
         {/* Wrapper that clips drag notches to textarea boundaries */}
-        <div
-          className="textarea-wrapper"
-          style={{
-            position: 'relative',
-            width: '100%',
-            overflow: 'hidden',
-            borderRadius: '10px',
-            zIndex: 1,
-          }}
-        >
+        <div className="relative w-full overflow-hidden rounded-[10px] z-[1]">
           <textarea
             {...register('answer')}
-            className="free-text-response__textarea transition-all duration-200"
-            style={{
-              boxSizing: 'border-box',
-              width: '100%',
-              minHeight: '140px',
-              background: '#FFFFFF',
-              border: '0.5px solid rgba(19, 19, 46, 0.25)',
-              borderRadius: '10px',
-              padding: '20px 24px',
-              fontWeight: 400,
-              fontSize: '15px',
-              lineHeight: '160%',
-              letterSpacing: '-0.002em',
-              color: '#13132E',
-              resize: 'vertical',
-              outline: 'none',
-              transition: 'border-color 0.2s, box-shadow 0.2s',
-              display: 'block',
-            }}
-            onFocus={(e) => {
-              e.target.style.border = '1.25px solid #1641D9';
-              e.target.style.boxShadow = '0px 0px 10px rgba(34, 68, 187, 0.3)';
-            }}
-            onBlur={(e) => {
-              e.target.style.border = '0.5px solid rgba(19, 19, 46, 0.25)';
-              e.target.style.boxShadow = 'none';
-              handleTextareaBlur();
-            }}
+            className={clsx(
+              'box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5',
+              'font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
+              'resize-y outline-none transition-all duration-200 block',
+              'border-[0.5px] border-[rgba(19,19,46,0.25)]',
+              'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
+              'disabled:cursor-not-allowed disabled:opacity-60',
+              '[&::-webkit-resizer]:hidden',
+            )}
+            onBlur={handleTextareaBlur}
             placeholder={isLoggedIn ? 'Enter your answer here' : 'Create an account to save your answers'}
             disabled={!isLoggedIn}
             aria-label={`Writing exercise: ${title}`}
@@ -193,18 +160,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
             aria-required="false"
           />
           {/* Custom drag notches overlay - positioned within the clipping wrapper */}
-          <div
-            className="drag-notches"
-            style={{
-              position: 'absolute',
-              width: '15px',
-              height: '14px',
-              right: '8px',
-              bottom: '8px',
-              pointerEvents: 'none',
-              zIndex: 2,
-            }}
-          >
+          <div className="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
             <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g opacity="0.6" clipPath="url(#clip0_910_4280)">
                 <path d="M11.875 7L7.5 11.375" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
@@ -229,7 +185,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       </div>
       {!isLoggedIn && (
         <CTALinkOrButton
-          className="free-text-response__login-cta"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
           withChevron

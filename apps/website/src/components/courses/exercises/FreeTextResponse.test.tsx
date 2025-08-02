@@ -78,7 +78,7 @@ describe('FreeTextResponse', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const textareaEl = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+    const textareaEl = container.querySelector('textarea') as HTMLTextAreaElement;
 
     expect(container).toMatchSnapshot();
     expect(textareaEl.value).toBe('This is my saved answer.');
@@ -96,7 +96,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -114,7 +114,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -147,7 +147,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn={false} />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -173,7 +173,7 @@ describe('FreeTextResponse', () => {
         />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Trigger blur without changing content
       fireEvent.blur(textarea);
@@ -188,7 +188,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -219,7 +219,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -257,7 +257,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
@@ -279,7 +279,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       expect(textarea.getAttribute('aria-label')).toBe(`Writing exercise: ${mockArgs.title}`);
       expect(textarea.getAttribute('aria-describedby')).toBe('save-status-message');
@@ -291,7 +291,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} isLoggedIn={false} />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       expect(textarea.placeholder).toBe('Create an account to save your answers');
       expect(textarea.disabled).toBe(true);
@@ -302,7 +302,7 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('.free-text-response__textarea') as HTMLTextAreaElement;
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       expect(textarea.placeholder).toBe('Enter your answer here');
       expect(textarea.disabled).toBe(false);

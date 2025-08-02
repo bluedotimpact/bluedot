@@ -3,10 +3,10 @@
 exports[`FreeTextResponse > renders default as expected 1`] = `
 <div>
   <form
-    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+    class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
-      class="free-text-response__header flex flex-col gap-4"
+      class="flex flex-col gap-4"
     >
       <span
         class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase"
@@ -15,10 +15,10 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         Think it through
       </span>
       <div
-        class="free-text-response__header-content flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4 not-prose"
+          class="bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
@@ -32,24 +32,21 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col relative"
+      class="flex flex-col relative"
     >
       <div
-        class="textarea-wrapper"
-        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
+        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
       >
         <textarea
           aria-label="Writing exercise: Understanding LLMs"
           aria-required="false"
-          class="free-text-response__textarea transition-all duration-200"
+          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
           disabled=""
           name="answer"
           placeholder="Create an account to save your answers"
-          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
         />
         <div
-          class="drag-notches"
-          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -92,7 +89,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       </div>
     </div>
     <a
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark free-text-response__login-cta"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
       href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
       tabindex="0"
     >
@@ -127,10 +124,10 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
 exports[`FreeTextResponse > renders logged in as expected 1`] = `
 <div>
   <form
-    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+    class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
-      class="free-text-response__header flex flex-col gap-4"
+      class="flex flex-col gap-4"
     >
       <span
         class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase"
@@ -139,10 +136,10 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         Think it through
       </span>
       <div
-        class="free-text-response__header-content flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4 not-prose"
+          class="bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
@@ -156,24 +153,21 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col relative"
+      class="flex flex-col relative"
     >
       <div
-        class="textarea-wrapper"
-        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
+        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
       >
         <textarea
           aria-describedby="save-status-message"
           aria-label="Writing exercise: Understanding LLMs"
           aria-required="false"
-          class="free-text-response__textarea transition-all duration-200"
+          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
           name="answer"
           placeholder="Enter your answer here"
-          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
         />
         <div
-          class="drag-notches"
-          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -222,10 +216,10 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
 exports[`FreeTextResponse > renders with saved exercise response 1`] = `
 <div>
   <form
-    class="free-text-response container-lined bg-white p-8 flex flex-col gap-6"
+    class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
-      class="free-text-response__header flex flex-col gap-4"
+      class="flex flex-col gap-4"
     >
       <span
         class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase"
@@ -234,10 +228,10 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         Think it through
       </span>
       <div
-        class="free-text-response__header-content flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <p
-          class="free-text-response__title bluedot-h4 not-prose"
+          class="bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
@@ -251,24 +245,21 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       </div>
     </div>
     <div
-      class="free-text-response__options flex flex-col relative"
+      class="flex flex-col relative"
     >
       <div
-        class="textarea-wrapper"
-        style="position: relative; width: 100%; overflow: hidden; border-radius: 10px; z-index: 1;"
+        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
       >
         <textarea
           aria-describedby="save-status-message"
           aria-label="Writing exercise: Understanding LLMs"
           aria-required="false"
-          class="free-text-response__textarea transition-all duration-200"
+          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
           name="answer"
           placeholder="Enter your answer here"
-          style="box-sizing: border-box; width: 100%; min-height: 140px; background: #FFFFFF; border: 0.5px solid rgba(19, 19, 46, 0.25); border-radius: 10px; padding: 20px 24px; font-weight: 400; font-size: 15px; line-height: 160%; letter-spacing: -0.002em; color: #13132E; resize: vertical; outline-color: none; outline-style: none; outline-width: initial; transition: border-color 0.2s, box-shadow 0.2s; display: block;"
         />
         <div
-          class="drag-notches"
-          style="position: absolute; width: 15px; height: 14px; right: 8px; bottom: 8px; pointer-events: none; z-index: 2;"
+          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
