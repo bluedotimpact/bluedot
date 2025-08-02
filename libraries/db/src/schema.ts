@@ -794,7 +794,7 @@ export const userTable = pgAirtable('user', {
 export const RESOURCE_FEEDBACK = {
   DISLIKE: -1,
   NO_RESPONSE: 0,
-  LIKE: 1
+  LIKE: 1,
 } as const;
 
 // Type for resourceFeedback field values
