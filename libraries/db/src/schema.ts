@@ -1,6 +1,7 @@
 import {
   pgTable, text, boolean, numeric, timestamp,
 } from 'drizzle-orm/pg-core';
+
 import { pgAirtable } from './lib/db-core';
 
 const COURSE_BUILDER_BASE_ID = 'appbiNKDcn1sGPGOG';
@@ -499,6 +500,10 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text().notNull(),
       airtableId: 'fldiv4wuePLO9UtHr',
     },
+    estimatedTime: {
+      pgColumn: numeric({ mode: 'number' }).default(0),
+      airtableId: 'fldvzUryETzU5Yn64',
+    },
   },
 });
 
@@ -612,6 +617,10 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     avgRating: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldOWWeymJQTwlfaY',
+    },
+    syncedAudioUrl: {
+      pgColumn: text().default(''), // For future github issue #1148
+      airtableId: 'fldIqUoLYILUmMgY0',
     },
   },
 });
@@ -780,6 +789,16 @@ export const userTable = pgAirtable('user', {
   },
 });
 
+// Resource feedback constants for better readability
+export const RESOURCE_FEEDBACK = {
+  DISLIKE: -1,
+  NO_RESPONSE: 0,
+  LIKE: 1
+} as const;
+
+// Type for resourceFeedback field values
+export type ResourceFeedbackValue = typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK];
+
 export const resourceCompletionTable = pgAirtable('resource_completion', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblu6YnR7Lh0Bsl6v',
@@ -807,6 +826,10 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     feedback: {
       pgColumn: text(),
       airtableId: 'fld68CYhCZ44jHT21',
+    },
+    resourceFeedback: {
+      pgColumn: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE), // Uses RESOURCE_FEEDBACK constants - For future github issue #1147
+      airtableId: 'flda3JolMPL5n8iUT',
     },
   },
 });
