@@ -6,7 +6,9 @@ import {
   Section,
   CTALinkOrButton,
   Breadcrumbs,
+  useAuthStore,
 } from '@bluedot/ui';
+import axios from 'axios';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa6';
 
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
@@ -78,6 +80,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
 }) => {
   const router = useRouter();
+  const auth = useAuthStore((s) => s.auth);
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
@@ -99,8 +102,33 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     }
   }, [router.query.chunk, chunks.length]);
 
+  // Add: Fetch initial progress if no chunk param
+  useEffect(() => {
+    if (!router.query.chunk && auth) {
+      axios.get(`/api/course-registrations/${unit.courseId}`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      }).then((res) => {
+        if (res.data.courseRegistration.lastVisitedChunkIndex !== undefined) {
+          setCurrentChunkIndex(res.data.courseRegistration.lastVisitedChunkIndex);
+        }
+      });
+    }
+  }, [auth, unit.courseId, router.query.chunk]);
+
+  // Add: Save progress function
+  const saveProgress = async (unitNum: number, chunkIdx: number) => {
+    if (!auth) return;
+    await axios.put(`/api/course-registrations/${unit.courseId}/progress`, {
+      lastVisitedUnitNumber: unitNum,
+      lastVisitedChunkIndex: chunkIdx,
+    }, {
+      headers: { Authorization: `Bearer ${auth.token}` },
+    });
+  };
+
   const handleChunkSelect = useCallback((index: number) => {
     setCurrentChunkIndex(index);
+    saveProgress(unitNumber, index);
     router.push({
       pathname: router.pathname,
       query: { ...router.query, chunk: index },
@@ -110,29 +138,40 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     // Announce navigation for screen readers
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
-  }, [router, chunks]);
+  }, [router, chunks, unitNumber]);
 
   const handlePrevClick = useCallback(() => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
-      router.push(`${prevUnit.path}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
+      const prevUnitNumber = parseInt(prevUnit.unitNumber);
+      const lastChunkIndex = (prevUnit.chunks?.length ?? 0) - 1;
+
+      // Save progress before navigation
+      saveProgress(prevUnitNumber, lastChunkIndex);
+
+      router.push(`${prevUnit.path}?chunk=${lastChunkIndex}`);
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(currentChunkIndex - 1);
     }
-  }, [isFirstChunk, chunks.length, prevUnit, currentChunkIndex, router, handleChunkSelect]);
+  }, [isFirstChunk, chunks.length, prevUnit, currentChunkIndex, router, handleChunkSelect, saveProgress]);
 
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
+      const nextUnitNumber = parseInt(nextUnit.unitNumber);
+
+      // Save progress before navigation
+      saveProgress(nextUnitNumber, 0);
+
       router.push(`${nextUnit.path}?chunk=0`);
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
       handleChunkSelect(currentChunkIndex + 1);
     }
-  }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect]);
+  }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect, saveProgress]);
 
   // Handle keyboard navigation with arrow keys
   useEffect(() => {
