@@ -24,8 +24,8 @@ const cronJob = async () => {
 
 cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, cronJob);
 
-export const startCronJobs = () => {
+export const startCronJobs = async () => {
   logger.info('Starting cron jobs...');
-  initializeWebhooks();
+  await initializeWebhooks();
   cronJob();
 };

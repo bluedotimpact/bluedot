@@ -15,6 +15,7 @@ const rateLimiter = new RateLimiter(5);
 const webhookInstances: Record<string, AirtableWebhook> = {};
 
 const retryCountMap = new Map<string, number>();
+let queueEmptyCallback: (() => void) | null = null;
 
 function getRetryKey(update: AirtableAction): string {
   return `${update.baseId}::${update.tableId}::${update.recordId}`;
@@ -26,6 +27,18 @@ export function addToQueue(updates: AirtableAction[], priority: 'high' | 'low' =
 }
 
 export { rateLimiter };
+
+export async function waitForQueueToEmpty(): Promise<void> {
+  // If queue already empty, return immediately
+  if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
+    return Promise.resolve();
+  }
+
+  // Wait for queue to drain
+  return new Promise((resolve) => {
+    queueEmptyCallback = resolve;
+  });
+}
 
 /**
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
@@ -182,6 +195,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
 type UpdateProcessor = (update: AirtableAction) => Promise<boolean>;
 
 export async function processUpdateQueue(processor: UpdateProcessor = processSingleUpdate): Promise<void> {
+  const startedWithWork = highPriorityQueue.length > 0 || lowPriorityQueue.length > 0;
   let iteration = 0;
   let processedCount = 0;
 
@@ -223,8 +237,17 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
     }
   }
 
-  await syncManager.markIncrementalSync();
-  if (processedCount > 0) {
+  // After loop ends and queues are empty, notify callback if waiting
+  if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
+    if (queueEmptyCallback) {
+      queueEmptyCallback();
+      queueEmptyCallback = null;
+    }
+  }
+
+  // Only update timestamp if we actually processed something
+  if (startedWithWork && processedCount > 0) {
+    await syncManager.markIncrementalSync();
     logger.info(`[processUpdateQueue] Processing cycle completed. Processed ${processedCount} updates.`);
   }
 }

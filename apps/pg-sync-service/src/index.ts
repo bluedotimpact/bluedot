@@ -3,7 +3,7 @@ import { getInstance } from './app';
 import env from './env';
 import { startCronJobs } from './lib/cron';
 import { performFullSync } from './lib/scan';
-import { addToQueue } from './lib/pg-sync';
+import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
 
@@ -20,7 +20,7 @@ const start = async () => {
       logger.info(`Server listening on ${address}`);
     });
 
-    startCronJobs();
+    await startCronJobs();
 
     // Check if initial sync is needed (either via flag, automatic detection, or schema changes)
     const hasInitialSyncFlag = process.argv.includes('--initial-sync');
@@ -38,6 +38,7 @@ const start = async () => {
       try {
         await syncManager.markSyncStarted();
         await performFullSync(addToQueue);
+        await waitForQueueToEmpty();
         await syncManager.markSyncCompleted();
         logger.info('[main] Full sync completed successfully');
       } catch (error) {
