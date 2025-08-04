@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import {
   Section,
   CTALinkOrButton,
-  Breadcrumbs,
 } from '@bluedot/ui';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa6';
+import {
+  FaBars, FaChevronRight,
+} from 'react-icons/fa6';
 
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import SideBar from './SideBar';
@@ -80,6 +81,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const router = useRouter();
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
+  const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const isFirstChunk = currentChunkIndex === 0;
@@ -196,38 +198,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         {navigationAnnouncement}
       </div>
 
-      <Breadcrumbs
-        className="unit__breadcrumbs hidden md:block md:sticky md:top-16 z-10"
-        route={{
-          title: unit.courseTitle,
-          url: unit.coursePath,
-          parentPages: [ROUTES.home, ROUTES.courses],
-        }}
-      >
-        <div className="unit__breadcrumbs-cta-container flex flex-row items-center gap-6">
-          <button
-            type="button"
-            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
-            disabled={isFirstChunk && !prevUnit}
-            onClick={handlePrevClick}
-            aria-label="Previous"
-            title="Navigate to previous section (use ← arrow key)"
-          >
-            <FaArrowLeft className="size-3" /> Prev
-          </button>
-          <button
-            type="button"
-            className="unit__breadcrumbs-cta flex flex-row items-center gap-1 no-underline cursor-pointer hover:text-color-primary disabled:opacity-50 disabled:hover:text-inherit disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
-            disabled={isLastChunk && !nextUnit}
-            onClick={handleNextClick}
-            aria-label="Next"
-            title="Navigate to next section (use → arrow key)"
-          >
-            Next <FaArrowRight className="size-3" />
-          </button>
-        </div>
-      </Breadcrumbs>
-
       <MobileHeader
         className="unit__mobile-header md:hidden sticky top-16 z-10"
         unit={unit}
@@ -239,59 +209,134 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         isLastChunk={isLastChunk}
       />
 
-      <Section className="unit__main !border-none">
-        <div className="unit__content-container flex flex-col md:flex-row">
-          <SideBar
-            courseTitle={unit.courseTitle}
-            className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px-65px-42px)]" // Adjust for Nav, Breadcrumb, and padding heights
-            units={units}
-            currentUnitNumber={unitNumber}
-            chunks={chunks}
-            currentChunkIndex={currentChunkIndex}
-            onChunkSelect={handleChunkSelect}
-          />
-          <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x md:ml-[320px]">
-            <div className="unit__title-container">
-              <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
-              <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
-            </div>
-            <MarkdownExtendedRenderer>
-              {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
-            </MarkdownExtendedRenderer>
+      {/* Sidebar - positioned fixed and separate from main layout flow */}
+      {!isSidebarHidden && (
+        <SideBar
+          courseTitle={unit.courseTitle}
+          className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
+          units={units}
+          currentUnitNumber={unitNumber}
+          chunks={chunks}
+          currentChunkIndex={currentChunkIndex}
+          onChunkSelect={handleChunkSelect}
+        />
+      )}
 
-            {/* Keyboard navigation hint */}
-            <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-              <p>Tip: Use arrow keys (← →) to navigate between sections</p>
-            </div>
+      {/* Breadcrumbs bar - positioned sticky and full width */}
+      <div className={clsx(
+        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-16 z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
+        isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
+      )}
+      >
+        <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
+          {/* Left section: Hide/Show Toggle */}
+          <div className="flex items-center gap-[8px]">
+            <button
+              type="button"
+              onClick={() => setIsSidebarHidden(!isSidebarHidden)}
+              className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity"
+              aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+            >
+              <FaBars className="size-[16px]" />
+              <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
+            </button>
+            <span className="w-px h-[18px] bg-[#6A6F7A] opacity-50" />
+          </div>
 
-            {isLastChunk && (
-              <UnitFeedback unit={unit} />
-            )}
+          {/* Breadcrumbs - left aligned after hide */}
+          <nav className="flex items-center gap-[8px] flex-1 h-[18px]">
+            <A
+              href={ROUTES.courses.url}
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+            >
+              Courses
+            </A>
+            <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
+            <A
+              href={unit.coursePath}
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+            >
+              {unit.courseTitle}
+            </A>
+            <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
+            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] inline-flex items-center">
+              {unitNumber}. {unit.title}
+            </span>
+          </nav>
 
-            {(!nextUnit && isLastChunk) ? (
-              <>
-                <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} courseId={unit.courseId} />
-                <CertificateLinkCard courseId={unit.courseId} />
-                <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
-                  <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
-                    Back to course
-                  </CTALinkOrButton>
-                </div>
-              </>
-            ) : (
-              // Margin-bottom is added to accommodate the Circle widget on mobile screens
-              <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0">
-                <CTALinkOrButton
-                  className="unit__cta-link ml-auto"
-                  onClick={handleNextClick}
-                  variant="primary"
-                  withChevron
-                >
-                  {isLastChunk ? 'Complete unit and continue' : 'Continue'}
+          {/* Right section: Navigation */}
+          <div className="flex items-center gap-[20px] h-[18px]">
+            <button
+              type="button"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isFirstChunk && !prevUnit}
+              onClick={handlePrevClick}
+              aria-label="Previous"
+              title="Navigate to previous section (use ← arrow key)"
+            >
+              ← Prev
+            </button>
+            <button
+              type="button"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLastChunk && !nextUnit}
+              onClick={handleNextClick}
+              aria-label="Next"
+              title="Navigate to next section (use → arrow key)"
+            >
+              Next →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content section - positioned below breadcrumbs */}
+      <Section className="unit__main !border-none !pt-0 !mt-0">
+        <div className={clsx(
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-6',
+          isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
+        )}
+        >
+          <div className="unit__title-container">
+            <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
+            <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
+          </div>
+          <MarkdownExtendedRenderer>
+            {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
+          </MarkdownExtendedRenderer>
+
+          {/* Keyboard navigation hint */}
+          <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
+            <p>Tip: Use arrow keys (← →) to navigate between sections</p>
+          </div>
+
+          {isLastChunk && (
+            <UnitFeedback unit={unit} />
+          )}
+
+          {(!nextUnit && isLastChunk) ? (
+            <>
+              <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} courseId={unit.courseId} />
+              <CertificateLinkCard courseId={unit.courseId} />
+              <div className="unit__last-unit-cta-container flex flex-row justify-between mx-1">
+                <CTALinkOrButton className="last-unit__cta-link mx-auto" url={unit.coursePath} variant="secondary">
+                  Back to course
                 </CTALinkOrButton>
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            // Margin-bottom is added to accommodate the Circle widget on mobile screens
+            <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0">
+              <CTALinkOrButton
+                className="unit__cta-link ml-auto"
+                onClick={handleNextClick}
+                variant="primary"
+                withChevron
+              >
+                {isLastChunk ? 'Complete unit and continue' : 'Continue'}
+              </CTALinkOrButton>
+            </div>
+          )}
         </div>
       </Section>
     </div>
