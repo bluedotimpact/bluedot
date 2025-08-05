@@ -87,7 +87,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
           >
             <button
-              class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] h-[100px] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
+              class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
               type="button"
             >
               <div
@@ -123,7 +123,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 </svg>
               </div>
               <div
-                class="flex flex-col items-start p-0 gap-[8px] flex-1 h-[68px]"
+                class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
               >
                 <p
                   class="font-semibold text-[14px] leading-[150%] text-[#13132E]"

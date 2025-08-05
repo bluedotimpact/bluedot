@@ -244,7 +244,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </div>
 
           {/* Breadcrumbs - left aligned after hide */}
-          <nav className="flex items-center gap-[8px] flex-1 h-[18px]">
+          <nav className="flex items-center gap-[8px] flex-1 min-h-[18px]">
             <A
               href={ROUTES.courses.url}
               className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
@@ -265,7 +265,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </nav>
 
           {/* Right section: Navigation */}
-          <div className="flex items-center gap-[20px] h-[18px]">
+          <div className="flex items-center gap-[20px] min-h-[18px]">
             <button
               type="button"
               className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"

@@ -81,7 +81,7 @@ const Embed: React.FC<EmbedProps> = ({
         frameBorder="0"
         allowFullScreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        className={clsx('embed rounded-lg', isYouTube ? 'aspect-video h-auto' : 'h-[450px]', className)}
+        className={clsx('embed rounded-lg', isYouTube ? 'aspect-video h-auto' : 'min-h-[450px]', className)}
       />
     )
   );

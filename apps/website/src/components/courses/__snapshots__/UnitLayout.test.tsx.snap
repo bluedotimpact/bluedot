@@ -148,7 +148,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
             >
               <button
-                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] h-[100px] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
+                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
                 type="button"
               >
                 <div
@@ -184,7 +184,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="flex flex-col items-start p-0 gap-[8px] flex-1 h-[68px]"
+                  class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
                 >
                   <p
                     class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
@@ -194,14 +194,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </div>
               </button>
               <button
-                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] h-[100px] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
                 type="button"
               >
                 <div
                   class="size-6 rounded-full flex items-center justify-center bg-[#FCFBF9] border border-[rgba(106,111,122,0.3)]"
                 />
                 <div
-                  class="flex flex-col items-start p-0 gap-[8px] flex-1 h-[68px]"
+                  class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
                 >
                   <p
                     class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
@@ -406,7 +406,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
         </div>
         <nav
-          class="flex items-center gap-[8px] flex-1 h-[18px]"
+          class="flex items-center gap-[8px] flex-1 min-h-[18px]"
         >
           <a
             class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
@@ -459,7 +459,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </span>
         </nav>
         <div
-          class="flex items-center gap-[20px] h-[18px]"
+          class="flex items-center gap-[20px] min-h-[18px]"
         >
           <button
             aria-label="Previous"

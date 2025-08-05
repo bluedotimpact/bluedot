@@ -53,7 +53,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   currentChunkIndex,
   onChunkSelect,
 }) => {
-  // TODO add this back in once we have a way to track progress
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   return (
@@ -79,12 +78,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   key={chunk.id}
                   onClick={() => onChunkSelect(index)}
                   className={clsx(
-                    'flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] h-[100px] text-left transition-colors',
+                    'flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors',
                     isActive ? 'bg-[rgba(42,45,52,0.05)] rounded-[10px]' : 'hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]',
                   )}
                 >
                   <ChunkIcon isActive={isActive} />
-                  <div className="flex flex-col items-start p-0 gap-[8px] flex-1 h-[68px]">
+                  <div className="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]">
                     <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
                       {chunk.chunkTitle}
                     </p>
