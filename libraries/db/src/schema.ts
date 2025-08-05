@@ -500,7 +500,6 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text().notNull(),
       airtableId: 'fldiv4wuePLO9UtHr',
     },
-    // TODO, needed for issue #1149
     estimatedTime: {
       pgColumn: numeric({ mode: 'number' }).default(0),
       airtableId: 'fldvzUryETzU5Yn64',
