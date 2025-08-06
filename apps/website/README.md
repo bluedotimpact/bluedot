@@ -115,9 +115,52 @@ The production release workflow is defined in [.github/workflows/website_deploy_
 
 *Note: Please use [SemVer](https://semver.org/) for version numbering.*
 
+## Fonts
+
+The website uses **Inter** for body text and **Inter Display** for headlines, while other apps in the monorepo continue to use the shared UI library fonts (Roobert and Reckless Neue).
+
+### Implementation Details
+
+- Font files are loaded via `next/font/local` from `/public/fonts/`
+- CSS variable overrides in `globals.css` remap the shared UI library font variables
+
+### ⚠️ Important: Font Files Must Be Preserved
+
+**Do not delete any font files from `/public/fonts/`** - here's why:
+
+- The shared UI library (`/libraries/ui/`) defines font URLs pointing to `https://bluedot.org/fonts/*`
+- 8+ other apps (Storybook, Meet, Room, Editor, etc.) load Roobert/Reckless fonts from these URLs
+- Deleting these fonts would break typography in all other apps
+- The website overrides fonts locally while serving them for other apps
+
+### Font Inventory
+
+**Legacy fonts (used by other apps via HTTPS):**
+- `Roobert-*.woff2` - Sans-serif (weights: 300, 400, 600, 700)
+- `RecklessNeue-*.woff2` - Serif (weights: 300, 300i, 700)
+
+As of August 2025, these are   
+1. Storybook - Component documentation
+  2. Room - Some kind of meeting/collaboration app
+  3. Meet - Video meeting app
+  4. Editor - Code/content editor
+  5. Availability - Scheduling/availability app
+  6. Course Demos - Course demonstration app
+  7. Frontend Example - Example/template app
+  8. App Template - Template for new apps
+
+**Website-specific fonts (loaded via next/font):**
+- `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
+- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700)
+- `Inter-OFL.txt` - SIL Open Font License for Inter fonts
+
+For complete font licensing information, see `/public/fonts/README.md`
+
+
 ## Need Help?
 
 - Ask in the #website-dev Slack channel
 - Review the [Next.js documentation](https://nextjs.org/docs)
 - Review the [Vitest documentation](https://vitest.dev/guide/)
 - Review the [Tailwind CSS documentation](https://tailwindcss.com/docs)
+

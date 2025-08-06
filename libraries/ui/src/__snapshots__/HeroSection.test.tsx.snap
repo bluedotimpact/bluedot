@@ -6,7 +6,7 @@ exports[`HeroSection > renders default as expected 1`] = `
     class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
-      class="hero-section__content max-w-[865px] py-12"
+      class="hero-section__content max-w-[920px] py-12"
     />
   </div>
 </div>
@@ -18,7 +18,7 @@ exports[`HeroSection > renders with buttons 1`] = `
     class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
-      class="hero-section__content max-w-[865px] py-12"
+      class="hero-section__content max-w-[920px] py-12"
     >
       <h1
         class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
@@ -56,7 +56,7 @@ exports[`HeroSection > renders with optional yield 1`] = `
     class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
-      class="hero-section__content max-w-[865px] py-12"
+      class="hero-section__content max-w-[920px] py-12"
     >
       <p>
         This is the yield
@@ -72,7 +72,7 @@ exports[`HeroSection > renders with titles 1`] = `
     class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
   >
     <div
-      class="hero-section__content max-w-[865px] py-12"
+      class="hero-section__content max-w-[920px] py-12"
     >
       <h1
         class="hero-section__title text-color-text-on-dark text-center bluedot-h1"

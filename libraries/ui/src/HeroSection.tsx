@@ -59,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <div className={clsx('hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x', className)}>
-      <div className="hero-section__content max-w-[865px] py-12">
+      <div className="hero-section__content max-w-[920px] py-12">
         {children}
       </div>
     </div>
