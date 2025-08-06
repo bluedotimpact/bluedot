@@ -123,7 +123,6 @@ The website uses **Inter** for body text and **Inter Display** for headlines, wh
 
 - Font files are loaded via `next/font/local` from `/public/fonts/`
 - CSS variable overrides in `globals.css` remap the shared UI library font variables
-- See the [font migration plan](./font-migration-plan.md) for full implementation details
 
 ### ⚠️ Important: Font Files Must Be Preserved
 
@@ -153,6 +152,9 @@ As of August 2025, these are
 **Website-specific fonts (loaded via next/font):**
 - `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
 - `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700)
+- `Inter-OFL.txt` - SIL Open Font License for Inter fonts
+
+For complete font licensing information, see `/public/fonts/README.md`
 
 
 ## Need Help?
