@@ -35,10 +35,9 @@
   font-family: var(--font-inter-display), var(--font-inter), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
-/* UI library uses font-[650] but Inter only has 600, so we override */
-.bluedot-h3,
-.bluedot-h4 {
-  font-weight: 600;
+/* UI library components use font-[650] but Inter only supports 600, so override */
+.font-\[650\] {
+  font-weight: 600 !important;
 }
 
 @theme {
