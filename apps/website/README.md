@@ -14,6 +14,35 @@ Quick links:
 - **Component Development**: Storybook
 - **Deployment**: Kubernetes (via GitHub Actions)
 
+## Fonts
+
+The website uses **Inter** for body text and **Inter Display** for headlines, while other apps in the monorepo continue to use the shared UI library fonts (Roobert and Reckless Neue).
+
+### Implementation Details
+
+- Font files are loaded via `next/font/local` from `/public/fonts/`
+- CSS variable overrides in `globals.css` remap the shared UI library font variables
+- See the [font migration plan](./font-migration-plan.md) for full implementation details
+
+### ⚠️ Important: Font Files Must Be Preserved
+
+**Do not delete any font files from `/public/fonts/`** - here's why:
+
+- The shared UI library (`/libraries/ui/`) defines font URLs pointing to `https://bluedot.org/fonts/*`
+- 8+ other apps (Storybook, Meet, Room, Editor, etc.) load Roobert/Reckless fonts from these URLs
+- Deleting these fonts would break typography in all other apps
+- The website overrides fonts locally while serving them for other apps
+
+### Font Inventory
+
+**Legacy fonts (used by other apps via HTTPS):**
+- `Roobert-*.woff2` - Sans-serif (weights: 300, 400, 600, 700)
+- `RecklessNeue-*.woff2` - Serif (weights: 300, 300i, 700)
+
+**Website-specific fonts (loaded via next/font):**
+- `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
+- `InterDisplay-*.woff2` - Headlines (weights: 400, 500, 600, 700)
+
 ## Project Structure
 
 ```

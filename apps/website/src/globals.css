@@ -3,6 +3,44 @@
 
 @plugin "@tailwindcss/typography";
 
+/**
+ * Font Migration Strategy (August 2025)
+ * 
+ * This website uses Inter and Inter Display fonts while preserving compatibility
+ * with other apps in the monorepo that still use Roobert and Reckless Neue.
+ * 
+ * Why this approach:
+ * - 8 other apps in the monorepo depend on the shared UI library fonts
+ * - The UI library defines --font-sans (Roobert) and --font-serif (Reckless Neue)
+ * - We can't modify the UI library without affecting all other apps
+ * 
+ * Implementation:
+ * 1. Load Inter fonts via next/font/local (see src/lib/fonts.ts)
+ * 2. Override CSS variables below to remap fonts website-only
+ * 3. Override header classes to use Inter Display
+ * 4. Keep all original font files in public/fonts for other apps
+ */
+
+/* Override the UI library's font variables with our Next.js font variables */
+:root {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --font-serif: var(--font-inter-display), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+/* Override header classes to use Inter Display */
+.bluedot-h1,
+.bluedot-h2,
+.bluedot-h3,
+.bluedot-h4 {
+  font-family: var(--font-serif); /* Uses Inter Display via --font-serif override */
+}
+
+/* UI library uses font-[650] but Inter only has 600, so we override */
+.bluedot-h3,
+.bluedot-h4 {
+  font-weight: 600;
+}
+
 @theme {
   --animate-infinite-scroll: infinite-scroll 50s linear infinite;
 
