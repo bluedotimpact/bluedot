@@ -7,11 +7,12 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import {
-  FaBars, FaChevronRight,
+  FaBars, FaChevronRight, FaChevronDown,
 } from 'react-icons/fa6';
 
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import SideBar from './SideBar';
+import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
@@ -21,6 +22,13 @@ import { A, H1, P } from '../Text';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
+
+const CourseIcon: React.FC = () => (
+  <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="40" height="40" rx="8" fill="#2244BB" />
+    <path d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z" fill="white" />
+  </svg>
+);
 
 type UnitLayoutProps = {
   // Required
@@ -39,6 +47,7 @@ type MobileHeaderProps = {
   onNextClick: () => void;
   isFirstChunk: boolean;
   isLastChunk: boolean;
+  onCourseMenuClick: () => void;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -50,23 +59,59 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   isLastChunk,
   onPrevClick,
   onNextClick,
+  onCourseMenuClick,
 }) => {
   return (
-    <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3', className)}>
-      <nav className="mobile-unit-header__nav flex flex-row justify-between">
-        <A className="mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2" disabled={isFirstChunk && !prevUnit} onClick={onPrevClick} aria-label="Previous unit">
-          <img src="/icons/bubble-arrow.svg" alt="" className="size-8" />
-        </A>
-        <div className="mobile-unit-header__course-container flex flex-row gap-2 items-center">
-          <img src="/icons/course.svg" className="size-8" alt="" />
-          <div className="mobile-unit-header__course-title-container flex flex-col">
-            <p className="mobile-unit-header__course-header text-size-xxs text-[#999eb3]">{unit.courseTitle}</p>
-            <p className="mobile-unit-header__course-title bluedot-h4 text-size-xs">{unit.title}</p>
+    <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3', className)}>
+      <nav className="mobile-unit-header__nav flex flex-row items-center justify-between w-full">
+        {/* Left side - course info */}
+        <button
+          type="button"
+          className="mobile-unit-header__course-container flex flex-row items-center gap-2 flex-1 cursor-pointer bg-transparent border-none p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+          onClick={onCourseMenuClick}
+          aria-label="Open course navigation menu"
+        >
+          <CourseIcon />
+          <div className="mobile-unit-header__course-title-container flex flex-col text-left">
+            <p className="mobile-unit-header__course-breadcrumb text-size-xs text-[#6A6F7A]">{unit.courseTitle} &gt; Unit {unit.unitNumber}</p>
+            <div className="mobile-unit-header__course-title-row flex items-center gap-1">
+              <p className="mobile-unit-header__course-title text-size-sm font-semibold text-[#13132E]">{unit.title}</p>
+              <FaChevronDown className="size-3 text-gray-400" />
+            </div>
           </div>
+        </button>
+
+        {/* Right side - navigation arrows */}
+        <div className="mobile-unit-header__navigation flex flex-row items-center p-0 w-16 h-8">
+          <button
+            type="button"
+            className="mobile-unit-header__prev-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            disabled={isFirstChunk && !prevUnit}
+            onClick={onPrevClick}
+            aria-label="Previous unit"
+          >
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="rotate-180">
+              <path
+                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
+                fill={isFirstChunk && !prevUnit ? '#6A6F7A' : '#00114D'}
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="mobile-unit-header__next-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            disabled={isLastChunk && !nextUnit}
+            onClick={onNextClick}
+            aria-label="Next unit"
+          >
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
+                fill={isLastChunk && !nextUnit ? '#6A6F7A' : '#00114D'}
+              />
+            </svg>
+          </button>
         </div>
-        <A className="mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2" disabled={isLastChunk && !nextUnit} onClick={onNextClick} aria-label="Next unit">
-          <img src="/icons/bubble-arrow.svg" alt="" className="size-8 rotate-180" />
-        </A>
       </nav>
     </div>
   );
@@ -82,6 +127,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
+  const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const isFirstChunk = currentChunkIndex === 0;
@@ -113,6 +159,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
   }, [router, chunks]);
+
+  const handleMobileChunkSelect = useCallback((index: number) => {
+    handleChunkSelect(index);
+    setIsMobileCourseMenuOpen(false); 
+  }, [handleChunkSelect]);
+
+  const handleMobileUnitSelect = useCallback((unitPath: string) => {
+    router.push(unitPath);
+    setIsMobileCourseMenuOpen(false);
+  }, [router]);
 
   const handlePrevClick = useCallback(() => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
@@ -207,6 +263,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         onNextClick={handleNextClick}
         isFirstChunk={isFirstChunk}
         isLastChunk={isLastChunk}
+        onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
       />
 
       {/* Sidebar - positioned fixed and separate from main layout flow */}
@@ -339,6 +396,18 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
         </div>
       </Section>
+
+      <MobileCourseModal
+        isOpen={isMobileCourseMenuOpen}
+        onClose={() => setIsMobileCourseMenuOpen(false)}
+        courseTitle={unit.courseTitle}
+        units={units}
+        currentUnitNumber={unitNumber}
+        chunks={chunks}
+        currentChunkIndex={currentChunkIndex}
+        onChunkSelect={handleMobileChunkSelect}
+        onUnitSelect={handleMobileUnitSelect}
+      />
     </div>
   );
 };
