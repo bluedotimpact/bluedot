@@ -293,13 +293,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Main content section - positioned below breadcrumbs */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-6',
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-24',
           isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
         )}
         >
           <div className="unit__title-container">
-            <P className="unit__course-title text-size-sm mb-2">Unit {unit.unitNumber}</P>
-            <H1 className="unit__title font-serif text-[32px]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
+            <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
+            {chunks[currentChunkIndex]?.chunkTitle && (
+              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex].chunkTitle}</H1>
+            )}
           </div>
           <MarkdownExtendedRenderer>
             {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
