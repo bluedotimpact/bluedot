@@ -35,9 +35,14 @@
   font-family: var(--font-inter-display), var(--font-inter), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
-/* UI library components use font-[650] but Inter supports 600, so map it */
-.font-\[650\] {
-  font-weight: 600;
+/* 
+ * Custom font-weight override: Inter font only supports weights up to 600, not 650
+ * The UI library uses font-[650] but we need to map this to 600 for Inter
+ */
+@layer utilities {
+  .font-\[650\] {
+    font-weight: 600;
+  }
 }
 
 @theme {
