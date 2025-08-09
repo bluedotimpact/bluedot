@@ -39,11 +39,10 @@
  * Custom font-weight override: Inter font only supports weights up to 600, not 650
  * The UI library uses font-[650] but we need to map this to 600 for Inter
  */
-.bluedot-h3,
-.bluedot-h4,
-h3,
-h4 {
-  font-weight: 600;
+@layer utilities {
+  .font-\[650\] {
+    font-weight: 600;
+  }
 }
 
 @theme {
