@@ -152,7 +152,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
 
     const activeColor = type === 'like' ? '#2244BB' : '#13132E';
     const activeBackground = type === 'like' ? 'bg-[rgba(34,68,187,0.1)]' : 'bg-[rgba(19,19,46,0.1)]';
-    const hoverBackground = 'hover:bg-[rgba(19,19,46,0.05)]';
+    const hoverBackground = 'hover:bg-[rgba(19,19,46,0.08)]';
 
     const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-[13px] leading-[140%] tracking-[-0.005em] cursor-pointer';
     const buttonGapClass = variant === 'mobile' ? 'gap-2' : 'gap-1.5';
@@ -161,7 +161,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
     if (isActive) {
       bgClass = activeBackground;
     } else if (isHovered) {
-      bgClass = 'bg-[rgba(19,19,46,0.05)]';
+      bgClass = 'bg-[rgba(19,19,46,0.08)]';
     }
 
     let textColorClass = 'text-[#13132E]';
@@ -233,10 +233,12 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
     if (completionData?.resourceCompletion && !hasCompletionLoaded) {
       setHasCompletionLoaded(true);
       setIsCompleted(completionData.resourceCompletion.isCompleted || false);
-      setResourceFeedback(completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE);
+      const feedback = completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
+      setResourceFeedback(feedback);
 
-      // Always show feedback box if resource is completed
-      if (completionData.resourceCompletion.isCompleted) {
+      // Show feedback box if resource is completed OR if feedback has been given
+      const hasFeedback = feedback === RESOURCE_FEEDBACK.LIKE || feedback === RESOURCE_FEEDBACK.DISLIKE;
+      if (completionData.resourceCompletion.isCompleted || hasFeedback) {
         setShowFeedback(true);
       }
     }
@@ -268,14 +270,18 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
   // Handle marking resource as complete
   const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
     setIsCompleted(newIsCompleted);
-    setShowFeedback(newIsCompleted);
+    // Keep feedback visible if user has already provided feedback
+    const hasFeedback = resourceFeedback === RESOURCE_FEEDBACK.LIKE || resourceFeedback === RESOURCE_FEEDBACK.DISLIKE;
+    setShowFeedback(newIsCompleted || hasFeedback);
     await handleSaveCompletion(newIsCompleted);
-  }, [isCompleted, handleSaveCompletion]);
+  }, [isCompleted, resourceFeedback, handleSaveCompletion]);
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback(async (type: 'like' | 'dislike') => {
     const feedbackValue = type === 'like' ? RESOURCE_FEEDBACK.LIKE : RESOURCE_FEEDBACK.DISLIKE;
     setResourceFeedback(feedbackValue);
+    setIsCompleted(true); // Mark as completed when feedback is given
+    setShowFeedback(true); // Ensure feedback section stays visible
     await handleSaveCompletion(true, feedbackValue);
   }, [handleSaveCompletion]);
 
@@ -334,7 +340,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
         )}
 
         {/* Main resource card */}
-        <div className="resource-item px-6 pt-6 pb-6 container-lined bg-white relative z-[1]">
+        <div className="resource-item p-6 container-lined bg-white relative z-[1]">
           <div className="resource-item__header flex items-start justify-between">
             <div className="resource-item__content w-full">
               <div className="flex items-start gap-4">
@@ -441,8 +447,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                   </button>
                 )}
 
-                {/* Feedback buttons (only when completed) */}
-                {isCompleted && (
+                {/* Feedback buttons (show when completed or feedback given) */}
+                {showFeedback && (
                   <div className="flex-shrink-0">
                     <FeedbackSection
                       resourceFeedback={resourceFeedback}
@@ -457,7 +463,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
         </div>
 
         {/* Desktop feedback section */}
-        {auth && isCompleted && showFeedback && (
+        {auth && showFeedback && (
           <div className="hidden lg:block">
             <div
               className="hidden lg:flex items-center transition-all duration-200 px-6 pt-[17px] pb-[9px] gap-2 w-full h-14 bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"

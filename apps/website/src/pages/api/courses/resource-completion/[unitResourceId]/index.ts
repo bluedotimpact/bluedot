@@ -2,8 +2,8 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   resourceCompletionTable, InferSelectModel,
-  RESOURCE_FEEDBACK,
-} from '@bluedot/db';
+} from '@bluedot/db/';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
