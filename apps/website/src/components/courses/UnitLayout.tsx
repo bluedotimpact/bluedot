@@ -299,7 +299,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         >
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
-            <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex]?.chunkTitle}</H1>
+            {chunks[currentChunkIndex]?.chunkTitle && (
+              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex].chunkTitle}</H1>
+            )}
           </div>
           <MarkdownExtendedRenderer>
             {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
