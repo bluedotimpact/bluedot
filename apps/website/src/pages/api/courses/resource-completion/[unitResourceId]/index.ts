@@ -18,7 +18,7 @@ export type PutResourceCompletionRequest = {
   rating?: number | null,
   isCompleted?: boolean,
   feedback?: string,
-  resourceFeedback?: number,
+  resourceFeedback?: typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK],
 };
 
 export default makeApiRoute({
@@ -28,7 +28,11 @@ export default makeApiRoute({
       rating: z.number().optional(),
       isCompleted: z.boolean().optional(),
       feedback: z.string().optional(),
-      resourceFeedback: z.number().optional(),
+      resourceFeedback: z.union([
+        z.literal(RESOURCE_FEEDBACK.DISLIKE),
+        z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
+        z.literal(RESOURCE_FEEDBACK.LIKE),
+      ]).optional(),
     }),
   ),
   responseBody: z.object({
@@ -90,7 +94,7 @@ export default makeApiRoute({
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: auth.email,
           unitResourceIdWrite: unitResourceId,
-          rating: body.rating ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+          rating: body.rating ?? null,
           isCompleted: body.isCompleted ?? false,
           feedback: body.feedback ?? '',
           resourceFeedback: body.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
