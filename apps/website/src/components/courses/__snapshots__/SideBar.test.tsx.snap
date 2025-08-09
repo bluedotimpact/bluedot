@@ -33,7 +33,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="flex flex-col justify-center gap-[4px] flex-1"
         >
           <h2
-            class="text-[18px] leading-[22px] font-semibold text-[#13132E]"
+            class="font-semibold text-[18px] leading-[120%] text-[#13132E] align-middle"
           >
             What the fish [Test Course]
           </h2>
