@@ -2,7 +2,8 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   resourceCompletionTable, InferSelectModel,
-} from '@bluedot/db';
+} from '@bluedot/db/';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
@@ -17,6 +18,7 @@ export type PutResourceCompletionRequest = {
   rating?: number | null,
   isCompleted?: boolean,
   feedback?: string,
+  resourceFeedback?: typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK],
 };
 
 export default makeApiRoute({
@@ -26,6 +28,11 @@ export default makeApiRoute({
       rating: z.number().optional(),
       isCompleted: z.boolean().optional(),
       feedback: z.string().optional(),
+      resourceFeedback: z.union([
+        z.literal(RESOURCE_FEEDBACK.DISLIKE),
+        z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
+        z.literal(RESOURCE_FEEDBACK.LIKE),
+      ]).optional(),
     }),
   ),
   responseBody: z.object({
@@ -80,15 +87,17 @@ export default makeApiRoute({
           rating: body.rating ?? resourceCompletion.rating,
           isCompleted: body.isCompleted ?? resourceCompletion.isCompleted,
           feedback: body.feedback ?? resourceCompletion.feedback,
+          resourceFeedback: body.resourceFeedback ?? resourceCompletion.resourceFeedback,
         });
       } else {
         // If the resource completion does NOT exist, create it
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: auth.email,
           unitResourceIdWrite: unitResourceId,
-          rating: body.rating,
+          rating: body.rating ?? null,
           isCompleted: body.isCompleted ?? false,
           feedback: body.feedback ?? '',
+          resourceFeedback: body.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
         });
       }
 
