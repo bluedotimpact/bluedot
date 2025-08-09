@@ -62,7 +62,7 @@ const ResourceListCourseContent: React.FC = () => {
       </div>
       )}
       <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({coreResources.reduce((a, b) => a + (b.timeFocusOnMins ?? 0), 0)} mins)</H4>
-      <div className="resource-list__core-resources flex flex-col gap-6">
+      <div className="resource-list__core-resources flex flex-col gap-6" role="list">
         {coreResources.map((resource) => (
           <ResourceListItem key={resource.id} resource={resource} />
         ))}
@@ -70,7 +70,7 @@ const ResourceListCourseContent: React.FC = () => {
       {resourcesData.unitExercises.length > 0 && (
         <>
           <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Exercises</H4>
-          <div className="resource-list__exercises !-my-6">
+          <div className="resource-list__exercises !-my-6" role="list">
             {resourcesData.unitExercises.map((exercise) => (
               <Exercise key={exercise.id} exerciseId={exercise.id} />
             ))}
@@ -79,7 +79,7 @@ const ResourceListCourseContent: React.FC = () => {
       )}
       {optionalResources.length > 0 && (
       <Callout title="Optional resources">
-        <div className="resource-list__optional-resources flex flex-col gap-6">
+        <div className="resource-list__optional-resources flex flex-col gap-6" role="list">
           {optionalResources.map((resource) => (
             <ResourceListItem key={resource.id} resource={resource} />
           ))}
@@ -119,7 +119,7 @@ const ThumbIcon: React.FC<{
   }
 
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
       <path
         d="M4.66667 14V6.66667M1.33333 8V12.6667C1.33333 13.403 1.93029 14 2.66667 14H12.1871C12.7895 14 13.3088 13.5681 13.4127 12.9738L14.5589 6.30718C14.6947 5.53137 14.1043 4.8 13.3333 4.8H9.33333V2.66667C9.33333 1.56209 8.43791 0.666667 7.33333 0.666667C7.15653 0.666667 7 0.823198 7 1V1.2C7 1.64305 6.86881 2.07613 6.62229 2.44552L4.31105 5.68888C4.11259 5.98575 4 6.3323 4 6.68646V14"
         stroke={color}
@@ -169,6 +169,8 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
         type="button"
         onClick={() => onFeedback(feedbackValue)}
         className={`${baseClasses} ${buttonGapClass} ${opacityClass} ${bgClass} ${textColorClass} ${!isActive && hoverBackground}`}
+        aria-label={`${isLikeButton ? 'Like' : 'Dislike'} this resource${isActive ? ' (selected)' : ''}`}
+        aria-pressed={isActive}
       >
         <ThumbIcon
           filled={isActive}
@@ -289,7 +291,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
   const wrapperMarginClass = auth && showFeedback ? 'mb-11' : 'mb-0';
 
   return (
-    <div className={`resource-item-wrapper ${wrapperMarginClass}`}>
+    <div className={`resource-item-wrapper ${wrapperMarginClass}`} role="listitem">
       <div className="relative">
         {/* Desktop completion circle */}
         {auth && (
@@ -323,6 +325,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                   className={`fill-none stroke-linecap-round stroke-linejoin-round ${
                     isCompleted ? 'stroke-white stroke-[1.75]' : 'stroke-[rgba(42,45,52,0.6)] stroke-[1.5]'
                   }`}
+                  aria-hidden="true"
                 >
                   <path d="M2.5 6L5 8.5L9.5 3.5" />
                 </svg>
@@ -347,6 +350,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                           rel="noopener noreferrer"
                           onClick={() => handleToggleComplete(true)}
                           className="no-underline text-inherit group-hover:opacity-80 transition-opacity"
+                          aria-label={`${resource.resourceName} (opens in new tab)`}
                         >
                           {resource.resourceName}
                         </a>
@@ -355,9 +359,9 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex group-hover:opacity-80 transition-opacity"
-                          aria-label="Open resource in new tab"
+                          aria-label={`Open ${resource.resourceName} in new tab`}
                         >
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             <path d="M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" />
                           </svg>
@@ -413,6 +417,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                     type="button"
                     onClick={() => handleToggleComplete(true)}
                     className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white flex-shrink-0 transition-all duration-200"
+                    aria-label="Mark resource as complete"
                   >
                     Complete
                   </button>
@@ -421,20 +426,13 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                     type="button"
                     onClick={() => handleToggleComplete(false)}
                     className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 flex-shrink-0 bg-transparent border-none cursor-pointer p-0"
-                    aria-label="Undo completion"
+                    aria-label="Mark resource as incomplete"
                   >
                     <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
                       Completed
                     </span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <g clipPath="url(#clip0_843_11290)">
-                        <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_843_11290">
-                          <rect width="16" height="16" fill="white" />
-                        </clipPath>
-                      </defs>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
                     </svg>
                   </button>
                 )}
@@ -459,8 +457,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
           <div className="hidden lg:block">
             <div
               className="hidden lg:flex items-center transition-all duration-200 px-6 pt-[17px] pb-[9px] gap-2 w-full h-14 bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
-              role="dialog"
-              aria-label="Resource feedback"
+              role="region"
+              aria-label="Resource feedback section"
             >
               <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
                 {resourceFeedback === RESOURCE_FEEDBACK.LIKE && 'You liked this resource'}
