@@ -77,7 +77,7 @@ export const NavLinks: React.FC<{
         loading={false}
       />
       <A href={ROUTES.blog.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.blog.url))}>Blog</A>
-      <A href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav" className={NAV_LINK_CLASSES(isScrolled)}>Events</A>
+      <A href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav" className={NAV_LINK_CLASSES(isScrolled)}>Events</A>
       <A href={ROUTES.joinUs.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'text-bluedot-primary font-medium')}>We're hiring!</A>
     </div>
   );
