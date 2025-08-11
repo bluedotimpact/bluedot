@@ -157,7 +157,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   // Scroll-to-expand behavior: scrolling up when at top of content expands the modal
   // This creates an intuitive gesture where users naturally scroll to see more content
   useEffect(() => {
-    if (!isOpen || !scrollContainerRef.current || isDragging) return;
+    if (!isOpen || !scrollContainerRef.current || isDragging) return undefined;
 
     const handleScroll = () => {
       if (!scrollContainerRef.current || isDragging) return;
@@ -351,7 +351,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             }}
           >
             <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
-              
+
               {/* Header Section with Drag Handle */}
               <div
                 className={clsx(
