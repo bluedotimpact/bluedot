@@ -42,22 +42,20 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="mobile-unit-header__course-title-container flex flex-col text-left"
           >
             <p
-              class="mobile-unit-header__course-breadcrumb text-size-xs text-[#6A6F7A]"
+              class="mobile-unit-header__course-breadcrumb text-[12px] font-medium leading-[140%] tracking-[-0.5%] text-[#6A6F7A]"
             >
               What the fish [Test Course]
-               &gt; Unit 
-              1
             </p>
             <div
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-size-sm font-semibold text-[#13132E]"
+                class="mobile-unit-header__course-title text-[13px] font-semibold leading-[100%] tracking-[-0.5%] text-[#13132E]"
               >
                 Basic Principles of Fish
               </p>
               <svg
-                class="size-3 text-gray-400"
+                class="size-3 text-[#13132E]"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -542,7 +540,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="section__body"
       >
         <div
-          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-24 md:ml-[360px]"
+          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24 md:ml-[360px]"
         >
           <div
             class="unit__title-container"

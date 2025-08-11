@@ -73,10 +73,10 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         >
           <CourseIcon />
           <div className="mobile-unit-header__course-title-container flex flex-col text-left">
-            <p className="mobile-unit-header__course-breadcrumb text-size-xs text-[#6A6F7A]">{unit.courseTitle} &gt; Unit {unit.unitNumber}</p>
+            <p className="mobile-unit-header__course-breadcrumb text-[12px] font-medium leading-[140%] tracking-[-0.5%] text-[#6A6F7A]">{unit.courseTitle}</p>
             <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-              <p className="mobile-unit-header__course-title text-size-sm font-semibold text-[#13132E]">{unit.title}</p>
-              <FaChevronDown className="size-3 text-gray-400" />
+              <p className="mobile-unit-header__course-title text-[13px] font-semibold leading-[100%] tracking-[-0.5%] text-[#13132E]">{unit.title}</p>
+              <FaChevronDown className="size-3 text-[#13132E]" />
             </div>
           </div>
         </button>
@@ -162,7 +162,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
   const handleMobileChunkSelect = useCallback((index: number) => {
     handleChunkSelect(index);
-    setIsMobileCourseMenuOpen(false); 
+    setIsMobileCourseMenuOpen(false);
   }, [handleChunkSelect]);
 
   const handleMobileUnitSelect = useCallback((unitPath: string) => {
@@ -350,7 +350,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Main content section - positioned below breadcrumbs */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-24',
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24',
           isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
         )}
         >
