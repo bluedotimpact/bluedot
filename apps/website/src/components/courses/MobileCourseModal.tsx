@@ -215,6 +215,16 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     }
   }, [isOpen]);
 
+  // Animate modal on open/close
+  useEffect(() => {
+    // When opening, animate to half-open baseline; when closing from parent, animate to closed
+    if (isOpen) {
+      animate(y, halfOpenY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
+    } else {
+      animate(y, closedY, { duration: 0.2, ease: [0.32, 0.72, 0, 1] });
+    }
+  }, [isOpen, halfOpenY, closedY, y, animate]);
+
   // Body scroll lock
   useEffect(() => {
     if (isOpen) {
@@ -244,7 +254,8 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       // Different unit: navigate to first chunk and close modal
       // This creates a seamless navigation experience
       if (onUnitSelect && !isClosing) {
-        onUnitSelect(addQueryParam(unit.path, 'chunk', '0'));
+        const unitPath = `${unit.coursePath}/${unit.unitNumber}`;
+        onUnitSelect(addQueryParam(unitPath, 'chunk', '0'));
       }
       if (!isClosing) {
         setIsClosing(true);
@@ -300,9 +311,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
           {/* Modal Container */}
           <motion.div
             className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col z-50"
-            initial={{ y: closedY }}
-            animate={{ y: halfOpenY }}
-            exit={{ y: closedY }}
             transition={{
               duration: 0.3,
               ease: [0.32, 0.72, 0, 1],
@@ -311,6 +319,11 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               y,
               height: availableHeight,
             }}
+            id="mobile-course-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-course-modal-title"
+            tabIndex={-1}
             drag="y"
             dragListener={false}
             dragControls={dragControls}
@@ -371,7 +384,9 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                 <div className="flex items-center px-5 gap-4 w-full pt-1 pb-5">
                   <CourseIcon />
                   <div className="flex flex-col justify-center gap-0.5 flex-1">
-                    <h2 className="text-size-md leading-[110%] font-semibold text-[#13132E]">{courseTitle}</h2>
+                    <h2 id="mobile-course-modal-title" className="text-size-md leading-[110%] font-semibold text-[#13132E]">
+                      {courseTitle}
+                    </h2>
                     <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
                   </div>
                 </div>
@@ -412,6 +427,8 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                             }}
                             className="p-2 -m-2 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                             aria-label={isExpanded ? 'Collapse unit' : 'Expand unit'}
+                            aria-expanded={isExpanded}
+                            aria-controls={`unit-${unit.id}-chunks`}
                           >
                             <FaChevronRight
                               className={clsx(
@@ -437,7 +454,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
 
                       {/* Chunk Listing (only for current unit when expanded) */}
                       {isCurrent && isExpanded && (
-                        <div className="flex flex-col gap-1 pb-4">
+                        <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
                           {unitChunks.map((chunk, index) => {
                             const isActive = currentChunkIndex === index;
                             return (
@@ -455,7 +472,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                                   <p className="font-normal text-size-xs leading-[150%] text-[#13132E]">
                                     {chunk.chunkTitle}
                                   </p>
-                                  {chunk.estimatedTime && (
+                                  {chunk.estimatedTime != null && (
                                     <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60">
                                       {formatTime(chunk.estimatedTime)}
                                     </span>
