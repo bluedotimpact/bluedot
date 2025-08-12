@@ -125,13 +125,13 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
 
 ## Logistics made simple
 
-**Join live online discussions**
+**How the course works**
 
-- Participation is free for everyone.
-- The course is virtual, so you can join from anywhere on earth.
-- Experience the course alongside a small group of ~8 peers, who you’ll meet for 6x live 2-hour discussions.
-- Your discussions are facilitated by an AI safety expert.
-- Before each discussion, you’ll complete 2-3 hours of individual reading and writing.
+- You’ll join a small group of ~8 peers, and you’ll meet with them online to discuss readings and complete learning activities
+- Before each live discussion, you’ll do 2-3 hours of reading and writing
+- Each discussion lasts 2 hours
+- Your discussions are facilitated by an AI safety expert
+- Participation is free for everyone, and the course is virtual so anyone on earth can join
 
 **Choose your intensity**
 

@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { Card } from './Card';
 import { CTALinkOrButton } from './CTALinkOrButton';
-import { Tag } from './Tag';
 import { ClickTarget } from './ClickTarget';
 
 export type CourseCardProps = React.PropsWithChildren<{
@@ -49,9 +48,6 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
         <div className="course-card__text">
-          <p className="course-card__featured-label uppercase font-[650] text-size-xs mb-3 bluedot-p">
-            Featured course
-          </p>
           <h3 className="course-card__title mb-6 bluedot-h3">
             {title}
           </h3>
@@ -95,14 +91,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   imageSrc,
   imageClassName,
 }) => {
-  const courseCardFooter = (
-    <div className="course-card__footer flex justify-between w-full">
-      <p className="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p">
-        <span className="course-card__length font-medium">{courseLength}</span>
-      </p>
-      <Tag className="course-card__type">{cadence}</Tag>
-    </div>
-  );
+  // Footer with course duration and cadence removed per user request
 
   return cardType === 'Featured' ? (
     <FeaturedCourseCard
@@ -115,9 +104,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       imageClassName={imageClassName}
       cadence={cadence}
       courseLength={courseLength}
-    >
-      {courseCardFooter}
-    </FeaturedCourseCard>
+    />
   ) : (
     <div className="p-[3px] h-full">
       <Card
@@ -133,9 +120,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         )}
         imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
         subtitleClassName="grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
-      >
-        {courseCardFooter}
-      </Card>
+      />
     </div>
   );
 };

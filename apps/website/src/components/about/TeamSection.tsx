@@ -22,10 +22,11 @@ const teamMembers = [
   {
     imageSrc: '/images/team/josh_v2.jpeg',
     name: 'Josh Landes',
-    role: 'Head of Community',
+    role: 'Community',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
 ];
+
 const TeamSection = () => {
   return (
     <Section title="Our team" className="team-section !border-b-0">
@@ -35,16 +36,28 @@ const TeamSection = () => {
         className="team-section__team"
       >
         {teamMembers.map((member) => (
-          <Card
-            key={member.name}
-            imageSrc={member.imageSrc}
-            title={member.name}
-            subtitle={member.role}
-            ctaUrl={member.linkedInUrl}
-            ctaText="LinkedIn"
-            className="team-section__card"
-            imageClassName="team-section__card-image h-[300px] w-[300px]"
-          />
+          <div key={member.name} className="team-section__card">
+            <div className="card flex items-start flex-col transition-transform duration-200">
+              <div className="card__image-container w-full">
+                <a
+                  href={member.linkedInUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                >
+                  <img
+                    className="team-section__card-image h-[300px] w-[300px] object-cover"
+                    src={member.imageSrc}
+                    alt={`${member.name} - ${member.role}`}
+                  />
+                </a>
+              </div>
+              <div className="card__content w-full p-4">
+                <h3 className="card__title font-bold text-lg mb-1">{member.name}</h3>
+                <p className="card__subtitle text-gray-600">{member.role}</p>
+              </div>
+            </div>
+          </div>
         ))}
       </SlideList>
     </Section>
