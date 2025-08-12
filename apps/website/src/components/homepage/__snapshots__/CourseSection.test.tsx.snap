@@ -41,11 +41,6 @@ exports[`CourseSection > renders as expected 1`] = `
               <div
                 class="course-card__text"
               >
-                <p
-                  class="course-card__featured-label uppercase font-[650] text-size-xs mb-3 bluedot-p"
-                >
-                  Featured course
-                </p>
                 <h3
                   class="course-card__title mb-6 bluedot-h3"
                 >
@@ -76,25 +71,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   src="/images/courses/featured.jpg"
                 />
               </div>
-            </div>
-            <div
-              class="course-card__footer flex justify-between w-full"
-            >
-              <p
-                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
-              >
-                <span
-                  class="course-card__length font-medium"
-                >
-                  4 weeks
-                </span>
-              </p>
-              <span
-                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
-                role="status"
-              >
-                Weekly
-              </span>
             </div>
           </a>
         </span>
@@ -154,33 +130,6 @@ exports[`CourseSection > renders as expected 1`] = `
                             Short description
                           </p>
                         </div>
-                        <div
-                          class="card__bottom-section flex flex-col gap-space-between"
-                        >
-                          <div
-                            class="card__footer flex items-center justify-between w-full"
-                          >
-                            <div
-                              class="course-card__footer flex justify-between w-full"
-                            >
-                              <p
-                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
-                              >
-                                <span
-                                  class="course-card__length font-medium"
-                                >
-                                  2 weeks
-                                </span>
-                              </p>
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
-                                role="status"
-                              >
-                                Daily
-                              </span>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </a>
                   </div>
@@ -224,33 +173,6 @@ exports[`CourseSection > renders as expected 1`] = `
                           >
                             Short description
                           </p>
-                        </div>
-                        <div
-                          class="card__bottom-section flex flex-col gap-space-between"
-                        >
-                          <div
-                            class="card__footer flex items-center justify-between w-full"
-                          >
-                            <div
-                              class="course-card__footer flex justify-between w-full"
-                            >
-                              <p
-                                class="course-card__footer-left text-left text-size-xs text-bluedot-black bluedot-p"
-                              >
-                                <span
-                                  class="course-card__length font-medium"
-                                >
-                                  3 weeks
-                                </span>
-                              </p>
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-card__type"
-                                role="status"
-                              >
-                                MOOC
-                              </span>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </a>

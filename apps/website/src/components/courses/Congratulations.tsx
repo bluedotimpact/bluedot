@@ -24,7 +24,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
     return <FoAICongratulations className={className} />;
   }
 
-  const socialShareText = text || `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my referral link below:`;
+  const socialShareText = text || `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
 
   return (
     <div className={clsx('congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center', className)}>

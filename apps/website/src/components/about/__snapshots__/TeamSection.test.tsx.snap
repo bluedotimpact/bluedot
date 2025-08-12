@@ -44,67 +44,41 @@ exports[`TeamSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col team-section__card"
+                class="team-section__card"
               >
                 <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Dewi Erwan"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
-                    src="/images/team/dewi.jpg"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card flex items-start flex-col transition-transform duration-200"
                 >
                   <div
-                    class="card__text"
+                    class="card__image-container w-full"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://www.linkedin.com/in/dewierwan/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Dewi Erwan - Co-founder & CEO"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/dewi.jpg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
                     >
                       Dewi Erwan
-                    </p>
+                    </h3>
                     <p
-                      class="card__subtitle bluedot-p "
+                      class="card__subtitle text-gray-600"
                     >
                       Co-founder & CEO
                     </p>
                   </div>
-                  <div
-                    class="card__bottom-section flex flex-col gap-space-between"
-                  >
-                    <a
-                      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                      href="https://www.linkedin.com/in/dewierwan/"
-                      tabindex="0"
-                    >
-                      <span
-                        class="cta-button__text"
-                      >
-                        LinkedIn
-                      </span>
-                      <span
-                        class="cta-button__chevron ml-3"
-                      >
-                        <svg
-                          class="cta-button__chevron-icon size-2"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-width="0"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                          />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -114,67 +88,41 @@ exports[`TeamSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col team-section__card"
+                class="team-section__card"
               >
                 <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Will Saunter"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
-                    src="/images/team/will.jpg"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card flex items-start flex-col transition-transform duration-200"
                 >
                   <div
-                    class="card__text"
+                    class="card__image-container w-full"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://linkedin.com/in/will-saunter"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Will Saunter - Co-founder"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/will.jpg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
                     >
                       Will Saunter
-                    </p>
+                    </h3>
                     <p
-                      class="card__subtitle bluedot-p "
+                      class="card__subtitle text-gray-600"
                     >
                       Co-founder
                     </p>
                   </div>
-                  <div
-                    class="card__bottom-section flex flex-col gap-space-between"
-                  >
-                    <a
-                      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                      href="https://linkedin.com/in/will-saunter"
-                      tabindex="0"
-                    >
-                      <span
-                        class="cta-button__text"
-                      >
-                        LinkedIn
-                      </span>
-                      <span
-                        class="cta-button__chevron ml-3"
-                      >
-                        <svg
-                          class="cta-button__chevron-icon size-2"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-width="0"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                          />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -184,67 +132,41 @@ exports[`TeamSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col team-section__card"
+                class="team-section__card"
               >
                 <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Li-Lian Ang"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
-                    src="/images/team/lilian.jpg"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card flex items-start flex-col transition-transform duration-200"
                 >
                   <div
-                    class="card__text"
+                    class="card__image-container w-full"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://linkedin.com/in/anglilian"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Li-Lian Ang - Product"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/lilian.jpg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
                     >
                       Li-Lian Ang
-                    </p>
+                    </h3>
                     <p
-                      class="card__subtitle bluedot-p "
+                      class="card__subtitle text-gray-600"
                     >
                       Product
                     </p>
                   </div>
-                  <div
-                    class="card__bottom-section flex flex-col gap-space-between"
-                  >
-                    <a
-                      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
-                      href="https://linkedin.com/in/anglilian"
-                      tabindex="0"
-                    >
-                      <span
-                        class="cta-button__text"
-                      >
-                        LinkedIn
-                      </span>
-                      <span
-                        class="cta-button__chevron ml-3"
-                      >
-                        <svg
-                          class="cta-button__chevron-icon size-2"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-width="0"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                          />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -254,66 +176,40 @@ exports[`TeamSection > renders as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col team-section__card"
+                class="team-section__card"
               >
                 <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="Josh Landes"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg team-section__card-image h-[300px] w-[300px]"
-                    src="/images/team/josh_v2.jpeg"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card flex items-start flex-col transition-transform duration-200"
                 >
                   <div
-                    class="card__text"
-                  >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
-                    >
-                      Josh Landes
-                    </p>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      Head of Community
-                    </p>
-                  </div>
-                  <div
-                    class="card__bottom-section flex flex-col gap-space-between"
+                    class="card__image-container w-full"
                   >
                     <a
-                      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter card__cta"
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                       href="https://linkedin.com/in/josh-landes12"
-                      tabindex="0"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
-                      <span
-                        class="cta-button__text"
-                      >
-                        LinkedIn
-                      </span>
-                      <span
-                        class="cta-button__chevron ml-3"
-                      >
-                        <svg
-                          class="cta-button__chevron-icon size-2"
-                          fill="currentColor"
-                          height="1em"
-                          stroke="currentColor"
-                          stroke-width="0"
-                          viewBox="0 0 320 512"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                          />
-                        </svg>
-                      </span>
+                      <img
+                        alt="Josh Landes - Community"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/josh_v2.jpeg"
+                      />
                     </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Josh Landes
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      Community
+                    </p>
                   </div>
                 </div>
               </div>

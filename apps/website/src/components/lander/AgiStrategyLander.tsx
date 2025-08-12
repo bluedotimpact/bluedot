@@ -2,6 +2,7 @@ import Head from 'next/head';
 import {
   CTALinkOrButton,
   Section,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   QuoteCarousel,
   Breadcrumbs,
 } from '@bluedot/ui';
@@ -11,8 +12,10 @@ import {
   HeroCTAContainer,
   HeroSection,
 } from '@bluedot/ui/src/HeroSection';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
@@ -69,7 +72,7 @@ const AgiStrategyLander = () => {
         <title>AGI Strategy Course | BlueDot Impact</title>
         <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
       </Head>
-      
+
       <HeroSection>
         <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
         <HeroH1 className="agi-strategy-lander__hero-title">{customTitle}</HeroH1>
@@ -155,9 +158,9 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
       </Section>
 
       {/* Banner */}
-      <AgiStrategyBanner 
-        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future." 
-        ctaUrl={applicationUrl} 
+      <AgiStrategyBanner
+        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future."
+        ctaUrl={applicationUrl}
       />
 
     </>
