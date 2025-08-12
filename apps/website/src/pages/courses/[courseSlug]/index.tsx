@@ -16,6 +16,7 @@ import { GetCourseResponse } from '../../api/courses/[courseSlug]';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
+import AgiStrategyLander from '../../../components/lander/AgiStrategyLander';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 
@@ -49,6 +50,10 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
 
   if (slug === 'ops') {
     return <AiSafetyOpsLander />;
+  }
+
+  if (slug === 'agi-strategy') {
+    return <AgiStrategyLander />;
   }
 
   // Default case

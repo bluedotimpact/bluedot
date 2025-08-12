@@ -1,4 +1,5 @@
 import '../globals.css';
+import '../lib/axios'; // Configure axios-hooks
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Footer } from '@bluedot/ui';

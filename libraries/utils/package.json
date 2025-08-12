@@ -17,7 +17,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "dotenv": "^16.4.7",
     "eslint": "^8.57.0",
-    "happy-dom": "^14.7.1",
+    "happy-dom": "^18.0.1",
     "typescript": "^5.8.3",
     "vitest": "^3.2.3"
   }
