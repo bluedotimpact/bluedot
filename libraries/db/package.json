@@ -14,13 +14,14 @@
         "@bluedot/utils": "*",
         "airtable-ts": "^1.5.0",
         "drizzle-orm": "^0.43.1",
+        "happy-dom": "18.0.1",
         "pg": "^8.15.6"
     },
     "devDependencies": {
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
         "@types/node": "^22.15.21",
-        "drizzle-kit": "^0.31.1",
+        "drizzle-kit": "^0.18.1",
         "eslint": "^8.57.0",
         "ts-node": "^10.9.1",
         "typescript": "^5.8.3",
