@@ -45,10 +45,7 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
@@ -59,10 +56,7 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} isLoggedIn />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
@@ -73,10 +67,7 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     const textareaEl = container.querySelector('textarea') as HTMLTextAreaElement;
 

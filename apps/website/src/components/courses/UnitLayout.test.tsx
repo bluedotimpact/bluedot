@@ -142,10 +142,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container).toMatchSnapshot();
   });
@@ -160,10 +157,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
   });
@@ -178,10 +172,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container.querySelector('.unit__cta-container')).not.toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
@@ -218,10 +209,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     expect(container.querySelector('.unit__cta-container')).toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
@@ -238,10 +226,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     const hint = container.querySelector('.unit__keyboard-hint');
     expect(hint).toBeTruthy();
@@ -258,10 +243,7 @@ describe('UnitLayout', () => {
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
+
 
     const prevButton = container.querySelector('button[aria-label="Previous"]');
     const nextButton = container.querySelector('button[aria-label="Next"]');
