@@ -68,7 +68,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         aria-label="X (Twitter)"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
+        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
         tabindex="0"
         target="_blank"
       >
@@ -89,7 +89,7 @@ exports[`Congratulations > renders default as expected 1`] = `
       <a
         aria-label="LinkedIn"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%20and%20sign%20up%20with%20my%20referral%20link%20below%3A"
+        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
         tabindex="0"
         target="_blank"
       >

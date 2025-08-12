@@ -15,8 +15,6 @@ type SocialShareProps = {
   text?: string;
   /** Whether this is for contact links or sharing */
   variant?: 'default' | 'contact';
-  /** Optional referral ID to append to share URLs */
-  referralId?: string;
   /** Custom links for contact mode */
   emailLink?: string;
   githubOrgLink?: string;
@@ -29,7 +27,6 @@ export const SocialShare: React.FC<SocialShareProps> = ({
   path,
   text,
   variant = 'default',
-  referralId,
   emailLink,
   githubOrgLink,
   twitterLink,
@@ -45,9 +42,6 @@ export const SocialShare: React.FC<SocialShareProps> = ({
 
     if (campaign) {
       url = `${url}?utm_source=referral&utm_campaign=${campaign}`;
-      if (referralId) {
-        url = `${url}&r=${referralId}`;
-      }
     }
 
     return url;

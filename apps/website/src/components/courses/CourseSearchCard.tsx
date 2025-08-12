@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ClickTarget, Tag } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
 import { H3, P } from '../Text';
@@ -23,7 +24,9 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   children,
   className,
   description,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   cadence,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   courseLength,
   averageRating,
   imageSrc,

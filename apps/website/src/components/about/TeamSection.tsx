@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Card, Section, SlideList } from '@bluedot/ui';
 
 const teamMembers = [
@@ -46,14 +47,14 @@ const TeamSection = () => {
                   className="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 >
                   <img
-                    className="team-section__card-image h-[300px] w-[300px] object-cover"
+                    className="team-section__card-image size-[300px] object-cover"
                     src={member.imageSrc}
                     alt={`${member.name} - ${member.role}`}
                   />
                 </a>
               </div>
               <div className="card__content w-full p-4">
-                <h3 className="card__title font-bold text-lg mb-1">{member.name}</h3>
+                <h3 className="card__title font-bold text-size-lg mb-1">{member.name}</h3>
                 <p className="card__subtitle text-gray-600">{member.role}</p>
               </div>
             </div>

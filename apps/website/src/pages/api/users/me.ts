@@ -15,7 +15,6 @@ export type GetUserResponse = {
 
 export type PatchUserBody = {
   name?: string;
-  referredById?: string;
 };
 
 export default makeApiRoute({

@@ -21,7 +21,7 @@
         "@ts-rest/core": "^3.41.1",
         "@ts-rest/fastify": "^3.41.1",
         "axios": "^1.6.8",
-        "drizzle-kit": "^0.18.1",
+        "drizzle-kit": "^0.31.1",
         "fastify": "^4.26.2",
         "fastify-plugin": "^4.5.1",
         "happy-dom": "18.0.1",
