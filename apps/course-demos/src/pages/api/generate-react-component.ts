@@ -18,7 +18,7 @@ export default makeApiRoute({
     status: 200,
     execute: async (dataStream) => {
       const result = streamText({
-        model: anthropic('claude-3-7-sonnet-20250219'),
+        model: anthropic('claude-sonnet-4-20250514'),
         messages: [{
           role: 'user',
           content: fullPrompt,
