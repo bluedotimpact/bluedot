@@ -3,6 +3,7 @@ import {
   CTALinkOrButton,
   Section,
   QuoteCarousel,
+  Breadcrumbs,
 } from '@bluedot/ui';
 import {
   HeroH1,
@@ -16,6 +17,7 @@ import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
+import { ROUTES } from '../../lib/routes';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -80,10 +82,18 @@ const AgiStrategyLander = () => {
         </div>
       </HeroSection>
 
+      <Breadcrumbs
+        route={{
+          title: 'AGI Strategy',
+          url: '/courses/agi-strategy',
+          parentPages: [ROUTES.home, ROUTES.courses],
+        }}
+      />
+
       {/* Graduate section */}
       <GraduateSection />
 
-      <Section id="details">
+      <Section>
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
 {`## Shape the future of AGI strategy
