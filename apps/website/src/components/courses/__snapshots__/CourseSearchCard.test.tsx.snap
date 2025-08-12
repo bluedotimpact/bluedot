@@ -3,12 +3,12 @@
 exports[`CourseSearchCard > renders default as expected 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
     tabindex="0"
   >
     <div
-      class="course-search-card__image-container h-[200px] w-full"
+      class="course-search-card__image-container h-[200px] w-full mb-4"
     >
       <img
         alt="Title"
@@ -17,23 +17,16 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
       />
     </div>
     <div
-      class="course-search-card__content flex flex-col justify-between gap-space-between flex-1"
+      class="course-search-card__content flex flex-col flex-1"
     >
       <div
-        class="course-search-card__text"
+        class="course-search-card__text flex-1"
       >
         <h3
-          class="bluedot-h3 not-prose course-search-card__title mb-4"
+          class="bluedot-h3 not-prose course-search-card__title mb-3"
         >
           Title
         </h3>
-      </div>
-      <div
-        class="course-search-card__footer flex flex-wrap gap-4"
-      >
-        <div
-          class="flex gap-2"
-        />
       </div>
     </div>
   </a>
@@ -43,12 +36,12 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
 exports[`CourseSearchCard > renders with optional args 1`] = `
 <div>
   <a
-    class="course-search-card flex flex-col gap-6 container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+    class="course-search-card flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
     href="https://bluedot.org/courses/what-the-fish"
     tabindex="0"
   >
     <div
-      class="course-search-card__image-container h-[200px] w-full"
+      class="course-search-card__image-container h-[200px] w-full mb-4"
     >
       <img
         alt="Title"
@@ -57,46 +50,30 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
       />
     </div>
     <div
-      class="course-search-card__content flex flex-col justify-between gap-space-between flex-1"
+      class="course-search-card__content flex flex-col flex-1"
     >
       <div
-        class="course-search-card__text"
+        class="course-search-card__text flex-1"
       >
         <h3
-          class="bluedot-h3 not-prose course-search-card__title mb-4"
+          class="bluedot-h3 not-prose course-search-card__title mb-3"
         >
           Title
         </h3>
         <p
-          class="bluedot-p not-prose course-search-card__description overflow-hidden text-bluedot-black text-ellipsis mb-4"
+          class="bluedot-p not-prose course-search-card__description text-bluedot-black"
         >
           A short description of the course
         </p>
       </div>
       <div
-        class="course-search-card__footer flex flex-wrap gap-4"
+        class="course-search-card__footer flex justify-end mt-4"
       >
         <div
-          class="flex gap-2"
+          class="course-card__footer-left text-size-xs text-bluedot-black gap-1 flex flex-col items-end"
         >
           <span
-            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__level"
-            role="status"
-          >
-            5 hours
-          </span>
-          <span
-            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit text-color-secondary-text container-lined course-search-card__duration"
-            role="status"
-          >
-            Daily
-          </span>
-        </div>
-        <div
-          class="course-card__footer-left ml-auto text-size-xs text-bluedot-black gap-1 flex flex-col items-end justify-end"
-        >
-          <span
-            class="course-card__rating flex gap-[3px] items-start font-bold pb-2"
+            class="course-card__rating flex gap-[3px] items-start font-bold"
           >
             4.7
              
