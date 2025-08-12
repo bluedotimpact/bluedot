@@ -767,7 +767,7 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldULI4CXDWAUmRM2',
     },
   referralId: {
-  pgColumn: text().nullable(),
+  pgColumn: text(),
   airtableId: 'fldTT0LY0pZsOwQ4w',
 },
     referredById: {
