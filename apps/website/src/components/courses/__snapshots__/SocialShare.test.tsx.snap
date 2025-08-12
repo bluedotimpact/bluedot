@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SocialShare > when user is logged in > renders default as expected 1`] = `
+exports[`SocialShare > renders default as expected 1`] = `
 <div>
   <div
     class="flex justify-center gap-4"
@@ -8,7 +8,7 @@ exports[`SocialShare > when user is logged in > renders default as expected 1`] 
     <a
       aria-label="X (Twitter)"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter%26r%3Dtest-referral-123&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
+      href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
       tabindex="0"
       target="_blank"
     >
@@ -29,7 +29,7 @@ exports[`SocialShare > when user is logged in > renders default as expected 1`] 
     <a
       aria-label="LinkedIn"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin%26r%3Dtest-referral-123&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
+      href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
       tabindex="0"
       target="_blank"
     >
@@ -50,79 +50,7 @@ exports[`SocialShare > when user is logged in > renders default as expected 1`] 
     <a
       aria-label="Facebook"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook%26r%3Dtest-referral-123"
-      tabindex="0"
-      target="_blank"
-    >
-      <svg
-        fill="currentColor"
-        height="20"
-        stroke="currentColor"
-        stroke-width="0"
-        viewBox="0 0 512 512"
-        width="20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"
-        />
-      </svg>
-    </a>
-  </div>
-</div>
-`;
-
-exports[`SocialShare > when user is logged out > renders but does not include referralCode in share URLs 1`] = `
-<div>
-  <div
-    class="flex justify-center gap-4"
-  >
-    <a
-      aria-label="X (Twitter)"
-      class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftesting-referrals%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter"
-      tabindex="0"
-      target="_blank"
-    >
-      <svg
-        fill="currentColor"
-        height="20"
-        stroke="currentColor"
-        stroke-width="0"
-        viewBox="0 0 512 512"
-        width="20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-        />
-      </svg>
-    </a>
-    <a
-      aria-label="LinkedIn"
-      class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftesting-referrals%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin"
-      tabindex="0"
-      target="_blank"
-    >
-      <svg
-        fill="currentColor"
-        height="20"
-        stroke="currentColor"
-        stroke-width="0"
-        viewBox="0 0 448 512"
-        width="20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-        />
-      </svg>
-    </a>
-    <a
-      aria-label="Facebook"
-      class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-      href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftesting-referrals%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+      href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
       tabindex="0"
       target="_blank"
     >

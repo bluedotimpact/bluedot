@@ -766,14 +766,6 @@ export const userTable = pgAirtable('user', {
       pgColumn: text().notNull(),
       airtableId: 'fldULI4CXDWAUmRM2',
     },
-  referralId: {
-  pgColumn: text(),
-  airtableId: 'fldTT0LY0pZsOwQ4w',
-},
-    referredById: {
-      pgColumn: text(),
-      airtableId: 'flditAk6CtQxCfHf8',
-    },
     utmSource: {
       pgColumn: text(),
       airtableId: 'fldl1gTMXI44BvCUS',

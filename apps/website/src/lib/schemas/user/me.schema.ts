@@ -6,7 +6,4 @@ export const meRequestBodySchema = z.object({
     // 50 characters for a name seemed reasonable
     .max(50, 'Name must be under 50 characters')
     .optional(),
-  referredById: z.string()
-    .trim()
-    .optional(),
 }).optional();
