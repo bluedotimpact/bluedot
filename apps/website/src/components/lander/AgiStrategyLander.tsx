@@ -34,7 +34,8 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
 };
 
 const customMiniTitle = 'AGI Strategy Course';
-const customTitle = 'Are you a strategist who wants to shape the future of artificial general intelligence?';
+const customTitle = 'Learn how to navigate humanity\'s most critical decade';
+const customSubTitle = 'Artificial General Intelligence is coming. Understand the race, the risks, and how you can make a difference.';
 
 const applicationUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
@@ -70,7 +71,8 @@ const AgiStrategyLander = () => {
       <HeroSection>
         <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
         <HeroH1 className="agi-strategy-lander__hero-title">{customTitle}</HeroH1>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+        <p className="text-color-text-on-dark mt-4 text-center max-w-2xl mx-auto">{customSubTitle}</p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <HeroCTAContainer>
             <CTALinkOrButton url={applicationUrl}>Apply now</CTALinkOrButton>
           </HeroCTAContainer>
@@ -94,70 +96,60 @@ const AgiStrategyLander = () => {
       <Section>
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
-            {`## Shape the future of AGI strategy
+            {`
+## What is AGI?
 
-Are you ready to become a strategic leader in one of humanity's most important transitions? Our AGI Strategy Course prepares strategists, consultants, and policy professionals to navigate the complex landscape of artificial general intelligence.
+**AI that matches or exceeds human capabilities at everything.**
 
-## What you'll learn
+Not just chatbots. Not just image generation. Systems that can do everything you can do: write, research, strategise, code, innovate. But better, faster, cheaper, and at infinite scale.
 
-By the end of this intensive course, you'll master:
+**Leading AI researchers believe this is coming within 3-10 years.**
 
-- **AGI Scenario Planning**: Develop robust frameworks for analyzing potential AGI development pathways and their strategic implications
-- **Governance Strategy**: Design governance mechanisms and policy frameworks for managing AGI development and deployment
-- **Risk Assessment**: Conduct strategic risk analysis for AGI systems and organizational decision-making
-- **Stakeholder Alignment**: Build consensus among diverse stakeholders on AGI governance approaches
-- **Strategic Communication**: Communicate complex AGI concepts to executives, policymakers, and the public
+Big Tech companies have it as their mission to build it. The governments regulating it don't understand it. And the decisions being made today determine whether this technology liberates humanity or destabilises it.
 
-## Current opportunities in AGI Strategy
+**This workshop prepares you to be part of those decisions.**
 
-The field is rapidly expanding with high-impact roles opening at:
+## Who we are
 
-- **Chief Strategy Officer, Anthropic**: Leading strategic planning for one of the world's leading AI safety companies, focusing on AGI preparedness and governance frameworks
-- **Senior Strategy Analyst, DeepMind**: Developing long-term strategic plans for AGI development timelines and safety integration
-- **AGI Policy Director, MIRI**: Shaping organizational strategy for AGI alignment research and policy advocacy
-- **Strategic Advisor, Center for AI Safety**: Providing strategic guidance on AGI governance and international coordination efforts
-- **Principal Consultant, Boston Consulting Group**: Leading AGI strategy engagements for Fortune 500 companies preparing for transformative AI
+The team behind **BlueDot Impact** has trained over 5,000 AI safety professionals since 2021, before ChatGPT made AI mainstream. We were founded at the University of Cambridge, working closely with leading AI researchers, engineers and policymakers. 
 
-## Why join the course?
+Our community includes:
 
-We'll transform you into a world-class AGI strategist, preparing you for the most critical strategic challenges of the 21st century.
+- Former AI company researchers who've worked on frontier models
+- Government advisors who've shaped national AI strategies
+- Entrepreneurs who've built AI safety tools
 
-You'll commit to 8 hours of intensive strategic training over two weeks:
-- 6 hours of expert-led workshops and scenario planning exercises
-- 2 hours of peer collaboration and strategic case study analysis
-- Flexible scheduling around your professional commitments
+We're funded by philanthropic grants, not venture capital. Our incentive is impact, not profit.
 
-## Who is this course for?
+## Logistics made simple
 
-This course is designed for mid-to-senior-level strategic professionals who want to specialize in AGI governance.
+**Join live online discussions**
 
-You'd be a great fit if:
-- **You have 3-7 years of strategic experience** – You've worked in strategy consulting, policy analysis, or organizational strategy roles
-  - Bonus: experience with emerging technology strategy, government relations, or multi-stakeholder initiatives
-  - Bonus: you can describe a complex strategic challenge you've successfully navigated
-- **You think systematically** – You excel at breaking down complex problems and developing comprehensive strategic frameworks
-- **You're ready for global impact** – You're motivated to work on strategies that could affect humanity's long-term future
+- Participation is free for everyone.
+- The course is virtual, so you can join from anywhere on earth.
+- Experience the course alongside a small group of ~8 peers, who you’ll meet for 6x live 2-hour discussions.
+- Your discussions are facilitated by an AI safety expert.
+- Before each discussion, you’ll complete 2-3 hours of individual reading and writing.
 
-This is NOT for you if:
-- You're seeking technical AI research or engineering positions
-- You prefer tactical execution over strategic planning
+**Choose your intensity**
 
-## Why are we doing this?
+- **Intensive**: 6-day course
+    - 1 live discussion each day
+    - 5 hours/day total
+- **Part-time**: 6-week course
+    - 1 live discussion each week
+    - 5 hours/week total
 
-We believe that the transition to AGI will be one of the most consequential strategic challenges in human history. Success requires exceptional strategic minds working on governance, coordination, and long-term planning.
+**New round every month**
 
-Our graduates now shape AGI strategy at leading AI companies, government agencies, and international organizations. We're expanding our impact by training the next generation of AGI strategists.
-
-## More details
-
-Questions about the program? Contact [strategy@bluedot.org](mailto:strategy@bluedot.org) and we'll get back to you within 24 hours.`}
+`}
           </MarkdownExtendedRenderer>
         </div>
       </Section>
 
       <Section className="mt-8">
         {/* Testimonials */}
-        <TestimonialSubSection testimonials={testimonials1} title="What people say about our other courses" />
+        <TestimonialSubSection testimonials={testimonials1} title="What people say about us" />
       </Section>
 
       {/* Banner */}
