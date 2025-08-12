@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { ClickTarget, Tag } from '@bluedot/ui';
+import { ClickTarget } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
 import { H3, P } from '../Text';
 
@@ -11,8 +11,6 @@ export type CourseSearchCardProps = React.PropsWithChildren<{
   // Optional
   className?: string,
   description?: string,
-  cadence?: string,
-  courseLength?: string,
   averageRating?: number | null;
   imageSrc?: string,
 }>;
@@ -23,8 +21,6 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   children,
   className,
   description,
-  cadence,
-  courseLength,
   averageRating,
   imageSrc,
   title,

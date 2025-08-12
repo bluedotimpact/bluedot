@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import {
   describe,
   expect,
@@ -142,8 +142,6 @@ describe('UnitLayout', () => {
       />,
     );
 
-
-
     expect(container).toMatchSnapshot();
   });
 
@@ -157,8 +155,6 @@ describe('UnitLayout', () => {
       />,
     );
 
-
-
     expect(container.querySelector('.unit__cta-link')).toMatchSnapshot();
   });
 
@@ -171,8 +167,6 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
-
-
 
     expect(container.querySelector('.unit__cta-container')).not.toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeFalsy();
@@ -209,8 +203,6 @@ describe('UnitLayout', () => {
       />,
     );
 
-
-
     expect(container.querySelector('.unit__cta-container')).toBeNull();
     expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
@@ -226,8 +218,6 @@ describe('UnitLayout', () => {
       />,
     );
 
-
-
     const hint = container.querySelector('.unit__keyboard-hint');
     expect(hint).toBeTruthy();
     expect(hint?.textContent).toContain('Use arrow keys (← →) to navigate between sections');
@@ -242,8 +232,6 @@ describe('UnitLayout', () => {
         units={COURSE_UNITS}
       />,
     );
-
-
 
     const prevButton = container.querySelector('button[aria-label="Previous"]');
     const nextButton = container.querySelector('button[aria-label="Next"]');

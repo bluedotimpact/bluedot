@@ -40,29 +40,19 @@ const mockArgs = {
 };
 
 describe('MultipleChoice', () => {
-  test('renders default as expected', async () => {
+  test('renders default as expected', () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
-    });
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
   });
 
-  test('renders logged in as expected', async () => {
+  test('renders logged in as expected', () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
-    });
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
@@ -90,11 +80,6 @@ describe('MultipleChoice', () => {
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
-    });
-
     // Expect only one correct option
     expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
     // Expect 'correct' UI
@@ -109,11 +94,6 @@ describe('MultipleChoice', () => {
     const { container } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
-    });
 
     // Expect only one incorrect option
     expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);

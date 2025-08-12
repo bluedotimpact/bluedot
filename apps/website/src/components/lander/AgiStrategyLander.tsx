@@ -2,7 +2,6 @@ import Head from 'next/head';
 import {
   CTALinkOrButton,
   Section,
-  QuoteCarousel,
   Breadcrumbs,
 } from '@bluedot/ui';
 import {
@@ -11,9 +10,8 @@ import {
   HeroCTAContainer,
   HeroSection,
 } from '@bluedot/ui/src/HeroSection';
-import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
-import { H1, H2, H3 } from '../Text';
+import { H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
@@ -68,7 +66,7 @@ const AgiStrategyLander = () => {
         <title>AGI Strategy Course | BlueDot Impact</title>
         <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
       </Head>
-      
+
       <HeroSection>
         <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
         <HeroH1 className="agi-strategy-lander__hero-title">{customTitle}</HeroH1>
@@ -96,7 +94,7 @@ const AgiStrategyLander = () => {
       <Section>
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
-{`## Shape the future of AGI strategy
+            {`## Shape the future of AGI strategy
 
 Are you ready to become a strategic leader in one of humanity's most important transitions? Our AGI Strategy Course prepares strategists, consultants, and policy professionals to navigate the complex landscape of artificial general intelligence.
 
@@ -163,9 +161,9 @@ Questions about the program? Contact [strategy@bluedot.org](mailto:strategy@blue
       </Section>
 
       {/* Banner */}
-      <AgiStrategyBanner 
-        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future." 
-        ctaUrl={applicationUrl} 
+      <AgiStrategyBanner
+        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future."
+        ctaUrl={applicationUrl}
       />
 
     </>

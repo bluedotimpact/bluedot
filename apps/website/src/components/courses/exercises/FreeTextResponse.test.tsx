@@ -45,8 +45,6 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} />,
     );
 
-
-
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
   });
@@ -56,8 +54,6 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} isLoggedIn />,
     );
 
-
-
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
   });
@@ -66,8 +62,6 @@ describe('FreeTextResponse', () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
-
-
 
     const textareaEl = container.querySelector('textarea') as HTMLTextAreaElement;
 

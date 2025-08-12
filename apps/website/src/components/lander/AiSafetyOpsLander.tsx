@@ -135,7 +135,7 @@ const AiSafetyOpsLander = () => {
       <Section>
         <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto max-w-3xl">
           <MarkdownExtendedRenderer>
-{`## What roles does this bootcamp prepare you for?
+            {`## What roles does this bootcamp prepare you for?
 
 This bootcamp prepares you for early-to-mid-career **operations roles in AI safety**.
 
