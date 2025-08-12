@@ -174,7 +174,7 @@ exports[`Nav > renders with courses 1`] = `
                 </a>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-                  href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+                  href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
                   tabindex="0"
                 >
                   Events
@@ -323,7 +323,7 @@ exports[`Nav > renders with courses 1`] = `
           </a>
           <a
             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
-            href="https://lu.ma/aisafetycommunityevents?utm_source=website&utm_campaign=nav"
+            href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
             tabindex="0"
           >
             Events

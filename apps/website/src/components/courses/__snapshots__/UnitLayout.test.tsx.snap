@@ -10,57 +10,109 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       role="status"
     />
     <div
-      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full p-3 unit__mobile-header md:hidden sticky top-16 z-10"
+      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3 unit__mobile-header md:hidden sticky top-16 z-10"
     >
       <nav
-        class="mobile-unit-header__nav flex flex-row justify-between"
+        class="mobile-unit-header__nav flex flex-row items-center justify-between w-full"
       >
         <button
-          aria-label="Previous unit"
-          class="bluedot-a not-prose mobile-unit-header__prev-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
-          disabled=""
+          aria-label="Open course navigation menu"
+          class="mobile-unit-header__course-container flex flex-row items-center gap-2 flex-1 cursor-pointer bg-transparent border-none p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
           type="button"
         >
-          <img
-            alt=""
-            class="size-8"
-            src="/icons/bubble-arrow.svg"
-          />
-        </button>
-        <div
-          class="mobile-unit-header__course-container flex flex-row gap-2 items-center"
-        >
-          <img
-            alt=""
-            class="size-8"
-            src="/icons/course.svg"
-          />
+          <svg
+            fill="none"
+            height="32"
+            viewBox="0 0 40 40"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              fill="#2244BB"
+              height="40"
+              rx="8"
+              width="40"
+            />
+            <path
+              d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z"
+              fill="white"
+            />
+          </svg>
           <div
-            class="mobile-unit-header__course-title-container flex flex-col"
+            class="mobile-unit-header__course-title-container flex flex-col text-left"
           >
             <p
-              class="mobile-unit-header__course-header text-size-xxs text-[#999eb3]"
+              class="mobile-unit-header__course-breadcrumb text-[12px] font-medium leading-[140%] tracking-[-0.5%] text-[#6A6F7A]"
             >
               What the fish [Test Course]
             </p>
-            <p
-              class="mobile-unit-header__course-title bluedot-h4 text-size-xs"
+            <div
+              class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
-              Basic Principles of Fish
-            </p>
+              <p
+                class="mobile-unit-header__course-title text-[13px] font-semibold leading-[100%] tracking-[-0.5%] text-[#13132E]"
+              >
+                Basic Principles of Fish
+              </p>
+              <svg
+                class="size-3 text-[#13132E]"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-        <button
-          aria-label="Next unit"
-          class="bluedot-a not-prose mobile-unit-header__next-unit-cta flex flex-row items-center gap-1 no-underline disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
-          type="button"
-        >
-          <img
-            alt=""
-            class="size-8 rotate-180"
-            src="/icons/bubble-arrow.svg"
-          />
         </button>
+        <div
+          class="mobile-unit-header__navigation flex flex-row items-center p-0 w-16 h-8"
+        >
+          <button
+            aria-label="Previous unit"
+            class="mobile-unit-header__prev-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            disabled=""
+            type="button"
+          >
+            <svg
+              class="rotate-180"
+              fill="none"
+              height="10"
+              viewBox="0 0 12 10"
+              width="12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
+                fill="#6A6F7A"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Next unit"
+            class="mobile-unit-header__next-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            type="button"
+          >
+            <svg
+              fill="none"
+              height="10"
+              viewBox="0 0 12 10"
+              width="12"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
+                fill="#00114D"
+              />
+            </svg>
+          </button>
+        </div>
       </nav>
     </div>
     <div
@@ -488,7 +540,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="section__body"
       >
         <div
-          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-6 px-4 sm:px-spacing-x pt-24 md:ml-[360px]"
+          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24 md:ml-[360px]"
         >
           <div
             class="unit__title-container"

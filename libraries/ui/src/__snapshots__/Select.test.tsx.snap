@@ -52,37 +52,37 @@ exports[`Select > renders disabled state 1`] = `
         />
       </svg>
     </button>
-  </div>
-  <div
-    aria-hidden="true"
-    data-a11y-ignore="aria-hidden-focus"
-    data-react-aria-prevent-focus="true"
-    data-testid="hidden-select-container"
-    style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
-  >
-    <label>
-      <select
-        disabled=""
-        tabindex="-1"
-      >
-        <option />
-        <option
-          value="cat"
+    <div
+      aria-hidden="true"
+      data-a11y-ignore="aria-hidden-focus"
+      data-react-aria-prevent-focus="true"
+      data-testid="hidden-select-container"
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
+    >
+      <label>
+        <select
+          disabled=""
+          tabindex="-1"
         >
-          Cat
-        </option>
-        <option
-          value="dog"
-        >
-          Dog
-        </option>
-        <option
-          value="bird"
-        >
-          Bird
-        </option>
-      </select>
-    </label>
+          <option />
+          <option
+            value="cat"
+          >
+            Cat
+          </option>
+          <option
+            value="dog"
+          >
+            Dog
+          </option>
+          <option
+            value="bird"
+          >
+            Bird
+          </option>
+        </select>
+      </label>
+    </div>
   </div>
 </div>
 `;
@@ -151,37 +151,37 @@ exports[`Select > renders with icon 1`] = `
         />
       </svg>
     </button>
-  </div>
-  <div
-    aria-hidden="true"
-    data-a11y-ignore="aria-hidden-focus"
-    data-react-aria-prevent-focus="true"
-    data-testid="hidden-select-container"
-    style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
-  >
-    <label>
-      <select
-        tabindex="-1"
-        title=""
-      >
-        <option />
-        <option
-          value="cat"
+    <div
+      aria-hidden="true"
+      data-a11y-ignore="aria-hidden-focus"
+      data-react-aria-prevent-focus="true"
+      data-testid="hidden-select-container"
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
+    >
+      <label>
+        <select
+          tabindex="-1"
+          title=""
         >
-          Cat
-        </option>
-        <option
-          value="dog"
-        >
-          Dog
-        </option>
-        <option
-          value="bird"
-        >
-          Bird
-        </option>
-      </select>
-    </label>
+          <option />
+          <option
+            value="cat"
+          >
+            Cat
+          </option>
+          <option
+            value="dog"
+          >
+            Dog
+          </option>
+          <option
+            value="bird"
+          >
+            Bird
+          </option>
+        </select>
+      </label>
+    </div>
   </div>
 </div>
 `;
@@ -237,37 +237,37 @@ exports[`Select > renders with label 1`] = `
         />
       </svg>
     </button>
-  </div>
-  <div
-    aria-hidden="true"
-    data-a11y-ignore="aria-hidden-focus"
-    data-react-aria-prevent-focus="true"
-    data-testid="hidden-select-container"
-    style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
-  >
-    <label>
-      <select
-        tabindex="-1"
-        title=""
-      >
-        <option />
-        <option
-          value="cat"
+    <div
+      aria-hidden="true"
+      data-a11y-ignore="aria-hidden-focus"
+      data-react-aria-prevent-focus="true"
+      data-testid="hidden-select-container"
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
+    >
+      <label>
+        <select
+          tabindex="-1"
+          title=""
         >
-          Cat
-        </option>
-        <option
-          value="dog"
-        >
-          Dog
-        </option>
-        <option
-          value="bird"
-        >
-          Bird
-        </option>
-      </select>
-    </label>
+          <option />
+          <option
+            value="cat"
+          >
+            Cat
+          </option>
+          <option
+            value="dog"
+          >
+            Dog
+          </option>
+          <option
+            value="bird"
+          >
+            Bird
+          </option>
+        </select>
+      </label>
+    </div>
   </div>
 </div>
 `;
@@ -317,37 +317,37 @@ exports[`Select > shows placeholder when no value selected 1`] = `
         />
       </svg>
     </button>
-  </div>
-  <div
-    aria-hidden="true"
-    data-a11y-ignore="aria-hidden-focus"
-    data-react-aria-prevent-focus="true"
-    data-testid="hidden-select-container"
-    style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;"
-  >
-    <label>
-      <select
-        tabindex="-1"
-        title=""
-      >
-        <option />
-        <option
-          value="cat"
+    <div
+      aria-hidden="true"
+      data-a11y-ignore="aria-hidden-focus"
+      data-react-aria-prevent-focus="true"
+      data-testid="hidden-select-container"
+      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
+    >
+      <label>
+        <select
+          tabindex="-1"
+          title=""
         >
-          Cat
-        </option>
-        <option
-          value="dog"
-        >
-          Dog
-        </option>
-        <option
-          value="bird"
-        >
-          Bird
-        </option>
-      </select>
-    </label>
+          <option />
+          <option
+            value="cat"
+          >
+            Cat
+          </option>
+          <option
+            value="dog"
+          >
+            Dog
+          </option>
+          <option
+            value="bird"
+          >
+            Bird
+          </option>
+        </select>
+      </label>
+    </div>
   </div>
 </div>
 `;
