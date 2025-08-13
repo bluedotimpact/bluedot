@@ -41,7 +41,9 @@ export async function waitForQueueToEmpty(): Promise<void> {
 }
 
 /**
- * Initialize AirtableWebhook instances for each unique baseId in the meta table.
+ * Initialize AirtableWebhook instances for each unique baseId in the meta table
+ * 
+ * (adding comment here for now to force a re-sync while i figure out why the webhook is not syncing)
  */
 export async function initializeWebhooks(): Promise<void> {
   // Get all base IDs and their corresponding field IDs
