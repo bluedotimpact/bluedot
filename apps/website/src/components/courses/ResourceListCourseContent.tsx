@@ -27,6 +27,27 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
+// Utility function to format time with rounding rules
+const formatResourceTime = (totalMins: number): string => {
+  if (totalMins < 60) {
+    // Round up to nearest 5 mins for times below 1 hour
+    const roundedMins = Math.ceil(totalMins / 5) * 5;
+    if (roundedMins >= 60) {
+      return '1 hr';
+    }
+    return `${roundedMins} mins`;
+  }
+  // For times at or above 1 hour, round up to nearest 10 mins
+  const roundedMins = Math.ceil(totalMins / 10) * 10;
+  const hours = Math.floor(roundedMins / 60);
+  const remainingMins = roundedMins % 60;
+
+  if (remainingMins === 0) {
+    return hours === 1 ? '1 hr' : `${hours} hrs`;
+  }
+  return hours === 1 ? `1 hr ${remainingMins} mins` : `${hours} hrs ${remainingMins} mins`;
+};
+
 const ResourceListCourseContent: React.FC = () => {
   const { query: { courseSlug, unitNumber } } = useRouter();
 
@@ -55,13 +76,8 @@ const ResourceListCourseContent: React.FC = () => {
   return (
     <div className="resource-list flex flex-col gap-6">
       {unitData.unit.description && <div className="resource-list__description"><MarkdownExtendedRenderer>{unitData.unit.description}</MarkdownExtendedRenderer></div>}
-      {unitData.unit.learningOutcomes && (
-      <div className="resource-list__learning-outcomes">
-        <H4>By the end of the unit, you should be able to:</H4>
-        <MarkdownExtendedRenderer>{unitData.unit.learningOutcomes}</MarkdownExtendedRenderer>
-      </div>
-      )}
-      <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({coreResources.reduce((a, b) => a + (b.timeFocusOnMins ?? 0), 0)} mins)</H4>
+
+      <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({formatResourceTime(coreResources.reduce((a, b) => a + (b.timeFocusOnMins ?? 0), 0))})</H4>
       <div className="resource-list__core-resources flex flex-col gap-6" role="list">
         {coreResources.map((resource) => (
           <ResourceListItem key={resource.id} resource={resource} />
@@ -288,10 +304,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
     return <ErrorView error={completionError} />;
   }
 
-  const wrapperMarginClass = auth && showFeedback ? 'mb-11' : 'mb-0';
-
   return (
-    <div className={`resource-item-wrapper ${wrapperMarginClass}`} role="listitem">
+    <div className="resource-item-wrapper" role="listitem">
       <div className="relative">
         {/* Desktop completion circle */}
         {auth && (
