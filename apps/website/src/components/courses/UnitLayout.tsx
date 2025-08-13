@@ -291,7 +291,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <button
               type="button"
               onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-              className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity"
+              className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
               aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
             >
               <FaBars className="size-[16px]" />
@@ -325,7 +325,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <div className="flex items-center gap-[20px] min-h-[18px]">
             <button
               type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isFirstChunk && !prevUnit}
               onClick={handlePrevClick}
               aria-label="Previous"
@@ -335,7 +335,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </button>
             <button
               type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isLastChunk && !nextUnit}
               onClick={handleNextClick}
               aria-label="Next"
@@ -350,8 +350,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Main content section - positioned below breadcrumbs */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24',
-          isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-8',
+          !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
           <div className="unit__title-container">

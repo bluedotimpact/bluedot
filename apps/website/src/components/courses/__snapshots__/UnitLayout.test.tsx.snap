@@ -430,7 +430,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Hide sidebar"
-            class="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity"
+            class="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
             type="button"
           >
             <svg
@@ -515,7 +515,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous"
-            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled=""
             title="Navigate to previous section (use ← arrow key)"
             type="button"
@@ -524,7 +524,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next"
-            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Navigate to next section (use → arrow key)"
             type="button"
           >
@@ -540,7 +540,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="section__body"
       >
         <div
-          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24 md:ml-[360px]"
+          class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-8 md:ml-[360px]"
         >
           <div
             class="unit__title-container"
