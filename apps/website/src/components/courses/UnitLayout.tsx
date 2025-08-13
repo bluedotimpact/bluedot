@@ -351,7 +351,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
           'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-24',
-          isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
+          !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
           <div className="unit__title-container">
