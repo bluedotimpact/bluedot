@@ -16,7 +16,7 @@ import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/resources';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import {
-  A, H3, H4, P,
+  A, H4, P,
 } from '../Text';
 import { ROUTES } from '../../lib/routes';
 import Callout from './Callout';
@@ -30,8 +30,8 @@ type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 // Utility function to format time with rounding rules
 const formatResourceTime = (totalMins: number): string => {
   // Apply different rounding rules: round to 5 for <60, round to 10 for ≥60
-  const roundedMins = totalMins < 60 
-    ? Math.ceil(totalMins / 5) * 5 
+  const roundedMins = totalMins < 60
+    ? Math.ceil(totalMins / 5) * 5
     : Math.ceil(totalMins / 10) * 10;
 
   // Handle pure minutes case (after rounding, still under 60)
@@ -44,7 +44,7 @@ const formatResourceTime = (totalMins: number): string => {
   const remainingMins = roundedMins % 60;
   const hrLabel = hours === 1 ? 'hr' : 'hrs';
 
-  return remainingMins === 0 
+  return remainingMins === 0
     ? `${hours} ${hrLabel}`
     : `${hours} ${hrLabel} ${remainingMins} mins`;
 };
@@ -92,7 +92,7 @@ const ResourceListCourseContent: React.FC = () => {
       </div>
       {resourcesData.unitExercises.length > 0 && (
         <>
-          <H3 className="text-[20px] font-semibold leading-[140%] tracking-normal">Exercises</H3>
+          <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Exercises</H4>
           <div className="resource-list__exercises !-my-6" role="list">
             {resourcesData.unitExercises.map((exercise) => (
               <Exercise key={exercise.id} exerciseId={exercise.id} />
