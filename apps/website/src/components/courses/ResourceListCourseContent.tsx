@@ -29,23 +29,24 @@ type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 // Utility function to format time with rounding rules
 const formatResourceTime = (totalMins: number): string => {
-  if (totalMins < 60) {
-    // Round up to nearest 5 mins for times below 1 hour
-    const roundedMins = Math.ceil(totalMins / 5) * 5;
-    if (roundedMins >= 60) {
-      return '1 hr';
-    }
+  // Apply different rounding rules: round to 5 for <60, round to 10 for ≥60
+  const roundedMins = totalMins < 60
+    ? Math.ceil(totalMins / 5) * 5
+    : Math.ceil(totalMins / 10) * 10;
+
+  // Handle pure minutes case (after rounding, still under 60)
+  if (roundedMins < 60) {
     return `${roundedMins} mins`;
   }
-  // For times at or above 1 hour, round up to nearest 10 mins
-  const roundedMins = Math.ceil(totalMins / 10) * 10;
+
+  // Handle hours case
   const hours = Math.floor(roundedMins / 60);
   const remainingMins = roundedMins % 60;
+  const hrLabel = hours === 1 ? 'hr' : 'hrs';
 
-  if (remainingMins === 0) {
-    return hours === 1 ? '1 hr' : `${hours} hrs`;
-  }
-  return hours === 1 ? `1 hr ${remainingMins} mins` : `${hours} hrs ${remainingMins} mins`;
+  return remainingMins === 0
+    ? `${hours} ${hrLabel}`
+    : `${hours} ${hrLabel} ${remainingMins} mins`;
 };
 
 const ResourceListCourseContent: React.FC = () => {
@@ -73,11 +74,17 @@ const ResourceListCourseContent: React.FC = () => {
   const coreResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Core');
   const optionalResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Further');
 
+  // Calculate total time for core resources
+  let totalCoreResourceTime = 0;
+  for (const resource of coreResources) {
+    totalCoreResourceTime += resource.timeFocusOnMins ?? 0;
+  }
+
   return (
     <div className="resource-list flex flex-col gap-6">
       {unitData.unit.description && <div className="resource-list__description"><MarkdownExtendedRenderer>{unitData.unit.description}</MarkdownExtendedRenderer></div>}
 
-      <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({formatResourceTime(coreResources.reduce((a, b) => a + (b.timeFocusOnMins ?? 0), 0))})</H4>
+      <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({formatResourceTime(totalCoreResourceTime)})</H4>
       <div className="resource-list__core-resources flex flex-col gap-6" role="list">
         {coreResources.map((resource) => (
           <ResourceListItem key={resource.id} resource={resource} />
