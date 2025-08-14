@@ -184,13 +184,16 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         )}
       </div>
       {!isLoggedIn && (
-        <CTALinkOrButton
-          variant="primary"
-          url={getLoginUrl(router.asPath, true)}
-          withChevron
-        >
-          Create a free account to save your answers
-        </CTALinkOrButton>
+        <div className="w-full flex">
+          <CTALinkOrButton
+            variant="primary"
+            url={getLoginUrl(router.asPath, true)}
+            withChevron
+            className="!w-auto !whitespace-normal text-center min-w-0"
+          >
+            Create a free account to save your answers
+          </CTALinkOrButton>
+        </div>
       )}
     </form>
   );
