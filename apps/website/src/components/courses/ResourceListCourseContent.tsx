@@ -122,7 +122,7 @@ const ThumbIcon: React.FC<{
   filled, color, isDislike = false,
 }) => {
   const clipId = useId();
-  // Flip horizontally for dislike (thumbs down) by scaling on Y-axis
+  // Flip horizontally for dislike (thumbs down) by flipping on Y-axis
   const transform = isDislike ? 'scale(1, -1) translate(0, -16)' : undefined;
 
   if (filled) {
