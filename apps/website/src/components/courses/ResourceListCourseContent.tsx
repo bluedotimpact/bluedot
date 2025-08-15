@@ -122,6 +122,7 @@ const ThumbIcon: React.FC<{
   filled, color, isDislike = false,
 }) => {
   const clipId = useId();
+  // Flip horizontally for dislike (thumbs down) by scaling on Y-axis
   const transform = isDislike ? 'scale(1, -1) translate(0, -16)' : undefined;
 
   if (filled) {
@@ -134,23 +135,25 @@ const ThumbIcon: React.FC<{
         </g>
         <defs>
           <clipPath id={`clip-${clipId}`}>
-            <rect width="16" height="16" fill="white" transform={isDislike ? 'matrix(1 0 0 -1 0.5 16)' : 'translate(0.5)'} />
+            <rect width="16" height="16" fill="white" transform="translate(0.5)" />
           </clipPath>
         </defs>
       </svg>
     );
   }
 
+  // Non-filled version (outline only)
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M4.66667 14V6.66667M1.33333 8V12.6667C1.33333 13.403 1.93029 14 2.66667 14H12.1871C12.7895 14 13.3088 13.5681 13.4127 12.9738L14.5589 6.30718C14.6947 5.53137 14.1043 4.8 13.3333 4.8H9.33333V2.66667C9.33333 1.56209 8.43791 0.666667 7.33333 0.666667C7.15653 0.666667 7 0.823198 7 1V1.2C7 1.64305 6.86881 2.07613 6.62229 2.44552L4.31105 5.68888C4.11259 5.98575 4 6.3323 4 6.68646V14"
-        stroke={color}
-        strokeWidth="1.25"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        transform={transform}
-      />
+    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath={`url(#clip-${clipId})`} transform={transform}>
+        <path d="M2.5 6.5H5.5V13H2.5C2.36739 13 2.24021 12.9473 2.14645 12.8536C2.05268 12.7598 2 12.6326 2 12.5V7C2 6.86739 2.05268 6.74021 2.14645 6.64645C2.24021 6.55268 2.36739 6.5 2.5 6.5Z" stroke={color} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5.5 6.5L8 1.5C8.53043 1.5 9.03914 1.71071 9.41421 2.08579C9.78929 2.46086 10 2.96957 10 3.5V5H14C14.1419 5.00004 14.2821 5.03026 14.4113 5.08865C14.5406 5.14704 14.656 5.23227 14.7498 5.33867C14.8436 5.44507 14.9137 5.57021 14.9555 5.70579C14.9972 5.84136 15.0096 5.98426 14.9919 6.125L14.2419 12.125C14.2114 12.3666 14.0939 12.5888 13.9113 12.7499C13.7286 12.911 13.4935 12.9999 13.25 13H5.5" stroke={color} strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+      <defs>
+        <clipPath id={`clip-${clipId}`}>
+          <rect width="16" height="16" fill="white" transform="translate(0.5)" />
+        </clipPath>
+      </defs>
     </svg>
   );
 };
