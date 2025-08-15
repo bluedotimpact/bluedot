@@ -257,7 +257,6 @@ new k8s.helm.v3.Release('loki', {
     repo: 'https://grafana.github.io/helm-charts',
   },
   namespace: 'monitoring',
-  timeout: 600, // 10 minutes, added as a fix for https://github.com/bluedotimpact/bluedot/issues/1170
   values: {
     loki: {
       commonConfig: {
@@ -304,6 +303,12 @@ new k8s.helm.v3.Release('loki', {
     deploymentMode: 'SingleBinary',
     singleBinary: {
       replicas: 1,
+    },
+    gateway: {
+      // Partial fix for https://github.com/bluedotimpact/bluedot/issues/1170 , the default anti-affinity
+      // rules were preventing deployment on our single node cluster (because pods can't be scheduled on
+      // separate nodes)
+      affinity: {},
     },
     // Disable things we don't need
     selfMonitoring: {
