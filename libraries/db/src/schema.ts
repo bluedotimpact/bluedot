@@ -57,7 +57,7 @@ export const courseTable = pgAirtable('course', {
     },
     detailsUrl: {
       pgColumn: text().notNull(),
-      airtableId: 'fldblKROooVG5p9UW',
+      airtableId: 'fldlnWDzZZPZHP6S1',
     },
     displayOnCourseHubIndex: {
       pgColumn: boolean().notNull(),
