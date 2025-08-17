@@ -34,10 +34,10 @@ type AirtableEventPayload = {
       unchanged?: Record<string, unknown>;
     }>;
     destroyedRecordIds?: string[];
-    destroyedFieldIds?: string[]; 
+    destroyedFieldIds?: string[];
   }>,
   payloadFormat?: string;
-  error?: boolean; 
+  error?: boolean;
   code?: string;
   [key: string]: unknown;
 };
