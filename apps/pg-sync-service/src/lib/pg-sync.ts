@@ -210,6 +210,8 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
 
     if (highPriorityQueue.length > 0) {
       update = highPriorityQueue.shift()!;
+      // Log high priority updates (likely from webhooks)
+      logger.info(`[processUpdateQueue] Processing HIGH priority update: base=${update.baseId}, table=${update.tableId}, record=${update.recordId}, isDelete=${update.isDelete}`);
     } else if (lowPriorityQueue.length > 0) {
       update = lowPriorityQueue.shift()!;
     }

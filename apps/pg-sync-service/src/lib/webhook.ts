@@ -34,7 +34,11 @@ type AirtableEventPayload = {
       unchanged?: Record<string, unknown>;
     }>;
     destroyedRecordIds?: string[];
+    destroyedFieldIds?: string[];
   }>,
+  payloadFormat?: string;
+  error?: boolean;
+  code?: string;
   [key: string]: unknown;
 };
 
@@ -56,7 +60,7 @@ type ListWebhookPayloadsApiResponse = {
 export class AirtableWebhook {
   private readonly baseId: string;
 
-  private readonly fieldIds: string[];
+  private fieldIds: string[];
 
   private readonly rateLimiter: RateLimiter;
 
@@ -120,33 +124,21 @@ export class AirtableWebhook {
     });
 
     if (matchingWebhook) {
-      // Use existing webhook
+      // Use existing webhook but check its health first
       this.webhookId = matchingWebhook.id;
       this.nextPayloadCursor = matchingWebhook.cursorForNextPayload;
-      logger.info(`[AirtableWebhook] Using existing webhook ${this.webhookId} for base ${this.baseId} with ${this.fieldIds.length} field filters`);
+      logger.info(`[AirtableWebhook] Found existing webhook ${this.webhookId} for base ${this.baseId}`);
+
+      // Check if the last payload was an INVALID_HOOK error
+      const lastPayloadError = await this.getLastPayloadIfError();
+      if (lastPayloadError && lastPayloadError.code === 'INVALID_HOOK') {
+        logger.error('[WEBHOOK] Last payload was INVALID_HOOK error, recreating webhook...');
+        const deletedFields = this.extractDeletedFieldsFromPayload(lastPayloadError);
+        await this.recreateWebhookWithoutDeletedFields(deletedFields);
+      }
     } else {
-      // 3. If not found, create the webhook
-      const webhookSpec: unknown = {
-        // notificationUrl, // TODO give it a notification url to receive immediate updates
-        specification: {
-          options: {
-            filters: {
-              dataTypes: ['tableData', 'tableFields'],
-              ...(this.fieldIds.length > 0 ? { watchDataInFieldIds: this.fieldIds } : {}),
-            },
-          },
-        },
-      };
-
-      await this.rateLimiter.acquire();
-      const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
-        `/bases/${this.baseId}/webhooks`,
-        webhookSpec,
-      );
-
-      this.webhookId = createResponse.data.id;
-      this.nextPayloadCursor = createResponse.data.cursorForNextPayload;
-      logger.info(`[AirtableWebhook] Created new webhook ${this.webhookId} for base ${this.baseId}${this.fieldIds.length > 0 ? ` with field filtering: ${this.fieldIds.length} fields` : ''}`);
+      // Create new webhook with retry logic
+      await this.createWebhookWithRetry();
     }
   }
 
@@ -180,9 +172,26 @@ export class AirtableWebhook {
 
       // Transform payloads into AirtableUpdate objects
       for (const payload of payloads) {
+        // Check for any error in the payload
+        if (payload.error === true) {
+          logger.error(`[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`);
+
+          if (payload.code === 'INVALID_HOOK') {
+            // Webhook is invalid due to deleted fields - need to recreate it
+            const deletedFields = this.extractDeletedFieldsFromPayload(payload);
+            // eslint-disable-next-line no-await-in-loop
+            await this.recreateWebhookWithoutDeletedFields(deletedFields);
+          } else {
+            // Log other error types but don't crash - just skip the payload
+            logger.warn(`[WEBHOOK] Unhandled error type '${payload.code}', skipping payload...`);
+          }
+          // eslint-disable-next-line no-continue
+          continue; // Skip processing this error payload
+        }
+
         const { changedTablesById } = payload;
 
-        // Only process payloads with table changes
+        // Only process payloads with table changes (non-error payloads)
         if (!changedTablesById || typeof changedTablesById !== 'object') {
           // eslint-disable-next-line no-continue
           continue;
@@ -247,5 +256,116 @@ export class AirtableWebhook {
     this.nextPayloadCursor = currentCursor;
 
     return allUpdates;
+  }
+
+  private async createWebhook(): Promise<void> {
+    logger.info(`[AirtableWebhook] Creating new webhook for base ${this.baseId} with ${this.fieldIds.length} field filters`);
+
+    const webhookSpec: unknown = {
+      specification: {
+        options: {
+          filters: {
+            dataTypes: ['tableData', 'tableFields'],
+            ...(this.fieldIds.length > 0 ? { watchDataInFieldIds: this.fieldIds } : {}),
+          },
+        },
+      },
+    };
+
+    await this.rateLimiter.acquire();
+    const createResponse = await this.axiosInstance.post<{ id: string; cursorForNextPayload: number }>(
+      `/bases/${this.baseId}/webhooks`,
+      webhookSpec,
+    );
+
+    this.webhookId = createResponse.data.id;
+    this.nextPayloadCursor = createResponse.data.cursorForNextPayload;
+    logger.info(`[AirtableWebhook] Created webhook ${this.webhookId} for base ${this.baseId}`);
+  }
+
+  private async createWebhookWithRetry(maxRetries = 3): Promise<void> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await this.createWebhook();
+        return; // Success
+      } catch (error) {
+        if (attempt === maxRetries) {
+          logger.error(`[WEBHOOK] Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}`, error);
+          throw new Error(`Failed to create webhook after ${maxRetries} attempts: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+        logger.warn(`[WEBHOOK] Webhook creation attempt ${attempt} failed for base ${this.baseId}, retrying in ${attempt} seconds...`);
+        // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+        await new Promise((resolve) => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
+      }
+    }
+  }
+
+  private extractDeletedFieldsFromPayload(payload: AirtableEventPayload): string[] {
+    const deletedFields: string[] = [];
+    if (payload.changedTablesById) {
+      for (const [tableId, changes] of Object.entries(payload.changedTablesById)) {
+        if (changes.destroyedFieldIds) {
+          const destroyedIds = changes.destroyedFieldIds;
+          deletedFields.push(...destroyedIds);
+          logger.info(`[WEBHOOK] Found ${destroyedIds.length} destroyed fields in table ${tableId}`);
+        }
+      }
+    }
+    return deletedFields;
+  }
+
+  private async getLastPayloadIfError(): Promise<AirtableEventPayload | null> {
+    if (!this.webhookId || !this.nextPayloadCursor) return null;
+
+    try {
+      // Check the LAST consumed payload (cursor - 1) for errors
+      const checkCursor = Math.max(0, this.nextPayloadCursor - 1);
+
+      await this.rateLimiter.acquire();
+      const response = await this.axiosInstance.get<ListWebhookPayloadsApiResponse>(
+        `/bases/${this.baseId}/webhooks/${this.webhookId}/payloads`,
+        {
+          params: {
+            cursor: checkCursor, // Check one position back to find the error
+            limit: 1,
+          },
+        },
+      );
+
+      const { payloads } = response.data;
+      const firstPayload = payloads[0];
+      if (payloads.length > 0 && firstPayload && firstPayload.error === true) {
+        logger.warn(`[WEBHOOK] Found error payload at cursor ${checkCursor}: code=${firstPayload.code}`);
+        return firstPayload;
+      }
+    } catch (error) {
+      logger.warn('[WEBHOOK] Failed to check last payload for errors:', error);
+    }
+
+    return null;
+  }
+
+  private async recreateWebhookWithoutDeletedFields(deletedFieldIds: string[]): Promise<void> {
+    if (deletedFieldIds.length > 0) {
+      // Remove deleted fields from our configuration
+      const originalCount = this.fieldIds.length;
+      this.fieldIds = this.fieldIds.filter((id) => !deletedFieldIds.includes(id));
+      logger.warn(`[WEBHOOK] Removed ${originalCount - this.fieldIds.length} deleted fields from configuration for base ${this.baseId}`);
+    }
+
+    // Delete the invalid webhook
+    if (this.webhookId) {
+      try {
+        await this.rateLimiter.acquire();
+        await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${this.webhookId}`);
+        logger.info(`[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`);
+      } catch (error) {
+        logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${this.webhookId}:`, error);
+      }
+    }
+
+    // Create new webhook with filtered fields, using retry logic
+    await this.createWebhookWithRetry();
   }
 }
