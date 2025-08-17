@@ -299,11 +299,13 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback(async (feedbackValue: typeof RESOURCE_FEEDBACK.LIKE | typeof RESOURCE_FEEDBACK.DISLIKE) => {
-    setResourceFeedback(feedbackValue);
+    // Toggle off if clicking the same feedback button
+    const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
+    setResourceFeedback(newFeedback);
     setIsCompleted(true); // Mark as completed when feedback is given
     setShowFeedback(true); // Ensure feedback section stays visible
-    await handleSaveCompletion(true, feedbackValue);
-  }, [handleSaveCompletion]);
+    await handleSaveCompletion(true, newFeedback);
+  }, [resourceFeedback, handleSaveCompletion]);
 
   if (completionLoading && !completionData) {
     return <ProgressDots />;
