@@ -820,7 +820,7 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       airtableId: 'fld68CYhCZ44jHT21',
     },
     resourceFeedback: {
-      pgColumn: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE), 
+      pgColumn: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
       airtableId: 'flda3JolMPL5n8iUT',
     },
   },
