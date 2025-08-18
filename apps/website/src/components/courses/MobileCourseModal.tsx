@@ -468,12 +468,20 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                                 )}
                               >
                                 <ChunkIcon isActive={isActive} />
-                                <div className="flex flex-col gap-2 flex-1 min-h-[44px]">
-                                  <p className="font-normal text-size-xs leading-[150%] text-[#13132E]">
-                                    {chunk.chunkTitle}
-                                  </p>
+                                <div className="flex flex-col flex-1 min-h-[44px]">
+                                  {/* Chunk content wrapper with proper spacing */}
+                                  <div className="flex flex-col gap-[6px]">
+                                    {/* Chunk Type */}
+                                    <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
+                                      {chunk.chunkType}:
+                                    </p>
+                                    {/* Chunk Title */}
+                                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                                      {chunk.chunkTitle}
+                                    </p>
+                                  </div>
                                   {chunk.estimatedTime != null && (
-                                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60">
+                                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
                                       {formatTime(chunk.estimatedTime)}
                                     </span>
                                   )}
