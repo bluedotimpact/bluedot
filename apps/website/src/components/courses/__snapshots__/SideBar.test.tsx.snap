@@ -38,7 +38,7 @@ exports[`SideBar > renders default as expected 1`] = `
             What the fish [Test Course]
           </h2>
           <p
-            class="text-[12px] leading-[17px] tracking-[-0.005em] font-medium text-[#6A6F7A]"
+            class="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]"
           >
             Interactive Course
           </p>
@@ -123,13 +123,23 @@ exports[`SideBar > renders default as expected 1`] = `
                 </svg>
               </div>
               <div
-                class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
+                class="flex flex-col items-start p-0 flex-1 min-h-[68px]"
               >
-                <p
-                  class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                <div
+                  class="flex flex-col items-start gap-[6px]"
                 >
-                  What can AI do today?
-                </p>
+                  <p
+                    class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                  >
+                    Reading
+                    :
+                  </p>
+                  <p
+                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                  >
+                    What can AI do today?
+                  </p>
+                </div>
               </div>
             </button>
           </div>

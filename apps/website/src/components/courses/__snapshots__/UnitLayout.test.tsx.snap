@@ -236,13 +236,23 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
+                  class="flex flex-col items-start p-0 flex-1 min-h-[68px]"
                 >
-                  <p
-                    class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                  <div
+                    class="flex flex-col items-start gap-[6px]"
                   >
-                    What can AI do today?
-                  </p>
+                    <p
+                      class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                    >
+                      Reading
+                      :
+                    </p>
+                    <p
+                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    >
+                      What can AI do today?
+                    </p>
+                  </div>
                 </div>
               </button>
               <button
@@ -253,13 +263,23 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   class="size-6 rounded-full flex items-center justify-center bg-[#FCFBF9] border border-[rgba(106,111,122,0.3)]"
                 />
                 <div
-                  class="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]"
+                  class="flex flex-col items-start p-0 flex-1 min-h-[68px]"
                 >
-                  <p
-                    class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                  <div
+                    class="flex flex-col items-start gap-[6px]"
                   >
-                    What can AI do today?
-                  </p>
+                    <p
+                      class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
+                    >
+                      Reading
+                      :
+                    </p>
+                    <p
+                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    >
+                      What can AI do today?
+                    </p>
+                  </div>
                 </div>
               </button>
             </div>

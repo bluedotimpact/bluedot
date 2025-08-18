@@ -83,12 +83,20 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   )}
                 >
                   <ChunkIcon isActive={isActive} />
-                  <div className="flex flex-col items-start p-0 gap-[8px] flex-1 min-h-[68px]">
-                    <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
-                      {chunk.chunkTitle}
-                    </p>
+                  <div className="flex flex-col items-start p-0 flex-1 min-h-[68px]">
+                    {/* Chunk content wrapper with proper spacing */}
+                    <div className="flex flex-col items-start gap-[6px]">
+                      {/* Chunk Type */}
+                      <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
+                        {chunk.chunkType}:
+                      </p>
+                      {/* Chunk Title */}
+                      <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                        {chunk.chunkTitle}
+                      </p>
+                    </div>
                     {chunk.estimatedTime && (
-                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60">
+                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
                       {formatTime(chunk.estimatedTime)}
                     </span>
                     )}
@@ -148,7 +156,7 @@ const SideBar: React.FC<SideBarProps> = ({
             {/*
             // TODO add this back in once we have a way to track progress
             <p className="text-[12px] leading-[17px] tracking-[-0.005em] font-medium text-[#6A6F7A]">{courseProgress}% completed</p> */}
-            <p className="text-[12px] leading-[17px] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
+            <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
           </div>
         </div>
       </div>
