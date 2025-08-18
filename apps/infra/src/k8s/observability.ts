@@ -308,7 +308,20 @@ new k8s.helm.v3.Release('loki', {
       // Partial fix for https://github.com/bluedotimpact/bluedot/issues/1170 , the default anti-affinity
       // rules were preventing deployment on our single node cluster (because pods can't be scheduled on
       // separate nodes)
-      affinity: {},
+      affinity: {
+        podAntiAffinity: {
+          requiredDuringSchedulingIgnoredDuringExecution: [
+            {
+              labelSelector: {
+                matchLabels: {
+                  'app.kubernetes.io/component': 'not-read',
+                },
+              },
+              topologyKey: 'kubernetes.io/hostname',
+            },
+          ],
+        },
+      },
     },
     // Disable things we don't need
     selfMonitoring: {
