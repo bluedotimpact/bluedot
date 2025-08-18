@@ -151,7 +151,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               What the fish [Test Course]
             </h2>
             <p
-              class="text-[12px] leading-[17px] tracking-[-0.005em] font-medium text-[#6A6F7A]"
+              class="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]"
             >
               Interactive Course
             </p>
