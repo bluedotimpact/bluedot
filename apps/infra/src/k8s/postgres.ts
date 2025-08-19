@@ -5,6 +5,7 @@ import { provider } from './provider';
 
 export const cloudNativePg = new k8s.helm.v3.Release('cloud-native-pg', {
   chart: 'cloudnative-pg',
+  version: '0.26.0',
   repositoryOpts: {
     repo: 'https://cloudnative-pg.github.io/charts',
   },

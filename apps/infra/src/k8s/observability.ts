@@ -62,6 +62,7 @@ const grafanaService = {
 const kubePrometheus = new k8s.helm.v3.Release('kube-prometheus', {
   name: 'kube-prometheus-stack',
   chart: 'kube-prometheus-stack',
+  version: '76.4.0',
   repositoryOpts: {
     repo: 'https://prometheus-community.github.io/helm-charts',
   },
@@ -151,6 +152,7 @@ new k8s.networking.v1.Ingress(`${grafanaService.name}-ingress`, {
 new k8s.helm.v3.Release('opentelemetry-collector', {
   name: 'opentelemetry-collector',
   chart: 'opentelemetry-collector',
+  version: '0.130.2',
   repositoryOpts: {
     repo: 'https://open-telemetry.github.io/opentelemetry-helm-charts',
   },
@@ -253,6 +255,7 @@ new k8s.helm.v3.Release('opentelemetry-collector', {
 new k8s.helm.v3.Release('loki', {
   name: 'loki',
   chart: 'loki',
+  version: '6.36.1',
   repositoryOpts: {
     repo: 'https://grafana.github.io/helm-charts',
   },
