@@ -24,6 +24,7 @@ import Callout from './Callout';
 import Exercise from './exercises/Exercise';
 import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import { FaviconImage } from './FaviconImage';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
@@ -369,7 +370,13 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                   {/* Resource title and link */}
                   <P className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
                     {resource.resourceLink ? (
-                      <div className="flex items-center gap-2 group">
+                      <div className="flex items-center group">
+                        {/* Favicon */}
+                        <FaviconImage
+                          url={resource.resourceLink}
+                          displaySize={16}
+                          className="mr-2"
+                        />
                         <a
                           href={resource.resourceLink}
                           target="_blank"
@@ -384,7 +391,7 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                           href={resource.resourceLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex group-hover:opacity-80 transition-opacity"
+                          className="inline-flex group-hover:opacity-80 transition-opacity ml-2"
                           aria-label={`Open ${resource.resourceName} in new tab`}
                         >
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
