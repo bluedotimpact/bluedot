@@ -261,6 +261,10 @@ export const groupTable = pgAirtable('group', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblyiJSPoniwhi17T',
   columns: {
+    groupName: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldv3jHyWGjR0LxLp',
+    },
     groupDiscussions: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldwEeC65sHvGGRGb',
@@ -268,6 +272,10 @@ export const groupTable = pgAirtable('group', {
     round: {
       pgColumn: text().notNull(),
       airtableId: 'fldtzy3nSP0piVApO',
+    },
+    participants: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fldcEa25oCDAmgDqm',
     },
   },
 });
@@ -283,10 +291,6 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
     participantsExpected: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldEKYwcacAa6nBEE',
-    },
-    participantEmailsExpected: {
-      pgColumn: text().array().notNull(),
-      airtableId: 'fldlxiqFYcDGKqJt4',
     },
     attendees: {
       pgColumn: text().array().notNull(),
@@ -312,9 +316,14 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
+    // TODO switch to the other unitNumber field
     unitNumber: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
+    },
+    unit: {
+      pgColumn: text(),
+      airtableId: 'fldVo5h9rqsEeGSRU',
     },
     zoomLink: {
       pgColumn: text(),
@@ -327,6 +336,10 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
     slackChannelId: {
       pgColumn: text(),
       airtableId: 'fldYFQwPDKdzIAy93',
+    },
+    round: {
+      pgColumn: text(),
+      airtableId: 'fld6z76NthgaFf8EY',
     },
   },
 });
@@ -378,6 +391,8 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
   },
 });
 
+// Note: This is actually a sync of the "Course registration" table
+// from APPLICATIONS_BASE_ID, rather than the "User" table
 export const meetPersonTable = pgAirtable('meet_person', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblBeMxAM1FAW06n4',
@@ -385,6 +400,14 @@ export const meetPersonTable = pgAirtable('meet_person', {
     name: {
       pgColumn: text().notNull(),
       airtableId: 'fldP4ejaYy137J5Md',
+    },
+    applicationsBaseRecordId: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldoKAVy6QPWZmofb',
+    },
+    round: {
+      pgColumn: text().notNull(),
+      airtableId: 'fld8KD3BUPbCHHHqE',
     },
   },
 });
@@ -411,6 +434,10 @@ export const roundTable = pgAirtable('round', {
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
+    },
+    maxParticipantsPerGroup: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldoIzHNm8NzjAefW',
     },
   },
 });
@@ -794,6 +821,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldPkqPbeoIhERqSY',
     },
+    // Note: This is the id of the course in the COURSE_BUILDER base, not in the APPLICATIONS base
     courseId: {
       pgColumn: text().notNull(),
       airtableId: 'fldFTXtevzOc29Qte',

@@ -2,10 +2,14 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   groupDiscussionTable,
+  courseTable,
+  courseRegistrationTable,
+  meetPersonTable,
   and, eq, sql, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
+import { stablePickCourseRegistration } from '../../../../../lib/utils';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 
@@ -29,6 +33,24 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
+  const course = await db.get(courseTable, { slug: courseSlug });
+
+  const courseRegistration = stablePickCourseRegistration(
+    await db.scan(courseRegistrationTable, {
+      email: auth.email,
+      decision: 'Accept',
+      courseId: course.id,
+    }),
+  );
+
+  if (!courseRegistration) {
+    throw new createHttpError.NotFound('No course registration found');
+  }
+
+  const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+
+  const roundId = participant.round;
+
   const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
 
   // Look up group discussions for this user that haven't ended yet (with 15 min leeway)
@@ -36,9 +58,9 @@ export default makeApiRoute({
     .from(groupDiscussionTable.pg)
     .where(
       and(
-        sql`${groupDiscussionTable.pg.participantEmailsExpected} @> ARRAY[${auth.email}]`,
-        sql`${groupDiscussionTable.pg.courseSite} ~ ${`${courseSlug}/?$`}`,
+        eq(groupDiscussionTable.pg.round, roundId),
         eq(groupDiscussionTable.pg.unitNumber, parseInt(unitNumber, 10)),
+        sql`${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}]`,
         sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
       ),
     )
