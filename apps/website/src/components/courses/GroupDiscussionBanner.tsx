@@ -1,6 +1,6 @@
 import React from 'react';
 import { InferSelectModel, groupDiscussionTable, unitTable } from '@bluedot/db';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, Modal, Select } from '@bluedot/ui';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -112,7 +112,73 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </CTALinkOrButton> */}
         </div>
       </div>
+      <GroupSwitchModal
+        isOpen={groupSwitchModalOpen}
+        setIsOpen={setGroupSwitchModalOpen}
+        groupDiscussion={{} as GroupDiscussion}
+        unit={unit}
+        unitNumber={unitNumber}
+        units={units}
+      />
     </div>
+  );
+};
+
+type GroupSwitchModalProps = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  groupDiscussion: GroupDiscussion;
+  unit: Unit;
+  unitNumber: number;
+  units: Unit[];
+};
+
+const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
+  isOpen,
+  setIsOpen,
+  groupDiscussion,
+  unit,
+  unitNumber,
+  units,
+}) => {
+  const switchTypeOptions = [
+    { value: 'Switch group for one unit', label: 'Switch group for one unit' },
+    { value: 'Switch group permanently', label: 'Switch group permanently' },
+  ];
+
+  const unitOptions = units.map((u) => ({ value: u.id, label: `${u.unitNumber}. ${u.title}` }));
+
+  // TODO Make API call to fetch groups (same round and unit as current group)
+
+  return (
+    // TODO max height 600px
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Group switching">
+      <form className="flex flex-col gap-4 max-w-[600px] max-4-[600px]">
+        <Select
+          label="Action"
+          options={switchTypeOptions}
+        />
+        <Select
+          label="Unit"
+          options={unitOptions}
+        />
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
+            <p className="text-size-sm font-medium">Why are you making this change?</p>
+            <p className="text-size-xs text-[#666C80]">
+              Briefly, we'd like to understand why you're making this change. We've found that
+              participants who stick with their group usually have a better experience on the course.
+            </p>
+          </div>
+          <textarea
+            className="border-[0.5px] border-[rgba(19,19,46,0.25)]"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+
+        </div>
+      </form>
+    </Modal>
   );
 };
 
