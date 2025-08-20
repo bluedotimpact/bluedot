@@ -51,6 +51,11 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
           <h3 className="course-card__title mb-6 bluedot-h3">
             {title}
           </h3>
+          {description && (
+            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
+              {description}
+            </p>
+          )}
           <CTALinkOrButton
             className="course-card__cta mb-6 px-6"
             variant="primary"
@@ -58,11 +63,6 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
           >
             {applyByText(applicationDeadline)}
           </CTALinkOrButton>
-          {description && (
-            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
-              {description}
-            </p>
-          )}
         </div>
         {imageSrc && (
         <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6', imageClassName)}>
