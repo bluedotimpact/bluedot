@@ -3,6 +3,7 @@ import { provider } from './provider';
 
 export const certManager = new k8s.helm.v3.Release('cert-manager', {
   chart: 'cert-manager',
+  version: 'v1.18.2',
   repositoryOpts: {
     repo: 'https://charts.jetstack.io',
   },

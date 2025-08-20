@@ -3,6 +3,7 @@ import { provider } from './provider';
 
 export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
   chart: 'ingress-nginx',
+  version: '4.13.1',
   repositoryOpts: {
     repo: 'https://kubernetes.github.io/ingress-nginx',
   },
