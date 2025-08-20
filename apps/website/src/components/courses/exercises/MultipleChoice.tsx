@@ -1,7 +1,6 @@
 import {
   CTALinkOrButton,
   Input,
-  Tag,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
@@ -90,9 +89,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="multiple-choice__header flex flex-col gap-4">
-        <Tag variant="secondary" className="uppercase">
-          Quiz
-        </Tag>
         <div className="multiple-choice__header-content flex flex-col gap-2">
           <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
           <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
