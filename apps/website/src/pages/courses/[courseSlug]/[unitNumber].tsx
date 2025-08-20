@@ -4,6 +4,7 @@ import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
 import UnitLayout from '../../../components/courses/UnitLayout';
 import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitNumber]';
+import { GetGroupDiscussionResponse } from '../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import { GetCourseRegistrationResponse } from '../../api/course-registrations/[courseId]';
 
 const CourseUnitPage = () => {
@@ -13,9 +14,22 @@ const CourseUnitPage = () => {
     return <ProgressDots />;
   }
 
+  const auth = useAuthStore((s) => s.auth);
+
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitNumber}`,
+  });
+
+  // Fetch for group discussions (requires auth)
+  const [{ data: groupDiscussionData, loading: groupDiscussionLoading, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
+    method: 'get',
+    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  }, {
+    manual: !auth,
   });
 
   // Track visits to Unit 1 of Future of AI course
@@ -29,7 +43,6 @@ const CourseUnitPage = () => {
   }, [courseSlug, unitNumber]);
 
   // If we're logged in, ensures a course registration is recorded for this course
-  const auth = useAuthStore((s) => s.auth);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
     method: 'get',
@@ -45,11 +58,11 @@ const CourseUnitPage = () => {
     }
   }, [auth, data?.unit.courseId]);
 
-  if (loading) {
+  if (loading || groupDiscussionLoading) {
     return <ProgressDots />;
   }
 
-  if (error || !data) {
+  if (error || groupDiscussionError || !data) {
     return <ErrorSection error={error ?? new Error('Missing data from API')} />;
   }
 
@@ -59,6 +72,7 @@ const CourseUnitPage = () => {
       unit={data.unit}
       units={data.units}
       unitNumber={parseInt(unitNumber)}
+      groupDiscussion={groupDiscussionData?.groupDiscussion || null}
     />
   );
 };
