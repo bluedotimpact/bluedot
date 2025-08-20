@@ -381,7 +381,6 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                           href={resource.resourceLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={() => handleToggleComplete(true)}
                           className="no-underline hover:underline hover:text-[#2244BB] text-inherit transition-colors"
                           aria-label={`${resource.resourceName} (opens in new tab)`}
                         >
