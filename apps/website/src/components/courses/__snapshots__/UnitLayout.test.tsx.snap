@@ -595,7 +595,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__keyboard-hint text-size-xs text-color-secondary mt-4"
           >
             <p>
-              Tip: Use arrow keys (← →) to navigate between sections
+              Tip: Use arrow keys (← →) to navigate between sections, Alt+S (Option+S on Mac) to toggle sidebar
             </p>
           </div>
           <div
