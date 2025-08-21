@@ -72,7 +72,7 @@ const CourseUnitPage = () => {
       unit={data.unit}
       units={data.units}
       unitNumber={parseInt(unitNumber)}
-      groupDiscussion={groupDiscussionData?.groupDiscussion || null}
+      groupDiscussion={groupDiscussionData?.groupDiscussion || undefined}
     />
   );
 };

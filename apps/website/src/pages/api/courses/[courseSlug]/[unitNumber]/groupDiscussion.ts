@@ -11,7 +11,7 @@ type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 
 export type GetGroupDiscussionResponse = {
   type: 'success',
-  groupDiscussion: GroupDiscussion | null,
+  groupDiscussion?: GroupDiscussion,
 };
 
 export default makeApiRoute({

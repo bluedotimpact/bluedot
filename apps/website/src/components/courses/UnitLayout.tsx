@@ -41,7 +41,7 @@ type UnitLayoutProps = {
   unitNumber: number;
   units: Unit[];
   // Optional
-  groupDiscussion: GroupDiscussion | null;
+  groupDiscussion?: GroupDiscussion;
 };
 
 type MobileHeaderProps = {
