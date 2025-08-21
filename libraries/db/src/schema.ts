@@ -284,6 +284,10 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldEKYwcacAa6nBEE',
     },
+    participantEmailsExpected: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fldlxiqFYcDGKqJt4',
+    },
     attendees: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldo0xEi6vJKSJlFN',
@@ -303,6 +307,73 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
     zoomAccount: {
       pgColumn: text(),
       airtableId: 'fldH0pKnEELPI65Qs',
+    },
+    courseSite: {
+      pgColumn: text(),
+      airtableId: 'fldRV2aVcMiNZMViJ',
+    },
+    unitNumber: {
+      pgColumn: text(),
+      airtableId: 'fldbNYACt7S5J2QlU',
+    },
+    zoomLink: {
+      pgColumn: text(),
+      airtableId: 'fld5H5CNHA0B0EnYF',
+    },
+    activityDoc: {
+      pgColumn: text(),
+      airtableId: 'fldR74MrOB3EvDnmw',
+    },
+    slackChannelId: {
+      pgColumn: text(),
+      airtableId: 'fldYFQwPDKdzIAy93',
+    },
+  },
+});
+
+export const groupSwitchingTable = pgAirtable('group_switching', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblGCHwcMcDrl57OY',
+  columns: {
+    participant: {
+      pgColumn: text(),
+      airtableId: 'fldMb4VAcZUtgX8bw',
+    },
+    requestStatus: {
+      pgColumn: text().notNull(),
+      airtableId: 'flddokGe6ZjpmXXgu',
+    },
+    switchType: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldmQas5lXJw7cIvS',
+    },
+    notesFromParticipant: {
+      pgColumn: text(),
+      airtableId: 'fldnLvbwwrFdzqGez',
+    },
+    oldGroup: {
+      pgColumn: text(),
+      airtableId: 'fld01AHEGhcNGqBx4',
+    },
+    newGroup: {
+      pgColumn: text(),
+      airtableId: 'fldl3oYgHUrigqv1s',
+    },
+    newDiscussion: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fldJBqQyf7b0zR6v0',
+    },
+    oldDiscussion: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fldqHnismQINb0lsw',
+    },
+    unit: {
+      pgColumn: text(),
+      airtableId: 'fldkBE6yK6PS84qKv',
+    },
+    manualRequest: {
+      pgColumn: boolean(),
+      airtableId: 'fldiXRWPVR1sCH17y',
     },
   },
 });
