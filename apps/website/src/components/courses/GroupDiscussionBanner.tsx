@@ -87,7 +87,7 @@ export const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           {discussionStartsSoon && (
             <CTALinkOrButton
               variant="secondary"
-              target="_black"
+              target="_blank"
               className="w-full"
               url={discussionDocLink}
             >
@@ -96,7 +96,7 @@ export const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           )}
           <CTALinkOrButton
             variant="secondary"
-            target="_black"
+            target="_blank"
             className="w-full"
             url={slackChannelLink}
           >
