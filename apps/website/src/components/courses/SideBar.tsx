@@ -86,10 +86,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start p-0 flex-1 min-h-[68px]">
                     {/* Chunk content wrapper with proper spacing */}
                     <div className="flex flex-col items-start gap-[6px]">
-                      {/* Chunk Type */}
-                      <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
-                        {chunk.chunkType}:
-                      </p>
                       {/* Chunk Title */}
                       <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
                         {chunk.chunkTitle}

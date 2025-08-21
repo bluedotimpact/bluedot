@@ -471,10 +471,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                                 <div className="flex flex-col flex-1 min-h-[44px]">
                                   {/* Chunk content wrapper with proper spacing */}
                                   <div className="flex flex-col gap-[6px]">
-                                    {/* Chunk Type */}
-                                    <p className="font-semibold text-[14px] leading-[150%] text-[#13132E]">
-                                      {chunk.chunkType}:
-                                    </p>
                                     {/* Chunk Title */}
                                     <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
                                       {chunk.chunkTitle}

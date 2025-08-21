@@ -129,12 +129,6 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-semibold text-[14px] leading-[150%] text-[#13132E]"
-                  >
-                    Reading
-                    :
-                  </p>
-                  <p
                     class="font-normal text-[14px] leading-[150%] text-[#13132E]"
                   >
                     What can AI do today?
