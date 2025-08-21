@@ -38,7 +38,7 @@ export default makeApiRoute({
       and(
         sql`${groupDiscussionTable.pg.participantEmailsExpected} @> ARRAY[${auth.email}]`,
         sql`${groupDiscussionTable.pg.courseSite} ~ ${`${courseSlug}/?$`}`,
-        eq(groupDiscussionTable.pg.unitNumber, parseInt(unitNumber, 10)),
+        eq(groupDiscussionTable.pg.unitNumber, unitNumber),
         sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
       ),
     )
