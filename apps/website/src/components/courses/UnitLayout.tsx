@@ -199,7 +199,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     }
   }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect]);
 
-  // Handle keyboard navigation with arrow keys
+  // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Ignore if user is typing in an input
@@ -212,7 +212,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         return;
       }
 
-      // Ignore if modifier keys are pressed
+      // Handle sidebar toggle shortcut: Cmd+B (macOS) or Ctrl+B (Windows/Linux)
+      // Use physical key detection (event.code) for consistent behavior across all keyboard layouts
+      const isSidebarToggle = event.code === 'KeyB' && !event.altKey && !event.shiftKey && (
+        (event.metaKey && !event.ctrlKey) // Cmd+B on macOS
+        || (event.ctrlKey && !event.metaKey) // Ctrl+B on Windows/Linux
+      );
+
+      if (isSidebarToggle) {
+        event.preventDefault();
+        setIsSidebarHidden((prev) => !prev);
+        return;
+      }
+
+      // Ignore if modifier keys are pressed for arrow navigation
       if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
         return;
       }
@@ -232,10 +245,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown, true);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown, true);
     };
   }, [handlePrevClick, handleNextClick]);
 
@@ -300,6 +313,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               onClick={() => setIsSidebarHidden(!isSidebarHidden)}
               className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
               aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+
             >
               <FaBars className="size-[16px]" />
               <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
@@ -380,7 +394,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Tip: Use arrow keys (← →) to navigate between sections</p>
+            <p>Tip: Use ←/→ to navigate sections, and Cmd+B (Ctrl+B on Windows/Linux) to toggle the sidebar.</p>
           </div>
 
           {isLastChunk && (
