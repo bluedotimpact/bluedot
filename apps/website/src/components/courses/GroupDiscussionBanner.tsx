@@ -43,7 +43,7 @@ const formatTimeStrings = (startDateTime: number) => {
   return { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime };
 };
 
-export const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
+const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   unit,
   groupDiscussion,
   onClickPrepare,
