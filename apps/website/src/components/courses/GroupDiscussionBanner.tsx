@@ -20,6 +20,7 @@ const formatTimeStrings = (startDateTime: number) => {
   const timeDiffHours = Math.round(timeDiffMs / (1000 * 60 * 60));
 
   let startTimeDisplayRelative: string;
+  // TODO support displaying minutes and days
   if (timeDiffHours > 0) {
     startTimeDisplayRelative = `in ${timeDiffHours} hour${timeDiffHours !== 1 ? 's' : ''}`;
   } else if (timeDiffHours === 0) {
