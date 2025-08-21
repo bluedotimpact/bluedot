@@ -212,14 +212,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         return;
       }
 
-      // Handle sidebar toggle shortcut: Option+S (Mac) or Alt+S (Windows)
-      // On Mac, Option+S produces "ß" character, on Windows Alt+S produces "s" with altKey=true
-      const isSidebarToggle = (
-        (event.key.toLowerCase() === 's' && event.altKey) // Windows/Linux Alt+S
-        || (event.key === 'ß') // Mac Option+S produces ß character
-      );
+      // Handle sidebar toggle shortcut: Alt+S (Option+S on Mac)
+      // Use physical key detection (event.code) for consistent behavior across all keyboard layouts
+      const isSidebarToggle = event.code === 'KeyS' && event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey;
 
-      if (isSidebarToggle && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+      if (isSidebarToggle) {
         event.preventDefault();
         event.stopPropagation();
         setIsSidebarHidden((prev) => !prev);
