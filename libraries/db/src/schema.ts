@@ -313,7 +313,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
     unitNumber: {
-      pgColumn: text(),
+      pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
     },
     zoomLink: {
