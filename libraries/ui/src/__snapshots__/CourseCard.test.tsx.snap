@@ -18,6 +18,11 @@ exports[`CourseCard > renders Featured as expected 1`] = `
         >
           Title
         </h3>
+        <p
+          class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
+        >
+          Description
+        </p>
         <button
           class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
           type="button"
@@ -28,11 +33,6 @@ exports[`CourseCard > renders Featured as expected 1`] = `
             Start learning for free
           </span>
         </button>
-        <p
-          class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
-        >
-          Description
-        </p>
       </div>
       <div
         class="course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6"

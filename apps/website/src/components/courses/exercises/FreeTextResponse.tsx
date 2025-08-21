@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { CTALinkOrButton, Tag } from '@bluedot/ui';
+import { CTALinkOrButton } from '@bluedot/ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -130,9 +130,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="flex flex-col gap-4">
-        <Tag variant="secondary" className="uppercase">
-          Think it through
-        </Tag>
         <div className="flex flex-col gap-2">
           <p className="bluedot-h4 not-prose">{title}</p>
           <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>

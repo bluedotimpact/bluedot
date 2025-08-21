@@ -258,11 +258,8 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
       const feedback = completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
       setResourceFeedback(feedback);
 
-      // Show feedback box if resource is completed OR if feedback has been given
-      const hasFeedback = feedback === RESOURCE_FEEDBACK.LIKE || feedback === RESOURCE_FEEDBACK.DISLIKE;
-      if (completionData.resourceCompletion.isCompleted || hasFeedback) {
-        setShowFeedback(true);
-      }
+      // Show feedback box only if resource is completed
+      setShowFeedback(completionData.resourceCompletion.isCompleted || false);
     }
   }, [completionData, hasCompletionLoaded]);
 
@@ -292,11 +289,10 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
   // Handle marking resource as complete
   const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
     setIsCompleted(newIsCompleted);
-    // Keep feedback visible if user has already provided feedback
-    const hasFeedback = resourceFeedback === RESOURCE_FEEDBACK.LIKE || resourceFeedback === RESOURCE_FEEDBACK.DISLIKE;
-    setShowFeedback(newIsCompleted || hasFeedback);
+    // Show feedback only when resource is completed
+    setShowFeedback(newIsCompleted);
     await handleSaveCompletion(newIsCompleted);
-  }, [isCompleted, resourceFeedback, handleSaveCompletion]);
+  }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback(async (feedbackValue: typeof RESOURCE_FEEDBACK.LIKE | typeof RESOURCE_FEEDBACK.DISLIKE) => {
@@ -381,7 +377,6 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
                           href={resource.resourceLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          onClick={() => handleToggleComplete(true)}
                           className="no-underline hover:underline hover:text-[#2244BB] text-inherit transition-colors"
                           aria-label={`${resource.resourceName} (opens in new tab)`}
                         >
