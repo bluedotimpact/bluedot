@@ -118,6 +118,7 @@ const CHUNKS = [
     chunkOrder: '1',
     chunkType: 'Reading',
     chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
+    estimatedTime: null,
     id: 'recuC87TILbjW4eF4',
   },
   {
@@ -127,6 +128,7 @@ const CHUNKS = [
     chunkOrder: '1',
     chunkType: 'Reading',
     chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
+    estimatedTime: null,
     id: 'recuC87TILbjW4eF4',
   },
 ];
@@ -206,6 +208,7 @@ describe('UnitLayout', () => {
       reload: vi.fn(),
       replace: vi.fn(),
       back: vi.fn(),
+      forward: vi.fn(),
       beforePopState: vi.fn(),
     } as ReturnType<typeof useRouter>);
 
@@ -245,7 +248,7 @@ describe('UnitLayout', () => {
 
     const hint = container.querySelector('.unit__keyboard-hint');
     expect(hint).toBeTruthy();
-    expect(hint?.textContent).toContain('Use arrow keys (← →) to navigate between sections');
+    expect(hint?.textContent).toContain('Use ←/→ to navigate sections');
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
