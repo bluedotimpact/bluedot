@@ -10,7 +10,9 @@ import {
   FaBars, FaChevronRight, FaChevronDown,
 } from 'react-icons/fa6';
 
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import {
+  unitTable, chunkTable, InferSelectModel, groupDiscussionTable,
+} from '@bluedot/db';
 import SideBar from './SideBar';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
@@ -19,9 +21,11 @@ import { ROUTES } from '../../lib/routes';
 import UnitFeedback from './UnitFeedback';
 import CertificateLinkCard from './CertificateLinkCard';
 import { A, H1, P } from '../Text';
+import GroupDiscussionBanner from './GroupDiscussionBanner';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
+type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 
 const CourseIcon: React.FC = () => (
   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,6 +40,8 @@ type UnitLayoutProps = {
   unit: Unit;
   unitNumber: number;
   units: Unit[];
+  // Optional
+  groupDiscussion?: GroupDiscussion;
 };
 
 type MobileHeaderProps = {
@@ -122,6 +128,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   unit,
   unitNumber,
   units,
+  groupDiscussion,
 }) => {
   const router = useRouter();
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
@@ -354,6 +361,13 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
+          {groupDiscussion && (
+            <GroupDiscussionBanner
+              unit={unit}
+              groupDiscussion={groupDiscussion}
+              onClickPrepare={() => handleChunkSelect(0)}
+            />
+          )}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunks[currentChunkIndex]?.chunkTitle && (
