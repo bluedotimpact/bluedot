@@ -336,7 +336,7 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
   tableId: 'tblGCHwcMcDrl57OY',
   columns: {
     participant: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldMb4VAcZUtgX8bw',
     },
     requestStatus: {
@@ -360,11 +360,11 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
       airtableId: 'fldl3oYgHUrigqv1s',
     },
     newDiscussion: {
-      pgColumn: text(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldJBqQyf7b0zR6v0',
     },
     oldDiscussion: {
-      pgColumn: text(),
+      pgColumn: text().array().notNull(),
       airtableId: 'fldqHnismQINb0lsw',
     },
     unit: {
