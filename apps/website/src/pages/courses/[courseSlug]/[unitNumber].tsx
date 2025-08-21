@@ -23,7 +23,6 @@ const CourseUnitPage = () => {
     url: `/api/courses/${courseSlug}/${unitNumber}`,
   });
 
-  // Fetch for group discussions (requires auth)
   const [{ data: groupDiscussionData, loading: groupDiscussionLoading, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
