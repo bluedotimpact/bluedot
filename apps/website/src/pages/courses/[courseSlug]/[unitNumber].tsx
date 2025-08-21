@@ -7,6 +7,8 @@ import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitNumber]';
 import { GetGroupDiscussionResponse } from '../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import { GetCourseRegistrationResponse } from '../../api/course-registrations/[courseId]';
 
+const isGroupDiscussionUIEnabled = process.env.NEXT_PUBLIC_FF_GROUP_DISCUSSION_UI === 'true';
+
 const CourseUnitPage = () => {
   const { query: { courseSlug, unitNumber } } = useRouter();
 
@@ -29,7 +31,7 @@ const CourseUnitPage = () => {
       Authorization: `Bearer ${auth?.token}`,
     },
   }, {
-    manual: !auth,
+    manual: !auth || !isGroupDiscussionUIEnabled,
   });
 
   // Track visits to Unit 1 of Future of AI course
