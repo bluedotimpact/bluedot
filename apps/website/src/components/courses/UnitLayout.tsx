@@ -199,7 +199,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     }
   }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect]);
 
-  // Handle keyboard navigation with arrow keys
+  // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Ignore if user is typing in an input
@@ -212,7 +212,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         return;
       }
 
-      // Ignore if modifier keys are pressed
+      // Handle sidebar toggle shortcut: Option+S (Mac) or Alt+S (Windows)
+      // On Mac, Option+S produces "ß" character, on Windows Alt+S produces "s" with altKey=true
+      const isSidebarToggle = (
+        (event.key.toLowerCase() === 's' && event.altKey) // Windows/Linux Alt+S
+        || (event.key === 'ß') // Mac Option+S produces ß character
+      );
+
+      if (isSidebarToggle && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsSidebarHidden((prev) => !prev);
+        return;
+      }
+
+      // Ignore if modifier keys are pressed for arrow navigation
       if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
         return;
       }
@@ -232,10 +246,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown, true);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown, true);
     };
   }, [handlePrevClick, handleNextClick]);
 
@@ -380,7 +394,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Tip: Use arrow keys (← →) to navigate between sections</p>
+            <p>Tip: Use arrow keys (← →) to navigate between sections, Alt+S (Option+S on Mac) to toggle sidebar</p>
           </div>
 
           {isLastChunk && (
