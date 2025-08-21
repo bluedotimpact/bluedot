@@ -212,13 +212,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         return;
       }
 
-      // Handle sidebar toggle shortcut: Alt+S (Option+S on Mac)
+      // Handle sidebar toggle shortcut: Cmd+B (macOS) or Ctrl+B (Windows/Linux)
       // Use physical key detection (event.code) for consistent behavior across all keyboard layouts
-      const isSidebarToggle = event.code === 'KeyS' && event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey;
+      const isSidebarToggle = event.code === 'KeyB' && !event.altKey && !event.shiftKey && (
+        (event.metaKey && !event.ctrlKey) // Cmd+B on macOS
+        || (event.ctrlKey && !event.metaKey) // Ctrl+B on Windows/Linux
+      );
 
       if (isSidebarToggle) {
         event.preventDefault();
-        event.stopPropagation();
         setIsSidebarHidden((prev) => !prev);
         return;
       }
@@ -311,6 +313,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               onClick={() => setIsSidebarHidden(!isSidebarHidden)}
               className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
               aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+
             >
               <FaBars className="size-[16px]" />
               <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
@@ -391,7 +394,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Tip: Use arrow keys (← →) to navigate between sections, Alt+S (Option+S on Mac) to toggle sidebar</p>
+            <p>Tip: Use ←/→ to navigate sections, and Cmd+B (Ctrl+B on Windows/Linux) to toggle the sidebar.</p>
           </div>
 
           {isLastChunk && (
