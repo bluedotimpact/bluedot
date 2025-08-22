@@ -579,7 +579,7 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text().array(),
       airtableId: 'fld2Xz83QX0B9OWJ5',
     },
-    chunkExcercises: {
+    chunkExercises: {
       pgColumn: text().array(),
       airtableId: 'fldOMBehcT5xIjHUO',
     },
