@@ -390,6 +390,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussion}
                 onClickPrepare={() => handleChunkSelect(0)}
+                units={units}
               />
             </div>
           )}

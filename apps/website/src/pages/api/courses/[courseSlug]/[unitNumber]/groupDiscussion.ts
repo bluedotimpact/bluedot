@@ -77,6 +77,8 @@ export default makeApiRoute({
     )
     .orderBy(groupDiscussionTable.pg.startDateTime);
 
+  console.log({ groupDiscussions });
+
   const groupDiscussion = groupDiscussions[0] || null;
 
   return {
