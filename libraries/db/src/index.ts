@@ -13,6 +13,7 @@ export {
   jobPostingTable,
   projectTable,
   groupTable,
+  groupSwitchingTable,
   groupDiscussionTable,
   courseRunnerBucketTable,
   meetPersonTable,
