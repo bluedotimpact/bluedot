@@ -575,6 +575,14 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: numeric({ mode: 'number' }).default(0),
       airtableId: 'fldvzUryETzU5Yn64',
     },
+    chunkResources: {
+      pgColumn: text().array(),
+      airtableId: 'fld2Xz83QX0B9OWJ5',
+    },
+    chunkExcercises: {
+      pgColumn: text().array(),
+      airtableId: 'fldOMBehcT5xIjHUO',
+    },
   },
 });
 
