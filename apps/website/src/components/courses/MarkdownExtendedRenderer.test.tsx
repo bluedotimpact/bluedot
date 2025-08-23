@@ -6,7 +6,7 @@ describe('MarkdownExtendedRenderer', () => {
   test('renders nothing when children is undefined', () => {
     const { container } = render(<MarkdownExtendedRenderer />);
     const element = container.querySelector('.markdown-extended-renderer');
-    expect(element?.children.length).toBe(0);
+    expect(element).toBeNull();
   });
 
   test('renders nothing when children is empty string', () => {
@@ -17,7 +17,7 @@ describe('MarkdownExtendedRenderer', () => {
       </MarkdownExtendedRenderer>,
     );
     const element = container.querySelector('.markdown-extended-renderer');
-    expect(element?.children.length).toBe(0);
+    expect(element).toBeNull();
   });
 
   test('renders basic markdown content', async () => {

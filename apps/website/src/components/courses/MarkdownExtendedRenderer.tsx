@@ -61,6 +61,7 @@ export const getSupportedComponents = () => ({
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
+
   useEffect(() => {
     if (!children) {
       return;
@@ -76,6 +77,11 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
       setComponent(() => evalResult.default);
     })();
   }, [children, setComponent]);
+
+  // Return null if there's no content to avoid rendering empty containers
+  if (!children || !children.trim()) {
+    return null;
+  }
 
   return (
     // See @utility prose in globals.css for advanced styles

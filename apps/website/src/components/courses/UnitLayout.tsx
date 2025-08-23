@@ -380,16 +380,18 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Main content section - positioned below breadcrumbs */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto gap-8 md:gap-6 px-5 sm:px-spacing-x pt-6 md:pt-8',
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8',
           !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
           {groupDiscussion && (
-            <GroupDiscussionBanner
-              unit={unit}
-              groupDiscussion={groupDiscussion}
-              onClickPrepare={() => handleChunkSelect(0)}
-            />
+            <div className="mb-8 md:mb-6">
+              <GroupDiscussionBanner
+                unit={unit}
+                groupDiscussion={groupDiscussion}
+                onClickPrepare={() => handleChunkSelect(0)}
+              />
+            </div>
           )}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
@@ -397,19 +399,27 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex].chunkTitle}</H1>
             )}
           </div>
-          {/* chunk content → unit content if no chunks */}
-          <MarkdownExtendedRenderer>
-            {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
-          </MarkdownExtendedRenderer>
+          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
+          {(chunks[currentChunkIndex]?.chunkContent || unit.content) && (
+            <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+              {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
+            </MarkdownExtendedRenderer>
+          )}
 
-          {/* Chunk resources and exercises - Only displays if we used chunkContent instead of unit content to prevent resources from showing up twice */}
-          {chunks[currentChunkIndex]?.chunkContent && (
-            <ResourceDisplay
-              resources={chunks[currentChunkIndex].resources || []}
-              exercises={chunks[currentChunkIndex].exercises || []}
-              unitTitle={unit.title}
-              unitNumber={unitNumber}
-            />
+          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
+          {chunks[currentChunkIndex] && (
+            (chunks[currentChunkIndex].resources?.length || chunks[currentChunkIndex].exercises?.length) && (
+              <ResourceDisplay
+                resources={chunks[currentChunkIndex].resources || []}
+                exercises={chunks[currentChunkIndex].exercises || []}
+                unitTitle={unit.title}
+                unitNumber={unitNumber}
+                className={clsx(
+                  // Add top margin only if there's content above it
+                  (chunks[currentChunkIndex]?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
+                )}
+              />
+            )
           )}
 
           {/* Keyboard navigation hint */}
