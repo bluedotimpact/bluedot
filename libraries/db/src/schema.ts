@@ -454,6 +454,10 @@ export const roundTable = pgAirtable('round', {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
     },
+    maxParticipantsPerGroup: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldoIzHNm8NzjAefW',
+    },
   },
 });
 

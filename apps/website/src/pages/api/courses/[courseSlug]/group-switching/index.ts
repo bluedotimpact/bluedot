@@ -145,7 +145,7 @@ export default makeApiRoute({
 
     console.log({ recordToCreate });
     // Create the group switching record
-    // const groupSwitchRecord = await db.insert(groupSwitchingTable, recordToCreate);
+    const groupSwitchRecord = await db.insert(groupSwitchingTable, recordToCreate);
 
     return {
       type: 'success' as const,
