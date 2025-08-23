@@ -147,7 +147,7 @@ type GroupSwitchModalProps = {
 const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group for one unit', label: 'Switch group for one unit' },
   { value: 'Switch group permanently', label: 'Switch group permanently' },
-];
+] as const;
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
@@ -155,7 +155,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   units,
   courseSlug,
 }) => {
-  // TODO switch to react-hook-form
   const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(modalOpenedFromDiscussion.unitNumber?.toString());
   const [reason, setReason] = useState('');
@@ -163,6 +162,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isTemporarySwitch = switchType === 'Switch group for one unit';
 
   const auth = useAuthStore((s) => s.auth);
 
@@ -213,8 +214,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate based on switch type
-    const isTemporarySwitch = switchType === 'Switch group for one unit';
     const hasValidSelection = isTemporarySwitch ? selectedDiscussionId : selectedGroupId;
 
     if (!hasValidSelection || !reason.trim()) {
@@ -223,9 +222,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
     setIsSubmitting(true);
 
-    const oldGroupId = switchType === 'Switch group permanently' ? oldGroup?.group.id : undefined;
+    const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
     const newGroupId = !isTemporarySwitch ? selectedGroupId : undefined;
-    const oldDiscussionId = switchType === 'Switch group for one unit' ? oldDiscussion?.discussion.id : undefined;
+    const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
     const newDiscussionId = isTemporarySwitch ? selectedDiscussionId : undefined;
     try {
       const payload: GroupSwitchingRequest = {
@@ -272,25 +271,25 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </select>
         </div>
 
-        {switchType === 'Switch group for one unit' && (
-        <div>
-          <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
-          <select
-            id="unitSelect"
-            value={selectedUnitNumber ?? '0'}
-            onChange={(e) => setSelectedUnitNumber(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-          >
-            {unitOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </div>
+        {isTemporarySwitch && (
+          <div>
+            <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+            <select
+              id="unitSelect"
+              value={selectedUnitNumber ?? '0'}
+              onChange={(e) => setSelectedUnitNumber(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              {unitOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </div>
         )}
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-2">
-            <p className="text-size-sm font-medium">Why are you making this change?</p>
+            <p className="text-size-sm font-medium">Why are you making this change?*</p>
             <p className="text-size-xs text-[#666C80]">
               Briefly, we'd like to understand why you're making this change. We've found that
               participants who stick with their group usually have a better experience on the course.
@@ -306,36 +305,36 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
         <div>
           <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
-            {switchType === 'Switch group for one unit' ? 'Select a discussion' : 'Select a group'}
+            {isTemporarySwitch ? 'Select a discussion' : 'Select a group'}
           </label>
           {loading && <p>Loading...</p>}
-          {!loading && switchType === 'Switch group for one unit' && (
-          <select
-            id="targetSelect"
-            value={selectedDiscussionId}
-            onChange={(e) => setSelectedDiscussionId(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
-          >
-            <option value="">Select a discussion</option>
-            {discussionOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
+          {!loading && isTemporarySwitch && (
+            <select
+              id="targetSelect"
+              value={selectedDiscussionId}
+              onChange={(e) => setSelectedDiscussionId(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+              required
+            >
+              <option value="">Select a discussion</option>
+              {discussionOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
           )}
-          {!loading && switchType === 'Switch group permanently' && (
-          <select
-            id="targetSelect"
-            value={selectedGroupId}
-            onChange={(e) => setSelectedGroupId(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
-          >
-            <option value="">Select a group</option>
-            {groupOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
+          {!loading && !isTemporarySwitch && (
+            <select
+              id="targetSelect"
+              value={selectedGroupId}
+              onChange={(e) => setSelectedGroupId(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+              required
+            >
+              <option value="">Select a group</option>
+              {groupOptions.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
           )}
         </div>
 
@@ -361,7 +360,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </button>
           <button
             type="submit"
-            disabled={isSubmitting || !(switchType === 'Switch group for one unit' ? selectedDiscussionId : selectedGroupId) || !reason.trim()}
+            disabled={isSubmitting || !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || !reason.trim()}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Request'}
