@@ -74,13 +74,13 @@ type Group = InferSelectModel<typeof groupTable.pg> & { groupName: string }; // 
 export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
   maxParticipantsPerGroup: number;
-  groupAvailability: Record<string, {
+  groupsAvailabile: Record<string, {
     group: Group;
     /** min(spotsLeft) across all group discussions */
     spotsLeft: number;
     nextDiscussionStartDateTime: number;
   }>,
-  groupDiscussionAvailability: Record<string, GroupDiscussion[]>
+  discussionsAvailable: Record<string, GroupDiscussion[]>
 };
 
 export default makeApiRoute({
@@ -88,12 +88,12 @@ export default makeApiRoute({
   responseBody: z.object({
     type: z.literal('success'),
     maxParticipantsPerGroup: z.number(),
-    groupAvailability: z.record(z.object({
+    groupsAvailabile: z.record(z.object({
       group: z.any(),
       spotsLeft: z.number(),
       nextDiscussionStartDateTime: z.number().nullable(),
     })),
-    groupDiscussionAvailability: z.record(z.array(z.any())),
+    discussionsAvailable: z.record(z.array(z.any())),
   }),
 }, async (body, { auth, raw }) => {
   const { courseSlug } = raw.req.query;
@@ -117,7 +117,7 @@ export default makeApiRoute({
   const groups = rawGroups.map((g) => ({
     ...g,
     groupName: { recM4vjtRKQOOkYYB: 'Group 01 - Freddy Flounder', recz0js0GhteOj0Y0: 'Group 02 - Cara Clownfish' }[g.id],
-  }));
+  })) as Group[];
 
   const rawGroupDiscussions = await db.scan(groupDiscussionTable, {
     OR: groups.map((g) => ({ group: g.id })),
@@ -136,7 +136,7 @@ export default makeApiRoute({
 
     if (!acc[groupId]) {
       acc[groupId] = {
-        group: groups.find((g) => g.id === groupId)!,
+        group: (groups.find((g) => g.id === groupId))!,
         spotsLeft,
         nextDiscussionStartDateTime: hasNotStarted ? discussion.startDateTime : null,
       };
@@ -170,7 +170,7 @@ export default makeApiRoute({
   return {
     type: 'success' as const,
     maxParticipantsPerGroup: round.maxParticipantsPerGroup,
-    groupAvailability: enrichedGroupsById,
-    groupDiscussionAvailability: groupDiscussionsByUnitNumber,
+    groupsAvailabile: enrichedGroupsById,
+    discussionsAvailable: groupDiscussionsByUnitNumber,
   };
 });
