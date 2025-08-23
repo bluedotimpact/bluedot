@@ -112,7 +112,7 @@ export async function performFullSync(
 
   if (limitToTables) {
     const foundPgNames = new Set(tableFieldMappings.map((r) => r.pgTable));
-    const missingPgNames = new Set([...limitToTables].filter((x) => !foundPgNames.has(x)));
+    const missingPgNames = new Set(limitToTables.filter((x) => !foundPgNames.has(x)));
 
     if (missingPgNames.size) {
       logger.warn(`Failed to find some of the tables given by --initial-sync-tables: ${Array.from(missingPgNames).join(', ')}`);
