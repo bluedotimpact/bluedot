@@ -53,9 +53,7 @@ export default makeApiRoute({
 
   // Get chunks for this unit and sort by chunk order
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const chunks = allChunks.sort((a, b) => 
-    (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' })
-  );
+  const chunks = allChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
 
   // Resolve chunk resources and exercises with proper ordering
   const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
