@@ -119,9 +119,9 @@ export default makeApiRoute({
     groupName: { recM4vjtRKQOOkYYB: 'Group 01 - Freddy Flounder', recz0js0GhteOj0Y0: 'Group 02 - Cara Clownfish' }[g.id],
   })) as Group[];
 
-  const rawGroupDiscussions = await db.scan(groupDiscussionTable, {
+  const rawGroupDiscussions = groups.length ? await db.scan(groupDiscussionTable, {
     OR: groups.map((g) => ({ group: g.id })),
-  });
+  }) : [];
   const groupDiscussions = rawGroupDiscussions.map((gd, idx) => ({
     ...gd,
     unitNumber: idx + 1,
