@@ -18,7 +18,6 @@ import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
-import UnitFeedback from './UnitFeedback';
 import CertificateLinkCard from './CertificateLinkCard';
 import {
   A, H1, P,
@@ -417,10 +416,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
             <p>Tip: Use ←/→ to navigate sections, and Cmd+B (Ctrl+B on Windows/Linux) to toggle the sidebar.</p>
           </div>
-
-          {isLastChunk && (
-            <UnitFeedback unit={unit} />
-          )}
 
           {(!nextUnit && isLastChunk) ? (
             <>
