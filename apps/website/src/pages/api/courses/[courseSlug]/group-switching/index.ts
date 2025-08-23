@@ -1,21 +1,27 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
+  courseRegistrationTable,
+  groupDiscussionTable,
   groupSwitchingTable,
+  groupTable,
   InferSelectModel,
+  meetPersonTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
 
-export type GroupSwitchingRequest = {
-  switchType: 'Switch group for one unit' | 'Switch group permanently';
-  notesFromParticipant: string;
-  oldGroupId?: string;
-  newGroupId?: string;
-  oldDiscussionId?: string;
-  newDiscussionId?: string;
-  isManualRequest: boolean;
-};
+const requestBodySchema = z.object({
+  switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
+  notesFromParticipant: z.string().min(1),
+  oldGroupId: z.string().optional(),
+  newGroupId: z.string().optional(),
+  oldDiscussionId: z.string().optional(),
+  newDiscussionId: z.string().optional(),
+  isManualRequest: z.boolean(),
+});
+
+export type GroupSwitchingRequest = z.infer<typeof requestBodySchema>;
 
 export type GroupSwitchingResponse = {
   type: 'success';
@@ -24,68 +30,113 @@ export type GroupSwitchingResponse = {
 
 export default makeApiRoute({
   requireAuth: true,
-  requestBody: z.object({
-    switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
-    notesFromParticipant: z.string(),
-    oldGroupId: z.string().optional(),
-    newGroupId: z.string().optional(),
-    oldDiscussionId: z.string().optional(),
-    newDiscussionId: z.string().optional(),
-    unitNumber: z.string().optional(),
-    isManualRequest: z.boolean(),
-  }),
+  requestBody: requestBodySchema,
   responseBody: z.object({
     type: z.literal('success'),
     groupSwitchRecord: z.any(),
   }),
 }, async (body, { auth, raw }) => {
   const { courseSlug } = raw.req.query;
+
+  const {
+    switchType,
+    oldGroupId: inputOldGroupId,
+    newGroupId: inputNewGroupId,
+    oldDiscussionId: inputOldDiscussionId,
+    newDiscussionId: inputNewDiscussionId,
+    notesFromParticipant,
+    isManualRequest,
+  } = body;
+
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-
-  // // Find the user's course registration
-  // const courseRegistrations = await db.scan(courseRegistrationTable, {
-  //   email: auth.email,
-  //   decision: 'Accept',
-  // });
-
-  // if (courseRegistrations.length === 0) {
-  //   throw new createHttpError.NotFound('No course registration found');
-  // }
-
-  // // Find the course registration that matches the courseSlug pattern
-  // const courseRegistration = courseRegistrations.find((cr) => cr.courseId.includes(courseSlug));
-
-  // if (!courseRegistration) {
-  //   throw new createHttpError.NotFound('Course registration not found for this course');
-  // }
-
-  // Validate required fields based on switch type
-  // TODO do the correct validation
-  if (!body.newGroupId) {
-    throw new createHttpError.BadRequest('newGroupId is required');
+  if (switchType === 'Switch group for one unit' && (!inputOldDiscussionId || !inputNewDiscussionId)) {
+    throw new createHttpError.BadRequest('oldDiscussionId and newDiscussionId are required when switching for one unit');
   }
-  if (body.switchType === 'Switch group for one unit' && (!body.newDiscussionId || !body.oldDiscussionId)) {
-    // Note: Allow missing oldDiscussionId once we support "Join group for one unit"
-    throw new createHttpError.BadRequest('newDiscussionId and oldDiscussionId are required when switching for one unit');
+  if (switchType === 'Switch group for one unit' && (!inputOldGroupId || !inputNewGroupId)) {
+    throw new createHttpError.BadRequest('oldGroupId and newGroupId are required when switching groups permanently');
   }
 
-  const participantId = 'rec2rB3aBq6gS3lvk'; // TODO look up course registration
-  // TODO look up unitId from newDiscussionId
-  const unitId = 'TODO';
+  const courseRegistrations = await db.scan(meetPersonTable, {
+    email: auth.email,
+    courseSlug,
+    decision: 'Accept',
+  });
+
+  if (courseRegistrations.length === 0) {
+    throw new createHttpError.NotFound('No course registration found');
+  }
+
+  // TODO create a util for this to ensure we always apply this workaround
+  // Sort by ID to ensure stable selection when multiple records exist
+  // This ensures we always work with the same registration record
+  courseRegistrations.sort((a, b) => a.id.localeCompare(b.id));
+
+  const participant = courseRegistrations[0]!;
+  const participantId = participant.id;
+
+  let unitId = null;
+  let oldGroupId = null;
+  let newGroupId = null;
+  let oldDiscussionId = null;
+  let newDiscussionId = null;
+  if (switchType === 'Switch group for one unit') {
+    const [oldDiscussion, newDiscussion] = await Promise.all([
+      db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
+      db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
+    ]);
+
+    if (!oldDiscussion.participantsExpected.includes(participantId)) {
+      throw new createHttpError.BadRequest('User was not expected to attend old discussion');
+    }
+    if (newDiscussion.participantsExpected.includes(participantId)) {
+      throw new createHttpError.BadRequest('User is already expected to attend new discussion');
+    }
+    if (oldDiscussion.unit !== newDiscussion.unit) {
+      throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
+    }
+
+    unitId = newDiscussion.unit;
+    newGroupId = newDiscussion.group;
+    oldDiscussionId = inputOldDiscussionId;
+    newDiscussionId = inputNewDiscussionId;
+  }
+
+  if (switchType === 'Switch group permanently') {
+    const [oldGroup, newGroup] = await Promise.all([
+      db.get(groupTable, { id: inputOldGroupId }),
+      db.get(groupTable, { id: inputNewGroupId }),
+    ]);
+
+    if (!oldGroup.participants.includes(participantId)) {
+      throw new createHttpError.BadRequest('User is not a member of old group');
+    }
+    if (newGroup.participants.includes(participantId)) {
+      throw new createHttpError.BadRequest('User is already a member of new group');
+    }
+    if (oldGroup.round !== newGroup.round || newGroup.round !== participant.round) {
+      throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
+    }
+
+    oldGroupId = oldGroup.id;
+    newGroupId = newGroup.id;
+  }
 
   const recordToCreate = {
     participant: participantId,
-    requestStatus: body.isManualRequest ? 'Resolve' : 'Requested',
-    switchType: body.switchType,
-    notesFromParticipant: body.notesFromParticipant,
-    oldGroup: body.oldGroupId || null,
-    newGroup: body.newGroupId || null,
-    oldDiscussion: body.oldDiscussionId ? [body.oldDiscussionId] : [],
-    newDiscussion: body.newDiscussionId ? [body.newDiscussionId] : [],
+    requestStatus: isManualRequest ? 'Resolve' : 'Requested',
+    switchType,
+    notesFromParticipant,
+    oldGroup: oldGroupId,
+    newGroup: newGroupId,
+    // Note: The reason the groupIds are values and discussionIds are single-element
+    // arrays is just due to a mistake in setting up the db scheme. TODO fix this,
+    // but in the meantime this does insert correctly as is.
+    oldDiscussion: oldDiscussionId ? [oldDiscussionId] : [],
+    newDiscussion: newDiscussionId ? [newDiscussionId] : [],
     unit: unitId,
-    manualRequest: body.isManualRequest,
+    manualRequest: isManualRequest,
   };
 
   console.log({ recordToCreate });

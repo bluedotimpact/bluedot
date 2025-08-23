@@ -220,7 +220,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     // Case switch permanently: id of the group they were previously in (TODO be able to filter for this)
     // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
     const oldGroupId = 'TODO';
-    const newGroupId = isTemporarySwitch ? discussions.find((d) => d.id === selectedDiscussionId)?.group : selectedGroupId;
+    const newGroupId = !isTemporarySwitch ? selectedGroupId : undefined;
     // Case switch for one unit: id of the discussion they were previously in for that unit (TODO be able to filter for this)
     // Case switch permanently: empty (in Airtable it is sometimes given, but usually not)
     // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
