@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   InferSelectModel,
   groupDiscussionTable,
   unitTable,
 } from '@bluedot/db';
-import { CTALinkOrButton, Modal, useAuthStore } from '@bluedot/ui';
+import {
+  CTALinkOrButton, Modal, ProgressDots, useAuthStore,
+} from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
-import { PostGroupSwitchRequest, PostGroupSwitchResponse } from '../../pages/api/courses/[courseSlug]/groupSwitch';
+import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -123,21 +125,21 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </CTALinkOrButton>
         </div>
       </div>
-      <GroupSwitchModal
-        isOpen={groupSwitchModalOpen}
-        setIsOpen={setGroupSwitchModalOpen}
-        groupDiscussion={groupDiscussion}
-        units={units}
-        courseSlug={unit.courseSlug}
-      />
+      {groupSwitchModalOpen && (
+        <GroupSwitchModal
+          handleClose={() => setGroupSwitchModalOpen(false)}
+          modalOpenedFromDiscussion={groupDiscussion}
+          units={units}
+          courseSlug={unit.courseSlug}
+        />
+      )}
     </div>
   );
 };
 
 type GroupSwitchModalProps = {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  groupDiscussion: GroupDiscussion;
+  handleClose: () => void;
+  modalOpenedFromDiscussion: GroupDiscussion;
   units: Unit[];
   courseSlug: string;
 };
@@ -148,54 +150,43 @@ const SWITCH_TYPE_OPTIONS = [
 ];
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
-  isOpen,
-  setIsOpen,
-  groupDiscussion,
+  handleClose,
+  modalOpenedFromDiscussion,
   units,
   courseSlug,
 }) => {
+  // TODO switch to react-hook-form
   const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
-  const [selectedUnitId, setSelectedUnitId] = useState(units[0]?.id); // TODO default to the groupDiscussion unit number
+  const [selectedUnitNumber, setSelectedNumber] = useState(modalOpenedFromDiscussion.unitNumber);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const auth = useAuthStore((s) => s.auth);
 
-  // Get the unit number for the selected unit
-  const selectedUnit = units.find((u) => u.id === selectedUnitId);
-  const selectedUnitNumber = selectedUnit?.unitNumber;
-
-  const [{ data: switchingData, loading: isLoading }, fetchSwitchingData] = useAxios<GetGroupSwitchingAvailableResponse>({
+  const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
     method: 'get',
-  }, { manual: true });
+  });
 
-  // Fetch data when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      fetchSwitchingData();
-    }
-  }, [isOpen, fetchSwitchingData]);
-
-  const [, submitGroupSwitch] = useAxios<PostGroupSwitchResponse, PostGroupSwitchRequest>({
-    url: `/api/courses/${courseSlug}/groupSwitch`,
+  const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
+    url: `/api/courses/${courseSlug}/group-switching`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
     method: 'post',
   }, { manual: true });
 
-  const unitOptions = units.map((u) => ({ value: u.id, label: `${u.unitNumber}. ${u.title}` }));
+  const unitOptions = useMemo(() => units.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [units]);
 
-  // Create options from the single API response
-  const groups = switchingData?.type === 'success' ? Object.values(switchingData.groupAvailability) : [];
+  const groups = switchingData?.groupsAvailabile ? Object.values(switchingData.groupsAvailabile) : [];
   const discussions = switchingData?.type === 'success' && selectedUnitNumber
-    ? switchingData.groupDiscussionAvailability[selectedUnitNumber.toString()] || []
+    ? switchingData.discussionsAvailable[selectedUnitNumber.toString()] || []
     : [];
 
   const groupOptions = groups
@@ -206,7 +197,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }));
 
   const discussionOptions = discussions
-    .filter((d) => d.id !== groupDiscussion.id) // Exclude current discussion
+    .filter((d) => d.id !== modalOpenedFromDiscussion.id) // Exclude current discussion
     .map((d) => ({
       value: d.id,
       label: `Group Discussion ${d.id}`, // TODO: Better discussion naming with group info
@@ -224,29 +215,32 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
 
     setIsSubmitting(true);
+
+    // Case switch for one unit: empty (in Airtable it is sometimes given, but usually not)
+    // Case switch permanently: id of the group they were previously in (TODO be able to filter for this)
+    // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
+    const oldGroupId = 'TODO';
+    const newGroupId = isTemporarySwitch ? discussions.find((d) => d.id === selectedDiscussionId)?.group : selectedGroupId;
+    // Case switch for one unit: id of the discussion they were previously in for that unit (TODO be able to filter for this)
+    // Case switch permanently: empty (in Airtable it is sometimes given, but usually not)
+    // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
+    const oldDiscussionId = 'TODO';
+    const newDiscussionId = isTemporarySwitch ? selectedDiscussionId : undefined;
     try {
-      const payload: PostGroupSwitchRequest = {
+      const payload: GroupSwitchingRequest = {
         switchType,
         notesFromParticipant: reason,
         isManualRequest,
-        ...(isTemporarySwitch
-          ? {
-            oldDiscussionId: groupDiscussion.id,
-            newDiscussionId: selectedDiscussionId,
-            newGroupId: discussions.find((d) => d.id === selectedDiscussionId)?.group,
-            unitId: selectedUnitId,
-          }
-          : {
-            // TODO ideally add oldGroupId
-            newGroupId: selectedGroupId,
-          }
-        ),
+        oldGroupId,
+        newGroupId,
+        oldDiscussionId,
+        newDiscussionId,
       };
 
       const response = await submitGroupSwitch({ data: payload });
 
       if (response.data?.type === 'success') {
-        setIsOpen(false);
+        handleClose();
         // TODO: Show success message
       } else {
         throw new Error('Failed to submit request');
@@ -259,7 +253,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Group switching">
+    <Modal isOpen setIsOpen={handleClose} title="Group switching">
+      {loading && <ProgressDots />}
+      {!loading && (
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-[600px] max-h-[600px] overflow-y-auto">
         <div>
           <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
@@ -276,19 +272,19 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         </div>
 
         {switchType === 'Switch group for one unit' && (
-          <div>
-            <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
-            <select
-              id="unitSelect"
-              value={selectedUnitId}
-              onChange={(e) => setSelectedUnitId(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              {unitOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-          </div>
+        <div>
+          <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+          <select
+            id="unitSelect"
+            value={selectedUnitNumber}
+            onChange={(e) => setSelectedNumber(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+          >
+            {unitOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </div>
         )}
 
         <div className="flex flex-col gap-2">
@@ -311,34 +307,34 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
             {switchType === 'Switch group for one unit' ? 'Select a discussion' : 'Select a group'}
           </label>
-          {isLoading && <p>Loading...</p>}
-          {!isLoading && switchType === 'Switch group for one unit' && (
-            <select
-              id="targetSelect"
-              value={selectedDiscussionId}
-              onChange={(e) => setSelectedDiscussionId(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              required
-            >
-              <option value="">Select a discussion</option>
-              {discussionOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+          {loading && <p>Loading...</p>}
+          {!loading && switchType === 'Switch group for one unit' && (
+          <select
+            id="targetSelect"
+            value={selectedDiscussionId}
+            onChange={(e) => setSelectedDiscussionId(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            required
+          >
+            <option value="">Select a discussion</option>
+            {discussionOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
           )}
-          {!isLoading && switchType === 'Switch group permanently' && (
-            <select
-              id="targetSelect"
-              value={selectedGroupId}
-              onChange={(e) => setSelectedGroupId(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              required
-            >
-              <option value="">Select a group</option>
-              {groupOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+          {!loading && switchType === 'Switch group permanently' && (
+          <select
+            id="targetSelect"
+            value={selectedGroupId}
+            onChange={(e) => setSelectedGroupId(e.target.value)}
+            className="w-full border border-gray-300 rounded px-3 py-2"
+            required
+          >
+            <option value="">Select a group</option>
+            {groupOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
           )}
         </div>
 
@@ -357,7 +353,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         <div className="flex gap-2 justify-end">
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={() => handleClose()}
             className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
           >
             Cancel
@@ -371,6 +367,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </button>
         </div>
       </form>
+      )}
     </Modal>
   );
 };
