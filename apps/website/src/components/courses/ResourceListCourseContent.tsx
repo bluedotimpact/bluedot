@@ -16,39 +16,15 @@ import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/resources';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import {
-  A, H4, P,
+  A, P,
 } from '../Text';
 import { ROUTES } from '../../lib/routes';
-import Callout from './Callout';
-// eslint-disable-next-line import/no-cycle
-import Exercise from './exercises/Exercise';
 import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]';
-import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { FaviconImage } from './FaviconImage';
+// eslint-disable-next-line import/no-cycle
+import { ResourceDisplay } from './ResourceDisplay';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
-
-// Utility function to format time with rounding rules
-const formatResourceTime = (totalMins: number): string => {
-  // Apply different rounding rules: round to 5 for <60, round to 10 for ≥60
-  const roundedMins = totalMins < 60
-    ? Math.ceil(totalMins / 5) * 5
-    : Math.ceil(totalMins / 10) * 10;
-
-  // Handle pure minutes case (after rounding, still under 60)
-  if (roundedMins < 60) {
-    return `${roundedMins} mins`;
-  }
-
-  // Handle hours case
-  const hours = Math.floor(roundedMins / 60);
-  const remainingMins = roundedMins % 60;
-  const hrLabel = hours === 1 ? 'hr' : 'hrs';
-
-  return remainingMins === 0
-    ? `${hours} ${hrLabel}`
-    : `${hours} ${hrLabel} ${remainingMins} mins`;
-};
 
 const ResourceListCourseContent: React.FC = () => {
   const { query: { courseSlug, unitNumber } } = useRouter();
@@ -72,44 +48,15 @@ const ResourceListCourseContent: React.FC = () => {
     return <ErrorSection error={resourcesError ?? new Error('Missing data from API')} />;
   }
 
-  const coreResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Core');
-  const optionalResources = resourcesData.unitResources.filter((r) => r.coreFurtherMaybe === 'Further');
-
-  // Calculate total time for core resources
-  let totalCoreResourceTime = 0;
-  for (const resource of coreResources) {
-    totalCoreResourceTime += resource.timeFocusOnMins ?? 0;
-  }
-
   return (
-    <div className="resource-list flex flex-col gap-6">
-      {unitData.unit.description && <div className="resource-list__description"><MarkdownExtendedRenderer>{unitData.unit.description}</MarkdownExtendedRenderer></div>}
-
-      <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Resources ({formatResourceTime(totalCoreResourceTime)})</H4>
-      <div className="resource-list__core-resources flex flex-col gap-6" role="list">
-        {coreResources.map((resource) => (
-          <ResourceListItem key={resource.id} resource={resource} />
-        ))}
-      </div>
-      {resourcesData.unitExercises.length > 0 && (
-        <>
-          <H4 className="text-[20px] font-semibold leading-[140%] tracking-normal">Exercises</H4>
-          <div className="resource-list__exercises !-my-6" role="list">
-            {resourcesData.unitExercises.map((exercise) => (
-              <Exercise key={exercise.id} exerciseId={exercise.id} />
-            ))}
-          </div>
-        </>
-      )}
-      {optionalResources.length > 0 && (
-      <Callout title="Optional resources">
-        <div className="resource-list__optional-resources flex flex-col gap-6" role="list">
-          {optionalResources.map((resource) => (
-            <ResourceListItem key={resource.id} resource={resource} />
-          ))}
-        </div>
-      </Callout>
-      )}
+    <div className="resource-list flex flex-col gap-8">
+      <ResourceDisplay
+        resources={resourcesData.unitResources}
+        exercises={resourcesData.unitExercises}
+        unitDescription={unitData.unit.description}
+        unitTitle={unitData.unit.title}
+        unitNumber={parseInt(unitData.unit.unitNumber, 10)}
+      />
     </div>
   );
 };
@@ -507,3 +454,4 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
 };
 
 export default ResourceListCourseContent;
+export { ResourceListItem };

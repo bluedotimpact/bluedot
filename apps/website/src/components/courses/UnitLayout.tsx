@@ -11,7 +11,7 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  unitTable, chunkTable, InferSelectModel, groupDiscussionTable,
+  unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
 } from '@bluedot/db';
 import SideBar from './SideBar';
 import { MobileCourseModal } from './MobileCourseModal';
@@ -20,12 +20,22 @@ import Congratulations from './Congratulations';
 import { ROUTES } from '../../lib/routes';
 import UnitFeedback from './UnitFeedback';
 import CertificateLinkCard from './CertificateLinkCard';
-import { A, H1, P } from '../Text';
+import {
+  A, H1, P,
+} from '../Text';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
+import { ResourceDisplay } from './ResourceDisplay';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
+type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
+
+type ChunkWithContent = Chunk & {
+  resources?: UnitResource[];
+  exercises?: ExerciseType[];
+};
 
 const CourseIcon: React.FC = () => (
   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +46,7 @@ const CourseIcon: React.FC = () => (
 
 type UnitLayoutProps = {
   // Required
-  chunks: Chunk[];
+  chunks: ChunkWithContent[];
   unit: Unit;
   unitNumber: number;
   units: Unit[];
@@ -388,9 +398,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex].chunkTitle}</H1>
             )}
           </div>
+          {/* chunk content → unit content if no chunks */}
           <MarkdownExtendedRenderer>
             {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
           </MarkdownExtendedRenderer>
+
+          {/* Chunk resources and exercises - Only displays if we used chunkContent instead of unit content to prevent resources from showing up twice */}
+          {chunks[currentChunkIndex]?.chunkContent && (
+            <ResourceDisplay
+              resources={chunks[currentChunkIndex].resources || []}
+              exercises={chunks[currentChunkIndex].exercises || []}
+              unitTitle={unit.title}
+              unitNumber={unitNumber}
+            />
+          )}
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
