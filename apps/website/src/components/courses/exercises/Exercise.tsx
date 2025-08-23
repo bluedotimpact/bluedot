@@ -17,7 +17,7 @@ type ExerciseProps = {
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId,
 }) => {
-  const exerciseClassNames = 'exercise my-6';
+  const exerciseClassNames = 'exercise';
 
   const auth = useAuthStore((s) => s.auth);
 

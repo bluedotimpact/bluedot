@@ -579,6 +579,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               This unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.
             </p>
           </div>
+          <section
+            aria-label="Unit 1: Basic Principles of Fish"
+            class="resource-display "
+          />
           <div
             class="unit__keyboard-hint text-size-xs text-color-secondary mt-4"
           >

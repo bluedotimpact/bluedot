@@ -1,19 +1,26 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  chunkTable, unitTable, InferSelectModel,
+  chunkTable, unitTable, unitResourceTable, exerciseTable, InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
+type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+type Exercise = InferSelectModel<typeof exerciseTable.pg>;
+
+type ChunkWithContent = Chunk & {
+  resources: UnitResource[];
+  exercises: Exercise[];
+};
 
 export type GetUnitResponse = {
   type: 'success',
   units: Unit[],
   unit: Unit,
-  chunks: Chunk[],
+  chunks: ChunkWithContent[],
 };
 
 export default makeApiRoute({
@@ -46,12 +53,54 @@ export default makeApiRoute({
 
   // Get chunks for this unit and sort by chunk order
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const chunks = allChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || ''));
+  const chunks = allChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
+
+  // Resolve chunk resources and exercises with proper ordering
+  const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
+    let resources: UnitResource[] = [];
+    let exercises: Exercise[] = [];
+
+    // Fetch chunk resources
+    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
+      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
+      const resolvedResources = await Promise.all(resourcePromises);
+      resources = resolvedResources
+        .filter((r): r is UnitResource => r !== null)
+        .sort((a, b) => {
+          // Sort by readingORder
+          const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
+          const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
+          return orderA - orderB;
+        });
+    }
+
+    // Fetch chunk exercises
+    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
+      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
+      const resolvedExercises = await Promise.all(exercisePromises);
+
+      // Filter for exercises that exist and are active
+      exercises = resolvedExercises
+        .filter((e): e is Exercise => e !== null && e.status === 'Active')
+        .sort((a, b) => {
+          // Sort by exerciseNumber field
+          const numA = a.exerciseNumber || '';
+          const numB = b.exerciseNumber || '';
+          return numA.localeCompare(numB, undefined, { numeric: true });
+        });
+    }
+
+    return {
+      ...chunk,
+      resources,
+      exercises,
+    };
+  }));
 
   return {
     type: 'success' as const,
     units,
     unit,
-    chunks,
+    chunks: chunksWithContent,
   };
 });
