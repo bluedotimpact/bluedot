@@ -157,7 +157,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 }) => {
   // TODO switch to react-hook-form
   const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
-  const [selectedUnitNumber, setSelectedNumber] = useState(modalOpenedFromDiscussion.unitNumber);
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(modalOpenedFromDiscussion.unitNumber?.toString());
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -185,22 +185,29 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const unitOptions = useMemo(() => units.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [units]);
 
   const groups = switchingData?.groupsAvailabile ? Object.values(switchingData.groupsAvailabile) : [];
-  const discussions = switchingData?.type === 'success' && selectedUnitNumber
-    ? switchingData.discussionsAvailable[selectedUnitNumber.toString()] || []
+  const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
+    ? switchingData.discussionsAvailable[selectedUnitNumber] || []
     : [];
 
+  // Note: There are cases of people being in multiple discussions per unit, and there may be
+  // people in multiple groups too. We're not explicitly supporting that case at the moment, but
+  // we should at least (TODO) display the group/discussion the user is switching out of so that
+  // they can notice and request manual support.
+  const oldGroup = groups.filter((g) => g.userIsParticipant)[0];
+  const oldDiscussion = discussions.filter((d) => d.userIsParticipant)[0];
+
   const groupOptions = groups
-    // .filter((g) => g.group.id !== groupDiscussion.group) // TODO exclude current group, but not like this
+    .filter((g) => !g.userIsParticipant)
     .map((g) => ({
       value: g.group.id,
       label: `${g.group.groupName || `Group ${g.group.id}`} (${g.spotsLeft} spots left)`,
     }));
 
   const discussionOptions = discussions
-    .filter((d) => d.id !== modalOpenedFromDiscussion.id) // Exclude current discussion
+    .filter((d) => !d.userIsParticipant)
     .map((d) => ({
-      value: d.id,
-      label: `Group Discussion ${d.id}`, // TODO: Better discussion naming with group info
+      value: d.discussion.id,
+      label: d.groupName,
     }));
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -216,15 +223,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
     setIsSubmitting(true);
 
-    // Case switch for one unit: empty (in Airtable it is sometimes given, but usually not)
-    // Case switch permanently: id of the group they were previously in (TODO be able to filter for this)
-    // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
-    const oldGroupId = 'recM4vjtRKQOOkYYB'; // TODO don't hardcode
+    const oldGroupId = switchType === 'Switch group permanently' ? oldGroup?.group.id : undefined;
     const newGroupId = !isTemporarySwitch ? selectedGroupId : undefined;
-    // Case switch for one unit: id of the discussion they were previously in for that unit (TODO be able to filter for this)
-    // Case switch permanently: empty (in Airtable it is sometimes given, but usually not)
-    // [Don't do] Case join group for one unit: empty, but newDiscussionId is given
-    const oldDiscussionId = 'rec7Rwu2h9AUvKIP9'; // TODO don't hardcode
+    const oldDiscussionId = switchType === 'Switch group for one unit' ? oldDiscussion?.discussion.id : undefined;
     const newDiscussionId = isTemporarySwitch ? selectedDiscussionId : undefined;
     try {
       const payload: GroupSwitchingRequest = {
@@ -276,8 +277,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
           <select
             id="unitSelect"
-            value={selectedUnitNumber}
-            onChange={(e) => setSelectedNumber(e.target.value)}
+            value={selectedUnitNumber ?? '0'}
+            onChange={(e) => setSelectedUnitNumber(e.target.value)}
             className="w-full border border-gray-300 rounded px-3 py-2"
           >
             {unitOptions.map((option) => (

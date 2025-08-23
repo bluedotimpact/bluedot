@@ -261,6 +261,10 @@ export const groupTable = pgAirtable('group', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblyiJSPoniwhi17T',
   columns: {
+    groupName: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldv3jHyWGjR0LxLp'
+    },
     groupDiscussions: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldwEeC65sHvGGRGb',
@@ -430,6 +434,10 @@ export const roundTable = pgAirtable('round', {
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
+    },
+    maxParticipantsPerGroup: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldoIzHNm8NzjAefW',
     },
   },
 });

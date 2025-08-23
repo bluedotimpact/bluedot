@@ -3,17 +3,15 @@ import createHttpError from 'http-errors';
 import {
   courseRegistrationTable,
   courseTable,
-  eq,
   groupDiscussionTable,
   groupTable,
   InferSelectModel,
-  meetCourseTable,
+  meetPersonTable,
   roundTable,
-  sql,
-  unitTable,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
+import { stablePickCourseRegistration } from '../../../../../lib/utils';
 
 // TODO
 // Notes:
@@ -69,108 +67,184 @@ import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 //   - Then add the required fields to actually fetch these
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Group = InferSelectModel<typeof groupTable.pg> & { groupName: string }; // TODO actually add groupName
+type Group = InferSelectModel<typeof groupTable.pg>;
 
 export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
-  maxParticipantsPerGroup: number;
+  // TODO make this an array
   groupsAvailabile: Record<string, {
     group: Group;
-    /** min(spotsLeft) across all group discussions */
-    spotsLeft: number;
-    nextDiscussionStartDateTime: number;
+    spotsLeft: number | null;
+    nextDiscussionStartDateTime: number | null;
+    userIsParticipant: boolean;
   }>,
-  discussionsAvailable: Record<string, GroupDiscussion[]>
+  discussionsAvailable: Record<string, {
+    discussion: GroupDiscussion
+    spotsLeft: number | null;
+    userIsParticipant: boolean;
+    groupName: string;
+  }[]>
 };
+
+function formatEnrichedResults({
+  groupDiscussions,
+  groups,
+  maxParticipants,
+  participantId,
+}: {
+  groupDiscussions: GroupDiscussion[];
+  groups: Group[];
+  maxParticipants: number | null | undefined;
+  participantId: string;
+}) {
+  const groupsById = groups.reduce((acc, group) => {
+    acc[group.id] = group;
+    return acc;
+  }, {} as Record<string, Group>);
+
+  const enrichedGroupDiscussions = groupDiscussions
+    .filter((d) => d.unitNumber !== null && d.unitNumber !== undefined)
+    .map((d) => {
+      const spotsLeft = typeof maxParticipants === 'number'
+        ? Math.min(0, maxParticipants - d.participantsExpected.length)
+        : null;
+
+      const group = groupsById[d.group];
+      const groupName = group?.groupName || 'Group [Unknown]';
+
+      return {
+        discussion: d,
+        spotsLeft,
+        userIsParticipant: d.participantsExpected.includes(participantId),
+        groupName,
+      };
+    });
+
+  const enrichedGroupDiscussionsByUnitNumber = enrichedGroupDiscussions.reduce(
+    (acc, enrichedDiscussion) => {
+      const unitNumber = enrichedDiscussion.discussion.unitNumber!;
+      if (!acc[unitNumber]) {
+        acc[unitNumber] = [];
+      }
+      acc[unitNumber].push(enrichedDiscussion);
+      return acc;
+    },
+    {} as GetGroupSwitchingAvailableResponse['discussionsAvailable'],
+  );
+
+  const now = Date.now();
+  const enrichedGroupsById = enrichedGroupDiscussions.reduce(
+    (acc, { discussion, spotsLeft }) => {
+      const groupId = discussion.group;
+      const hasNotStarted = discussion.startDateTime * 1000 > now;
+
+      if (!acc[groupId]) {
+        const group = groups.find((g) => g.id === groupId)!;
+        acc[groupId] = {
+          group,
+          spotsLeft,
+          nextDiscussionStartDateTime: hasNotStarted
+            ? discussion.startDateTime
+            : null,
+          userIsParticipant: group.participants.includes(participantId),
+        };
+        return acc;
+      }
+
+      const spotsLeftValues = [acc[groupId].spotsLeft, spotsLeft].filter(
+        (v): v is number => typeof v === 'number',
+      );
+      acc[groupId].spotsLeft = spotsLeftValues.length
+        ? Math.min(...spotsLeftValues)
+        : null;
+
+      if (hasNotStarted) {
+        const newMin = Math.min(
+          acc[groupId].nextDiscussionStartDateTime ?? Infinity,
+          discussion.startDateTime,
+        );
+        acc[groupId].nextDiscussionStartDateTime = newMin !== Infinity ? newMin : null;
+      }
+
+      return acc;
+    },
+    {} as GetGroupSwitchingAvailableResponse['groupsAvailabile'],
+  );
+
+  return { enrichedGroupDiscussionsByUnitNumber, enrichedGroupsById };
+}
 
 export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
     type: z.literal('success'),
-    maxParticipantsPerGroup: z.number(),
     groupsAvailabile: z.record(z.object({
       group: z.any(),
-      spotsLeft: z.number(),
+      spotsLeft: z.number().nullable(),
       nextDiscussionStartDateTime: z.number().nullable(),
+      userIsParticipant: z.boolean(),
     })),
-    discussionsAvailable: z.record(z.array(z.any())),
+    discussionsAvailable: z.record(z.array(z.object({
+      discussion: z.any(),
+      spotsLeft: z.number().nullable(),
+      userIsParticipant: z.boolean(),
+      groupName: z.string(),
+    }))),
   }),
-}, async (body, { auth, raw }) => {
+}, async (_, { auth, raw }) => {
   const { courseSlug } = raw.req.query;
 
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
 
-  // TODO use auth to look up round
+  const course = await db.get(courseTable, { slug: courseSlug });
+  console.log({ course });
 
-  // TODO look up round from course registration
-  const roundId = 'reckOWl4lLXLJTbaS';
+  const courseRegistration = stablePickCourseRegistration(
+    await db.scan(courseRegistrationTable, {
+      email: auth.email,
+      decision: 'Accept',
+      courseId: course.id,
+    }),
+  );
+  console.log({ courseRegistration });
 
-  const rawRound = await db.get(roundTable, { id: roundId });
-  const round = {
-    ...rawRound,
-    maxParticipantsPerGroup: 10, // TODO use fldoIzHNm8NzjAefW
-  };
+  if (!courseRegistration) {
+    throw new createHttpError.NotFound('No course registration found');
+  }
 
-  const rawGroups = await db.scan(groupTable, { round: roundId });
-  const groups = rawGroups.map((g) => ({
-    ...g,
-    groupName: { recM4vjtRKQOOkYYB: 'Group 01 - Freddy Flounder', recz0js0GhteOj0Y0: 'Group 02 - Cara Clownfish' }[g.id],
-  })) as Group[];
+  const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  console.log({ participant });
 
-  const rawGroupDiscussions = groups.length ? await db.scan(groupDiscussionTable, {
+  const roundId = participant.round;
+
+  const round = await db.get(roundTable, { id: roundId });
+  console.log({ round });
+
+  const groups = await db.scan(groupTable, { round: roundId });
+  console.log({ groups });
+
+  const groupDiscussions = groups.length ? await db.scan(groupDiscussionTable, {
     OR: groups.map((g) => ({ group: g.id })),
   }) : [];
-  const groupDiscussions = rawGroupDiscussions.map((gd, idx) => ({
-    ...gd,
-    unitNumber: idx + 1,
-  }));
+  console.log({ groupDiscussions });
 
-  const now = Date.now();
-  const enrichedGroupsById = groupDiscussions.reduce((acc, discussion) => {
-    const groupId = discussion.group;
+  const maxParticipants = round.maxParticipantsPerGroup;
 
-    const spotsLeft = round.maxParticipantsPerGroup - discussion.participantsExpected.length;
-    const hasNotStarted = discussion.startDateTime * 1000 > now;
-
-    if (!acc[groupId]) {
-      acc[groupId] = {
-        group: (groups.find((g) => g.id === groupId))!,
-        spotsLeft,
-        nextDiscussionStartDateTime: hasNotStarted ? discussion.startDateTime : null,
-      };
-      return acc;
-    }
-
-    acc[groupId].spotsLeft = Math.min(acc[groupId].spotsLeft, spotsLeft);
-
-    if (hasNotStarted) {
-      acc[groupId].nextDiscussionStartDateTime = Math.min(
-        acc[groupId].nextDiscussionStartDateTime ?? Infinity,
-        discussion.startDateTime,
-      );
-    }
-
-    return acc;
-  }, {} as Record<string, {
-    group: Group;
-    spotsLeft: number;
-    nextDiscussionStartDateTime: number | null;
-  }>);
-
-  const groupDiscussionsByUnitNumber = groupDiscussions.reduce((acc, d) => {
-    if (d.unitNumber in [null, undefined]) return acc;
-
-    (acc[d.unitNumber] ??= []).push(d);
-
-    return acc;
-  }, {} as Record<string, GroupDiscussion[]>);
+  const {
+    enrichedGroupDiscussionsByUnitNumber,
+    enrichedGroupsById,
+  } = formatEnrichedResults({
+    groupDiscussions,
+    groups,
+    maxParticipants,
+    participantId: participant.id,
+  });
 
   return {
     type: 'success' as const,
-    maxParticipantsPerGroup: round.maxParticipantsPerGroup,
     groupsAvailabile: enrichedGroupsById,
-    discussionsAvailable: groupDiscussionsByUnitNumber,
+    discussionsAvailable: enrichedGroupDiscussionsByUnitNumber,
   };
 });
