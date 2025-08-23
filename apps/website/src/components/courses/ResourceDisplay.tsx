@@ -109,7 +109,6 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
-                aria-label={unitContext ? `Exercise - ${unitContext}` : 'Exercise'}
               />
             ))}
           </div>
@@ -125,7 +124,6 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 <ResourceListItem
                   key={resource.id}
                   resource={resource}
-                  aria-label={unitContext ? `${resource.resourceName} (Optional) - ${unitContext}` : `${resource.resourceName} (Optional)`}
                 />
               ))}
             </div>
