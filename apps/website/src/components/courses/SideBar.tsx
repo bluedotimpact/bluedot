@@ -78,12 +78,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   key={chunk.id}
                   onClick={() => onChunkSelect(index)}
                   className={clsx(
-                    'flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors',
+                    'flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors',
                     isActive ? 'bg-[rgba(42,45,52,0.05)] rounded-[10px]' : 'hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]',
                   )}
                 >
                   <ChunkIcon isActive={isActive} />
-                  <div className="flex flex-col items-start p-0 flex-1 min-h-[68px]">
+                  <div className="flex flex-col items-start p-0 flex-1">
                     {/* Chunk content wrapper with proper spacing */}
                     <div className="flex flex-col items-start gap-[6px]">
                       {/* Chunk Title */}

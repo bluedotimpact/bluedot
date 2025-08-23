@@ -200,7 +200,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
             >
               <button
-                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
+                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
                 type="button"
               >
                 <svg
@@ -223,7 +223,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
                 <div
-                  class="flex flex-col items-start p-0 flex-1 min-h-[68px]"
+                  class="flex flex-col items-start p-0 flex-1"
                 >
                   <div
                     class="flex flex-col items-start gap-[6px]"
@@ -237,7 +237,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </div>
               </button>
               <button
-                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] min-h-[100px] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                class="flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
                 type="button"
               >
                 <svg
@@ -254,7 +254,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   />
                 </svg>
                 <div
-                  class="flex flex-col items-start p-0 flex-1 min-h-[68px]"
+                  class="flex flex-col items-start p-0 flex-1"
                 >
                   <div
                     class="flex flex-col items-start gap-[6px]"
