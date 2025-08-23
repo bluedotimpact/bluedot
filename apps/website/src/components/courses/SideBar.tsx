@@ -28,21 +28,21 @@ type SideBarCollapsibleProps = {
   onChunkSelect: (index: number) => void;
 };
 
-// Icon components for different chunk types, currently it's all the same but will be different in the future
+// Radio button style icon for chunk selection
 const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
-  const iconClass = 'size-6 rounded-full flex items-center justify-center';
+  if (isActive) {
+    return (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z" stroke="#13132E" strokeWidth="2" />
+        <circle cx="12" cy="12" r="5" fill="#13132E" />
+      </svg>
+    );
+  }
 
-  // Always show the same icon for all chunk types
   return (
-    <div className={clsx(iconClass, isActive ? 'bg-[#13132E]' : 'bg-[#FCFBF9] border border-[rgba(106,111,122,0.3)]')}>
-      {isActive && (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <rect x="2" y="3" width="10" height="1" fill="white" />
-          <rect x="2" y="6" width="10" height="1" fill="white" />
-          <rect x="2" y="9" width="7" height="1" fill="white" />
-        </svg>
-      )}
-    </div>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z" stroke="rgba(106,111,122,0.3)" strokeWidth="2" />
+    </svg>
   );
 };
 
