@@ -39,7 +39,6 @@ export default makeApiRoute({
 }, async (body, { auth, raw }) => {
   const { courseSlug } = raw.req.query;
 
-  // TODO bypass some of the validation to support manual switching
   const {
     switchType,
     oldGroupId: inputOldGroupId,
@@ -50,14 +49,22 @@ export default makeApiRoute({
     isManualRequest,
   } = body;
 
+  const isTemporarySwitch = switchType === 'Switch group for one unit';
+
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (switchType === 'Switch group for one unit' && (!inputOldDiscussionId || !inputNewDiscussionId)) {
-    throw new createHttpError.BadRequest('oldDiscussionId and newDiscussionId are required when switching for one unit');
+  if (isTemporarySwitch && !inputOldDiscussionId) {
+    throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit');
   }
-  if (switchType === 'Switch group permanently' && (!inputOldGroupId || !inputNewGroupId)) {
-    throw new createHttpError.BadRequest('oldGroupId and newGroupId are required when switching groups permanently');
+  if (!isTemporarySwitch && !inputOldGroupId) {
+    throw new createHttpError.BadRequest('oldGroupId is required when switching groups permanently');
+  }
+  if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
+    throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
+  }
+  if (!isTemporarySwitch && !isManualRequest && !inputNewGroupId) {
+    throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently, unless requesting a manual switch');
   }
 
   const course = await db.get(courseTable, { slug: courseSlug });
@@ -78,51 +85,51 @@ export default makeApiRoute({
 
   const participantId = participant.id;
 
-  let unitId = null;
-  let oldGroupId = null;
-  let newGroupId = null;
-  let oldDiscussionId = null;
-  let newDiscussionId = null;
-  if (switchType === 'Switch group for one unit') {
+  let unitId: string | null = null;
+  let oldGroupId: string | null = null;
+  let newGroupId: string | null = null;
+  let oldDiscussionId: string | null = null;
+  let newDiscussionId: string | null = null;
+  if (isTemporarySwitch) {
+    // Error will be thrown here if either are not found
     const [oldDiscussion, newDiscussion] = await Promise.all([
       db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
-      db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
+      !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
     ]);
 
     if (!oldDiscussion.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User not found in old discussion');
     }
-    if (newDiscussion.participantsExpected.includes(participantId)) {
+    if (newDiscussion?.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already expected to attend new discussion');
     }
-    if (oldDiscussion.unit !== newDiscussion.unit) {
+    if (newDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
       throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
     }
 
-    unitId = newDiscussion.unit;
-    newGroupId = newDiscussion.group;
-    oldDiscussionId = inputOldDiscussionId;
-    newDiscussionId = inputNewDiscussionId;
-  }
-
-  if (switchType === 'Switch group permanently') {
+    unitId = oldDiscussion.unit;
+    newGroupId = newDiscussion?.group ?? null;
+    oldDiscussionId = inputOldDiscussionId!;
+    newDiscussionId = inputNewDiscussionId ?? null;
+  } else {
+    // Error will be thrown here if either are not found
     const [oldGroup, newGroup] = await Promise.all([
       db.get(groupTable, { id: inputOldGroupId }),
-      db.get(groupTable, { id: inputNewGroupId }),
+      !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
     ]);
 
     if (!oldGroup.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is not a member of old group');
     }
-    if (newGroup.participants.includes(participantId)) {
+    if (newGroup?.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already a member of new group');
     }
-    if (oldGroup.round !== newGroup.round || newGroup.round !== participant.round) {
+    if (newGroup && (oldGroup.round !== newGroup.round || newGroup.round !== participant.round)) {
       throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
     }
 
     oldGroupId = oldGroup.id;
-    newGroupId = newGroup.id;
+    newGroupId = newGroup?.id ?? null;
   }
 
   const recordToCreate = {

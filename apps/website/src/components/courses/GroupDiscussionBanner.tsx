@@ -211,21 +211,19 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       label: d.groupName,
     }));
 
+  const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const hasValidSelection = isTemporarySwitch ? selectedDiscussionId : selectedGroupId;
-
-    if (!hasValidSelection || !reason.trim()) {
-      return;
-    }
+    if (submitDisabled) return;
 
     setIsSubmitting(true);
 
     const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
-    const newGroupId = !isTemporarySwitch ? selectedGroupId : undefined;
+    const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
     const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
-    const newDiscussionId = isTemporarySwitch ? selectedDiscussionId : undefined;
+    const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
     try {
       const payload: GroupSwitchingRequest = {
         switchType,
@@ -304,37 +302,41 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         </div>
 
         <div>
-          <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
-            {isTemporarySwitch ? 'Select a discussion' : 'Select a group'}
-          </label>
-          {loading && <p>Loading...</p>}
-          {!loading && isTemporarySwitch && (
-            <select
-              id="targetSelect"
-              value={selectedDiscussionId}
-              onChange={(e) => setSelectedDiscussionId(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              required
-            >
-              <option value="">Select a discussion</option>
-              {discussionOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-          )}
-          {!loading && !isTemporarySwitch && (
-            <select
-              id="targetSelect"
-              value={selectedGroupId}
-              onChange={(e) => setSelectedGroupId(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-              required
-            >
-              <option value="">Select a group</option>
-              {groupOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+          {!isManualRequest && (
+            <>
+              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+                {isTemporarySwitch ? 'Select a discussion' : 'Select a group'}
+              </label>
+              {loading && <p>Loading...</p>}
+              {!loading && isTemporarySwitch && (
+                <select
+                  id="targetSelect"
+                  value={selectedDiscussionId}
+                  onChange={(e) => setSelectedDiscussionId(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                >
+                  <option value="">Select a discussion</option>
+                  {discussionOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              )}
+              {!loading && !isTemporarySwitch && (
+                <select
+                  id="targetSelect"
+                  value={selectedGroupId}
+                  onChange={(e) => setSelectedGroupId(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                >
+                  <option value="">Select a group</option>
+                  {groupOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              )}
+            </>
           )}
         </div>
 
@@ -360,7 +362,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </button>
           <button
             type="submit"
-            disabled={isSubmitting || !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || !reason.trim()}
+            disabled={submitDisabled}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Request'}
