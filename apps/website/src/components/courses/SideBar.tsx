@@ -78,7 +78,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   key={chunk.id}
                   onClick={() => onChunkSelect(index)}
                   className={clsx(
-                    'flex flex-row items-start p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors',
+                    'flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors',
                     isActive ? 'bg-[rgba(42,45,52,0.05)] rounded-[10px]' : 'hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]',
                   )}
                 >
