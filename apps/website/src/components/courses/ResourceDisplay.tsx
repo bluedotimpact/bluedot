@@ -97,7 +97,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
       {/* Exercises */}
       {exercises.length > 0 && (
-        <section className="mt-8">
+        <section className={`${coreResources.length > 0 || unitDescription ? 'mt-8' : ''}`}>
           <h4
             id={exercisesHeadingId}
             className="text-[20px] font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
