@@ -1,3 +1,4 @@
+import { InferSelectModel, type courseRegistrationTable } from '@bluedot/db';
 import { AxiosError } from 'axios';
 
 export const formatStringToArray = (
@@ -29,4 +30,25 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
   }
 
   return defaultErrorMessage;
+};
+
+type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
+/**
+ * KNOWN ISSUE: Due to race conditions and Airtable limitations, multiple course registrations
+ * can be created for the same user/course combination. The course registration creation endpoint
+ * has duplicate prevention logic, but concurrent requests can slip through. Airtable doesn't
+ * support unique and solving this would have been trivial if we just were using a traditional DB
+ *
+ * WORKAROUND: Instead of using db.get() which expects exactly one record, use db.scan()
+ * to find all matching registrations and then pass it to this function, which will select the
+ * first one based on a stable sort by ID. This ensures consistent behavior even when duplicates exist.
+ */
+export const stablePickCourseRegistration = (
+  courseRegistrations: CourseRegistration[],
+): CourseRegistration | undefined => {
+  // Sort by ID to ensure stable selection when multiple records exist
+  // This ensures we always work with the same registration record
+  courseRegistrations.sort((a, b) => a.id.localeCompare(b.id));
+
+  return courseRegistrations[0];
 };
