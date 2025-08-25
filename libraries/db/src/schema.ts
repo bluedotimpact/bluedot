@@ -320,14 +320,9 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
-    // TODO switch to the other unitNumber field
     unitNumber: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
-    },
-    unit: {
-      pgColumn: text(),
-      airtableId: 'fldVo5h9rqsEeGSRU',
     },
     zoomLink: {
       pgColumn: text(),
@@ -453,10 +448,6 @@ export const roundTable = pgAirtable('round', {
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
-    },
-    maxParticipantsPerGroup: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldoIzHNm8NzjAefW',
     },
   },
 });
