@@ -325,7 +325,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       airtableId: 'fldYFQwPDKdzIAy93',
     },
     round: {
-      pgColumn: text(),
+      pgColumn: text().notNull(),
       airtableId: 'fld6z76NthgaFf8EY',
     },
   },
