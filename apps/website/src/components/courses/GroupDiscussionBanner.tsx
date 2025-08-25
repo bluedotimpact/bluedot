@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   InferSelectModel,
   groupDiscussionTable,
@@ -149,6 +149,17 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
+const formatDiscussionTime = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
+
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
   modalOpenedFromDiscussion,
@@ -162,6 +173,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
@@ -209,15 +221,33 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     .filter((d) => !d.userIsParticipant)
     .map((d) => ({
       value: d.discussion.id,
-      label: `${d.groupName}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
+      label: `${d.groupName} - ${formatDiscussionTime(d.discussion.startDateTime)}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
       disabled: d.spotsLeft !== null && d.spotsLeft <= 0,
     }));
 
+  const getCurrentDiscussionInfo = useCallback(() => {
+    if (isTemporarySwitch && oldDiscussion) {
+      return {
+        name: oldDiscussion.groupName,
+        time: formatDiscussionTime(oldDiscussion.discussion.startDateTime),
+      };
+    }
+    if (!isTemporarySwitch && oldGroup) {
+      // For permanent switch, show next upcoming discussion time
+      const nextTime = oldGroup.nextDiscussionStartDateTime;
+      return {
+        name: oldGroup.group.groupName || `Group ${oldGroup.group.id}`,
+        time: nextTime ? formatDiscussionTime(nextTime) : 'No upcoming discussions',
+      };
+    }
+    return null;
+  }, [isTemporarySwitch, oldDiscussion, oldGroup]);
+
+  const currentInfo = getCurrentDiscussionInfo();
+
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (submitDisabled) return;
 
     setIsSubmitting(true);
@@ -240,8 +270,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       const response = await submitGroupSwitch({ data: payload });
 
       if (response.data?.type === 'success') {
-        handleClose();
-        // TODO: Show success message
+        setShowSuccess(true);
       } else {
         throw new Error('Failed to submit request');
       }
@@ -252,126 +281,197 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
   };
 
-  return (
-    <Modal isOpen setIsOpen={handleClose} title="Group switching">
-      {loading && <ProgressDots />}
-      {!loading && (
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-[600px] max-h-[600px] overflow-y-auto">
-        <div>
-          <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
-          <select
-            id="switchType"
-            value={switchType}
-            onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-          >
-            {SWITCH_TYPE_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </div>
+  const getModalTitle = () => {
+    if (isManualRequest) {
+      return !showSuccess ? 'Request manual switch' : 'We are working on your request';
+    }
+    if (showSuccess) {
+      return 'Success!';
+    }
+    return 'Group switching';
+  };
+  const title = getModalTitle();
 
-        {isTemporarySwitch && (
-          <div>
-            <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
-            <select
-              id="unitSelect"
-              value={selectedUnitNumber ?? '0'}
-              onChange={(e) => setSelectedUnitNumber(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              {unitOptions.map((option) => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+  const getSuccessMessages = () => {
+    if (isManualRequest) {
+      return [
+        'We aim to process your request within 1-2 business days.',
+        "Once your switch is complete, you will receive a calendar invitation and be added to your new group's Slack channel.",
+      ];
+    }
+
+    const message = `You will receive ${isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
+    return [message];
+  };
+  const successMessages = getSuccessMessages();
+
+  return (
+    <Modal isOpen setIsOpen={handleClose} title={title}>
+      <div className="max-h-[600px] max-w-[600px] overflow-y-auto">
+        {loading && <ProgressDots />}
+        {showSuccess && (
+          <div className="flex flex-col gap-4">
+            {successMessages.map((message) => (
+              <p key={message} className="text-size-sm text-[#666C80]">
+                {message}
+              </p>
+            ))}
           </div>
         )}
-
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <p className="text-size-sm font-medium">Why are you making this change?*</p>
-            <p className="text-size-xs text-[#666C80]">
-              Briefly, we'd like to understand why you're making this change. We've found that
-              participants who stick with their group usually have a better experience on the course.
-            </p>
-          </div>
-          <textarea
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-2 min-h-[80px]"
-            required
-          />
-        </div>
-
-        <div>
-          {!isManualRequest && (
-            <>
-              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
-                {isTemporarySwitch ? 'Select a discussion' : 'Select a group'}
-              </label>
-              {loading && <p>Loading...</p>}
-              {!loading && isTemporarySwitch && (
-                <select
-                  id="targetSelect"
-                  value={selectedDiscussionId}
-                  onChange={(e) => setSelectedDiscussionId(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  required
-                >
-                  <option value="">Select a discussion</option>
-                  {discussionOptions.map((option) => (
-                    <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
-                  ))}
-                </select>
-              )}
-              {!loading && !isTemporarySwitch && (
-                <select
-                  id="targetSelect"
-                  value={selectedGroupId}
-                  onChange={(e) => setSelectedGroupId(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                  required
-                >
-                  <option value="">Select a group</option>
-                  {groupOptions.map((option) => (
-                    <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
-                  ))}
-                </select>
-              )}
-            </>
+        {!loading && !showSuccess && (
+        <>
+          {isManualRequest && (
+            <div className="text-size-sm text-[#666C80] mb-4">
+              We're keen for you to request manual switches where necessary to attend group discussions.
+              However, because they do take time for us to process but we expect you to have made a sincere
+              effort to make your original discussion group and consider others available on the last screen.
+            </div>
           )}
-        </div>
+          <form className="flex flex-col gap-4">
+            <div>
+              <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
+              <select
+                id="switchType"
+                value={switchType}
+                onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                aria-describedby="switchType-description"
+              >
+                {SWITCH_TYPE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </div>
 
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="manualRequest"
-            checked={isManualRequest}
-            onChange={(e) => setIsManualRequest(e.target.checked)}
-          />
-          <label htmlFor="manualRequest" className="text-size-sm">
-            Request manual switch
-          </label>
-        </div>
+            {isTemporarySwitch && (
+            <div>
+              <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+              <select
+                id="unitSelect"
+                value={selectedUnitNumber ?? ''}
+                onChange={(e) => setSelectedUnitNumber(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                aria-describedby="unitSelect-description"
+                required
+              >
+                <option value="">Select a unit</option>
+                {unitOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            </div>
+            )}
 
-        <div className="flex gap-2 justify-end">
-          <button
-            type="button"
-            onClick={() => handleClose()}
-            className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={submitDisabled}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Request'}
-          </button>
-        </div>
-      </form>
-      )}
+            <div className="flex flex-col gap-2 px-1">
+              <div className="flex flex-col gap-2">
+                <label htmlFor="reason" className="text-size-sm font-medium">Why are you making this change?*</label>
+                <p className="text-size-sm text-[#666C80]">
+                  Briefly, we'd like to understand why you're making this change. We've found that
+                  participants who stick with their group usually have a better experience on the course.
+                </p>
+              </div>
+              <textarea
+                id="reason"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
+                required
+                aria-describedby="reason-description"
+              />
+            </div>
+
+            {!isManualRequest && (
+            <div className="flex flex-col gap-2">
+              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+                {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
+              </label>
+              {currentInfo && (
+              <div className="bg-gray-50 border border-gray-200 rounded-md p-3">
+                <h4 className="text-size-sm font-medium text-gray-700 mb-1">
+                  {isTemporarySwitch ? 'Current discussion:' : 'Current group (next discussion):'}
+                </h4>
+                <p className="text-size-sm text-gray-600">
+                  {currentInfo.name} - {currentInfo.time}
+                </p>
+              </div>
+              )}
+              {isTemporarySwitch && (
+              <select
+                id="targetSelect"
+                value={selectedDiscussionId}
+                onChange={(e) => setSelectedDiscussionId(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                required
+                aria-describedby="targetSelect-description"
+              >
+                <option value="">Select a discussion</option>
+                {discussionOptions.map((option) => (
+                  <option key={option.value} value={option.value} disabled={option.disabled}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              )}
+              {!isTemporarySwitch && (
+              <select
+                id="targetSelect"
+                value={selectedGroupId}
+                onChange={(e) => setSelectedGroupId(e.target.value)}
+                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                required
+                aria-describedby="targetSelect-description"
+              >
+                <option value="">Select a group</option>
+                {groupOptions.map((option) => (
+                  <option key={option.value} value={option.value} disabled={option.disabled}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              )}
+            </div>
+            )}
+
+            <div className="flex gap-2 justify-end">
+              <CTALinkOrButton
+                variant="secondary"
+                onClick={() => handleClose()}
+                aria-label="Cancel group switching"
+              >
+                Cancel
+              </CTALinkOrButton>
+              <CTALinkOrButton
+                onClick={handleSubmit}
+                disabled={submitDisabled}
+                className="disabled:cursor-not-allowed cursor-pointer disabled:opacity-50"
+                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+              >
+                {isSubmitting ? 'Submitting...' : 'Confirm'}
+              </CTALinkOrButton>
+            </div>
+
+            {!isManualRequest && (
+            <div className="border-t border-gray-200 pt-4">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-size-sm font-medium">Don't see a group that works?</h3>
+                <p className="text-size-sm text-[#666C80]">
+                  You can request a manual switch to join a group that's full or a group that is not
+                  listed above, and we'll do our best to accommodate you.
+                </p>
+                <CTALinkOrButton
+                  variant="secondary"
+                  onClick={() => setIsManualRequest(true)}
+                  aria-label="Request manual group switch"
+                >
+                  Request manual switch
+                </CTALinkOrButton>
+              </div>
+            </div>
+            )}
+          </form>
+        </>
+        )}
+      </div>
     </Modal>
   );
 };
