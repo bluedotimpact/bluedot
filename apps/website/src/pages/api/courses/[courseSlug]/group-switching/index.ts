@@ -8,6 +8,7 @@ import {
   groupTable,
   InferSelectModel,
   meetPersonTable,
+  roundTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
@@ -90,6 +91,10 @@ export default makeApiRoute({
   let newGroupId: string | null = null;
   let oldDiscussionId: string | null = null;
   let newDiscussionId: string | null = null;
+
+  const round = await db.get(roundTable, { id: participant.round });
+  const maxParticipants = round.maxParticipantsPerGroup;
+
   if (isTemporarySwitch) {
     // Error will be thrown here if either are not found
     const [oldDiscussion, newDiscussion] = await Promise.all([
@@ -105,6 +110,13 @@ export default makeApiRoute({
     }
     if (newDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
       throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
+    }
+
+    if (newDiscussion && !isManualRequest && typeof maxParticipants === 'number') {
+      const spotsLeft = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
+      if (spotsLeft === 0) {
+        throw new createHttpError.BadRequest('Selected discussion has no spots remaining');
+      }
     }
 
     unitId = oldDiscussion.unit;
@@ -126,6 +138,20 @@ export default makeApiRoute({
     }
     if (newGroup && (oldGroup.round !== newGroup.round || newGroup.round !== participant.round)) {
       throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
+    }
+
+    if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
+      // Calculate spots left based on the minimum spots across all discussions in the group
+      // This matches the logic in available.ts
+      const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
+      const spotsLeftValues = groupDiscussions
+        .map((d) => Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length))
+        .filter((v) => typeof v === 'number');
+
+      const spotsLeft = spotsLeftValues.length ? Math.min(...spotsLeftValues) : null;
+      if (spotsLeft === 0) {
+        throw new createHttpError.BadRequest('Selected group has no spots remaining');
+      }
     }
 
     oldGroupId = oldGroup.id;

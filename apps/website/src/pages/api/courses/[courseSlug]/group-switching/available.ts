@@ -53,7 +53,7 @@ function formatEnrichedResults({
     .filter((d) => d.unitNumber !== null && d.unitNumber !== undefined)
     .map((d) => {
       const spotsLeft = typeof maxParticipants === 'number'
-        ? Math.min(0, maxParticipants - d.participantsExpected.length)
+        ? Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length)
         : null;
 
       const group = groupsById[d.group];
