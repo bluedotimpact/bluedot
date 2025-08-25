@@ -13,7 +13,6 @@ export {
   jobPostingTable,
   projectTable,
   groupTable,
-  groupSwitchingTable,
   groupDiscussionTable,
   meetPersonTable,
   zoomAccountTable,

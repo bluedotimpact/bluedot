@@ -261,10 +261,6 @@ export const groupTable = pgAirtable('group', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblyiJSPoniwhi17T',
   columns: {
-    groupName: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldv3jHyWGjR0LxLp',
-    },
     groupDiscussions: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldwEeC65sHvGGRGb',
@@ -272,10 +268,6 @@ export const groupTable = pgAirtable('group', {
     round: {
       pgColumn: text().notNull(),
       airtableId: 'fldtzy3nSP0piVApO',
-    },
-    participants: {
-      pgColumn: text().array().notNull(),
-      airtableId: 'fldcEa25oCDAmgDqm',
     },
   },
 });
@@ -316,14 +308,9 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
-    // TODO switch to the other unitNumber field
     unitNumber: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
-    },
-    unit: {
-      pgColumn: text(),
-      airtableId: 'fldVo5h9rqsEeGSRU',
     },
     zoomLink: {
       pgColumn: text(),
@@ -434,10 +421,6 @@ export const roundTable = pgAirtable('round', {
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
-    },
-    maxParticipantsPerGroup: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldoIzHNm8NzjAefW',
     },
   },
 });
