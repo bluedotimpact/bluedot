@@ -44,10 +44,21 @@ export default makeApiRoute({
   );
 
   if (!courseRegistration) {
-    throw new createHttpError.NotFound('No course registration found');
+    return {
+      type: 'success' as const,
+      groupDiscussion: null,
+    };
   }
 
-  const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  let participant;
+  try {
+    participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  } catch {
+    return {
+      type: 'success' as const,
+      groupDiscussion: null,
+    };
+  }
 
   const roundId = participant.round;
 
