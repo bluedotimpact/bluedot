@@ -87,7 +87,10 @@ function formatEnrichedResults({
       const hasNotStarted = discussion.startDateTime * 1000 > now;
 
       if (!acc[groupId]) {
-        const group = groups.find((g) => g.id === groupId)!;
+        const group = groups.find((g) => g.id === groupId);
+
+        if (!group) return acc; // Not expected to ever happen
+
         acc[groupId] = {
           group,
           spotsLeft,
