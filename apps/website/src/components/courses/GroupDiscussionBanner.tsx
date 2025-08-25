@@ -202,13 +202,15 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     .map((g) => ({
       value: g.group.id,
       label: `${g.group.groupName || `Group ${g.group.id}`} (${g.spotsLeft} spots left)`,
+      disabled: g.spotsLeft !== null && g.spotsLeft <= 0,
     }));
 
   const discussionOptions = discussions
     .filter((d) => !d.userIsParticipant)
     .map((d) => ({
       value: d.discussion.id,
-      label: d.groupName,
+      label: `${d.groupName}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
+      disabled: d.spotsLeft !== null && d.spotsLeft <= 0,
     }));
 
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
@@ -318,7 +320,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 >
                   <option value="">Select a discussion</option>
                   {discussionOptions.map((option) => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
                   ))}
                 </select>
               )}
@@ -332,7 +334,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 >
                   <option value="">Select a group</option>
                   {groupOptions.map((option) => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>
                   ))}
                 </select>
               )}
