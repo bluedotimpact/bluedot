@@ -25,7 +25,7 @@ export const Modal: React.FC<ModalProps> = ({
       isDismissable
       isOpen={isOpen}
       onOpenChange={setIsOpen}
-      className="fixed inset-0 z-10 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
       <AriaModal>
         <Dialog className="bg-white rounded-lg shadow-xl w-full p-10 outline-none">

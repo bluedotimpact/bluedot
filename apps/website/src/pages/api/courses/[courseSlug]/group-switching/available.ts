@@ -20,7 +20,6 @@ type Group = InferSelectModel<typeof groupTable.pg>;
 
 export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
-  // TODO make this an array
   groupsAvailabile: {
     group: Group;
     spotsLeft: number | null;
