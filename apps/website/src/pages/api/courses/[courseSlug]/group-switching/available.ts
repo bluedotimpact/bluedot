@@ -20,7 +20,7 @@ type Group = InferSelectModel<typeof groupTable.pg>;
 
 export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
-  groupsAvailabile: {
+  groupsAvailable: {
     group: Group;
     spotsLeft: number | null;
     nextDiscussionStartDateTime: number | null;
@@ -116,7 +116,7 @@ function formatEnrichedResults({
 
       return acc;
     },
-    {} as Record<string, GetGroupSwitchingAvailableResponse['groupsAvailabile'][0]>,
+    {} as Record<string, GetGroupSwitchingAvailableResponse['groupsAvailable'][0]>,
   );
 
   return { enrichedGroupDiscussionsByUnitNumber, enrichedGroups: Object.values(enrichedGroupsById) };
@@ -126,7 +126,7 @@ export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
     type: z.literal('success'),
-    groupsAvailabile: z.array(z.object({
+    groupsAvailable: z.array(z.object({
       group: z.any(),
       spotsLeft: z.number().nullable(),
       nextDiscussionStartDateTime: z.number().nullable(),
@@ -222,7 +222,7 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    groupsAvailabile: enrichedGroups,
+    groupsAvailable: enrichedGroups,
     discussionsAvailable: enrichedGroupDiscussionsByUnitNumber,
   };
 });
