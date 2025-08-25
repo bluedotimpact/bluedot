@@ -197,7 +197,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const unitOptions = useMemo(() => units.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [units]);
 
-  const groups = switchingData?.groupsAvailabile ? switchingData.groupsAvailabile : [];
+  const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
   const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
     ? switchingData.discussionsAvailable[selectedUnitNumber] || []
     : [];
