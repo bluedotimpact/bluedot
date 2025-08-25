@@ -2,12 +2,14 @@ import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   courseRegistrationTable,
+  courseRunnerBucketTable,
   courseTable,
   groupDiscussionTable,
   groupTable,
   InferSelectModel,
   meetPersonTable,
   roundTable,
+  arrayOverlaps,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
@@ -19,12 +21,12 @@ type Group = InferSelectModel<typeof groupTable.pg>;
 export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
   // TODO make this an array
-  groupsAvailabile: Record<string, {
+  groupsAvailabile: {
     group: Group;
     spotsLeft: number | null;
     nextDiscussionStartDateTime: number | null;
     userIsParticipant: boolean;
-  }>,
+  }[],
   discussionsAvailable: Record<string, {
     discussion: GroupDiscussion
     spotsLeft: number | null;
@@ -115,17 +117,17 @@ function formatEnrichedResults({
 
       return acc;
     },
-    {} as GetGroupSwitchingAvailableResponse['groupsAvailabile'],
+    {} as Record<string, GetGroupSwitchingAvailableResponse['groupsAvailabile'][0]>,
   );
 
-  return { enrichedGroupDiscussionsByUnitNumber, enrichedGroupsById };
+  return { enrichedGroupDiscussionsByUnitNumber, enrichedGroups: Object.values(enrichedGroupsById) };
 }
 
 export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
     type: z.literal('success'),
-    groupsAvailabile: z.record(z.object({
+    groupsAvailabile: z.array(z.object({
       group: z.any(),
       spotsLeft: z.number().nullable(),
       nextDiscussionStartDateTime: z.number().nullable(),
@@ -165,27 +167,63 @@ export default makeApiRoute({
 
   const round = await db.get(roundTable, { id: roundId });
 
-  const groups = await db.scan(groupTable, { round: roundId });
+  /**
+   * Get groups the user is allowed to switch to.
+   *
+   * KNOWN ISSUE: Ideally this would get the buckets that the participant is a member of,
+   * and then look up groups that allow that bucket. Currently the Buckets table in the
+   * course runner base only has the People in the bucket as a list of names like "John Doe | AI Alignment (2024 Mar)",
+   * so we can't reliably look up by participant id.
+   *
+   * WORKAROUND: Look up the group (should be one group, but support many) the user is currently in, then look up
+   * groups that share a bucket with that group. Assume that if the user is allowed in their current group, they
+   * will be allowed in these groups that share a bucket.
+   */
+  const getAllowedGroups = async () => {
+    const allGroups = await db.scan(groupTable, { round: roundId });
 
-  const groupDiscussions = groups.length ? await db.scan(groupDiscussionTable, {
-    OR: groups.map((g) => ({ group: g.id })),
+    const participantGroups = allGroups.filter((g) => g.participants.includes(participant.id));
+
+    const participantGroupIds = participantGroups.map((g) => g.id);
+    if (!participantGroupIds.length) {
+      return [];
+    }
+
+    const allowedBuckets = await db.pg
+      .select()
+      .from(courseRunnerBucketTable.pg)
+      .where(arrayOverlaps(courseRunnerBucketTable.pg.groups, participantGroupIds));
+
+    const allowedGroupIds = new Set<string>();
+    allowedBuckets.forEach((bucket) => {
+      bucket.groups.forEach((groupId) => {
+        allowedGroupIds.add(groupId);
+      });
+    });
+
+    return allGroups.filter((group) => allowedGroupIds.has(group.id));
+  };
+  const allowedGroups = await getAllowedGroups();
+
+  const groupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
+    OR: allowedGroups.map((g) => ({ group: g.id })),
   }) : [];
 
   const maxParticipants = round.maxParticipantsPerGroup;
 
   const {
     enrichedGroupDiscussionsByUnitNumber,
-    enrichedGroupsById,
+    enrichedGroups,
   } = formatEnrichedResults({
     groupDiscussions,
-    groups,
+    groups: allowedGroups,
     maxParticipants,
     participantId: participant.id,
   });
 
   return {
     type: 'success' as const,
-    groupsAvailabile: enrichedGroupsById,
+    groupsAvailabile: enrichedGroups,
     discussionsAvailable: enrichedGroupDiscussionsByUnitNumber,
   };
 });
