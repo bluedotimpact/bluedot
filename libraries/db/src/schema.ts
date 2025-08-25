@@ -277,6 +277,10 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldcEa25oCDAmgDqm',
     },
+    whoCanSwitchIntoThisGroup: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fldVQihgKyx6nJIR5',
+    },
   },
 });
 
@@ -316,7 +320,6 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
-    // TODO switch to the other unitNumber field
     unitNumber: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
@@ -387,6 +390,21 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
     manualRequest: {
       pgColumn: boolean(),
       airtableId: 'fldiXRWPVR1sCH17y',
+    },
+  },
+});
+
+export const courseRunnerBucketTable = pgAirtable('course_runner_bucket', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tbl7Pevw79fDA7EmX',
+  columns: {
+    groups: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'flduxhuBAiLVdfolQ',
+    },
+    round: {
+      pgColumn: text(),
+      airtableId: 'fld0afnDgsNXYim7V',
     },
   },
 });

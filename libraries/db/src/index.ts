@@ -15,6 +15,7 @@ export {
   groupTable,
   groupSwitchingTable,
   groupDiscussionTable,
+  courseRunnerBucketTable,
   meetPersonTable,
   zoomAccountTable,
   roundTable,
