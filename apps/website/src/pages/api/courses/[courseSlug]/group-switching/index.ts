@@ -1,14 +1,17 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
+  arrayContains,
   courseRegistrationTable,
   courseTable,
+  and,
   groupDiscussionTable,
   groupSwitchingTable,
   groupTable,
   InferSelectModel,
   meetPersonTable,
   roundTable,
+  inArray,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
@@ -96,12 +99,15 @@ export default makeApiRoute({
   const maxParticipants = round.maxParticipantsPerGroup;
 
   if (isTemporarySwitch) {
-    // Error will be thrown here if either are not found
+    // Error will be thrown here if oldDiscussion is not found
     const [oldDiscussion, newDiscussion] = await Promise.all([
       db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
       !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
     ]);
 
+    if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+      throw new createHttpError.BadRequest('Facilitators cannot switch groups by this method');
+    }
     if (!oldDiscussion.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User not found in old discussion');
     }
@@ -124,12 +130,31 @@ export default makeApiRoute({
     oldDiscussionId = inputOldDiscussionId!;
     newDiscussionId = inputNewDiscussionId ?? null;
   } else {
-    // Error will be thrown here if either are not found
-    const [oldGroup, newGroup] = await Promise.all([
+    // Error will be thrown here if oldGroup is not found
+    const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
       db.get(groupTable, { id: inputOldGroupId }),
       !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
+      db.pg
+        .select()
+        .from(groupDiscussionTable.pg)
+        .where(
+          and(
+            arrayContains(groupDiscussionTable.pg.facilitators, [
+              participantId,
+            ]),
+            inArray(
+              groupDiscussionTable.pg.group,
+              [inputOldGroupId, inputNewGroupId].filter(
+                (v): v is string => v !== null,
+              ),
+            ),
+          ),
+        ),
     ]);
 
+    if (discussionsFacilitatedByParticipant.length) {
+      throw new createHttpError.BadRequest('Facilitators cannot switch groups by this method');
+    }
     if (!oldGroup.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is not a member of old group');
     }
