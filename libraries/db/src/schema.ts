@@ -325,7 +325,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       airtableId: 'fldYFQwPDKdzIAy93',
     },
     round: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fld6z76NthgaFf8EY',
     },
   },
@@ -389,11 +389,11 @@ export const meetPersonTable = pgAirtable('meet_person', {
       airtableId: 'fldP4ejaYy137J5Md',
     },
     applicationsBaseRecordId: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
     round: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fld8KD3BUPbCHHHqE',
     },
   },

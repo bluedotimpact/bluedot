@@ -62,6 +62,13 @@ export default makeApiRoute({
 
   const roundId = participant.round;
 
+  if (!roundId) {
+    return {
+      type: 'success' as const,
+      groupDiscussion: null,
+    };
+  }
+
   const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
 
   // Look up group discussions for this user that haven't ended yet (with 15 min leeway)
