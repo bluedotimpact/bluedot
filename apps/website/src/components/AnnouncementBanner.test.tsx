@@ -142,11 +142,9 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders when banner has not been dismissed', () => {
-    const ctaText = 'Learn more';
-    const ctaUrl = 'https://example.com';
-
+    // Initial state has no dismissed banners (set in beforeEach)
     render(
-      <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
+      <AnnouncementBanner ctaText= 'Learn more' ctaUrl= 'https://example.com'>
         Test Announcement
       </AnnouncementBanner>,
     );
