@@ -89,7 +89,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             aria-label="Close announcement"
             onClick={() => dismissBanner(bannerKey)}
           >
-            x
+            <span aria-hidden="true">&times;</span>
           </CTALinkOrButton>
         </div>
       </div>
