@@ -23,6 +23,8 @@ import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitNumbe
 import { FaviconImage } from './FaviconImage';
 // eslint-disable-next-line import/no-cycle
 import { ResourceDisplay } from './ResourceDisplay';
+// eslint-disable-next-line import/no-cycle
+import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
@@ -353,8 +355,10 @@ const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
 
           {/* Resource guide */}
           {resource.resourceGuide && (
-            <div className="resource-item__guide mt-4 text-gray-700 text-[15px] font-normal leading-[160%] tracking-[-0.002em]">
-              {resource.resourceGuide}
+            <div className="resource-item__guide mt-4">
+              <MarkdownExtendedRenderer className="text-gray-700 text-[15px] font-normal leading-[160%] tracking-[-0.002em]">
+                {resource.resourceGuide}
+              </MarkdownExtendedRenderer>
             </div>
           )}
 
