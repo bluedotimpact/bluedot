@@ -6,6 +6,25 @@ import React from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { P } from './Text';
 
+/**
+ * Generates a unique key for an announcement banner based on its content.
+ * Uses a djb2 hash algorithm to create a stable, short identifier.
+ * Source: https://stackoverflow.com/questions/7666509/hash-function-for-string/7666577#7666577
+ *
+ * @param children - The React children (content) of the banner
+ * @returns A base-36 encoded hash string that uniquely identifies the content
+ */
+export const getAnnouncementBannerKey = (children: React.ReactNode) => {
+  const str = String(children);
+  let hash = 5381;
+
+  for (let i = 0; i < str.length; i++) {
+    hash = hash * 33 + str.charCodeAt(i);
+  }
+
+  return Math.abs(hash).toString(36);
+};
+
 export type AnnouncementBannerProps = React.PropsWithChildren<{
   className?: string;
   ctaText?: string;
@@ -25,7 +44,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   hideUntil,
   hideAfter,
 }) => {
-  const bannerKey = `${ctaText}-${ctaUrl}`;
+  const bannerKey = getAnnouncementBannerKey(children);
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
   // If this banner has been dismissed (now or in the past) don't show it
   const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
