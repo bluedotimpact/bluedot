@@ -78,7 +78,6 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             <CTALinkOrButton
               className="announcement-banner__cta"
               variant="black"
-              aria-label={ctaText}
               url={ctaUrl}
             >
               {ctaText}
