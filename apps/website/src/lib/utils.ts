@@ -34,14 +34,7 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
 
 type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 /**
- * KNOWN ISSUE: Due to race conditions and Airtable limitations, multiple course registrations
- * can be created for the same user/course combination. The course registration creation endpoint
- * has duplicate prevention logic, but concurrent requests can slip through. Airtable doesn't
- * support unique and solving this would have been trivial if we just were using a traditional DB
- *
- * WORKAROUND: Instead of using db.get() which expects exactly one record, use db.scan()
- * to find all matching registrations and then pass it to this function, which will select the
- * first one based on a stable sort by ID. This ensures consistent behavior even when duplicates exist.
+ * Workaround for duplicates existing in rare cases, see issue: https://github.com/bluedotimpact/bluedot/issues/1249
  */
 export const stablePickCourseRegistration = (
   courseRegistrations: CourseRegistration[],
