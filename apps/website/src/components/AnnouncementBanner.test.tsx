@@ -164,5 +164,9 @@ describe('AnnouncementBanner', () => {
     fireEvent.click(closeButton);
 
     expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({ [bannerKey]: true });
+
+    // Banner should not be rendered
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).toBeNull();
   });
 });
