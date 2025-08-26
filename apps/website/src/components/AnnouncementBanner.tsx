@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
-import clsx from 'clsx';
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
-import { P } from './Text';
+import clsx from 'clsx';
+import React from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
+import { P } from './Text';
 
 export type AnnouncementBannerProps = React.PropsWithChildren<{
   className?: string;
