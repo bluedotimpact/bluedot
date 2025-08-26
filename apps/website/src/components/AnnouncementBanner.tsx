@@ -59,7 +59,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             <CTALinkOrButton
               className="announcement-banner__close"
               variant="outline-black"
-              aria-label="close"
+              aria-label="Close announcement"
               onClick={() => dismissBanner(bannerKey)}
             >
               x
