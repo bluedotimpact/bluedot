@@ -1,5 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, test } from 'vitest';
+import {
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from 'vitest';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { AnnouncementBanner } from './AnnouncementBanner';
 
@@ -128,7 +133,7 @@ describe('AnnouncementBanner', () => {
     const { container } = render(
       <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
         Test Announcement
-      </AnnouncementBanner>
+      </AnnouncementBanner>,
     );
 
     // Banner should not be rendered
@@ -141,7 +146,7 @@ describe('AnnouncementBanner', () => {
     render(
       <AnnouncementBanner ctaText="Learn more" ctaUrl="https://example.com">
         Test Announcement
-      </AnnouncementBanner>
+      </AnnouncementBanner>,
     );
 
     // Banner should be rendered
@@ -157,7 +162,7 @@ describe('AnnouncementBanner', () => {
     render(
       <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
         Test Announcement
-      </AnnouncementBanner>
+      </AnnouncementBanner>,
     );
 
     const closeButton = screen.getByRole('button', { name: 'Close announcement' });
