@@ -407,8 +407,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
 
           {/* Chunk resources and exercises - Show if there are any resources or exercises */}
-          {chunks[currentChunkIndex] && (
-            (chunks[currentChunkIndex].resources?.length || chunks[currentChunkIndex].exercises?.length) && (
+          {chunks[currentChunkIndex]
+            && (chunks[currentChunkIndex].resources?.length || chunks[currentChunkIndex].exercises?.length) ? (
               <ResourceDisplay
                 resources={chunks[currentChunkIndex].resources || []}
                 exercises={chunks[currentChunkIndex].exercises || []}
@@ -419,8 +419,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   (chunks[currentChunkIndex]?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
                 )}
               />
-            )
-          )}
+            ) : null}
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">

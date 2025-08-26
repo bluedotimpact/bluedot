@@ -464,7 +464,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                                 key={chunk.id}
                                 onClick={() => handleChunkClick(index)}
                                 className={clsx(
-                                  'flex items-start px-6 py-4 gap-3 text-left transition-colors rounded-lg',
+                                  'flex items-center px-6 py-4 gap-3 text-left transition-colors rounded-lg',
                                   isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
                                 )}
                               >
