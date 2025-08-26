@@ -23,7 +23,15 @@
         "bradlc.vscode-tailwindcss",
         "figma.figma-vscode-extension",
         "yzhang.markdown-all-in-one"
-      ]
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
+      }
     }
   }
 }
