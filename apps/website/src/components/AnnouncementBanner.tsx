@@ -15,7 +15,15 @@ import { P } from './Text';
  * @returns A base-36 encoded hash string that uniquely identifies the content
  */
 export const getAnnouncementBannerKey = (children: React.ReactNode) => {
-  const str = String(children);
+  const textFromNode = (node: React.ReactNode): string => {
+    if (node == null || typeof node === 'boolean') return '';
+    if (typeof node === 'string' || typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(textFromNode).join(' ');
+    if (React.isValidElement(node)) return textFromNode(node.props?.children);
+    return '';
+  };
+
+  const str = textFromNode(children).trim();
   let hash = 5381;
 
   for (let i = 0; i < str.length; i++) {
