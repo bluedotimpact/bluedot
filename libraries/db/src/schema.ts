@@ -262,7 +262,7 @@ export const groupTable = pgAirtable('group', {
   tableId: 'tblyiJSPoniwhi17T',
   columns: {
     groupName: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldv3jHyWGjR0LxLp',
     },
     groupDiscussions: {
