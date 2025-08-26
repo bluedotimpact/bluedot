@@ -157,6 +157,7 @@ describe('AnnouncementBanner', () => {
   test('calls dismissBanner when close button is clicked', () => {
     const ctaText = 'Click Here';
     const ctaUrl = 'https://example.com';
+    const bannerKey = `${ctaText}-${ctaUrl}`;
 
     render(
       <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
@@ -167,7 +168,6 @@ describe('AnnouncementBanner', () => {
     const closeButton = screen.getByRole('button', { name: 'Close announcement' });
     fireEvent.click(closeButton);
 
-    const bannerKey = `${ctaText}-${ctaUrl}`;
     expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({[bannerKey]: true });
   });
 });
