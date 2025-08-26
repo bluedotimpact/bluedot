@@ -1,8 +1,18 @@
-import { describe, expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from 'vitest';
+import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { AnnouncementBanner } from './AnnouncementBanner';
 
 describe('AnnouncementBanner', () => {
+  beforeEach(() => {
+    useAnnouncementBannerStore.setState({ dismissedBanners: {} });
+  });
+
   test('renders the banner with content', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
@@ -110,5 +120,56 @@ describe('AnnouncementBanner', () => {
     // Banner should be rendered
     const banner = document.querySelector('.announcement-banner');
     expect(banner).toBeDefined();
+  });
+
+  test('does not render when banner has been dismissed', () => {
+    const ctaText = 'Learn more';
+    const ctaUrl = 'https://example.com';
+    const bannerKey = `${ctaText}-${ctaUrl}`;
+
+    // Set up dismissed banner state
+    useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
+
+    const { container } = render(
+      <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
+        Test Announcement
+      </AnnouncementBanner>,
+    );
+
+    // Banner should not be rendered
+    const banner = container.querySelector('.announcement-banner');
+    expect(banner).toBeNull();
+  });
+
+  test('renders when banner has not been dismissed', () => {
+    const ctaText = 'Learn more';
+    const ctaUrl = 'https://example.com';
+
+    render(
+      <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
+        Test Announcement
+      </AnnouncementBanner>,
+    );
+
+    // Banner should be rendered
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).toBeDefined();
+  });
+
+  test('calls dismissBanner when close button is clicked', () => {
+    const ctaText = 'Click Here';
+    const ctaUrl = 'https://example.com';
+
+    render(
+      <AnnouncementBanner ctaText={ctaText} ctaUrl={ctaUrl}>
+        Test Announcement
+      </AnnouncementBanner>,
+    );
+
+    const closeButton = screen.getByRole('button', { name: 'Close announcement' });
+    fireEvent.click(closeButton);
+
+    const bannerKey = `${ctaText}-${ctaUrl}`;
+    expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({[bannerKey]: true });
   });
 });
