@@ -116,7 +116,7 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
 5. **Run development server**
    ```bash
    cd apps/website
-   npm run dev
+   npm run start
    ```
 
 ### Test Resources

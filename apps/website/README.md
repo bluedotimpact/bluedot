@@ -2,7 +2,7 @@
 
 Quick links:
 - [Production version](https://bluedot.org/)
-- [Staging version](https://website.k8s.bluedot.org/)
+- [Staging version](https://website-staging.k8s.bluedot.org/)
 - [Storybook](https://bluedot-storybook.k8s.bluedot.org/)
 - [Designs](https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File)
 
@@ -69,7 +69,8 @@ To run the [Storybook app](../storybook/README.md) locally:
 
 ```bash
 # from the root of the repo
-npm run start --workspace=apps/storybook
+cd apps/storybook
+npm install && npm run start
 ```
 
 Our storybook is deployed to [https://storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org).
