@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
 import { P } from './Text';
+import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 
 export type AnnouncementBannerProps = React.PropsWithChildren<{
   className?: string;
@@ -22,6 +23,8 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   hideUntil,
   hideAfter,
 }) => {
+  const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
+  const bannerKey = `${ctaText}-${ctaUrl}`;
   if (hideUntil && Date.now() < hideUntil.getTime()) {
     return null;
   }
@@ -39,13 +42,19 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
       <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         <P className="announcement-banner__content text-center sm:text-left">{children}</P>
         {ctaUrl && (
-          <CTALinkOrButton
-            className="announcement-banner__cta"
-            variant="secondary"
-            url={ctaUrl}
-          >
-            {ctaText}
-          </CTALinkOrButton>
+          <div className="flex gap-2">
+            <CTALinkOrButton
+              className="announcement-banner__cta"
+              variant="black"
+              aria-label={ctaText}
+              url={ctaUrl}
+            >
+              {ctaText}
+            </CTALinkOrButton>
+            <CTALinkOrButton className="announcement-banner__close" variant="outline-black" aria-label="close" onClick={() => dismissBanner(bannerKey)}>
+              x
+            </CTALinkOrButton>
+          </div>
         )}
       </div>
     </div>
