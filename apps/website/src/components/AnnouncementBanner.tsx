@@ -45,8 +45,8 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
     <div className={clsx('announcement-banner w-full py-4 bg-bluedot-lighter', className)}>
       <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         <P className="announcement-banner__content text-center sm:text-left">{children}</P>
-        {ctaUrl && (
-          <div className="flex gap-2">
+        <div className="flex gap-2">
+          {ctaUrl && (
             <CTALinkOrButton
               className="announcement-banner__cta"
               variant="black"
@@ -55,16 +55,16 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
             >
               {ctaText}
             </CTALinkOrButton>
-            <CTALinkOrButton
-              className="announcement-banner__close"
-              variant="outline-black"
-              aria-label="Close announcement"
-              onClick={() => dismissBanner(bannerKey)}
-            >
-              x
-            </CTALinkOrButton>
-          </div>
-        )}
+          )}
+          <CTALinkOrButton
+            className="announcement-banner__close"
+            variant="outline-black"
+            aria-label="Close announcement"
+            onClick={() => dismissBanner(bannerKey)}
+          >
+            x
+          </CTALinkOrButton>
+        </div>
       </div>
     </div>
   );
