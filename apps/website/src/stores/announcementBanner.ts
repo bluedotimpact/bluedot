@@ -6,7 +6,7 @@ export const useAnnouncementBannerStore = create<{
   dismissBanner: (key: string) => void;
 }>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       dismissedBanners: {},
       dismissBanner: (key: string) =>
         set((state) => ({
