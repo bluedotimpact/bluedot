@@ -30,7 +30,8 @@ export const getAnnouncementBannerKey = (children: React.ReactNode) => {
     hash = hash * 33 + str.charCodeAt(i);
   }
 
-  return Math.abs(hash).toString(36);
+  // Convert to a positive number and then to base-36 string, taking first 8 characters
+  return Math.abs(hash).toString(36).slice(0, 8);
 };
 
 export type AnnouncementBannerProps = React.PropsWithChildren<{
