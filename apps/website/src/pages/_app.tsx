@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Footer } from '@bluedot/ui';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
 import { Nav } from '../components/Nav/Nav';
@@ -11,7 +12,7 @@ import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
-import dynamic from 'next/dynamic'
+
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
