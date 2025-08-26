@@ -12,7 +12,7 @@ import { P } from './Text';
  * Source: https://stackoverflow.com/questions/7666509/hash-function-for-string/7666577#7666577
  *
  * @param children - The React children (content) of the banner
- * @returns A base-36 encoded hash string that uniquely identifies the content
+ * @returns An 8 character base-36 encoded hash string that uniquely identifies the content
  */
 export const getAnnouncementBannerKey = (children: React.ReactNode) => {
   const textFromNode = (node: React.ReactNode): string => {
