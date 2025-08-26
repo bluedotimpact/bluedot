@@ -34,7 +34,7 @@ export type GetGroupSwitchingAvailableResponse = {
   }[]>
 };
 
-function formatEnrichedResults({
+function calculateGroupAvailability({
   groupDiscussions,
   groups,
   maxParticipants,
@@ -45,84 +45,99 @@ function formatEnrichedResults({
   maxParticipants: number | null | undefined;
   participantId: string;
 }) {
-  const groupsById = groups.reduce((acc, group) => {
-    acc[group.id] = group;
-    return acc;
-  }, {} as Record<string, Group>);
+  const groupsById: Record<string, Group> = {};
+  for (const group of groups) {
+    groupsById[group.id] = group;
+  }
 
-  const enrichedGroupDiscussions = groupDiscussions
-    .filter((d) => d.unitNumber !== null && d.unitNumber !== undefined)
-    .map((d) => {
-      const spotsLeft = typeof maxParticipants === 'number'
-        ? Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length)
-        : null;
+  const discussionsByUnit: Record<string, {
+    discussion: GroupDiscussion;
+    spotsLeft: number | null;
+    userIsParticipant: boolean;
+    groupName: string;
+  }[]> = {};
 
-      const group = groupsById[d.group];
-      const groupName = group?.groupName || 'Group [Unknown]';
-
-      return {
-        discussion: d,
-        spotsLeft,
-        userIsParticipant: d.participantsExpected.includes(participantId),
-        groupName,
-      };
-    });
-
-  const enrichedGroupDiscussionsByUnitNumber = enrichedGroupDiscussions.reduce(
-    (acc, enrichedDiscussion) => {
-      const unitNumber = enrichedDiscussion.discussion.unitNumber!;
-      if (!acc[unitNumber]) {
-        acc[unitNumber] = [];
-      }
-      acc[unitNumber].push(enrichedDiscussion);
-      return acc;
-    },
-    {} as GetGroupSwitchingAvailableResponse['discussionsAvailable'],
-  );
+  const groupData: Record<string, {
+    group: Group;
+    spotsLeft: number | null;
+    nextDiscussionStartDateTime: number | null;
+    userIsParticipant: boolean;
+  }> = {};
 
   const now = Date.now();
-  const enrichedGroupsById = enrichedGroupDiscussions.reduce(
-    (acc, { discussion, spotsLeft }) => {
-      const groupId = discussion.group;
-      const hasNotStarted = discussion.startDateTime * 1000 > now;
 
-      if (!acc[groupId]) {
-        const group = groups.find((g) => g.id === groupId);
+  for (const discussion of groupDiscussions) {
+    // Skip discussions without unit numbers
+    // eslint-disable-next-line no-continue
+    if (discussion.unitNumber == null) continue;
 
-        if (!group) return acc; // Not expected to ever happen
+    const group = groupsById[discussion.group];
+    // eslint-disable-next-line no-continue
+    if (!group) continue;
 
-        acc[groupId] = {
-          group,
-          spotsLeft,
-          nextDiscussionStartDateTime: hasNotStarted
-            ? discussion.startDateTime
-            : null,
-          userIsParticipant: group.participants.includes(participantId),
-        };
-        return acc;
+    // Calculate spots left for this discussion
+    const otherParticipants = discussion.participantsExpected.filter((id) => id !== participantId);
+    const spotsLeft = typeof maxParticipants === 'number'
+      ? Math.max(0, maxParticipants - otherParticipants.length)
+      : null;
+
+    const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    const groupName = group.groupName || 'Group [Unknown]';
+
+    // Add to discussions by unit
+    const unitKey = discussion.unitNumber.toString();
+    if (!discussionsByUnit[unitKey]) {
+      discussionsByUnit[unitKey] = [];
+    }
+
+    discussionsByUnit[unitKey].push({
+      discussion,
+      spotsLeft,
+      userIsParticipant,
+      groupName,
+    });
+
+    // Update group data
+    const groupId = discussion.group;
+    const hasNotStarted = discussion.startDateTime * 1000 > now;
+
+    if (!groupData[groupId]) {
+      // First time seeing this group
+      groupData[groupId] = {
+        group,
+        spotsLeft,
+        nextDiscussionStartDateTime: hasNotStarted ? discussion.startDateTime : null,
+        userIsParticipant: group.participants.includes(participantId),
+      };
+    } else {
+      // Update existing group data
+      const existing = groupData[groupId];
+
+      // Update spots left (take minimum of existing and current)
+      if (existing.spotsLeft !== null && spotsLeft !== null) {
+        existing.spotsLeft = Math.min(existing.spotsLeft, spotsLeft);
+      } else if (spotsLeft !== null) {
+        existing.spotsLeft = spotsLeft;
       }
 
-      const spotsLeftValues = [acc[groupId].spotsLeft, spotsLeft].filter(
-        (v): v is number => typeof v === 'number',
-      );
-      acc[groupId].spotsLeft = spotsLeftValues.length
-        ? Math.min(...spotsLeftValues)
-        : null;
-
+      // Update next discussion start time (earliest upcoming)
       if (hasNotStarted) {
-        const newMin = Math.min(
-          acc[groupId].nextDiscussionStartDateTime ?? Infinity,
-          discussion.startDateTime,
-        );
-        acc[groupId].nextDiscussionStartDateTime = newMin !== Infinity ? newMin : null;
+        if (existing.nextDiscussionStartDateTime === null) {
+          existing.nextDiscussionStartDateTime = discussion.startDateTime;
+        } else {
+          existing.nextDiscussionStartDateTime = Math.min(
+            existing.nextDiscussionStartDateTime,
+            discussion.startDateTime,
+          );
+        }
       }
+    }
+  }
 
-      return acc;
-    },
-    {} as Record<string, GetGroupSwitchingAvailableResponse['groupsAvailable'][0]>,
-  );
-
-  return { enrichedGroupDiscussionsByUnitNumber, enrichedGroups: Object.values(enrichedGroupsById) };
+  return {
+    discussionsAvailable: discussionsByUnit,
+    groupsAvailable: Object.values(groupData),
+  };
 }
 
 export default makeApiRoute({
@@ -218,9 +233,9 @@ export default makeApiRoute({
   const maxParticipants = round.maxParticipantsPerGroup;
 
   const {
-    enrichedGroupDiscussionsByUnitNumber,
-    enrichedGroups,
-  } = formatEnrichedResults({
+    discussionsAvailable,
+    groupsAvailable,
+  } = calculateGroupAvailability({
     groupDiscussions,
     groups: allowedGroups,
     maxParticipants,
@@ -229,7 +244,7 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    groupsAvailable: enrichedGroups,
-    discussionsAvailable: enrichedGroupDiscussionsByUnitNumber,
+    groupsAvailable,
+    discussionsAvailable,
   };
 });
