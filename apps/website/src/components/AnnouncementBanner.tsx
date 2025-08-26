@@ -28,8 +28,8 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   const bannerKey = `${ctaText}-${ctaUrl}`;
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
   // If this banner has been dismissed (now or in the past) don't show it
-  const dismissedBanners = useAnnouncementBannerStore((state) => state.dismissedBanners);
-  if (Boolean(dismissedBanners[bannerKey])) {
+  const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
+  if (isDismissed) {
     return null;
   }
 
