@@ -167,6 +167,10 @@ export default makeApiRoute({
 
   const roundId = participant.round;
 
+  if (!roundId) {
+    throw new createHttpError.NotFound('No course round found');
+  }
+
   const round = await db.get(roundTable, { id: roundId });
 
   /**

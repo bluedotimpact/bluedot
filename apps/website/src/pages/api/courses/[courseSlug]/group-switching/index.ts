@@ -95,7 +95,13 @@ export default makeApiRoute({
   let oldDiscussionId: string | null = null;
   let newDiscussionId: string | null = null;
 
-  const round = await db.get(roundTable, { id: participant.round });
+  const roundId = participant.round;
+
+  if (!roundId) {
+    throw new createHttpError.NotFound('No course round found');
+  }
+
+  const round = await db.get(roundTable, { id: roundId });
   const maxParticipants = round.maxParticipantsPerGroup;
 
   if (isTemporarySwitch) {
