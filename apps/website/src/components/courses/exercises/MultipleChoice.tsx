@@ -97,6 +97,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       <div className="multiple-choice__options flex flex-col gap-2">
         {formattedOptions.map((option) => (
           <Input
+            key={option}
             {...register('answer')}
             labelClassName={`
               multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
