@@ -423,11 +423,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               />
             ) : null}
 
-          {/* Keyboard navigation hint */}
-          <div className="unit__keyboard-hint">
-            <KeyboardNav />
-          </div>
-
           {(!nextUnit && isLastChunk) ? (
             <>
               <Congratulations courseTitle={unit.courseTitle} coursePath={unit.coursePath} courseId={unit.courseId} />
@@ -451,6 +446,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               </CTALinkOrButton>
             </div>
           )}
+
+          {/* Bottom-most section, underneath 'continue' button */}
+          <div className="hidden md:block">
+            <hr className="mt-12 mb-4" />
+            <KeyboardNav />
+          </div>
         </div>
       </Section>
 
