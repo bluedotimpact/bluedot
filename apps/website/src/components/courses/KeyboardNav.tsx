@@ -12,7 +12,7 @@ const shortcuts = [
 const KeyboardNav = () => {
   return (
     <DialogTrigger>
-      <Button className="transition-color hidden cursor-pointer items-center justify-center gap-1.5 rounded-md bg-gray-200 p-2 duration-200 hover:bg-gray-300 md:flex">
+      <Button className="transition-color hidden cursor-pointer items-center justify-center gap-1.5 rounded-md p-2 duration-200 hover:bg-gray-200 md:flex">
         <FiCommand className="size-4" />
         Shortcuts
       </Button>
