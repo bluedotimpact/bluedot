@@ -24,6 +24,7 @@ import {
 } from '../Text';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import { ResourceDisplay } from './ResourceDisplay';
+import KeyboardNav from './KeyboardNav';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -423,8 +424,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             ) : null}
 
           {/* Keyboard navigation hint */}
-          <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Tip: Use ←/→ to navigate sections, and Cmd+B (Ctrl+B on Windows/Linux) to toggle the sidebar.</p>
+          <div className="unit__keyboard-hint text-size-md">
+            <KeyboardNav />
           </div>
 
           {(!nextUnit && isLastChunk) ? (
