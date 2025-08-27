@@ -1,7 +1,6 @@
 import React from 'react';
 import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
-// eslint-disable-next-line import/no-cycle
-import { ResourceListItem } from './ResourceListCourseContent';
+import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
 import Callout from './Callout';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
