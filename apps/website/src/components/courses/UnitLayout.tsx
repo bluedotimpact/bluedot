@@ -440,9 +440,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </>
           ) : (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0">
+            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <CTALinkOrButton
-                className="unit__cta-link ml-auto"
+                className="unit__cta-link"
                 onClick={handleNextClick}
                 variant="primary"
                 withChevron
