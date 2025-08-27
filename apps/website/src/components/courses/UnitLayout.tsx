@@ -436,7 +436,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* Keyboard navigation hint */}
           <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Tip: Use ←/→ or 1-9 to navigate sections, and Cmd+B (Ctrl+B on Windows/Linux) to toggle the sidebar.</p>
+            <p>Use ←/→ or 1-9 to navigate, and Cmd/Ctrl+B to toggle sidebar.</p>
           </div>
 
           {(!nextUnit && isLastChunk) ? (
