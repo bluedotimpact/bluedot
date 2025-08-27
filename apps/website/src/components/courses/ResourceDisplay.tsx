@@ -1,7 +1,6 @@
 import React from 'react';
 import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
-// eslint-disable-next-line import/no-cycle
-import { ResourceListItem } from './ResourceListCourseContent';
+import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
 import Callout from './Callout';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
@@ -81,7 +80,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
             id={resourcesHeadingId}
             className="text-[20px] font-semibold leading-[140%] tracking-normal mb-6 bluedot-h4 not-prose"
           >
-            Resources ({formatResourceTime(totalCoreResourceTime)})
+            Resources{totalCoreResourceTime > 0 ? ` (${formatResourceTime(totalCoreResourceTime)})` : ''}
           </h4>
           <div className="flex flex-col gap-6" role="list" aria-labelledby={resourcesHeadingId}>
             {coreResources.map((resource) => (
