@@ -47,8 +47,8 @@ export default makeApiRoute({
     courses: z.array(z.any()),
   }),
 }, async () => {
-  // For now, just get all courses that should be displayed on the course hub
-  const courses = await db.scan(courseTable, { displayOnCourseHubIndex: true });
+  // Filter for active courses
+  const courses = await db.scan(courseTable, { status: 'Active' });
 
   return {
     type: 'success' as const,
