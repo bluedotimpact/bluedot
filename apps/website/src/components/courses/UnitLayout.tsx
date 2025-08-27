@@ -424,7 +424,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             ) : null}
 
           {/* Keyboard navigation hint */}
-          <div className="unit__keyboard-hint text-size-md">
+          <div className="unit__keyboard-hint">
             <KeyboardNav />
           </div>
 
