@@ -12,7 +12,7 @@ const shortcuts = [
 const KeyboardNav = () => {
   return (
     <DialogTrigger>
-      <Button className="flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-gray-200 p-2">
+      <Button className="flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-gray-200 p-2 hover:bg-gray-300">
         <FiCommand className="size-4" />
         Shortcuts
       </Button>
