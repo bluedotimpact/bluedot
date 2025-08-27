@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import KeyboardNav from './KeyboardNav';
+import KeyboardNavMenu from './KeyboardNavMenu';
 
 const meta = {
-  title: 'website/KeyboardNav',
-  component: KeyboardNav,
+  title: 'website/KeyboardNavMenu',
+  component: KeyboardNavMenu,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
   args: {},
-} satisfies Meta<typeof KeyboardNav>;
+} satisfies Meta<typeof KeyboardNavMenu>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -9,7 +9,7 @@ const shortcuts = [
   { action: 'Previous chunk or unit', keys: ['←'] },
 ] as const;
 
-const KeyboardNav = () => {
+const KeyboardNavMenu = () => {
   return (
     <DialogTrigger>
       <Button className="transition-color flex cursor-pointer items-center justify-center gap-1.5 rounded-md p-2 duration-200 hover:bg-gray-200">
@@ -40,4 +40,4 @@ const KeyboardNav = () => {
   );
 };
 
-export default KeyboardNav;
+export default KeyboardNavMenu;

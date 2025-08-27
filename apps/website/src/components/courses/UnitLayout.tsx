@@ -16,7 +16,7 @@ import {
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
-import KeyboardNav from './KeyboardNav';
+import KeyboardNavMenu from './KeyboardNavMenu';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
@@ -450,7 +450,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {/* Bottom-most section, underneath 'continue' button */}
           <div className="hidden md:block">
             <hr className="mt-12 mb-4" />
-            <KeyboardNav />
+            <KeyboardNavMenu />
           </div>
         </div>
       </Section>
