@@ -16,20 +16,21 @@ const KeyboardNav = () => {
         <FiCommand className="size-4" />
         Shortcuts
       </Button>
-        <Dialog>
-          <div className="flex-col">
-            <h3 className="font-semibold">Inside courses</h3>
       <Popover placement="top start">
+        <Dialog className="min-w-[270px] rounded border-[0.5px] border-gray-300 bg-white p-4 shadow-sm">
+          <div className="flex flex-col gap-2">
+            <h3 className="mb-1 font-semibold">Inside courses</h3>
             {shortcuts.map(({ action, keys }) => (
               <div key={action} className="flex items-center justify-between">
                 <span>{action}</span>
-                <div className="flex gap-1">
-                  {keys.map((key) => (
-                    <Keyboard key={key} className="rounded border bg-blue-100 px-2 py-1">
-                      {key}
-                    </Keyboard>
-                  ))}
-                </div>
+                {keys.map((key) => (
+                  <Keyboard
+                    key={key}
+                    className="flex min-w-[34px] items-center justify-center rounded border border-blue-300 bg-blue-100 px-2 py-1 text-blue-600"
+                  >
+                    {key}
+                  </Keyboard>
+                ))}
               </div>
             ))}
           </div>
