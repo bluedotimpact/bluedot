@@ -246,8 +246,8 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const keyboardNav = getByText('Shortcuts');
-    expect(keyboardNav).toBeTruthy();
+    const keyboardNavMenu = getByText('Shortcuts');
+    expect(keyboardNavMenu).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
