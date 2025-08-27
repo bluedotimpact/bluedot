@@ -26,7 +26,7 @@ const KeyboardNav = () => {
                 {keys.map((key) => (
                   <Keyboard
                     key={key}
-                    className="flex min-w-[34px] items-center justify-center rounded border border-blue-300 bg-blue-100 px-2 py-1 text-blue-600"
+                    className="flex min-w-[34px] items-center justify-center rounded border border-blue-300 bg-blue-100 px-2 py-1 text-blue-700"
                   >
                     {key}
                   </Keyboard>
