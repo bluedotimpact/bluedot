@@ -231,8 +231,8 @@ describe('UnitLayout', () => {
     expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 
-  test('keyboard navigation hint is displayed', async () => {
-    const { container } = render(
+  test('keyboard navigation component is displayed', async () => {
+    const { container, getByText } = render(
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
@@ -246,9 +246,8 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const hint = container.querySelector('.unit__keyboard-hint');
-    expect(hint).toBeTruthy();
-    expect(hint?.textContent).toContain('Use ←/→ to navigate sections');
+    const keyboardNav = getByText('Shortcuts');
+    expect(keyboardNav).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
