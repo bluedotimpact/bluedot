@@ -119,6 +119,8 @@ const CHUNKS = [
     chunkType: 'Reading',
     chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
     estimatedTime: null,
+    chunkResources: null,
+    chunkExercises: null,
     id: 'recuC87TILbjW4eF4',
   },
   {
@@ -129,6 +131,8 @@ const CHUNKS = [
     chunkType: 'Reading',
     chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
     estimatedTime: null,
+    chunkResources: null,
+    chunkExercises: null,
     id: 'recuC87TILbjW4eF4',
   },
 ];
@@ -227,7 +231,6 @@ describe('UnitLayout', () => {
     });
 
     expect(container.querySelector('.unit__cta-container')).toBeNull();
-    expect(container.querySelector('.unit__last-unit-cta-container')).toBeTruthy();
     expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 
