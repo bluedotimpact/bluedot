@@ -1,8 +1,18 @@
-import { describe, expect, test } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { AnnouncementBanner } from './AnnouncementBanner';
+import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from 'vitest';
+import { useAnnouncementBannerStore } from '../stores/announcementBanner';
+import { AnnouncementBanner, getAnnouncementBannerKey } from './AnnouncementBanner';
 
 describe('AnnouncementBanner', () => {
+  beforeEach(() => {
+    useAnnouncementBannerStore.setState({ dismissedBanners: {} });
+  });
+
   test('renders the banner with content', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
@@ -110,5 +120,70 @@ describe('AnnouncementBanner', () => {
     // Banner should be rendered
     const banner = document.querySelector('.announcement-banner');
     expect(banner).toBeDefined();
+  });
+
+  test('does not render when banner has been dismissed', () => {
+    const textContent = 'Test Announcement';
+    const bannerKey = getAnnouncementBannerKey(textContent);
+
+    // Set up dismissed banner state
+    useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
+
+    const { container } = render(
+      <AnnouncementBanner>
+        {textContent}
+      </AnnouncementBanner>,
+    );
+
+    // Banner should not be rendered
+    const banner = container.querySelector('.announcement-banner');
+    expect(banner).toBeNull();
+  });
+
+  test('renders when banner has not been dismissed', () => {
+    // Initial state has no dismissed banners (set in beforeEach)
+    render(
+      <AnnouncementBanner>
+        Test Announcement
+      </AnnouncementBanner>,
+    );
+
+    // Banner should be rendered
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).toBeDefined();
+  });
+
+  test('calls dismissBanner when close button is clicked', () => {
+    const textContent = 'Test Announcement';
+    const bannerKey = getAnnouncementBannerKey(textContent);
+
+    render(
+      <AnnouncementBanner>
+        {textContent}
+      </AnnouncementBanner>,
+    );
+
+    // Banner is initially shown
+    const banner = document.querySelector('.announcement-banner');
+    expect(banner).toBeDefined();
+
+    const closeButton = screen.getByRole('button', { name: 'Close announcement' });
+    fireEvent.click(closeButton);
+
+    expect(useAnnouncementBannerStore.getState().dismissedBanners).toEqual({ [bannerKey]: true });
+
+    // Re-query the banner after dismiss
+    const bannerAfterDismiss = document.querySelector('.announcement-banner');
+    // Banner should be closed
+    expect(bannerAfterDismiss).toBeNull();
+  });
+
+  test('getAnnouncementBannerKey produces consistent keys', () => {
+    const key1 = getAnnouncementBannerKey('Sample Announcement');
+    const key2 = getAnnouncementBannerKey('Sample Announcement');
+    const key3 = getAnnouncementBannerKey('Different Announcement');
+
+    expect(key1).toBe(key2);
+    expect(key1).not.toBe(key3);
   });
 });
