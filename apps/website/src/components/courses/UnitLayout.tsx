@@ -13,18 +13,18 @@ import {
 import {
   unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
 } from '@bluedot/db';
-import SideBar from './SideBar';
+import CertificateLinkCard from './CertificateLinkCard';
+import Congratulations from './Congratulations';
+import GroupDiscussionBanner from './GroupDiscussionBanner';
+import KeyboardNav from './KeyboardNav';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
-import Congratulations from './Congratulations';
+import { ResourceDisplay } from './ResourceDisplay';
+import SideBar from './SideBar';
 import { ROUTES } from '../../lib/routes';
-import CertificateLinkCard from './CertificateLinkCard';
 import {
   A, H1, P,
 } from '../Text';
-import GroupDiscussionBanner from './GroupDiscussionBanner';
-import { ResourceDisplay } from './ResourceDisplay';
-import KeyboardNav from './KeyboardNav';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
