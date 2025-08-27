@@ -16,10 +16,10 @@ const KeyboardNav = () => {
         <FiCommand className="size-4" />
         Shortcuts
       </Button>
-      <Popover placement="top">
         <Dialog>
           <div className="flex-col">
             <h3 className="font-semibold">Inside courses</h3>
+      <Popover placement="top start">
             {shortcuts.map(({ action, keys }) => (
               <div key={action} className="flex items-center justify-between">
                 <span>{action}</span>
