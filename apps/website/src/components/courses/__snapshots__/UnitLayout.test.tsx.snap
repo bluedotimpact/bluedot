@@ -616,7 +616,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
             <button
               aria-expanded="false"
-              class="transition-color flex cursor-pointer items-center justify-center gap-1.5 rounded-md p-2 duration-200 hover:bg-gray-200"
+              class="transition-color flex cursor-pointer items-center justify-center gap-1.5 rounded-md p-2 text-gray-500 duration-200 hover:bg-gray-200 hover:text-gray-600 aria-expanded:bg-gray-200 aria-expanded:text-gray-600"
               data-rac=""
               data-react-aria-pressable="true"
               id="react-aria-:r1:"
