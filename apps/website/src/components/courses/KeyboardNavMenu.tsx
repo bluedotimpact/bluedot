@@ -27,7 +27,7 @@ const KeyboardNavMenu = ({
     <DialogTrigger>
       <Button
         aria-label="Keyboard shortcuts"
-        className="flex cursor-pointer items-center justify-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors duration-200 hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
       >
         <FiCommand className="size-4" />
         Shortcuts
@@ -35,30 +35,28 @@ const KeyboardNavMenu = ({
       <Popover placement="top start">
         <Dialog
           aria-labelledby="keyboard-shortcuts-title"
-          className="min-w-[270px] rounded-lg border-[0.5px] border-gray-300 bg-white p-4 shadow-sm"
+          className="min-w-[270px] rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
-          <div className="flex flex-col gap-2">
-            <h3 id="keyboard-shortcuts-title" className="mb-1.5 font-semibold">
-              {popoverTitle}
-            </h3>
-            <ul className="flex flex-col gap-2">
-              {shortcuts.map(({ action, keys }) => (
-                <li key={action} className="flex items-center justify-between">
-                  <span>{action}</span>
-                  <div className="flex gap-1">
-                    {keys.map((key) => (
-                      <Keyboard
-                        key={key}
-                        className="flex min-w-[34px] items-center justify-center rounded border border-blue-700 bg-blue-100 px-2 py-1 text-blue-800"
-                      >
-                        {key}
-                      </Keyboard>
-                    ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
+            {popoverTitle}
+          </h3>
+          <ul className="space-y-2">
+            {shortcuts.map(({ action, keys }) => (
+              <li key={action} className="flex items-center justify-between">
+                <span>{action}</span>
+                <div className="flex gap-1">
+                  {keys.map((key) => (
+                    <Keyboard
+                      key={key}
+                      className="min-w-8 rounded border border-blue-700 bg-blue-100 px-2 py-1 text-center text-blue-800"
+                    >
+                      {key}
+                    </Keyboard>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
         </Dialog>
       </Popover>
     </DialogTrigger>
