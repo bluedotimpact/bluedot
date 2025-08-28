@@ -15,8 +15,8 @@ type CourseListRowProps = {
 const CourseListRow = ({
   course, courseRegistration, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const isCompleted = !!courseRegistration.certificateCreatedAt;
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Mock progress percentage for in-progress courses
   // const progressPercentage = isCompleted ? 100 : Math.floor(Math.random() * 80) + 10;
@@ -30,9 +30,12 @@ const CourseListRow = ({
     })}`
     : ''; // Removed "In progress" text
 
+  // Determine hover class based on completion status
+  const hoverClass = !isExpanded && !isCompleted ? 'hover:bg-white' : '';
+
   return (
     <div>
-      <div className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : 'hover:bg-white'} transition-colors duration-200 group`}>
+      <div className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group`}>
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
           <div className="flex flex-col gap-4 sm:hidden">
@@ -55,31 +58,33 @@ const CourseListRow = ({
                 )}
               </div>
 
-              {/* Expand/collapse button - always visible */}
-              <button
-                type="button"
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
-                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                aria-expanded={isExpanded}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+              {/* Expand/collapse button - only visible for in-progress courses */}
+              {!isCompleted && (
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
+                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                  aria-expanded={isExpanded}
                 >
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#00114D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+                  >
+                    <path
+                      d="M7.5 5L12.5 10L7.5 15"
+                      stroke="#00114D"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
 
             {/* Bottom row: Action button */}
@@ -129,38 +134,40 @@ const CourseListRow = ({
                 {isCompleted ? 'View your certificate' : 'Continue course'}
               </CTALinkOrButton>
 
-              {/* Expand/collapse button */}
-              <button
-                type="button"
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
-                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                aria-expanded={isExpanded}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+              {/* Expand/collapse button - only for in-progress courses */}
+              {!isCompleted && (
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
+                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                  aria-expanded={isExpanded}
                 >
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#00114D"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+                  >
+                    <path
+                      d="M7.5 5L12.5 10L7.5 15"
+                      stroke="#00114D"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Expanded view */}
-      {isExpanded && (
+      {/* Expanded view - only for in-progress courses */}
+      {isExpanded && !isCompleted && (
         <CourseDetails
           course={course}
           isLast={isLast}
