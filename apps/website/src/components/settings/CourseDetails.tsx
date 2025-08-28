@@ -1,6 +1,5 @@
-import { FaRegClock } from 'react-icons/fa6';
+import { useState } from 'react';
 import { courseTable } from '@bluedot/db';
-import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 
 type CourseDetailsProps = {
   course: typeof courseTable.pg.$inferSelect;
@@ -8,56 +7,57 @@ type CourseDetailsProps = {
 };
 
 const CourseDetails = ({ course, isLast = false }: CourseDetailsProps) => {
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
+
   return (
     <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
       <div>
-        {/* Tab navigation - keeping for future expansion */}
-        <nav className="flex flex-col items-start px-4 sm:px-8 border-b border-[#CCCCCC] mb-6" style={{ borderBottomWidth: '0.5px' }} aria-label="Course content tabs">
-          <div className="flex items-start gap-5 h-9">
+        {/* Tab navigation */}
+        <nav className="flex border-b border-gray-200" aria-label="Course content tabs">
+          <div className="flex px-4 sm:px-8 gap-8">
             <button
               type="button"
-              className="flex flex-col items-center justify-between h-9 relative"
-              aria-current="page"
+              className={`relative py-2 px-1 text-sm font-medium transition-colors duration-200 ${
+                activeTab === 'upcoming'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
+              }`}
+              aria-current={activeTab === 'upcoming' ? 'page' : undefined}
               role="tab"
-              aria-selected="true"
+              aria-selected={activeTab === 'upcoming'}
+              onClick={() => setActiveTab('upcoming')}
             >
-              <span className="text-[13px] font-semibold leading-[22px] text-[#0037FF] flex items-center pt-1">
-                Overview
-              </span>
-              <div className="w-full h-[2px] bg-[#0037FF]" />
+              Upcoming discussions
+            </button>
+            <button
+              type="button"
+              className={`relative py-2 px-1 text-sm font-medium transition-colors duration-200 ${
+                activeTab === 'attended'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
+              }`}
+              aria-current={activeTab === 'attended' ? 'page' : undefined}
+              role="tab"
+              aria-selected={activeTab === 'attended'}
+              onClick={() => setActiveTab('attended')}
+            >
+              Attended discussions
             </button>
           </div>
         </nav>
 
-        <div className="px-4 sm:px-8 pb-6">
-          {/* Two-column layout on desktop, stacked on mobile */}
-          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-12">
-            {/* Main content area - shown first on mobile */}
-            <div className="flex-1 max-w-full md:max-w-[520px] order-1">
-              {/* Course description */}
-              <div>
-                <h3 className="text-[13px] font-semibold text-[#00114D] mb-3">About this course</h3>
-                <MarkdownExtendedRenderer className="text-[13px] leading-[150%] text-[#666C80] [&_p]:text-[13px] [&_p]:leading-[150%] [&_p]:text-[#666C80] [&_li]:text-[13px] [&_li]:leading-[150%] [&_li]:text-[#666C80]">
-                  {course.description}
-                </MarkdownExtendedRenderer>
-              </div>
+        <div className="px-4 sm:px-8 py-6">
+          {/* Tab content */}
+          {activeTab === 'upcoming' && (
+            <div className="min-h-[200px]">
+              {/* Empty content for Upcoming discussions tab */}
             </div>
-
-            {/* Details sidebar - shown second on mobile */}
-            <div className="w-full md:w-[320px] flex-shrink-0 order-2">
-              <div>
-                <h3 className="text-[13px] font-semibold text-[#00114D] mb-3">Details</h3>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <FaRegClock className="size-4 text-[#00114D]" />
-                    <span className="text-[13px] leading-[22px] text-[#00114D]">
-                      Duration: {course.durationDescription}
-                    </span>
-                  </div>
-                </div>
-              </div>
+          )}
+          {activeTab === 'attended' && (
+            <div className="min-h-[200px]">
+              {/* Empty content for Attended discussions tab */}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
