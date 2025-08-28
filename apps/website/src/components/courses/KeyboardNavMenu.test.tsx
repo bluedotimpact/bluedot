@@ -11,7 +11,7 @@ describe('KeyboardNavMenu', () => {
     expect(button.textContent).toContain('Shortcuts');
   });
 
-  test('popover opens on button click', async () => {
+  test('shows KeyboardNavMenu and opens popover on click', async () => {
     const { getByText, getByRole, queryByText } = render(<KeyboardNavMenu />);
 
     const button = getByRole('button', { name: 'Keyboard shortcuts' });
