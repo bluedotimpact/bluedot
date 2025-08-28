@@ -1,4 +1,6 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, {
+  useState, useMemo, useCallback, useEffect,
+} from 'react';
 import {
   InferSelectModel,
   groupDiscussionTable,
@@ -21,22 +23,42 @@ type GroupDiscussionBannerProps = {
   units: Unit[];
 };
 
-const formatTimeStrings = (startDateTime: number) => {
+const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
   const startDate = new Date(startDateTime * 1000);
   const now = new Date();
-
-  // Calculate relative time
   const timeDiffMs = startDate.getTime() - now.getTime();
-  const timeDiffHours = Math.round(timeDiffMs / (1000 * 60 * 60));
 
+  // Helper to pluralize units
+  const pluralizeTimeUnit = (value: number, unit: string) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
+
+  // Helper to build human-readable time until/since
+  const buildRelativeTimeString = (minutes: number, hours: number, days: number, suffix: string) => {
+    if (days >= 1) {
+      return `${pluralizeTimeUnit(days, 'day')}${suffix}`;
+    }
+    if (hours >= 1) {
+      const remainingMinutes = minutes % 60;
+      const hourPart = pluralizeTimeUnit(hours, 'hour');
+      return remainingMinutes > 0
+        ? `${hourPart} ${pluralizeTimeUnit(remainingMinutes, 'minute')}${suffix}`
+        : `${hourPart}${suffix}`;
+    }
+    return `${pluralizeTimeUnit(minutes, 'minute')}${suffix}`;
+  };
+
+  // Calculate time units
+  const absMinutes = Math.abs(Math.floor(timeDiffMs / (1000 * 60)));
+  const absHours = Math.floor(absMinutes / 60);
+  const absDays = Math.floor(absHours / 24);
+
+  // Determine relative time string
   let startTimeDisplayRelative: string;
-  // TODO support displaying minutes and days
-  if (timeDiffHours > 0) {
-    startTimeDisplayRelative = `in ${timeDiffHours} hour${timeDiffHours !== 1 ? 's' : ''}`;
-  } else if (timeDiffHours === 0) {
+  if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     startTimeDisplayRelative = 'starting now';
+  } else if (timeDiffMs > 0) {
+    startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, '').replace(/^/, 'in ');
   } else {
-    startTimeDisplayRelative = `${Math.abs(timeDiffHours)} hour${Math.abs(timeDiffHours) !== 1 ? 's' : ''} ago`;
+    startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
   }
 
   // Format date and time
@@ -60,17 +82,38 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   units,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
-  const unitTitle = `${unit.unitNumber}. ${unit.title}`;
-  const { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime } = formatTimeStrings(groupDiscussion.startDateTime);
+  // Update current time every 30 seconds for smoother countdown
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 30000); // Update every 30 seconds
 
-  const discussionMeetLink = ''; // TODO use field fld5H5CNHA0B0EnYF on groupDiscussionTable
+    return () => clearInterval(interval);
+  }, []);
 
-  const discussionDocLink = ''; // TODO use field fldR74MrOB3EvDnmw on groupDiscussionTable
-  const slackChannelLink = ''; // TODO use field fldYFQwPDKdzIAy93 on groupDiscussionTable (and derive link from Slack channel ID)
+  const discussionUnit = units?.find((u) => u.unitNumber === String(groupDiscussion.unitNumber));
+  const unitTitle = discussionUnit
+    ? `${discussionUnit.unitNumber}. ${discussionUnit.title}`
+    : `Unit ${groupDiscussion.unitNumber}`; // Use discussion's unit number if unit details not found
 
-  // TODO update dynamically
-  const discussionStartsSoon = (groupDiscussion.startDateTime * 1000 - Date.now()) <= 3600_000;
+  // Recalculate time strings when currentTime changes
+  const { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime } = useMemo(() => getDiscussionTimeDisplayStrings(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+
+  // Dynamic discussion starts soon check
+  const discussionStartsSoon = useMemo(
+    () => (groupDiscussion.startDateTime * 1000 - currentTime) <= 3600_000,
+    [groupDiscussion.startDateTime, currentTime],
+  );
+
+  const discussionMeetLink = groupDiscussion.zoomLink || '';
+
+  const discussionDocLink = groupDiscussion.activityDoc || '';
+
+  const slackChannelLink = groupDiscussion.slackChannelId
+    ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
+    : '';
 
   return (
     <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">
@@ -149,7 +192,7 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
-const formatDiscussionTime = (timestamp: number): string => {
+const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString('en-US', {
     month: 'short',
@@ -221,7 +264,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     .filter((d) => !d.userIsParticipant)
     .map((d) => ({
       value: d.discussion.id,
-      label: `${d.groupName} - ${formatDiscussionTime(d.discussion.startDateTime)}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
+      label: `${d.groupName} - ${formatDiscussionDateTime(d.discussion.startDateTime)}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
       disabled: d.spotsLeft !== null && d.spotsLeft <= 0,
     }));
 
@@ -229,7 +272,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     if (isTemporarySwitch && oldDiscussion) {
       return {
         name: oldDiscussion.groupName,
-        time: formatDiscussionTime(oldDiscussion.discussion.startDateTime),
+        time: formatDiscussionDateTime(oldDiscussion.discussion.startDateTime),
       };
     }
     if (!isTemporarySwitch && oldGroup) {
@@ -237,7 +280,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       const nextTime = oldGroup.nextDiscussionStartDateTime;
       return {
         name: oldGroup.group.groupName || `Group ${oldGroup.group.id}`,
-        time: nextTime ? formatDiscussionTime(nextTime) : 'No upcoming discussions',
+        time: nextTime ? formatDiscussionDateTime(nextTime) : 'No upcoming discussions',
       };
     }
     return null;
