@@ -389,7 +389,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <GroupDiscussionBanner
                 unit={unit}
                 groupDiscussion={groupDiscussion}
-                onClickPrepare={() => handleChunkSelect(0)}
+                onClickPrepare={() => {
+                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+                  if (discussionUnit) {
+                    router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                  } else {
+                    handleChunkSelect(0); // fallback to current unit
+                  }
+                }}
                 units={units}
               />
             </div>
