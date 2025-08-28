@@ -33,7 +33,7 @@ const CoursesContent = ({ authToken }: CoursesContentProps) => {
     .flat();
 
   // Group courses by status
-  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !courseRegistration.certificateCreatedAt);
+  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Active');
 
   const completedCourses = enrolledCourses.filter(({ courseRegistration }) => !!courseRegistration.certificateCreatedAt).sort((a, b) => {
     // Sort completed courses by completion date (newest first)
