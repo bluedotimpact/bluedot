@@ -251,7 +251,7 @@ describe('UnitLayout', () => {
 
     const hint = container.querySelector('.unit__keyboard-hint');
     expect(hint).toBeTruthy();
-    expect(hint?.textContent).toContain('Use ←/→ to navigate sections');
+    expect(hint?.textContent).toContain('Use ←/→ or 1-9 to navigate');
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
