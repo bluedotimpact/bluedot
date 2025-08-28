@@ -41,21 +41,23 @@ const KeyboardNavMenu = ({
             <h3 id="keyboard-shortcuts-title" className="mb-1.5 font-semibold">
               {popoverTitle}
             </h3>
-            {shortcuts.map(({ action, keys }) => (
-              <div key={action} className="flex items-center justify-between">
-                <span>{action}</span>
-                <div className="flex gap-1">
-                  {keys.map((key) => (
-                    <Keyboard
-                      key={key}
-                      className="flex min-w-[34px] items-center justify-center rounded border border-blue-700 bg-blue-100 px-2 py-1 text-blue-800"
-                    >
-                      {key}
-                    </Keyboard>
-                  ))}
-                </div>
-              </div>
-            ))}
+            <ul className="flex flex-col gap-2">
+              {shortcuts.map(({ action, keys }) => (
+                <li key={action} className="flex items-center justify-between">
+                  <span>{action}</span>
+                  <div className="flex gap-1">
+                    {keys.map((key) => (
+                      <Keyboard
+                        key={key}
+                        className="flex min-w-[34px] items-center justify-center rounded border border-blue-700 bg-blue-100 px-2 py-1 text-blue-800"
+                      >
+                        {key}
+                      </Keyboard>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </Dialog>
       </Popover>
