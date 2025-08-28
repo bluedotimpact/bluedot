@@ -25,6 +25,8 @@ describe('KeyboardNavMenu', () => {
     // Click the button to open the popover
     await user.click(button);
 
+    expect(getByRole('dialog', { name: 'Inside courses' })).toBeTruthy();
+
     // Now the popover content should be visible
     expect(getByText('Inside courses')).toBeTruthy();
     expect(getByText('Go to chunk or unit 1-9')).toBeTruthy();

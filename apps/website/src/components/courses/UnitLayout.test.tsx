@@ -237,8 +237,8 @@ describe('UnitLayout', () => {
   });
 
   test('keyboard navigation component is displayed', async () => {
-    const { container, getByRole, getByText } = render(
     const user = userEvent.setup();
+    const { container, getByRole } = render(
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
@@ -254,8 +254,8 @@ describe('UnitLayout', () => {
 
     const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
     expect(keyboardNavMenu).toBeTruthy();
-    expect(getByText('Inside courses')).toBeTruthy();
     await user.click(keyboardNavMenu);
+    expect(getByRole('dialog', { name: 'Inside courses' })).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
