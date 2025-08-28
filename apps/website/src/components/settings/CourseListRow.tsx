@@ -142,20 +142,6 @@ const CourseListRow = ({
                 )}
               </div>
 
-              {/* Show primary button for discussion when collapsed */}
-              {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={discussionButtonInfo.buttonUrl}
-                  disabled={discussionButtonInfo.disabled}
-                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
-                  className="flex-shrink-0"
-                >
-                  {discussionButtonInfo.buttonText}
-                </CTALinkOrButton>
-              )}
-
               {/* Expand/collapse button - only visible for in-progress courses */}
               {!isCompleted && (
                 <button

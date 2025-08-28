@@ -97,57 +97,120 @@ const CourseDetails = ({
     const openInNewTab = isStartingSoon;
 
     return (
-      <div key={discussion.id} className="flex items-start justify-between py-4 border-b border-gray-100 last:border-0">
-        <div className="flex gap-4">
-          {/* Date and time */}
-          <div className="flex flex-col items-center min-w-[60px]">
-            <div className="text-size-sm font-semibold text-gray-900">
+      <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
+        {/* Mobile layout */}
+        <div className="flex gap-4 sm:hidden">
+          {/* Date and time column */}
+          <div className="flex flex-col items-center justify-start min-w-[50px] pt-1">
+            <div className="text-size-sm font-semibold text-gray-900 text-center">
               {formatDiscussionDate(discussion.startDateTime)}
             </div>
-            <div className="text-size-xs text-gray-500">
+            <div className="text-size-xs text-gray-500 text-center">
               {formatDiscussionTime(discussion.startDateTime)}
             </div>
           </div>
 
-          {/* Discussion details */}
-          <div className="flex flex-col gap-1">
-            <div className="text-size-sm font-medium text-gray-900">
-              {discussion.unitRecord
-                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                : `Unit ${discussion.unitNumber || ''}`}
+          {/* Unit details and buttons column */}
+          <div className="flex-1 flex flex-col gap-3">
+            {/* Discussion details */}
+            <div className="flex flex-col gap-1">
+              <div className="text-size-sm font-medium text-gray-900">
+                {discussion.unitRecord
+                  ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                  : `Unit ${discussion.unitNumber || ''}`}
+              </div>
+              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
+              </div>
             </div>
-            <div className={`text-size-xs ${isNext ? 'text-blue-600' : 'text-gray-500'}`}>
-              Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
+
+            {/* Action buttons */}
+            <div className="flex flex-col gap-2">
+              {isNext && (
+                <div className="w-full">
+                  <CTALinkOrButton
+                    variant="primary"
+                    size="small"
+                    url={buttonUrl}
+                    disabled={!discussion.zoomLink && isStartingSoon}
+                    target={openInNewTab ? '_blank' : undefined}
+                  >
+                    {buttonText}
+                  </CTALinkOrButton>
+                </div>
+              )}
+              <div className="w-full">
+                <CTALinkOrButton
+                  variant="outline-black"
+                  size="small"
+                  url="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Set the discussion for the modal
+                    setSelectedDiscussion(discussion);
+                    setGroupSwitchModalOpen(true);
+                  }}
+                >
+                  Switch group
+                </CTALinkOrButton>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-2">
-          {isNext && (
+        {/* Desktop layout */}
+        <div className="hidden sm:flex sm:items-start sm:justify-between">
+          <div className="flex gap-4">
+            {/* Date and time */}
+            <div className="flex flex-col items-center justify-center min-w-[60px]">
+              <div className="text-size-sm font-semibold text-gray-900 text-center">
+                {formatDiscussionDate(discussion.startDateTime)}
+              </div>
+              <div className="text-size-xs text-gray-500 text-center">
+                {formatDiscussionTime(discussion.startDateTime)}
+              </div>
+            </div>
+
+            {/* Discussion details */}
+            <div className="flex flex-col gap-1">
+              <div className="text-size-sm font-medium text-gray-900">
+                {discussion.unitRecord
+                  ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                  : `Unit ${discussion.unitNumber || ''}`}
+              </div>
+              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
+              </div>
+            </div>
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-row gap-2">
+            {isNext && (
+              <CTALinkOrButton
+                variant="primary"
+                size="small"
+                url={buttonUrl}
+                disabled={!discussion.zoomLink && isStartingSoon}
+                target={openInNewTab ? '_blank' : undefined}
+              >
+                {buttonText}
+              </CTALinkOrButton>
+            )}
             <CTALinkOrButton
-              variant="primary"
+              variant="outline-black"
               size="small"
-              url={buttonUrl}
-              disabled={!discussion.zoomLink && isStartingSoon}
-              target={openInNewTab ? '_blank' : undefined}
+              url="#"
+              onClick={(e) => {
+                e.preventDefault();
+                // Set the discussion for the modal
+                setSelectedDiscussion(discussion);
+                setGroupSwitchModalOpen(true);
+              }}
             >
-              {buttonText}
+              Switch group
             </CTALinkOrButton>
-          )}
-          <CTALinkOrButton
-            variant="outline-black"
-            size="small"
-            url="#"
-            onClick={(e) => {
-              e.preventDefault();
-              // Set the discussion for the modal
-              setSelectedDiscussion(discussion);
-              setGroupSwitchModalOpen(true);
-            }}
-          >
-            Switch group
-          </CTALinkOrButton>
+          </div>
         </div>
       </div>
     );
@@ -160,7 +223,7 @@ const CourseDetails = ({
           {/* Section header */}
           <div className="flex border-b border-gray-200">
             <div className="flex px-4 sm:px-8 gap-8">
-              <div className="relative py-2 px-1 text-size-sm font-medium text-blue-600 border-b-2 border-blue-600">
+              <div className="relative py-2 px-1 text-size-xs font-medium text-blue-600 border-b-2 border-blue-600">
                 Upcoming discussions
               </div>
             </div>
