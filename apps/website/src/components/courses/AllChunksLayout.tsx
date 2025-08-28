@@ -18,7 +18,7 @@ import {
   A, H1, H2, P,
 } from '../Text';
 import { ResourceDisplay } from './ResourceDisplay';
-import AllChunksSideBar from './AllChunksSideBar';
+import SideBar from './SideBar';
 
 type Course = InferSelectModel<typeof courseTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -107,18 +107,153 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
   };
 
   const handleChunkSelect = useCallback((unitNumber: number, chunkIndex: number) => {
-    // Scroll to the specific chunk in any unit
-    const chunkElement = document.getElementById(`unit-${unitNumber}-chunk-${chunkIndex}`);
-    if (chunkElement) {
-      chunkElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Calculate the offset needed to account for sticky headers
+    // Nav height (64px) + breadcrumb height (48px) + some padding (16px) = 128px total offset
+    const scrollOffset = 128;
+    
+    // Always scroll to the specific chunk, but ensure unit context is visible
+    const targetElement = chunkIndex === 0 
+      ? document.getElementById(`unit-${unitNumber}`)
+      : document.getElementById(`unit-${unitNumber}-chunk-${chunkIndex}`);
+    
+    if (targetElement) {
+      // Get the current scroll position to avoid unnecessary jumps
+      const currentScrollY = window.pageYOffset;
+      const elementTop = targetElement.getBoundingClientRect().top + currentScrollY;
+      const targetPosition = elementTop - scrollOffset;
+      
+      // Only scroll if we're not already close to the target position
+      const scrollThreshold = 50; // pixels
+      if (Math.abs(currentScrollY - targetPosition) > scrollThreshold) {
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+      
+      // Update state immediately without waiting for scroll
+      setCurrentVisibleUnit(unitNumber);
+      setCurrentVisibleChunk(chunkIndex);
     }
   }, []);
+
+  // Get all chunks in order for navigation
+  const getAllChunksInOrder = useCallback(() => {
+    const chunksInOrder: { unitNumber: number; chunkIndex: number; unit: Unit; chunk: ChunkWithContent }[] = [];
+    allChunks.forEach((unitWithChunks) => {
+      unitWithChunks.chunks.forEach((chunk, chunkIndex) => {
+        chunksInOrder.push({
+          unitNumber: unitWithChunks.unitNumber,
+          chunkIndex,
+          unit: unitWithChunks.unit,
+          chunk,
+        });
+      });
+    });
+    return chunksInOrder;
+  }, [allChunks]);
+
+  // Navigation functions
+  const navigateToNextChunk = useCallback(() => {
+    const chunksInOrder = getAllChunksInOrder();
+    const currentIndex = chunksInOrder.findIndex(
+      (item) => item.unitNumber === currentVisibleUnit && item.chunkIndex === currentVisibleChunk,
+    );
+
+    if (currentIndex !== -1 && currentIndex < chunksInOrder.length - 1) {
+      const nextChunk = chunksInOrder[currentIndex + 1];
+      if (nextChunk) {
+        handleChunkSelect(nextChunk.unitNumber, nextChunk.chunkIndex);
+      }
+    }
+  }, [currentVisibleUnit, currentVisibleChunk, getAllChunksInOrder, handleChunkSelect]);
+
+  const navigateToPrevChunk = useCallback(() => {
+    const chunksInOrder = getAllChunksInOrder();
+    const currentIndex = chunksInOrder.findIndex(
+      (item) => item.unitNumber === currentVisibleUnit && item.chunkIndex === currentVisibleChunk,
+    );
+
+    if (currentIndex > 0) {
+      const prevChunk = chunksInOrder[currentIndex - 1];
+      if (prevChunk) {
+        handleChunkSelect(prevChunk.unitNumber, prevChunk.chunkIndex);
+      }
+    }
+  }, [currentVisibleUnit, currentVisibleChunk, getAllChunksInOrder, handleChunkSelect]);
+
+  const navigateToUnit = useCallback((unitNumber: number) => {
+    const targetUnit = allChunks.find((uc) => uc.unitNumber === unitNumber);
+    if (targetUnit && targetUnit.chunks.length > 0) {
+      handleChunkSelect(unitNumber, 0);
+    }
+  }, [allChunks, handleChunkSelect]);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Ignore if user is typing in an input
+      const { activeElement } = document;
+      if (activeElement && (
+        activeElement.tagName === 'INPUT'
+        || activeElement.tagName === 'TEXTAREA'
+        || activeElement.getAttribute('contenteditable') === 'true'
+      )) {
+        return;
+      }
+
+      // Handle sidebar toggle shortcut: Cmd+B (macOS) or Ctrl+B (Windows/Linux)
+      const isSidebarToggle = event.code === 'KeyB' && !event.altKey && !event.shiftKey && (
+        (event.metaKey && !event.ctrlKey) // Cmd+B on macOS
+        || (event.ctrlKey && !event.metaKey) // Ctrl+B on Windows/Linux
+      );
+
+      if (isSidebarToggle) {
+        event.preventDefault();
+        setIsSidebarHidden((prev) => !prev);
+        return;
+      }
+
+      // Ignore if modifier keys are pressed for arrow navigation
+      if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      // Handle number keys for unit navigation
+      if (/^[1-9]$/.test(event.key)) {
+        const targetUnitNumber = parseInt(event.key, 10);
+        event.preventDefault();
+        navigateToUnit(targetUnitNumber);
+        return;
+      }
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          navigateToPrevChunk();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          navigateToNextChunk();
+          break;
+        default:
+          // Ignore other keys
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, true);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, [navigateToPrevChunk, navigateToNextChunk, navigateToUnit]);
 
   return (
     <div>
       {/* Sidebar - positioned fixed and separate from main layout flow */}
       {!isSidebarHidden && (
-        <AllChunksSideBar
+        <SideBar
           courseTitle={course.title}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           allChunks={allChunks}
@@ -249,6 +384,11 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
               ))}
             </div>
           ))}
+
+          {/* Keyboard navigation hint */}
+          <div className="all-chunks__keyboard-hint text-size-xs text-color-secondary mt-8">
+            <p>Use ←/→ or 1-9 to navigate, and Cmd/Ctrl+B to toggle sidebar.</p>
+          </div>
 
           {/* Bottom navigation */}
           <div className="all-chunks__bottom-nav flex flex-row justify-center mt-12 mb-8">

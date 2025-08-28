@@ -8,25 +8,53 @@ import { A } from '../Text';
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
+type UnitWithChunks = {
+  unit: Unit;
+  chunks: Chunk[];
+  unitNumber: number;
+};
+
 type SideBarProps = {
   // Required
   courseTitle: string;
-  units: Unit[];
   currentUnitNumber: number;
-  chunks: Chunk[];
   currentChunkIndex: number;
-  onChunkSelect: (index: number) => void;
   // Optional
   className?: string;
-};
+} & (
+  // Single unit mode (original behavior)
+  | {
+    units: Unit[];
+    chunks: Chunk[];
+    onChunkSelect: (index: number) => void;
+    allChunks?: never;
+  }
+  // All chunks mode (new behavior)
+  | {
+    allChunks: UnitWithChunks[];
+    onChunkSelect: (unitNumber: number, chunkIndex: number) => void;
+    units?: never;
+    chunks?: never;
+  }
+);
 
 type SideBarCollapsibleProps = {
   unit: Unit;
+  unitNumber: number;
   isCurrentUnit: boolean;
   chunks: Chunk[];
   currentChunkIndex: number;
-  onChunkSelect: (index: number) => void;
-};
+  isAllChunksMode: boolean;
+} & (
+  | {
+    isAllChunksMode: false;
+    onChunkSelect: (index: number) => void;
+  }
+  | {
+    isAllChunksMode: true;
+    onChunkSelect: (unitNumber: number, chunkIndex: number) => void;
+  }
+);
 
 // Radio button style icon for chunk selection
 const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
@@ -48,35 +76,49 @@ const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   unit,
+  unitNumber,
   isCurrentUnit,
   chunks,
   currentChunkIndex,
+  isAllChunksMode,
   onChunkSelect,
 }) => {
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
+  const shouldShowExpanded = isCurrentUnit || isAllChunksMode;
+
   return (
-    isCurrentUnit ? (
+    shouldShowExpanded ? (
       <div className="relative">
         <div className="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]" />
         <details
-          open={isCurrentUnit}
+          open={shouldShowExpanded}
           className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
         >
           <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
-            <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
+            <p className={clsx(
+              'font-semibold text-[14px] leading-[140%] tracking-[-0.005em] flex-1',
+              isCurrentUnit ? 'text-[#13132E]' : 'text-[#6A6F7A]',
+            )}
+            >
               {unit.unitNumber}. {unit.title}
             </p>
             <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]" />
           </summary>
           <div className="flex flex-col items-start px-0 pb-[16px] gap-[4px]">
             {chunks.map((chunk, index) => {
-              const isActive = currentChunkIndex === index;
+              const isActive = isCurrentUnit && currentChunkIndex === index;
               return (
                 <button
                   type="button"
                   key={chunk.id}
-                  onClick={() => onChunkSelect(index)}
+                  onClick={() => {
+                    if (isAllChunksMode) {
+                      (onChunkSelect as (unitNumber: number, chunkIndex: number) => void)(unitNumber, index);
+                    } else {
+                      (onChunkSelect as (index: number) => void)(index);
+                    }
+                  }}
                   className={clsx(
                     'flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors',
                     isActive ? 'bg-[rgba(42,45,52,0.05)] rounded-[10px]' : 'hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]',
@@ -119,17 +161,40 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 
-const SideBar: React.FC<SideBarProps> = ({
-  courseTitle,
-  className,
-  units,
-  currentUnitNumber,
-  chunks,
-  currentChunkIndex,
-  onChunkSelect,
-}) => {
+const SideBar: React.FC<SideBarProps> = (props) => {
+  const {
+    courseTitle,
+    className,
+    currentUnitNumber,
+    currentChunkIndex,
+    onChunkSelect,
+  } = props;
+
+  const isAllChunksMode = 'allChunks' in props;
+
+  let unitsToRender: Unit[];
+  let allChunks: UnitWithChunks[] | undefined;
+  let units: Unit[] | undefined;
+  let chunks: Chunk[] | undefined;
+
+  if (isAllChunksMode) {
+    ({ allChunks } = props as { allChunks: UnitWithChunks[] });
+    unitsToRender = allChunks.map((uc) => uc.unit);
+  } else {
+    ({ units, chunks } = props as { units: Unit[]; chunks: Chunk[] });
+    unitsToRender = units;
+  }
+
   const isCurrentUnit = (unit: Unit): boolean => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
+  };
+
+  const getChunksForUnit = (unit: Unit): Chunk[] => {
+    if (isAllChunksMode && allChunks) {
+      const unitWithChunks = allChunks.find((uc) => uc.unit.id === unit.id);
+      return unitWithChunks?.chunks || [];
+    }
+    return isCurrentUnit(unit) && chunks ? chunks : [];
   };
 
   return (
@@ -159,16 +224,33 @@ const SideBar: React.FC<SideBarProps> = ({
 
       {/* Units */}
       <div className="flex-1 overflow-y-auto">
-        {units.map((unit) => (
-          <SideBarCollapsible
-            key={unit.id}
-            unit={unit}
-            isCurrentUnit={isCurrentUnit(unit)}
-            chunks={isCurrentUnit(unit) ? chunks : []}
-            currentChunkIndex={currentChunkIndex}
-            onChunkSelect={onChunkSelect}
-          />
-        ))}
+        {unitsToRender.map((unit) => {
+          const collapsibleProps = {
+            key: unit.id,
+            unit,
+            unitNumber: Number(unit.unitNumber),
+            isCurrentUnit: isCurrentUnit(unit),
+            chunks: getChunksForUnit(unit),
+            currentChunkIndex,
+          };
+
+          if (isAllChunksMode) {
+            return (
+              <SideBarCollapsible
+                {...collapsibleProps}
+                isAllChunksMode
+                onChunkSelect={onChunkSelect as (unitNumber: number, chunkIndex: number) => void}
+              />
+            );
+          }
+          return (
+            <SideBarCollapsible
+              {...collapsibleProps}
+              isAllChunksMode={false}
+              onChunkSelect={onChunkSelect as (index: number) => void}
+            />
+          );
+        })}
       </div>
     </div>
   );
