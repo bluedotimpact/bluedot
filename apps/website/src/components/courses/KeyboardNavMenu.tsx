@@ -19,7 +19,10 @@ type KeyboardNavMenuProps = {
   shortcuts?: readonly Shortcut[];
 };
 
-const KeyboardNavMenu = ({ popoverTitle = 'Inside courses', shortcuts = DEFAULT_SHORTCUTS }: KeyboardNavMenuProps) => {
+const KeyboardNavMenu = ({
+  popoverTitle = 'Inside courses',
+  shortcuts = DEFAULT_SHORTCUTS,
+}: KeyboardNavMenuProps) => {
   return (
     <DialogTrigger>
       <Button
