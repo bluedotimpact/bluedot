@@ -21,15 +21,14 @@ const CourseListRow = ({
   // Mock progress percentage for in-progress courses
   // const progressPercentage = isCompleted ? 100 : Math.floor(Math.random() * 80) + 10;
 
-  // Format completion date or progress status
+  // Format completion date
   const metadataText = isCompleted && courseRegistration.certificateCreatedAt
     ? `Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
     })}`
-    : 'In progress'; // TODO: Show cohort, group, and progress percentage when data is available
-    // : `Cohort 22: Group A · In progress · ${progressPercentage}%`;
+    : ''; // Removed "In progress" text
 
   return (
     <div>
@@ -37,30 +36,23 @@ const CourseListRow = ({
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
           <div className="flex flex-col gap-4 sm:hidden">
-            {/* Top row: Icon, Title, and Expand button */}
+            {/* Top row: Title and Expand button */}
             <div className="flex items-start gap-3">
-              {/* Course icon */}
-              {course.image && (
-                <img
-                  src={course.image}
-                  alt={`${course.title} course icon`}
-                  className="size-10 rounded-lg object-cover flex-shrink-0"
-                />
-              )}
-
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[15px] text-[#00114D] leading-[22px]">{course.title}</h3>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
-                    {metadataText}
-                  </p>
-                  {isCompleted && (
-                    <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
-                      <FaCheck className="size-1.5 text-white" />
-                    </span>
-                  )}
-                </div>
+                {metadataText && (
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
+                      {metadataText}
+                    </p>
+                    {isCompleted && (
+                      <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
+                        <FaCheck className="size-1.5 text-white" />
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Expand/collapse button - always visible */}
@@ -107,28 +99,21 @@ const CourseListRow = ({
 
           {/* Desktop layout - original design */}
           <div className="hidden sm:flex items-center gap-4">
-            {/* Course icon - 56x56px */}
-            {course.image && (
-              <img
-                src={course.image}
-                alt={`${course.title} course icon`}
-                className="size-10 rounded-lg object-cover flex-shrink-0"
-              />
-            )}
-
             {/* Content */}
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-[15px] text-[#00114D] leading-[22px]">{course.title}</h3>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
-                  {metadataText}
-                </p>
-                {isCompleted && (
-                  <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
-                    <FaCheck className="size-1.5 text-white" />
-                  </span>
-                )}
-              </div>
+              {metadataText && (
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
+                    {metadataText}
+                  </p>
+                  {isCompleted && (
+                    <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
+                      <FaCheck className="size-1.5 text-white" />
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Actions */}
