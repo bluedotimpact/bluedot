@@ -88,19 +88,21 @@ const CourseListRow = ({
               )}
             </div>
 
-            {/* Bottom row: Action button */}
-            <div className="flex">
-              <CTALinkOrButton
-                variant={isCompleted ? 'black' : 'outline-black'}
-                size="small"
-                url={isCompleted && courseRegistration.certificateId
-                  ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-                  : course.path}
-                className="w-full"
-              >
-                {isCompleted ? 'View your certificate' : 'Continue course'}
-              </CTALinkOrButton>
-            </div>
+            {/* Bottom row: Action button - only for completed courses */}
+            {isCompleted && (
+              <div className="flex">
+                <CTALinkOrButton
+                  variant="black"
+                  size="small"
+                  url={courseRegistration.certificateId
+                    ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+                    : course.path}
+                  className="w-full"
+                >
+                  View your certificate
+                </CTALinkOrButton>
+              </div>
+            )}
           </div>
 
           {/* Desktop layout - original design */}
@@ -124,16 +126,18 @@ const CourseListRow = ({
 
             {/* Actions */}
             <div className="flex items-center gap-3 flex-shrink-0">
-              {/* Continue/View course/View certificate button */}
-              <CTALinkOrButton
-                variant={isCompleted ? 'black' : 'outline-black'}
-                size="small"
-                url={isCompleted && courseRegistration.certificateId
-                  ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-                  : course.path}
-              >
-                {isCompleted ? 'View your certificate' : 'Continue course'}
-              </CTALinkOrButton>
+              {/* View certificate button - only for completed courses */}
+              {isCompleted && (
+                <CTALinkOrButton
+                  variant="black"
+                  size="small"
+                  url={courseRegistration.certificateId
+                    ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+                    : course.path}
+                >
+                  View your certificate
+                </CTALinkOrButton>
+              )}
 
               {/* Expand/collapse button - only for in-progress courses */}
               {!isCompleted && (
