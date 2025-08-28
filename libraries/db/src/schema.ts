@@ -880,6 +880,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldqBkQC2fZLtPEZX',
     },
+    roundStatus: {
+      pgColumn: text(),
+      airtableId: 'fldz7YSh2vRutPCyg',
+    },
   },
 });
 
