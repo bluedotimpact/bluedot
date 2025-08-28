@@ -36,14 +36,16 @@ const KeyboardNavMenu = ({ popoverTitle = 'Inside courses', shortcuts = DEFAULT_
             {shortcuts.map(({ action, keys }) => (
               <div key={action} className="flex items-center justify-between">
                 <span>{action}</span>
-                {keys.map((key) => (
-                  <Keyboard
-                    key={key}
-                    className="flex min-w-[34px] items-center justify-center rounded border border-blue-700 bg-blue-100 px-2 py-1 text-blue-800"
-                  >
-                    {key}
-                  </Keyboard>
-                ))}
+                <div className="flex gap-1">
+                  {keys.map((key) => (
+                    <Keyboard
+                      key={key}
+                      className="flex min-w-[34px] items-center justify-center rounded border border-blue-700 bg-blue-100 px-2 py-1 text-blue-800"
+                    >
+                      {key}
+                    </Keyboard>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
