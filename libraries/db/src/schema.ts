@@ -324,7 +324,7 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fldRV2aVcMiNZMViJ',
     },
-    unitNumber: {
+    unitNumber: { // this is a derived field and should be removed
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbNYACt7S5J2QlU',
     },
@@ -430,6 +430,14 @@ export const meetPersonTable = pgAirtable('meet_person', {
     round: {
       pgColumn: text(),
       airtableId: 'fld8KD3BUPbCHHHqE',
+    },
+    expectedDiscussionsParticipant: {
+      pgColumn: text().array(),
+      airtableId: 'fldPsZbe9s5jtkQRn',
+    },
+    expectedDiscussionsFacilitator: {
+      pgColumn: text().array(),
+      airtableId: 'fldYEbDu2kJwWrSdJ',
     },
   },
 });
