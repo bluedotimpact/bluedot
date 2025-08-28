@@ -825,10 +825,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               media="(max-width: 767px)"
               srcset="/images/lander/foai/learn-mobile.png"
             />
-            <source
-              media="(min-width: 768px)"
-              srcset="/images/lander/foai/learn-desktop.png"
-            />
             <img
               alt="Learn on your terms"
               class="size-full object-cover object-top"
@@ -886,10 +882,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <source
               media="(max-width: 767px)"
               srcset="/images/lander/foai/try-mobile.png"
-            />
-            <source
-              media="(min-width: 768px)"
-              srcset="/images/lander/foai/try-desktop.png"
             />
             <img
               alt="Try cutting-edge tools"
@@ -949,10 +941,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               media="(max-width: 767px)"
               srcset="/images/lander/foai/cert-mobile.png"
             />
-            <source
-              media="(min-width: 768px)"
-              srcset="/images/lander/foai/cert-desktop.png"
-            />
             <img
               alt="Get certified"
               class="size-full object-cover object-top"
@@ -1010,10 +998,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <source
               media="(max-width: 767px)"
               srcset="/images/lander/foai/community-mobile.png"
-            />
-            <source
-              media="(min-width: 768px)"
-              srcset="/images/lander/foai/community-desktop.png"
             />
             <img
               alt="Join the conversation"
