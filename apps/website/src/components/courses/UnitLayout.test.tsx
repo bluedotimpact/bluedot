@@ -235,7 +235,7 @@ describe('UnitLayout', () => {
   });
 
   test('keyboard navigation component is displayed', async () => {
-    const { container, getByText } = render(
+    const { container, getByRole, getByText } = render(
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
@@ -249,7 +249,7 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const keyboardNavMenu = getByText('Shortcuts');
+    const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
     expect(keyboardNavMenu).toBeTruthy();
   });
 
