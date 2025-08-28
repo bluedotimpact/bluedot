@@ -251,6 +251,8 @@ describe('UnitLayout', () => {
 
     const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
     expect(keyboardNavMenu).toBeTruthy();
+    await keyboardNavMenu.click();
+    expect(getByText('Inside courses')).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
