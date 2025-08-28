@@ -90,27 +90,6 @@ const CoursesContent = ({ authToken }: CoursesContentProps) => {
           </section>
         )}
 
-        {/* TODO: Dropped out section - static text for now */}
-        <div className="pt-4">
-          <P className="font-semibold flex items-center gap-2">
-            Dropped out
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7.5 5L12.5 10L7.5 15"
-                stroke="#00114D"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </P>
-        </div>
       </div>
 
       {enrolledCourses.length === 0 && (
