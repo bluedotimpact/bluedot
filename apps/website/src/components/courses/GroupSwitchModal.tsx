@@ -1,10 +1,10 @@
 import React, {
-  useState, useMemo, useCallback,
+  useState, useMemo, useCallback, useEffect,
 } from 'react';
 import {
   InferSelectModel,
-  groupDiscussionTable,
   unitTable,
+  courseTable,
 } from '@bluedot/db';
 import {
   CTALinkOrButton, Modal, ProgressDots, useAuthStore,
@@ -13,13 +13,12 @@ import useAxios from 'axios-hooks';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
+type Course = InferSelectModel<typeof courseTable.pg>;
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
-  modalOpenedFromDiscussion: GroupDiscussion;
-  units: Unit[];
+  currentUnit: Unit;
   courseSlug: string;
 };
 
@@ -41,12 +40,14 @@ const formatDiscussionDateTime = (timestamp: number): string => {
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
-  modalOpenedFromDiscussion,
-  units,
+  currentUnit,
   courseSlug,
 }) => {
   const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(modalOpenedFromDiscussion.unitNumber?.toString());
+  // Use the current unit's number as the default selected unit
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber);
+  const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
+  const [courseLoading, setCourseLoading] = useState(true);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -57,6 +58,26 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
   const auth = useAuthStore((s) => s.auth);
+
+  // Fetch course and its units
+  const [{ data: courseData, loading: courseDataLoading }] = useAxios<{ course: Course; units: Unit[] }>({
+    url: `/api/courses/${courseSlug}`,
+    headers: auth?.token ? {
+      Authorization: `Bearer ${auth.token}`,
+    } : undefined,
+    method: 'get',
+  });
+
+  // Update courseUnits when courseData is loaded
+  useEffect(() => {
+    if (courseData?.units) {
+      setCourseUnits(courseData.units);
+      setCourseLoading(false);
+    } else if (!courseDataLoading) {
+      // If no units data but loading is done, set loading to false
+      setCourseLoading(false);
+    }
+  }, [courseData, courseDataLoading]);
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
@@ -74,7 +95,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     method: 'post',
   }, { manual: true });
 
-  const unitOptions = useMemo(() => units.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [units]);
+  // Generate unit options from the course units
+  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [courseUnits]);
 
   const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
   const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
@@ -187,7 +209,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   return (
     <Modal isOpen setIsOpen={handleClose} title={title}>
       <div className="max-h-[600px] max-w-[600px] overflow-y-auto">
-        {loading && <ProgressDots />}
+        {(loading || courseLoading) && <ProgressDots />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {successMessages.map((message) => (
@@ -197,7 +219,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!loading && !showSuccess && (
+        {!loading && !courseLoading && !showSuccess && (
         <>
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80] mb-4">

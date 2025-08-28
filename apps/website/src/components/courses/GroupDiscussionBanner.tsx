@@ -9,6 +9,7 @@ import {
 import {
   CTALinkOrButton,
 } from '@bluedot/ui';
+import useAxios from 'axios-hooks';
 import GroupSwitchModal from './GroupSwitchModal';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
@@ -21,7 +22,6 @@ type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
   onClickPrepare: () => void;
-  units: Unit[];
 };
 
 const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
@@ -80,10 +80,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   unit,
   groupDiscussion,
   onClickPrepare,
-  units,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
+  const [discussionUnit, setDiscussionUnit] = useState<Unit | null>(null);
 
   // Update current time every 30 seconds for smoother countdown
   useEffect(() => {
@@ -94,10 +94,29 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  const discussionUnit = units?.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+  // Always fetch the unit based on courseBuilderUnitRecordId
+  const [{ data: fetchedUnit }] = useAxios<{ unit: Unit }>({
+    url: groupDiscussion.courseBuilderUnitRecordId
+      ? `/api/courses/${unit.courseSlug}/units/${groupDiscussion.courseBuilderUnitRecordId}`
+      : undefined,
+    method: 'get',
+  }, {
+    manual: !groupDiscussion.courseBuilderUnitRecordId,
+  });
+
+  useEffect(() => {
+    if (fetchedUnit?.unit) {
+      // Always use the fetched unit when available
+      setDiscussionUnit(fetchedUnit.unit);
+    } else {
+      // No fetched unit yet
+      setDiscussionUnit(null);
+    }
+  }, [fetchedUnit]);
+
   const unitTitle = discussionUnit
-    ? `${discussionUnit.unitNumber}. ${discussionUnit.title}`
-    : `Unit ${groupDiscussion.unitNumber}`; // Use discussion's unit number if unit details not found
+    ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
+    : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
   const { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime } = useMemo(() => getDiscussionTimeDisplayStrings(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
@@ -172,8 +191,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
-          modalOpenedFromDiscussion={groupDiscussion}
-          units={units}
+          currentUnit={discussionUnit || unit}
           courseSlug={unit.courseSlug}
         />
       )}

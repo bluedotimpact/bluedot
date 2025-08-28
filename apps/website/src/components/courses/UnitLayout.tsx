@@ -402,14 +402,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussion}
                 onClickPrepare={() => {
-                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
-                  if (discussionUnit) {
-                    router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                  // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
+                  if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
+                    handleChunkSelect(0);
+                  } else if (groupDiscussion.unitNumber) {
+                    // Otherwise, try to navigate to the discussion's unit number
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+                    if (discussionUnit) {
+                      router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                    } else {
+                      handleChunkSelect(0); // fallback to current unit
+                    }
                   } else {
                     handleChunkSelect(0); // fallback to current unit
                   }
                 }}
-                units={units}
               />
             </div>
           )}
