@@ -110,27 +110,27 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
     // Calculate the offset needed to account for sticky headers
     // Nav height (64px) + breadcrumb height (48px) + some padding (16px) = 128px total offset
     const scrollOffset = 128;
-    
+
     // Always scroll to the specific chunk, but ensure unit context is visible
-    const targetElement = chunkIndex === 0 
+    const targetElement = chunkIndex === 0
       ? document.getElementById(`unit-${unitNumber}`)
       : document.getElementById(`unit-${unitNumber}-chunk-${chunkIndex}`);
-    
+
     if (targetElement) {
       // Get the current scroll position to avoid unnecessary jumps
       const currentScrollY = window.pageYOffset;
       const elementTop = targetElement.getBoundingClientRect().top + currentScrollY;
       const targetPosition = elementTop - scrollOffset;
-      
+
       // Only scroll if we're not already close to the target position
       const scrollThreshold = 50; // pixels
       if (Math.abs(currentScrollY - targetPosition) > scrollThreshold) {
         window.scrollTo({
           top: targetPosition,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
-      
+
       // Update state immediately without waiting for scroll
       setCurrentVisibleUnit(unitNumber);
       setCurrentVisibleChunk(chunkIndex);
@@ -328,12 +328,9 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
         >
           {/* Course title */}
           <div className="all-chunks__header mb-8">
-            <P className="all-chunks__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">
+            <P className="all-chunks__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB]">
               {course.title}
             </P>
-            <H1 className="all-chunks__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">
-              Full Course
-            </H1>
           </div>
 
           {/* Render all units and chunks */}
@@ -346,9 +343,9 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
 
               {/* Unit header */}
               <div className="all-chunks__unit-header mb-8">
-                <H2 className="font-bold text-[24px] leading-[130%] tracking-[-0.015em] text-[#13132E]">
+                <H1 className="font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">
                   Unit {unitWithChunks.unitNumber}: {unitWithChunks.unit.title}
-                </H2>
+                </H1>
               </div>
 
               {/* Render all chunks in this unit */}
@@ -357,9 +354,9 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
                   {/* Chunk title */}
                   {chunk.chunkTitle && (
                     <div className="all-chunks__chunk-title mb-4">
-                      <h3 className="font-semibold text-[20px] leading-[130%] tracking-[-0.01em] text-[#13132E]">
+                      <H2 className="font-semibold text-[24px] leading-[130%] tracking-[-0.015em] text-[#13132E]">
                         {chunk.chunkTitle}
-                      </h3>
+                      </H2>
                     </div>
                   )}
 
@@ -371,7 +368,7 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
                   )}
 
                   {/* Chunk resources and exercises */}
-                  {(chunk.resources?.length || chunk.exercises?.length) && (
+                  {((chunk.resources && chunk.resources.length > 0) || (chunk.exercises && chunk.exercises.length > 0)) && (
                     <ResourceDisplay
                       resources={chunk.resources || []}
                       exercises={chunk.exercises || []}
