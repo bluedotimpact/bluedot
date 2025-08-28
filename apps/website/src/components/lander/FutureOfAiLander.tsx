@@ -224,7 +224,6 @@ const FutureOfAiLander = ({
               )}
               >
                 <source media="(max-width: 767px)" srcSet={feature.mobileImageSrc} />
-                <source media="(min-width: 768px)" srcSet={feature.desktopImageSrc} />
                 <img
                   src={feature.desktopImageSrc}
                   alt={feature.title}
