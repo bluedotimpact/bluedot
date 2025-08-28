@@ -38,4 +38,25 @@ describe('KeyboardNavMenu', () => {
     expect(getByText('→')).toBeTruthy();
     expect(getByText('←')).toBeTruthy();
   });
+
+  test('displays custom popover title and shortcuts', async () => {
+    const user = userEvent.setup();
+    const customTitle = 'Editor Shortcuts';
+    const customShortcuts = [{ action: 'Save', keys: ['Ctrl', 'S'] }];
+    const { getByText, getByRole } = render(
+      <KeyboardNavMenu popoverTitle={customTitle} shortcuts={customShortcuts} />,
+    );
+
+    const button = getByRole('button', { name: 'Keyboard shortcuts' });
+    await user.click(button);
+
+    // Check custom title is displayed
+    expect(getByRole('dialog', { name: customTitle })).toBeTruthy();
+    expect(getByText(customTitle)).toBeTruthy();
+
+    // Check custom shortcuts are displayed
+    expect(getByText('Save')).toBeTruthy();
+    expect(getByText('Ctrl')).toBeTruthy();
+    expect(getByText('S')).toBeTruthy();
+  });
 });
