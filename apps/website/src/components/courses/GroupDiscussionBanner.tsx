@@ -59,7 +59,7 @@ const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     startTimeDisplayRelative = 'starting now';
   } else if (timeDiffMs > 0) {
-    startTimeDisplayRelative = 'in ' + buildRelativeTimeString(absMinutes, absHours, absDays, '');
+    startTimeDisplayRelative = `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
   } else {
     startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
   }
