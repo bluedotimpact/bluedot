@@ -121,15 +121,15 @@ type CertificateLinkCardProps = {
 
 const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) => {
   return (
-    <div className="border-t pt-6">
-      <div className="flex items-center justify-between gap-4">
-        {leftContent ? (
-          <div className="min-w-[160px] flex justify-start">{leftContent}</div>
-        ) : (
-          <div className="min-w-[160px]" />
+    <div className="border-t pt-6 w-full">
+      <div className="flex flex-col gap-4 w-full">
+        {leftContent && (
+          <div className="flex justify-center w-full">
+            {leftContent}
+          </div>
         )}
-        <p className="text-center flex-1 font-bold">Join 3,245 graduates in our graduate community!</p>
-        <div className="min-w-[160px] flex justify-end">
+        <p className="text-center font-bold w-full">Join 3,245 graduates in our graduate community!</p>
+        <div className="flex justify-center w-full">
           <CTALinkOrButton
             url="https://community.bluedot.org"
             variant="primary"

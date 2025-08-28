@@ -13,8 +13,6 @@ import Embed from './Embed';
 import Callout from './Callout';
 // eslint-disable-next-line import/no-cycle
 import Exercise from './exercises/Exercise';
-// eslint-disable-next-line import/no-cycle
-import ResourceListCourseContent from './ResourceListCourseContent';
 
 /**
  * A remark plugin that unescapes backslashed characters in MDX component attribute values.
@@ -56,7 +54,6 @@ export const getSupportedComponents = () => ({
   Collapsible,
   Callout,
   Exercise,
-  ResourceListCourseContent,
 });
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {

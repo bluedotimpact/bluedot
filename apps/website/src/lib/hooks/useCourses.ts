@@ -7,8 +7,11 @@ export const useCourses = () => {
     method: 'POST',
   });
 
+  // Filter for courses that should be displayed on the course hub index
+  const filteredCourses = (data?.courses ?? []).filter((course) => course.displayOnCourseHubIndex);
+
   // Sort courses: featured first, then new, then alphabetically by title
-  const sortedCourses = [...(data?.courses ?? [])].sort((a, b) => {
+  const sortedCourses = [...filteredCourses].sort((a, b) => {
     // Featured courses come first
     if (a.isFeatured && !b.isFeatured) return -1;
     if (!a.isFeatured && b.isFeatured) return 1;

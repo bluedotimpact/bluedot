@@ -38,6 +38,7 @@ export const Default: Story = {
         publicLastUpdated: null,
         isNew: true,
         isFeatured: false,
+        status: 'Active',
       },
       {
         id: '2',
@@ -60,6 +61,7 @@ export const Default: Story = {
         publicLastUpdated: null,
         isNew: false,
         isFeatured: true,
+        status: 'Active',
       },
       {
         id: '3',
@@ -82,6 +84,7 @@ export const Default: Story = {
         publicLastUpdated: null,
         isNew: false,
         isFeatured: false,
+        status: 'Active',
       },
     ] satisfies GetCoursesResponse['courses'],
     loading: false,
