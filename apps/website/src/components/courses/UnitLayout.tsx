@@ -385,6 +385,15 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             >
               Next →
             </button>
+            <button
+              type="button"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#2244BB] hover:opacity-80 transition-opacity cursor-pointer"
+              onClick={() => router.push(`/courses/${unit.courseSlug}/all`)}
+              aria-label="View All Chunks"
+              title="View all chunks in a single page"
+            >
+              View All
+            </button>
           </div>
         </div>
       </div>

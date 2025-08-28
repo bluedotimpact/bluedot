@@ -1,0 +1,114 @@
+import { z } from 'zod';
+import createHttpError from 'http-errors';
+import {
+  courseTable, unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel,
+} from '@bluedot/db';
+import db from '../../../../lib/api/db';
+import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
+
+type Course = InferSelectModel<typeof courseTable.pg>;
+type Unit = InferSelectModel<typeof unitTable.pg>;
+type Chunk = InferSelectModel<typeof chunkTable.pg>;
+type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+type Exercise = InferSelectModel<typeof exerciseTable.pg>;
+
+type ChunkWithContent = Chunk & {
+  resources: UnitResource[];
+  exercises: Exercise[];
+};
+
+type UnitWithChunks = {
+  unit: Unit;
+  chunks: ChunkWithContent[];
+  unitNumber: number;
+};
+
+export type GetAllChunksResponse = {
+  type: 'success',
+  course: Course,
+  allChunks: UnitWithChunks[],
+};
+
+export default makeApiRoute({
+  requireAuth: false,
+  responseBody: z.object({
+    type: z.literal('success'),
+    course: z.any(),
+    allChunks: z.array(z.any()),
+  }),
+}, async (body, { raw }) => {
+  const { courseSlug } = raw.req.query;
+  if (typeof courseSlug !== 'string') {
+    throw new createHttpError.BadRequest('Invalid course slug');
+  }
+
+  // Get course information
+  const course = await db.get(courseTable, { slug: courseSlug });
+
+  // Get all active units for this course
+  const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+
+  // Sort units numerically since database text sorting might not handle numbers correctly
+  const units = allUnits.sort((a, b) => parseInt(a.unitNumber) - parseInt(b.unitNumber));
+
+  // For each unit, get all chunks with their resources and exercises
+  const allChunks = await Promise.all(units.map(async (unit) => {
+    // Get chunks for this unit and sort by chunk order
+    const unitChunks = await db.scan(chunkTable, { unitId: unit.id });
+    const sortedChunks = unitChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
+
+    // Resolve chunk resources and exercises with proper ordering
+    const chunksWithContent = await Promise.all(sortedChunks.map(async (chunk) => {
+      let resources: UnitResource[] = [];
+      let exercises: Exercise[] = [];
+
+      // Fetch chunk resources
+      if (chunk.chunkResources && chunk.chunkResources.length > 0) {
+        const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
+        const resolvedResources = await Promise.all(resourcePromises);
+        resources = resolvedResources
+          .filter((r): r is UnitResource => r !== null)
+          .sort((a, b) => {
+            // Sort by readingOrder
+            const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
+            const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
+            return orderA - orderB;
+          });
+      }
+
+      // Fetch chunk exercises
+      if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
+        const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
+        const resolvedExercises = await Promise.all(exercisePromises);
+
+        // Filter for exercises that exist and are active
+        exercises = resolvedExercises
+          .filter((e): e is Exercise => e !== null && e.status === 'Active')
+          .sort((a, b) => {
+            // Sort by exerciseNumber field
+            const numA = a.exerciseNumber || '';
+            const numB = b.exerciseNumber || '';
+            return numA.localeCompare(numB, undefined, { numeric: true });
+          });
+      }
+
+      return {
+        ...chunk,
+        resources,
+        exercises,
+      };
+    }));
+
+    return {
+      unit,
+      chunks: chunksWithContent,
+      unitNumber: parseInt(unit.unitNumber),
+    };
+  }));
+
+  return {
+    type: 'success' as const,
+    course,
+    allChunks,
+  };
+});
