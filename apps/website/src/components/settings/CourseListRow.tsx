@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
 import { courseTable, courseRegistrationTable } from '@bluedot/db';
+import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
+import { GetGroupDiscussionsResponse } from '../../pages/api/group-discussions';
 
 type CourseListRowProps = {
   course: typeof courseTable.pg.$inferSelect;
@@ -19,8 +21,83 @@ const CourseListRow = ({
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Mock progress percentage for in-progress courses
-  // const progressPercentage = isCompleted ? 100 : Math.floor(Math.random() * 80) + 10;
+  // Fetch discussions data
+  const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
+    method: 'get',
+    url: `/api/group-discussions?courseRegistrationId=${courseRegistration.id}`,
+    headers: authToken ? {
+      Authorization: `Bearer ${authToken}`,
+    } : undefined,
+  }, {
+    // Only fetch when not completed
+    useCache: false,
+    autoCancel: false,
+  });
+
+  // Get current time in seconds
+  const currentTimeSeconds = Math.floor(Date.now() / 1000);
+
+  // Helper function to format time until discussion
+  const formatTimeUntilDiscussion = (startDateTime: number): string => {
+    const timeUntilStart = startDateTime - currentTimeSeconds;
+
+    if (timeUntilStart <= 0) {
+      return 'Discussion has started';
+    }
+
+    const days = Math.floor(timeUntilStart / (24 * 60 * 60));
+    const hours = Math.floor((timeUntilStart % (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((timeUntilStart % (60 * 60)) / 60);
+
+    if (days > 0) {
+      if (days === 1) {
+        return '1 day';
+      }
+      return `${days} days`;
+    }
+
+    if (hours > 0 && minutes > 0) {
+      return `${hours}hr ${minutes}min`;
+    }
+    if (hours > 0) {
+      return `${hours}hr`;
+    }
+    if (minutes > 0) {
+      return `${minutes}min`;
+    }
+    return 'Less than 1min';
+  };
+
+  // Get the next upcoming discussion
+  const upcomingDiscussions = discussionsData?.discussions.filter(
+    (discussion) => discussion.startDateTime > currentTimeSeconds,
+  ) || [];
+  const nextDiscussion = upcomingDiscussions[0];
+
+  // Determine button text and URL for next discussion
+  const getDiscussionButtonInfo = () => {
+    if (!nextDiscussion) return null;
+
+    const oneHourInSeconds = 60 * 60;
+    const timeUntilStart = nextDiscussion.startDateTime - currentTimeSeconds;
+    const isStartingSoon = timeUntilStart < oneHourInSeconds && timeUntilStart > 0;
+
+    const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
+    let buttonUrl = '#';
+    if (isStartingSoon) {
+      buttonUrl = nextDiscussion.zoomLink || '#';
+    } else if (course.slug && nextDiscussion.unitNumber) {
+      buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
+    }
+    const openInNewTab = isStartingSoon;
+    const disabled = !nextDiscussion.zoomLink && isStartingSoon;
+
+    return {
+      buttonText, buttonUrl, openInNewTab, disabled,
+    };
+  };
+
+  const discussionButtonInfo = getDiscussionButtonInfo();
 
   // Format completion date
   const metadataText = isCompleted && courseRegistration.certificateCreatedAt
@@ -57,7 +134,27 @@ const CourseListRow = ({
                     )}
                   </div>
                 )}
+                {/* Show upcoming discussion info when collapsed */}
+                {!isExpanded && !isCompleted && nextDiscussion && !discussionsLoading && (
+                  <p className="text-size-xs text-gray-600 mt-1">
+                    Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                  </p>
+                )}
               </div>
+
+              {/* Show primary button for discussion when collapsed */}
+              {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
+                <CTALinkOrButton
+                  variant="primary"
+                  size="small"
+                  url={discussionButtonInfo.buttonUrl}
+                  disabled={discussionButtonInfo.disabled}
+                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
+                  className="flex-shrink-0"
+                >
+                  {discussionButtonInfo.buttonText}
+                </CTALinkOrButton>
+              )}
 
               {/* Expand/collapse button - only visible for in-progress courses */}
               {!isCompleted && (
@@ -88,7 +185,7 @@ const CourseListRow = ({
               )}
             </div>
 
-            {/* Bottom row: Action button - only for completed courses */}
+            {/* Bottom row: Action buttons */}
             {isCompleted && (
               <div className="flex">
                 <CTALinkOrButton
@@ -100,6 +197,21 @@ const CourseListRow = ({
                   className="w-full"
                 >
                   View your certificate
+                </CTALinkOrButton>
+              </div>
+            )}
+            {/* Show primary button for discussion when collapsed on mobile */}
+            {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
+              <div className="flex">
+                <CTALinkOrButton
+                  variant="primary"
+                  size="small"
+                  url={discussionButtonInfo.buttonUrl}
+                  disabled={discussionButtonInfo.disabled}
+                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
+                  className="w-full"
+                >
+                  {discussionButtonInfo.buttonText}
                 </CTALinkOrButton>
               </div>
             )}
@@ -122,6 +234,12 @@ const CourseListRow = ({
                   )}
                 </div>
               )}
+              {/* Show upcoming discussion info when collapsed on desktop */}
+              {!isExpanded && !isCompleted && nextDiscussion && !discussionsLoading && (
+                <p className="text-size-xs text-gray-600 mt-1">
+                  Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                </p>
+              )}
             </div>
 
             {/* Actions */}
@@ -136,6 +254,19 @@ const CourseListRow = ({
                     : course.path}
                 >
                   View your certificate
+                </CTALinkOrButton>
+              )}
+
+              {/* Show primary button for discussion when collapsed on desktop */}
+              {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
+                <CTALinkOrButton
+                  variant="primary"
+                  size="small"
+                  url={discussionButtonInfo.buttonUrl}
+                  disabled={discussionButtonInfo.disabled}
+                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
+                >
+                  {discussionButtonInfo.buttonText}
                 </CTALinkOrButton>
               )}
 
