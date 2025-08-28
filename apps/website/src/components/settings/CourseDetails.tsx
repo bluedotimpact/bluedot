@@ -86,6 +86,9 @@ const CourseDetails = ({
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
     const isStartingSoon = timeUntilStart < oneHourInSeconds && timeUntilStart > 0;
 
+    // Check if user is a facilitator
+    const isFacilitator = courseRegistration.role === 'Facilitator';
+
     // Determine button text and URL based on timing
     const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
@@ -139,21 +142,23 @@ const CourseDetails = ({
                   </CTALinkOrButton>
                 </div>
               )}
-              <div className="w-full">
-                <CTALinkOrButton
-                  variant="outline-black"
-                  size="small"
-                  url="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Set the discussion for the modal
-                    setSelectedDiscussion(discussion);
-                    setGroupSwitchModalOpen(true);
-                  }}
-                >
-                  Switch group
-                </CTALinkOrButton>
-              </div>
+              {!isFacilitator && (
+                <div className="w-full">
+                  <CTALinkOrButton
+                    variant="outline-black"
+                    size="small"
+                    url="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      // Set the discussion for the modal
+                      setSelectedDiscussion(discussion);
+                      setGroupSwitchModalOpen(true);
+                    }}
+                  >
+                    Switch group
+                  </CTALinkOrButton>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -197,19 +202,21 @@ const CourseDetails = ({
                 {buttonText}
               </CTALinkOrButton>
             )}
-            <CTALinkOrButton
-              variant="outline-black"
-              size="small"
-              url="#"
-              onClick={(e) => {
-                e.preventDefault();
-                // Set the discussion for the modal
-                setSelectedDiscussion(discussion);
-                setGroupSwitchModalOpen(true);
-              }}
-            >
-              Switch group
-            </CTALinkOrButton>
+            {!isFacilitator && (
+              <CTALinkOrButton
+                variant="outline-black"
+                size="small"
+                url="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Set the discussion for the modal
+                  setSelectedDiscussion(discussion);
+                  setGroupSwitchModalOpen(true);
+                }}
+              >
+                Switch group
+              </CTALinkOrButton>
+            )}
           </div>
         </div>
       </div>
