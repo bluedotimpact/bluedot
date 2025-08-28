@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { courseTable, courseRegistrationTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
@@ -14,8 +13,6 @@ type CourseDetailsProps = {
 const CourseDetails = ({
   course, courseRegistration, authToken, isLast = false,
 }: CourseDetailsProps) => {
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
-
   const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
     method: 'get',
     url: `/api/group-discussions?courseRegistrationId=${courseRegistration.id}`,
@@ -58,13 +55,9 @@ const CourseDetails = ({
     return 'Less than 1min';
   };
 
-  // Separate upcoming and attended discussions
+  // Get upcoming discussions only
   const upcomingDiscussions = discussionsData?.discussions.filter(
     (discussion) => discussion.startDateTime > currentTimeSeconds,
-  ) || [];
-
-  const attendedDiscussions = discussionsData?.discussions.filter(
-    (discussion) => discussion.attendees.includes(discussionsData?.meetPerson?.id || ''),
   ) || [];
 
   // Format date and time
@@ -154,71 +147,31 @@ const CourseDetails = ({
   return (
     <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
       <div>
-        {/* Tab navigation */}
-        <nav className="flex border-b border-gray-200" aria-label="Course content tabs">
+        {/* Section header */}
+        <div className="flex border-b border-gray-200">
           <div className="flex px-4 sm:px-8 gap-8">
-            <button
-              type="button"
-              className={`relative py-2 px-1 text-sm font-medium transition-colors duration-200 ${
-                activeTab === 'upcoming'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
-              }`}
-              aria-current={activeTab === 'upcoming' ? 'page' : undefined}
-              role="tab"
-              aria-selected={activeTab === 'upcoming'}
-              onClick={() => setActiveTab('upcoming')}
-            >
+            <div className="relative py-2 px-1 text-size-sm font-medium text-blue-600 border-b-2 border-blue-600">
               Upcoming discussions
-            </button>
-            <button
-              type="button"
-              className={`relative py-2 px-1 text-sm font-medium transition-colors duration-200 ${
-                activeTab === 'attended'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700 border-b-2 border-transparent'
-              }`}
-              aria-current={activeTab === 'attended' ? 'page' : undefined}
-              role="tab"
-              aria-selected={activeTab === 'attended'}
-              onClick={() => setActiveTab('attended')}
-            >
-              Attended discussions
-            </button>
+            </div>
           </div>
-        </nav>
+        </div>
 
         <div className="p-4 sm:px-8 sm:py-4">
-          {/* Tab content */}
+          {/* Content */}
           {discussionsLoading ? (
             <div className="flex justify-center py-8">
               <ProgressDots />
             </div>
           ) : (
-            <>
-              {activeTab === 'upcoming' && (
-                <div className="min-h-[200px]">
-                  {upcomingDiscussions.length > 0 ? (
-                    <div>
-                      {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0))}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
-                  )}
+            <div className="min-h-[200px]">
+              {upcomingDiscussions.length > 0 ? (
+                <div>
+                  {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0))}
                 </div>
+              ) : (
+                <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
               )}
-              {activeTab === 'attended' && (
-                <div className="min-h-[200px]">
-                  {attendedDiscussions.length > 0 ? (
-                    <div>
-                      {attendedDiscussions.map((discussion) => renderDiscussionItem(discussion, false))}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
-                  )}
-                </div>
-              )}
-            </>
+            </div>
           )}
         </div>
       </div>
