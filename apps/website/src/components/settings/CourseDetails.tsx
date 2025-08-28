@@ -107,7 +107,9 @@ const CourseDetails = ({
           {/* Discussion details */}
           <div className="flex flex-col gap-1">
             <div className="text-size-sm font-medium text-gray-900">
-              {discussion.unitDetails?.title || `Unit ${discussion.unitNumber || ''}: Discussion`} {/* TODO: Add unit title */}
+              {discussion.unitDetails
+                ? `Unit ${discussion.unitDetails.unitNumber}: ${discussion.unitDetails.title}`
+                : `Unit ${discussion.unitNumber || ''}`}
             </div>
             <div className={`text-size-xs ${isNext ? 'text-blue-600' : 'text-gray-500'}`}>
               Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}

@@ -96,7 +96,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   }, { manual: true });
 
   // Generate unit options from the course units
-  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber, label: `${u.unitNumber}. ${u.title}` })), [courseUnits]);
+  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber, label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
 
   const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
   const discussions = switchingData?.discussionsAvailable && selectedUnitNumber

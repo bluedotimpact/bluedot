@@ -142,7 +142,10 @@ export default makeApiRoute({
       }
 
       try {
-        if (discussion.unit) {
+        // Prefer courseBuilderUnitRecordId over unit field
+        if (discussion.courseBuilderUnitRecordId) {
+          unit = await db.get(unitTable, { id: discussion.courseBuilderUnitRecordId });
+        } else if (discussion.unit) {
           unit = await db.get(unitTable, { id: discussion.unit });
         }
       } catch {
