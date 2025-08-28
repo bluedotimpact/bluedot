@@ -3,13 +3,22 @@ import {
 } from 'react-aria-components';
 import { FiCommand } from 'react-icons/fi';
 
-const shortcuts = [
+const DEFAULT_SHORTCUTS = [
   { action: 'Go to chunk or unit 1-9', keys: ['1-9'] },
   { action: 'Next chunk or unit', keys: ['→'] },
   { action: 'Previous chunk or unit', keys: ['←'] },
 ] as const;
 
-const KeyboardNavMenu = () => {
+type Shortcut = {
+  action: string;
+  keys: readonly string[];
+};
+
+type KeyboardNavMenuProps = {
+  shortcuts?: readonly Shortcut[];
+};
+
+const KeyboardNavMenu = ({ shortcuts = DEFAULT_SHORTCUTS }: KeyboardNavMenuProps) => {
   return (
     <DialogTrigger>
       <Button
