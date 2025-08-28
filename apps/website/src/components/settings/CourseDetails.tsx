@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { courseTable, courseRegistrationTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { FaUsers } from 'react-icons/fa6';
 import { GetGroupDiscussionsResponse, GroupDiscussionWithDetails } from '../../pages/api/group-discussions';
 
 type CourseDetailsProps = {
@@ -12,7 +11,9 @@ type CourseDetailsProps = {
   isLast?: boolean;
 };
 
-const CourseDetails = ({ course, courseRegistration, authToken, isLast = false }: CourseDetailsProps) => {
+const CourseDetails = ({
+  course, courseRegistration, authToken, isLast = false,
+}: CourseDetailsProps) => {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
 
   const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
@@ -25,6 +26,37 @@ const CourseDetails = ({ course, courseRegistration, authToken, isLast = false }
 
   // Get current time in seconds
   const currentTimeSeconds = Math.floor(Date.now() / 1000);
+
+  // Helper function to format time until discussion
+  const formatTimeUntilDiscussion = (startDateTime: number): string => {
+    const timeUntilStart = startDateTime - currentTimeSeconds;
+
+    if (timeUntilStart <= 0) {
+      return 'Discussion has started';
+    }
+
+    const days = Math.floor(timeUntilStart / (24 * 60 * 60));
+    const hours = Math.floor((timeUntilStart % (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((timeUntilStart % (60 * 60)) / 60);
+
+    if (days > 0) {
+      if (days === 1) {
+        return '1 day';
+      }
+      return `${days} days`;
+    }
+
+    if (hours > 0 && minutes > 0) {
+      return `${hours}hr ${minutes}min`;
+    }
+    if (hours > 0) {
+      return `${hours}hr`;
+    }
+    if (minutes > 0) {
+      return `${minutes}min`;
+    }
+    return 'Less than 1min';
+  };
 
   // Separate upcoming and attended discussions
   const upcomingDiscussions = discussionsData?.discussions.filter(
@@ -84,9 +116,8 @@ const CourseDetails = ({ course, courseRegistration, authToken, isLast = false }
             <div className="text-size-sm font-medium text-gray-900">
               {discussion.unitDetails?.title || `Unit ${discussion.unitNumber || ''}: Discussion`} {/* TODO: Add unit title */}
             </div>
-            <div className="flex items-center gap-1 text-size-xs text-gray-500">
-              <FaUsers className="size-3" />
-              <span>{discussion.groupDetails?.groupName || 'Group'}</span>
+            <div className={`text-size-xs ${isNext ? 'text-blue-600' : 'text-gray-500'}`}>
+              Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
             </div>
           </div>
         </div>
