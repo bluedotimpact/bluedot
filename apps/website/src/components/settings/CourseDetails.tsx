@@ -50,58 +50,76 @@ const CourseDetails = ({ course, courseRegistration, authToken, isLast = false }
     });
   };
 
-  const renderDiscussionItem = (discussion: GroupDiscussionWithDetails, isNext = false) => (
-    <div key={discussion.id} className="flex items-start justify-between py-4 border-b border-gray-100 last:border-0">
-      <div className="flex gap-4">
-        {/* Date and time */}
-        <div className="flex flex-col items-center min-w-[60px]">
-          <div className="text-size-sm font-semibold text-gray-900">
-            {formatDiscussionDate(discussion.startDateTime)}
+  const renderDiscussionItem = (discussion: GroupDiscussionWithDetails, isNext = false) => {
+    // Check if discussion starts in less than 1 hour
+    const oneHourInSeconds = 60 * 60;
+    const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
+    const isStartingSoon = timeUntilStart < oneHourInSeconds && timeUntilStart > 0;
+
+    // Determine button text and URL based on timing
+    const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
+    let buttonUrl = '#';
+    if (isStartingSoon) {
+      buttonUrl = discussion.zoomLink || '#';
+    } else if (course.slug && discussion.unitNumber) {
+      buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
+    }
+    const openInNewTab = isStartingSoon;
+
+    return (
+      <div key={discussion.id} className="flex items-start justify-between py-4 border-b border-gray-100 last:border-0">
+        <div className="flex gap-4">
+          {/* Date and time */}
+          <div className="flex flex-col items-center min-w-[60px]">
+            <div className="text-size-sm font-semibold text-gray-900">
+              {formatDiscussionDate(discussion.startDateTime)}
+            </div>
+            <div className="text-size-xs text-gray-500">
+              {formatDiscussionTime(discussion.startDateTime)}
+            </div>
           </div>
-          <div className="text-size-xs text-gray-500">
-            {formatDiscussionTime(discussion.startDateTime)}
+
+          {/* Discussion details */}
+          <div className="flex flex-col gap-1">
+            <div className="text-size-sm font-medium text-gray-900">
+              {discussion.unitDetails?.title || `Unit ${discussion.unitNumber || ''}: Discussion`} {/* TODO: Add unit title */}
+            </div>
+            <div className="flex items-center gap-1 text-size-xs text-gray-500">
+              <FaUsers className="size-3" />
+              <span>{discussion.groupDetails?.groupName || 'Group'}</span>
+            </div>
           </div>
         </div>
 
-        {/* Discussion details */}
-        <div className="flex flex-col gap-1">
-          <div className="text-size-sm font-medium text-gray-900">
-            {discussion.unitDetails?.title || `Unit ${discussion.unitNumber || ''}: Discussion`} {/* TODO: Add unit title */}
-          </div>
-          <div className="flex items-center gap-1 text-size-xs text-gray-500">
-            <FaUsers className="size-3" />
-            <span>{discussion.groupDetails?.groupName || 'Group'}</span>
-          </div>
+        {/* Action buttons */}
+        <div className="flex gap-2">
+          {isNext ? (
+            <CTALinkOrButton
+              variant="primary"
+              size="small"
+              url={buttonUrl}
+              disabled={!discussion.zoomLink && isStartingSoon}
+              target={openInNewTab ? '_blank' : undefined}
+            >
+              {buttonText}
+            </CTALinkOrButton>
+          ) : (
+            <CTALinkOrButton
+              variant="outline-black"
+              size="small"
+              url="#"
+              onClick={(e) => {
+                e.preventDefault();
+                // TODO: Implement switch group functionality
+              }}
+            >
+              Switch group
+            </CTALinkOrButton>
+          )}
         </div>
       </div>
-
-      {/* Action buttons */}
-      <div className="flex gap-2">
-        {isNext ? (
-          <CTALinkOrButton
-            variant="primary"
-            size="small"
-            url={discussion.zoomLink || '#'}
-            disabled={!discussion.zoomLink}
-          >
-            Prepare for discussion
-          </CTALinkOrButton>
-        ) : (
-          <CTALinkOrButton
-            variant="outline-black"
-            size="small"
-            url="#"
-            onClick={(e) => {
-              e.preventDefault();
-              // TODO: Implement switch group functionality
-            }}
-          >
-            Switch group
-          </CTALinkOrButton>
-        )}
-      </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
