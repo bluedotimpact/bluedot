@@ -31,7 +31,7 @@ export type GroupDiscussionWithDetails = {
   slackChannelId: string | null;
   round: string | null;
   groupDetails?: Group;
-  unitDetails?: Unit;
+  unitRecord?: Unit;
 };
 
 export type GetGroupDiscussionsResponse = {
@@ -169,7 +169,7 @@ export default makeApiRoute({
         slackChannelId: discussion.slackChannelId,
         round: discussion.round,
         groupDetails: group,
-        unitDetails: unit,
+        unitRecord: unit,
       };
     }),
   );

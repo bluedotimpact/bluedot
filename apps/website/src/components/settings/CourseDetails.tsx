@@ -1,7 +1,9 @@
 import { courseTable, courseRegistrationTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
+import { useState } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { GetGroupDiscussionsResponse, GroupDiscussionWithDetails } from '../../pages/api/group-discussions';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 type CourseDetailsProps = {
   course: typeof courseTable.pg.$inferSelect;
@@ -13,6 +15,9 @@ type CourseDetailsProps = {
 const CourseDetails = ({
   course, courseRegistration, authToken, isLast = false,
 }: CourseDetailsProps) => {
+  const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussionWithDetails | null>(null);
+
   const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
     method: 'get',
     url: `/api/group-discussions?courseRegistrationId=${courseRegistration.id}`,
@@ -107,8 +112,8 @@ const CourseDetails = ({
           {/* Discussion details */}
           <div className="flex flex-col gap-1">
             <div className="text-size-sm font-medium text-gray-900">
-              {discussion.unitDetails
-                ? `Unit ${discussion.unitDetails.unitNumber}: ${discussion.unitDetails.title}`
+              {discussion.unitRecord
+                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             <div className={`text-size-xs ${isNext ? 'text-blue-600' : 'text-gray-500'}`}>
@@ -136,7 +141,9 @@ const CourseDetails = ({
             url="#"
             onClick={(e) => {
               e.preventDefault();
-              // TODO: Implement switch group functionality
+              // Set the discussion for the modal
+              setSelectedDiscussion(discussion);
+              setGroupSwitchModalOpen(true);
             }}
           >
             Switch group
@@ -147,37 +154,49 @@ const CourseDetails = ({
   };
 
   return (
-    <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
-      <div>
-        {/* Section header */}
-        <div className="flex border-b border-gray-200">
-          <div className="flex px-4 sm:px-8 gap-8">
-            <div className="relative py-2 px-1 text-size-sm font-medium text-blue-600 border-b-2 border-blue-600">
-              Upcoming discussions
+    <>
+      <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+        <div>
+          {/* Section header */}
+          <div className="flex border-b border-gray-200">
+            <div className="flex px-4 sm:px-8 gap-8">
+              <div className="relative py-2 px-1 text-size-sm font-medium text-blue-600 border-b-2 border-blue-600">
+                Upcoming discussions
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="p-4 sm:px-8 sm:py-4">
-          {/* Content */}
-          {discussionsLoading ? (
-            <div className="flex justify-center py-8">
-              <ProgressDots />
-            </div>
-          ) : (
-            <div className="min-h-[200px]">
-              {upcomingDiscussions.length > 0 ? (
-                <div>
-                  {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0))}
-                </div>
-              ) : (
-                <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
-              )}
-            </div>
-          )}
+          <div className="p-4 sm:px-8 sm:py-4">
+            {/* Content */}
+            {discussionsLoading ? (
+              <div className="flex justify-center py-8">
+                <ProgressDots />
+              </div>
+            ) : (
+              <div className="min-h-[200px]">
+                {upcomingDiscussions.length > 0 ? (
+                  <div>
+                    {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0))}
+                  </div>
+                ) : (
+                  <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      {groupSwitchModalOpen && selectedDiscussion && course.slug && selectedDiscussion.unitRecord && (
+        <GroupSwitchModal
+          handleClose={() => {
+            setGroupSwitchModalOpen(false);
+            setSelectedDiscussion(null);
+          }}
+          currentUnit={selectedDiscussion.unitRecord}
+          courseSlug={course.slug}
+        />
+      )}
+    </>
   );
 };
 
