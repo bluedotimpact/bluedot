@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ErrorSection, ProgressDots, Section } from '@bluedot/ui';
+import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetAllChunksResponse } from '../../api/courses/[courseSlug]/all';
 import AllChunksLayout from '../../../components/courses/AllChunksLayout';

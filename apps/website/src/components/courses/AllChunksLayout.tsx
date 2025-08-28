@@ -18,7 +18,7 @@ import {
   A, H1, H2, P,
 } from '../Text';
 import { ResourceDisplay } from './ResourceDisplay';
-import SideBar from './SideBar';
+import AllChunksSideBar from './AllChunksSideBar';
 
 type Course = InferSelectModel<typeof courseTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -51,12 +51,6 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
   const [currentVisibleUnit, setCurrentVisibleUnit] = useState<number>(1);
   const [currentVisibleChunk, setCurrentVisibleChunk] = useState<number>(0);
 
-  // Create flat arrays for sidebar compatibility
-  const allUnits = allChunks.map(unitWithChunks => unitWithChunks.unit);
-  const currentUnitChunks = allChunks.find(unitWithChunks => 
-    unitWithChunks.unitNumber === currentVisibleUnit
-  )?.chunks || [];
-
   // Scroll detection using Intersection Observer
   useEffect(() => {
     const observerOptions = {
@@ -71,7 +65,7 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
           const target = entry.target as HTMLElement;
           const unitMatch = target.id.match(/^unit-(\d+)$/);
           const chunkMatch = target.id.match(/^unit-(\d+)-chunk-(\d+)$/);
-          
+
           if (chunkMatch && chunkMatch[1] && chunkMatch[2]) {
             const unitNum = parseInt(chunkMatch[1]);
             const chunkNum = parseInt(chunkMatch[2]);
@@ -89,7 +83,7 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     // Observe all unit and chunk sections
-    allChunks.forEach((unitWithChunks, unitIndex) => {
+    allChunks.forEach((unitWithChunks) => {
       const unitElement = document.getElementById(`unit-${unitWithChunks.unitNumber}`);
       if (unitElement) observer.observe(unitElement);
 
@@ -112,24 +106,23 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
     }
   };
 
-  const handleChunkSelect = useCallback((chunkIndex: number) => {
-    // Scroll to the specific chunk in the current visible unit
-    const chunkElement = document.getElementById(`unit-${currentVisibleUnit}-chunk-${chunkIndex}`);
+  const handleChunkSelect = useCallback((unitNumber: number, chunkIndex: number) => {
+    // Scroll to the specific chunk in any unit
+    const chunkElement = document.getElementById(`unit-${unitNumber}-chunk-${chunkIndex}`);
     if (chunkElement) {
       chunkElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [currentVisibleUnit]);
+  }, []);
 
   return (
     <div>
       {/* Sidebar - positioned fixed and separate from main layout flow */}
       {!isSidebarHidden && (
-        <SideBar
+        <AllChunksSideBar
           courseTitle={course.title}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
-          units={allUnits}
+          allChunks={allChunks}
           currentUnitNumber={currentVisibleUnit}
-          chunks={currentUnitChunks}
           currentChunkIndex={currentVisibleChunk}
           onChunkSelect={handleChunkSelect}
         />
@@ -139,7 +132,8 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
       <div className={clsx(
         'all-chunks__breadcrumbs-wrapper hidden md:block md:sticky md:top-16 z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
         isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
-      )}>
+      )}
+      >
         <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
           {/* Left section: Hide/Show Toggle */}
           <div className="flex items-center gap-[8px]">
@@ -195,7 +189,8 @@ const AllChunksLayout: React.FC<AllChunksLayoutProps> = ({
         <div className={clsx(
           'all-chunks__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8',
           !isSidebarHidden && 'md:ml-[360px]',
-        )}>
+        )}
+        >
           {/* Course title */}
           <div className="all-chunks__header mb-8">
             <P className="all-chunks__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">
