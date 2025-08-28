@@ -16,6 +16,9 @@ import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/c
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
+// Time constants
+const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
+
 type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
@@ -56,7 +59,7 @@ const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     startTimeDisplayRelative = 'starting now';
   } else if (timeDiffMs > 0) {
-    startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, '').replace(/^/, 'in ');
+    startTimeDisplayRelative = 'in ' + buildRelativeTimeString(absMinutes, absHours, absDays, '');
   } else {
     startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
   }
@@ -93,7 +96,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  const discussionUnit = units?.find((u) => u.unitNumber === String(groupDiscussion.unitNumber));
+  const discussionUnit = units?.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
   const unitTitle = discussionUnit
     ? `${discussionUnit.unitNumber}. ${discussionUnit.title}`
     : `Unit ${groupDiscussion.unitNumber}`; // Use discussion's unit number if unit details not found
@@ -103,7 +106,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
   // Dynamic discussion starts soon check
   const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTime) <= 3600_000,
+    () => (groupDiscussion.startDateTime * 1000 - currentTime) <= ONE_HOUR_MS,
     [groupDiscussion.startDateTime, currentTime],
   );
 

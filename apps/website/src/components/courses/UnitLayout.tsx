@@ -390,7 +390,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussion}
                 onClickPrepare={() => {
-                  const discussionUnit = units.find((u) => u.unitNumber === String(groupDiscussion.unitNumber));
+                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
                   if (discussionUnit) {
                     router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
                   } else {
