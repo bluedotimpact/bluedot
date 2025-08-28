@@ -124,7 +124,7 @@ const CourseDetails = ({
 
         {/* Action buttons */}
         <div className="flex gap-2">
-          {isNext ? (
+          {isNext && (
             <CTALinkOrButton
               variant="primary"
               size="small"
@@ -134,19 +134,18 @@ const CourseDetails = ({
             >
               {buttonText}
             </CTALinkOrButton>
-          ) : (
-            <CTALinkOrButton
-              variant="outline-black"
-              size="small"
-              url="#"
-              onClick={(e) => {
-                e.preventDefault();
-                // TODO: Implement switch group functionality
-              }}
-            >
-              Switch group
-            </CTALinkOrButton>
           )}
+          <CTALinkOrButton
+            variant="outline-black"
+            size="small"
+            url="#"
+            onClick={(e) => {
+              e.preventDefault();
+              // TODO: Implement switch group functionality
+            }}
+          >
+            Switch group
+          </CTALinkOrButton>
         </div>
       </div>
     );
