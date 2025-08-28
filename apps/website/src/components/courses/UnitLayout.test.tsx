@@ -1,4 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import userEvent from '@testing-library/user-event';
 import {
   describe,
   expect,
@@ -236,6 +238,7 @@ describe('UnitLayout', () => {
 
   test('keyboard navigation component is displayed', async () => {
     const { container, getByRole, getByText } = render(
+    const user = userEvent.setup();
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
@@ -251,8 +254,8 @@ describe('UnitLayout', () => {
 
     const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
     expect(keyboardNavMenu).toBeTruthy();
-    await keyboardNavMenu.click();
     expect(getByText('Inside courses')).toBeTruthy();
+    await user.click(keyboardNavMenu);
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {

@@ -1,4 +1,6 @@
 import { render } from '@testing-library/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 import KeyboardNavMenu from './KeyboardNavMenu';
 
@@ -12,6 +14,7 @@ describe('KeyboardNavMenu', () => {
   });
 
   test('shows KeyboardNavMenu and opens popover on click', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole, queryByText } = render(<KeyboardNavMenu />);
 
     const button = getByRole('button', { name: 'Keyboard shortcuts' });
@@ -20,7 +23,7 @@ describe('KeyboardNavMenu', () => {
     expect(queryByText('Inside courses')).toBeNull();
 
     // Click the button to open the popover
-    await button.click();
+    await user.click(button);
 
     // Now the popover content should be visible
     expect(getByText('Inside courses')).toBeTruthy();
