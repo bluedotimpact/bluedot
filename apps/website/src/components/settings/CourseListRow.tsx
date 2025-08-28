@@ -8,12 +8,13 @@ import { ROUTES } from '../../lib/routes';
 type CourseListRowProps = {
   course: typeof courseTable.pg.$inferSelect;
   courseRegistration: typeof courseRegistrationTable.pg.$inferSelect;
+  authToken?: string;
   isFirst?: boolean;
   isLast?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false,
+  course, courseRegistration, authToken, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(false);
@@ -170,6 +171,8 @@ const CourseListRow = ({
       {isExpanded && !isCompleted && (
         <CourseDetails
           course={course}
+          courseRegistration={courseRegistration}
+          authToken={authToken}
           isLast={isLast}
         />
       )}
