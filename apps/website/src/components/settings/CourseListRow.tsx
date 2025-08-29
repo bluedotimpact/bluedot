@@ -149,7 +149,19 @@ const CourseListRow = ({
 
   return (
     <div>
-      <div className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group`}>
+      <div
+        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
+        onClick={!isCompleted ? () => setIsExpanded(!isExpanded) : undefined}
+        onKeyDown={!isCompleted ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsExpanded(!isExpanded);
+          }
+        } : undefined}
+        role={!isCompleted ? 'button' : undefined}
+        tabIndex={!isCompleted ? 0 : undefined}
+        aria-expanded={!isCompleted ? isExpanded : undefined}
+      >
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
           <div className="flex flex-col gap-4 sm:hidden">
@@ -182,7 +194,10 @@ const CourseListRow = ({
               {!isCompleted && (
                 <button
                   type="button"
-                  onClick={() => setIsExpanded(!isExpanded)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsExpanded(!isExpanded);
+                  }}
                   className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
                   aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
                   aria-expanded={isExpanded}
@@ -224,7 +239,12 @@ const CourseListRow = ({
             )}
             {/* Show primary button for discussion when collapsed on mobile */}
             {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
-              <div className="flex">
+              <div
+                className="flex"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+                role="presentation"
+              >
                 <CTALinkOrButton
                   variant="primary"
                   size="small"
@@ -265,7 +285,12 @@ const CourseListRow = ({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div
+              className="flex items-center gap-3 flex-shrink-0"
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
+              role="presentation"
+            >
               {/* View certificate button - only for completed courses */}
               {isCompleted && (
                 <CTALinkOrButton
@@ -296,7 +321,10 @@ const CourseListRow = ({
               {!isCompleted && (
                 <button
                   type="button"
-                  onClick={() => setIsExpanded(!isExpanded)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsExpanded(!isExpanded);
+                  }}
                   className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
                   aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
                   aria-expanded={isExpanded}
