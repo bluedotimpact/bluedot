@@ -87,7 +87,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
   const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
 
-  let buttonText = 'Select an option'; // Unselected
+  let buttonText = 'Select an option'; // No quiz options have been selected yet
   if (isSubmitting) {
     buttonText = 'Checking...';
   } else if (isIncorrect) {
