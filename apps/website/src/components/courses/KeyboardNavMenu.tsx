@@ -5,6 +5,7 @@ import { FiCommand } from 'react-icons/fi';
 
 const DEFAULT_SHORTCUTS = [
   { action: 'Go to unit 1-9', keys: ['1-9'] },
+  { action: 'Toggle sidebar', keys: ['Ctrl/Cmd', 'B'] },
   { action: 'Next chunk or unit', keys: ['→'] },
   { action: 'Previous chunk or unit', keys: ['←'] },
 ] as const;
@@ -35,7 +36,7 @@ const KeyboardNavMenu = ({
       <Popover placement="top start">
         <Dialog
           aria-labelledby="keyboard-shortcuts-title"
-          className="min-w-[270px] rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
+          className="min-w-75 rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
           <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
             {popoverTitle}
