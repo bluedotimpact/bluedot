@@ -94,22 +94,30 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
-        {formattedOptions.map((option) => (
-          <Input
-            key={option}
-            {...register('answer')}
-            labelClassName={`
-              multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer
-              ${(isSelected(option)) ? `multiple-choice__option--selected container-active
-                ${(!isEditing && isCorrect) && 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]'}
-                ${(!isEditing && isIncorrect) && 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]'}`
-              : 'container-lined'}`}
-            type="radio"
-            value={option}
-            onChange={() => handleOptionSelect(option)}
-            disabled={!isLoggedIn}
-          />
-        ))}
+        {formattedOptions.map((option) => {
+          const showCorrectFeedback = !isEditing && isSelected(option) && isCorrect;
+          const showIncorrectFeedback = !isEditing && isSelected(option) && isIncorrect;
+
+          return (
+            <Input
+              key={option}
+              {...register('answer')}
+              labelClassName={clsx(
+                'multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer',
+                {
+                  'multiple-choice__option--selected container-active': isSelected(option),
+                  'container-lined': !isSelected(option),
+                  'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]': showCorrectFeedback,
+                  'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]': showIncorrectFeedback,
+                },
+              )}
+              type="radio"
+              value={option}
+              onChange={() => handleOptionSelect(option)}
+              disabled={!isLoggedIn}
+            />
+          );
+        })}
       </div>
       {isLoggedIn ? (
         <CTALinkOrButton
