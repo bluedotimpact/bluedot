@@ -44,7 +44,6 @@ export const ClickTarget = ({
         target={target}
         aria-disabled={disabled ? 'true' : undefined}
         aria-label={ariaLabel}
-        style={disabled ? { pointerEvents: 'none', opacity: 0.5 } : undefined}
         tabIndex={disabled ? -1 : 0}
       >
         {children}
