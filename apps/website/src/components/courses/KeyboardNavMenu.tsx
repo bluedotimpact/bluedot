@@ -36,14 +36,14 @@ const KeyboardNavMenu = ({
       <Popover placement="top start">
         <Dialog
           aria-labelledby="keyboard-shortcuts-title"
-          className="min-w-75 rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
+          className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
           <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
             {popoverTitle}
           </h3>
           <ul className="space-y-2">
             {shortcuts.map(({ action, keys }) => (
-              <li key={action} className="flex items-center justify-between">
+              <li key={action} className="flex items-center justify-between gap-4">
                 <span>{action}</span>
                 <div className="flex gap-1">
                   {keys.map((key) => (
