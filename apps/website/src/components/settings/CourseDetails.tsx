@@ -179,11 +179,11 @@ const CourseDetails = ({
                   ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                   : `Unit ${discussion.unitNumber || ''}`}
               </div>
-              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                {isPast
-                  ? `Attended on ${formatDiscussionDate(discussion.startDateTime)}`
-                  : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
-              </div>
+              {!isPast && (
+                <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                  {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
+                </div>
+              )}
             </div>
 
             {/* Action buttons */}
@@ -254,11 +254,11 @@ const CourseDetails = ({
                   ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                   : `Unit ${discussion.unitNumber || ''}`}
               </div>
-              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                {isPast
-                  ? `Attended on ${formatDiscussionDate(discussion.startDateTime)}`
-                  : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
-              </div>
+              {!isPast && (
+                <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                  {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
+                </div>
+              )}
             </div>
           </div>
 
