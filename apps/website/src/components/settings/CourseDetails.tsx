@@ -42,7 +42,13 @@ const CourseDetails = ({
       setLoading(true);
 
       // Fetch all expected discussions (will be filtered later to show only those not ended)
-      const expectedPromises = (meetPersonData.meetPerson.expectedDiscussionsParticipant || []).map(async (id) => {
+      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+      const isFacilitator = courseRegistration.role === 'Facilitator';
+      const expectedDiscussionIds = isFacilitator
+        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
+        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
+
+      const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
@@ -81,7 +87,7 @@ const CourseDetails = ({
     };
 
     fetchDiscussions();
-  }, [meetPersonData]);
+  }, [meetPersonData, courseRegistration.role]);
 
   // Get current time in seconds
   const currentTimeSeconds = Math.floor(Date.now() / 1000);

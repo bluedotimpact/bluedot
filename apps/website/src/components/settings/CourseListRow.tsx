@@ -47,7 +47,13 @@ const CourseListRow = ({
       setLoading(true);
 
       // Only fetch expected discussions for the list row
-      const expectedPromises = (meetPersonData.meetPerson.expectedDiscussionsParticipant || []).map(async (id) => {
+      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+      const isFacilitator = courseRegistration.role === 'Facilitator';
+      const expectedDiscussionIds = isFacilitator
+        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
+        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
+
+      const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
@@ -68,7 +74,7 @@ const CourseListRow = ({
     };
 
     fetchDiscussions();
-  }, [meetPersonData, isCompleted]);
+  }, [meetPersonData, isCompleted, courseRegistration.role]);
 
   // Get current time in seconds
   const currentTimeSeconds = Math.floor(Date.now() / 1000);
