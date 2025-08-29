@@ -105,7 +105,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 ${(!isEditing && isCorrect) && 'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]'}
                 ${(!isEditing && isIncorrect) && 'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]'}`
               : 'container-lined'}`}
-            defaultChecked={formattedExerciseResponse === option}
             type="radio"
             value={option}
             onChange={() => handleOptionSelect(option)}
