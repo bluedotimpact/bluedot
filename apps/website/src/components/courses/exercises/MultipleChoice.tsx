@@ -101,6 +101,25 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     buttonText = 'Check answer';
   }
 
+  const getOptionClasses = (option: string) => {
+    const selected = isSelected(option);
+
+    if (!selected) {
+      // If there is a correct/incorrect answer shown we dim the other option's text
+      if (isCorrect || isIncorrect) {
+        return 'bg-[#2A2D340A] text-gray-400 border-transparent';
+      }
+      return 'bg-[#2A2D340A] hover:bg-[#F0F5FD] border-transparent';
+    }
+    if (isCorrect) {
+      return 'bg-[#18B71B1A] border-[#18B71B]';
+    }
+    if (isIncorrect) {
+      return 'bg-[#DC00001A] border-[#DC0000]';
+    }
+    return 'bg-[#F0F5FD] border-[#2244BB]';
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -120,14 +139,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
               key={option}
               {...register('answer')}
               labelClassName={clsx(
-                'multiple-choice__option flex items-center gap-2 p-4 rounded-lg border-2 hover:cursor-pointer ',
-                {
-                  'multiple-choice__option--correct bg-[#18B71B1A] border-[#18B71B]': showCorrectFeedback,
-                  'multiple-choice__option--incorrect bg-[#DC00001A] border-[#DC0000]': showIncorrectFeedback,
-                  'bg-[#2A2D340A] hover:bg-[#F0F5FD]': !showCorrectFeedback && !showIncorrectFeedback,
-                  'border-transparent': !isSelected(option) && !showCorrectFeedback && !showIncorrectFeedback,
-                  'bg-[#F0F5FD] border-[#2244BB]': isSelected(option) && !showCorrectFeedback && !showIncorrectFeedback,
-                },
+                'flex items-center gap-2 p-4 rounded-lg border-2 hover:cursor-pointer ',
+                getOptionClasses(option),
               )}
               type="radio"
               value={option}
