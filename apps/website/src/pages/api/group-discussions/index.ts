@@ -35,8 +35,6 @@ export type GetGroupDiscussionsResponse = {
     groupDetails?: Group;
     unitRecord?: Unit;
   }[];
-  meetPerson?: InferSelectModel<typeof meetPersonTable.pg>;
-  courseRegistration?: InferSelectModel<typeof courseRegistrationTable.pg>;
 };
 
 export default makeApiRoute({
@@ -48,8 +46,6 @@ export default makeApiRoute({
   responseBody: z.object({
     type: z.literal('success'),
     discussions: z.any().array(),
-    meetPerson: z.any().optional(),
-    courseRegistration: z.any().optional(),
   }),
 }, async (body, { auth, raw }) => {
   // Support both query params and body
@@ -101,7 +97,6 @@ export default makeApiRoute({
     return {
       type: 'success' as const,
       discussions: [],
-      courseRegistration,
     };
   }
 
@@ -109,8 +104,6 @@ export default makeApiRoute({
     return {
       type: 'success' as const,
       discussions: [],
-      meetPerson,
-      courseRegistration,
     };
   }
 
@@ -175,7 +168,5 @@ export default makeApiRoute({
   return {
     type: 'success' as const,
     discussions: discussionsWithDetails,
-    meetPerson,
-    courseRegistration,
   };
 });
