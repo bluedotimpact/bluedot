@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
@@ -39,7 +38,7 @@ const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) 
 
 const customMiniTitle = 'The Future of AI Course';
 const customTitle = 'AI is shaping the future. So can you.';
-const customDescription = 'Take this free online course to understand AI’s impact and be part of the conversation about its future.';
+const customDescription = 'Take this free online course to understand AI\'s impact and be part of the conversation about its future.';
 
 const quotes: Quote[] = [
   {
@@ -135,35 +134,44 @@ const FutureOfAiLander = ({
       </Head>
 
       {/* Hero section */}
-      {isMobile ? (
+      <div className="md:hidden">
+        {/* Mobile Hero with Blue Background */}
         <HeroSection>
           <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
           <HeroH1>{customTitle}</HeroH1>
           <p className="text-color-text-on-dark text-center mt-4">{customDescription}</p>
-          <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+          <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-6">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
               <FaClock /> Just 2 hours
             </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
               <FaBoltLightning /> {courseData.course.cadence || 'Self-paced'}
             </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
               <FaAward /> Free certificate
             </div>
-            <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
               <FaLightbulb /> No AI experience needed
             </div>
           </div>
           {courseData.units?.[0]?.path && (
             <HeroCTAContainer>
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
                 <CTALinkOrButton url={courseData.units[0].path} withChevron>Start the free course</CTALinkOrButton>
                 <CTALinkOrButton url="https://community.bluedot.org" target="_blank">Join the Community</CTALinkOrButton>
               </div>
             </HeroCTAContainer>
           )}
         </HeroSection>
-      ) : (
+
+        {/* Mobile Quotes Section with Light Background */}
+        <div className="bg-color-canvas w-full px-6 py-12">
+          <QuoteCarousel className="max-w-[600px] mx-auto" quotes={quotes} />
+        </div>
+      </div>
+
+      {/* Desktop Hero */}
+      <div className="hidden md:block">
         <div className="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative">
           <div className="future-of-ai-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
             <div className="
@@ -199,7 +207,7 @@ const FutureOfAiLander = ({
             <QuoteCarousel className="future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={quotes} />
           </div>
         </div>
-      )}
+      </div>
 
       {/* Graduate section */}
       <GraduateSection />
@@ -209,15 +217,19 @@ const FutureOfAiLander = ({
         <div className="future-of-ai-lander__features-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto">
           {features.map((feature, index) => (
             <div key={feature.title} className="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4">
-              <img
-                src={isMobile ? feature.mobileImageSrc : feature.desktopImageSrc}
-                alt={feature.title}
-                className={clsx(
-                  'future-of-ai-lander__feature-image',
-                  index % 2 === 0 ? 'md:order-1' : 'md:order-2',
-                  'h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top',
-                )}
-              />
+              <picture className={clsx(
+                'future-of-ai-lander__feature-image',
+                index % 2 === 0 ? 'md:order-1' : 'md:order-2',
+                'h-[340px] md:h-[550px] w-full overflow-hidden',
+              )}
+              >
+                <source media="(max-width: 767px)" srcSet={feature.mobileImageSrc} />
+                <img
+                  src={feature.desktopImageSrc}
+                  alt={feature.title}
+                  className="size-full object-cover object-top"
+                />
+              </picture>
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
@@ -232,11 +244,12 @@ const FutureOfAiLander = ({
 
       {/* Testimonials */}
       <Section title="What learners are saying" titleLevel="h3">
-        {isMobile ? (
+        <div className="md:hidden">
           <QuoteCarousel quotes={testimonials} />
-        ) : (
+        </div>
+        <div className="hidden md:block">
           <TestimonialSubSection testimonials={testimonials} />
-        )}
+        </div>
       </Section>
 
       {/* Banner */}

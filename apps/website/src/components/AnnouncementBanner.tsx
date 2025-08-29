@@ -1,7 +1,38 @@
-import React from 'react';
-import clsx from 'clsx';
+'use client';
+
 import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
+import clsx from 'clsx';
+import React from 'react';
+import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { P } from './Text';
+
+/**
+ * Generates a unique key for an announcement banner based on its content.
+ * Uses a djb2 hash algorithm to create a stable, short identifier.
+ * Source: https://stackoverflow.com/questions/7666509/hash-function-for-string/7666577#7666577
+ *
+ * @param children - The React children (content) of the banner
+ * @returns An 8 character base-36 encoded hash string that uniquely identifies the content
+ */
+export const getAnnouncementBannerKey = (children: React.ReactNode) => {
+  const textFromNode = (node: React.ReactNode): string => {
+    if (node == null || typeof node === 'boolean') return '';
+    if (typeof node === 'string' || typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(textFromNode).join(' ');
+    if (React.isValidElement(node)) return textFromNode(node.props?.children);
+    return '';
+  };
+
+  const str = textFromNode(children).trim();
+  let hash = 5381;
+
+  for (let i = 0; i < str.length; i++) {
+    hash = hash * 33 + str.charCodeAt(i);
+  }
+
+  // Convert to a positive number and then to base-36 string, taking first 8 characters
+  return Math.abs(hash).toString(36).slice(0, 8);
+};
 
 export type AnnouncementBannerProps = React.PropsWithChildren<{
   className?: string;
@@ -22,6 +53,14 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   hideUntil,
   hideAfter,
 }) => {
+  const bannerKey = getAnnouncementBannerKey(children);
+  const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
+  // If this banner has been dismissed (now or in the past) don't show it
+  const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
+  if (isDismissed) {
+    return null;
+  }
+
   if (hideUntil && Date.now() < hideUntil.getTime()) {
     return null;
   }
@@ -31,22 +70,28 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   }
 
   return (
-    <div className={clsx(
-      'announcement-banner w-full py-4 bg-bluedot-lighter',
-      className,
-    )}
-    >
+    <div className={clsx('announcement-banner w-full py-4 bg-bluedot-lighter', className)}>
       <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         <P className="announcement-banner__content text-center sm:text-left">{children}</P>
-        {ctaUrl && (
+        <div className="flex gap-2">
+          {ctaUrl && (
+            <CTALinkOrButton
+              className="announcement-banner__cta"
+              variant="black"
+              url={ctaUrl}
+            >
+              {ctaText}
+            </CTALinkOrButton>
+          )}
           <CTALinkOrButton
-            className="announcement-banner__cta"
-            variant="secondary"
-            url={ctaUrl}
+            className="announcement-banner__close"
+            variant="outline-black"
+            aria-label="Close announcement"
+            onClick={() => dismissBanner(bannerKey)}
           >
-            {ctaText}
+            <span aria-hidden="true">&times;</span>
           </CTALinkOrButton>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -69,22 +69,31 @@ export default makeApiRoute({
     };
   }
 
+  const currentTimeSeconds = Math.floor(Date.now() / 1000);
   const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
 
-  // Look up group discussions for this user that haven't ended yet (with 15 min leeway)
+  // Get all discussions that haven't ended yet (including 15-minute grace period after end time)
   const groupDiscussions = await db.pg.select()
     .from(groupDiscussionTable.pg)
     .where(
       and(
         eq(groupDiscussionTable.pg.round, roundId),
-        eq(groupDiscussionTable.pg.unitNumber, parseInt(unitNumber, 10)),
         sql`${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}]`,
         sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
       ),
     )
     .orderBy(groupDiscussionTable.pg.startDateTime);
 
-  const groupDiscussion = groupDiscussions[0] || null;
+  // Priority: Show ongoing meeting (including 15 min after end), otherwise show next upcoming
+  let groupDiscussion = null;
+
+  const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
+
+  if (ongoingDiscussion) {
+    groupDiscussion = ongoingDiscussion;
+  } else {
+    groupDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds) || null;
+  }
 
   return {
     type: 'success' as const,
