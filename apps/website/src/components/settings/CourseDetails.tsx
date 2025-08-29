@@ -17,6 +17,7 @@ const CourseDetails = ({
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GetGroupDiscussionsResponse['discussions'][0] | null>(null);
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
 
   const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
     method: 'get',
@@ -60,9 +61,13 @@ const CourseDetails = ({
     return 'Less than 1min';
   };
 
-  // Get upcoming discussions only
+  // Get upcoming and attended discussions
   const upcomingDiscussions = discussionsData?.discussions.filter(
     (discussion) => discussion.endDateTime > currentTimeSeconds,
+  ) || [];
+
+  const attendedDiscussions = discussionsData?.discussions.filter(
+    (discussion) => discussion.endDateTime <= currentTimeSeconds,
   ) || [];
 
   // Format date and time
@@ -80,7 +85,7 @@ const CourseDetails = ({
     });
   };
 
-  const renderDiscussionItem = (discussion: GetGroupDiscussionsResponse['discussions'][0], isNext = false) => {
+  const renderDiscussionItem = (discussion: GetGroupDiscussionsResponse['discussions'][0], isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
     const oneHourInSeconds = 60 * 60;
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
@@ -123,7 +128,9 @@ const CourseDetails = ({
                   : `Unit ${discussion.unitNumber || ''}`}
               </div>
               <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
+                {isPast
+                  ? `Ended ${formatDiscussionDate(discussion.endDateTime)} at ${formatDiscussionTime(discussion.endDateTime)}`
+                  : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
               </div>
             </div>
 
@@ -142,7 +149,7 @@ const CourseDetails = ({
                   </CTALinkOrButton>
                 </div>
               )}
-              {!isFacilitator && (
+              {!isFacilitator && !isPast && (
                 <div className="w-full">
                   <CTALinkOrButton
                     variant="outline-black"
@@ -157,6 +164,17 @@ const CourseDetails = ({
                     }}
                   >
                     Switch group
+                  </CTALinkOrButton>
+                </div>
+              )}
+              {isPast && course.slug && discussion.unitNumber && (
+                <div className="w-full">
+                  <CTALinkOrButton
+                    variant="outline-black"
+                    size="small"
+                    url={`/courses/${course.slug}/${discussion.unitNumber}`}
+                  >
+                    Review materials
                   </CTALinkOrButton>
                 </div>
               )}
@@ -185,7 +203,9 @@ const CourseDetails = ({
                   : `Unit ${discussion.unitNumber || ''}`}
               </div>
               <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                Starts in {formatTimeUntilDiscussion(discussion.startDateTime)}
+                {isPast
+                  ? `Ended ${formatDiscussionDate(discussion.endDateTime)} at ${formatDiscussionTime(discussion.endDateTime)}`
+                  : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
               </div>
             </div>
           </div>
@@ -203,7 +223,7 @@ const CourseDetails = ({
                 {buttonText}
               </CTALinkOrButton>
             )}
-            {!isFacilitator && (
+            {!isFacilitator && !isPast && (
               <CTALinkOrButton
                 variant="outline-black"
                 size="small"
@@ -219,6 +239,15 @@ const CourseDetails = ({
                 Switch group
               </CTALinkOrButton>
             )}
+            {isPast && course.slug && discussion.unitNumber && (
+              <CTALinkOrButton
+                variant="outline-black"
+                size="small"
+                url={`/courses/${course.slug}/${discussion.unitNumber}`}
+              >
+                Review materials
+              </CTALinkOrButton>
+            )}
           </div>
         </div>
       </div>
@@ -229,12 +258,31 @@ const CourseDetails = ({
     <>
       <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
-          {/* Section header */}
+          {/* Section header with tabs */}
           <div className="flex border-b border-gray-200">
             <div className="flex px-4 sm:px-8 gap-8">
-              <div className="relative py-2 px-1 text-size-xs font-medium text-blue-600 border-b-2 border-blue-600">
+              <button
+                type="button"
+                onClick={() => setActiveTab('upcoming')}
+                className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                  activeTab === 'upcoming'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
                 Upcoming discussions
-              </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('attended')}
+                className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                  activeTab === 'attended'
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Attended discussions
+              </button>
             </div>
           </div>
 
@@ -246,12 +294,23 @@ const CourseDetails = ({
               </div>
             ) : (
               <div className="min-h-[200px]">
-                {upcomingDiscussions.length > 0 ? (
-                  <div>
-                    {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0))}
-                  </div>
-                ) : (
-                  <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
+                {activeTab === 'upcoming' && (
+                  upcomingDiscussions.length > 0 ? (
+                    <div>
+                      {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
+                    </div>
+                  ) : (
+                    <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
+                  )
+                )}
+                {activeTab === 'attended' && (
+                  attendedDiscussions.length > 0 ? (
+                    <div>
+                      {attendedDiscussions.map((discussion) => renderDiscussionItem(discussion, false, true))}
+                    </div>
+                  ) : (
+                    <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
+                  )
                 )}
               </div>
             )}
