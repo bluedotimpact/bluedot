@@ -119,12 +119,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             <Input
               key={option}
               {...register('answer')}
-              labelClassName={clsx('multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer', {
-                'multiple-choice__option--selected container-active': isSelected(option),
-                'container-lined': !isSelected(option),
-                'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]': showCorrectFeedback,
-                'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]': showIncorrectFeedback,
-              })}
+              labelClassName={clsx(
+                'multiple-choice__option flex items-center gap-2 p-4 rounded-lg border-2 hover:cursor-pointer ',
+                {
+                  'multiple-choice__option--correct bg-[#18B71B1A] border-[#18B71B]': showCorrectFeedback,
+                  'multiple-choice__option--incorrect bg-[#DC00001A] border-[#DC0000]': showIncorrectFeedback,
+                  'bg-[#2A2D340A] hover:bg-[#F0F5FD]': !showCorrectFeedback && !showIncorrectFeedback,
+                  'border-transparent': !isSelected(option) && !showCorrectFeedback && !showIncorrectFeedback,
+                  'bg-[#F0F5FD] border-[#2244BB]': isSelected(option) && !showCorrectFeedback && !showIncorrectFeedback,
+                },
+              )}
               type="radio"
               value={option}
               onChange={() => handleOptionSelect(option)}
