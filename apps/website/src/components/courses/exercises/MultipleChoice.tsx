@@ -48,10 +48,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const formattedAnswer = answer.trim();
   const formattedExerciseResponse = exerciseResponse?.trim();
 
-  const [selectedOption, setSelectedOption] = React.useState<string | null>();
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const {
-    register, handleSubmit, setValue, formState: { isSubmitting },
+    register, handleSubmit, setValue, formState: { isSubmitting }, watch,
   } = useForm<FormData>({
     defaultValues: {
       answer: formattedExerciseResponse,
@@ -59,16 +58,17 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   });
 
   const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
     setValue('answer', option);
     setIsEditing(true);
   };
+
+  const currentAnswer = watch('answer');
 
   const isSelected = (option: string): boolean => {
     if (!isEditing && formattedExerciseResponse) {
       return formattedExerciseResponse === option;
     }
-    return selectedOption === option;
+    return currentAnswer === option;
   };
 
   useEffect(() => {
