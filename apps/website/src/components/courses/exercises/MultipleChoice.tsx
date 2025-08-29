@@ -84,8 +84,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     setIsEditing(false);
   }, [onExerciseSubmit]);
 
-  const isCorrect = formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
-  const isIncorrect = formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
+  const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
+  const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
@@ -95,8 +95,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {formattedOptions.map((option) => {
-          const showCorrectFeedback = !isEditing && isSelected(option) && isCorrect;
-          const showIncorrectFeedback = !isEditing && isSelected(option) && isIncorrect;
+          const showCorrectFeedback = isSelected(option) && isCorrect;
+          const showIncorrectFeedback = isSelected(option) && isIncorrect;
 
           return (
             <Input
@@ -138,8 +138,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           Create a free account to check your answer
         </CTALinkOrButton>
       )}
-      {(!isEditing && isCorrect) && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
-      {(!isEditing && isIncorrect) && <P className="multiple-choice__incorrect-msg">Try again. 🤔</P>}
+      {isCorrect && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
+      {isIncorrect && <P className="multiple-choice__incorrect-msg">Try again. 🤔</P>}
     </form>
   );
 };
