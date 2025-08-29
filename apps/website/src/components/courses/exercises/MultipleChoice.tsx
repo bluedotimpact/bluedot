@@ -137,16 +137,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           );
         })}
       </div>
-      {isLoggedIn ? (
-        <CTALinkOrButton
-          className="multiple-choice__submit !bg-[#2244BB]"
-          variant="primary"
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting || !currentAnswer}
-        >
-          {buttonText}
-        </CTALinkOrButton>
-      ) : (
+      {!isLoggedIn && (
         <CTALinkOrButton
           className="multiple-choice__login-cta !bg-[#2244BB]"
           variant="primary"
@@ -154,6 +145,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           withChevron
         >
           Create a free account to check your answer
+        </CTALinkOrButton>
+      )}
+      {isLoggedIn && !isCorrect && (
+        <CTALinkOrButton
+          className="multiple-choice__submit !bg-[#2244BB]"
+          variant="primary"
+          onClick={handleSubmit(onSubmit)}
+          disabled={isSubmitting || !currentAnswer}
+        >
+          {buttonText}
         </CTALinkOrButton>
       )}
       {isCorrect && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
