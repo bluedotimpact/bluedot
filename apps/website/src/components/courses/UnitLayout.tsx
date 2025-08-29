@@ -240,6 +240,18 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         return;
       }
 
+      // Handle number keys for unit navigation
+      if (/^[1-9]$/.test(event.key)) {
+        const targetUnitNumber = parseInt(event.key, 10);
+        const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
+        if (targetUnit) {
+          event.preventDefault();
+          router.push(`${targetUnit.path}?chunk=0`);
+          setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
+        }
+        return;
+      }
+
       switch (event.key) {
         case 'ArrowLeft':
           event.preventDefault();

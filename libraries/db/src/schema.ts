@@ -348,6 +348,10 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fld6z76NthgaFf8EY',
     },
+    courseBuilderUnitRecordId: {
+      pgColumn: text(),
+      airtableId: 'fld87QFyiHceHbpKG',
+    },
   },
 });
 
@@ -438,6 +442,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
     expectedDiscussionsFacilitator: {
       pgColumn: text().array(),
       airtableId: 'fldYEbDu2kJwWrSdJ',
+    },
+    attendedDiscussions: {
+      pgColumn: text().array(),
+      airtableId: 'fldTEkxGZQxTqHhdX',
     },
   },
 });
