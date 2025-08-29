@@ -170,10 +170,10 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-[15px] text-[#00114D] leading-[22px]">{course.title}</h3>
+                <h3 className="font-semibold text-size-lg text-black leading-[22px]">{course.title}</h3>
                 {metadataText && (
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
+                    <p className="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4">
                       {metadataText}
                     </p>
                     {isCompleted && (
@@ -187,7 +187,7 @@ const CourseListRow = ({
                 {!isExpanded && !isCompleted && nextDiscussion && !loading && (
                   <p
                     className={`text-size-xs mt-1 ${
-                      isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
+                      isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
                     }`}
                   >
                     Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
@@ -217,7 +217,7 @@ const CourseListRow = ({
                   >
                     <path
                       d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#00114D"
+                      stroke="#1F2937"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -268,14 +268,14 @@ const CourseListRow = ({
           <div className="hidden sm:flex items-center gap-4">
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-[15px] text-[#00114D] leading-[22px]">{course.title}</h3>
+              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title}</h3>
               {metadataText && (
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <p className="text-size-xs font-medium text-[#00114D] opacity-50 leading-4">
+                  <p className="text-size-xs font-medium text-gray-900 opacity-50 leading-4">
                     {metadataText}
                   </p>
                   {isCompleted && (
-                    <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
+                    <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
                       <FaCheck className="size-1.5 text-white" />
                     </span>
                   )}
@@ -348,7 +348,7 @@ const CourseListRow = ({
                   >
                     <path
                       d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#00114D"
+                      stroke="#1F2937"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
