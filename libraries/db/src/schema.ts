@@ -443,6 +443,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldYEbDu2kJwWrSdJ',
     },
+    attendedDiscussions: {
+      pgColumn: text().array(),
+      airtableId: 'fldTEkxGZQxTqHhdX',
+    },
   },
 });
 
