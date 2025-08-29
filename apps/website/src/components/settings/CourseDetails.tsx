@@ -148,6 +148,7 @@ const CourseDetails = ({
                     variant="outline-black"
                     size="small"
                     url="#"
+                    aria-label={`Switch group for Unit ${discussion.unitNumber}`}
                     onClick={(e) => {
                       e.preventDefault();
                       // Set the discussion for the modal
@@ -207,6 +208,7 @@ const CourseDetails = ({
                 variant="outline-black"
                 size="small"
                 url="#"
+                aria-label={`Switch group for Unit ${discussion.unitNumber}`}
                 onClick={(e) => {
                   e.preventDefault();
                   // Set the discussion for the modal
