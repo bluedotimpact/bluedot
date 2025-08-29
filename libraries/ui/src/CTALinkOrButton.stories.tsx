@@ -161,3 +161,20 @@ export const SmallWithChevron: Story = {
     withChevron: true,
   },
 };
+
+export const DisabledButton: Story = {
+  args: {
+    children: 'Disabled Button',
+    variant: 'primary',
+    disabled: true,
+  },
+};
+
+export const DisabledLink: Story = {
+  args: {
+    children: 'Disabled Link',
+    variant: 'primary',
+    url: 'https://www.google.com',
+    disabled: true,
+  },
+};

@@ -23,7 +23,7 @@ exports[`AboutPage > should render correctly 1`] = `
           class="flex justify-center mt-8"
         >
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
             href="/join-us"
             tabindex="0"
           >
@@ -864,7 +864,7 @@ exports[`AboutPage > should render correctly 1`] = `
           Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
         </h3>
         <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
           href="/join-us"
           tabindex="0"
         >
@@ -919,7 +919,7 @@ exports[`AboutPage > should render correctly 1`] = `
           We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
         </p>
         <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
           href="/contact"
           tabindex="0"
         >

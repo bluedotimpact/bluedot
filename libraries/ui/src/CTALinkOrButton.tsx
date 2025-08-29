@@ -10,7 +10,8 @@ export type CTALinkOrButtonProps = {
   withBackChevron?: boolean;
 } & ClickTargetProps;
 
-const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose';
+// `disabled:` attributes apply to buttons, `aria-disabled:` to links
+const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none';
 
 const CTA_SIZE_STYLES = {
   small: 'text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold',
