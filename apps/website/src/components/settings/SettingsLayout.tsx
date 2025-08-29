@@ -3,7 +3,7 @@ import { ClickTarget, NewText, BluedotRoute } from '@bluedot/ui';
 import clsx from 'clsx';
 import { H2 } from '../Text';
 
-type SettingsTab = 'account' | 'courses' | 'community';
+type SettingsTab = 'account' | 'courses';
 
 type SettingsLayoutProps = {
   activeTab: SettingsTab;
@@ -50,12 +50,6 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
       label: 'Courses',
       href: '/settings/courses',
     },
-    {
-      id: 'community' as SettingsTab,
-      label: 'Community',
-      href: '/settings/community',
-      isNew: true,
-    },
   ];
 
   return (
@@ -75,20 +69,12 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
                   }
                 `}
                 aria-current={isActive ? 'page' : undefined}
-                aria-label={`${item.label} settings${item.isNew ? ' (New feature)' : ''}`}
+                aria-label={`${item.label} settings`}
               >
                 <span className="flex items-center gap-3 w-full">
                   <NewText.P className={`text-[13px] leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
                     {item.label}
                   </NewText.P>
-                  {item.isNew && (
-                    <span
-                      className="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold bg-[rgba(0,85,255,0.08)] text-[#0037FF]"
-                      aria-label="New feature"
-                    >
-                      NEW
-                    </span>
-                  )}
                 </span>
               </ClickTarget>
             </li>

@@ -48,12 +48,6 @@ export const ProfileLinks: React.FC<{
           >Courses
           </A>
           <A
-            href={ROUTES.settingsCommunity.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
-            onClick={onToggleProfile}
-          >Community
-          </A>
-          <A
             href={ROUTES.contact.url}
             className={NAV_LINK_CLASSES(isScrolled)}
             onClick={onToggleProfile}
