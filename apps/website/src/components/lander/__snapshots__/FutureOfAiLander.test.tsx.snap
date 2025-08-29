@@ -3,36 +3,34 @@
 exports[`FutureOfAiLander > renders as expected 1`] = `
 <div>
   <div
-    class="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative"
+    class="md:hidden"
   >
     <div
-      class="future-of-ai-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x"
+      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
     >
       <div
-        class="
-              future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
-              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+        class="hero-section__content max-w-[920px] py-12"
       >
-        <h1
-          class="bluedot-h1 not-prose text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4"
+        <div
+          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
         >
-          Future of AI
-        </h1>
-        <h2
-          class="bluedot-h2 not-prose text-color-text-on-dark bluedot-h1"
+          The Future of AI Course
+        </div>
+        <h1
+          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
         >
           AI is shaping the future. So can you.
-        </h2>
+        </h1>
         <p
-          class="text-color-text-on-dark mt-4"
+          class="text-color-text-on-dark text-center mt-4"
         >
-          Take this free online course to understand AI’s impact and be part of the conversation about its future.
+          Take this free online course to understand AI's impact and be part of the conversation about its future.
         </p>
         <div
-          class="flex flex-row flex-wrap justify-start gap-2 items-center mt-4"
+          class="flex flex-row flex-wrap justify-center gap-2 items-center mt-6"
         >
           <div
-            class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            class="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark"
           >
             <svg
               fill="currentColor"
@@ -50,7 +48,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
              Just 2 hours
           </div>
           <div
-            class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            class="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark"
           >
             <svg
               fill="currentColor"
@@ -66,9 +64,10 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               />
             </svg>
              
+            Self-paced
           </div>
           <div
-            class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            class="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark"
           >
             <svg
               fill="currentColor"
@@ -86,7 +85,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
              Free certificate
           </div>
           <div
-            class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            class="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark"
           >
             <svg
               fill="currentColor"
@@ -108,7 +107,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           class="flex justify-center mt-8"
         >
           <div
-            class="flex flex-row gap-4"
+            class="flex flex-col sm:flex-row justify-center items-center gap-3"
           >
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
@@ -154,8 +153,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="bg-color-canvas w-full px-6 py-12"
+    >
       <div
-        class="quote-carousel text-center future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12"
+        class="quote-carousel text-center max-w-[600px] mx-auto"
       >
         <div
           class="relative quote-carousel__image-section h-28 flex justify-center mb-4"
@@ -267,6 +270,279 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
             type="button"
           />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="hidden md:block"
+  >
+    <div
+      class="flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative"
+    >
+      <div
+        class="future-of-ai-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x"
+      >
+        <div
+          class="
+              future-of-ai-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
+              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
+        >
+          <h1
+            class="bluedot-h1 not-prose text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4"
+          >
+            Future of AI
+          </h1>
+          <h2
+            class="bluedot-h2 not-prose text-color-text-on-dark bluedot-h1"
+          >
+            AI is shaping the future. So can you.
+          </h2>
+          <p
+            class="text-color-text-on-dark mt-4"
+          >
+            Take this free online course to understand AI's impact and be part of the conversation about its future.
+          </p>
+          <div
+            class="flex flex-row flex-wrap justify-start gap-2 items-center mt-4"
+          >
+            <div
+              class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"
+                />
+              </svg>
+               Just 2 hours
+            </div>
+            <div
+              class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 384 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 256L28.5 28c2-16 15.6-28 31.8-28H228.9c15 0 27.1 12.1 27.1 27.1c0 3.2-.6 6.5-1.7 9.5L208 160H347.3c20.2 0 36.7 16.4 36.7 36.7c0 7.4-2.2 14.6-6.4 20.7l-192.2 281c-5.9 8.6-15.6 13.7-25.9 13.7h-2.9c-15.7 0-28.5-12.8-28.5-28.5c0-2.3 .3-4.6 .9-6.9L176 288H32c-17.7 0-32-14.3-32-32z"
+                />
+              </svg>
+               
+            </div>
+            <div
+              class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 384 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M173.8 5.5c11-7.3 25.4-7.3 36.4 0L228 17.2c6 3.9 13 5.8 20.1 5.4l21.3-1.3c13.2-.8 25.6 6.4 31.5 18.2l9.6 19.1c3.2 6.4 8.4 11.5 14.7 14.7L344.5 83c11.8 5.9 19 18.3 18.2 31.5l-1.3 21.3c-.4 7.1 1.5 14.2 5.4 20.1l11.8 17.8c7.3 11 7.3 25.4 0 36.4L366.8 228c-3.9 6-5.8 13-5.4 20.1l1.3 21.3c.8 13.2-6.4 25.6-18.2 31.5l-19.1 9.6c-6.4 3.2-11.5 8.4-14.7 14.7L301 344.5c-5.9 11.8-18.3 19-31.5 18.2l-21.3-1.3c-7.1-.4-14.2 1.5-20.1 5.4l-17.8 11.8c-11 7.3-25.4 7.3-36.4 0L156 366.8c-6-3.9-13-5.8-20.1-5.4l-21.3 1.3c-13.2 .8-25.6-6.4-31.5-18.2l-9.6-19.1c-3.2-6.4-8.4-11.5-14.7-14.7L39.5 301c-11.8-5.9-19-18.3-18.2-31.5l1.3-21.3c.4-7.1-1.5-14.2-5.4-20.1L5.5 210.2c-7.3-11-7.3-25.4 0-36.4L17.2 156c3.9-6 5.8-13 5.4-20.1l-1.3-21.3c-.8-13.2 6.4-25.6 18.2-31.5l19.1-9.6C65 70.2 70.2 65 73.4 58.6L83 39.5c5.9-11.8 18.3-19 31.5-18.2l21.3 1.3c7.1 .4 14.2-1.5 20.1-5.4L173.8 5.5zM272 192a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM1.3 441.8L44.4 339.3c.2 .1 .3 .2 .4 .4l9.6 19.1c11.7 23.2 36 37.3 62 35.8l21.3-1.3c.2 0 .5 0 .7 .2l17.8 11.8c5.1 3.3 10.5 5.9 16.1 7.7l-37.6 89.3c-2.3 5.5-7.4 9.2-13.3 9.7s-11.6-2.2-14.8-7.2L74.4 455.5l-56.1 8.3c-5.7 .8-11.4-1.5-15-6s-4.3-10.7-2.1-16zm248 60.4L211.7 413c5.6-1.8 11-4.3 16.1-7.7l17.8-11.8c.2-.1 .4-.2 .7-.2l21.3 1.3c26 1.5 50.3-12.6 62-35.8l9.6-19.1c.1-.2 .2-.3 .4-.4l43.2 102.5c2.2 5.3 1.4 11.4-2.1 16s-9.3 6.9-15 6l-56.1-8.3-32.2 49.2c-3.2 5-8.9 7.7-14.8 7.2s-11-4.3-13.3-9.7z"
+                />
+              </svg>
+               Free certificate
+            </div>
+            <div
+              class="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 384 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2c0 0 0 0 0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4c0 0 0 0 0 0c19.8 27.1 39.7 54.4 49.2 86.2l160 0zM192 512c44.2 0 80-35.8 80-80l0-16-160 0 0 16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"
+                />
+              </svg>
+               No AI experience needed
+            </div>
+          </div>
+          <div
+            class="flex justify-center mt-8"
+          >
+            <div
+              class="flex flex-row gap-4"
+            >
+              <a
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+                href="/courses/test-course/1"
+                tabindex="0"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Start the free course
+                </span>
+                <span
+                  class="cta-button__chevron ml-3"
+                >
+                  <svg
+                    class="cta-button__chevron-icon size-2"
+                    fill="currentColor"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 320 512"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                    />
+                  </svg>
+                </span>
+              </a>
+              <a
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+                href="https://community.bluedot.org"
+                tabindex="0"
+                target="_blank"
+              >
+                <span
+                  class="cta-button__text"
+                >
+                  Join the Community
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="quote-carousel text-center future-of-ai-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12"
+        >
+          <div
+            class="relative quote-carousel__image-section h-28 flex justify-center mb-4"
+          >
+            <div
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] quote-carousel__image-container--active block opacity-100 rotate-0 scale-100"
+            >
+              <img
+                alt="Dario Amodei"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/lander/foai/dario.jpeg"
+              />
+              <div
+                class="quote-carousel__author-name mt-1"
+              >
+                Dario Amodei
+              </div>
+              <div
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+              >
+                CEO, Anthropic
+              </div>
+            </div>
+            <div
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
+            >
+              <img
+                alt="Demis Hassabis"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/lander/foai/demis.jpeg"
+              />
+              <div
+                class="quote-carousel__author-name mt-1"
+              >
+                Demis Hassabis
+              </div>
+              <div
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+              >
+                CEO, Google DeepMind
+              </div>
+            </div>
+            <div
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
+            >
+              <img
+                alt="Ursula von der Leyen"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/lander/foai/ursula.png"
+              />
+              <div
+                class="quote-carousel__author-name mt-1"
+              >
+                Ursula von der Leyen
+              </div>
+              <div
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+              >
+                President, European Commission
+              </div>
+            </div>
+          </div>
+          <div
+            class="quote-carousel__quote-section flex flex-col mb-9 transition-all delay-300 duration-150 ease-in-out"
+          >
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 quote-carousel__quote-block--active block opacity-100 translate-x-0"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                AI could surpass almost all humans at almost everything shortly after 2027.
+              </div>
+            </div>
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                We must take the risks of AI as seriously as other major global challenges, like climate change.
+              </div>
+            </div>
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                We should not underestimate the real threats coming from AI... we have a narrowing window of opportunity to guide this technology responsibly.
+              </div>
+            </div>
+          </div>
+          <div
+            class="quote-carousel__btn-section mt-4 flex flex-row gap-2 justify-center"
+          >
+            <button
+              aria-label="Go to testimonial 1"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-bluedot-normal"
+              type="button"
+            />
+            <button
+              aria-label="Go to testimonial 2"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
+              type="button"
+            />
+            <button
+              aria-label="Go to testimonial 3"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
+              type="button"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -542,11 +818,19 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         <div
           class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
         >
-          <img
-            alt="Learn on your terms"
-            class="future-of-ai-lander__feature-image md:order-1 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
-            src="/images/lander/foai/learn-desktop.png"
-          />
+          <picture
+            class="future-of-ai-lander__feature-image md:order-1 h-[340px] md:h-[550px] w-full overflow-hidden"
+          >
+            <source
+              media="(max-width: 767px)"
+              srcset="/images/lander/foai/learn-mobile.png"
+            />
+            <img
+              alt="Learn on your terms"
+              class="size-full object-cover object-top"
+              src="/images/lander/foai/learn-desktop.png"
+            />
+          </picture>
           <div
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
           >
@@ -592,11 +876,19 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         <div
           class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
         >
-          <img
-            alt="Try cutting-edge tools"
-            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
-            src="/images/lander/foai/try-desktop.png"
-          />
+          <picture
+            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden"
+          >
+            <source
+              media="(max-width: 767px)"
+              srcset="/images/lander/foai/try-mobile.png"
+            />
+            <img
+              alt="Try cutting-edge tools"
+              class="size-full object-cover object-top"
+              src="/images/lander/foai/try-desktop.png"
+            />
+          </picture>
           <div
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
           >
@@ -642,11 +934,19 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         <div
           class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
         >
-          <img
-            alt="Get certified"
-            class="future-of-ai-lander__feature-image md:order-1 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
-            src="/images/lander/foai/cert-desktop.png"
-          />
+          <picture
+            class="future-of-ai-lander__feature-image md:order-1 h-[340px] md:h-[550px] w-full overflow-hidden"
+          >
+            <source
+              media="(max-width: 767px)"
+              srcset="/images/lander/foai/cert-mobile.png"
+            />
+            <img
+              alt="Get certified"
+              class="size-full object-cover object-top"
+              src="/images/lander/foai/cert-desktop.png"
+            />
+          </picture>
           <div
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-2"
           >
@@ -692,11 +992,19 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
         <div
           class="future-of-ai-lander__features-section-item flex flex-col md:flex-row justify-center gap-12 items-center mt-4"
         >
-          <img
-            alt="Join the conversation"
-            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden object-cover object-top"
-            src="/images/lander/foai/community-desktop.png"
-          />
+          <picture
+            class="future-of-ai-lander__feature-image md:order-2 h-[340px] md:h-[550px] w-full overflow-hidden"
+          >
+            <source
+              media="(max-width: 767px)"
+              srcset="/images/lander/foai/community-mobile.png"
+            />
+            <img
+              alt="Join the conversation"
+              class="size-full object-cover object-top"
+              src="/images/lander/foai/community-desktop.png"
+            />
+          </picture>
           <div
             class="future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] md:order-1"
           >
@@ -762,212 +1070,335 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       class="section__body"
     >
       <div
-        class="testimonial-section pb-spacing-y"
+        class="md:hidden"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 testimonial-section__testimonials"
+          class="quote-carousel text-center"
         >
           <div
-            class="slide-list__gradient-wrapper relative flex-1"
+            class="relative quote-carousel__image-section h-28 flex justify-center mb-4"
           >
             <div
-              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] quote-carousel__image-container--active block opacity-100 rotate-0 scale-100"
             >
-              <div
-                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
+              <img
+                alt="Craig Dickson"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/graduates/craig.png"
               />
+              <div
+                class="quote-carousel__author-name mt-1"
+              >
+                Craig Dickson
+              </div>
+              <div
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
+              >
+                Senior Data Analyst, Klarna
+              </div>
             </div>
             <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
-              style="scroll-padding-inline: 0px;"
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
             >
+              <img
+                alt="Crystal Isanda"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/graduates/crystal.jpeg"
+              />
               <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
+                class="quote-carousel__author-name mt-1"
               >
-                <div
-                  class="testimonial flex flex-col h-full border rounded-lg p-8"
-                >
-                  <blockquote
-                    class="testimonial__quote mb-space-between flex-grow"
-                  >
-                    "
-                    I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.
-                    "
-                  </blockquote>
-                  <div
-                    class="testimonial__footer flex items-center gap-space-between mt-auto"
-                  >
-                    <div
-                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
-                    >
-                      <img
-                        alt="Craig Dickson"
-                        class="size-full object-cover"
-                        src="/images/graduates/craig.png"
-                      />
-                    </div>
-                    <div
-                      class="testimonial__info"
-                    >
-                      <div
-                        class="testimonial__name font-semibold text-bluedot-black"
-                      >
-                        Craig Dickson
-                      </div>
-                      <div
-                        class="testimonial__role text-size-sm text-bluedot-darker"
-                      >
-                        Senior Data Analyst, Klarna
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                Crystal Isanda
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
               >
-                <div
-                  class="testimonial flex flex-col h-full border rounded-lg p-8"
-                >
-                  <blockquote
-                    class="testimonial__quote mb-space-between flex-grow"
-                  >
-                    "
-                    The course also gave me something I didn't expect: a global community of changemakers, dreamers and thinkers.
-                    "
-                  </blockquote>
-                  <div
-                    class="testimonial__footer flex items-center gap-space-between mt-auto"
-                  >
-                    <div
-                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
-                    >
-                      <img
-                        alt="Crystal Isanda"
-                        class="size-full object-cover"
-                        src="/images/graduates/crystal.jpeg"
-                      />
-                    </div>
-                    <div
-                      class="testimonial__info"
-                    >
-                      <div
-                        class="testimonial__name font-semibold text-bluedot-black"
-                      >
-                        Crystal Isanda
-                      </div>
-                      <div
-                        class="testimonial__role text-size-sm text-bluedot-darker"
-                      >
-                        Foresight Fellow, UNICEF
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                Foresight Fellow, UNICEF
+              </div>
+            </div>
+            <div
+              class="quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)] hidden opacity-0 -rotate-12 scale-95 pointer-events-none"
+            >
+              <img
+                alt="Vipul Gupta"
+                class="quote-carousel__image rounded-full object-cover size-14"
+                src="/images/graduates/vipul.png"
+              />
+              <div
+                class="quote-carousel__author-name mt-1"
+              >
+                Vipul Gupta
               </div>
               <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
+                class="quote-carousel__author-role text-size-xs uppercase font-bold mt-1"
               >
-                <div
-                  class="testimonial flex flex-col h-full border rounded-lg p-8"
-                >
-                  <blockquote
-                    class="testimonial__quote mb-space-between flex-grow"
-                  >
-                    "
-                    This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.
-                    "
-                  </blockquote>
-                  <div
-                    class="testimonial__footer flex items-center gap-space-between mt-auto"
-                  >
-                    <div
-                      class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
-                    >
-                      <img
-                        alt="Vipul Gupta"
-                        class="size-full object-cover"
-                        src="/images/graduates/vipul.png"
-                      />
-                    </div>
-                    <div
-                      class="testimonial__info"
-                    >
-                      <div
-                        class="testimonial__name font-semibold text-bluedot-black"
-                      >
-                        Vipul Gupta
-                      </div>
-                      <div
-                        class="testimonial__role text-size-sm text-bluedot-darker"
-                      >
-                        Senior Software Engineer, Balena
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                Senior Software Engineer, Balena
               </div>
             </div>
           </div>
           <div
-            class="flex justify-between items-center gap-space-between"
+            class="quote-carousel__quote-section flex flex-col mb-9 transition-all delay-300 duration-150 ease-in-out"
+          >
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 quote-carousel__quote-block--active block opacity-100 translate-x-0"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.
+              </div>
+            </div>
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                The course also gave me something I didn't expect: a global community of changemakers, dreamers and thinkers.
+              </div>
+            </div>
+            <div
+              class="quote-carousel__quote-block w-full transition-all duration-500 hidden opacity-0 -translate-x-4 pointer-events-none"
+            >
+              <div
+                class="quote-carousel__quote text-2xl font-bold"
+              >
+                This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.
+              </div>
+            </div>
+          </div>
+          <div
+            class="quote-carousel__btn-section mt-4 flex flex-row gap-2 justify-center"
           >
             <button
-              aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              disabled=""
+              aria-label="Go to testimonial 1"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-bluedot-normal"
               type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-            <div
-              class="slide-list__progress w-full relative h-1"
-            >
-              <div
-                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-              />
-              <div
-                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 33.33333333333333%;"
-              />
-            </div>
+            />
             <button
-              aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              aria-label="Go to testimonial 2"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
               type="button"
+            />
+            <button
+              aria-label="Go to testimonial 3"
+              class="size-3 rounded-full transition-all duration-150 hover:cursor-pointer bg-transparent border-2 border-bluedot-normal"
+              type="button"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="hidden md:block"
+      >
+        <div
+          class="testimonial-section pb-spacing-y"
+        >
+          <div
+            class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 testimonial-section__testimonials"
+          >
+            <div
+              class="slide-list__gradient-wrapper relative flex-1"
             >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <div
+                class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
               >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                <div
+                  class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
                 />
-              </svg>
-            </button>
+              </div>
+              <div
+                class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+                style="scroll-padding-inline: 0px;"
+              >
+                <div
+                  class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                  data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                  style="scroll-margin-left: -0px;"
+                >
+                  <div
+                    class="testimonial flex flex-col h-full border rounded-lg p-8"
+                  >
+                    <blockquote
+                      class="testimonial__quote mb-space-between flex-grow"
+                    >
+                      "
+                      I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.
+                      "
+                    </blockquote>
+                    <div
+                      class="testimonial__footer flex items-center gap-space-between mt-auto"
+                    >
+                      <div
+                        class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                      >
+                        <img
+                          alt="Craig Dickson"
+                          class="size-full object-cover"
+                          src="/images/graduates/craig.png"
+                        />
+                      </div>
+                      <div
+                        class="testimonial__info"
+                      >
+                        <div
+                          class="testimonial__name font-semibold text-bluedot-black"
+                        >
+                          Craig Dickson
+                        </div>
+                        <div
+                          class="testimonial__role text-size-sm text-bluedot-darker"
+                        >
+                          Senior Data Analyst, Klarna
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                  data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                  style="scroll-margin-left: -0px;"
+                >
+                  <div
+                    class="testimonial flex flex-col h-full border rounded-lg p-8"
+                  >
+                    <blockquote
+                      class="testimonial__quote mb-space-between flex-grow"
+                    >
+                      "
+                      The course also gave me something I didn't expect: a global community of changemakers, dreamers and thinkers.
+                      "
+                    </blockquote>
+                    <div
+                      class="testimonial__footer flex items-center gap-space-between mt-auto"
+                    >
+                      <div
+                        class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                      >
+                        <img
+                          alt="Crystal Isanda"
+                          class="size-full object-cover"
+                          src="/images/graduates/crystal.jpeg"
+                        />
+                      </div>
+                      <div
+                        class="testimonial__info"
+                      >
+                        <div
+                          class="testimonial__name font-semibold text-bluedot-black"
+                        >
+                          Crystal Isanda
+                        </div>
+                        <div
+                          class="testimonial__role text-size-sm text-bluedot-darker"
+                        >
+                          Foresight Fellow, UNICEF
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                  data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                  style="scroll-margin-left: -0px;"
+                >
+                  <div
+                    class="testimonial flex flex-col h-full border rounded-lg p-8"
+                  >
+                    <blockquote
+                      class="testimonial__quote mb-space-between flex-grow"
+                    >
+                      "
+                      This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.
+                      "
+                    </blockquote>
+                    <div
+                      class="testimonial__footer flex items-center gap-space-between mt-auto"
+                    >
+                      <div
+                        class="testimonial__avatar size-16 rounded-full overflow-hidden flex-shrink-0"
+                      >
+                        <img
+                          alt="Vipul Gupta"
+                          class="size-full object-cover"
+                          src="/images/graduates/vipul.png"
+                        />
+                      </div>
+                      <div
+                        class="testimonial__info"
+                      >
+                        <div
+                          class="testimonial__name font-semibold text-bluedot-black"
+                        >
+                          Vipul Gupta
+                        </div>
+                        <div
+                          class="testimonial__role text-size-sm text-bluedot-darker"
+                        >
+                          Senior Software Engineer, Balena
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex justify-between items-center gap-space-between"
+            >
+              <button
+                aria-label="Previous slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+                disabled=""
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M15 19l-7-7 7-7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="slide-list__progress w-full relative h-1"
+              >
+                <div
+                  class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
+                />
+                <div
+                  class="slide-list__progress-track absolute h-full bg-bluedot-normal"
+                  style="width: 33.33333333333333%;"
+                />
+              </div>
+              <button
+                aria-label="Next slide"
+                class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+                type="button"
+              >
+                <svg
+                  class="slide-list__nav-icon size-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 5l7 7-7 7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
