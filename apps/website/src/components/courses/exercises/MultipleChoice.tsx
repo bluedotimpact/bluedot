@@ -87,6 +87,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
   const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
 
+  let buttonText = 'Select an option'; // Unselected
+  if (isSubmitting) {
+    buttonText = 'Checking...';
+  } else if (isIncorrect) {
+    buttonText = 'Try again';
+  // If the answer is correct we don't show a button at all
+  } else if (currentAnswer) {
+    buttonText = 'Check';
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="multiple-choice__header flex flex-col gap-2">
@@ -126,7 +136,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting || !currentAnswer}
         >
-          {isSubmitting ? 'Checking...' : 'Check'}
+          {buttonText}
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
