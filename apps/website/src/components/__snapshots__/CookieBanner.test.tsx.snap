@@ -23,7 +23,7 @@ exports[`CookieBanner > renders as expected 1`] = `
       class="cookie-banner__buttons flex flex-wrap gap-space-between justify-center"
     >
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
         type="button"
       >
         <span
@@ -33,7 +33,7 @@ exports[`CookieBanner > renders as expected 1`] = `
         </span>
       </button>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
         type="button"
       >
         <span
