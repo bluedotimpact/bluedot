@@ -158,7 +158,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </CTALinkOrButton>
       )}
       {isCorrect && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
-      {isIncorrect && <P className="multiple-choice__incorrect-msg">Try again. 🤔</P>}
     </form>
   );
 };
