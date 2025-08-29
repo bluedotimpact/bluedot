@@ -49,6 +49,7 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
       <div className="relative quote-carousel__image-section h-28 flex justify-center mb-4">
         {quotes.map((quote, index) => (
           <div
+            key={quote.name}
             className={clsx(
               'quote-carousel__image-container flex flex-col items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.68,-0.3,0.32,1)]',
               active === index
@@ -77,6 +78,7 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
       <div className="quote-carousel__quote-section flex flex-col mb-9 transition-all delay-300 duration-150 ease-in-out">
         {quotes.map((quote, index) => (
           <div
+            key={quote.name}
             className={clsx(
               'quote-carousel__quote-block w-full transition-all duration-500',
               active === index
@@ -96,6 +98,7 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
         <div className="quote-carousel__btn-section mt-4 flex flex-row gap-2 justify-center">
           {quotes.map((quote, index) => (
             <button
+              key={quote.name}
               type="button"
               className={clsx(
                 'size-3 rounded-full transition-all duration-150 hover:cursor-pointer',
