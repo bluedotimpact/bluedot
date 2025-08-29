@@ -110,23 +110,24 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
+  // Check if next discussion is starting soon (within 1 hour)
+  const isNextDiscussionStartingSoon = nextDiscussion
+    ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
+    : false;
+
   // Determine button text and URL for next discussion
   const getDiscussionButtonInfo = () => {
     if (!nextDiscussion) return null;
 
-    const oneHourInSeconds = 60 * 60;
-    const timeUntilStart = nextDiscussion.startDateTime - currentTimeSeconds;
-    const isStartingSoon = timeUntilStart < oneHourInSeconds && timeUntilStart > 0;
-
-    const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
+    const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
-    if (isStartingSoon) {
+    if (isNextDiscussionStartingSoon) {
       buttonUrl = nextDiscussion.zoomLink || '#';
     } else if (course.slug && nextDiscussion.unitNumber) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
-    const openInNewTab = isStartingSoon;
-    const disabled = !nextDiscussion.zoomLink && isStartingSoon;
+    const openInNewTab = isNextDiscussionStartingSoon;
+    const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
 
     return {
       buttonText, buttonUrl, openInNewTab, disabled,
@@ -184,7 +185,11 @@ const CourseListRow = ({
                 )}
                 {/* Show upcoming discussion info when collapsed */}
                 {!isExpanded && !isCompleted && nextDiscussion && !loading && (
-                  <p className="text-size-xs text-gray-600 mt-1">
+                  <p
+                    className={`text-size-xs mt-1 ${
+                      isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
+                    }`}
+                  >
                     Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
                   </p>
                 )}
@@ -278,7 +283,11 @@ const CourseListRow = ({
               )}
               {/* Show upcoming discussion info when collapsed on desktop */}
               {!isExpanded && !isCompleted && nextDiscussion && !loading && (
-                <p className="text-size-xs text-gray-600 mt-1">
+                <p
+                  className={`text-size-xs mt-1 ${
+                    isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
+                  }`}
+                >
                   Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
                 </p>
               )}
