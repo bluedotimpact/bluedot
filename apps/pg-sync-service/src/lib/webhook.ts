@@ -390,7 +390,7 @@ export class AirtableWebhook {
   private async cleanupOldWebhooks(): Promise<void> {
     // Only run cleanup if explicitly enabled via env var
     if (env.PROD_ONLY_WEBHOOK_DELETION !== 'TRUE') {
-      logger.info('[WEBHOOK] Webhook cleanup disabled (PROD_ONLY_WEBHOOK_DELETION != "TRUE"). You will not be able to recieve webhook events for this base.');
+      logger.info('[WEBHOOK] Webhook cleanup disabled (PROD_ONLY_WEBHOOK_DELETION != "TRUE"). You will not be able to receive webhook events for this base.');
       return;
     }
 
