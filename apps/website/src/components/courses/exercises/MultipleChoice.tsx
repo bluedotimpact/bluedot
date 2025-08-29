@@ -139,7 +139,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       {isLoggedIn ? (
         <CTALinkOrButton
-          className="multiple-choice__submit"
+          className="multiple-choice__submit !bg-[#2244BB]"
           variant="primary"
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting || !currentAnswer}
@@ -148,7 +148,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </CTALinkOrButton>
       ) : (
         <CTALinkOrButton
-          className="multiple-choice__login-cta"
+          className="multiple-choice__login-cta !bg-[#2244BB]"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
           withChevron
