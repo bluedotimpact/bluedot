@@ -98,7 +98,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     buttonText = 'Try again';
     // If the answer is correct we don't show a button at all
   } else if (currentAnswer) {
-    buttonText = 'Check';
+    buttonText = 'Check answer';
   }
 
   return (
