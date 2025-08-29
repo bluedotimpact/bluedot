@@ -1,8 +1,8 @@
-import { courseTable, courseRegistrationTable } from '@bluedot/db';
+import { courseTable, courseRegistrationTable, meetPersonTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { GetGroupDiscussionsResponse } from '../../pages/api/group-discussions';
+import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 type CourseDetailsProps = {
@@ -16,16 +16,72 @@ const CourseDetails = ({
   course, courseRegistration, authToken, isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
-  const [selectedDiscussion, setSelectedDiscussion] = useState<GetGroupDiscussionsResponse['discussions'][0] | null>(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
+  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
+  const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
+  // Fetch meetPerson data to get discussion IDs
+  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
     method: 'get',
-    url: `/api/group-discussions?courseRegistrationId=${courseRegistration.id}`,
+    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
     headers: authToken ? {
       Authorization: `Bearer ${authToken}`,
     } : undefined,
   });
+
+  // Fetch individual discussions when we have the meetPerson data
+  useEffect(() => {
+    const fetchDiscussions = async () => {
+      if (!meetPersonData?.meetPerson) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+
+      // Fetch all expected discussions (will be filtered later to show only those not ended)
+      const expectedPromises = (meetPersonData.meetPerson.expectedDiscussionsParticipant || []).map(async (id) => {
+        try {
+          const response = await fetch(`/api/group-discussions/${id}`);
+          const data: GetGroupDiscussionResponse = await response.json();
+          return data.discussion;
+        } catch {
+          return null;
+        }
+      });
+
+      // Fetch all attended discussions (all will be shown, no filtering)
+      const attendedPromises = (meetPersonData.meetPerson.attendedDiscussions || []).map(async (id) => {
+        try {
+          const response = await fetch(`/api/group-discussions/${id}`);
+          const data: GetGroupDiscussionResponse = await response.json();
+          return data.discussion;
+        } catch {
+          return null;
+        }
+      });
+
+      const [expectedResults, attendedResults] = await Promise.all([
+        Promise.all(expectedPromises),
+        Promise.all(attendedPromises),
+      ]);
+
+      // Filter out nulls and sort by startDateTime
+      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
+      const validAttended = attendedResults.filter((d): d is GroupDiscussion => d !== null);
+
+      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
+      validAttended.sort((a, b) => a.startDateTime - b.startDateTime);
+
+      setExpectedDiscussions(validExpected);
+      setAttendedDiscussions(validAttended);
+      setLoading(false);
+    };
+
+    fetchDiscussions();
+  }, [meetPersonData]);
 
   // Get current time in seconds
   const currentTimeSeconds = Math.floor(Date.now() / 1000);
@@ -61,14 +117,10 @@ const CourseDetails = ({
     return 'Less than 1min';
   };
 
-  // Get upcoming and attended discussions
-  const upcomingDiscussions = discussionsData?.discussions.filter(
+  // Filter expected discussions to only show those where the end datetime hasn't passed yet
+  const upcomingDiscussions = expectedDiscussions.filter(
     (discussion) => discussion.endDateTime > currentTimeSeconds,
-  ) || [];
-
-  const attendedDiscussions = discussionsData?.discussions.filter(
-    (discussion) => discussion.endDateTime <= currentTimeSeconds,
-  ) || [];
+  );
 
   // Format date and time
   const formatDiscussionDate = (timestamp: number) => {
@@ -85,7 +137,7 @@ const CourseDetails = ({
     });
   };
 
-  const renderDiscussionItem = (discussion: GetGroupDiscussionsResponse['discussions'][0], isNext = false, isPast = false) => {
+  const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
     const oneHourInSeconds = 60 * 60;
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
@@ -129,7 +181,7 @@ const CourseDetails = ({
               </div>
               <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
                 {isPast
-                  ? `Ended ${formatDiscussionDate(discussion.endDateTime)} at ${formatDiscussionTime(discussion.endDateTime)}`
+                  ? `Attended on ${formatDiscussionDate(discussion.startDateTime)}`
                   : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
               </div>
             </div>
@@ -204,7 +256,7 @@ const CourseDetails = ({
               </div>
               <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
                 {isPast
-                  ? `Ended ${formatDiscussionDate(discussion.endDateTime)} at ${formatDiscussionTime(discussion.endDateTime)}`
+                  ? `Attended on ${formatDiscussionDate(discussion.startDateTime)}`
                   : `Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
               </div>
             </div>
@@ -288,13 +340,14 @@ const CourseDetails = ({
 
           <div className="p-4 sm:px-8 sm:py-4">
             {/* Content */}
-            {discussionsLoading ? (
+            {loading ? (
               <div className="flex justify-center py-8">
                 <ProgressDots />
               </div>
             ) : (
               <div className="min-h-[200px]">
                 {activeTab === 'upcoming' && (
+                  // Show only expected discussions where end datetime hasn't passed
                   upcomingDiscussions.length > 0 ? (
                     <div>
                       {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
@@ -304,6 +357,7 @@ const CourseDetails = ({
                   )
                 )}
                 {activeTab === 'attended' && (
+                  // Show all attended discussions without any filtering
                   attendedDiscussions.length > 0 ? (
                     <div>
                       {attendedDiscussions.map((discussion) => renderDiscussionItem(discussion, false, true))}

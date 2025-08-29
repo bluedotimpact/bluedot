@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { courseTable, courseRegistrationTable } from '@bluedot/db';
+import { courseTable, courseRegistrationTable, meetPersonTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
-import { GetGroupDiscussionsResponse } from '../../pages/api/group-discussions';
+import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 
 type CourseListRowProps = {
   course: typeof courseTable.pg.$inferSelect;
@@ -20,11 +20,13 @@ const CourseListRow = ({
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(false);
+  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch discussions data
-  const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
+  // Fetch meetPerson data to get discussion IDs
+  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
     method: 'get',
-    url: `/api/group-discussions?courseRegistrationId=${courseRegistration.id}`,
+    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
     headers: authToken ? {
       Authorization: `Bearer ${authToken}`,
     } : undefined,
@@ -33,6 +35,40 @@ const CourseListRow = ({
     useCache: false,
     autoCancel: false,
   });
+
+  // Fetch individual discussions when we have the meetPerson data
+  useEffect(() => {
+    const fetchDiscussions = async () => {
+      if (!meetPersonData?.meetPerson || isCompleted) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+
+      // Only fetch expected discussions for the list row
+      const expectedPromises = (meetPersonData.meetPerson.expectedDiscussionsParticipant || []).map(async (id) => {
+        try {
+          const response = await fetch(`/api/group-discussions/${id}`);
+          const data: GetGroupDiscussionResponse = await response.json();
+          return data.discussion;
+        } catch {
+          return null;
+        }
+      });
+
+      const expectedResults = await Promise.all(expectedPromises);
+
+      // Filter out nulls and sort by startDateTime
+      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
+      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
+
+      setExpectedDiscussions(validExpected);
+      setLoading(false);
+    };
+
+    fetchDiscussions();
+  }, [meetPersonData, isCompleted]);
 
   // Get current time in seconds
   const currentTimeSeconds = Math.floor(Date.now() / 1000);
@@ -68,10 +104,10 @@ const CourseListRow = ({
     return 'Less than 1min';
   };
 
-  // Get the next upcoming discussion
-  const upcomingDiscussions = discussionsData?.discussions.filter(
-    (discussion) => discussion.startDateTime > currentTimeSeconds,
-  ) || [];
+  // Get the next upcoming discussion from expectedDiscussions
+  const upcomingDiscussions = expectedDiscussions.filter(
+    (discussion) => discussion.endDateTime > currentTimeSeconds,
+  );
   const nextDiscussion = upcomingDiscussions[0];
 
   // Determine button text and URL for next discussion
@@ -135,7 +171,7 @@ const CourseListRow = ({
                   </div>
                 )}
                 {/* Show upcoming discussion info when collapsed */}
-                {!isExpanded && !isCompleted && nextDiscussion && !discussionsLoading && (
+                {!isExpanded && !isCompleted && nextDiscussion && !loading && (
                   <p className="text-size-xs text-gray-600 mt-1">
                     Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
                   </p>
@@ -187,7 +223,7 @@ const CourseListRow = ({
               </div>
             )}
             {/* Show primary button for discussion when collapsed on mobile */}
-            {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
+            {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
               <div className="flex">
                 <CTALinkOrButton
                   variant="primary"
@@ -221,7 +257,7 @@ const CourseListRow = ({
                 </div>
               )}
               {/* Show upcoming discussion info when collapsed on desktop */}
-              {!isExpanded && !isCompleted && nextDiscussion && !discussionsLoading && (
+              {!isExpanded && !isCompleted && nextDiscussion && !loading && (
                 <p className="text-size-xs text-gray-600 mt-1">
                   Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
                 </p>
@@ -244,7 +280,7 @@ const CourseListRow = ({
               )}
 
               {/* Show primary button for discussion when collapsed on desktop */}
-              {!isExpanded && !isCompleted && discussionButtonInfo && !discussionsLoading && (
+              {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
                 <CTALinkOrButton
                   variant="primary"
                   size="small"
