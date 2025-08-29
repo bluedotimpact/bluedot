@@ -88,11 +88,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
-      <div className="multiple-choice__header flex flex-col gap-4">
-        <div className="multiple-choice__header-content flex flex-col gap-2">
-          <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
-          <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
-        </div>
+      <div className="multiple-choice__header flex flex-col gap-2">
+        <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
+        <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {formattedOptions.map((option) => (
