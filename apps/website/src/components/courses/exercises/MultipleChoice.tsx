@@ -1,7 +1,4 @@
-import {
-  CTALinkOrButton,
-  Input,
-} from '@bluedot/ui';
+import { CTALinkOrButton, Input } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -51,7 +48,11 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const {
-    register, handleSubmit, setValue, formState: { isSubmitting }, watch,
+    register,
+    handleSubmit,
+    setValue,
+    formState: { isSubmitting },
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       answer: formattedExerciseResponse,
@@ -78,11 +79,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     }
   }, [formattedExerciseResponse, setValue]);
 
-  const onSubmit = useCallback(async (data: FormData) => {
-    const isAnswerCorrect = data.answer === formattedAnswer;
-    await onExerciseSubmit(data.answer, isAnswerCorrect);
-    setIsEditing(false);
-  }, [onExerciseSubmit]);
+  const onSubmit = useCallback(
+    async (data: FormData) => {
+      const isAnswerCorrect = data.answer === formattedAnswer;
+      await onExerciseSubmit(data.answer, isAnswerCorrect);
+      setIsEditing(false);
+    },
+    [onExerciseSubmit],
+  );
 
   const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
   const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
@@ -92,13 +96,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     buttonText = 'Checking...';
   } else if (isIncorrect) {
     buttonText = 'Try again';
-  // If the answer is correct we don't show a button at all
+    // If the answer is correct we don't show a button at all
   } else if (currentAnswer) {
     buttonText = 'Check';
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={clsx('multiple-choice container-lined bg-white p-8 flex flex-col gap-6', className)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={clsx('multiple-choice container-lined flex flex-col gap-6 bg-white p-8', className)}
+    >
       <div className="multiple-choice__header flex flex-col gap-2">
         <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
         <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
@@ -112,15 +119,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             <Input
               key={option}
               {...register('answer')}
-              labelClassName={clsx(
-                'multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer',
-                {
-                  'multiple-choice__option--selected container-active': isSelected(option),
-                  'container-lined': !isSelected(option),
-                  'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]': showCorrectFeedback,
-                  'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]': showIncorrectFeedback,
-                },
-              )}
+              labelClassName={clsx('multiple-choice__option flex items-center gap-2 p-4 hover:cursor-pointer', {
+                'multiple-choice__option--selected container-active': isSelected(option),
+                'container-lined': !isSelected(option),
+                'multiple-choice__option--correct bg-[#63C96533] border-[#63C965]': showCorrectFeedback,
+                'multiple-choice__option--incorrect bg-[#FF636333] border-[#FF6363]': showIncorrectFeedback,
+              })}
               type="radio"
               value={option}
               onChange={() => handleOptionSelect(option)}
