@@ -124,7 +124,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           className="multiple-choice__submit"
           variant="primary"
           onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !currentAnswer}
         >
           {isSubmitting ? 'Checking...' : 'Check'}
         </CTALinkOrButton>
