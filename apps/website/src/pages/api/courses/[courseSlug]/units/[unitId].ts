@@ -11,6 +11,32 @@ export type GetUnitResponse = {
   unit: Unit,
 };
 
+// Query validation schema
+const querySchema = z.object({
+  courseSlug: z.preprocess(
+    (val) => {
+      // Reject arrays
+      if (Array.isArray(val)) {
+        throw new Error('courseSlug cannot be an array');
+      }
+      // Coerce to string and trim
+      return typeof val === 'string' ? val.trim() : String(val).trim();
+    },
+    z.string().min(1, 'courseSlug is required'),
+  ),
+  unitId: z.preprocess(
+    (val) => {
+      // Reject arrays
+      if (Array.isArray(val)) {
+        throw new Error('unitId cannot be an array');
+      }
+      // Coerce to string and trim
+      return typeof val === 'string' ? val.trim() : String(val).trim();
+    },
+    z.string().min(1, 'unitId is required'),
+  ),
+});
+
 export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
@@ -18,15 +44,14 @@ export default makeApiRoute({
     unit: z.any(),
   }),
 }, async (body, { raw }) => {
-  const { courseSlug, unitId } = raw.req.query;
+  // Parse and validate query parameters
+  const parseResult = querySchema.safeParse(raw.req.query);
 
-  if (typeof courseSlug !== 'string') {
-    throw new createHttpError.BadRequest('Invalid course slug');
+  if (!parseResult.success) {
+    throw new createHttpError.BadRequest(parseResult.error.message);
   }
 
-  if (typeof unitId !== 'string') {
-    throw new createHttpError.BadRequest('Invalid unit ID');
-  }
+  const { courseSlug, unitId } = parseResult.data;
 
   // Get the specific unit by ID and courseSlug
   const unit = await db.get(unitTable, {
