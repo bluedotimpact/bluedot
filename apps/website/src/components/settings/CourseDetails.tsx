@@ -2,7 +2,7 @@ import { courseTable, courseRegistrationTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { GetGroupDiscussionsResponse, GroupDiscussionWithDetails } from '../../pages/api/group-discussions';
+import { GetGroupDiscussionsResponse } from '../../pages/api/group-discussions';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 type CourseDetailsProps = {
@@ -16,7 +16,7 @@ const CourseDetails = ({
   course, courseRegistration, authToken, isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
-  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussionWithDetails | null>(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GetGroupDiscussionsResponse['discussions'][0] | null>(null);
 
   const [{ data: discussionsData, loading: discussionsLoading }] = useAxios<GetGroupDiscussionsResponse>({
     method: 'get',
@@ -62,7 +62,7 @@ const CourseDetails = ({
 
   // Get upcoming discussions only
   const upcomingDiscussions = discussionsData?.discussions.filter(
-    (discussion) => discussion.startDateTime > currentTimeSeconds,
+    (discussion) => discussion.endDateTime > currentTimeSeconds,
   ) || [];
 
   // Format date and time
@@ -80,7 +80,7 @@ const CourseDetails = ({
     });
   };
 
-  const renderDiscussionItem = (discussion: GroupDiscussionWithDetails, isNext = false) => {
+  const renderDiscussionItem = (discussion: GetGroupDiscussionsResponse['discussions'][0], isNext = false) => {
     // Check if discussion starts in less than 1 hour
     const oneHourInSeconds = 60 * 60;
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;

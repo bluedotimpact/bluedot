@@ -14,29 +14,27 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 type Group = InferSelectModel<typeof groupTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
-export type GroupDiscussionWithDetails = {
-  id: string;
-  facilitators: string[];
-  participantsExpected: string[];
-  attendees: string[];
-  startDateTime: number;
-  endDateTime: number;
-  groupId: string;
-  zoomAccount: string | null;
-  courseSite: string | null;
-  unitNumber: number | null;
-  unitId: string | null;
-  zoomLink: string | null;
-  activityDoc: string | null;
-  slackChannelId: string | null;
-  round: string | null;
-  groupDetails?: Group;
-  unitRecord?: Unit;
-};
-
 export type GetGroupDiscussionsResponse = {
   type: 'success';
-  discussions: GroupDiscussionWithDetails[];
+  discussions: {
+    id: string;
+    facilitators: string[];
+    participantsExpected: string[];
+    attendees: string[];
+    startDateTime: number;
+    endDateTime: number;
+    groupId: string;
+    zoomAccount: string | null;
+    courseSite: string | null;
+    unitNumber: number | null;
+    unitId: string | null;
+    zoomLink: string | null;
+    activityDoc: string | null;
+    slackChannelId: string | null;
+    round: string | null;
+    groupDetails?: Group;
+    unitRecord?: Unit;
+  }[];
   meetPerson?: InferSelectModel<typeof meetPersonTable.pg>;
   courseRegistration?: InferSelectModel<typeof courseRegistrationTable.pg>;
 };
@@ -128,7 +126,7 @@ export default makeApiRoute({
     .orderBy(groupDiscussionTable.pg.startDateTime);
 
   // Fetch related groups and units
-  const discussionsWithDetails: GroupDiscussionWithDetails[] = await Promise.all(
+  const discussionsWithDetails: GetGroupDiscussionsResponse['discussions'] = await Promise.all(
     discussions.map(async (discussion) => {
       let group;
       let unit;
