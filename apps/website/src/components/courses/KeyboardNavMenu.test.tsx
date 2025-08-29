@@ -29,7 +29,8 @@ describe('KeyboardNavMenu', () => {
 
     // Now the popover content should be visible
     expect(getByText('Inside courses')).toBeTruthy();
-    expect(getByText('Go to chunk or unit 1-9')).toBeTruthy();
+    expect(getByText('Toggle sidebar')).toBeTruthy();
+    expect(getByText('Go to unit 1-9')).toBeTruthy();
     expect(getByText('Next chunk or unit')).toBeTruthy();
     expect(getByText('Previous chunk or unit')).toBeTruthy();
 
