@@ -4,7 +4,7 @@ import {
 import { FiCommand } from 'react-icons/fi';
 
 const DEFAULT_SHORTCUTS = [
-  { action: 'Go to chunk or unit 1-9', keys: ['1-9'] },
+  { action: 'Go to unit 1-9', keys: ['1-9'] },
   { action: 'Next chunk or unit', keys: ['→'] },
   { action: 'Previous chunk or unit', keys: ['←'] },
 ] as const;
