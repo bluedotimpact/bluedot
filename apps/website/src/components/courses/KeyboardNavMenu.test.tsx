@@ -20,19 +20,16 @@ describe('KeyboardNavMenu', () => {
     const button = getByRole('button', { name: 'Keyboard shortcuts' });
 
     // Initially, the popover content should not be visible
-    expect(queryByText('Inside courses')).toBeNull();
+    expect(queryByText('Toggle sidebar')).toBeNull();
 
     // Click the button to open the popover
     await user.click(button);
 
-    expect(getByRole('dialog', { name: 'Inside courses' })).toBeTruthy();
+    expect(getByRole('dialog', { name: 'Keyboard shortcuts' })).toBeTruthy();
 
-    // Now the popover content should be visible
-    expect(getByText('Inside courses')).toBeTruthy();
+    // Now the popover content should be visible (no title, just shortcuts)
+    expect(getByText('Navigate sections')).toBeTruthy();
     expect(getByText('Toggle sidebar')).toBeTruthy();
-    expect(getByText('Go to unit 1-9')).toBeTruthy();
-    expect(getByText('Next chunk or unit')).toBeTruthy();
-    expect(getByText('Previous chunk or unit')).toBeTruthy();
 
     // Check that keyboard shortcuts are displayed
     expect(getByText('1-9')).toBeTruthy();
