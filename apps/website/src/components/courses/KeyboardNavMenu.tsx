@@ -4,10 +4,8 @@ import {
 import { FiCommand } from 'react-icons/fi';
 
 const DEFAULT_SHORTCUTS = [
-  { action: 'Go to unit 1-9', keys: ['1-9'] },
+  { action: 'Navigate sections', keys: ['←', '→', '1-9'] },
   { action: 'Toggle sidebar', keys: ['Ctrl/Cmd', 'B'] },
-  { action: 'Next chunk or unit', keys: ['→'] },
-  { action: 'Previous chunk or unit', keys: ['←'] },
 ] as const;
 
 type Shortcut = {
@@ -21,7 +19,7 @@ type KeyboardNavMenuProps = {
 };
 
 const KeyboardNavMenu = ({
-  popoverTitle = 'Inside courses',
+  popoverTitle = '',
   shortcuts = DEFAULT_SHORTCUTS,
 }: KeyboardNavMenuProps) => {
   return (
@@ -35,12 +33,14 @@ const KeyboardNavMenu = ({
       </Button>
       <Popover placement="top start">
         <Dialog
-          aria-labelledby="keyboard-shortcuts-title"
+          aria-label={popoverTitle || 'Keyboard shortcuts'}
           className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
-          <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
-            {popoverTitle}
-          </h3>
+          {popoverTitle && (
+            <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
+              {popoverTitle}
+            </h3>
+          )}
           <ul className="space-y-2">
             {shortcuts.map(({ action, keys }) => (
               <li key={action} className="flex items-center justify-between gap-4">

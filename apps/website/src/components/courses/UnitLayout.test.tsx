@@ -255,7 +255,7 @@ describe('UnitLayout', () => {
     const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
     expect(keyboardNavMenu).toBeTruthy();
     await user.click(keyboardNavMenu);
-    expect(getByRole('dialog', { name: 'Inside courses' })).toBeTruthy();
+    expect(getByRole('dialog', { name: 'Keyboard shortcuts' })).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
