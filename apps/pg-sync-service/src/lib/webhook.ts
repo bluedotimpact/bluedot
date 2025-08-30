@@ -84,6 +84,9 @@ export class AirtableWebhook {
   }
 
   public static async getOrCreate(baseId: string, fieldIds: string[], rateLimiter: RateLimiter): Promise<AirtableWebhook> {
+    const cleanupEnabled = env.PROD_ONLY_WEBHOOK_DELETION === 'TRUE';
+    logger.info(`[WEBHOOK] PROD_ONLY_WEBHOOK_DELETION=${env.PROD_ONLY_WEBHOOK_DELETION || 'undefined'} (cleanup ${cleanupEnabled ? 'ENABLED' : 'DISABLED'})`);
+    logger.info(`[WEBHOOK] Creating/retrieving webhook for base ${baseId} with ${fieldIds.length} field filters`);
     const webhook = new AirtableWebhook(baseId, fieldIds, rateLimiter);
     await webhook.ensureInitialized();
     return webhook;
@@ -290,6 +293,15 @@ export class AirtableWebhook {
         await this.createWebhook();
         return; // Success
       } catch (error) {
+        // Check if we hit the webhook limit
+        const errorResponse = error as { response?: { data?: { error?: { type?: string } } } };
+        if (errorResponse?.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
+          logger.warn(`[WEBHOOK] Hit webhook limit for base ${this.baseId}, attempting cleanup...`);
+          // eslint-disable-next-line no-await-in-loop
+          await this.cleanupOldWebhooks();
+          // Continue to retry after cleanup
+        }
+
         if (attempt === maxRetries) {
           logger.error(`[WEBHOOK] Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}`, error);
           throw new Error(`Failed to create webhook after ${maxRetries} attempts: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -367,5 +379,48 @@ export class AirtableWebhook {
 
     // Create new webhook with filtered fields, using retry logic
     await this.createWebhookWithRetry();
+  }
+
+  /**
+   * Clean up ALL existing webhooks when hitting the limit.
+   * Only runs if PROD_ONLY_WEBHOOK_DELETION environment variable is set to "TRUE"
+   * This ensures production always has room to create its webhooks and never has the live
+   * webhooks deleted accidently
+   */
+  private async cleanupOldWebhooks(): Promise<void> {
+    // Only run cleanup if explicitly enabled via env var
+    if (env.PROD_ONLY_WEBHOOK_DELETION !== 'TRUE') {
+      logger.info('[WEBHOOK] Webhook cleanup disabled (PROD_ONLY_WEBHOOK_DELETION != "TRUE"). You will not be able to receive webhook events for this base.');
+      return;
+    }
+
+    try {
+      await this.rateLimiter.acquire();
+      const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
+        `/bases/${this.baseId}/webhooks`,
+      );
+      const { webhooks } = response.data;
+
+      logger.warn(`[WEBHOOK] PROD cleanup mode: Found ${webhooks.length} existing webhooks for base ${this.baseId}, deleting ALL to make room...`);
+
+      // Delete ALL existing webhooks
+      let deletedCount = 0;
+      for (const webhook of webhooks) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await this.rateLimiter.acquire();
+          // eslint-disable-next-line no-await-in-loop
+          await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${webhook.id}`);
+          logger.info(`[WEBHOOK] Deleted webhook ${webhook.id} for base ${this.baseId}`);
+          deletedCount += 1;
+        } catch (deleteError) {
+          logger.error(`[WEBHOOK] Failed to delete webhook ${webhook.id}:`, deleteError);
+        }
+      }
+
+      logger.info(`[WEBHOOK] PROD cleanup complete: Deleted ${deletedCount} webhooks for base ${this.baseId}`);
+    } catch (error) {
+      logger.error('[WEBHOOK] Failed to clean up webhooks:', error);
+    }
   }
 }

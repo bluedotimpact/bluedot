@@ -859,7 +859,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldPkqPbeoIhERqSY',
     },
-    // Note: This is the id of the course in the COURSE_BUILDER base, not in the APPLICATIONS base
+    // Note: This is the id of the course in the COURSE_BUILDER base and not in the APPLICATIONS base
     courseId: {
       pgColumn: text().notNull(),
       airtableId: 'fldFTXtevzOc29Qte',
