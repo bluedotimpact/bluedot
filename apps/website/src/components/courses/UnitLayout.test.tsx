@@ -1,4 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import userEvent from '@testing-library/user-event';
 import {
   describe,
   expect,
@@ -234,8 +236,9 @@ describe('UnitLayout', () => {
     expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 
-  test('keyboard navigation hint is displayed', async () => {
-    const { container } = render(
+  test('keyboard navigation component is displayed', async () => {
+    const user = userEvent.setup();
+    const { container, getByRole } = render(
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
@@ -249,9 +252,10 @@ describe('UnitLayout', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const hint = container.querySelector('.unit__keyboard-hint');
-    expect(hint).toBeTruthy();
-    expect(hint?.textContent).toContain('Use ←/→ or 1-9 to navigate');
+    const keyboardNavMenu = getByRole('button', { name: 'Keyboard shortcuts' });
+    expect(keyboardNavMenu).toBeTruthy();
+    await user.click(keyboardNavMenu);
+    expect(getByRole('dialog', { name: 'Inside courses' })).toBeTruthy();
   });
 
   test('navigation buttons have keyboard shortcut tooltips', async () => {
