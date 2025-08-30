@@ -37,7 +37,7 @@ const KeyboardNavMenu = ({
           className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
           {popoverTitle && (
-            <h3 id="keyboard-shortcuts-title" className="mb-3 font-semibold">
+            <h3 className="mb-3 font-semibold">
               {popoverTitle}
             </h3>
           )}
