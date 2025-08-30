@@ -369,7 +369,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               {/* Header Section with Drag Handle */}
               <div
                 className={clsx(
-                  'flex flex-col bg-[#FCFAF7] border-b-[0.5px] border-[rgba(19,19,46,0.2)] rounded-t-[24px] transition-shadow duration-300',
+                  'flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px] transition-shadow duration-300',
                   isHeaderSticky && 'sticky top-0 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                 )}
               >
@@ -411,7 +411,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                   return (
                     <div key={unit.id} className="relative">
                       {unitIndex > 0 && (
-                        <div className="border-t border-[rgba(42,45,52,0.2)] mx-6" />
+                        <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-6" />
                       )}
 
                       {/* Current unit - shows as non-clickable with expand/collapse toggle */}
