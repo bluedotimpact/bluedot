@@ -49,9 +49,36 @@ describe('CourseListRow', () => {
     lastVisitedCourseContentPath: null,
     lastVisitAt: null,
     lastVisitedChunkIndex: null,
+    roundStatus: 'Active',
   };
 
-  it('shows continue course link for in-progress course', () => {
+  it('renders in-progress course correctly (snapshot)', () => {
+    const { container } = render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders completed course correctly (snapshot)', () => {
+    const completedRegistration = {
+      ...mockCourseRegistration,
+      certificateCreatedAt: 1704067200, // Jan 1, 2024
+      certificateId: 'cert-123',
+    };
+
+    const { container } = render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={completedRegistration}
+      />,
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('shows expand button for in-progress course', () => {
     render(
       <CourseListRow
         course={mockCourse}
@@ -59,10 +86,14 @@ describe('CourseListRow', () => {
       />,
     );
 
-    const continueLinks = screen.getAllByRole('link', { name: 'Continue course' });
-    expect(continueLinks[0]).toHaveAttribute('href', '/courses/ai-safety');
-    const progressTexts = screen.getAllByText('In progress');
-    expect(progressTexts.length).toBeGreaterThan(0);
+    // Check for expand button instead of continue link
+    const expandButtons = screen.getAllByLabelText('Expand Introduction to AI Safety details');
+    expect(expandButtons.length).toBeGreaterThan(0);
+    expect(expandButtons[0]).toHaveAttribute('aria-expanded', 'false');
+
+    // The component renders the title (multiple times for responsive design)
+    const titleElements = screen.getAllByText('Introduction to AI Safety');
+    expect(titleElements.length).toBeGreaterThan(0);
   });
 
   it('shows view certificate link for completed course', () => {
