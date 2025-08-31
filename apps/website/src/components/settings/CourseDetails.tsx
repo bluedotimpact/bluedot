@@ -225,17 +225,6 @@ const CourseDetails = ({
                   </CTALinkOrButton>
                 </div>
               )}
-              {isPast && course.slug && discussion.unitNumber && (
-                <div className="w-full">
-                  <CTALinkOrButton
-                    variant="outline-black"
-                    size="small"
-                    url={`/courses/${course.slug}/${discussion.unitNumber}`}
-                  >
-                    Review materials
-                  </CTALinkOrButton>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -295,15 +284,6 @@ const CourseDetails = ({
                 }}
               >
                 Switch group
-              </CTALinkOrButton>
-            )}
-            {isPast && course.slug && discussion.unitNumber && (
-              <CTALinkOrButton
-                variant="outline-black"
-                size="small"
-                url={`/courses/${course.slug}/${discussion.unitNumber}`}
-              >
-                Review materials
               </CTALinkOrButton>
             )}
           </div>
