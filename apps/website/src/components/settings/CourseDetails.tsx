@@ -21,6 +21,8 @@ const CourseDetails = ({
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
   const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const [showAllAttended, setShowAllAttended] = useState(false);
 
   // Fetch meetPerson data to get discussion IDs
   const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
@@ -346,7 +348,35 @@ const CourseDetails = ({
                   // Show only expected discussions where end datetime hasn't passed
                   upcomingDiscussions.length > 0 ? (
                     <div>
-                      {upcomingDiscussions.map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
+                      {/* Show first 3 or all based on showAllUpcoming state */}
+                      {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
+                        .map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
+
+                      {/* Show "See all" button if there are more than 3 discussions */}
+                      {upcomingDiscussions.length > 3 && !showAllUpcoming && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllUpcoming(true)}
+                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                          >
+                            See all ({upcomingDiscussions.length} discussions)
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Show "Show less" button when expanded */}
+                      {upcomingDiscussions.length > 3 && showAllUpcoming && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllUpcoming(false)}
+                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                          >
+                            Show less
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
@@ -356,7 +386,35 @@ const CourseDetails = ({
                   // Show all attended discussions without any filtering
                   attendedDiscussions.length > 0 ? (
                     <div>
-                      {attendedDiscussions.map((discussion) => renderDiscussionItem(discussion, false, true))}
+                      {/* Show first 3 or all based on showAllAttended state */}
+                      {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
+                        .map((discussion) => renderDiscussionItem(discussion, false, true))}
+
+                      {/* Show "See all" button if there are more than 3 discussions */}
+                      {attendedDiscussions.length > 3 && !showAllAttended && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllAttended(true)}
+                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                          >
+                            See all ({attendedDiscussions.length} discussions)
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Show "Show less" button when expanded */}
+                      {attendedDiscussions.length > 3 && showAllAttended && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllAttended(false)}
+                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                          >
+                            Show less
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
