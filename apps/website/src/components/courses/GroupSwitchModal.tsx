@@ -81,17 +81,17 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
+    headers: auth?.token ? {
+      Authorization: `Bearer ${auth.token}`,
+    } : undefined,
     method: 'get',
   });
 
   const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
     url: `/api/courses/${courseSlug}/group-switching`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
+    headers: auth?.token ? {
+      Authorization: `Bearer ${auth.token}`,
+    } : undefined,
     method: 'post',
   }, { manual: true });
 
