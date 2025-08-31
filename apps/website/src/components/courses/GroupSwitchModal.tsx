@@ -45,7 +45,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 }) => {
   const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
   // Use the current unit's number as the default selected unit
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber);
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
   const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
   const [courseLoading, setCourseLoading] = useState(true);
   const [reason, setReason] = useState('');
@@ -96,7 +96,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   }, { manual: true });
 
   // Generate unit options from the course units
-  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber, label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
+  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
 
   const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
   const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
@@ -249,7 +249,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
               <select
                 id="unitSelect"
-                value={selectedUnitNumber ?? ''}
+                value={selectedUnitNumber}
                 onChange={(e) => setSelectedUnitNumber(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
                 aria-describedby="unitSelect-description"
