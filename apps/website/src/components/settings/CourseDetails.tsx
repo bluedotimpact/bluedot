@@ -190,6 +190,11 @@ const CourseDetails = ({
                   {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
                 </div>
               )}
+              {isPast && discussion.groupDetails && (
+                <div className="text-size-xs text-gray-500">
+                  {discussion.groupDetails.groupName || 'Group'}
+                </div>
+              )}
             </div>
 
             {/* Action buttons */}
@@ -252,6 +257,11 @@ const CourseDetails = ({
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
                   {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
+                </div>
+              )}
+              {isPast && discussion.groupDetails && (
+                <div className="text-size-xs text-gray-500">
+                  {discussion.groupDetails.groupName || 'Group'}
                 </div>
               )}
             </div>
