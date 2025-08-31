@@ -23,6 +23,7 @@ const CourseDetails = ({
   const [loading, setLoading] = useState(true);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
+  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
   const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
@@ -91,8 +92,14 @@ const CourseDetails = ({
     fetchDiscussions();
   }, [meetPersonData, courseRegistration.role]);
 
-  // Get current time in seconds
-  const currentTimeSeconds = Math.floor(Date.now() / 1000);
+  // Update current time every 30 seconds for real-time countdown
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
+    }, 30000); // Update every 30 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Helper function to format time until discussion
   const formatTimeUntilDiscussion = (startDateTime: number): string => {
