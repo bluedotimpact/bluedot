@@ -19,7 +19,7 @@ const CourseListRow = ({
   course, courseRegistration, authToken, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
