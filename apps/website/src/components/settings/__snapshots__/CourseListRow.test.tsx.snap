@@ -4,7 +4,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
 <div>
   <div>
     <div
-      class="border-x border-t    border-gray-200   transition-colors duration-200 group"
+      class="border-x border-t    border-gray-200   transition-colors duration-200 group "
     >
       <div
         class="p-4 sm:px-8 sm:py-6"
@@ -19,7 +19,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               class="flex-1 min-w-0"
             >
               <h3
-                class="font-semibold text-[15px] text-[#00114D] leading-[22px]"
+                class="font-semibold text-size-lg text-black leading-[22px]"
               >
                 Introduction to AI Safety
               </h3>
@@ -27,7 +27,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                 class="flex items-center gap-1.5 mt-0.5"
               >
                 <p
-                  class="text-size-xs font-medium text-[#00114D] opacity-50 leading-4"
+                  class="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4"
                 >
                   Completed on Jan 1, 2024
                 </p>
@@ -75,7 +75,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
             class="flex-1 min-w-0"
           >
             <h3
-              class="font-semibold text-[15px] text-[#00114D] leading-[22px]"
+              class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
             </h3>
@@ -83,12 +83,12 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               class="flex items-center gap-1.5 mt-0.5"
             >
               <p
-                class="text-size-xs font-medium text-[#00114D] opacity-50 leading-4"
+                class="text-size-xs font-medium text-gray-900 opacity-50 leading-4"
               >
                 Completed on Jan 1, 2024
               </p>
               <span
-                class="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full"
+                class="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full"
               >
                 <svg
                   class="size-1.5 text-white"
@@ -109,6 +109,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
           </div>
           <div
             class="flex items-center gap-3 flex-shrink-0"
+            role="presentation"
           >
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
@@ -133,7 +134,10 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
 <div>
   <div>
     <div
-      class="border-x border-t    border-gray-200  hover:bg-white transition-colors duration-200 group"
+      aria-expanded="true"
+      class="border-x border-t    border-gray-200 bg-white  transition-colors duration-200 group cursor-pointer"
+      role="button"
+      tabindex="0"
     >
       <div
         class="p-4 sm:px-8 sm:py-6"
@@ -148,19 +152,19 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               class="flex-1 min-w-0"
             >
               <h3
-                class="font-semibold text-[15px] text-[#00114D] leading-[22px]"
+                class="font-semibold text-size-lg text-black leading-[22px]"
               >
                 Introduction to AI Safety
               </h3>
             </div>
             <button
-              aria-expanded="false"
-              aria-label="Expand Introduction to AI Safety details"
+              aria-expanded="true"
+              aria-label="Collapse Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 "
+                class="transition-transform duration-200 rotate-90"
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -169,7 +173,7 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               >
                 <path
                   d="M7.5 5L12.5 10L7.5 15"
-                  stroke="#00114D"
+                  stroke="#1F2937"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"
@@ -185,22 +189,23 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
             class="flex-1 min-w-0"
           >
             <h3
-              class="font-semibold text-[15px] text-[#00114D] leading-[22px]"
+              class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
             </h3>
           </div>
           <div
             class="flex items-center gap-3 flex-shrink-0"
+            role="presentation"
           >
             <button
-              aria-expanded="false"
-              aria-label="Expand Introduction to AI Safety details"
+              aria-expanded="true"
+              aria-label="Collapse Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 "
+                class="transition-transform duration-200 rotate-90"
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -209,7 +214,7 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               >
                 <path
                   d="M7.5 5L12.5 10L7.5 15"
-                  stroke="#00114D"
+                  stroke="#1F2937"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"
@@ -219,6 +224,11 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
           </div>
         </div>
       </div>
+    </div>
+    <div
+      aria-label="Expanded details for Introduction to AI Safety"
+    >
+      Course Details Content
     </div>
   </div>
 </div>

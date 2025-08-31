@@ -78,7 +78,7 @@ describe('CourseListRow', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('shows expand button for in-progress course', () => {
+  it('shows collapse button for in-progress course (expanded by default)', () => {
     render(
       <CourseListRow
         course={mockCourse}
@@ -86,14 +86,17 @@ describe('CourseListRow', () => {
       />,
     );
 
-    // Check for expand button instead of continue link
-    const expandButtons = screen.getAllByLabelText('Expand Introduction to AI Safety details');
-    expect(expandButtons.length).toBeGreaterThan(0);
-    expect(expandButtons[0]).toHaveAttribute('aria-expanded', 'false');
+    // Check for collapse button since in-progress courses are expanded by default
+    const collapseButtons = screen.getAllByLabelText('Collapse Introduction to AI Safety details');
+    expect(collapseButtons.length).toBeGreaterThan(0);
+    expect(collapseButtons[0]).toHaveAttribute('aria-expanded', 'true');
 
     // The component renders the title (multiple times for responsive design)
     const titleElements = screen.getAllByText('Introduction to AI Safety');
     expect(titleElements.length).toBeGreaterThan(0);
+
+    // Should show expanded details
+    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
   });
 
   it('shows view certificate link for completed course', () => {
@@ -114,9 +117,16 @@ describe('CourseListRow', () => {
     expect(certificateLinks[0]).toBeInTheDocument();
     const completedTexts = screen.getAllByText(/Completed on/);
     expect(completedTexts.length).toBeGreaterThan(0);
+
+    // Completed courses should not have expand/collapse buttons
+    expect(screen.queryByLabelText(/Expand.*details/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Collapse.*details/)).not.toBeInTheDocument();
+
+    // Completed courses should not show expanded details
+    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
   });
 
-  it('expands and collapses course details', async () => {
+  it('collapses and expands course details', async () => {
     const user = userEvent.setup();
     render(
       <CourseListRow
@@ -125,17 +135,21 @@ describe('CourseListRow', () => {
       />,
     );
 
-    const expandButtons = screen.getAllByLabelText('Expand Introduction to AI Safety details');
-    const expandButton = expandButtons[0]!;
-    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
-
-    await user.click(expandButton);
+    // In-progress courses are expanded by default
+    const collapseButtons = screen.getAllByLabelText('Collapse Introduction to AI Safety details');
+    const collapseButton = collapseButtons[0]!;
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
-    expect(expandButton).toHaveAttribute('aria-expanded', 'true');
-    expect(expandButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
 
-    await user.click(expandButton);
+    // Click to collapse
+    await user.click(collapseButton);
     expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
-    expect(expandButton).toHaveAttribute('aria-expanded', 'false');
+    expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
+    expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
+
+    // Click to expand again
+    await user.click(collapseButton);
+    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
+    expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
+    expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
   });
 });
