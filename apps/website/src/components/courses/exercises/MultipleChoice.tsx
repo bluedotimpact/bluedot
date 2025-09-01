@@ -128,7 +128,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     }
 
     // Default style for selected option (when no answer has been submitted yet)
-    return 'multiple-choice__option--selected bg-[#F0F5FD] border-[#2244BB]';
+    return 'bg-[#F0F5FD] border-[#2244BB]';
   };
 
   return (

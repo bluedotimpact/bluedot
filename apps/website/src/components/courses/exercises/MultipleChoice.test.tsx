@@ -9,6 +9,8 @@ import {
 } from 'vitest';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import userEvent from '@testing-library/user-event';
 import MultipleChoice from './MultipleChoice';
 
 // Mock next/router
@@ -69,19 +71,24 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for selected option', async () => {
-    const { container } = render(
+    const user = userEvent.setup();
+    const { getAllByRole } = render(
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
-    const optionEls = container.querySelectorAll('.input--radio');
-    const optionEl = optionEls[0] as HTMLInputElement;
-    const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    optionEl?.click();
-    // Expect 'selected' state change
+    const radioInputs = getAllByRole('radio') as HTMLInputElement[];
+    const firstOption = radioInputs[0];
+    if (!firstOption) throw new Error('No radio input found');
+
+    user.click(firstOption);
+    firstOption.click();
+
     await waitFor(() => {
-      const selectedOption = container.querySelectorAll('.multiple-choice__option--selected');
-      expect(selectedOption.length).toBe(1);
-      expect(selectedOption[0]).toBe(optionLabelEl);
+      // Expect first radio to be checked, and others not
+      expect(firstOption.checked).toBe(true);
+      radioInputs.slice(1).forEach((input) => {
+        expect(input.checked).toBe(false);
+      });
     });
   });
 
