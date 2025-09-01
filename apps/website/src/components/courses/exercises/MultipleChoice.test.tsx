@@ -125,7 +125,7 @@ describe('MultipleChoice', () => {
 
   test('updates styles for incorrect option', async () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
-    const { container, getByText } = render(
+    const { container, getByRole, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
 
@@ -140,6 +140,9 @@ describe('MultipleChoice', () => {
     const incorrectOption = container.querySelector('.multiple-choice__option--incorrect') as HTMLInputElement;
     expect(incorrectOption.textContent).toBe(incorrectAnswer.trim());
     expect(incorrectOption).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
+
+    const tryAgainButton = getByRole('button', { name: /try again/i });
+    expect(tryAgainButton).toBeInTheDocument();
+    expect(tryAgainButton).toMatchSnapshot();
   });
 });
