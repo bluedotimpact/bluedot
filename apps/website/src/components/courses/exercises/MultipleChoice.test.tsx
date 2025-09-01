@@ -58,6 +58,8 @@ describe('MultipleChoice', () => {
     const radioInputs = getAllByRole('radio');
     radioInputs.forEach((input) => {
       expect(input).not.toBeChecked();
+      // All inputs are disabled until user is logged in
+      expect(input).toBeDisabled();
     });
   });
 
@@ -77,6 +79,7 @@ describe('MultipleChoice', () => {
     const radioInputs = getAllByRole('radio');
     radioInputs.forEach((input) => {
       expect(input).not.toBeChecked();
+      expect(input).toBeEnabled();
     });
   });
 
