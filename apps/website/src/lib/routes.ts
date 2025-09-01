@@ -95,12 +95,6 @@ const settingsCourses: BluedotRoute = {
   parentPages: [home, settings],
 };
 
-const settingsCommunity: BluedotRoute = {
-  title: 'Community',
-  url: '/settings/community',
-  parentPages: [home, settings],
-};
-
 export const ROUTES = {
   about,
   blog,
@@ -118,5 +112,4 @@ export const ROUTES = {
   settings,
   settingsAccount,
   settingsCourses,
-  settingsCommunity,
 } as const;
