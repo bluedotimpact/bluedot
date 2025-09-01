@@ -7,10 +7,9 @@ type CircleSpaceEmbedProps = {
   style?: CSSProperties;
 };
 
-const CircleSpaceEmbed: React.FC<CircleSpaceEmbedProps> = ({
-  spaceSlug,
-  style,
-}) => {
+// TODO: either remove this component, or create a new way to link to the community page.
+// See https://github.com/bluedotimpact/bluedot/issues/1216#issuecomment-3236448706
+const CircleSpaceEmbed: React.FC<CircleSpaceEmbedProps> = ({ spaceSlug, style }) => {
   return (
     <iframe
       title={`Community discussion for ${spaceSlug}`}
