@@ -83,14 +83,12 @@ describe('MultipleChoice', () => {
     const firstOption = radioInputs[0];
     if (!firstOption) throw new Error('No radio input found');
 
-    user.click(firstOption);
+    await user.click(firstOption);
 
-    await waitFor(() => {
-      // Expect first radio to be checked, and others not
-      expect(firstOption).toBeChecked();
-      radioInputs.slice(1).forEach((input) => {
-        expect(input).not.toBeChecked();
-      });
+    // Expect first radio to be checked, and others not
+    expect(firstOption).toBeChecked();
+    radioInputs.slice(1).forEach((input) => {
+      expect(input).not.toBeChecked();
     });
   });
 
