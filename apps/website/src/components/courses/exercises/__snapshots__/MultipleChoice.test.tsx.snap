@@ -15,7 +15,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none multiple-choice__description"
+          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none"
         >
           <p>
             Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
@@ -139,7 +139,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           Understanding LLMs
         </p>
         <div
-          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none multiple-choice__description"
+          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none"
         >
           <p>
             Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
@@ -227,47 +227,50 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 `;
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
-<label
-  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 multiple-choice__option--correct bg-[#18B71B1A] border-[#18B71B]"
->
-  <input
-    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
-    name="answer"
-    type="radio"
-    value="The community's preference for low-tech fishing traditions"
-  />
-  <span
-    class="input__label"
-  >
-    The community's preference for low-tech fishing traditions
-  </span>
-</label>
-`;
-
-exports[`MultipleChoice > updates styles for correct option 2`] = `
-<p
-  class="bluedot-p not-prose multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0"
->
-  Correct! Quiz completed. 🎉
-</p>
+<input
+  class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+  name="answer"
+  type="radio"
+  value="The community's preference for low-tech fishing traditions"
+/>
 `;
 
 exports[`MultipleChoice > updates styles for incorrect option 1`] = `
-<label
-  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 multiple-choice__option--incorrect bg-[#DC00001A] border-[#DC0000]"
->
-  <input
-    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
-    name="answer"
-    type="radio"
-    value="Rising consumer demand for fish with more Omega-3s"
-  />
-  <span
-    class="input__label"
-  >
-    Rising consumer demand for fish with more Omega-3s
-  </span>
-</label>
+<input
+  class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+  name="answer"
+  type="radio"
+  value="Rising consumer demand for fish with more Omega-3s"
+/>
 `;
 
-exports[`MultipleChoice > updates styles for incorrect option 2`] = `null`;
+exports[`MultipleChoice > updates styles for incorrect option 2`] = `
+<button
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest multiple-choice__submit"
+  type="button"
+>
+  <span
+    class="cta-button__text"
+  >
+    <span
+      class="flex items-center gap-2"
+    >
+      Try again
+      <svg
+        aria-hidden="true"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M212.333 224.333H12c-6.627 0-12-5.373-12-12V12C0 5.373 5.373 0 12 0h48c6.627 0 12 5.373 12 12v78.112C117.773 39.279 184.26 7.47 258.175 8.007c136.906.994 246.448 111.623 246.157 248.532C504.041 393.258 393.12 504 256.333 504c-64.089 0-122.496-24.313-166.51-64.215-5.099-4.622-5.334-12.554-.467-17.42l33.967-33.967c4.474-4.474 11.662-4.717 16.401-.525C170.76 415.336 211.58 432 256.333 432c97.268 0 176-78.716 176-176 0-97.267-78.716-176-176-176-58.496 0-110.28 28.476-142.274 72.333h98.274c6.627 0 12 5.373 12 12v48c0 6.627-5.373 12-12 12z"
+        />
+      </svg>
+    </span>
+  </span>
+</button>
+`;
