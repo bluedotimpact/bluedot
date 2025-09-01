@@ -229,6 +229,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 exports[`MultipleChoice > updates styles for correct option 1`] = `
 <input
   class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+  disabled=""
   name="answer"
   type="radio"
   value="The community's preference for low-tech fishing traditions"
