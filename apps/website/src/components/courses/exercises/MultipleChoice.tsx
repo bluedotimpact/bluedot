@@ -118,6 +118,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     if (isIncorrect) {
       return 'bg-[#DC00001A] border-[#DC0000]';
     }
+
+    // Default style for selected option (when no answer has been submitted yet)
     return 'bg-[#F0F5FD] border-[#2244BB]';
   };
 
