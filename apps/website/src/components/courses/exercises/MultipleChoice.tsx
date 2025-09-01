@@ -67,13 +67,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     setIsEditing(true);
   };
 
-  const isSelected = (option: string): boolean => {
-    if (!isEditing && formattedExerciseResponse) {
-      return formattedExerciseResponse === option;
-    }
-    return currentAnswer === option;
-  };
-
   useEffect(() => {
     if (formattedExerciseResponse) {
       setValue('answer', formattedExerciseResponse);
@@ -110,7 +103,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   }
 
   const getOptionClasses = (option: string) => {
-    const selected = isSelected(option);
+    const selected = currentAnswer === option;
 
     if (!selected) {
       // If there is a correct/incorrect answer we dim the other option's text.
