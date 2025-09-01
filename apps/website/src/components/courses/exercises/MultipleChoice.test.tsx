@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
 import {
   beforeEach,
@@ -75,7 +76,7 @@ describe('MultipleChoice', () => {
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
     // Select the first option
-    const radioInputs = getAllByRole('radio') as HTMLInputElement[];
+    const radioInputs = getAllByRole('radio');
     const firstOption = radioInputs[0];
     if (!firstOption) throw new Error('No radio input found');
 
@@ -84,9 +85,9 @@ describe('MultipleChoice', () => {
 
     await waitFor(() => {
       // Expect first radio to be checked, and others not
-      expect(firstOption.checked).toBe(true);
+      expect(firstOption).toBeChecked();
       radioInputs.slice(1).forEach((input) => {
-        expect(input.checked).toBe(false);
+        expect(input).not.toBeChecked();
       });
     });
   });
