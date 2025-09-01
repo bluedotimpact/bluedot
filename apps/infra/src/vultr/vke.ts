@@ -4,7 +4,7 @@ import * as k8s from '@pulumi/kubernetes';
 export const k8sCluster = new vultr.Kubernetes('vke-cluster', {
   label: 'bluedot-prod',
   region: 'ams',
-  version: 'v1.32.1+1',
+  version: 'v1.33.0+1',
 
   // Initial node pool
   // nodePools: {
