@@ -94,7 +94,6 @@ describe('MultipleChoice', () => {
     if (!firstOption) throw new Error('No radio input found');
 
     user.click(firstOption);
-    firstOption.click();
 
     await waitFor(() => {
       // Expect first radio to be checked, and others not
