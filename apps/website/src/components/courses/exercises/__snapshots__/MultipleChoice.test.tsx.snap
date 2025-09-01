@@ -225,3 +225,49 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
   </div>
 </div>
 `;
+
+exports[`MultipleChoice > updates styles for correct option 1`] = `
+<label
+  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 multiple-choice__option--correct bg-[#18B71B1A] border-[#18B71B]"
+>
+  <input
+    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+    name="answer"
+    type="radio"
+    value="The community's preference for low-tech fishing traditions"
+  />
+  <span
+    class="input__label"
+  >
+    The community's preference for low-tech fishing traditions
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for correct option 2`] = `
+<p
+  class="bluedot-p not-prose multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0"
+>
+  Correct! Quiz completed. 🎉
+</p>
+`;
+
+exports[`MultipleChoice > updates styles for incorrect option 1`] = `
+<label
+  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 multiple-choice__option--incorrect bg-[#DC00001A] border-[#DC0000]"
+>
+  <input
+    class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+    name="answer"
+    type="radio"
+    value="Rising consumer demand for fish with more Omega-3s"
+  />
+  <span
+    class="input__label"
+  >
+    Rising consumer demand for fish with more Omega-3s
+  </span>
+</label>
+`;
+
+exports[`MultipleChoice > updates styles for incorrect option 2`] = `null`;

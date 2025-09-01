@@ -121,14 +121,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       return 'bg-[#2A2D340A] hover:bg-[#F0F5FD] border-transparent';
     }
     if (isCorrect) {
-      return 'bg-[#18B71B1A] border-[#18B71B]';
+      return 'multiple-choice__option--correct bg-[#18B71B1A] border-[#18B71B]';
     }
     if (isIncorrect) {
-      return 'bg-[#DC00001A] border-[#DC0000]';
+      return 'multiple-choice__option--incorrect bg-[#DC00001A] border-[#DC0000]';
     }
 
     // Default style for selected option (when no answer has been submitted yet)
-    return 'bg-[#F0F5FD] border-[#2244BB]';
+    return 'multiple-choice__option--selected bg-[#F0F5FD] border-[#2244BB]';
   };
 
   return (
