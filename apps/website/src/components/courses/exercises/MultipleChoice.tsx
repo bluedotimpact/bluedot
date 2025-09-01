@@ -179,7 +179,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
       </form>
       {isCorrect && (
-      <P className="multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0">
+      <P className="w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0">
         Correct! Quiz completed. 🎉
       </P>
       )}

@@ -120,7 +120,7 @@ describe('MultipleChoice', () => {
     const correctOption = container.querySelector('.multiple-choice__option--correct') as HTMLInputElement;
     expect(correctOption.textContent).toBe(mockArgs.answer.trim());
     expect(correctOption).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
+    expect(getByText('Correct! Quiz completed. 🎉')).toBeInTheDocument();
   });
 
   test('updates styles for incorrect option', async () => {
