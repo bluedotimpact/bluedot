@@ -151,7 +151,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 type="radio"
                 value={option}
                 onChange={() => handleOptionSelect(option)}
-                disabled={!isLoggedIn}
+                disabled={!isLoggedIn || Boolean(isCorrect)}
               />
             );
           })}
