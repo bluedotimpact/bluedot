@@ -192,7 +192,7 @@ const TryAgainButton = ({ onTryAgain }: { onTryAgain: () => void }) => {
     <CTALinkOrButton className="multiple-choice__submit" onClick={onTryAgain} variant="black">
       <span className="flex items-center gap-2">
         Try again
-        <FaUndo />
+        <FaUndo aria-hidden="true" />
       </span>
     </CTALinkOrButton>
   );
