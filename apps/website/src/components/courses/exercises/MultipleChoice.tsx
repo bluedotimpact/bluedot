@@ -164,7 +164,15 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             {getSubmitButtonText()}
           </CTALinkOrButton>
         )}
-        {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
+        {/* Try again button */}
+        {isLoggedIn && isIncorrect && (
+          <CTALinkOrButton onClick={handleTryAgain} variant="black">
+            <span className="flex items-center gap-2">
+              Try again
+              <FaUndo aria-hidden="true" />
+            </span>
+          </CTALinkOrButton>
+        )}
       </form>
       {isCorrect && (
         <P className="relative z-0 -mt-2 w-full rounded-lg bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB]">
@@ -172,17 +180,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </P>
       )}
     </div>
-  );
-};
-
-const TryAgainButton = ({ onTryAgain }: { onTryAgain: () => void }) => {
-  return (
-    <CTALinkOrButton onClick={onTryAgain} variant="black">
-      <span className="flex items-center gap-2">
-        Try again
-        <FaUndo aria-hidden="true" />
-      </span>
-    </CTALinkOrButton>
   );
 };
 
