@@ -43,13 +43,13 @@ const mockArgs = {
 
 describe('MultipleChoice', () => {
   test('renders default as expected', async () => {
-    const { container } = render(
+    const { container, getByText } = render(
       <MultipleChoice {...mockArgs} />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     expect(container).toMatchSnapshot();
@@ -57,13 +57,13 @@ describe('MultipleChoice', () => {
   });
 
   test('renders logged in as expected', async () => {
-    const { container } = render(
+    const { container, getByText } = render(
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     expect(container).toMatchSnapshot();
@@ -93,13 +93,13 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    const { container } = render(
+    const { container, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     // Expect only one correct option
@@ -113,13 +113,13 @@ describe('MultipleChoice', () => {
 
   test('updates styles for incorrect option', async () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
-    const { container } = render(
+    const { container, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     // Expect only one incorrect option

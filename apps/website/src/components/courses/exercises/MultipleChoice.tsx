@@ -139,7 +139,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       >
         <div className="multiple-choice__header flex flex-col gap-2">
           <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
-          <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
+          <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
         <div className="multiple-choice__options flex flex-col gap-2">
           {formattedOptions.map((option) => {
