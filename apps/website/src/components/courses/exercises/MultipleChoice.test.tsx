@@ -4,12 +4,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import {
-  beforeEach,
-  describe,
-  expect,
-  Mock,
-  test,
-  vi,
+  beforeEach, describe, expect, Mock, test, vi,
 } from 'vitest';
 import MultipleChoice from './MultipleChoice';
 
@@ -31,21 +26,20 @@ beforeEach(() => {
   (useRouter as Mock).mockReturnValue(mockRouter);
 });
 
-const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
+const mockOptions = "The community's preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n";
 
 const mockArgs = {
   title: 'Understanding LLMs',
-  description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
+  description:
+    "Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?",
   options: mockOptions,
-  answer: 'The community\'s preference for low-tech fishing traditions\n',
+  answer: "The community's preference for low-tech fishing traditions\n",
   onExerciseSubmit: () => {},
 };
 
 describe('MultipleChoice', () => {
   test('renders default as expected', async () => {
-    const { container, getByText, getAllByRole } = render(
-      <MultipleChoice {...mockArgs} />,
-    );
+    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} />);
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
@@ -64,9 +58,7 @@ describe('MultipleChoice', () => {
   });
 
   test('renders logged in as expected', async () => {
-    const { container, getByText, getAllByRole } = render(
-      <MultipleChoice {...mockArgs} isLoggedIn />,
-    );
+    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
@@ -85,9 +77,7 @@ describe('MultipleChoice', () => {
 
   test('updates styles for selected option', async () => {
     const user = userEvent.setup();
-    const { getAllByRole } = render(
-      <MultipleChoice {...mockArgs} isLoggedIn />,
-    );
+    const { getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
     // Select the first option
     const radioInputs = getAllByRole('radio');
     const firstOption = radioInputs[0];

@@ -135,7 +135,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={clsx('container-lined flex flex-col gap-6 bg-white p-8 relative z-10', className)}
+        className={clsx('container-lined relative z-10 flex flex-col gap-6 bg-white p-8', className)}
       >
         <div className="flex flex-col gap-2">
           <p className="bluedot-h4 not-prose">{title}</p>
@@ -157,31 +157,31 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           })}
         </div>
         {!isLoggedIn && (
-        <CTALinkOrButton
-          className="!bg-[#2244BB]"
-          variant="primary"
-          url={getLoginUrl(router.asPath, true)}
-          withChevron
-        >
-          Create a free account to check your answer
-        </CTALinkOrButton>
+          <CTALinkOrButton
+            className="!bg-[#2244BB]"
+            variant="primary"
+            url={getLoginUrl(router.asPath, true)}
+            withChevron
+          >
+            Create a free account to check your answer
+          </CTALinkOrButton>
         )}
         {isLoggedIn && !isCorrect && !isIncorrect && (
-        <CTALinkOrButton
-          className="!bg-[#2244BB]"
-          variant="primary"
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting || !currentAnswer}
-        >
-          {buttonText}
-        </CTALinkOrButton>
+          <CTALinkOrButton
+            className="!bg-[#2244BB]"
+            variant="primary"
+            onClick={handleSubmit(onSubmit)}
+            disabled={isSubmitting || !currentAnswer}
+          >
+            {buttonText}
+          </CTALinkOrButton>
         )}
         {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
       </form>
       {isCorrect && (
-      <P className="w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0">
-        Correct! Quiz completed. 🎉
-      </P>
+        <P className="relative z-0 -mt-2 w-full rounded-lg bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB]">
+          Correct! Quiz completed. 🎉
+        </P>
       )}
     </div>
   );
