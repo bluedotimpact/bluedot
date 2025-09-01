@@ -132,30 +132,31 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={clsx('multiple-choice container-lined flex flex-col gap-6 bg-white p-8', className)}
-    >
-      <div className="multiple-choice__header flex flex-col gap-2">
-        <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
-        <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
-      </div>
-      <div className="multiple-choice__options flex flex-col gap-2">
-        {formattedOptions.map((option) => {
-          return (
-            <Input
-              key={option}
-              {...register('answer')}
-              labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
-              type="radio"
-              value={option}
-              onChange={() => handleOptionSelect(option)}
-              disabled={!isLoggedIn}
-            />
-          );
-        })}
-      </div>
-      {!isLoggedIn && (
+    <div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={clsx('multiple-choice container-lined flex flex-col gap-6 bg-white p-8 relative z-10', className)}
+      >
+        <div className="multiple-choice__header flex flex-col gap-2">
+          <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
+          <MarkdownExtendedRenderer className="multiple-choice__description">{description}</MarkdownExtendedRenderer>
+        </div>
+        <div className="multiple-choice__options flex flex-col gap-2">
+          {formattedOptions.map((option) => {
+            return (
+              <Input
+                key={option}
+                {...register('answer')}
+                labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
+                type="radio"
+                value={option}
+                onChange={() => handleOptionSelect(option)}
+                disabled={!isLoggedIn}
+              />
+            );
+          })}
+        </div>
+        {!isLoggedIn && (
         <CTALinkOrButton
           className="multiple-choice__login-cta !bg-[#2244BB]"
           variant="primary"
@@ -164,8 +165,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         >
           Create a free account to check your answer
         </CTALinkOrButton>
-      )}
-      {isLoggedIn && !isCorrect && !isIncorrect && (
+        )}
+        {isLoggedIn && !isCorrect && !isIncorrect && (
         <CTALinkOrButton
           className="multiple-choice__submit !bg-[#2244BB]"
           variant="primary"
@@ -174,14 +175,15 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         >
           {buttonText}
         </CTALinkOrButton>
-      )}
-      {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
+        )}
+        {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
+      </form>
       {isCorrect && (
-        <P className="multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 py-2 text-[#2244BB]">
-          Correct! Quiz completed. 🎉
-        </P>
+      <P className="multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB] rounded-lg -mt-2 relative z-0">
+        Correct! Quiz completed. 🎉
+      </P>
       )}
-    </form>
+    </div>
   );
 };
 
