@@ -135,6 +135,8 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
+        // Need to add z-indexing so that when we shift the 'Correct! Quiz completed' text upwards using negative margin
+        // it sits _behind_ the form card
         className={clsx('container-lined relative z-10 flex flex-col gap-6 bg-white p-8', className)}
       >
         <div className="flex flex-col gap-2">
