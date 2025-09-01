@@ -105,7 +105,7 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    const { container, getByText } = render(
+    const { getByDisplayValue, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
 
@@ -114,18 +114,15 @@ describe('MultipleChoice', () => {
       expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
-    // Expect only one correct option
-    expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
-    // Expect 'correct' UI
-    const correctOption = container.querySelector('.multiple-choice__option--correct') as HTMLInputElement;
-    expect(correctOption.textContent).toBe(mockArgs.answer.trim());
-    expect(correctOption).toMatchSnapshot();
+    const correctRadio = getByDisplayValue(mockArgs.answer.trim());
+    expect(correctRadio).toBeChecked();
+    expect(correctRadio).toMatchSnapshot();
     expect(getByText('Correct! Quiz completed. 🎉')).toBeInTheDocument();
   });
 
   test('updates styles for incorrect option', async () => {
     const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
-    const { container, getByRole, getByText } = render(
+    const { getByDisplayValue, getByRole, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
 
@@ -134,12 +131,9 @@ describe('MultipleChoice', () => {
       expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
-    // Expect only one incorrect option
-    expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);
-    // Expect 'incorrect' UI
-    const incorrectOption = container.querySelector('.multiple-choice__option--incorrect') as HTMLInputElement;
-    expect(incorrectOption.textContent).toBe(incorrectAnswer.trim());
-    expect(incorrectOption).toMatchSnapshot();
+    const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
+    expect(incorrectRadio).toBeChecked();
+    expect(incorrectRadio).toMatchSnapshot();
 
     const tryAgainButton = getByRole('button', { name: /try again/i });
     expect(tryAgainButton).toBeInTheDocument();
