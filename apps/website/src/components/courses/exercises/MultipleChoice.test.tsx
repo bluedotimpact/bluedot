@@ -112,7 +112,7 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    const { getByDisplayValue, getByText } = render(
+    const { getAllByRole, getByDisplayValue, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
 
@@ -125,6 +125,12 @@ describe('MultipleChoice', () => {
     expect(correctRadio).toBeChecked();
     expect(correctRadio).toMatchSnapshot();
     expect(getByText('Correct! Quiz completed. 🎉')).toBeInTheDocument();
+
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      // All inputs are disabled when answer is correct
+      expect(input).toBeDisabled();
+    });
   });
 
   test('updates styles for incorrect option', async () => {
