@@ -43,7 +43,7 @@ const mockArgs = {
 
 describe('MultipleChoice', () => {
   test('renders default as expected', async () => {
-    const { container, getByText } = render(
+    const { container, getByText, getAllByRole } = render(
       <MultipleChoice {...mockArgs} />,
     );
 
@@ -53,11 +53,16 @@ describe('MultipleChoice', () => {
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+
+    // Expect no options to be selected
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+    });
   });
 
   test('renders logged in as expected', async () => {
-    const { container, getByText } = render(
+    const { container, getByText, getAllByRole } = render(
       <MultipleChoice {...mockArgs} isLoggedIn />,
     );
 
@@ -67,7 +72,12 @@ describe('MultipleChoice', () => {
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+
+    // Expect no options to be selected
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+    });
   });
 
   test('updates styles for selected option', async () => {
