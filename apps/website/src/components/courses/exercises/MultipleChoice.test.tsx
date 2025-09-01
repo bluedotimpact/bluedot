@@ -27,6 +27,7 @@ beforeEach(() => {
 });
 
 const mockOptions = "The community's preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n";
+const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 
 const mockArgs = {
   title: 'Understanding LLMs',
@@ -135,7 +136,6 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for incorrect option', async () => {
-    const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
     const { getByDisplayValue, getByRole, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
@@ -156,7 +156,6 @@ describe('MultipleChoice', () => {
 
   test('resets form when try again is clicked', async () => {
     const user = userEvent.setup();
-    const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 
     const { getByRole, getAllByRole } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
