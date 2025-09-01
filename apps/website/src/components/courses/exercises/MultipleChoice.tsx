@@ -60,12 +60,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     },
   });
 
+  const currentAnswer = watch('answer');
+
   const handleOptionSelect = (option: string) => {
     setValue('answer', option);
     setIsEditing(true);
   };
-
-  const currentAnswer = watch('answer');
 
   const isSelected = (option: string): boolean => {
     if (!isEditing && formattedExerciseResponse) {
