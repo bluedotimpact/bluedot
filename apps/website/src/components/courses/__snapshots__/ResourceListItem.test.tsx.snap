@@ -2,10 +2,10 @@
 
 exports[`ResourceListItem - Listen to Article Feature > should handle various metadata combinations with audio URL 1`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
     <span>
       Alice Brown
@@ -54,10 +54,10 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
 
 exports[`ResourceListItem - Listen to Article Feature > should handle various metadata combinations with audio URL 2`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
     <span>
       20
@@ -107,10 +107,10 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
 
 exports[`ResourceListItem - Listen to Article Feature > should render Listen to article button when audio URL is provided 1`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
     <span>
       John Doe
@@ -166,10 +166,10 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
 
 exports[`ResourceListItem - Listen to Article Feature > should render Listen to article even without other metadata 1`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   />
   <button
     aria-label="Listen to article: Introduction to AI Safety (opens in Spotify)"
@@ -211,10 +211,10 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
 
 exports[`ResourceListItem - Listen to Article Feature > should render Listen to article with proper separator when metadata exists 1`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
     <span>
       Jane Smith
@@ -270,10 +270,10 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
 
 exports[`ResourceListItem - Listen to Article Feature > should render metadata without Listen to article button when no audio URL 1`] = `
 <div
-  class="resource-item__bottom-metadata mt-4 flex items-center gap-1"
+  class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
     <span>
       John Doe

@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import {
+  describe, expect, it, vi,
+} from 'vitest';
 import { ResourceListItem } from './ResourceListItem';
 
 // Mock next-auth
@@ -37,11 +39,10 @@ vi.mock('./FaviconImage', () => ({
 vi.mock('./MarkdownExtendedRenderer', () => ({
   default: function MarkdownExtendedRenderer({ children, className }: { children: React.ReactNode; className?: string }) {
     return <div className={className}>{children}</div>;
-  }
+  },
 }));
 
 describe('ResourceListItem - Listen to Article Feature', () => {
-
   const baseResource = {
     id: 'test-resource-1',
     resourceId: 'rec123',
@@ -63,16 +64,16 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should render metadata without Listen to article button when no audio URL', () => {
     const { container, queryByText } = render(
-      <ResourceListItem resource={baseResource} />
+      <ResourceListItem resource={baseResource} />,
     );
 
     // Should show author and time
     expect(queryByText(/John Doe/)).toBeTruthy();
     expect(queryByText(/10 min/)).toBeTruthy();
-    
+
     // Should NOT show Listen to article
     expect(queryByText('Listen to article')).toBeFalsy();
-    
+
     expect(container.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
   });
 
@@ -83,14 +84,14 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     };
 
     const { container, getByText } = render(
-      <ResourceListItem resource={resourceWithAudio} />
+      <ResourceListItem resource={resourceWithAudio} />,
     );
 
     // Should show author, time, and Listen to article
     expect(getByText(/John Doe/)).toBeTruthy();
     expect(getByText(/10 min/)).toBeTruthy();
     expect(getByText('Listen to article')).toBeTruthy();
-    
+
     expect(container.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
   });
 
@@ -103,12 +104,12 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     };
 
     const { container } = render(
-      <ResourceListItem resource={resourceWithAudio} />
+      <ResourceListItem resource={resourceWithAudio} />,
     );
 
     const metadata = container.querySelector('.resource-item__bottom-metadata');
     expect(metadata).toMatchSnapshot();
-    
+
     // Check that separators are rendered
     const textContent = metadata?.textContent;
     expect(textContent).toContain('Jane Smith');
@@ -126,16 +127,16 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     };
 
     const { container, getByText } = render(
-      <ResourceListItem resource={resourceWithOnlyAudio} />
+      <ResourceListItem resource={resourceWithOnlyAudio} />,
     );
 
     // Should show Listen to article button even when no other metadata
     expect(getByText('Listen to article')).toBeTruthy();
-    
+
     // Should not have separator when no other metadata
     const metadata = container.querySelector('.resource-item__bottom-metadata');
     expect(metadata?.textContent).not.toContain('·');
-    
+
     expect(metadata).toMatchSnapshot();
   });
 
@@ -149,7 +150,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     };
 
     const { container: container1 } = render(
-      <ResourceListItem resource={authorAndAudio} />
+      <ResourceListItem resource={authorAndAudio} />,
     );
     expect(container1.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
 
@@ -162,7 +163,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     };
 
     const { container: container2 } = render(
-      <ResourceListItem resource={timeAndAudio} />
+      <ResourceListItem resource={timeAndAudio} />,
     );
     expect(container2.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
   });

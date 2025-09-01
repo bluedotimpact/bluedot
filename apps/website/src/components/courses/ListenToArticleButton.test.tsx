@@ -1,7 +1,9 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import {
+  describe, expect, it, vi,
+} from 'vitest';
 import ListenToArticleButton from './ListenToArticleButton';
 
 describe('ListenToArticleButton', () => {
@@ -13,7 +15,7 @@ describe('ListenToArticleButton', () => {
       <ListenToArticleButton
         audioUrl={mockAudioUrl}
         resourceTitle={mockResourceTitle}
-      />
+      />,
     );
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -23,11 +25,11 @@ describe('ListenToArticleButton', () => {
       <ListenToArticleButton
         audioUrl={mockAudioUrl}
         resourceTitle={mockResourceTitle}
-      />
+      />,
     );
     const button = getByRole('button');
     expect(button.getAttribute('aria-label')).toBe(
-      'Listen to article: Introduction to AI Safety (opens in Spotify)'
+      'Listen to article: Introduction to AI Safety (opens in Spotify)',
     );
   });
 
@@ -41,7 +43,7 @@ describe('ListenToArticleButton', () => {
       <ListenToArticleButton
         audioUrl={mockAudioUrl}
         resourceTitle={mockResourceTitle}
-      />
+      />,
     );
 
     const button = getByRole('button');
@@ -50,7 +52,7 @@ describe('ListenToArticleButton', () => {
     expect(mockOpen).toHaveBeenCalledWith(
       mockAudioUrl,
       '_blank',
-      'noopener,noreferrer'
+      'noopener,noreferrer',
     );
 
     window.open = originalOpen;
@@ -61,7 +63,7 @@ describe('ListenToArticleButton', () => {
       <ListenToArticleButton
         audioUrl={mockAudioUrl}
         resourceTitle="First Article"
-      />
+      />,
     );
     const firstRender = container.innerHTML;
 
@@ -69,7 +71,7 @@ describe('ListenToArticleButton', () => {
       <ListenToArticleButton
         audioUrl={mockAudioUrl}
         resourceTitle="Second Article with a Much Longer Title"
-      />
+      />,
     );
     const secondRender = container.innerHTML;
 
