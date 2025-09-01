@@ -106,6 +106,7 @@ describe('MultipleChoice', () => {
 
     // Expect first radio to be checked, and others not
     expect(firstOption).toBeChecked();
+    expect(firstOption).toMatchSnapshot();
     radioInputs.slice(1).forEach((input) => {
       expect(input).not.toBeChecked();
     });
