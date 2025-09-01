@@ -125,33 +125,6 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   </span>
                 </a>
               </li>
-              <li>
-                <a
-                  aria-label="Community settings (New feature)"
-                  class="
-                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                  text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
-                "
-                  href="/settings/community"
-                  tabindex="0"
-                >
-                  <span
-                    class="flex items-center gap-3 w-full"
-                  >
-                    <p
-                      class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-normal"
-                    >
-                      Community
-                    </p>
-                    <span
-                      aria-label="New feature"
-                      class="text-[10px] px-1.5 py-0.5 rounded-[5px] uppercase font-bold bg-[rgba(0,85,255,0.08)] text-[#0037FF]"
-                    >
-                      NEW
-                    </span>
-                  </span>
-                </a>
-              </li>
             </ul>
           </nav>
         </aside>

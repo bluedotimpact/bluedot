@@ -16,6 +16,7 @@ const toK8s = [
   'minioRootPassword',
   'keycloakClientId',
   'keycloakClientSecret',
+  'prodOnlyWebhookDeletion',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

@@ -42,6 +42,26 @@ const remarkUnescapeMdxAttributes: Plugin = () => {
   };
 };
 
+// Custom link component to handle external links
+const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
+  const isExternal = href && (href.startsWith('http://') || href.startsWith('https://'));
+
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  return <a href={href} {...props}>{children}</a>;
+};
+
 export type MarkdownRendererProps = {
   children?: string;
   className?: string;
@@ -54,6 +74,7 @@ export const getSupportedComponents = () => ({
   Collapsible,
   Callout,
   Exercise,
+  a: Link,
 });
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {

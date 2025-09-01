@@ -165,7 +165,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="relative"
         >
           <div
-            class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+            class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
           />
           <details
             class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
@@ -274,7 +274,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="relative"
         >
           <div
-            class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+            class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -312,7 +312,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="relative"
         >
           <div
-            class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+            class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -350,7 +350,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="relative"
         >
           <div
-            class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+            class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -388,7 +388,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="relative"
         >
           <div
-            class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+            class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -577,17 +577,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </p>
           </div>
           <div
-            class="unit__keyboard-hint text-size-xs text-color-secondary mt-4"
-          >
-            <p>
-              Use ←/→ or 1-9 to navigate, and Cmd/Ctrl+B to toggle sidebar.
-            </p>
-          </div>
-          <div
-            class="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0"
+            class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
           >
             <button
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
               type="button"
             >
               <span
@@ -615,6 +608,41 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </span>
             </button>
           </div>
+          <div
+            class="hidden md:block"
+          >
+            <hr
+              class="mt-12 mb-4"
+            />
+            <button
+              aria-expanded="false"
+              aria-label="Keyboard shortcuts"
+              class="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+              data-rac=""
+              data-react-aria-pressable="true"
+              id="react-aria-:r1:"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="none"
+                height="1em"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"
+                />
+              </svg>
+              Shortcuts
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -624,7 +652,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link ml-auto"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
   type="button"
 >
   <span
