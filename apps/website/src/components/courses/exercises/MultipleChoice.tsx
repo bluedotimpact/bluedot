@@ -135,13 +135,13 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={clsx('multiple-choice container-lined flex flex-col gap-6 bg-white p-8 relative z-10', className)}
+        className={clsx('container-lined flex flex-col gap-6 bg-white p-8 relative z-10', className)}
       >
-        <div className="multiple-choice__header flex flex-col gap-2">
-          <p className="multiple-choice__title bluedot-h4 not-prose">{title}</p>
+        <div className="flex flex-col gap-2">
+          <p className="bluedot-h4 not-prose">{title}</p>
           <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
-        <div className="multiple-choice__options flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           {formattedOptions.map((option) => {
             return (
               <Input
@@ -158,7 +158,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </div>
         {!isLoggedIn && (
         <CTALinkOrButton
-          className="multiple-choice__login-cta !bg-[#2244BB]"
+          className="!bg-[#2244BB]"
           variant="primary"
           url={getLoginUrl(router.asPath, true)}
           withChevron
@@ -168,7 +168,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         )}
         {isLoggedIn && !isCorrect && !isIncorrect && (
         <CTALinkOrButton
-          className="multiple-choice__submit !bg-[#2244BB]"
+          className="!bg-[#2244BB]"
           variant="primary"
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting || !currentAnswer}
@@ -189,7 +189,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
 const TryAgainButton = ({ onTryAgain }: { onTryAgain: () => void }) => {
   return (
-    <CTALinkOrButton className="multiple-choice__submit" onClick={onTryAgain} variant="black">
+    <CTALinkOrButton onClick={onTryAgain} variant="black">
       <span className="flex items-center gap-2">
         Try again
         <FaUndo aria-hidden="true" />

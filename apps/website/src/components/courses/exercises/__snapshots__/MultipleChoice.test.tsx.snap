@@ -4,13 +4,13 @@ exports[`MultipleChoice > renders default as expected 1`] = `
 <div>
   <div>
     <form
-      class="multiple-choice container-lined flex flex-col gap-6 bg-white p-8 relative z-10"
+      class="container-lined flex flex-col gap-6 bg-white p-8 relative z-10"
     >
       <div
-        class="multiple-choice__header flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <p
-          class="multiple-choice__title bluedot-h4 not-prose"
+          class="bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
@@ -23,7 +23,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="multiple-choice__options flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <label
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] text-gray-400 border-transparent"
@@ -91,7 +91,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
         </label>
       </div>
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__login-cta !bg-[#2244BB]"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-[#2244BB]"
         href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
         tabindex="0"
       >
@@ -128,13 +128,13 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 <div>
   <div>
     <form
-      class="multiple-choice container-lined flex flex-col gap-6 bg-white p-8 relative z-10"
+      class="container-lined flex flex-col gap-6 bg-white p-8 relative z-10"
     >
       <div
-        class="multiple-choice__header flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <p
-          class="multiple-choice__title bluedot-h4 not-prose"
+          class="bluedot-h4 not-prose"
         >
           Understanding LLMs
         </p>
@@ -147,7 +147,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         </div>
       </div>
       <div
-        class="multiple-choice__options flex flex-col gap-2"
+        class="flex flex-col gap-2"
       >
         <label
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] hover:bg-[#F0F5FD] border-transparent"
@@ -211,7 +211,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
         </label>
       </div>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit !bg-[#2244BB]"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-[#2244BB]"
         disabled=""
         type="button"
       >
@@ -246,7 +246,7 @@ exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 
 exports[`MultipleChoice > updates styles for incorrect option 2`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest multiple-choice__submit"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
   type="button"
 >
   <span
