@@ -146,4 +146,21 @@ describe('MultipleChoice', () => {
     expect(tryAgainButton).toBeInTheDocument();
     expect(tryAgainButton).toMatchSnapshot();
   });
+
+  test('resets form when try again is clicked', async () => {
+    const user = userEvent.setup();
+    const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
+
+    const { getByRole, getAllByRole } = render(
+      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
+    );
+
+    const tryAgainButton = getByRole('button', { name: /try again/i });
+    await user.click(tryAgainButton);
+
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+    });
+  });
 });
