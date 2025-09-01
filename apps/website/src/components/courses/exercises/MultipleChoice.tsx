@@ -89,18 +89,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     setValue('answer', '');
   };
 
+  const getSubmitButtonText = () => {
+    if (isSubmitting) return 'Checking...';
+    if (currentAnswer) return 'Check answer';
+    return 'Select an option'; // No quiz options have been selected yet
+  };
+
   const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
   const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
-
-  let buttonText = 'Select an option'; // No quiz options have been selected yet
-  if (isSubmitting) {
-    buttonText = 'Checking...';
-  } else if (isIncorrect) {
-    buttonText = 'Try again';
-    // If the answer is correct we don't show a button at all
-  } else if (currentAnswer) {
-    buttonText = 'Check answer';
-  }
 
   const getOptionClasses = (option: string) => {
     const selected = currentAnswer === option;
@@ -157,6 +153,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             Create a free account to check your answer
           </CTALinkOrButton>
         )}
+        {/* Submit button */}
         {isLoggedIn && !isCorrect && !isIncorrect && (
           <CTALinkOrButton
             className="!bg-[#2244BB]"
@@ -164,7 +161,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting || !currentAnswer}
           >
-            {buttonText}
+            {getSubmitButtonText()}
           </CTALinkOrButton>
         )}
         {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
