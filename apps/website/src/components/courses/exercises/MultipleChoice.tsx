@@ -131,9 +131,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       </div>
       <div className="multiple-choice__options flex flex-col gap-2">
         {formattedOptions.map((option) => {
-          const showCorrectFeedback = isSelected(option) && isCorrect;
-          const showIncorrectFeedback = isSelected(option) && isIncorrect;
-
           return (
             <Input
               key={option}
