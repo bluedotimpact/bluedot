@@ -105,8 +105,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     const selected = isSelected(option);
 
     if (!selected) {
-      // If there is a correct/incorrect answer shown we dim the other option's text
-      if (isCorrect || isIncorrect) {
+      // If there is a correct/incorrect answer we dim the other option's text.
+      // When not logged in all options are dimmed, and the `disabled` attribute takes care of pointer events.
+      if (isCorrect || isIncorrect || !isLoggedIn) {
         return 'bg-[#2A2D340A] text-gray-400 border-transparent';
       }
       return 'bg-[#2A2D340A] hover:bg-[#F0F5FD] border-transparent';
