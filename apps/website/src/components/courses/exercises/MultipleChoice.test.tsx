@@ -75,6 +75,25 @@ describe('MultipleChoice', () => {
     });
   });
 
+  test('disables submit button when no option selected', () => {
+    const { getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    const submitButton = getByRole('button', { name: /select an option/i });
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('enables submit button when option selected', async () => {
+    const user = userEvent.setup();
+    const { getAllByRole, getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    const radioInputs = getAllByRole('radio');
+    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    await user.click(radioInputs[0]);
+
+    const submitButton = getByRole('button', { name: /check answer/i });
+    expect(submitButton).toBeEnabled();
+  });
+
   test('updates styles for selected option', async () => {
     const user = userEvent.setup();
     const { getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
