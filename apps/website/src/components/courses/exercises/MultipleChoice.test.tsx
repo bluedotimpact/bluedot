@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import {
   beforeEach,
   describe,
@@ -8,9 +11,6 @@ import {
   test,
   vi,
 } from 'vitest';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import userEvent from '@testing-library/user-event';
 import MultipleChoice from './MultipleChoice';
 
 // Mock next/router
