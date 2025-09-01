@@ -275,3 +275,12 @@ exports[`MultipleChoice > updates styles for incorrect option 2`] = `
   </span>
 </button>
 `;
+
+exports[`MultipleChoice > updates styles for selected option 1`] = `
+<input
+  class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed"
+  name="answer"
+  type="radio"
+  value="The community's preference for low-tech fishing traditions"
+/>
+`;
