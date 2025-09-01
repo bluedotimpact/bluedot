@@ -11,6 +11,8 @@ HTMLInputElement
 > &
 React.RefAttributes<HTMLInputElement>;
 
+const BASE_LABEL_STYLES = 'input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed';
+
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
   (
     {
@@ -23,7 +25,8 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         return (
           <label
             className={clsx(
-              'input flex items-center gap-2 cursor-pointer',
+              BASE_LABEL_STYLES,
+              'items-center',
               labelClassName,
             )}
           >
@@ -43,7 +46,8 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         return (
           <label
             className={clsx(
-              'input flex items-center gap-2 cursor-pointer',
+              BASE_LABEL_STYLES,
+              'items-center',
               labelClassName,
             )}
           >
@@ -61,7 +65,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         );
       default:
         return (
-          <label className={clsx('input flex flex-col gap-2', labelClassName)}>
+          <label className={clsx(BASE_LABEL_STYLES, 'flex-col', labelClassName)}>
             <span className="input__label">{props.label}</span>
             <input
               {...props}
