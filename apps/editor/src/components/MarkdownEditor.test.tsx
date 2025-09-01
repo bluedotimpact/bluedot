@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, test, expect, vi,
 } from 'vitest';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import '@testing-library/jest-dom';
 import MarkdownEditor from './MarkdownEditor';
 
