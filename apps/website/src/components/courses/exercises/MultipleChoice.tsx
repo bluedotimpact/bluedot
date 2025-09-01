@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { FaUndo } from 'react-icons/fa';
 import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
@@ -88,6 +89,13 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     [onExerciseSubmit],
   );
 
+  const handleTryAgain = () => {
+    // Don't block on this request, we want to reset state immediately
+    onExerciseSubmit('', false);
+    setIsEditing(true);
+    setValue('answer', '');
+  };
+
   const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
   const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
 
@@ -138,10 +146,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
             <Input
               key={option}
               {...register('answer')}
-              labelClassName={clsx(
-                'flex items-center gap-2 p-4 rounded-lg border-2',
-                getOptionClasses(option),
-              )}
+              labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
               type="radio"
               value={option}
               onChange={() => handleOptionSelect(option)}
@@ -160,7 +165,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           Create a free account to check your answer
         </CTALinkOrButton>
       )}
-      {isLoggedIn && !isCorrect && (
+      {isLoggedIn && !isCorrect && !isIncorrect && (
         <CTALinkOrButton
           className="multiple-choice__submit !bg-[#2244BB]"
           variant="primary"
@@ -170,8 +175,24 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           {buttonText}
         </CTALinkOrButton>
       )}
-      {isCorrect && <P className="multiple-choice__correct-msg">Correct! Quiz completed. 🎉</P>}
+      {isLoggedIn && isIncorrect && <TryAgainButton onTryAgain={handleTryAgain} />}
+      {isCorrect && (
+        <P className="multiple-choice__correct-msg w-full bg-[#F0F5FD] px-6 py-2 text-[#2244BB]">
+          Correct! Quiz completed. 🎉
+        </P>
+      )}
     </form>
+  );
+};
+
+const TryAgainButton = ({ onTryAgain }: { onTryAgain: () => void }) => {
+  return (
+    <CTALinkOrButton className="multiple-choice__submit" onClick={onTryAgain} variant="black">
+      <span className="flex items-center gap-2">
+        Try again
+        <FaUndo />
+      </span>
+    </CTALinkOrButton>
   );
 };
 
