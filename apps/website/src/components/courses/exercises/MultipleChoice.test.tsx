@@ -9,7 +9,6 @@ import {
 } from 'vitest';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import userEvent from '@testing-library/user-event';
 import MultipleChoice from './MultipleChoice';
 
