@@ -25,6 +25,16 @@
 :root {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif ;
   --font-serif: var(--font-inter-display), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif ;
+  
+  /* Hairline borders for standard displays */
+  --border-hairline: 1px;
+}
+
+/* High-DPI displays (2dppx and above) get 0.5px hairline borders */
+@media (min-resolution: 2dppx) {
+  :root {
+    --border-hairline: 0.5px;
+  }
 }
 
 /* Headers use Inter Display */
@@ -48,6 +58,8 @@
     0% { transform: translateX(0) }
     100% { transform: translateX(-100%) }
   }
+  
+  --border-width-hairline: var(--border-hairline);
 }
 
 .slide-up-fade-in {

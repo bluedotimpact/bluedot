@@ -13,17 +13,18 @@ import {
 import {
   unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
 } from '@bluedot/db';
-import SideBar from './SideBar';
+import CertificateLinkCard from './CertificateLinkCard';
+import Congratulations from './Congratulations';
+import GroupDiscussionBanner from './GroupDiscussionBanner';
+import KeyboardNavMenu from './KeyboardNavMenu';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
-import Congratulations from './Congratulations';
+import { ResourceDisplay } from './ResourceDisplay';
+import SideBar from './SideBar';
 import { ROUTES } from '../../lib/routes';
-import CertificateLinkCard from './CertificateLinkCard';
 import {
   A, H1, P,
 } from '../Text';
-import GroupDiscussionBanner from './GroupDiscussionBanner';
-import { ResourceDisplay } from './ResourceDisplay';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -402,14 +403,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussion}
                 onClickPrepare={() => {
-                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
-                  if (discussionUnit) {
-                    router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                  // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
+                  if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
+                    handleChunkSelect(0);
+                  } else if (groupDiscussion.unitNumber) {
+                    // Otherwise, try to navigate to the discussion's unit number
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+                    if (discussionUnit) {
+                      router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                    } else {
+                      handleChunkSelect(0); // fallback to current unit
+                    }
                   } else {
                     handleChunkSelect(0); // fallback to current unit
                   }
                 }}
-                units={units}
               />
             </div>
           )}
@@ -441,11 +449,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               />
             ) : null}
 
-          {/* Keyboard navigation hint */}
-          <div className="unit__keyboard-hint text-size-xs text-color-secondary mt-4">
-            <p>Use ←/→ or 1-9 to navigate, and Cmd/Ctrl+B to toggle sidebar.</p>
-          </div>
-
           {(!nextUnit && isLastChunk) ? (
             <>
               <Congratulations
@@ -460,9 +463,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </>
           ) : (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-between mt-6 mx-1 mb-14 sm:mb-0">
+            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <CTALinkOrButton
-                className="unit__cta-link ml-auto"
+                className="unit__cta-link"
                 onClick={handleNextClick}
                 variant="primary"
                 withChevron
@@ -471,6 +474,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               </CTALinkOrButton>
             </div>
           )}
+
+          {/* Bottom-most section, underneath 'continue' button */}
+          <div className="hidden md:block">
+            <hr className="mt-12 mb-4" />
+            <KeyboardNavMenu />
+          </div>
         </div>
       </Section>
 

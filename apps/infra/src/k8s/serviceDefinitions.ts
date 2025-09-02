@@ -251,6 +251,7 @@ export const services: ServiceDefinition[] = [
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: 'C04SAGM4FN1' /* #tech-prod-alerts */ },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+          { name: 'PROD_ONLY_WEBHOOK_DELETION', valueFrom: envVarSources.prodOnlyWebhookDeletion },
         ],
       }],
     },

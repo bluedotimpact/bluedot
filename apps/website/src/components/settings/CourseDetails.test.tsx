@@ -1,9 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { describe, it, expect } from 'vitest';
+import {
+  describe, it, expect, vi,
+} from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import useAxios from 'axios-hooks';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import CourseDetails from './CourseDetails';
+
+// Mock axios-hooks
+vi.mock('axios-hooks');
+
+// Mock GroupSwitchModal to avoid testing it here
+vi.mock('../courses/GroupSwitchModal', () => ({
+  default: () => null,
+}));
 
 describe('CourseDetails', () => {
   const mockCourse = createMockCourse({
@@ -18,20 +29,48 @@ describe('CourseDetails', () => {
     level: 'Beginner',
   });
 
-  it('displays course overview and duration', async () => {
+  const mockCourseRegistration = {
+    id: 'reg-1',
+    courseId: 'course-1',
+    certificateCreatedAt: null,
+    certificateId: null,
+    email: 'test@example.com',
+    userId: 'user-1',
+    firstName: 'Test',
+    lastName: 'User',
+    fullName: 'Test User',
+    courseApplicationsBaseId: null,
+    decision: null,
+    role: null,
+    lastVisitedUnitNumber: null,
+    lastVisitedCourseContentPath: null,
+    lastVisitAt: null,
+    lastVisitedChunkIndex: null,
+    roundStatus: 'Active',
+  };
+
+  it('displays expanded course details region', async () => {
+    // Mock the API call for discussions
+    vi.mocked(useAxios).mockReturnValue([{
+      data: { discussions: [] },
+      loading: false,
+      error: null,
+    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
+
     render(
       <CourseDetails
         course={mockCourse}
+        courseRegistration={mockCourseRegistration}
       />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
+    // Check for the expanded region
     await waitFor(() => {
       expect(screen.getByRole('region', { name: 'Expanded details for Introduction to AI Safety' })).toBeInTheDocument();
     });
 
-    expect(screen.getByText('About this course')).toBeInTheDocument();
-    expect(screen.getByText('Duration: 8 weeks')).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Overview', selected: true })).toBeInTheDocument();
+    // Check for the upcoming discussions section
+    expect(screen.getByText('Upcoming discussions')).toBeInTheDocument();
+    expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
   });
 });

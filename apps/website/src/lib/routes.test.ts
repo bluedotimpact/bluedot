@@ -6,21 +6,18 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.settings).toBeDefined();
     expect(ROUTES.settingsAccount).toBeDefined();
     expect(ROUTES.settingsCourses).toBeDefined();
-    expect(ROUTES.settingsCommunity).toBeDefined();
   });
 
   test('settings routes have correct URLs', () => {
     expect(ROUTES.settings.url).toBe('/settings');
     expect(ROUTES.settingsAccount.url).toBe('/settings/account');
     expect(ROUTES.settingsCourses.url).toBe('/settings/courses');
-    expect(ROUTES.settingsCommunity.url).toBe('/settings/community');
   });
 
   test('settings routes have correct titles', () => {
     expect(ROUTES.settings.title).toBe('Settings');
     expect(ROUTES.settingsAccount.title).toBe('Account');
     expect(ROUTES.settingsCourses.title).toBe('Courses');
-    expect(ROUTES.settingsCommunity.title).toBe('Community');
   });
 
   test('settings routes have correct parent pages', () => {
@@ -36,10 +33,6 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.settingsCourses.parentPages).toHaveLength(2);
     expect(ROUTES.settingsCourses.parentPages?.[0]).toBe(ROUTES.home);
     expect(ROUTES.settingsCourses.parentPages?.[1]).toBe(ROUTES.settings);
-
-    expect(ROUTES.settingsCommunity.parentPages).toHaveLength(2);
-    expect(ROUTES.settingsCommunity.parentPages?.[0]).toBe(ROUTES.home);
-    expect(ROUTES.settingsCommunity.parentPages?.[1]).toBe(ROUTES.settings);
   });
 
   test('all existing routes are preserved', () => {

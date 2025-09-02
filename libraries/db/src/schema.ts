@@ -648,6 +648,10 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text().array(),
       airtableId: 'fldOMBehcT5xIjHUO',
     },
+    status: {
+      pgColumn: text(),
+      airtableId: 'fldO90wqKy5TM4XyN',
+    },
   },
 });
 
@@ -766,6 +770,10 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
     },
+    year: {
+      pgColumn: text(),
+      airtableId: 'fldtl37ZOF2Qx4Ui8',
+    },
   },
 });
 
@@ -859,7 +867,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldPkqPbeoIhERqSY',
     },
-    // Note: This is the id of the course in the COURSE_BUILDER base, not in the APPLICATIONS base
+    // Note: This is the id of the course in the COURSE_BUILDER base and not in the APPLICATIONS base
     courseId: {
       pgColumn: text().notNull(),
       airtableId: 'fldFTXtevzOc29Qte',

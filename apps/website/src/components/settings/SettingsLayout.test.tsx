@@ -42,16 +42,5 @@ describe('SettingsLayout', () => {
     // Verify courses content renders
     expect(within(mainContent).getByText('Courses Settings Content')).toBeInTheDocument();
     expect(within(mainContent).queryByText('Account Settings Content')).not.toBeInTheDocument();
-
-    // Change to community tab
-    rerender(
-      <SettingsLayout activeTab="community" route={ROUTES.settingsCommunity}>
-        <div>Community Settings Content</div>
-      </SettingsLayout>,
-    );
-
-    // Verify community content renders
-    expect(within(mainContent).getByText('Community Settings Content')).toBeInTheDocument();
-    expect(within(mainContent).queryByText('Courses Settings Content')).not.toBeInTheDocument();
   });
 });

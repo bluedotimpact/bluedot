@@ -52,7 +52,7 @@ exports[`SideBar > renders default as expected 1`] = `
         class="relative"
       >
         <div
-          class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+          class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
           class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
@@ -130,7 +130,7 @@ exports[`SideBar > renders default as expected 1`] = `
         class="relative"
       >
         <div
-          class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+          class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <a
           class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -168,7 +168,7 @@ exports[`SideBar > renders default as expected 1`] = `
         class="relative"
       >
         <div
-          class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+          class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <a
           class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -206,7 +206,7 @@ exports[`SideBar > renders default as expected 1`] = `
         class="relative"
       >
         <div
-          class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+          class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <a
           class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -244,7 +244,7 @@ exports[`SideBar > renders default as expected 1`] = `
         class="relative"
       >
         <div
-          class="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]"
+          class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <a
           class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"

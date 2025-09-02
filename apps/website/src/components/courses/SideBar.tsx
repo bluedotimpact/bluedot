@@ -58,7 +58,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   return (
     isCurrentUnit ? (
       <div className="relative">
-        <div className="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]" />
+        <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
         <details
           open={isCurrentUnit}
           className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
@@ -105,7 +105,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
       </div>
     ) : (
       <div className="relative">
-        <div className="absolute top-0 inset-x-[24px] border-t border-[rgba(42,45,52,0.2)]" />
+        <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
         <A href={addQueryParam(unit.path, 'chunk', '0')} className="block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
           <div className="flex flex-row items-center gap-[8px]">
             <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
