@@ -771,7 +771,7 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       airtableId: 'fldIqUoLYILUmMgY0',
     },
     year: {
-      pgColumn: numeric({ mode: 'number' }),
+      pgColumn: text(),
       airtableId: 'fldtl37ZOF2Qx4Ui8',
     },
   },
