@@ -6,15 +6,16 @@ export type CollapsibleProps = React.PropsWithChildren<{
   title: string,
   // Optional
   className?: string,
+  summaryClassName?: string,
   children?: React.ReactNode;
 }>;
 
 export const Collapsible: React.FC<CollapsibleProps> = ({
-  children, className, title,
+  children, className, summaryClassName, title,
 }) => {
   return (
     <details className={clsx('collapsible max-w-max-width border-b border-color-divider py-4 last:border-b-0 group marker:hidden [&_summary::-webkit-details-marker]:hidden', className)}>
-      <summary className="collapsible__header flex justify-between w-full cursor-pointer py-6 text-left">
+      <summary className={clsx('collapsible__header flex justify-between w-full cursor-pointer py-6 text-left', summaryClassName)}>
         <span className="collapsible__title bluedot-h4">{title}</span>
         <span className="collapsible__button flex items-center">
           <svg
