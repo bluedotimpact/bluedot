@@ -11,6 +11,12 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       Alice Brown
     </span>
     <span>
+       · 
+    </span>
+    <span>
+      2024
+    </span>
+    <span>
        ·
     </span>
   </p>
@@ -59,6 +65,12 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   <p
     class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
   >
+    <span>
+      2024
+    </span>
+    <span>
+       · 
+    </span>
     <span>
       20
        min
@@ -119,6 +131,12 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
        · 
     </span>
     <span>
+      2024
+    </span>
+    <span>
+       · 
+    </span>
+    <span>
       10
        min
     </span>
@@ -170,7 +188,14 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
 >
   <p
     class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
-  />
+  >
+    <span>
+      2024
+    </span>
+    <span>
+       ·
+    </span>
+  </p>
   <button
     aria-label="Listen to article: Introduction to AI Safety (opens in Spotify)"
     class="flex flex-row items-center gap-1.5 h-[18px] group cursor-pointer transition-colors duration-200 bg-transparent border-none p-0"
@@ -218,6 +243,12 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <span>
       Jane Smith
+    </span>
+    <span>
+       · 
+    </span>
+    <span>
+      2024
     </span>
     <span>
        · 
@@ -277,6 +308,12 @@ exports[`ResourceListItem - Listen to Article Feature > should render metadata w
   >
     <span>
       John Doe
+    </span>
+    <span>
+       · 
+    </span>
+    <span>
+      2024
     </span>
     <span>
        · 
