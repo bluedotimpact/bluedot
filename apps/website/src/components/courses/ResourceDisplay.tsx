@@ -1,8 +1,8 @@
 import React from 'react';
 import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
+import { Collapsible } from '@bluedot/ui';
 import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
-import Callout from './Callout';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
@@ -117,7 +117,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
       {/* Optional Resources */}
       {optionalResources.length > 0 && (
         <section className="resource-display__optional mt-8">
-          <Callout title="Optional resources">
+          <Collapsible title="Optional resources">
             <div className="flex flex-col gap-6" role="list" aria-label="Optional resources">
               {optionalResources.map((resource) => (
                 <ResourceListItem
@@ -126,7 +126,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 />
               ))}
             </div>
-          </Callout>
+          </Collapsible>
         </section>
       )}
     </section>
