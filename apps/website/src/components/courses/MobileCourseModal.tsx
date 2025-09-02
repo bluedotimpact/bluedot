@@ -6,7 +6,7 @@ import {
 } from 'framer-motion';
 import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
-import { addQueryParam } from '@bluedot/ui';
+
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -256,7 +256,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       // This creates a seamless navigation experience
       if (onUnitSelect && !isClosing) {
         const unitPath = `${unit.coursePath}/${unit.unitNumber}`;
-        onUnitSelect(addQueryParam(unitPath, 'chunk', '0'));
+        onUnitSelect(unitPath);
       }
       if (!isClosing) {
         setIsClosing(true);

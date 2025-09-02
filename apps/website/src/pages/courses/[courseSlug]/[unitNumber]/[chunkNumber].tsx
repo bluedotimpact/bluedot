@@ -2,19 +2,22 @@ import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
-import UnitLayout from '../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../api/courses/[courseSlug]/[unitNumber]';
-import { GetGroupDiscussionResponse } from '../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
-import { GetCourseRegistrationResponse } from '../../api/course-registrations/[courseId]';
+import UnitLayout from '../../../../components/courses/UnitLayout';
+import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitNumber]';
+import { GetGroupDiscussionResponse } from '../../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
 
-const CourseUnitPage = () => {
-  const { query: { courseSlug, unitNumber } } = useRouter();
+const CourseUnitChunkPage = () => {
+  const router = useRouter();
+  const { query: { courseSlug, unitNumber, chunkNumber } } = router;
 
-  if (typeof unitNumber !== 'string') {
+  if (typeof unitNumber !== 'string' || typeof chunkNumber !== 'string') {
     return <ProgressDots />;
   }
 
   const auth = useAuthStore((s) => s.auth);
+
+  const chunkIndex = parseInt(chunkNumber, 10) - 1;
 
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
     method: 'get',
@@ -57,6 +60,16 @@ const CourseUnitPage = () => {
     }
   }, [auth, data?.unit.courseId]);
 
+  useEffect(() => {
+    if (data && data.chunks && (chunkIndex < 0 || chunkIndex >= data.chunks.length)) {
+      router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
+    }
+  }, [data, chunkIndex, courseSlug, unitNumber, router]);
+
+  const handleSetChunkIndex = (newIndex: number) => {
+    router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
+  };
+
   if (loading || groupDiscussionLoading) {
     return <ProgressDots />;
   }
@@ -65,17 +78,23 @@ const CourseUnitPage = () => {
     return <ErrorSection error={error ?? new Error('Missing data from API')} />;
   }
 
+  if (chunkIndex < 0 || chunkIndex >= data.chunks.length) {
+    return <ProgressDots />;
+  }
+
   return (
     <UnitLayout
       chunks={data.chunks}
       unit={data.unit}
       units={data.units}
       unitNumber={parseInt(unitNumber)}
+      chunkIndex={chunkIndex}
+      setChunkIndex={handleSetChunkIndex}
       groupDiscussion={groupDiscussionData?.groupDiscussion || undefined}
     />
   );
 };
 
-CourseUnitPage.hideFooter = true;
+CourseUnitChunkPage.hideFooter = true;
 
-export default CourseUnitPage;
+export default CourseUnitChunkPage;

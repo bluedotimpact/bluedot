@@ -50,6 +50,8 @@ type UnitLayoutProps = {
   unit: Unit;
   unitNumber: number;
   units: Unit[];
+  chunkIndex: number;
+  setChunkIndex: (index: number) => void;
   // Optional
   groupDiscussion?: GroupDiscussion;
 };
@@ -138,44 +140,29 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   unit,
   unitNumber,
   units,
+  chunkIndex,
+  setChunkIndex,
   groupDiscussion,
 }) => {
   const router = useRouter();
-  const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
-  const isFirstChunk = currentChunkIndex === 0;
-  const isLastChunk = currentChunkIndex === chunks.length - 1;
+  const isFirstChunk = chunkIndex === 0;
+  const isLastChunk = chunkIndex === chunks.length - 1;
 
   const nextUnit = units[unitArrIndex + 1];
   const prevUnit = units[unitArrIndex - 1];
 
-  // Update chunk index when query param changes
-  useEffect(() => {
-    const chunkParam = router.query.chunk;
-    if (typeof chunkParam === 'string') {
-      const chunkIndex = parseInt(chunkParam, 10);
-      if (!Number.isNaN(chunkIndex) && chunkIndex >= 0 && chunkIndex < chunks.length) {
-        setCurrentChunkIndex(chunkIndex);
-      }
-    }
-  }, [router.query.chunk, chunks.length]);
-
   const handleChunkSelect = useCallback((index: number) => {
-    setCurrentChunkIndex(index);
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, chunk: index },
-    }, undefined, { shallow: true });
+    setChunkIndex(index);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Announce navigation for screen readers
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
-  }, [router, chunks]);
+  }, [setChunkIndex, chunks]);
 
   const handleMobileChunkSelect = useCallback((index: number) => {
     handleChunkSelect(index);
@@ -189,25 +176,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
   const handlePrevClick = useCallback(() => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
-      // Navigate to last chunk of previous unit
-      router.push(`${prevUnit.path}?chunk=${(prevUnit.chunks?.length ?? 0) - 1}`);
+      const lastChunkNumber = prevUnit.chunks?.length ?? 1;
+      const { courseSlug } = router.query;
+      router.push(`/courses/${courseSlug}/${prevUnit.unitNumber}/${lastChunkNumber}`);
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
-      // Navigate to previous chunk
-      handleChunkSelect(currentChunkIndex - 1);
+      handleChunkSelect(chunkIndex - 1);
     }
-  }, [isFirstChunk, chunks.length, prevUnit, currentChunkIndex, router, handleChunkSelect]);
+  }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect]);
 
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
-      // Navigate to first chunk of next unit
-      router.push(`${nextUnit.path}?chunk=0`);
+      const { courseSlug } = router.query;
+      router.push(`/courses/${courseSlug}/${nextUnit.unitNumber}/1`);
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
-      // Navigate to next chunk
-      handleChunkSelect(currentChunkIndex + 1);
+      handleChunkSelect(chunkIndex + 1);
     }
-  }, [isLastChunk, chunks.length, nextUnit, currentChunkIndex, router, handleChunkSelect]);
+  }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect]);
 
   // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
@@ -246,7 +232,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
         if (targetUnit) {
           event.preventDefault();
-          router.push(`${targetUnit.path}?chunk=0`);
+          const { courseSlug } = router.query;
+          router.push(`/courses/${courseSlug}/${targetUnit.unitNumber}/1`);
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
         return;
@@ -272,7 +259,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
     };
-  }, [handlePrevClick, handleNextClick]);
+  }, [handlePrevClick, handleNextClick, router, units]);
 
   if (!unit || unitArrIndex === -1) {
     // Should never happen
@@ -316,7 +303,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           units={units}
           currentUnitNumber={unitNumber}
           chunks={chunks}
-          currentChunkIndex={currentChunkIndex}
+          currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
         />
       )}
@@ -403,19 +390,17 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussion}
                 onClickPrepare={() => {
-                  // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                   if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
                   } else if (groupDiscussion.unitNumber) {
-                    // Otherwise, try to navigate to the discussion's unit number
                     const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
                     if (discussionUnit) {
-                      router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}?chunk=0`);
+                      router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}/1`);
                     } else {
-                      handleChunkSelect(0); // fallback to current unit
+                      handleChunkSelect(0);
                     }
                   } else {
-                    handleChunkSelect(0); // fallback to current unit
+                    handleChunkSelect(0);
                   }
                 }}
               />
@@ -423,28 +408,25 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
-            {chunks[currentChunkIndex]?.chunkTitle && (
-              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[currentChunkIndex].chunkTitle}</H1>
+            {chunks[chunkIndex]?.chunkTitle && (
+              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[chunkIndex].chunkTitle}</H1>
             )}
           </div>
-          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
-          {(chunks[currentChunkIndex]?.chunkContent || unit.content) && (
+          {(chunks[chunkIndex]?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
-              {chunks[currentChunkIndex]?.chunkContent || unit.content || ''}
+              {chunks[chunkIndex]?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}
 
-          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
-          {chunks[currentChunkIndex]
-            && (chunks[currentChunkIndex].resources?.length || chunks[currentChunkIndex].exercises?.length) ? (
+          {chunks[chunkIndex]
+            && (chunks[chunkIndex].resources?.length || chunks[chunkIndex].exercises?.length) ? (
               <ResourceDisplay
-                resources={chunks[currentChunkIndex].resources || []}
-                exercises={chunks[currentChunkIndex].exercises || []}
+                resources={chunks[chunkIndex].resources || []}
+                exercises={chunks[chunkIndex].exercises || []}
                 unitTitle={unit.title}
                 unitNumber={unitNumber}
                 className={clsx(
-                  // Add top margin only if there's content above it
-                  (chunks[currentChunkIndex]?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
+                  (chunks[chunkIndex]?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
                 )}
               />
             ) : null}
@@ -490,7 +472,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         units={units}
         currentUnitNumber={unitNumber}
         chunks={chunks}
-        currentChunkIndex={currentChunkIndex}
+        currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
       />
