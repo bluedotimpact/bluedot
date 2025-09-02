@@ -51,9 +51,10 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('Unit not found');
   }
 
-  // Get chunks for this unit and sort by chunk order
+  // Get chunks for this unit, filter for active status, and sort by chunk order
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const chunks = allChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
+  const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
+  const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
 
   // Resolve chunk resources and exercises with proper ordering
   const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
