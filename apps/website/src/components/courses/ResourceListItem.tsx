@@ -323,16 +323,14 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
             </div>
           )}
 
-          {/* Author, year, and time metadata */}
-          {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
+          {/* Author and time metadata */}
+          {(resource.authors || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
               <P className="text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap">
                 {resource.authors && <span>{resource.authors}</span>}
-                {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
-                {resource.year && <span>{String(resource.year)}</span>}
-                {resource.year && resource.timeFocusOnMins && <span> · </span>}
+                {resource.authors && resource.timeFocusOnMins && <span> · </span>}
                 {resource.timeFocusOnMins && <span>{resource.timeFocusOnMins} min</span>}
-                {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.year || resource.authors) && <span> ·</span>}
+                {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.authors) && <span> ·</span>}
               </P>
 
               {/* Listen to article button */}
