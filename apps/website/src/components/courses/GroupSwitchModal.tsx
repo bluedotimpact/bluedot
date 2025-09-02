@@ -344,7 +344,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               <CTALinkOrButton
                 onClick={handleSubmit}
                 disabled={submitDisabled}
-                className="disabled:cursor-not-allowed cursor-pointer disabled:opacity-50"
                 aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
               >
                 {isSubmitting ? 'Submitting...' : 'Confirm'}
