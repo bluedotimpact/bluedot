@@ -55,7 +55,10 @@ const CourseDetails = ({
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
-          return data.discussion;
+          if (data.type === 'success') {
+            return data.discussion;
+          }
+          return null;
         } catch {
           return null;
         }
@@ -66,7 +69,10 @@ const CourseDetails = ({
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
-          return data.discussion;
+          if (data.type === 'success') {
+            return data.discussion;
+          }
+          return null;
         } catch {
           return null;
         }
