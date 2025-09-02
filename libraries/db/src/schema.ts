@@ -770,10 +770,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
     },
-    year: {
-      pgColumn: text(),
-      airtableId: 'fldtl37ZOF2Qx4Ui8',
-    },
   },
 });
 
