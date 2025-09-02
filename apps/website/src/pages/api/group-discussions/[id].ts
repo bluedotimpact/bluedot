@@ -64,9 +64,6 @@ export default makeApiRoute({
   try {
     discussion = await db.get(groupDiscussionTable, { id: discussionId });
   } catch (error) {
-    // Log the error server-side for monitoring
-    console.error('Database error fetching discussion:', error);
-
     raw.res.status(500);
     return {
       type: 'error' as const,
@@ -89,28 +86,46 @@ export default makeApiRoute({
   }
 
   // Fetch related group and unit
-  let group;
   let unit;
 
+  // Group is always present, fetch it
+  let group;
   try {
-    if (discussion.group) {
-      group = await db.get(groupTable, { id: discussion.group });
-    }
+    group = await db.get(groupTable, { id: discussion.group });
   } catch (error) {
-    // Log but don't fail - group is optional enrichment data
-    console.warn(`Failed to fetch group ${discussion.group}:`, error);
+    raw.res.status(500);
+    return {
+      type: 'error' as const,
+      error: {
+        code: 'DATABASE_ERROR',
+        message: 'Failed to fetch group data. Please try again later.',
+      },
+    };
+  }
+
+  // Unit is always present, fetch it from courseBuilderUnitRecordId
+  if (!discussion.courseBuilderUnitRecordId) {
+    raw.res.status(500);
+    return {
+      type: 'error' as const,
+      error: {
+        code: 'MISSING_UNIT_ID',
+        message: 'Discussion is missing unit reference.',
+      },
+    };
   }
 
   try {
-    // Prefer courseBuilderUnitRecordId over unit field
-    if (discussion.courseBuilderUnitRecordId) {
-      unit = await db.get(unitTable, { id: discussion.courseBuilderUnitRecordId });
-    } else if (discussion.unit) {
-      unit = await db.get(unitTable, { id: discussion.unit });
-    }
+    unit = await db.get(unitTable, { id: discussion.courseBuilderUnitRecordId });
   } catch (error) {
-    // Log but don't fail - unit is optional enrichment data
-    console.warn('Failed to fetch unit:', error);
+    raw.res.status(500);
+    return {
+      type: 'error' as const,
+      error: {
+        code: 'DATABASE_ERROR',
+        message: 'Failed to fetch unit data. Please try again later.',
+      },
+    };
   }
 
   return {

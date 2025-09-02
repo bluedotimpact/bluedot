@@ -62,11 +62,8 @@ const CourseListRow = ({
           if (data.type === 'success') {
             return data.discussion;
           }
-          // Log error for debugging but don't fail
-          console.warn(`Failed to fetch discussion ${id}:`, data.error);
           return null;
         } catch (error) {
-          console.warn(`Failed to fetch discussion ${id}:`, error);
           return null;
         }
       });
