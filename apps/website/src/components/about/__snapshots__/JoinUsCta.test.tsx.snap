@@ -18,11 +18,7 @@ exports[`JoinUsCta > renders default as expected 1`] = `
         href="/join-us"
         tabindex="0"
       >
-        <span
-          class="cta-button__text"
-        >
-          View our careers
-        </span>
+        View our careers
         <span
           class="cta-button__chevron ml-3"
         >

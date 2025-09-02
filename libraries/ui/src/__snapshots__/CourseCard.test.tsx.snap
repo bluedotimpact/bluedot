@@ -27,11 +27,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
           type="button"
         >
-          <span
-            class="cta-button__text"
-          >
-            Start learning for free
-          </span>
+          Start learning for free
         </button>
       </div>
       <div

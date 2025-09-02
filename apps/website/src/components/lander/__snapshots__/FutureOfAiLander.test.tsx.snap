@@ -114,11 +114,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Start the free course
-              </span>
+              Start the free course
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -144,11 +140,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               tabindex="0"
               target="_blank"
             >
-              <span
-                class="cta-button__text"
-              >
-                Join the Community
-              </span>
+              Join the Community
             </a>
           </div>
         </div>
@@ -390,11 +382,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 href="/courses/test-course/1"
                 tabindex="0"
               >
-                <span
-                  class="cta-button__text"
-                >
-                  Start the free course
-                </span>
+                Start the free course
                 <span
                   class="cta-button__chevron ml-3"
                 >
@@ -420,11 +408,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 tabindex="0"
                 target="_blank"
               >
-                <span
-                  class="cta-button__text"
-                >
-                  Join the Community
-                </span>
+                Join the Community
               </a>
             </div>
           </div>
@@ -847,11 +831,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Get started
-              </span>
+              Get started
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -905,11 +885,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Explore AI in action
-              </span>
+              Explore AI in action
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -963,11 +939,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Earn your certificate
-              </span>
+              Earn your certificate
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -1021,11 +993,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Take the first step
-              </span>
+              Take the first step
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -1417,11 +1385,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       href="/courses/test-course/1"
       tabindex="0"
     >
-      <span
-        class="cta-button__text"
-      >
-        Start the free course
-      </span>
+      Start the free course
       <span
         class="cta-button__chevron ml-3"
       >

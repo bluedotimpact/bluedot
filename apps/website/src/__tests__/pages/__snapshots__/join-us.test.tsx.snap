@@ -27,11 +27,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             href="#open-roles-anchor"
             tabindex="0"
           >
-            <span
-              class="cta-button__text"
-            >
-              See open roles
-            </span>
+            See open roles
             <span
               class="cta-button__chevron ml-3"
             >

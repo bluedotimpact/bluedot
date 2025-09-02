@@ -583,11 +583,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
               type="button"
             >
-              <span
-                class="cta-button__text"
-              >
-                Continue
-              </span>
+              Continue
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -655,11 +651,7 @@ exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`]
   class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
   type="button"
 >
-  <span
-    class="cta-button__text"
-  >
-    Continue
-  </span>
+  Continue
   <span
     class="cta-button__chevron ml-3"
   >

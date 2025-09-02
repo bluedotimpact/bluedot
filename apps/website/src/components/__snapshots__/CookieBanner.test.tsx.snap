@@ -26,21 +26,13 @@ exports[`CookieBanner > renders as expected 1`] = `
         class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--accept"
         type="button"
       >
-        <span
-          class="cta-button__text"
-        >
-          Accept all
-        </span>
+        Accept all
       </button>
       <button
         class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark cookie-banner__button--reject"
         type="button"
       >
-        <span
-          class="cta-button__text"
-        >
-          Reject all
-        </span>
+        Reject all
       </button>
     </div>
   </div>

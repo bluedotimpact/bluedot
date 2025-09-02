@@ -106,11 +106,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
       tabindex="0"
     >
-      <span
-        class="cta-button__text"
-      >
-        Create a free account to check your answer
-      </span>
+      Create a free account to check your answer
       <span
         class="cta-button__chevron ml-3"
       >
@@ -235,11 +231,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark multiple-choice__submit"
       type="button"
     >
-      <span
-        class="cta-button__text"
-      >
-        Check
-      </span>
+      Check
     </button>
   </form>
 </div>

@@ -27,11 +27,7 @@ exports[`AboutPage > should render correctly 1`] = `
             href="/join-us"
             tabindex="0"
           >
-            <span
-              class="cta-button__text"
-            >
-              Join us
-            </span>
+            Join us
             <span
               class="cta-button__chevron ml-3"
             >
@@ -868,11 +864,7 @@ exports[`AboutPage > should render correctly 1`] = `
           href="/join-us"
           tabindex="0"
         >
-          <span
-            class="cta-button__text"
-          >
-            View our careers
-          </span>
+          View our careers
           <span
             class="cta-button__chevron ml-3"
           >
@@ -923,11 +915,7 @@ exports[`AboutPage > should render correctly 1`] = `
           href="/contact"
           tabindex="0"
         >
-          <span
-            class="cta-button__text"
-          >
-            Contact us
-          </span>
+          Contact us
           <span
             class="cta-button__chevron ml-3"
           >

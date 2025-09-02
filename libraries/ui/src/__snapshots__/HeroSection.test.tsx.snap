@@ -38,11 +38,7 @@ exports[`HeroSection > renders with buttons 1`] = `
           href="https://example.com"
           tabindex="0"
         >
-          <span
-            class="cta-button__text"
-          >
-            Do a thing
-          </span>
+          Do a thing
         </a>
       </div>
     </div>

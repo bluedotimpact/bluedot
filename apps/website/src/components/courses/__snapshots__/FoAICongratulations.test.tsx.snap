@@ -34,11 +34,7 @@ exports[`FoAICongratulations > renders default as expected 1`] = `
         tabindex="0"
         target="_blank"
       >
-        <span
-          class="cta-button__text"
-        >
-          Join the Community
-        </span>
+        Join the Community
       </a>
     </div>
   </div>
@@ -79,11 +75,7 @@ exports[`FoAICongratulations > renders with custom className 1`] = `
         tabindex="0"
         target="_blank"
       >
-        <span
-          class="cta-button__text"
-        >
-          Join the Community
-        </span>
+        Join the Community
       </a>
     </div>
   </div>

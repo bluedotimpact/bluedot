@@ -34,11 +34,7 @@ exports[`Congratulations > renders FoAI course with special component 1`] = `
         tabindex="0"
         target="_blank"
       >
-        <span
-          class="cta-button__text"
-        >
-          Join the Community
-        </span>
+        Join the Community
       </a>
     </div>
   </div>
