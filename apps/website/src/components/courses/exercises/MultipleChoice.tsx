@@ -141,7 +141,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </div>
         {!isLoggedIn && (
           <CTALinkOrButton
-            className="!bg-[#2244BB]"
+            className="!bg-[#2244BB] !whitespace-normal"
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
             withChevron
