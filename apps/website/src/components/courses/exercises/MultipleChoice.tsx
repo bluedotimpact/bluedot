@@ -79,7 +79,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       await onExerciseSubmit(data.answer, isAnswerCorrect);
       setIsEditing(false);
     },
-    [onExerciseSubmit],
+    [onExerciseSubmit, formattedAnswer],
   );
 
   const handleTryAgain = () => {
