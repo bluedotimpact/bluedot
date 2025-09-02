@@ -34,7 +34,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
               {...props}
               ref={ref}
               className={clsx(
-                'input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed',
+                'input--checkbox size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
                 inputClassName,
               )}
               type="checkbox"
@@ -55,7 +55,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
               {...props}
               ref={ref}
               className={clsx(
-                'input--radio size-6 accent-bluedot-normal rounded cursor-pointer disabled:cursor-not-allowed',
+                'input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
                 inputClassName,
               )}
               type="radio"
