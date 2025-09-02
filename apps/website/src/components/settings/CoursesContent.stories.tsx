@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import CoursesContent from './CoursesContent';
 
-// Note: This component uses axios-hooks which requires API mocking
-// For full interactive stories, consider setting up MSW (Mock Service Worker)
-// or using a mock server in your Storybook configuration
-
 const meta: Meta<typeof CoursesContent> = {
   title: 'Settings/CoursesContent',
   component: CoursesContent,

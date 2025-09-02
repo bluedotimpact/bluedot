@@ -13,28 +13,8 @@ export type GetUnitResponse = {
 
 // Query validation schema
 const querySchema = z.object({
-  courseSlug: z.preprocess(
-    (val) => {
-      // Reject arrays
-      if (Array.isArray(val)) {
-        throw new Error('courseSlug cannot be an array');
-      }
-      // Coerce to string and trim
-      return typeof val === 'string' ? val.trim() : String(val).trim();
-    },
-    z.string().min(1, 'courseSlug is required'),
-  ),
-  unitId: z.preprocess(
-    (val) => {
-      // Reject arrays
-      if (Array.isArray(val)) {
-        throw new Error('unitId cannot be an array');
-      }
-      // Coerce to string and trim
-      return typeof val === 'string' ? val.trim() : String(val).trim();
-    },
-    z.string().min(1, 'unitId is required'),
-  ),
+  courseSlug: z.string().trim().min(1, 'courseSlug is required'),
+  unitId: z.string().trim().min(1, 'unitId is required'),
 });
 
 export default makeApiRoute({

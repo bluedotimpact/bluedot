@@ -58,8 +58,15 @@ const CourseListRow = ({
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
-          return data.discussion;
-        } catch {
+          // Check if the response is successful before accessing discussion
+          if (data.type === 'success') {
+            return data.discussion;
+          }
+          // Log error for debugging but don't fail
+          console.warn(`Failed to fetch discussion ${id}:`, data.error);
+          return null;
+        } catch (error) {
+          console.warn(`Failed to fetch discussion ${id}:`, error);
           return null;
         }
       });
@@ -68,7 +75,7 @@ const CourseListRow = ({
 
       // Filter out nulls and sort by startDateTime
       const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
+      validExpected.sort((a: GroupDiscussion, b: GroupDiscussion) => a.startDateTime - b.startDateTime);
 
       setExpectedDiscussions(validExpected);
       setLoading(false);
@@ -156,7 +163,7 @@ const CourseListRow = ({
       day: 'numeric',
       year: 'numeric',
     })}`
-    : ''; // Removed "In progress" text
+    : '';
 
   // Determine hover class based on completion status
   const hoverClass = !isExpanded && !isCompleted ? 'hover:bg-white' : '';
