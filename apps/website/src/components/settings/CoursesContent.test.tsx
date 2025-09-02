@@ -39,6 +39,7 @@ describe('CoursesContent', () => {
     certificateCreatedAt: null,
     certificateId: null,
     lastVisitedChunkIndex: null,
+    roundStatus: 'Active', // Add roundStatus for in-progress filtering
   };
 
   beforeEach(() => {
@@ -47,18 +48,19 @@ describe('CoursesContent', () => {
 
   it('displays in-progress courses', async () => {
     vi.mocked(useAxios).mockImplementation((config) => {
-      if (config.url === '/api/course-registrations') {
+      const url = typeof config === 'string' ? config : config.url;
+      if (url === '/api/course-registrations') {
         return [{
           data: { courseRegistrations: [mockCourseRegistration] },
           loading: false,
           error: null,
-        }] as ReturnType<typeof useAxios>;
+        }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
       }
       return [{
         data: { courses: [mockCourse] },
         loading: false,
         error: null,
-      }] as ReturnType<typeof useAxios>;
+      }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
     });
 
     render(<CoursesContent authToken="test-token" />);
@@ -72,18 +74,19 @@ describe('CoursesContent', () => {
 
   it('displays empty state when no courses enrolled', async () => {
     vi.mocked(useAxios).mockImplementation((config) => {
-      if (config.url === '/api/course-registrations') {
+      const url = typeof config === 'string' ? config : config.url;
+      if (url === '/api/course-registrations') {
         return [{
           data: { courseRegistrations: [] },
           loading: false,
           error: null,
-        }] as ReturnType<typeof useAxios>;
+        }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
       }
       return [{
         data: { courses: [] },
         loading: false,
         error: null,
-      }] as ReturnType<typeof useAxios>;
+      }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
     });
 
     render(<CoursesContent authToken="test-token" />);
