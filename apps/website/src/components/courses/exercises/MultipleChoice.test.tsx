@@ -172,4 +172,35 @@ describe('MultipleChoice', () => {
     const submitButton = getByRole('button', { name: /select an option/i });
     expect(submitButton).toBeDisabled();
   });
+
+  test('shows "Checking..." when form is being submitted', async () => {
+    const user = userEvent.setup();
+    let resolveSubmit: () => void;
+    const mockOnExerciseSubmit = vi.fn(
+      () => new Promise<void>((resolve) => {
+        resolveSubmit = resolve;
+      }),
+    );
+
+    const { getAllByRole, getByRole } = render(
+      <MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+    );
+
+    const radioInputs = getAllByRole('radio');
+    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    await user.click(radioInputs[0]);
+
+    const submitButton = getByRole('button', { name: /check answer/i });
+    const submitPromiseCall = user.click(submitButton);
+
+    await waitFor(() => {
+      expect(getByRole('button', { name: /checking/i })).toBeInTheDocument();
+    });
+
+    expect(mockOnExerciseSubmit).toBeCalled();
+
+    // Resolve the promise to complete the test
+    resolveSubmit!();
+    await submitPromiseCall;
+  });
 });
