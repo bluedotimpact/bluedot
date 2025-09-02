@@ -648,6 +648,10 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text().array(),
       airtableId: 'fldOMBehcT5xIjHUO',
     },
+    status: {
+      pgColumn: text(),
+      airtableId: 'fldO90wqKy5TM4XyN',
+    },
   },
 });
 
@@ -765,6 +769,10 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     syncedAudioUrl: {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
+    },
+    year: {
+      pgColumn: text(),
+      airtableId: 'fldtl37ZOF2Qx4Ui8',
     },
   },
 });
