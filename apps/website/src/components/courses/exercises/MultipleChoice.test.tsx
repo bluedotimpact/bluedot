@@ -168,5 +168,8 @@ describe('MultipleChoice', () => {
     radioInputs.forEach((input) => {
       expect(input).not.toBeChecked();
     });
+
+    const submitButton = getByRole('button', { name: /select an option/i });
+    expect(submitButton).toBeDisabled();
   });
 });
