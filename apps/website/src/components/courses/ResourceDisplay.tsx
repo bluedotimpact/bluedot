@@ -58,6 +58,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   const coreResources = filterResourcesByType(resources, 'Core');
   const optionalResources = filterResourcesByType(resources, 'Further');
   const totalCoreResourceTime = calculateResourceTime(coreResources);
+  const totalOptionalResourceTime = calculateResourceTime(optionalResources);
 
   // Generate unique IDs for ARIA labeling
   const unitContext = unitTitle && unitNumber ? `Unit ${unitNumber}: ${unitTitle}` : '';
@@ -117,7 +118,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
       {/* Optional Resources */}
       {optionalResources.length > 0 && (
         <section className="resource-display__optional mt-8">
-          <Collapsible title="Optional resources">
+          <Collapsible title={`Optional Resources (${formatResourceTime(totalOptionalResourceTime)})`}>
             <div className="flex flex-col gap-6" role="list" aria-label="Optional resources">
               {optionalResources.map((resource) => (
                 <ResourceListItem
