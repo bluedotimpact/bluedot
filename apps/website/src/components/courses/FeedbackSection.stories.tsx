@@ -1,0 +1,28 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import FeedbackSection from './FeedbackSection';
+
+const meta = {
+  title: 'website/courses/FeedbackSection',
+  component: FeedbackSection,
+  tags: ['autodocs'],
+  args: {},
+} satisfies Meta<typeof FeedbackSection>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {},
+};
+
+export const CustomText: Story = {
+  args: {
+    leadingText: 'What did you think of this lesson?',
+  },
+};
+
+export const ShortText: Story = {
+  args: {
+    leadingText: 'Rate this:',
+  },
+};
