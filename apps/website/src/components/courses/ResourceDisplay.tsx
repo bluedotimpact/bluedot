@@ -8,7 +8,16 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
 
-// Utility functions extracted from duplicated code
+/**
+ * Formats resource time in minutes to a human-readable string.
+ * Rounds up times to the nearest 5 minutes (for < 60 mins) or 10 minutes (for >= 60 mins).
+ * @param totalMins - The total time in minutes
+ * @example
+ * formatResourceTime(3) => '5 mins'
+ * formatResourceTime(7) => '10 mins'
+ * formatResourceTime(62) => '1 hr 10 mins'
+ * @returns Formatted time string (e.g., "15 mins", "1 hr 30 mins")
+ */
 export const formatResourceTime = (totalMins: number): string => {
   const roundedMins = totalMins < 60
     ? Math.ceil(totalMins / 5) * 5
