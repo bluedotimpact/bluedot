@@ -278,7 +278,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/2?chunk=0"
+            href="/courses/test-course/2"
             tabindex="0"
           >
             <div
@@ -316,7 +316,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/3?chunk=0"
+            href="/courses/test-course/3"
             tabindex="0"
           >
             <div
@@ -354,7 +354,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/4?chunk=0"
+            href="/courses/test-course/4"
             tabindex="0"
           >
             <div
@@ -392,7 +392,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/5?chunk=0"
+            href="/courses/test-course/5"
             tabindex="0"
           >
             <div

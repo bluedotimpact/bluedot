@@ -161,6 +161,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     setChunkIndex(index);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Announce navigation for screen readers
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
   }, [setChunkIndex, chunks]);
@@ -177,21 +178,25 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
   const handlePrevClick = useCallback(() => {
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
+      // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
       const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${prevUnit.unitNumber}/${lastChunkNumber}`);
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
+      // Navigate to previous chunk
       handleChunkSelect(chunkIndex - 1);
     }
   }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect]);
 
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
+      // Navigate to first chunk of next unit
       const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${nextUnit.unitNumber}/1`);
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
+      // Navigate to next chunk
       handleChunkSelect(chunkIndex + 1);
     }
   }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect]);
@@ -233,8 +238,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
         if (targetUnit) {
           event.preventDefault();
-          const { courseSlug } = router.query;
-          router.push(`/courses/${courseSlug}/${targetUnit.unitNumber}/1`);
+          router.push(targetUnit.path);
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
         return;
@@ -393,18 +397,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <GroupDiscussionBanner
                 unit={unit}
                 groupDiscussion={groupDiscussion}
+                // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
                   if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
                   } else if (groupDiscussion.unitNumber) {
+                    // Otherwise, try to navigate to the discussion's unit number
                     const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
                     if (discussionUnit) {
-                      router.push(`/courses/${unit.courseSlug}/${discussionUnit.unitNumber}/1`);
+                      router.push(discussionUnit.path);
                     } else {
-                      handleChunkSelect(0);
+                      handleChunkSelect(0); // fallback to current unit
                     }
                   } else {
-                    handleChunkSelect(0);
+                    handleChunkSelect(0); // fallback to current unit
                   }
                 }}
               />
@@ -416,12 +422,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[chunkIndex].chunkTitle}</H1>
             )}
           </div>
+          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
           {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
               {chunks[chunkIndex]?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}
 
+          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
           {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
             <ResourceDisplay
               resources={chunk.resources || []}

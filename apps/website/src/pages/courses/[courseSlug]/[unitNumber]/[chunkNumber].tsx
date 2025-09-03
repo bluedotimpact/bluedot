@@ -17,6 +17,7 @@ const CourseUnitChunkPage = () => {
 
   const auth = useAuthStore((s) => s.auth);
 
+  // Map 1 -> 0, to avoid ugly urls like /courses/my-course/1/0
   const chunkIndex = parseInt(chunkNumber, 10) - 1;
 
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
