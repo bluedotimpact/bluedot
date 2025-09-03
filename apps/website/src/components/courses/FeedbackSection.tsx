@@ -54,7 +54,7 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
 
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
-      <span className="text-(--feedback-gray)/60">{leadingText}</span>
+      <span className="text-size-xs text-(--feedback-gray)/60">{leadingText}</span>
       <div className="flex items-center gap-1">
         <CTALinkOrButton
           className={clsx(
