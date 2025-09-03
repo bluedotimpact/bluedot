@@ -652,6 +652,10 @@ export const chunkTable = pgAirtable('chunk', {
       pgColumn: text(),
       airtableId: 'fldO90wqKy5TM4XyN',
     },
+    metaDescription: {
+      pgColumn: text(),
+      airtableId: 'fldYM0jNhGRNvYAYI',
+    },
   },
 });
 
