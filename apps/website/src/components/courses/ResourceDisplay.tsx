@@ -127,7 +127,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
       {/* Optional Resources */}
       {optionalResources.length > 0 && (
         <section className="resource-display__optional mt-8">
-          <Collapsible title={`Optional Resources (${formatResourceTime(totalOptionalResourceTime)})`} summaryClassName="justify-start gap-2">
+          <Collapsible title={`Optional Resources${totalOptionalResourceTime > 0 ? ` (${formatResourceTime(totalOptionalResourceTime)})` : ''}`} summaryClassName="justify-start gap-2">
             <div className="flex flex-col gap-6" role="list" aria-label="Optional resources">
               {optionalResources.map((resource) => (
                 <ResourceListItem
