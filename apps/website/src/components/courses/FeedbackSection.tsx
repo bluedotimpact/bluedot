@@ -58,10 +58,10 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
       <div className="flex items-center gap-1">
         <CTALinkOrButton
           className={clsx(
-            '!rounded-md',
             currentFeedback === 'like' && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]',
           )}
           variant="ghost"
+          size="small"
           onClick={() => setCurrentFeedback(currentFeedback === 'like' ? null : 'like')}
         >
           <span className="flex items-center gap-1.5">
@@ -71,11 +71,11 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
         </CTALinkOrButton>
         <CTALinkOrButton
           className={clsx(
-            '!rounded-md',
             currentFeedback === 'dislike'
               && 'bg-(--feedback-gray)/6 !text-(--feedback-gray) hover:bg-(--feedback-gray)/10',
           )}
           variant="ghost"
+          size="small"
           onClick={() => setCurrentFeedback(currentFeedback === 'dislike' ? null : 'dislike')}
         >
           <span className="flex items-center gap-1.5">
