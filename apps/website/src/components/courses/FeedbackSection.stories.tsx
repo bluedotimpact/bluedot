@@ -15,14 +15,8 @@ export const Default: Story = {
   args: {},
 };
 
-export const CustomText: Story = {
+export const CustomLeadingText: Story = {
   args: {
     leadingText: 'What did you think of this lesson?',
-  },
-};
-
-export const ShortText: Story = {
-  args: {
-    leadingText: 'Rate this:',
   },
 };
