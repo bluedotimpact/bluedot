@@ -36,13 +36,13 @@ const CourseUnitChunkPage = () => {
   // [[...chunkNumber]] catch-all syntax results in `chunkNumber` being an array, parse the first element
   if (Array.isArray(chunkNumber) && chunkNumber.length > 0) {
     const [firstChunk] = chunkNumber;
-    if (firstChunk) {
-      actualChunkNumber = firstChunk;
-    }
+    actualChunkNumber = firstChunk ?? '1';
   }
 
   // Map 1 -> 0, to avoid ugly urls like /courses/my-course/1/0
-  const chunkIndex = parseInt(actualChunkNumber, 10) - 1;
+  const parsedChunk = Number.parseInt(actualChunkNumber, 10);
+  const isInvalidChunk = !Number.isFinite(parsedChunk) || parsedChunk < 1;
+  const chunkIndex = isInvalidChunk ? 0 : parsedChunk - 1;
 
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
     method: 'get',
@@ -87,6 +87,7 @@ const CourseUnitChunkPage = () => {
 
   useEffect(() => {
     if (data && data.chunks && (chunkIndex < 0 || chunkIndex >= data.chunks.length)) {
+      if (data.unit.unitNumber !== unitNumber) return; // Handle case where data hasn't updated yet
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
   }, [data, chunkIndex, courseSlug, unitNumber, router]);
