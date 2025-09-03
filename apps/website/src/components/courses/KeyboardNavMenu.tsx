@@ -23,7 +23,7 @@ const KeyboardNavMenu = ({ popoverTitle = '', shortcuts = DEFAULT_SHORTCUTS }: K
     <DialogTrigger>
       <Button
         aria-label="Keyboard shortcuts"
-        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-sm/4 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-sm/4 text-(--keyboard-gray)/60 transition-colors [--keyboard-gray:#13132E] hover:bg-(--keyboard-gray)/10 hover:text-(--keyboard-gray) aria-expanded:bg-(--keyboard-gray)/10 aria-expanded:text-(--keyboard-gray)"
       >
         <FiCommand className="size-4" />
         Shortcuts
