@@ -419,13 +419,13 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
-              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[chunkIndex].chunkTitle}</H1>
+              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunk.chunkTitle}</H1>
             )}
           </div>
           {/* chunk content → unit content if no chunks - Only render if there's actual content */}
           {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
-              {chunks[chunkIndex]?.chunkContent || unit.content || ''}
+              {chunk?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}
 
