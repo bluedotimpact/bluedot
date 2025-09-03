@@ -44,10 +44,11 @@ const ThumbIcon: React.FC<{
 };
 
 type LikeDislikeProps = {
+  feedback?: 'like' | 'dislike' | null;
   leadingText?: string;
 };
 
-const FeedbackSection = ({ leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
+const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
       <span className="text-(--feedback-gray)/60">{leadingText}</span>
