@@ -57,6 +57,10 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
   const liked = currentFeedback === RESOURCE_FEEDBACK.LIKE;
   const disliked = currentFeedback === RESOURCE_FEEDBACK.DISLIKE;
 
+  const toggleFeedback = (newFeedback: ResourceFeedback) => {
+    setCurrentFeedback((prev) => (prev === newFeedback ? RESOURCE_FEEDBACK.NO_RESPONSE : newFeedback));
+  };
+
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
       <span className="text-size-xs text-(--feedback-gray)/60">{leadingText}</span>
@@ -65,7 +69,7 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
           className={clsx(liked && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]')}
           variant="ghost"
           size="small"
-          onClick={() => setCurrentFeedback(liked ? RESOURCE_FEEDBACK.NO_RESPONSE : RESOURCE_FEEDBACK.LIKE)}
+          onClick={() => toggleFeedback(RESOURCE_FEEDBACK.LIKE)}
         >
           <span className="flex items-center gap-1.5">
             <ThumbIcon filled={liked} />
@@ -76,7 +80,7 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
           className={clsx(disliked && 'bg-(--feedback-gray)/6 !text-(--feedback-gray) hover:bg-(--feedback-gray)/10')}
           variant="ghost"
           size="small"
-          onClick={() => setCurrentFeedback(disliked ? RESOURCE_FEEDBACK.NO_RESPONSE : RESOURCE_FEEDBACK.DISLIKE)}
+          onClick={() => toggleFeedback(RESOURCE_FEEDBACK.DISLIKE)}
         >
           <span className="flex items-center gap-1.5">
             <ThumbIcon filled={disliked} isDislike />
