@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import FeedbackSection from './FeedbackSection';
 
 const meta = {
@@ -23,12 +24,12 @@ export const CustomLeadingText: Story = {
 
 export const Liked: Story = {
   args: {
-    feedback: 'like',
+    feedback: RESOURCE_FEEDBACK.LIKE,
   },
 };
 
 export const Disliked: Story = {
   args: {
-    feedback: 'dislike',
+    feedback: RESOURCE_FEEDBACK.DISLIKE,
   },
 };
