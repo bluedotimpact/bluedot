@@ -152,6 +152,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
+  const chunk = chunks[chunkIndex];
 
   const nextUnit = units[unitArrIndex + 1];
   const prevUnit = units[unitArrIndex - 1];
@@ -266,11 +267,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     throw new Error('Unit not found');
   }
 
+  const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  const metaDescription = chunk?.metaDescription || unit.title;
+
   return (
     <div>
       <Head>
-        <title>{`${unit.courseTitle}: Unit ${unitNumber}`}</title>
-        <meta name="description" content={unit.title} />
+        <title>{title}</title>
+        <meta name="description" content={metaDescription} />
       </Head>
 
       {/* Aria live region for screen reader announcements */}
@@ -408,28 +412,27 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
-            {chunks[chunkIndex]?.chunkTitle && (
+            {chunk?.chunkTitle && (
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunks[chunkIndex].chunkTitle}</H1>
             )}
           </div>
-          {(chunks[chunkIndex]?.chunkContent || unit.content) && (
+          {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
               {chunks[chunkIndex]?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}
 
-          {chunks[chunkIndex]
-            && (chunks[chunkIndex].resources?.length || chunks[chunkIndex].exercises?.length) ? (
-              <ResourceDisplay
-                resources={chunks[chunkIndex].resources || []}
-                exercises={chunks[chunkIndex].exercises || []}
-                unitTitle={unit.title}
-                unitNumber={unitNumber}
-                className={clsx(
-                  (chunks[chunkIndex]?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
-                )}
-              />
-            ) : null}
+          {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
+            <ResourceDisplay
+              resources={chunk.resources || []}
+              exercises={chunk.exercises || []}
+              unitTitle={unit.title}
+              unitNumber={unitNumber}
+              className={clsx(
+                (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
+              )}
+            />
+          ) : null}
 
           {(!nextUnit && isLastChunk) ? (
             <>
