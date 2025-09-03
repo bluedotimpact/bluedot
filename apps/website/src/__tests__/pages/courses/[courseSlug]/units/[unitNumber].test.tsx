@@ -5,7 +5,7 @@ import {
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
-import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]';
+import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
