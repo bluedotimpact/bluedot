@@ -20,3 +20,15 @@ export const CustomLeadingText: Story = {
     leadingText: 'What did you think of this lesson?',
   },
 };
+
+export const Liked: Story = {
+  args: {
+    feedback: 'like',
+  },
+};
+
+export const Disliked: Story = {
+  args: {
+    feedback: 'dislike',
+  },
+};
