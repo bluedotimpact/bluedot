@@ -48,10 +48,15 @@ const ThumbIcon: React.FC<{
 
 type LikeDislikeProps = {
   feedback?: ResourceFeedback;
+  onFeedbackChange?: (feedback: ResourceFeedback) => void;
   leadingText?: string;
 };
 
-const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
+const FeedbackSection = ({
+  feedback,
+  onFeedbackChange,
+  leadingText = 'How did you like this unit?',
+}: LikeDislikeProps) => {
   const [currentFeedback, setCurrentFeedback] = useState<ResourceFeedback>(feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
 
   const liked = currentFeedback === RESOURCE_FEEDBACK.LIKE;
@@ -59,6 +64,7 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
 
   const updateFeedback = (newFeedback: ResourceFeedback) => {
     setCurrentFeedback((prev) => (prev === newFeedback ? RESOURCE_FEEDBACK.NO_RESPONSE : newFeedback));
+    onFeedbackChange?.(newFeedback);
   };
 
   return (
