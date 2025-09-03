@@ -9,16 +9,40 @@ import { GetCourseRegistrationResponse } from '../../../api/course-registrations
 
 const CourseUnitChunkPage = () => {
   const router = useRouter();
-  const { query: { courseSlug, unitNumber, chunkNumber } } = router;
+  const {
+    query: {
+      courseSlug, unitNumber, chunkNumber, chunk,
+    },
+  } = router;
 
-  if (typeof unitNumber !== 'string' || typeof chunkNumber !== 'string') {
+  if (typeof unitNumber !== 'string') {
     return <ProgressDots />;
   }
 
+  // Handle old ?chunk={n-1} format redirect
+  useEffect(() => {
+    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof chunk === 'string') {
+      const oldChunkIndex = parseInt(chunk, 10);
+      if (!Number.isNaN(oldChunkIndex) && oldChunkIndex >= 0) {
+        const newChunkNumber = oldChunkIndex + 1;
+        router.replace(`/courses/${courseSlug}/${unitNumber}/${newChunkNumber}`);
+      }
+    }
+  }, [courseSlug, unitNumber, chunk, router]);
+
   const auth = useAuthStore((s) => s.auth);
 
+  let actualChunkNumber = '1';
+  // [[...chunkNumber]] catch-all syntax results in `chunkNumber` being an array, parse the first element
+  if (Array.isArray(chunkNumber) && chunkNumber.length > 0) {
+    const [firstChunk] = chunkNumber;
+    if (firstChunk) {
+      actualChunkNumber = firstChunk;
+    }
+  }
+
   // Map 1 -> 0, to avoid ugly urls like /courses/my-course/1/0
-  const chunkIndex = parseInt(chunkNumber, 10) - 1;
+  const chunkIndex = parseInt(actualChunkNumber, 10) - 1;
 
   const [{ data, loading, error }] = useAxios<GetUnitResponse>({
     method: 'get',
