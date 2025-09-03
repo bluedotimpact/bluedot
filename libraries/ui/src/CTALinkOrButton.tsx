@@ -13,8 +13,8 @@ export type CTALinkOrButtonProps = {
 const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose';
 
 const CTA_SIZE_STYLES = {
-  small: 'text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold',
-  medium: 'text-sm px-4 py-3 rounded-sm font-[650]',
+  small: 'text-[13px] px-3 py-2.5 h-9 gap-1.5 rounded-md font-semibold',
+  medium: 'text-sm px-4 py-3 gap-2 rounded-sm font-[650]',
 } as const;
 
 const CTA_VARIANT_STYLES = {
@@ -44,17 +44,9 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
       )}
       {...rest}
     >
-      {withBackChevron && (
-      <span className="cta-button__chevron mr-3">
-        <FaChevronLeft className="cta-button__chevron-icon size-2" />
-      </span>
-      )}
+      {withBackChevron && <FaChevronLeft className="cta-button__chevron-icon size-2" />}
       {children}
-      {withChevron && (
-      <span className="cta-button__chevron ml-3">
-        <FaChevronRight className="cta-button__chevron-icon size-2" />
-      </span>
-      )}
+      {withChevron && <FaChevronRight className="cta-button__chevron-icon size-2" />}
     </ClickTarget>
   );
 };
