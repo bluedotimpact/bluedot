@@ -1,6 +1,6 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
-import { useId } from 'react';
+import { useId, useState } from 'react';
 
 const ThumbIcon: React.FC<{
   color?: string;
@@ -50,7 +50,7 @@ type LikeDislikeProps = {
 };
 
 const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
-  console.log(feedback);
+  const [currentFeedback, setCurrentFeedback] = useState<LikeDislikeProps['feedback']>(feedback);
 
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
@@ -59,21 +59,27 @@ const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?'
         <CTALinkOrButton
           className={clsx(
             '!rounded-md',
-            feedback === 'like' && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]',
+            currentFeedback === 'like' && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]',
           )}
           variant="ghost"
+          onClick={() => setCurrentFeedback(currentFeedback === 'like' ? null : 'like')}
         >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon filled={feedback === 'like'} />
+            <ThumbIcon filled={currentFeedback === 'like'} />
             Like
           </span>
         </CTALinkOrButton>
         <CTALinkOrButton
-          className={clsx('!rounded-md', feedback === 'dislike' && '!text-(--feedback-gray) bg-(--feedback-gray)/6 hover:bg-(--feedback-gray)/10')}
+          className={clsx(
+            '!rounded-md',
+            currentFeedback === 'dislike'
+              && 'bg-(--feedback-gray)/6 !text-(--feedback-gray) hover:bg-(--feedback-gray)/10',
+          )}
           variant="ghost"
+          onClick={() => setCurrentFeedback(currentFeedback === 'dislike' ? null : 'dislike')}
         >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon filled={feedback === 'dislike'} isDislike />
+            <ThumbIcon filled={currentFeedback === 'dislike'} isDislike />
             Dislike
           </span>
         </CTALinkOrButton>
