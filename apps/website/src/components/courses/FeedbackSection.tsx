@@ -49,17 +49,19 @@ type LikeDislikeProps = {
 
 const FeedbackSection = ({ leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
   return (
-    <div className="flex items-center justify-between gap-8 text-gray-500">
-      {leadingText}
-      <div className="flex items-center gap-4">
-        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 rounded-md bg-white p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-500">
-          <span className="flex items-center gap-2">
-            <ThumbIcon filled={false} color="#13132E" />
+    <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
+      <span className="text-(--feedback-gray)/60">
+        {leadingText}
+      </span>
+      <div className="flex items-center gap-1">
+        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 rounded-md bg-white p-2 hover:bg-gray-200 hover:text-gray-500">
+          <span className="flex items-center gap-2 text-(--feedback-gray)/60">
+            <ThumbIcon color="#13132E" />
             Like
           </span>
         </CTALinkOrButton>
-        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 rounded-md bg-white p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-500">
-          <span className="flex items-center gap-2">
+        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 rounded-md bg-white p-2 hover:bg-gray-200 hover:text-gray-500">
+          <span className="flex items-center gap-2 text-(--feedback-gray)/60">
             <ThumbIcon color="#13132E" isDislike />
             Dislike
           </span>
