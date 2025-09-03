@@ -5,7 +5,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   >
     <span>
       Alice Brown
@@ -57,7 +57,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   >
     <span>
       20
@@ -110,7 +110,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   >
     <span>
       John Doe
@@ -169,7 +169,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   />
   <button
     aria-label="Listen to article: Introduction to AI Safety (opens in Spotify)"
@@ -214,7 +214,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   >
     <span>
       Jane Smith
@@ -273,7 +273,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render metadata w
   class="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2"
 >
   <p
-    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em] whitespace-nowrap"
+    class="bluedot-p not-prose text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]"
   >
     <span>
       John Doe
