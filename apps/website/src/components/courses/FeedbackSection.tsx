@@ -71,7 +71,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.LIKE)}
         >
-          <span className="flex items-center gap-1.5 text-sm/4">
+          <span className="flex items-center gap-1.5 text-sm/4 font-normal">
             <ThumbIcon filled={liked} />
             Like
           </span>
@@ -82,7 +82,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.DISLIKE)}
         >
-          <span className="flex items-center gap-1.5 text-sm/4">
+          <span className="flex items-center gap-1.5 text-sm/4 font-normal">
             <ThumbIcon filled={disliked} isDislike />
             Dislike
           </span>
