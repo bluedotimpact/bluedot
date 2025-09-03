@@ -25,6 +25,7 @@ import { ROUTES } from '../../lib/routes';
 import {
   A, H1, P,
 } from '../Text';
+import FeedbackSection from './FeedbackSection';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -476,9 +477,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
 
           {/* Bottom-most section, underneath 'continue' button */}
-          <div className="hidden md:block">
-            <hr className="mt-12 mb-4" />
-            <KeyboardNavMenu />
+          <hr className="mt-12 mb-4" />
+          <div className="flex items-center justify-between">
+            <div className="hidden md:block">
+              <KeyboardNavMenu />
+            </div>
+            <FeedbackSection />
           </div>
         </div>
       </Section>
