@@ -3,6 +3,8 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useId, useState } from 'react';
 
+type ResourceFeedback = (typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK];
+
 const ThumbIcon: React.FC<{
   color?: string;
   filled?: boolean;
@@ -46,13 +48,12 @@ const ThumbIcon: React.FC<{
 };
 
 type LikeDislikeProps = {
-  feedback?: (typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK];
+  feedback?: ResourceFeedback;
   leadingText?: string;
 };
 
 const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
-  const [currentFeedback, setCurrentFeedback] = useState<(typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK]>(
-    feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
+  const [currentFeedback, setCurrentFeedback] = useState<ResourceFeedback>(feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
 
   const liked = currentFeedback === RESOURCE_FEEDBACK.LIKE;
   const disliked = currentFeedback === RESOURCE_FEEDBACK.DISLIKE;
