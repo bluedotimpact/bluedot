@@ -1,4 +1,5 @@
 import { CTALinkOrButton } from '@bluedot/ui';
+import clsx from 'clsx';
 import { useId } from 'react';
 
 const ThumbIcon: React.FC<{
@@ -49,19 +50,30 @@ type LikeDislikeProps = {
 };
 
 const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
+  console.log(feedback);
+
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
       <span className="text-(--feedback-gray)/60">{leadingText}</span>
       <div className="flex items-center gap-1">
-        <CTALinkOrButton className="!rounded-md" variant="ghost">
+        <CTALinkOrButton
+          className={clsx(
+            '!rounded-md',
+            feedback === 'like' && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]',
+          )}
+          variant="ghost"
+        >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon />
+            <ThumbIcon filled={feedback === 'like'} />
             Like
           </span>
         </CTALinkOrButton>
-        <CTALinkOrButton className="!rounded-md" variant="ghost">
+        <CTALinkOrButton
+          className={clsx('!rounded-md', feedback === 'dislike' && '!text-(--feedback-gray) bg-(--feedback-gray)/6 hover:bg-(--feedback-gray)/10')}
+          variant="ghost"
+        >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon isDislike />
+            <ThumbIcon filled={feedback === 'dislike'} isDislike />
             Dislike
           </span>
         </CTALinkOrButton>
