@@ -52,14 +52,14 @@ const FeedbackSection = ({ leadingText = 'How did you like this unit?' }: LikeDi
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
       <span className="text-(--feedback-gray)/60">{leadingText}</span>
       <div className="flex items-center gap-1">
-        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 !rounded-md bg-white p-2 hover:bg-gray-200 hover:text-gray-500">
-          <span className="flex items-center gap-2 text-(--feedback-gray)/60">
+        <CTALinkOrButton className="!rounded-md" variant="ghost">
+          <span className="flex items-center gap-1.5">
             <ThumbIcon />
             Like
           </span>
         </CTALinkOrButton>
-        <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 !rounded-md bg-white p-2 hover:bg-gray-200 hover:text-gray-500">
-          <span className="flex items-center gap-2 text-(--feedback-gray)/60">
+        <CTALinkOrButton className="!rounded-md" variant="ghost">
+          <span className="flex items-center gap-1.5">
             <ThumbIcon isDislike />
             Dislike
           </span>
