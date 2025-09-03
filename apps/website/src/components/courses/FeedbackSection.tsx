@@ -2,10 +2,10 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import { useId } from 'react';
 
 const ThumbIcon: React.FC<{
-  filled: boolean;
   color: string;
+  filled?: boolean;
   isDislike?: boolean;
-}> = ({ filled, color, isDislike = false }) => {
+}> = ({ color, filled = false, isDislike = false }) => {
   const clipId = useId();
   // Flip horizontally for dislike (thumbs down) by flipping on Y-axis
   const transform = isDislike ? 'scale(1, -1) translate(0, -16)' : undefined;
@@ -60,7 +60,7 @@ const FeedbackSection = ({ leadingText = 'How did you like this unit?' }: LikeDi
         </CTALinkOrButton>
         <CTALinkOrButton className="flex cursor-pointer items-center gap-1.5 rounded-md bg-white p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-500">
           <span className="flex items-center gap-2">
-            <ThumbIcon filled={false} color="#13132E" isDislike />
+            <ThumbIcon color="#13132E" isDislike />
             Dislike
           </span>
         </CTALinkOrButton>
