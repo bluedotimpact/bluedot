@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import React from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { ClickTarget, ClickTargetProps } from './ClickTarget';
+import { cn } from './utils';
 
 export type CTALinkOrButtonProps = {
   variant?: 'primary' | 'secondary' | 'black' | 'outline-black';
@@ -36,7 +36,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
 }) => {
   return (
     <ClickTarget
-      className={clsx(
+      className={cn(
         CTA_BASE_STYLES,
         CTA_SIZE_STYLES[size],
         CTA_VARIANT_STYLES[variant],
