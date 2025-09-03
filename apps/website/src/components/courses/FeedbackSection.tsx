@@ -63,7 +63,7 @@ const FeedbackSection = ({
 
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
-      <span className="text-size-xs text-(--feedback-gray)/60">{leadingText}</span>
+      <span className="text-sm/4 text-(--feedback-gray)/60">{leadingText}</span>
       <div className="flex items-center gap-1">
         <CTALinkOrButton
           className={clsx(liked && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]')}
@@ -71,7 +71,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.LIKE)}
         >
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5 text-sm/4">
             <ThumbIcon filled={liked} />
             Like
           </span>
@@ -82,7 +82,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.DISLIKE)}
         >
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5 text-sm/4">
             <ThumbIcon filled={disliked} isDislike />
             Dislike
           </span>

@@ -26,7 +26,7 @@ const KeyboardNavMenu = ({
     <DialogTrigger>
       <Button
         aria-label="Keyboard shortcuts"
-        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-sm/4 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
       >
         <FiCommand className="size-4" />
         Shortcuts
