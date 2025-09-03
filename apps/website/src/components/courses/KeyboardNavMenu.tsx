@@ -18,10 +18,7 @@ type KeyboardNavMenuProps = {
   shortcuts?: readonly Shortcut[];
 };
 
-const KeyboardNavMenu = ({
-  popoverTitle = '',
-  shortcuts = DEFAULT_SHORTCUTS,
-}: KeyboardNavMenuProps) => {
+const KeyboardNavMenu = ({ popoverTitle = '', shortcuts = DEFAULT_SHORTCUTS }: KeyboardNavMenuProps) => {
   return (
     <DialogTrigger>
       <Button
@@ -36,11 +33,7 @@ const KeyboardNavMenu = ({
           aria-label={popoverTitle || 'Keyboard shortcuts'}
           className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
-          {popoverTitle && (
-            <h3 className="mb-3 font-semibold">
-              {popoverTitle}
-            </h3>
-          )}
+          {popoverTitle && <h3 className="mb-3 font-semibold">{popoverTitle}</h3>}
           <ul className="space-y-2">
             {shortcuts.map(({ action, keys }) => (
               <li key={action} className="flex items-center justify-between gap-4">
