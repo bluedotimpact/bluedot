@@ -1,3 +1,4 @@
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useId, useState } from 'react';
@@ -45,41 +46,40 @@ const ThumbIcon: React.FC<{
 };
 
 type LikeDislikeProps = {
-  feedback?: 'like' | 'dislike' | null;
+  feedback?: (typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK];
   leadingText?: string;
 };
 
 const FeedbackSection = ({ feedback, leadingText = 'How did you like this unit?' }: LikeDislikeProps) => {
-  const [currentFeedback, setCurrentFeedback] = useState<LikeDislikeProps['feedback']>(feedback);
+  const [currentFeedback, setCurrentFeedback] = useState<(typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK]>(
+    feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
+
+  const liked = currentFeedback === RESOURCE_FEEDBACK.LIKE;
+  const disliked = currentFeedback === RESOURCE_FEEDBACK.DISLIKE;
 
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
       <span className="text-size-xs text-(--feedback-gray)/60">{leadingText}</span>
       <div className="flex items-center gap-1">
         <CTALinkOrButton
-          className={clsx(
-            currentFeedback === 'like' && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]',
-          )}
+          className={clsx(liked && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]')}
           variant="ghost"
           size="small"
-          onClick={() => setCurrentFeedback(currentFeedback === 'like' ? null : 'like')}
+          onClick={() => setCurrentFeedback(liked ? RESOURCE_FEEDBACK.NO_RESPONSE : RESOURCE_FEEDBACK.LIKE)}
         >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon filled={currentFeedback === 'like'} />
+            <ThumbIcon filled={liked} />
             Like
           </span>
         </CTALinkOrButton>
         <CTALinkOrButton
-          className={clsx(
-            currentFeedback === 'dislike'
-              && 'bg-(--feedback-gray)/6 !text-(--feedback-gray) hover:bg-(--feedback-gray)/10',
-          )}
+          className={clsx(disliked && 'bg-(--feedback-gray)/6 !text-(--feedback-gray) hover:bg-(--feedback-gray)/10')}
           variant="ghost"
           size="small"
-          onClick={() => setCurrentFeedback(currentFeedback === 'dislike' ? null : 'dislike')}
+          onClick={() => setCurrentFeedback(disliked ? RESOURCE_FEEDBACK.NO_RESPONSE : RESOURCE_FEEDBACK.DISLIKE)}
         >
           <span className="flex items-center gap-1.5">
-            <ThumbIcon filled={currentFeedback === 'dislike'} isDislike />
+            <ThumbIcon filled={disliked} isDislike />
             Dislike
           </span>
         </CTALinkOrButton>
