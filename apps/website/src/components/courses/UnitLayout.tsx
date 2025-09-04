@@ -465,7 +465,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <CTALinkOrButton
-                className="unit__cta-link bg-[#2244BB]! hover:bg-[color-mix(in_oklab,#2244BB,black_20%)]! hover:text-white"
+                className="unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
                 onClick={handleNextClick}
                 variant="primary"
                 withChevron
