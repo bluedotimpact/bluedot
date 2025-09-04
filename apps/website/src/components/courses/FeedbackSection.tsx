@@ -47,7 +47,7 @@ type LikeDislikeProps = {
 const FeedbackSection = ({
   feedback,
   onFeedbackChange,
-  leadingText = 'How did you like this unit?',
+  leadingText,
 }: LikeDislikeProps) => {
   const [currentFeedback, setCurrentFeedback] = useState<ResourceFeedbackValue>(feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
 
@@ -64,7 +64,7 @@ const FeedbackSection = ({
 
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
-      <span className={clsx(textStyle, 'text-(--feedback-gray/60')}>{leadingText}</span>
+      {leadingText && (<span className={clsx(textStyle, 'text-(--feedback-gray/60')}>{leadingText}</span>)}
       <div className="flex items-center gap-1">
         <CTALinkOrButton
           className={clsx(liked && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]')}
