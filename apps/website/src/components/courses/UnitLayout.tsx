@@ -25,6 +25,7 @@ import { ROUTES } from '../../lib/routes';
 import {
   A, H1, P,
 } from '../Text';
+import FeedbackSection from './FeedbackSection';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -388,7 +389,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Main content section - positioned below breadcrumbs */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8',
+          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto md:px-5 sm:px-spacing-x pt-6 md:pt-8',
           !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
@@ -456,9 +457,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </>
           ) : (
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
+            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-12">
               <CTALinkOrButton
-                className="unit__cta-link"
+                className="unit__cta-link bg-[#2244BB]! hover:bg-[color-mix(in_oklab,#2244BB,black_20%)]! hover:text-white"
                 onClick={handleNextClick}
                 variant="primary"
                 withChevron
@@ -469,9 +470,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           )}
 
           {/* Bottom-most section, underneath 'continue' button */}
-          <div className="hidden md:block">
-            <hr className="mt-12 mb-4" />
-            <KeyboardNavMenu />
+          <hr className="mb-4" />
+          <div className="flex items-center justify-between">
+            <div className="hidden md:block">
+              <KeyboardNavMenu />
+            </div>
+            <FeedbackSection />
           </div>
         </div>
       </Section>

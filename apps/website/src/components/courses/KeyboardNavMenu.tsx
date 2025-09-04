@@ -18,15 +18,12 @@ type KeyboardNavMenuProps = {
   shortcuts?: readonly Shortcut[];
 };
 
-const KeyboardNavMenu = ({
-  popoverTitle = '',
-  shortcuts = DEFAULT_SHORTCUTS,
-}: KeyboardNavMenuProps) => {
+const KeyboardNavMenu = ({ popoverTitle = '', shortcuts = DEFAULT_SHORTCUTS }: KeyboardNavMenuProps) => {
   return (
     <DialogTrigger>
       <Button
         aria-label="Keyboard shortcuts"
-        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700 aria-expanded:bg-gray-200 aria-expanded:text-gray-700"
+        className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-sm/4 text-(--keyboard-gray)/60 transition-colors [--keyboard-gray:#13132E] hover:bg-(--keyboard-gray)/10 hover:text-(--keyboard-gray) aria-expanded:bg-(--keyboard-gray)/10 aria-expanded:text-(--keyboard-gray)"
       >
         <FiCommand className="size-4" />
         Shortcuts
@@ -36,11 +33,7 @@ const KeyboardNavMenu = ({
           aria-label={popoverTitle || 'Keyboard shortcuts'}
           className="w-fit rounded-lg border border-gray-300 bg-white p-4 shadow-sm"
         >
-          {popoverTitle && (
-            <h3 className="mb-3 font-semibold">
-              {popoverTitle}
-            </h3>
-          )}
+          {popoverTitle && <h3 className="mb-3 font-semibold">{popoverTitle}</h3>}
           <ul className="space-y-2">
             {shortcuts.map(({ action, keys }) => (
               <li key={action} className="flex items-center justify-between gap-4">
