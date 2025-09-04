@@ -1,14 +1,11 @@
+import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
-import {
-  beforeEach,
-  describe,
-  expect,
-  Mock,
-  test,
-  vi,
-} from 'vitest';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import {
+  beforeEach, describe, expect, Mock, test, vi,
+} from 'vitest';
 import MultipleChoice from './MultipleChoice';
 
 // Mock next/router
@@ -29,98 +26,181 @@ beforeEach(() => {
   (useRouter as Mock).mockReturnValue(mockRouter);
 });
 
-const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
+const mockOptions = "The community's preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n";
+const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 
 const mockArgs = {
   title: 'Understanding LLMs',
-  description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
+  description:
+    "Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?",
   options: mockOptions,
-  answer: 'The community\'s preference for low-tech fishing traditions\n',
+  answer: "The community's preference for low-tech fishing traditions\n",
   onExerciseSubmit: () => {},
 };
 
 describe('MultipleChoice', () => {
   test('renders default as expected', async () => {
-    const { container } = render(
-      <MultipleChoice {...mockArgs} />,
-    );
+    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} />);
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+
+    // Expect no options to be selected
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+      // All inputs are disabled until user is logged in
+      expect(input).toBeDisabled();
+    });
   });
 
   test('renders logged in as expected', async () => {
-    const { container } = render(
-      <MultipleChoice {...mockArgs} isLoggedIn />,
-    );
+    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__option--selected')).toBeFalsy();
+
+    // Expect no options to be selected
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+      expect(input).toBeEnabled();
+    });
+  });
+
+  test('disables submit button when no option selected', () => {
+    const { getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    const submitButton = getByRole('button', { name: /select an option/i });
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('enables submit button when option selected', async () => {
+    const user = userEvent.setup();
+    const { getAllByRole, getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
+
+    const radioInputs = getAllByRole('radio');
+    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    await user.click(radioInputs[0]);
+
+    const submitButton = getByRole('button', { name: /check answer/i });
+    expect(submitButton).toBeEnabled();
   });
 
   test('updates styles for selected option', async () => {
-    const { container } = render(
-      <MultipleChoice {...mockArgs} isLoggedIn />,
-    );
+    const user = userEvent.setup();
+    const { getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
     // Select the first option
-    const optionEls = container.querySelectorAll('.multiple-choice__option .input--radio');
-    const optionEl = optionEls[0] as HTMLInputElement;
-    const optionLabelEl = optionEl.closest('label') as HTMLElement;
-    optionEl?.click();
-    // Expect 'selected' state change
-    await waitFor(() => {
-      const selectedOption = container.querySelectorAll('.multiple-choice__option--selected');
-      expect(selectedOption.length).toBe(1);
-      expect(selectedOption[0]).toBe(optionLabelEl);
+    const radioInputs = getAllByRole('radio');
+    const firstOption = radioInputs[0];
+    if (!firstOption) throw new Error('No radio input found');
+
+    await user.click(firstOption);
+
+    // Expect first radio to be checked, and others not
+    expect(firstOption).toBeChecked();
+    expect(firstOption).toMatchSnapshot();
+    radioInputs.slice(1).forEach((input) => {
+      expect(input).not.toBeChecked();
     });
   });
 
   test('updates styles for correct option', async () => {
-    const { container } = render(
+    const { getAllByRole, getByDisplayValue, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
-    // Expect only one correct option
-    expect(container.querySelectorAll('.multiple-choice__option--correct').length).toBe(1);
-    // Expect 'correct' UI
-    const correctOption = container.querySelector('.multiple-choice__option--correct') as HTMLInputElement;
-    expect(correctOption.textContent).toBe(mockArgs.answer.trim());
-    expect(correctOption).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__correct-msg')).toMatchSnapshot();
+    const correctRadio = getByDisplayValue(mockArgs.answer.trim());
+    expect(correctRadio).toBeChecked();
+    expect(correctRadio).toMatchSnapshot();
+    expect(getByText('Correct! Quiz completed. 🎉')).toBeInTheDocument();
+
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      // All inputs are disabled when answer is correct
+      expect(input).toBeDisabled();
+    });
   });
 
   test('updates styles for incorrect option', async () => {
-    const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
-    const { container } = render(
+    const { getByDisplayValue, getByRole, getByText } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.multiple-choice__description')).toBeTruthy();
+      expect(getByText(mockArgs.description)).toBeInTheDocument();
     });
 
-    // Expect only one incorrect option
-    expect(container.querySelectorAll('.multiple-choice__option--incorrect').length).toBe(1);
-    // Expect 'incorrect' UI
-    const incorrectOption = container.querySelector('.multiple-choice__option--incorrect') as HTMLInputElement;
-    expect(incorrectOption.textContent).toBe(incorrectAnswer.trim());
-    expect(incorrectOption).toMatchSnapshot();
-    expect(container.querySelector('.multiple-choice__incorrect-msg')).toMatchSnapshot();
+    const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
+    expect(incorrectRadio).toBeChecked();
+    expect(incorrectRadio).toMatchSnapshot();
+
+    const tryAgainButton = getByRole('button', { name: /try again/i });
+    expect(tryAgainButton).toBeInTheDocument();
+    expect(tryAgainButton).toMatchSnapshot();
+  });
+
+  test('resets form when try again is clicked', async () => {
+    const user = userEvent.setup();
+
+    const { getByRole, getAllByRole } = render(
+      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
+    );
+
+    const tryAgainButton = getByRole('button', { name: /try again/i });
+    await user.click(tryAgainButton);
+
+    const radioInputs = getAllByRole('radio');
+    radioInputs.forEach((input) => {
+      expect(input).not.toBeChecked();
+    });
+
+    const submitButton = getByRole('button', { name: /select an option/i });
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('shows "Checking..." when form is being submitted', async () => {
+    const user = userEvent.setup();
+    let resolveSubmit: () => void;
+    const mockOnExerciseSubmit = vi.fn(
+      () => new Promise<void>((resolve) => {
+        resolveSubmit = resolve;
+      }),
+    );
+
+    const { getAllByRole, getByRole } = render(
+      <MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+    );
+
+    const radioInputs = getAllByRole('radio');
+    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    await user.click(radioInputs[0]);
+
+    const submitButton = getByRole('button', { name: /check answer/i });
+    const submitPromiseCall = user.click(submitButton);
+
+    await waitFor(() => {
+      expect(getByRole('button', { name: /checking/i })).toBeInTheDocument();
+    });
+
+    expect(mockOnExerciseSubmit).toBeCalled();
+
+    // Resolve the promise to complete the test
+    resolveSubmit!();
+    await submitPromiseCall;
   });
 });

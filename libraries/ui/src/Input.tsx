@@ -11,6 +11,8 @@ HTMLInputElement
 > &
 React.RefAttributes<HTMLInputElement>;
 
+const BASE_LABEL_STYLES = 'input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed';
+
 export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
   (
     {
@@ -23,7 +25,8 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         return (
           <label
             className={clsx(
-              'input flex items-center gap-2 cursor-pointer',
+              BASE_LABEL_STYLES,
+              'items-center',
               labelClassName,
             )}
           >
@@ -31,7 +34,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
               {...props}
               ref={ref}
               className={clsx(
-                'input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer',
+                'input--checkbox size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
                 inputClassName,
               )}
               type="checkbox"
@@ -43,7 +46,8 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         return (
           <label
             className={clsx(
-              'input flex items-center gap-2 cursor-pointer',
+              BASE_LABEL_STYLES,
+              'items-center',
               labelClassName,
             )}
           >
@@ -51,7 +55,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
               {...props}
               ref={ref}
               className={clsx(
-                'input--radio size-6 accent-bluedot-normal rounded cursor-pointer',
+                'input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed',
                 inputClassName,
               )}
               type="radio"
@@ -61,14 +65,14 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef(
         );
       default:
         return (
-          <label className={clsx('input flex flex-col gap-2', labelClassName)}>
+          <label className={clsx(BASE_LABEL_STYLES, 'flex-col', labelClassName)}>
             <span className="input__label">{props.label}</span>
             <input
               {...props}
               ref={ref}
               type={type}
               className={clsx(
-                'input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal',
+                'input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400',
                 inputClassName,
               )}
             />

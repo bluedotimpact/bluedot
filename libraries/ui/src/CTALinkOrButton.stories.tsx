@@ -153,6 +153,21 @@ export const SmallOutlineBlack: Story = {
   },
 };
 
+export const Ghost: Story = {
+  args: {
+    children: 'Ghost',
+    variant: 'ghost',
+  },
+};
+
+export const SmallGhost: Story = {
+  args: {
+    children: 'Small Ghost',
+    variant: 'ghost',
+    size: 'small',
+  },
+};
+
 export const SmallWithChevron: Story = {
   args: {
     children: 'Small With Chevron',

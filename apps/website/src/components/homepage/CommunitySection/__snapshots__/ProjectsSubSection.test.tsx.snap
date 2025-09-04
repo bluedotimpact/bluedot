@@ -257,11 +257,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
         href="/projects"
         tabindex="0"
       >
-        <span
-          class="cta-button__text"
-        >
-          Explore more projects
-        </span>
+        Explore more projects
         <span
           class="cta-button__chevron ml-3"
         >
