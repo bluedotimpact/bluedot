@@ -27,10 +27,10 @@ type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 // Simplified SVG icon components
 const ThumbIcon: React.FC<{
   filled: boolean;
-  color: string;
+  color?: string;
   isDislike?: boolean;
 }> = ({
-  filled, color, isDislike = false,
+  filled, color = 'currentColor', isDislike = false,
 }) => {
   const clipId = useId();
   // Flip horizontally for dislike (thumbs down) by flipping on Y-axis
@@ -87,7 +87,6 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
-    const activeColor = isLikeButton ? '#2244BB' : '#13132E';
     const activeBackground = isLikeButton ? 'bg-[rgba(34,68,187,0.1)]' : 'bg-[rgba(19,19,46,0.1)]';
     const hoverBackground = 'hover:bg-[rgba(19,19,46,0.08)]';
 
@@ -111,7 +110,6 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({
       >
         <ThumbIcon
           filled={isActive}
-          color={isActive ? activeColor : '#13132E'}
           isDislike={!isLikeButton}
         />
         {isLikeButton ? 'Like' : 'Dislike'}
