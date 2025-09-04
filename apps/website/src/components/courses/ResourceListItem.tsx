@@ -12,7 +12,7 @@ import { unitResourceTable, InferSelectModel } from '@bluedot/db';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, ResourceFeedbackValue } from '@bluedot/db/src/schema';
 import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import {
   A, P,
@@ -61,15 +61,15 @@ const ThumbIcon: React.FC<{
 
 // Feedback section component used by both desktop and mobile
 type FeedbackSectionProps = {
-  resourceFeedback: (typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK];
-  onFeedback: (feedbackValue: typeof RESOURCE_FEEDBACK.LIKE | typeof RESOURCE_FEEDBACK.DISLIKE) => void;
+  resourceFeedback: ResourceFeedbackValue;
+  onFeedback: (feedbackValue: ResourceFeedbackValue) => void;
   variant: 'desktop' | 'mobile';
 };
 
 const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onFeedback, variant }) => {
   const gapClass = variant === 'mobile' ? 'gap-1' : 'gap-[1px]';
 
-  const renderButton = (feedbackValue: typeof RESOURCE_FEEDBACK.LIKE | typeof RESOURCE_FEEDBACK.DISLIKE) => {
+  const renderButton = (feedbackValue: ResourceFeedbackValue) => {
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
@@ -117,7 +117,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const auth = useAuthStore((s) => s.auth);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  const [resourceFeedback, setResourceFeedback] = useState<typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK]>(RESOURCE_FEEDBACK.NO_RESPONSE);
+  const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
   const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -165,7 +165,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   // Handle saving resource completion
   const handleSaveCompletion = useCallback(async (
     updatedIsCompleted: boolean | undefined,
-    updatedResourceFeedback?: typeof RESOURCE_FEEDBACK[keyof typeof RESOURCE_FEEDBACK],
+    updatedResourceFeedback?: ResourceFeedbackValue,
   ) => {
     if (!auth) return;
 
@@ -186,7 +186,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
-  const handleFeedback = useCallback(async (feedbackValue: typeof RESOURCE_FEEDBACK.LIKE | typeof RESOURCE_FEEDBACK.DISLIKE) => {
+  const handleFeedback = useCallback(async (feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
     setResourceFeedback(newFeedback);
