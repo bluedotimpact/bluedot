@@ -29,9 +29,7 @@ const ThumbIcon: React.FC<{
   filled: boolean;
   color?: string;
   isDislike?: boolean;
-}> = ({
-  filled, color = 'currentColor', isDislike = false,
-}) => {
+}> = ({ filled, color = 'currentColor', isDislike = false }) => {
   // Flip horizontally for dislike (thumbs down) by flipping on Y-axis
   const transform = isDislike ? 'scale(1, -1) translate(0, -16)' : undefined;
 
@@ -96,10 +94,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
         aria-label={`${isLikeButton ? 'Like' : 'Dislike'} this resource${isActive ? ' (selected)' : ''}`}
         aria-pressed={isActive}
       >
-        <ThumbIcon
-          filled={isActive}
-          isDislike={!isLikeButton}
-        />
+        <ThumbIcon filled={isActive} isDislike={!isLikeButton} />
         {isLikeButton ? 'Like' : 'Dislike'}
       </button>
     );
