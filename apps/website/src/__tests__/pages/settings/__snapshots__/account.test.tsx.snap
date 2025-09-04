@@ -157,7 +157,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                     class="flex gap-2 items-center"
                   >
                     <label
-                      class="input flex flex-col gap-2 flex-1 min-w-0"
+                      class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col flex-1 min-w-0"
                     >
                       <span
                         class="input__label"
@@ -166,7 +166,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                         aria-describedby="profile-name-label"
                         aria-invalid="false"
                         aria-label="Profile name"
-                        class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal flex-1"
+                        class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 flex-1"
                         placeholder="Enter your name"
                         type="text"
                         value="John Doe"
