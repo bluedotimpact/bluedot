@@ -408,9 +408,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               aria-label="Resource feedback section"
             >
               <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
-                {resourceFeedback === RESOURCE_FEEDBACK.LIKE && 'You liked this resource'}
-                {resourceFeedback === RESOURCE_FEEDBACK.DISLIKE && 'You disliked this resource'}
-                {resourceFeedback !== RESOURCE_FEEDBACK.LIKE && resourceFeedback !== RESOURCE_FEEDBACK.DISLIKE && 'Was this resource useful?'}
+                Was this resource useful?
               </P>
               <FeedbackSection
                 resourceFeedback={resourceFeedback}
