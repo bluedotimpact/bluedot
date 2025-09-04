@@ -54,7 +54,7 @@ const createMockChunk = (unitId: string): Chunk => ({
 describe('CourseUnitPage', () => {
   test('renders unit 0 correctly with 0-indexed units', async () => {
     vi.mocked(useRouter).mockReturnValueOnce({
-      query: { courseSlug: 'test-course', unitNumber: '0' },
+      query: { courseSlug: 'test-course', unitNumber: '0', chunkNumber: ['1'] },
     } as unknown as NextRouter);
 
     const mockUnits = [
@@ -82,6 +82,10 @@ describe('CourseUnitPage', () => {
   });
 
   test('renders unit 3 correctly with 0-indexed units', async () => {
+    vi.mocked(useRouter).mockReturnValueOnce({
+      query: { courseSlug: 'test-course', unitNumber: '3', chunkNumber: ['1'] },
+    } as unknown as NextRouter);
+
     const mockUnits = [
       createMockUnit('0', 'Icebreaker', 'Welcome to the course'),
       createMockUnit('1', 'Unit 1', 'First unit content'),
@@ -107,6 +111,10 @@ describe('CourseUnitPage', () => {
   });
 
   test('renders unit 3 correctly with 1-indexed units', async () => {
+    vi.mocked(useRouter).mockReturnValueOnce({
+      query: { courseSlug: 'test-course', unitNumber: '3', chunkNumber: ['1'] },
+    } as unknown as NextRouter);
+
     const mockUnits = [
       createMockUnit('1', 'Unit 1', 'First unit content'),
       createMockUnit('2', 'Unit 2', 'Second unit content'),
@@ -132,6 +140,10 @@ describe('CourseUnitPage', () => {
   });
 
   test('renders unit 3 correctly when unit 2 is missing', async () => {
+    vi.mocked(useRouter).mockReturnValueOnce({
+      query: { courseSlug: 'test-course', unitNumber: '3', chunkNumber: ['1'] },
+    } as unknown as NextRouter);
+
     const mockUnits = [
       createMockUnit('1', 'Unit 1', 'First unit content'),
       createMockUnit('3', 'Unit 3', 'Third unit content'),
