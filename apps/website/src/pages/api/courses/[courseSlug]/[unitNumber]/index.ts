@@ -1,10 +1,15 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  chunkTable, unitTable, unitResourceTable, exerciseTable, InferSelectModel,
+  chunkTable,
+  unitTable,
+  unitResourceTable,
+  exerciseTable,
+  InferSelectModel,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
+import { unitFilterActiveChunks } from '../../../../../lib/api/utils';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -40,8 +45,9 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  // Get all active units for this course
-  const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  // Get all active units for this course, filter the chunks field to only include the ids of active chunks
+  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
 
   // Sort units numerically since database text sorting might not handle numbers correctly
   const units = allUnits.sort((a, b) => parseInt(a.unitNumber) - parseInt(b.unitNumber));

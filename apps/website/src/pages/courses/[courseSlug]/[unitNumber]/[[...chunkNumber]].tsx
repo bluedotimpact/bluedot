@@ -11,7 +11,7 @@ const CourseUnitChunkPage = () => {
   const router = useRouter();
   const {
     query: {
-      courseSlug, unitNumber, chunkNumber, chunk,
+      courseSlug, unitNumber, chunkNumber, chunk: legacyChunkParam,
     },
   } = router;
 
@@ -21,14 +21,21 @@ const CourseUnitChunkPage = () => {
 
   // Handle old ?chunk={n-1} format redirect
   useEffect(() => {
-    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof chunk === 'string') {
-      const oldChunkIndex = parseInt(chunk, 10);
+    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof legacyChunkParam === 'string') {
+      const oldChunkIndex = parseInt(legacyChunkParam, 10);
       if (!Number.isNaN(oldChunkIndex) && oldChunkIndex >= 0) {
         const newChunkNumber = oldChunkIndex + 1;
         router.replace(`/courses/${courseSlug}/${unitNumber}/${newChunkNumber}`);
       }
     }
-  }, [courseSlug, unitNumber, chunk, router]);
+  }, [courseSlug, unitNumber, legacyChunkParam, router]);
+
+  // Redirect /course/course-name/1 -> /course/course-name/1/1 (to the first chunk)
+  useEffect(() => {
+    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && !Array.isArray(chunkNumber)) {
+      router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
+    }
+  }, [courseSlug, unitNumber, chunkNumber, router]);
 
   const auth = useAuthStore((s) => s.auth);
 
