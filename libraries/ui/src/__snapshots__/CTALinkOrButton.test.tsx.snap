@@ -44,13 +44,9 @@ exports[`CTALinkOrButton > renders chevron when withChevron is true 1`] = `
 
 exports[`CTALinkOrButton > renders with primary variant by default as a button 1`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
   type="button"
 >
-  <span
-    class="cta-button__text"
-  >
-    Click me
-  </span>
+  Click me
 </button>
 `;

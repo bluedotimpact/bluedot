@@ -110,15 +110,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             class="flex flex-col sm:flex-row justify-center items-center gap-3"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Start the free course
-              </span>
+              Start the free course
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -139,16 +135,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               </span>
             </a>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="https://community.bluedot.org"
               tabindex="0"
               target="_blank"
             >
-              <span
-                class="cta-button__text"
-              >
-                Join the Community
-              </span>
+              Join the Community
             </a>
           </div>
         </div>
@@ -386,15 +378,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               class="flex flex-row gap-4"
             >
               <a
-                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
                 href="/courses/test-course/1"
                 tabindex="0"
               >
-                <span
-                  class="cta-button__text"
-                >
-                  Start the free course
-                </span>
+                Start the free course
                 <span
                   class="cta-button__chevron ml-3"
                 >
@@ -415,16 +403,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 </span>
               </a>
               <a
-                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+                class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
                 href="https://community.bluedot.org"
                 tabindex="0"
                 target="_blank"
               >
-                <span
-                  class="cta-button__text"
-                >
-                  Join the Community
-                </span>
+                Join the Community
               </a>
             </div>
           </div>
@@ -843,15 +827,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Cover the fundamentals in just 2 hours. Go at your own pace, learn when it suits you, and finish feeling confident and informed– all for free.
             </p>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Get started
-              </span>
+              Get started
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -901,15 +881,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Get hands-on with the AI tools making headlines. Interactive demos let you experience the future of AI– not just read about it.
             </p>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Explore AI in action
-              </span>
+              Explore AI in action
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -959,15 +935,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Earn an industry-recognized certificate that shows you’re engaged with the future of AI and helps you stand out in roles focused on AI, policy, or the public good.
             </p>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Earn your certificate
-              </span>
+              Earn your certificate
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -1017,15 +989,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               Join a community of thousands of people who care about AI’s impact and are working together to share knowledge and opportunities.
             </p>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__feature-cta mt-4"
               href="/courses/test-course/1"
               tabindex="0"
             >
-              <span
-                class="cta-button__text"
-              >
-                Take the first step
-              </span>
+              Take the first step
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -1413,15 +1381,11 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
       Understand AI today – and be ready to engage in what’s coming next.
     </h3>
     <a
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark future-of-ai-lander__banner-cta"
       href="/courses/test-course/1"
       tabindex="0"
     >
-      <span
-        class="cta-button__text"
-      >
-        Start the free course
-      </span>
+      Start the free course
       <span
         class="cta-button__chevron ml-3"
       >

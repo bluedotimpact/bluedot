@@ -153,11 +153,43 @@ export const SmallOutlineBlack: Story = {
   },
 };
 
+export const Ghost: Story = {
+  args: {
+    children: 'Ghost',
+    variant: 'ghost',
+  },
+};
+
+export const SmallGhost: Story = {
+  args: {
+    children: 'Small Ghost',
+    variant: 'ghost',
+    size: 'small',
+  },
+};
+
 export const SmallWithChevron: Story = {
   args: {
     children: 'Small With Chevron',
     variant: 'primary',
     size: 'small',
     withChevron: true,
+  },
+};
+
+export const DisabledButton: Story = {
+  args: {
+    children: 'Disabled Button',
+    variant: 'primary',
+    disabled: true,
+  },
+};
+
+export const DisabledLink: Story = {
+  args: {
+    children: 'Disabled Link',
+    variant: 'primary',
+    url: 'https://www.google.com',
+    disabled: true,
   },
 };
