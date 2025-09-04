@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { addQueryParam } from '@bluedot/ui';
+
 import { FaChevronRight } from 'react-icons/fa6';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import { A } from '../Text';
@@ -106,7 +106,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     ) : (
       <div className="relative">
         <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
-        <A href={addQueryParam(unit.path, 'chunk', '0')} className="block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
+        <A href={unit.path} className="block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
           <div className="flex flex-row items-center gap-[8px]">
             <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
               {unit.unitNumber}. {unit.title}

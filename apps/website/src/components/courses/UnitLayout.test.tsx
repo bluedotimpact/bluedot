@@ -122,6 +122,7 @@ const CHUNKS = [
     estimatedTime: null,
     chunkResources: null,
     chunkExercises: null,
+    metaDescription: null,
     id: 'recuC87TILbjW4eF4',
   },
   {
@@ -134,6 +135,7 @@ const CHUNKS = [
     estimatedTime: null,
     chunkResources: null,
     chunkExercises: null,
+    metaDescription: null,
     id: 'recuC87TILbjW4eF4',
   },
 ];
@@ -146,6 +148,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[0]!}
         unitNumber={1}
         units={COURSE_UNITS}
+        chunkIndex={0}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -164,6 +168,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[1]!}
         unitNumber={2}
         units={COURSE_UNITS}
+        chunkIndex={0}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -182,6 +188,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
         unitNumber={COURSE_UNITS.length}
         units={COURSE_UNITS}
+        chunkIndex={0}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -223,6 +231,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
         unitNumber={COURSE_UNITS.length}
         units={COURSE_UNITS}
+        chunkIndex={CHUNKS.length - 1}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -243,6 +253,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[0]!}
         unitNumber={1}
         units={COURSE_UNITS}
+        chunkIndex={0}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -264,6 +276,8 @@ describe('UnitLayout', () => {
         unit={COURSE_UNITS[1]!}
         unitNumber={2}
         units={COURSE_UNITS}
+        chunkIndex={0}
+        setChunkIndex={vi.fn()}
       />,
     );
 
@@ -277,5 +291,42 @@ describe('UnitLayout', () => {
 
     expect(prevButton?.getAttribute('title')).toBe('Navigate to previous section (use ← arrow key)');
     expect(nextButton?.getAttribute('title')).toBe('Navigate to next section (use → arrow key)');
+  });
+
+  test('calls setChunkIndex with correct arguments when clicking prev/next', async () => {
+    const user = userEvent.setup();
+    const mockSetChunkIndex = vi.fn();
+
+    const testChunks = [
+      { ...CHUNKS[0]!, id: 'chunk1' },
+      { ...CHUNKS[0]!, id: 'chunk2' },
+      { ...CHUNKS[0]!, id: 'chunk3' },
+    ];
+
+    const { container } = render(
+      <UnitLayout
+        chunks={testChunks}
+        unit={COURSE_UNITS[1]!}
+        unitNumber={2}
+        units={COURSE_UNITS}
+        chunkIndex={1}
+        setChunkIndex={mockSetChunkIndex}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+    });
+
+    const prevButton = container.querySelector('button[aria-label="Previous"]');
+    const nextButton = container.querySelector('button[aria-label="Next"]');
+
+    await user.click(prevButton!);
+    expect(mockSetChunkIndex).toHaveBeenCalledWith(0);
+
+    mockSetChunkIndex.mockClear();
+
+    await user.click(nextButton!);
+    expect(mockSetChunkIndex).toHaveBeenCalledWith(2);
   });
 });

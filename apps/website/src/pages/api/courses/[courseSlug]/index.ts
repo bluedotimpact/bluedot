@@ -5,6 +5,7 @@ import {
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
+import { unitFilterActiveChunks } from '../../../../lib/api/utils';
 
 type Course = InferSelectModel<typeof courseTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -31,7 +32,8 @@ export default makeApiRoute({
   const course = await db.get(courseTable, { slug: courseSlug });
 
   // Get units for this course with active status, then sort by unit number
-  const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
   const units = allUnits.sort((a, b) => (a.unitNumber || '').localeCompare(b.unitNumber || ''));
 
   return {
