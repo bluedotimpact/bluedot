@@ -324,13 +324,15 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
           )}
 
           {/* Author and time metadata */}
-          {(resource.authors || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
+          {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
               <P className="text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]">
                 {resource.authors && <span>{resource.authors}</span>}
-                {resource.authors && resource.timeFocusOnMins && <span> · </span>}
+                {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
+                {resource.year && <span>{resource.year}</span>}
+                {resource.year && resource.timeFocusOnMins && <span> · </span>}
                 {resource.timeFocusOnMins && <span>{resource.timeFocusOnMins} min</span>}
-                {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.authors) && <span> ·</span>}
+                {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.year || resource.authors) && <span> ·</span>}
               </P>
 
               {/* Listen to article button */}
@@ -359,13 +361,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] my-4" />
 
               {/* Bottom action bar */}
-              <div className="flex flex-row justify-between items-center p-0 gap-2 h-[30px]">
+              <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
                 {/* Complete/Completed button */}
                 {!isCompleted ? (
                   <button
                     type="button"
                     onClick={() => handleToggleComplete(true)}
-                    className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white flex-shrink-0 transition-all duration-200"
+                    className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
                     aria-label="Mark resource as complete"
                   >
                     Complete
@@ -374,7 +376,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                   <button
                     type="button"
                     onClick={() => handleToggleComplete(false)}
-                    className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 flex-shrink-0 bg-transparent border-none cursor-pointer p-0"
+                    className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
                     aria-label="Mark resource as incomplete"
                   >
                     <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
@@ -388,7 +390,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
                 {/* Feedback buttons (show when completed or feedback given) */}
                 {showFeedback && (
-                  <div className="flex-shrink-0">
+                  <div>
                     <FeedbackSection
                       resourceFeedback={resourceFeedback}
                       onFeedback={handleFeedback}

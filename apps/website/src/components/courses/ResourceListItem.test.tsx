@@ -45,21 +45,18 @@ vi.mock('./MarkdownExtendedRenderer', () => ({
 describe('ResourceListItem - Listen to Article Feature', () => {
   const baseResource = {
     id: 'test-resource-1',
-    resourceId: 'rec123',
-    unitId: 'unit123',
     resourceName: 'Introduction to AI Safety',
-    resourceType: 'article' as const,
-    platform: 'Medium',
+    resourceType: 'article',
+    resourceLink: 'https://example.com/article',
+    resourceGuide: 'This is a guide to the resource',
     authors: 'John Doe',
     timeFocusOnMins: 10,
-    url: 'https://example.com/article',
-    resourceGuide: 'This is a guide to the resource',
-    updatedAt: new Date('2024-01-01'),
-    createdAt: new Date('2024-01-01'),
-    deletedAt: null,
-    year: 2024,
-    unitNumber: 1,
+    coreFurtherMaybe: null,
+    readingOrder: null,
+    unitId: 'unit123',
+    avgRating: null,
     syncedAudioUrl: null,
+    year: 2024,
   };
 
   it('should render metadata without Listen to article button when no audio URL', () => {
@@ -67,8 +64,9 @@ describe('ResourceListItem - Listen to Article Feature', () => {
       <ResourceListItem resource={baseResource} />,
     );
 
-    // Should show author and time
+    // Should show author, year, and time
     expect(queryByText(/John Doe/)).toBeTruthy();
+    expect(queryByText(/2024/)).toBeTruthy();
     expect(queryByText(/10 min/)).toBeTruthy();
 
     // Should NOT show Listen to article
@@ -133,9 +131,11 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     // Should show Listen to article button even when no other metadata
     expect(getByText('Listen to article')).toBeTruthy();
 
-    // Should not have separator when no other metadata
+    // Should show year and separator before audio button
     const metadata = container.querySelector('.resource-item__bottom-metadata');
-    expect(metadata?.textContent).not.toContain('·');
+    expect(metadata?.textContent).toContain('2024');
+    expect(metadata?.textContent).toContain('·');
+    expect(metadata?.textContent).toContain('Listen to article');
 
     expect(metadata).toMatchSnapshot();
   });
@@ -166,5 +166,58 @@ describe('ResourceListItem - Listen to Article Feature', () => {
       <ResourceListItem resource={timeAndAudio} />,
     );
     expect(container2.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
+  });
+
+  it('should display year field correctly in metadata', () => {
+    const { queryByText } = render(
+      <ResourceListItem resource={baseResource} />,
+    );
+
+    // Should show year between author and time
+    expect(queryByText(/2024/)).toBeTruthy();
+  });
+
+  it('should handle metadata without year field', () => {
+    const resourceWithoutYear = {
+      ...baseResource,
+      year: null,
+    };
+
+    const { container, queryByText } = render(
+      <ResourceListItem resource={resourceWithoutYear} />,
+    );
+
+    // Should show author and time but not year
+    expect(queryByText(/John Doe/)).toBeTruthy();
+    expect(queryByText(/10 min/)).toBeTruthy();
+    expect(queryByText(/2024/)).toBeFalsy();
+
+    // Check proper separator handling without year
+    const metadata = container.querySelector('.resource-item__bottom-metadata');
+    const textContent = metadata?.textContent;
+    expect(textContent).toContain('John Doe');
+    expect(textContent).toContain('·');
+    expect(textContent).toContain('10 min');
+  });
+
+  it('should handle only year field in metadata', () => {
+    const resourceWithOnlyYear = {
+      ...baseResource,
+      authors: null,
+      timeFocusOnMins: null,
+    };
+
+    const { container, queryByText } = render(
+      <ResourceListItem resource={resourceWithOnlyYear} />,
+    );
+
+    // Should show only year
+    expect(queryByText(/2024/)).toBeTruthy();
+    expect(queryByText(/John Doe/)).toBeFalsy();
+    expect(queryByText(/10 min/)).toBeFalsy();
+
+    // Should not have separators when only year is present
+    const metadata = container.querySelector('.resource-item__bottom-metadata');
+    expect(metadata?.textContent).not.toContain('·');
   });
 });
