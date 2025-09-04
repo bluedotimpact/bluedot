@@ -59,9 +59,12 @@ const FeedbackSection = ({
     onFeedbackChange?.(newFeedback);
   };
 
+  // TODO: this is a style across many components, and should probably be extracted to a shared class
+  const textStyle = 'text-[13px] leading-[140%] text-font-normal';
+
   return (
     <div className="inline-flex items-center gap-4 [--feedback-gray:#13132E]">
-      <span className="text-sm/4 text-(--feedback-gray)/60">{leadingText}</span>
+      <span className={clsx(textStyle, 'text-(--feedback-gray/60')}>{leadingText}</span>
       <div className="flex items-center gap-1">
         <CTALinkOrButton
           className={clsx(liked && 'bg-[#0037FF]/6 text-[#2244BB] hover:bg-[#0037FF]/10 hover:text-[#2244BB]')}
@@ -69,7 +72,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.LIKE)}
         >
-          <span className="flex items-center gap-1.5 text-sm/4 font-normal">
+          <span className={clsx('flex items-center gap-1.5', textStyle)}>
             <ThumbIcon filled={liked} />
             Like
           </span>
@@ -80,7 +83,7 @@ const FeedbackSection = ({
           size="small"
           onClick={() => updateFeedback(RESOURCE_FEEDBACK.DISLIKE)}
         >
-          <span className="flex items-center gap-1.5 text-sm/4 font-normal">
+          <span className={clsx('flex items-center gap-1.5', textStyle)}>
             <ThumbIcon filled={disliked} isDislike />
             Dislike
           </span>
