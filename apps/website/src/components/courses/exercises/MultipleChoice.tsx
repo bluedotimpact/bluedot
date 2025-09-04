@@ -15,7 +15,6 @@ type MultipleChoiceProps = {
   answer: string;
   description: string;
   onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => void;
-  /** Newline-separated string of multiple choice options, e.g. "Option A\nOption B\nOption C" */
   options: string;
   title: string;
   // Optional
