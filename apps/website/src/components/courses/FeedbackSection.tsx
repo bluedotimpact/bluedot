@@ -1,9 +1,7 @@
-import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, ResourceFeedbackValue } from '@bluedot/db/src/schema';
 import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
-
-type ResourceFeedback = (typeof RESOURCE_FEEDBACK)[keyof typeof RESOURCE_FEEDBACK];
 
 const ThumbIcon: React.FC<{
   color?: string;
@@ -41,8 +39,8 @@ const ThumbIcon: React.FC<{
 };
 
 type LikeDislikeProps = {
-  feedback?: ResourceFeedback;
-  onFeedbackChange?: (feedback: ResourceFeedback) => void;
+  feedback?: ResourceFeedbackValue;
+  onFeedbackChange?: (feedback: ResourceFeedbackValue) => void;
   leadingText?: string;
 };
 
@@ -51,12 +49,12 @@ const FeedbackSection = ({
   onFeedbackChange,
   leadingText = 'How did you like this unit?',
 }: LikeDislikeProps) => {
-  const [currentFeedback, setCurrentFeedback] = useState<ResourceFeedback>(feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
+  const [currentFeedback, setCurrentFeedback] = useState<ResourceFeedbackValue>(feedback || RESOURCE_FEEDBACK.NO_RESPONSE);
 
   const liked = currentFeedback === RESOURCE_FEEDBACK.LIKE;
   const disliked = currentFeedback === RESOURCE_FEEDBACK.DISLIKE;
 
-  const updateFeedback = (newFeedback: ResourceFeedback) => {
+  const updateFeedback = (newFeedback: ResourceFeedbackValue) => {
     setCurrentFeedback((prev) => (prev === newFeedback ? RESOURCE_FEEDBACK.NO_RESPONSE : newFeedback));
     onFeedbackChange?.(newFeedback);
   };
