@@ -154,6 +154,10 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
       pgColumn: text(),
       airtableId: 'fldCQ0O6oOf4BcMpJ',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldAcKtUXHRvJpTkS',
+    }
   },
 });
 
@@ -176,6 +180,10 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
     completed: {
       pgColumn: boolean().notNull(),
       airtableId: 'fldz8rocQd7Ws9s2q',
+    },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldjhCZEuocd5eYsb', 
     },
   },
 });
@@ -285,6 +293,10 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldVQihgKyx6nJIR5',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldMS1Hxn8OOO5vUb',
+    },
   },
 });
 
@@ -351,6 +363,10 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
     courseBuilderUnitRecordId: {
       pgColumn: text(),
       airtableId: 'fld87QFyiHceHbpKG',
+    },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldDeRm7N60URakjA',
     },
   },
 });
@@ -446,6 +462,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
     attendedDiscussions: {
       pgColumn: text().array(),
       airtableId: 'fldTEkxGZQxTqHhdX',
+    },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldRtqMTFX50uqLw5',
     },
   },
 });
@@ -719,6 +739,10 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fldFJbY40IjPXer1Q',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld1rl39p5fSOiFya',
+    },
   },
 });
 
@@ -773,6 +797,10 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     year: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldtl37ZOF2Qx4Ui8',
+    },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldUOh3MNUIf0vnYb',
     },
   },
 });
@@ -900,6 +928,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldz7YSh2vRutPCyg',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld2W2olE7mRRALMC',
+    }
   },
 });
 
@@ -935,6 +967,10 @@ export const userTable = pgAirtable('user', {
       pgColumn: text(),
       airtableId: 'fldlpjcdh7jpZhHhv',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld93rcijT2GzMtFS',
+    }
   },
 });
 
@@ -980,5 +1016,9 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: numeric({ mode: 'number' }).$type<ResourceFeedbackValue>().default(RESOURCE_FEEDBACK.NO_RESPONSE),
       airtableId: 'flda3JolMPL5n8iUT',
     },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldbT2G8lDkUsuusY',
+    }
   },
 });
