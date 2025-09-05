@@ -157,7 +157,7 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldAcKtUXHRvJpTkS',
-    }
+    },
   },
 });
 
@@ -183,7 +183,7 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
     },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldjhCZEuocd5eYsb', 
+      airtableId: 'fldjhCZEuocd5eYsb',
     },
   },
 });
@@ -931,7 +931,7 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld2W2olE7mRRALMC',
-    }
+    },
   },
 });
 
@@ -970,7 +970,7 @@ export const userTable = pgAirtable('user', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld93rcijT2GzMtFS',
-    }
+    },
   },
 });
 
@@ -1019,6 +1019,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbT2G8lDkUsuusY',
-    }
+    },
   },
 });
