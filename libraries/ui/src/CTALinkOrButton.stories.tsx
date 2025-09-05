@@ -193,3 +193,11 @@ export const DisabledLink: Story = {
     disabled: true,
   },
 };
+
+export const CustomStyles: Story = {
+  args: {
+    children: 'Custom Styles',
+    variant: 'primary',
+    className: 'bg-[#2244BB] hover:bg-[color-mix(in_oklab,#2244BB,#000_30%)] text-white hover:text-white',
+  },
+};
