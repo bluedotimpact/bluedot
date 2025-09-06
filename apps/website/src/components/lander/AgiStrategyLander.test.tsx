@@ -1,4 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
+import {
+  describe, it, expect, vi,
+} from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AgiStrategyLander from './AgiStrategyLander';
@@ -14,7 +16,7 @@ vi.mock('../homepage/GraduateSection', () => ({
 }));
 
 vi.mock('../homepage/CommunitySection/TestimonialSubSection', () => ({
-  default: ({ testimonials, title }: any) => (
+  default: ({ testimonials, title }: { testimonials?: unknown[]; title: string }) => (
     <div data-testid="testimonial-section">
       <h2>{title}</h2>
       {testimonials?.length && <span>Testimonials: {testimonials.length}</span>}
@@ -37,19 +39,19 @@ describe('AgiStrategyLander', () => {
 
   it('renders HeroSection with correct props', () => {
     render(<AgiStrategyLander />);
-    
+
     // Check title - use getAllByText since it appears multiple times
     const titleElements = screen.getAllByText(/AGI Strategy/);
     expect(titleElements.length).toBeGreaterThan(0);
-    
+
     // Check description
     expect(screen.getByText(/Artificial General Intelligence is moving from research to reality/)).toBeInTheDocument();
-    
+
     // Check metadata
     expect(screen.getByText('30 hours')).toBeInTheDocument();
     expect(screen.getByText('Verified certificate')).toBeInTheDocument();
     expect(screen.getByText('Beginner-friendly')).toBeInTheDocument();
-    
+
     // Check CTAs - use getAllByRole since there might be multiple
     const applyButtons = screen.getAllByRole('link', { name: /Apply now/i });
     expect(applyButtons.length).toBeGreaterThan(0);
@@ -62,10 +64,10 @@ describe('AgiStrategyLander', () => {
 
   it('renders course content with markdown', () => {
     render(<AgiStrategyLander />);
-    
+
     const markdownContent = screen.getByTestId('markdown-content');
     expect(markdownContent).toBeInTheDocument();
-    
+
     // Check for key content sections
     expect(screen.getByText(/What is AGI\?/)).toBeInTheDocument();
     expect(screen.getByText(/Who we are/)).toBeInTheDocument();
@@ -74,7 +76,7 @@ describe('AgiStrategyLander', () => {
 
   it('renders testimonials section', () => {
     render(<AgiStrategyLander />);
-    
+
     const testimonialSection = screen.getByTestId('testimonial-section');
     expect(testimonialSection).toBeInTheDocument();
     expect(screen.getByText('What people say about us')).toBeInTheDocument();
@@ -83,15 +85,15 @@ describe('AgiStrategyLander', () => {
 
   it('renders AGI Strategy banner with CTA', () => {
     render(<AgiStrategyLander />);
-    
+
     expect(
-      screen.getByText("Join our AGI Strategy Course and become a leader in shaping humanity's AI future.")
+      screen.getByText("Join our AGI Strategy Course and become a leader in shaping humanity's AI future."),
     ).toBeInTheDocument();
   });
 
   it('has correct meta tags in Head', () => {
     const { container } = render(<AgiStrategyLander />);
-    
+
     // Since Head is mocked, we can at least verify the component renders
     // In a real test environment with Next.js testing utils, we could check actual meta tags
     const titleElement = container.querySelector('title');

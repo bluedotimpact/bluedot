@@ -35,16 +35,16 @@ describe('HeroSection', () => {
         className="size-full object-cover"
       />
     );
-    
+
     const { container } = render(
-      <HeroSection {...defaultProps} visualComponent={visualComponent} />
+      <HeroSection {...defaultProps} visualComponent={visualComponent} />,
     );
     expect(container).toMatchSnapshot();
   });
 
   it('renders metadata badges correctly', () => {
     render(<HeroSection {...defaultProps} />);
-    
+
     expect(screen.getByText('30 hours')).toBeInTheDocument();
     expect(screen.getByText('Verified certificate')).toBeInTheDocument();
     expect(screen.getByText('Beginner-friendly')).toBeInTheDocument();
@@ -52,17 +52,17 @@ describe('HeroSection', () => {
 
   it('renders title and description correctly', () => {
     render(<HeroSection {...defaultProps} />);
-    
+
     expect(screen.getByText(/AGI Strategy/)).toBeInTheDocument();
     expect(screen.getByText(/Artificial General Intelligence/)).toBeInTheDocument();
   });
 
   it('renders CTA buttons with correct links', () => {
     render(<HeroSection {...defaultProps} />);
-    
+
     const applyButton = screen.getByRole('link', { name: /Apply now/i });
     const curriculumButton = screen.getByRole('link', { name: /Browse curriculum/i });
-    
+
     expect(applyButton).toHaveAttribute('href', 'https://example.com/apply');
     expect(curriculumButton).toHaveAttribute('href', '/courses/agi-strategy/1');
   });
