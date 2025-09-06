@@ -15,7 +15,6 @@ import {
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
-import { stablePickCourseRegistration } from '../../../../../lib/utils';
 
 const requestBodySchema = z.object({
   switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
@@ -73,13 +72,13 @@ export default makeApiRoute({
 
   const course = await db.get(courseTable, { slug: courseSlug });
 
-  const courseRegistration = stablePickCourseRegistration(
-    await db.scan(courseRegistrationTable, {
+  const courseRegistration = await db.getFirst(courseRegistrationTable, {
+    filter: {
       email: auth.email,
       decision: 'Accept',
       courseId: course.id,
-    }),
-  );
+    },
+  });
 
   if (!courseRegistration) {
     throw new createHttpError.NotFound('No course registration found');
