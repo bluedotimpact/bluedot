@@ -69,6 +69,16 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('text-black');
   });
 
+  test('renders with ghost variant', () => {
+    render(<CTALinkOrButton variant="ghost">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button).toBeTruthy();
+    expect(button.className).includes('[--ghost-gray:#13132E]');
+    expect(button.className).includes('text-(--ghost-gray)/60');
+    expect(button.className).includes('hover:text-(--ghost-gray)');
+    expect(button.className).includes('hover:bg-(--ghost-gray)/10');
+  });
+
   test('renders with medium size by default', () => {
     render(<CTALinkOrButton>Click me</CTALinkOrButton>);
     const button = screen.getByRole('button');
@@ -93,5 +103,12 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('h-9');
     const chevron = document.querySelector('.cta-button__chevron');
     expect(chevron).toBeTruthy();
+  });
+
+  test('renders small ghost variant', () => {
+    render(<CTALinkOrButton size="small" variant="ghost">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button.className).includes('[--ghost-gray:#13132E]');
+    expect(button.className).includes('h-9');
   });
 });

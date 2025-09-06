@@ -4,7 +4,6 @@ import {
   test,
 } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import '@testing-library/jest-dom';
 import SettingsLayout from './SettingsLayout';
 import { ROUTES } from '../../lib/routes';

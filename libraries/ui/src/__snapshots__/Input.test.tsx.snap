@@ -3,10 +3,10 @@
 exports[`Input > renders checkbox as expected 1`] = `
 <div>
   <label
-    class="input flex items-center gap-2 cursor-pointer"
+    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center"
   >
     <input
-      class="input--checkbox size-6 accent-bluedot-normal rounded cursor-pointer"
+      class="input--checkbox size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
       name="checkbox-group"
       type="checkbox"
       value="This is the value"
@@ -23,7 +23,7 @@ exports[`Input > renders checkbox as expected 1`] = `
 exports[`Input > renders default as expected 1`] = `
 <div>
   <label
-    class="input flex flex-col gap-2"
+    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col"
   >
     <span
       class="input__label"
@@ -31,7 +31,7 @@ exports[`Input > renders default as expected 1`] = `
       This is the label
     </span>
     <input
-      class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+      class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400"
       label="This is the label"
       placeholder="This is the placeholder"
       type="text"
@@ -43,10 +43,10 @@ exports[`Input > renders default as expected 1`] = `
 exports[`Input > renders radio as expected 1`] = `
 <div>
   <label
-    class="input flex items-center gap-2 cursor-pointer"
+    class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center"
   >
     <input
-      class="input--radio size-6 accent-bluedot-normal rounded cursor-pointer"
+      class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
       name="radio-group"
       type="radio"
       value="This is the value"

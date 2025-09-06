@@ -278,7 +278,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/2?chunk=0"
+            href="/courses/test-course/2"
             tabindex="0"
           >
             <div
@@ -316,7 +316,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/3?chunk=0"
+            href="/courses/test-course/3"
             tabindex="0"
           >
             <div
@@ -354,7 +354,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/4?chunk=0"
+            href="/courses/test-course/4"
             tabindex="0"
           >
             <div
@@ -392,7 +392,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
           <a
             class="bluedot-a not-prose block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
-            href="http://localhost:3000/courses/test-course/5?chunk=0"
+            href="/courses/test-course/5"
             tabindex="0"
           >
             <div
@@ -580,14 +580,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
           >
             <button
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
               type="button"
             >
-              <span
-                class="cta-button__text"
-              >
-                Continue
-              </span>
+              Continue
               <span
                 class="cta-button__chevron ml-3"
               >
@@ -652,14 +648,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
   type="button"
 >
-  <span
-    class="cta-button__text"
-  >
-    Continue
-  </span>
+  Continue
   <span
     class="cta-button__chevron ml-3"
   >

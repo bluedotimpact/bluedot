@@ -90,11 +90,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
         tabindex="0"
       >
-        <span
-          class="cta-button__text"
-        >
-          Create a free account to save your answers
-        </span>
+        Create a free account to save your answers
         <span
           class="cta-button__chevron ml-3"
         >

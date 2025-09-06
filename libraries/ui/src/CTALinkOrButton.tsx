@@ -4,7 +4,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { ClickTarget, ClickTargetProps } from './ClickTarget';
 
 export type CTALinkOrButtonProps = {
-  variant?: 'primary' | 'secondary' | 'black' | 'outline-black';
+  variant?: 'primary' | 'secondary' | 'black' | 'outline-black' | 'ghost';
   size?: 'small' | 'medium';
   withChevron?: boolean;
   withBackChevron?: boolean;
@@ -23,6 +23,7 @@ const CTA_VARIANT_STYLES = {
   secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
   black: 'cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest',
   'outline-black': 'cta-button--outline-black bg-transparent border border-black text-black hover:bg-gray-50',
+  ghost: '[--ghost-gray:#13132E] text-(--ghost-gray)/60 hover:text-(--ghost-gray) hover:bg-(--ghost-gray)/10',
 } as const;
 
 export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
@@ -49,7 +50,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
         <FaChevronLeft className="cta-button__chevron-icon size-2" />
       </span>
       )}
-      <span className="cta-button__text">{children}</span>
+      {children}
       {withChevron && (
       <span className="cta-button__chevron ml-3">
         <FaChevronRight className="cta-button__chevron-icon size-2" />

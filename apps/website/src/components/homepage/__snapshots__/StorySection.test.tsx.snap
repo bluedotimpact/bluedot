@@ -52,11 +52,7 @@ exports[`StorySection > renders default as expected 1`] = `
             href="/about"
             tabindex="0"
           >
-            <span
-              class="cta-button__text"
-            >
-              Learn more about us
-            </span>
+            Learn more about us
             <span
               class="cta-button__chevron ml-3"
             >
