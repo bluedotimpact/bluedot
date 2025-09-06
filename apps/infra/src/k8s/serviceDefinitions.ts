@@ -112,16 +112,6 @@ export const services: ServiceDefinition[] = [
     hosts: ['editor.k8s.bluedot.org'],
   },
   {
-    name: 'bluedot-miniextensions-proxy',
-    spec: {
-      containers: [{
-        name: 'bluedot-miniextensions-proxy',
-        image: 'ghcr.io/bluedotimpact/bluedot-miniextensions-proxy:latest',
-      }],
-    },
-    hosts: ['forms.bluedot.org'],
-  },
-  {
     name: 'bluedot-posthog-proxy',
     spec: {
       containers: [{
