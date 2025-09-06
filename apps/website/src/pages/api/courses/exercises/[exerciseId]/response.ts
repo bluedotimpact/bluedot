@@ -1,12 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  exerciseResponseTable, InferSelectModel,
+  exerciseResponseTable, ExerciseResponse,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-
-type ExerciseResponse = InferSelectModel<typeof exerciseResponseTable.pg>;
 
 export type GetExerciseResponseResponse = {
   type: 'success',
@@ -37,12 +35,13 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  // Try to get existing exercise response
   let exerciseResponse: ExerciseResponse | null = null;
   try {
-    exerciseResponse = await db.get(exerciseResponseTable, { exerciseId, email: auth.email });
+    exerciseResponse = await db.getFirst(exerciseResponseTable, {
+      filter: { exerciseId, email: auth.email },
+    });
   } catch (error) {
-    // Exercise response doesn't exist, which is fine for PUT requests
+    throw new createHttpError.InternalServerError('Database error occurred');
   }
 
   switch (raw.req.method) {

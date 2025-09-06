@@ -1,6 +1,7 @@
 import {
   pgTable, text, boolean, numeric, timestamp,
 } from 'drizzle-orm/pg-core';
+import { InferSelectModel } from 'drizzle-orm';
 
 import { pgAirtable } from './lib/db-core';
 
@@ -1026,3 +1027,32 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     },
   },
 });
+
+// Type exports for all tables
+export type Meta = InferSelectModel<typeof metaTable>;
+export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
+export type Course = InferSelectModel<typeof courseTable.pg>;
+export type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
+export type ExerciseResponse = InferSelectModel<typeof exerciseResponseTable.pg>;
+export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
+export type Person = InferSelectModel<typeof personTable.pg>;
+export type SharedDemoOutput = InferSelectModel<typeof sharedDemoOutputTable.pg>;
+export type Group = InferSelectModel<typeof groupTable.pg>;
+export type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
+export type GroupSwitching = InferSelectModel<typeof groupSwitchingTable.pg>;
+export type CourseRunnerBucket = InferSelectModel<typeof courseRunnerBucketTable.pg>;
+export type MeetPerson = InferSelectModel<typeof meetPersonTable.pg>;
+export type ZoomAccount = InferSelectModel<typeof zoomAccountTable.pg>;
+export type Round = InferSelectModel<typeof roundTable.pg>;
+export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
+export type Blog = InferSelectModel<typeof blogTable.pg>;
+export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
+export type Project = InferSelectModel<typeof projectTable.pg>;
+export type Chunk = InferSelectModel<typeof chunkTable.pg>;
+export type Unit = InferSelectModel<typeof unitTable.pg>;
+export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+export type Exercise = InferSelectModel<typeof exerciseTable.pg>;
+export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable.pg>;
+export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
+export type User = InferSelectModel<typeof userTable.pg>;
+export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;

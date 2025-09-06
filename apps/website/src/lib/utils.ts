@@ -1,4 +1,3 @@
-import { InferSelectModel, type courseRegistrationTable } from '@bluedot/db';
 import { AxiosError } from 'axios';
 
 export const formatStringToArray = (
@@ -30,18 +29,4 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
   }
 
   return defaultErrorMessage;
-};
-
-type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
-/**
- * Workaround for duplicates existing in rare cases, see issue: https://github.com/bluedotimpact/bluedot/issues/1249
- */
-export const stablePickCourseRegistration = (
-  courseRegistrations: CourseRegistration[],
-): CourseRegistration | undefined => {
-  // Sort by ID to ensure stable selection when multiple records exist
-  // This ensures we always work with the same registration record
-  courseRegistrations.sort((a, b) => a.id.localeCompare(b.id));
-
-  return courseRegistrations[0];
 };

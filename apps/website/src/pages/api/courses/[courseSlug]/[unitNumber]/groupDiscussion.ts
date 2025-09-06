@@ -5,13 +5,14 @@ import {
   courseTable,
   courseRegistrationTable,
   meetPersonTable,
-  and, eq, sql, InferSelectModel,
+  GroupDiscussion,
+  Course,
+  CourseRegistration,
+  MeetPerson,
+  and, eq, sql,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import { stablePickCourseRegistration } from '../../../../../lib/utils';
-
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 
 export type GetGroupDiscussionResponse = {
   type: 'success',
@@ -33,34 +34,51 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid unit number');
   }
 
-  const course = await db.get(courseTable, { slug: courseSlug });
+  const course: Course = await db.get(courseTable, { slug: courseSlug });
 
-  const courseRegistration = stablePickCourseRegistration(
-    await db.scan(courseRegistrationTable, {
-      email: auth.email,
-      decision: 'Accept',
-      courseId: course.id,
-    }),
-  );
-
-  if (!courseRegistration) {
-    return {
-      type: 'success' as const,
-      groupDiscussion: null,
-    };
-  }
-
-  let participant;
+  let courseRegistration: CourseRegistration | null;
   try {
-    participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
-  } catch {
+    courseRegistration = await db.getFirst(courseRegistrationTable, {
+      filter: {
+        email: auth.email,
+        decision: 'Accept',
+        courseId: course.id,
+      },
+    });
+
+    if (!courseRegistration) {
+      return {
+        type: 'success' as const,
+        groupDiscussion: null,
+      };
+    }
+  } catch (error) {
     return {
       type: 'success' as const,
       groupDiscussion: null,
     };
   }
 
-  const roundId = participant.round;
+  let participant: MeetPerson | null;
+  try {
+    participant = await db.getFirst(meetPersonTable, {
+      filter: { applicationsBaseRecordId: courseRegistration.id },
+    });
+
+    if (!participant) {
+      return {
+        type: 'success' as const,
+        groupDiscussion: null,
+      };
+    }
+  } catch (error) {
+    return {
+      type: 'success' as const,
+      groupDiscussion: null,
+    };
+  }
+
+  const roundId: string | null = participant.round;
 
   if (!roundId) {
     return {
@@ -69,11 +87,11 @@ export default makeApiRoute({
     };
   }
 
-  const currentTimeSeconds = Math.floor(Date.now() / 1000);
-  const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
+  const currentTimeSeconds: number = Math.floor(Date.now() / 1000);
+  const cutoffTimeSeconds: number = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
 
   // Get all discussions that haven't ended yet (including 15-minute grace period after end time)
-  const groupDiscussions = await db.pg.select()
+  const groupDiscussions: GroupDiscussion[] = await db.pg.select()
     .from(groupDiscussionTable.pg)
     .where(
       and(
@@ -85,9 +103,9 @@ export default makeApiRoute({
     .orderBy(groupDiscussionTable.pg.startDateTime);
 
   // Priority: Show ongoing meeting (including 15 min after end), otherwise show next upcoming
-  let groupDiscussion = null;
+  let groupDiscussion: GroupDiscussion | null = null;
 
-  const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
+  const ongoingDiscussion: GroupDiscussion | undefined = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
 
   if (ongoingDiscussion) {
     groupDiscussion = ongoingDiscussion;

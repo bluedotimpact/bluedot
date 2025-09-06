@@ -1,5 +1,5 @@
 import {
-  eq, and, or, gt, lt, gte, lte, ne, SQL,
+  eq, and, or, gt, lt, gte, lte, ne, SQL, desc, asc,
 } from 'drizzle-orm';
 import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -7,6 +7,50 @@ import { AirtableTs, AirtableTsError } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { PgAirtableTable } from './db-core';
 import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
+
+/**
+ * Base options interface for getFirst method
+ */
+export type GetFirstOptionsBase<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>> = {
+  filter?: Filter<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']>;
+  limit?: number;
+};
+
+/**
+ * Options for tables WITH autoNumberId (sortBy is optional)
+ */
+export type GetFirstOptionsWithAutoId<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>> =
+  GetFirstOptionsBase<TTableName, TColumnsMap> & {
+    sortBy?: {
+      field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
+      direction?: 'asc' | 'desc';
+    } | keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
+  };
+
+/**
+ * Options for tables WITHOUT autoNumberId (sortBy is REQUIRED)
+ */
+export type GetFirstOptionsWithoutAutoId<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>> =
+  GetFirstOptionsBase<TTableName, TColumnsMap> & {
+    /**
+     * 🚨 **REQUIRED**: This table does not have `autoNumberId` for automatic sorting
+     *
+     * You must specify which field to sort by to ensure consistent ordering.
+     *
+     * @example
+     * ```ts
+     * // Using field name directly (defaults to 'asc')
+     * sortBy: 'email'
+     *
+     * // Using object form for custom direction
+     * sortBy: { field: 'createdAt', direction: 'desc' }
+     * ```
+     */
+    sortBy: {
+      field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
+      direction?: 'asc' | 'desc';
+    } | keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
+  };
 
 /**
  * Filter operations for querying records
@@ -121,6 +165,116 @@ export class PgAirtableDb {
     }
 
     return await baseQuery as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][];
+  }
+
+  /**
+   * Get the first record matching the optional filter
+   *
+   * **For tables with autoNumberId:** Automatically sorts by autoNumberId DESC (newest first)
+   * **For tables without autoNumberId:** Requires explicit sortBy field
+   *
+   * @example
+   * ```ts
+   * // For tables with autoNumberId - sortBy is optional
+   * const result = await db.getFirst(tableWithAutoId, { filter: { active: true } });
+   *
+   * // For tables without autoNumberId - sortBy is required
+   * const result = await db.getFirst(tableWithoutAutoId, {
+   *   filter: { active: true },
+   *   sortBy: 'createdAt' // This is required!
+   * });
+   * ```
+   *
+   * @param table The table to query
+   * @param options Query options including filter, sortBy, and limit
+   * @returns The first matching record or null if no records found
+   */
+  async getFirst<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    ...args: 'autoNumberId' extends keyof TColumnsMap
+      ? [options?: GetFirstOptionsWithAutoId<TTableName, TColumnsMap>]
+      : [options: GetFirstOptionsWithoutAutoId<TTableName, TColumnsMap>]
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | null> {
+    const options = args[0] || {};
+    const {
+      filter,
+      sortBy,
+      limit = 1,
+    } = options;
+
+    const sortConfig = this.resolveSortConfig(table, sortBy);
+
+    if (!sortConfig) {
+      const availableFields = Object.keys(table.pg).join(', ');
+      throw new Error(
+        'Table does not have autoNumberId for default sorting. '
+        + `Please specify a sortBy field. Available fields: ${availableFields}\n`,
+      );
+    }
+
+    // Build query with sorting
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
+
+    // Apply sorting
+    const fieldKey = sortConfig.field as string;
+    const column = (table.pg as Record<string, PgColumn>)[fieldKey];
+    if (!column) {
+      throw new Error(`Field "${String(sortConfig.field)}" does not exist on table`);
+    }
+
+    // Build the final query with all clauses
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let query: any = baseQuery;
+
+    if (filter) {
+      query = query.where(this.buildWhereClause(table.pg, filter));
+    }
+
+    query = sortConfig.direction === 'desc'
+      ? query.orderBy(desc(column))
+      : query.orderBy(asc(column));
+
+    // Apply limit and execute
+    query = query.limit(limit);
+    const results = await query as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][];
+
+    return results.length > 0 ? results[0]! : null;
+  }
+
+  /**
+   * Resolves sort configuration for getFirst, with intelligent defaults
+   */
+  private resolveSortConfig<
+    TTableName extends string,
+    TColumnsMap extends Record<string, PgAirtableColumnInput>,
+  >(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    sortBy?: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | { field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect']; direction?: 'asc' | 'desc' },
+  ): { field: keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect']; direction: 'asc' | 'desc' } | null {
+    // If explicit sortBy provided, use it
+    if (sortBy) {
+      if (typeof sortBy === 'string' || typeof sortBy === 'symbol' || typeof sortBy === 'number') {
+        const field = sortBy as keyof BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
+        return {
+          field,
+          // Default to DESC for autoNumberId (newest first), ASC for others
+          direction: field === 'autoNumberId' ? 'desc' : 'asc',
+        };
+      }
+      return {
+        field: sortBy.field,
+        direction: sortBy.direction ?? (sortBy.field === 'autoNumberId' ? 'desc' : 'asc'),
+      };
+    }
+
+    // Check for autoNumberId as default
+    if ('autoNumberId' in table.pg) {
+      return { field: 'autoNumberId', direction: 'desc' };
+    }
+
+    // No default available
+    return null;
   }
 
   /**

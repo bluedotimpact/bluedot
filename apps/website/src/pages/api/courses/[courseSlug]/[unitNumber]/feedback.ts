@@ -1,13 +1,11 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  unitFeedbackTable, InferSelectModel,
+  unitFeedbackTable, UnitFeedback,
   unitTable,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
-
-type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
 
 export type GetUnitFeedbackResponse = {
   type: 'success';
@@ -48,12 +46,13 @@ export default makeApiRoute(
 
     const unit = await db.get(unitTable, { courseSlug, unitNumber });
 
-    // Try to get existing feedback
-    let existingFeedback: UnitFeedback | null = null;
+    let existingFeedback: UnitFeedback | null;
     try {
-      existingFeedback = await db.get(unitFeedbackTable, { unitId: unit.id, userEmail: auth.email });
+      existingFeedback = await db.getFirst(unitFeedbackTable, {
+        filter: { unitId: unit.id, userEmail: auth.email },
+      });
     } catch (error) {
-      // Feedback doesn't exist, which is fine
+      throw new createHttpError.InternalServerError('Database error occurred');
     }
 
     if (method === 'GET') {

@@ -3,14 +3,12 @@ import {
   groupDiscussionTable,
   groupTable,
   unitTable,
-  InferSelectModel,
+  GroupDiscussion as GroupDiscussionBase,
+  Group,
+  Unit,
 } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
-
-type GroupDiscussionBase = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Group = InferSelectModel<typeof groupTable.pg>;
-type Unit = InferSelectModel<typeof unitTable.pg>;
 
 export type GroupDiscussion = GroupDiscussionBase & {
   groupId: string;
@@ -62,7 +60,20 @@ export default makeApiRoute({
 
   let discussion;
   try {
-    discussion = await db.get(groupDiscussionTable, { id: discussionId });
+    discussion = await db.getFirst(groupDiscussionTable, {
+      filter: { id: discussionId },
+    });
+
+    if (!discussion) {
+      raw.res.status(404);
+      return {
+        type: 'error' as const,
+        error: {
+          code: 'DISCUSSION_NOT_FOUND',
+          message: 'Discussion not found',
+        },
+      };
+    }
   } catch (error) {
     raw.res.status(500);
     return {
@@ -74,24 +85,26 @@ export default makeApiRoute({
     };
   }
 
-  if (!discussion) {
-    raw.res.status(404);
-    return {
-      type: 'error' as const,
-      error: {
-        code: 'DISCUSSION_NOT_FOUND',
-        message: 'Discussion not found',
-      },
-    };
-  }
-
   // Fetch related group and unit
   let unit;
 
   // Group is always present, fetch it
   let group;
   try {
-    group = await db.get(groupTable, { id: discussion.group });
+    group = await db.getFirst(groupTable, {
+      filter: { id: discussion.group },
+    });
+
+    if (!group) {
+      raw.res.status(500);
+      return {
+        type: 'error' as const,
+        error: {
+          code: 'GROUP_NOT_FOUND',
+          message: 'Associated group not found.',
+        },
+      };
+    }
   } catch (error) {
     raw.res.status(500);
     return {
@@ -116,7 +129,20 @@ export default makeApiRoute({
   }
 
   try {
-    unit = await db.get(unitTable, { id: discussion.courseBuilderUnitRecordId });
+    unit = await db.getFirst(unitTable, {
+      filter: { id: discussion.courseBuilderUnitRecordId },
+    });
+
+    if (!unit) {
+      raw.res.status(500);
+      return {
+        type: 'error' as const,
+        error: {
+          code: 'UNIT_NOT_FOUND',
+          message: 'Associated unit not found.',
+        },
+      };
+    }
   } catch (error) {
     raw.res.status(500);
     return {

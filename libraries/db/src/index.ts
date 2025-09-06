@@ -30,6 +30,37 @@ export {
   resourceCompletionTable,
 } from './schema';
 
+// Type exports
+export type {
+  Meta,
+  SyncMetadata,
+  Course,
+  UnitFeedback,
+  ExerciseResponse,
+  FormConfiguration,
+  Person,
+  SharedDemoOutput,
+  Group,
+  GroupDiscussion,
+  GroupSwitching,
+  CourseRunnerBucket,
+  MeetPerson,
+  ZoomAccount,
+  Round,
+  MeetCourse,
+  Blog,
+  JobPosting,
+  Project,
+  Chunk,
+  Unit,
+  UnitResource,
+  Exercise,
+  ApplicationsCourse,
+  CourseRegistration,
+  User,
+  ResourceCompletion,
+} from './schema';
+
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
 
 // TODO: restrict what's exported

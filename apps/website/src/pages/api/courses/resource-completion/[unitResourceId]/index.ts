@@ -1,13 +1,11 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  resourceCompletionTable, InferSelectModel,
+  resourceCompletionTable, ResourceCompletion,
 } from '@bluedot/db/';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-
-type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 
 export type GetResourceCompletionResponse = {
   type: 'success',
@@ -46,12 +44,13 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest();
   }
 
-  // Try to get existing resource completion
-  let resourceCompletion: ResourceCompletion | null = null;
+  let resourceCompletion: ResourceCompletion | null;
   try {
-    resourceCompletion = await db.get(resourceCompletionTable, { unitResourceIdRead: unitResourceId, email: auth.email });
+    resourceCompletion = await db.getFirst(resourceCompletionTable, {
+      filter: { unitResourceIdRead: unitResourceId, email: auth.email },
+    });
   } catch (error) {
-    // Resource completion doesn't exist, which is fine for PUT requests
+    throw new createHttpError.InternalServerError('Database error occurred');
   }
 
   switch (raw.req.method) {

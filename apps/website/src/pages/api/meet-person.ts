@@ -29,18 +29,20 @@ export default makeApiRoute({
   // Get the course registration to verify ownership
   let courseRegistration;
   try {
-    courseRegistration = await db.get(courseRegistrationTable, {
-      id: courseRegistrationId,
-      email: auth.email,
+    courseRegistration = await db.getFirst(courseRegistrationTable, {
+      filter: {
+        id: courseRegistrationId,
+        email: auth.email,
+      },
     });
-  } catch {
-    return {
-      type: 'success' as const,
-      meetPerson: null,
-    };
-  }
 
-  if (!courseRegistration) {
+    if (!courseRegistration) {
+      return {
+        type: 'success' as const,
+        meetPerson: null,
+      };
+    }
+  } catch {
     return {
       type: 'success' as const,
       meetPerson: null,
@@ -50,8 +52,10 @@ export default makeApiRoute({
   // Get the meetPerson linked to this course registration
   let meetPerson;
   try {
-    meetPerson = await db.get(meetPersonTable, {
-      applicationsBaseRecordId: courseRegistration.id,
+    meetPerson = await db.getFirst(meetPersonTable, {
+      filter: {
+        applicationsBaseRecordId: courseRegistration.id,
+      },
     });
   } catch {
     return {
