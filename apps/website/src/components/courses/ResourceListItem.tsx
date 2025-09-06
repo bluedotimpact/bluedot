@@ -255,15 +255,15 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               <div className="flex items-start gap-4">
                 <div className="flex-1">
                   {/* Resource title and link */}
-                  <div className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
-                    {resource.resourceLink ? (
-                      <div className="flex items-center group">
-                        {/* Favicon */}
-                        <FaviconImage
-                          url={resource.resourceLink}
-                          displaySize={16}
-                          className="mr-2"
-                        />
+                  {resource.resourceLink ? (
+                    <div className="resource-item__title flex items-center group">
+                      {/* Favicon */}
+                      <FaviconImage
+                        url={resource.resourceLink}
+                        displaySize={16}
+                        className="mr-2"
+                      />
+                      <P className="font-semibold leading-[140%] tracking-[-0.005em]">
                         <a
                           href={resource.resourceLink}
                           target="_blank"
@@ -273,23 +273,25 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                         >
                           {resource.resourceName}
                         </a>
-                        <a
-                          href={resource.resourceLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex group-hover:opacity-80 transition-opacity ml-2"
-                          aria-label={`Open ${resource.resourceName} in new tab`}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" />
-                          </svg>
-                        </a>
-                      </div>
-                    ) : (
-                      resource.resourceName
-                    )}
-                  </div>
+                      </P>
+                      <a
+                        href={resource.resourceLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex group-hover:opacity-80 transition-opacity ml-2"
+                        aria-label={`Open ${resource.resourceName} in new tab`}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </a>
+                    </div>
+                  ) : (
+                    <P className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
+                      {resource.resourceName}
+                    </P>
+                  )}
                 </div>
               </div>
             </div>
