@@ -4,14 +4,7 @@ import {
   Section,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   QuoteCarousel,
-  Breadcrumbs,
 } from '@bluedot/ui';
-import {
-  HeroH1,
-  HeroMiniTitle,
-  HeroCTAContainer,
-  HeroSection,
-} from '@bluedot/ui/src/HeroSection';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
@@ -20,7 +13,7 @@ import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
-import { ROUTES } from '../../lib/routes';
+import HeroSection from './agi-strategy/HeroSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -38,9 +31,10 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
   );
 };
 
-const customMiniTitle = 'AGI Strategy Course';
-const customTitle = 'Learn how to navigate humanity\'s most critical decade';
-const customSubTitle = 'Artificial General Intelligence is coming. Understand the race, the risks, and how you can make a difference.';
+// Unused legacy constants - can be removed after migration is complete
+// const customMiniTitle = 'AGI Strategy Course';
+// const customTitle = 'Learn how to navigate humanity\'s most critical decade';
+// const customSubTitle = 'Artificial General Intelligence is coming. Understand the race, the risks, and how you can make a difference.';
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
 
@@ -67,32 +61,35 @@ const testimonials1: Testimonial[] = [
 
 const AgiStrategyLander = () => {
   return (
-    <>
+    <div className="bg-white">
       <Head>
         <title>AGI Strategy Course | BlueDot Impact</title>
         <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
       </Head>
 
-      <HeroSection>
-        <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
-        <HeroH1 className="agi-strategy-lander__hero-title">{customTitle}</HeroH1>
-        <p className="text-color-text-on-dark mt-4 text-center max-w-2xl mx-auto">{customSubTitle}</p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <HeroCTAContainer>
-            <CTALinkOrButton url={applicationUrl}>Apply now</CTALinkOrButton>
-          </HeroCTAContainer>
-          <HeroCTAContainer>
-            <CTALinkOrButton url="/courses/agi-strategy/1">Browse curriculum</CTALinkOrButton>
-          </HeroCTAContainer>
-        </div>
-      </HeroSection>
-
-      <Breadcrumbs
-        route={{
-          title: 'AGI Strategy',
-          url: '/courses/agi-strategy',
-          parentPages: [ROUTES.home, ROUTES.courses],
+      <HeroSection
+        metadata={{
+          duration: '30 hours',
+          certification: 'Verified certificate',
+          level: 'Beginner-friendly',
         }}
+        title="AGI Strategy – Learn how to navigate humanity's most critical decade"
+        description="Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future."
+        primaryCta={{
+          text: 'Apply now',
+          url: applicationUrl,
+        }}
+        secondaryCta={{
+          text: 'Browse curriculum',
+          url: '/courses/agi-strategy/1',
+        }}
+        visualComponent={(
+          <img
+            src="/images/agi-strategy/hero-banner-split.png"
+            alt="AGI Strategy visualization"
+            className="size-full object-cover"
+          />
+        )}
       />
 
       {/* Graduate section */}
@@ -163,7 +160,7 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
         ctaUrl={applicationUrl}
       />
 
-    </>
+    </div>
   );
 };
 
