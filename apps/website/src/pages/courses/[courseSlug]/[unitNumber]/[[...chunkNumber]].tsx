@@ -15,9 +15,7 @@ const CourseUnitChunkPage = () => {
     },
   } = router;
 
-  if (typeof unitNumber !== 'string') {
-    return <ProgressDots />;
-  }
+  const auth = useAuthStore((s) => s.auth);
 
   // Handle old ?chunk={n-1} format redirect
   useEffect(() => {
@@ -36,8 +34,6 @@ const CourseUnitChunkPage = () => {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
   }, [courseSlug, unitNumber, chunkNumber, router]);
-
-  const auth = useAuthStore((s) => s.auth);
 
   let actualChunkNumber = '1';
   // [[...chunkNumber]] catch-all syntax results in `chunkNumber` being an array, parse the first element
@@ -102,6 +98,11 @@ const CourseUnitChunkPage = () => {
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
   };
+
+  // Check for valid unitNumber after all hooks
+  if (typeof unitNumber !== 'string') {
+    return <ProgressDots />;
+  }
 
   if (loading || groupDiscussionLoading) {
     return <ProgressDots />;
