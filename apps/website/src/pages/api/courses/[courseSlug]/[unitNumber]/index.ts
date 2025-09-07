@@ -5,16 +5,14 @@ import {
   unitTable,
   unitResourceTable,
   exerciseTable,
-  InferSelectModel,
+  Unit,
+  Chunk,
+  UnitResource,
+  Exercise,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import { unitFilterActiveChunks } from '../../../../../lib/api/utils';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
-type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
-type Exercise = InferSelectModel<typeof exerciseTable.pg>;
 
 type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -58,7 +56,12 @@ export default makeApiRoute({
   }
 
   // Get chunks for this unit, filter for active status, and sort by chunk order
-  const allChunks = await db.scan(chunkTable, { unitId: unit.id });
+  let allChunks;
+  try {
+    allChunks = await db.scan(chunkTable, { unitId: unit.id });
+  } catch (error) {
+    throw new createHttpError.InternalServerError('Database error occurred');
+  }
   const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
   const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
 

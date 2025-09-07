@@ -5,7 +5,6 @@ import {
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { stablePickCourseRegistration } from '../../../lib/utils';
 
 type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 
@@ -30,13 +29,13 @@ export default makeApiRoute({
 }, async (body, { auth, raw }) => {
   switch (raw.req.method) {
     case 'POST': {
-      const courseRegistration = stablePickCourseRegistration(
-        await db.scan(courseRegistrationTable, {
+      const courseRegistration = await db.getFirst(courseRegistrationTable, {
+        filter: {
           email: auth.email,
           courseId: body.courseId,
           decision: 'Accept',
-        }),
-      );
+        },
+      });
 
       if (!courseRegistration) {
         throw new createHttpError.NotFound('No course registration found');

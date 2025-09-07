@@ -13,7 +13,6 @@ import {
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
-import { stablePickCourseRegistration } from '../../../../../lib/utils';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Group = InferSelectModel<typeof groupTable.pg>;
@@ -166,13 +165,13 @@ export default makeApiRoute({
 
   const course = await db.get(courseTable, { slug: courseSlug });
 
-  const courseRegistration = stablePickCourseRegistration(
-    await db.scan(courseRegistrationTable, {
+  const courseRegistration = await db.getFirst(courseRegistrationTable, {
+    filter: {
       email: auth.email,
       decision: 'Accept',
       courseId: course.id,
-    }),
-  );
+    },
+  });
 
   if (!courseRegistration) {
     throw new createHttpError.NotFound('No course registration found');

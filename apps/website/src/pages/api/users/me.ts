@@ -1,11 +1,9 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { userTable, InferSelectModel } from '@bluedot/db';
+import { userTable, User } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { meRequestBodySchema } from '../../../lib/schemas/user/me.schema';
-
-type User = InferSelectModel<typeof userTable.pg>;
 
 export type GetUserResponse = {
   type: 'success';
@@ -26,12 +24,13 @@ export default makeApiRoute({
     isNewUser: z.boolean(),
   }).optional(),
 }, async (body, { auth, raw }) => {
-  // Try to get existing user
-  let existingUser: User | null = null;
+  let existingUser: User | null;
   try {
-    existingUser = await db.get(userTable, { email: auth.email });
+    existingUser = await db.getFirst(userTable, {
+      filter: { email: auth.email },
+    });
   } catch (error) {
-    // User doesn't exist, which is fine for GET requests
+    throw new createHttpError.InternalServerError('Database error occurred');
   }
 
   switch (raw.req.method) {

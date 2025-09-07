@@ -1,12 +1,10 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  applicationsCourseTable, courseRegistrationTable, InferSelectModel,
+  applicationsCourseTable, courseRegistrationTable, CourseRegistration,
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import db from '../../../../lib/api/db';
-
-type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 
 export type GetCourseRegistrationResponse = {
   type: 'success';
@@ -27,16 +25,17 @@ export default makeApiRoute({
         throw new createHttpError.BadRequest('Invalid courseId parameter');
       }
 
-      // Try to get existing course registration
-      let courseRegistration: CourseRegistration | null = null;
+      let courseRegistration: CourseRegistration | null;
       try {
-        courseRegistration = await db.get(courseRegistrationTable, {
-          email: auth.email,
-          courseId,
-          decision: 'Accept',
+        courseRegistration = await db.getFirst(courseRegistrationTable, {
+          filter: {
+            email: auth.email,
+            courseId,
+            decision: 'Accept',
+          },
         });
       } catch (error) {
-        // Course registration doesn't exist, we'll create one
+        throw new createHttpError.InternalServerError('Database error occurred');
       }
 
       if (courseRegistration) {
