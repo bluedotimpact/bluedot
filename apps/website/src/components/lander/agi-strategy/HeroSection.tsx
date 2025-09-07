@@ -103,7 +103,7 @@ const HeroSection = ({
             className="
               w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md
               border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent
-              hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)]
+              hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]
               transition-colors duration-200
               sm:h-[3.125rem] sm:text-[16px]
             "
