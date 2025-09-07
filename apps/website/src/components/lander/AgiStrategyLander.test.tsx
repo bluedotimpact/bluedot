@@ -40,9 +40,9 @@ describe('AgiStrategyLander', () => {
   it('renders HeroSection with correct props', () => {
     render(<AgiStrategyLander />);
 
-    // Check title - use getAllByText since it appears multiple times
-    const titleElements = screen.getAllByText(/AGI Strategy/);
-    expect(titleElements.length).toBeGreaterThan(0);
+    // Check title - appears in HeroSection title and page title
+    const titleText = "AGI Strategy – Learn how to navigate humanity's most critical decade";
+    expect(screen.getByText(titleText)).toBeInTheDocument();
 
     // Check description
     expect(screen.getByText(/Artificial General Intelligence is moving from research to reality/)).toBeInTheDocument();
@@ -52,9 +52,9 @@ describe('AgiStrategyLander', () => {
     expect(screen.getByText('Verified certificate')).toBeInTheDocument();
     expect(screen.getByText('Beginner-friendly')).toBeInTheDocument();
 
-    // Check CTAs - use getAllByRole since there might be multiple
+    // Check CTAs - "Apply now" appears in HeroSection and banner (2 times total)
     const applyButtons = screen.getAllByRole('link', { name: /Apply now/i });
-    expect(applyButtons.length).toBeGreaterThan(0);
+    expect(applyButtons).toHaveLength(2);
   });
 
   it('renders Graduate section', () => {

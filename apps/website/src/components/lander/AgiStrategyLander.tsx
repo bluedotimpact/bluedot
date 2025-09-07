@@ -31,11 +31,6 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
   );
 };
 
-// Unused legacy constants - can be removed after migration is complete
-// const customMiniTitle = 'AGI Strategy Course';
-// const customTitle = 'Learn how to navigate humanity\'s most critical decade';
-// const customSubTitle = 'Artificial General Intelligence is coming. Understand the race, the risks, and how you can make a difference.';
-
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
 
 const testimonials1: Testimonial[] = [
