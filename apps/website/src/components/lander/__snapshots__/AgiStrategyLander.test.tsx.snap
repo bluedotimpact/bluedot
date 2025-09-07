@@ -1,0 +1,312 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] = `
+<div>
+  <div
+    class="bg-white"
+  >
+    <title>
+      AGI Strategy Course | BlueDot Impact
+    </title>
+    <meta
+      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      name="description"
+    />
+    <section
+      class="
+      w-full min-h-screen bg-white
+      grid grid-cols-1
+      sm:min-h-[600px] sm:grid-cols-2
+    "
+    >
+      <div
+        class="
+          w-full h-60 bg-cover bg-center
+          order-1
+          sm:order-2 sm:h-full sm:min-h-[600px]
+        "
+      >
+        <img
+          alt="AGI Strategy visualization"
+          class="size-full object-cover"
+          src="/images/agi-strategy/hero-banner-split.png"
+        />
+      </div>
+      <div
+        class="
+        w-full px-5 py-8 space-y-8
+        order-2
+        sm:order-1 sm:pl-12 sm:pr-8 sm:py-12 sm:flex sm:flex-col sm:justify-center
+      "
+      >
+        <div
+          class="flex flex-wrap gap-3 justify-start"
+        >
+          <div
+            class="
+    flex items-center gap-1.5
+    px-2.5 py-1.5 h-[2.125rem]
+    border border-gray-200 rounded
+  "
+          >
+            <svg
+              class="size-[18px] text-[#13132E] opacity-80"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 256 256"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm68-84a12,12,0,0,1-12,12H128a12,12,0,0,1-12-12V72a12,12,0,0,1,24,0v44h44A12,12,0,0,1,196,128Z"
+              />
+            </svg>
+            <p
+              class="bluedot-p not-prose text-size-xs font-normal text-[#13132E] opacity-80"
+            >
+              30 hours
+            </p>
+          </div>
+          <div
+            class="
+    flex items-center gap-1.5
+    px-2.5 py-1.5 h-[2.125rem]
+    border border-gray-200 rounded
+  "
+          >
+            <svg
+              class="size-[18px] text-[#13132E] opacity-80"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 256 256"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M128,136a8,8,0,0,1-8,8H72a8,8,0,0,1,0-16h48A8,8,0,0,1,128,136Zm-8-40H72a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16Zm112,65.47V224A8,8,0,0,1,220,231l-24-13.74L172,231A8,8,0,0,1,160,224V200H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216a16,16,0,0,1,16,16V86.53a51.88,51.88,0,0,1,0,74.94ZM160,184V161.47A52,52,0,0,1,216,76V56H40V184Zm56-12a51.88,51.88,0,0,1-40,0v38.22l16-9.16a8,8,0,0,1,7.94,0l16,9.16Zm16-48a36,36,0,1,0-36,36A36,36,0,0,0,232,124Z"
+              />
+            </svg>
+            <p
+              class="bluedot-p not-prose text-size-xs font-normal text-[#13132E] opacity-80"
+            >
+              Verified certificate
+            </p>
+          </div>
+          <div
+            class="
+    flex items-center gap-1.5
+    px-2.5 py-1.5 h-[2.125rem]
+    border border-gray-200 rounded
+  "
+          >
+            <svg
+              class="size-[18px] text-[#13132E] opacity-80"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 256 256"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"
+              />
+            </svg>
+            <p
+              class="bluedot-p not-prose text-size-xs font-normal text-[#13132E] opacity-80"
+            >
+              Beginner-friendly
+            </p>
+          </div>
+        </div>
+        <div
+          class="space-y-4 text-left"
+        >
+          <h1
+            class="bluedot-h1 not-prose 
+            text-[32px] leading-tight font-semibold text-[#13132E]
+            sm:text-5xl sm:leading-[3.75rem] sm:tracking-[-0.5px]
+          "
+          >
+            AGI Strategy – Learn how to navigate humanity's most critical decade
+          </h1>
+          <p
+            class="bluedot-p not-prose 
+            text-[18px] leading-relaxed text-[#13132E] opacity-80
+            sm:text-lg sm:leading-[1.6] sm:max-w-lg
+          "
+          >
+            Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
+          </p>
+        </div>
+        <div
+          class="flex flex-row gap-3"
+        >
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark 
+              w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md
+              bg-[#2244BB] text-white
+              hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200
+              sm:h-[3.125rem] sm:text-[16px]
+            "
+            href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+            tabindex="0"
+          >
+            Apply now
+          </a>
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark 
+              w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md
+              border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent
+              hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]
+              transition-colors duration-200
+              sm:h-[3.125rem] sm:text-[16px]
+            "
+            href="/courses/agi-strategy/1"
+            tabindex="0"
+          >
+            Browse curriculum
+          </a>
+        </div>
+      </div>
+    </section>
+    <div
+      data-testid="graduate-section"
+    >
+      Graduate Section
+    </div>
+    <section
+      class="section section-body"
+    >
+      <div
+        class="section__body"
+      >
+        <div
+          class="prose prose-lg max-w-none"
+        >
+          <div
+            data-testid="markdown-content"
+          >
+            
+## What is AGI?
+
+**AI that matches or exceeds human capabilities at everything.**
+
+Not just chatbots. Not just image generation. Systems that can do everything you can do: write, research, strategise, code, innovate. But better, faster, cheaper, and at infinite scale.
+
+**Leading AI researchers believe this is coming within 3-10 years.**
+
+Big Tech companies have it as their mission to build it. The governments regulating it don't understand it. And the decisions being made today determine whether this technology liberates humanity or destabilises it.
+
+**This workshop prepares you to be part of those decisions.**
+
+## Who we are
+
+The team behind **BlueDot Impact** has trained over 5,000 AI safety professionals since 2021, before ChatGPT made AI mainstream. We were founded at the University of Cambridge, working closely with leading AI researchers, engineers and policymakers. 
+
+Our community includes:
+
+- Former AI company researchers who've worked on frontier models
+- Government advisors who've shaped national AI strategies
+- Entrepreneurs who've built AI safety tools
+
+We're funded by philanthropic grants, not venture capital. Our incentive is impact, not profit.
+
+## Logistics made simple
+
+**How the course works**
+
+- You’ll join a small group of ~8 peers, and you’ll meet with them online to discuss readings and complete learning activities
+- Before each live discussion, you’ll do 2-3 hours of reading and writing
+- Each discussion lasts 2 hours
+- Your discussions are facilitated by an AI safety expert
+- Participation is free for everyone, and the course is virtual so anyone on earth can join
+
+**Choose your intensity**
+
+- **Intensive**: 6-day course
+    - 1 live discussion each day
+    - 5 hours/day total
+- **Part-time**: 6-week course
+    - 1 live discussion each week
+    - 5 hours/week total
+
+**New round every month**
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section section-body mt-8"
+    >
+      <div
+        class="section__body"
+      >
+        <div
+          data-testid="testimonial-section"
+        >
+          <h2>
+            What people say about us
+          </h2>
+          <span>
+            Testimonials: 
+            3
+          </span>
+        </div>
+      </div>
+    </section>
+    <div
+      class="agi-strategy-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter"
+    >
+      <h3
+        class="bluedot-h3 not-prose agi-strategy-lander__banner-title"
+      >
+        Join our AGI Strategy Course and become a leader in shaping humanity's AI future.
+      </h3>
+      <div
+        class="flex flex-col sm:flex-row gap-4"
+      >
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark agi-strategy-lander__banner-cta"
+          href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+          tabindex="0"
+        >
+          Apply now
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <svg
+              class="cta-button__chevron-icon size-2"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </a>
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark agi-strategy-lander__banner-cta"
+          href="/courses/agi-strategy/1"
+          tabindex="0"
+        >
+          Browse curriculum
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
