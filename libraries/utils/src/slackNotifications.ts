@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-export type SlackAlertEnv = {
+type SlackAlertEnv = {
   APP_NAME: string;
   ALERTS_SLACK_BOT_TOKEN: string;
   ALERTS_SLACK_CHANNEL_ID: string;
@@ -16,23 +14,23 @@ export const slackAlert = async (env: SlackAlertEnv, messages: string[]): Promis
 };
 
 const sendSingleSlackMessage = async (env: SlackAlertEnv, message: string, threadTs?: string): Promise<{ ts: string }> => {
-  return axios({
-    method: 'post',
-    baseURL: 'https://slack.com/api/',
-    url: 'chat.postMessage',
+  const response = await fetch('https://slack.com/api/chat.postMessage', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${env.ALERTS_SLACK_BOT_TOKEN}`,
     },
-    data: {
+    body: JSON.stringify({
       channel: env.ALERTS_SLACK_CHANNEL_ID,
       text: `${env.APP_NAME}: ${message}`,
       thread_ts: threadTs,
-    },
-  }).then((res) => {
-    if (!res.data.ok) {
-      throw new Error(`Error from Slack API: ${res.data.error}`);
-    }
-    return { ts: res.data.ts };
+    }),
   });
+
+  const data = await response.json();
+  if (!response.ok || !data.ok) {
+    throw new Error(`Error from Slack API: ${data.error || response.statusText}`);
+  }
+
+  return { ts: data.ts };
 };

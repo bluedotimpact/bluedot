@@ -173,7 +173,7 @@ const MyComponent: React.FC<MyComponentProps> = ({ error }) => {
 ### Slack Alerting
 
 ```typescript
-import { slackAlert } from '@bluedot/ui/src/api';
+import { slackAlert } from '@bluedot/ui/utils/src/slackNotifications';
 import env from './env';
 
 // Send alerts to Slack for monitoring
