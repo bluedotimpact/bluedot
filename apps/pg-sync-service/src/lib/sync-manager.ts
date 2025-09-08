@@ -1,6 +1,8 @@
 import { logger } from '@bluedot/ui/src/api';
 import { syncMetadataTable, eq } from '@bluedot/db';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
+import env from '../env';
 
 const DEFAULT_SYNC_THRESHOLD_HOURS = 24;
 
@@ -113,6 +115,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.info('[SyncManager] Marked sync as started');
+      await slackAlert(env, ['[SyncManager] Sync starting...']);
     } catch (error) {
       logger.error('[SyncManager] Error marking sync as started:', error);
       throw error;
@@ -137,6 +140,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.info('[SyncManager] Marked sync as completed successfully');
+      await slackAlert(env, ['[SyncManager] Sync completed successfully']);
     } catch (error) {
       logger.error('[SyncManager] Error marking sync as completed:', error);
       throw error;
@@ -158,6 +162,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.error(`[SyncManager] Marked sync as failed: ${error}`);
+      await slackAlert(env, [`[SyncManager] Sync failed: ${error}`]);
     } catch (updateError) {
       logger.error('[SyncManager] Error marking sync as failed:', updateError);
       throw updateError;
