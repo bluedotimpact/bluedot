@@ -1,5 +1,6 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, isAxiosError } from 'axios';
 import { logger } from '@bluedot/ui/src/api';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import env from '../env';
 import { RateLimiter } from './rate-limiter';
 
@@ -99,9 +100,10 @@ export class AirtableWebhook {
     await this.rateLimiter.acquire();
     const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
       `/bases/${this.baseId}/webhooks`,
-    ).catch((error) => {
+    ).catch(async (error) => {
       const e = new Error(`Failed to list webhooks for base ${this.baseId}. Check your token has webhook:manage permissions.`, { cause: error });
       logger.error(e);
+      await slackAlert(env, [`[WEBHOOK] ${e.message}`]);
       throw e;
     });
     const { webhooks } = response.data;
@@ -177,7 +179,9 @@ export class AirtableWebhook {
       for (const payload of payloads) {
         // Check for any error in the payload
         if (payload.error === true) {
-          logger.error(`[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`);
+          const errorPayload = `[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`;
+          logger.error(errorPayload);
+          slackAlert(env, [errorPayload]);
 
           if (payload.code === 'INVALID_HOOK') {
             // Webhook is invalid due to deleted fields - need to recreate it
@@ -294,8 +298,7 @@ export class AirtableWebhook {
         return; // Success
       } catch (error) {
         // Check if we hit the webhook limit
-        const errorResponse = error as { response?: { data?: { error?: { type?: string } } } };
-        if (errorResponse?.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
+        if (isAxiosError(error) && error?.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
           logger.warn(`[WEBHOOK] Hit webhook limit for base ${this.baseId}, attempting cleanup...`);
           // eslint-disable-next-line no-await-in-loop
           await this.cleanupOldWebhooks();
@@ -303,8 +306,21 @@ export class AirtableWebhook {
         }
 
         if (attempt === maxRetries) {
-          logger.error(`[WEBHOOK] Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}`, error);
-          throw new Error(`Failed to create webhook after ${maxRetries} attempts: ${error instanceof Error ? error.message : 'Unknown error'}`);
+          const webhookCreationError = `Failed to create webhook after ${maxRetries} attempts for base ${this.baseId}:`;
+          if (isAxiosError(error)) {
+            const errorDetails = {
+              baseId: this.baseId,
+              fieldIds: this.fieldIds,
+              statusCode: error?.response?.status,
+              errorType: error?.response?.data?.error?.type,
+              errorMessage: error?.response?.data?.error?.message,
+            };
+            logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
+            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`]);
+            throw error;
+          } else {
+            throw new Error(webhookCreationError, { cause: error });
+          }
         }
         logger.warn(`[WEBHOOK] Webhook creation attempt ${attempt} failed for base ${this.baseId}, retrying in ${attempt} seconds...`);
         // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
@@ -371,7 +387,9 @@ export class AirtableWebhook {
       try {
         await this.rateLimiter.acquire();
         await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${this.webhookId}`);
-        logger.info(`[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`);
+        const deleteMessage = `[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`;
+        logger.info(deleteMessage);
+        await slackAlert(env, [deleteMessage]);
       } catch (error) {
         logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${this.webhookId}:`, error);
       }
