@@ -232,49 +232,20 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
       </div>
     </section>
     <div
-      class="agi-strategy-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter"
+      class="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px"
     >
       <h3
-        class="bluedot-h3 not-prose agi-strategy-lander__banner-title"
+        class="bluedot-h3 not-prose agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]"
       >
-        Join our AGI Strategy Course and become a leader in shaping humanity's AI future.
+        Understand AI today — be ready to shape what's next
       </h3>
-      <div
-        class="flex flex-col sm:flex-row gap-4"
+      <a
+        class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+        href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+        tabindex="0"
       >
-        <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark agi-strategy-lander__banner-cta"
-          href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
-          tabindex="0"
-        >
-          Apply now
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <svg
-              class="cta-button__chevron-icon size-2"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 320 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-              />
-            </svg>
-          </span>
-        </a>
-        <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark agi-strategy-lander__banner-cta"
-          href="/courses/agi-strategy/1"
-          tabindex="0"
-        >
-          Browse curriculum
-        </a>
-      </div>
+        Apply now
+      </a>
     </div>
   </div>
 </div>

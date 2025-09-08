@@ -87,7 +87,7 @@ describe('AgiStrategyLander', () => {
     render(<AgiStrategyLander />);
 
     expect(
-      screen.getByText("Join our AGI Strategy Course and become a leader in shaping humanity's AI future."),
+      screen.getByText("Understand AI today — be ready to shape what's next"),
     ).toBeInTheDocument();
   });
 

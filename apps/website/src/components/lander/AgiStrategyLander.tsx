@@ -17,16 +17,17 @@ import HeroSection from './agi-strategy/HeroSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
-    <div className="agi-strategy-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
-      <H3 className="agi-strategy-lander__banner-title">{title}</H3>
-      <div className="flex flex-col sm:flex-row gap-4">
-        <CTALinkOrButton className="agi-strategy-lander__banner-cta" url={ctaUrl} withChevron>
-          Apply now
-        </CTALinkOrButton>
-        <CTALinkOrButton className="agi-strategy-lander__banner-cta" url="/courses/agi-strategy/1">
-          Browse curriculum
-        </CTALinkOrButton>
-      </div>
+    <div className="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px">
+      <H3 className="agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]">
+        {title}
+      </H3>
+      <CTALinkOrButton
+        size="small"
+        className="agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+        url={ctaUrl}
+      >
+        Apply now
+      </CTALinkOrButton>
     </div>
   );
 };
@@ -157,7 +158,7 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
 
       {/* Banner */}
       <AgiStrategyBanner
-        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future."
+        title="Understand AI today — be ready to shape what's next"
         ctaUrl={applicationUrl}
       />
 
