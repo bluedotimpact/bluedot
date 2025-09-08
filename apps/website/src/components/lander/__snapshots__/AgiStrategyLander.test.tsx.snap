@@ -139,10 +139,16 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <div
+      class="border-t-hairline border-color-divider"
+    />
+    <div
       data-testid="graduate-section"
     >
       Graduate Section
     </div>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
     <section
       class="section section-body"
     >

@@ -11,7 +11,7 @@ vi.mock('next/head', () => ({
 }));
 
 // Mock child components that might have complex dependencies
-vi.mock('../homepage/GraduateSection', () => ({
+vi.mock('./agi-strategy/GraduateSection', () => ({
   default: () => <div data-testid="graduate-section">Graduate Section</div>,
 }));
 
