@@ -102,14 +102,14 @@ exports[`HeroSection > renders correctly with visual component (snapshot) 1`] = 
           class="flex flex-row gap-3"
         >
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+            class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
             href="https://example.com/apply"
             tabindex="0"
           >
             Apply now
           </a>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+            class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
             href="/courses/agi-strategy/1"
             tabindex="0"
           >
@@ -233,14 +233,14 @@ exports[`HeroSection > renders correctly without visual component (snapshot) 1`]
           class="flex flex-row gap-3"
         >
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+            class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
             href="https://example.com/apply"
             tabindex="0"
           >
             Apply now
           </a>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary bg-bluedot-normal link-on-dark w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+            class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
             href="/courses/agi-strategy/1"
             tabindex="0"
           >
