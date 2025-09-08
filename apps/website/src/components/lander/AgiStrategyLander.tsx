@@ -11,7 +11,7 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
-import GraduateSection from '../homepage/GraduateSection';
+import GraduateSection from './agi-strategy/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
 
@@ -87,8 +87,14 @@ const AgiStrategyLander = () => {
         )}
       />
 
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+
       {/* Graduate section */}
       <GraduateSection />
+
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
 
       <Section>
         <div className="prose prose-lg max-w-none">

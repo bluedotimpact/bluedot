@@ -39,6 +39,8 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   learningOutcomes: `Learning outcomes for ${title}`,
   unitPodcastUrl: '',
   id: `recUnit${unitNumber}`,
+  unitStatus: 'Active',
+  autoNumberId: 1,
 });
 
 const createMockChunk = (unitId: string): Chunk => ({
@@ -49,6 +51,11 @@ const createMockChunk = (unitId: string): Chunk => ({
   chunkType: 'Reading',
   chunkContent: 'Test chunk content',
   id: 'recuC87TILbjW4eF4',
+  metaDescription: 'Test chunk meta description',
+  estimatedTime: 10,
+  chunkResources: [],
+  chunkExercises: [],
+  status: 'Active',
 });
 
 describe('CourseUnitPage', () => {
