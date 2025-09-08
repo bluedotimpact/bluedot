@@ -23,5 +23,8 @@
   "workspaces": [
     "apps/*",
     "libraries/*"
-  ]
+  ],
+  "dependencies": {
+    "@vercel/og": "^0.8.5"
+  }
 }
