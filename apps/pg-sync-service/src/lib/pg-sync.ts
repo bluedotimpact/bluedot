@@ -3,10 +3,12 @@ import {
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { AirtableItemFromColumnsMap, PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
 import { syncManager } from './sync-manager';
+import env from '../env';
 
 const MAX_RETRIES = 3;
 const highPriorityQueue: AirtableAction[] = [];
@@ -122,6 +124,7 @@ export async function pollForUpdates(): Promise<void> {
       allUpdates.push(deduplicateActions(updates));
     } catch (err) {
       logger.error('[pollForUpdates] Failed to poll webhook:', err);
+      slackAlert(env, [`[pollForUpdates] Failed to poll webhook: ${err instanceof Error ? err.message : String(err)}`]);
     }
   }
 
@@ -188,6 +191,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
     return true;
   } catch (err) {
     logger.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
+    // Don't alert, retry logic handles final failure alerts
     return false;
   }
 }
@@ -233,7 +237,9 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
         logger.info(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
         addToQueue([update], 'low');
       } else {
-        logger.error(`[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        const finalFailure = `[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`;
+        logger.error(finalFailure);
+        slackAlert(env, [finalFailure]);
         retryCountMap.delete(retryKey);
       }
     }
