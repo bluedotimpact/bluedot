@@ -30,6 +30,10 @@ vi.mock('./db', () => ({
   },
 }));
 
+vi.mock('@bluedot/utils/src/slackNotifications', () => ({
+  slackAlert: vi.fn(),
+}));
+
 // Mock the @bluedot/db module
 vi.mock('@bluedot/db', () => ({
   eq: vi.fn(),
