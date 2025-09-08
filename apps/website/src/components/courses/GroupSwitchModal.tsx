@@ -16,6 +16,18 @@ import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/c
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Course = InferSelectModel<typeof courseTable.pg>;
 
+// TODO:
+// 0. [ ] Implement mobile "slide up from bottom" design, see if it is possible to make Modal do this generically (I have seen this somewhere)
+//   a. [ ] Put this up as a separate PR if possible
+// 1. [ ] Improve styling of selects, otherwise leave as they are (don't implement expanding selects, bid against this in the PR)
+// 2. [ ] Improve the styling of the textarea
+// 3. [ ] Build out these components (for divide-and-conquer reasons, can later be ported inline again):
+//   a. [ ] CurrentGroupInfo
+//   b. [ ] DiscussionListItem, which can later be reused in CourseDetails/the future course settings page. Pull out from renderDiscussionItem
+//      in CourseDetails if possible
+// 4. [ ] Add "Update your availability" to the manual switch view, overall update to match designs
+// 5. [ ] Update success view to match designs
+
 export type GroupSwitchModalProps = {
   handleClose: () => void;
   currentUnit: Unit;
@@ -207,8 +219,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const successMessages = getSuccessMessages();
 
   return (
-    <Modal isOpen setIsOpen={handleClose} title={title}>
-      <div className="max-h-[600px] max-w-[600px] overflow-y-auto">
+    <Modal isOpen setIsOpen={handleClose} title={title} bottomDrawerOnMobile>
+      <div className="max-h-[600px] max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
