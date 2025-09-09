@@ -15,7 +15,7 @@ vi.mock('./agi-strategy/GraduateSection', () => ({
   default: () => <div data-testid="graduate-section">Graduate Section</div>,
 }));
 
-vi.mock('../homepage/CommunitySection/TestimonialSubSection', () => ({
+vi.mock('./agi-strategy/TestimonialSubSection', () => ({
   default: ({ testimonials, title }: { testimonials?: unknown[]; title: string }) => (
     <div data-testid="testimonial-section">
       <h2>{title}</h2>
@@ -79,7 +79,7 @@ describe('AgiStrategyLander', () => {
 
     const testimonialSection = screen.getByTestId('testimonial-section');
     expect(testimonialSection).toBeInTheDocument();
-    expect(screen.getByText('What people say about us')).toBeInTheDocument();
+    expect(screen.getByText('What learners are saying')).toBeInTheDocument();
     expect(screen.getByText('Testimonials: 3')).toBeInTheDocument();
   });
 

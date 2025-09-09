@@ -150,7 +150,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="border-t-hairline border-color-divider"
     />
     <section
-      class="section section-body"
+      class="section section-body !border-b-0"
     >
       <div
         class="section__body"
@@ -190,8 +190,8 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
 
 **How the course works**
 
-- You’ll join a small group of ~8 peers, and you’ll meet with them online to discuss readings and complete learning activities
-- Before each live discussion, you’ll do 2-3 hours of reading and writing
+- You'll join a small group of ~8 peers, and you'll meet with them online to discuss readings and complete learning activities
+- Before each live discussion, you'll do 2-3 hours of reading and writing
 - Each discussion lasts 2 hours
 - Your discussions are facilitated by an AI safety expert
 - Participation is free for everyone, and the course is virtual so anyone on earth can join
@@ -212,25 +212,31 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
         </div>
       </div>
     </section>
-    <section
-      class="section section-body mt-8"
+    <div
+      class="border-t-[0.5px] border-color-divider"
+    />
+    <div
+      class="py-16 px-12"
     >
       <div
-        class="section__body"
+        class="max-w-[1120px] mx-auto"
       >
+        <h2
+          class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
+        >
+          What learners are saying
+        </h2>
         <div
           data-testid="testimonial-section"
         >
-          <h2>
-            What people say about us
-          </h2>
+          <h2 />
           <span>
             Testimonials: 
             3
           </span>
         </div>
       </div>
-    </section>
+    </div>
     <div
       class="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px"
     >

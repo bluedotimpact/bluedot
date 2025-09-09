@@ -10,7 +10,7 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
-import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import AgiStrategyTestimonialSubSection, { Testimonial } from './agi-strategy/TestimonialSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
@@ -97,7 +97,7 @@ const AgiStrategyLander = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
 
-      <Section>
+      <Section className="!border-b-0">
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
@@ -129,8 +129,8 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
 
 **How the course works**
 
-- You’ll join a small group of ~8 peers, and you’ll meet with them online to discuss readings and complete learning activities
-- Before each live discussion, you’ll do 2-3 hours of reading and writing
+- You'll join a small group of ~8 peers, and you'll meet with them online to discuss readings and complete learning activities
+- Before each live discussion, you'll do 2-3 hours of reading and writing
 - Each discussion lasts 2 hours
 - Your discussions are facilitated by an AI safety expert
 - Participation is free for everyone, and the course is virtual so anyone on earth can join
@@ -151,10 +151,16 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
         </div>
       </Section>
 
-      <Section className="mt-8">
-        {/* Testimonials */}
-        <TestimonialSubSection testimonials={testimonials1} title="What people say about us" />
-      </Section>
+      {/* Divider */}
+      <div className="border-t-[0.5px] border-color-divider" />
+
+      {/* Testimonials Section */}
+      <div className="py-16 px-12">
+        <div className="max-w-[1120px] mx-auto">
+          <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">What learners are saying</H2>
+          <AgiStrategyTestimonialSubSection testimonials={testimonials1} />
+        </div>
+      </div>
 
       {/* Banner */}
       <AgiStrategyBanner
