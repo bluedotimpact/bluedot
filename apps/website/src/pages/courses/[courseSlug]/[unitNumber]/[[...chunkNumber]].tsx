@@ -111,12 +111,6 @@ const CourseUnitChunkPage = () => {
     return <ErrorSection error={error ?? new Error('Missing data from API')} />;
   }
 
-  // Workaround for auth issue, but likely better to keep it this way in the long run
-  if (groupDiscussionError) {
-    // eslint-disable-next-line no-console
-    console.error(groupDiscussionError ?? new Error('Missing data from API'));
-  }
-
   if (chunkIndex < 0 || chunkIndex >= data.chunks.length) {
     return <ProgressDots />;
   }
@@ -129,7 +123,8 @@ const CourseUnitChunkPage = () => {
       unitNumber={parseInt(unitNumber)}
       chunkIndex={chunkIndex}
       setChunkIndex={handleSetChunkIndex}
-      groupDiscussion={groupDiscussionData?.groupDiscussion || undefined}
+      groupDiscussion={groupDiscussionData?.groupDiscussion}
+      groupDiscussionError={groupDiscussionError}
     />
   );
 };
