@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect, useRef, useCallback } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import {
   Dialog,
   Modal as AriaModal,
@@ -16,26 +16,7 @@ import {
 } from 'framer-motion';
 import clsx from 'clsx';
 import { ClickTarget } from './ClickTarget';
-
-// Hook for detecting breakpoints
-const useBreakpoint = (breakpoint = 768) => {
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const checkBreakpoint = () => {
-      setIsMobile(window.innerWidth < breakpoint);
-    };
-
-    // Check on mount
-    checkBreakpoint();
-
-    // Listen for resize events
-    window.addEventListener('resize', checkBreakpoint);
-    return () => window.removeEventListener('resize', checkBreakpoint);
-  }, [breakpoint]);
-
-  return isMobile;
-};
+import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 
 export type ModalProps = {
   isOpen: boolean;
@@ -76,6 +57,12 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   );
 };
 
+// Layout constants
+const NAV_HEIGHT = 64;
+const SHEET_MARGIN = NAV_HEIGHT + 12;
+const CLOSE_VELOCITY_THRESHOLD = 500;
+const CLOSE_POSITION_THRESHOLD = 0.8;
+
 const MobileDrawerModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -92,12 +79,6 @@ const MobileDrawerModal: React.FC<{
   const dragControls = useDragControls();
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
-
-  // Layout constants
-  const NAV_HEIGHT = 64;
-  const SHEET_MARGIN = NAV_HEIGHT + 12;
-  const CLOSE_VELOCITY_THRESHOLD = 500;
-  const CLOSE_POSITION_THRESHOLD = 0.8;
 
   // Modal positioning calculations
   const availableHeight = windowHeight - SHEET_MARGIN;
@@ -143,109 +124,120 @@ const MobileDrawerModal: React.FC<{
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            className="fixed inset-0 z-40"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{ backgroundColor: bg as unknown as string }}
-            onClick={handleClose}
-          />
+    <ModalOverlay
+      isDismissable
+      isOpen={isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          handleClose();
+        }
+      }}
+      className="fixed inset-0 z-40"
+    >
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{ backgroundColor: bg as unknown as string }}
+              onClick={handleClose}
+            />
 
-          {/* Modal Container */}
-          <motion.div
-            className="bg-white fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col z-50"
-            transition={{
-              duration: 0.3,
-              ease: [0.32, 0.72, 0, 1],
-            }}
-            style={{
-              y,
-              height: availableHeight,
-            }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mobile-modal-title"
-            tabIndex={-1}
-            drag="y"
-            dragListener={false}
-            dragControls={dragControls}
-            dragConstraints={{
-              top: 0,
-              bottom: closedY,
-            }}
-            dragElastic={0}
-            onDragStart={() => {
-              setIsDragging(true);
-            }}
-            onDragEnd={(e, info) => {
-              setIsDragging(false);
+            {/* Modal Container */}
+            <motion.div
+              className="bg-white fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col z-50"
+              transition={{
+                duration: 0.3,
+                ease: [0.32, 0.72, 0, 1],
+              }}
+              style={{
+                y,
+                height: availableHeight,
+              }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="mobile-modal-title"
+              tabIndex={-1}
+              drag="y"
+              dragListener={false}
+              dragControls={dragControls}
+              dragConstraints={{
+                top: 0,
+                bottom: closedY,
+              }}
+              dragElastic={0}
+              onDragStart={() => {
+                setIsDragging(true);
+              }}
+              onDragEnd={(e, info) => {
+                setIsDragging(false);
 
-              if (isClosing) return;
+                if (isClosing) return;
 
-              const velocity = info.velocity.y;
-              const currentY = y.get();
-              const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
+                const velocity = info.velocity.y;
+                const currentY = y.get();
+                const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
 
-              if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
-                setIsClosing(true);
-                animate(y, closedY, {
-                  duration: 0.3,
-                  ease: [0.32, 0.72, 0, 1],
-                }).then(() => {
-                  onClose();
-                });
-              }
-            }}
-          >
-            <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
-              {/* Header Section with Drag Handle */}
-              <div className="flex flex-col bg-gray-50 border-b border-gray-200 rounded-t-[24px]">
-                {/* Drag handle */}
+                if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
+                  setIsClosing(true);
+                  animate(y, closedY, {
+                    duration: 0.3,
+                    ease: [0.32, 0.72, 0, 1],
+                  }).then(() => {
+                    onClose();
+                  });
+                }
+              }}
+            >
+              <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
+                {/* Header Section with Drag Handle */}
+                <div className="flex flex-col bg-gray-50 border-b border-gray-200 rounded-t-[24px]">
+                  {/* Drag handle */}
+                  <div
+                    className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
+                    onPointerDown={(e) => dragControls.start(e)}
+                  >
+                    <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
+                  </div>
+
+                  <div className="flex items-center justify-between px-5 pb-4">
+                    <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
+                      {title}
+                    </h2>
+                    <ClickTarget onClick={handleClose} className="text-gray-500 hover:text-gray-700">
+                      <span className="text-2xl">&times;</span>
+                    </ClickTarget>
+                  </div>
+                </div>
+
+                {/* Content / Scrollable Area */}
                 <div
-                  className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
-                  onPointerDown={(e) => dragControls.start(e)}
+                  data-modal-content
+                  className={clsx(
+                    'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
+                    isDragging && 'pointer-events-none',
+                  )}
                 >
-                  <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
+                  {children}
                 </div>
-
-                <div className="flex items-center justify-between px-5 pb-4">
-                  <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
-                    {title}
-                  </h2>
-                  <ClickTarget onClick={handleClose} className="text-gray-500 hover:text-gray-700">
-                    <span className="text-2xl">&times;</span>
-                  </ClickTarget>
-                </div>
+                {/*
+                  * Spacer div: The parent can overflow off the screen, fill the off-screen space
+                  * so the content fills exactly the on-screen area.
+                  */}
+                <motion.div
+                  style={{ height: y, minHeight: 0 }}
+                  className="flex-shrink-0"
+                />
               </div>
-
-              {/* Content / Scrollable Area */}
-              <div
-                data-modal-content
-                className={clsx(
-                  'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
-                  isDragging && 'pointer-events-none',
-                )}
-              >
-                {children}
-              </div>
-              {/*
-                * Spacer div: The parent can overflow off the screen, fill the off-screen space
-                * so the content fills exactly the on-screen area.
-                */}
-              <motion.div
-                style={{ height: y, minHeight: 0 }}
-                className="flex-shrink-0"
-              />
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </ModalOverlay>
   );
 };
 
@@ -256,14 +248,14 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   bottomDrawerOnMobile = false,
 }) => {
-  const isMobile = useBreakpoint(768); // md breakpoint - see libraries/ui/src/default-config/tailwind.css
+  const isDesktop = useAboveBreakpoint(breakpoints.md);
 
   // Don't render anything until breakpoint is determined to avoid desktop flicker
-  if (bottomDrawerOnMobile && isMobile === null) {
+  if (bottomDrawerOnMobile && isDesktop === null) {
     return null;
   }
 
-  const shouldUseMobileDrawer = bottomDrawerOnMobile && isMobile;
+  const shouldUseMobileDrawer = bottomDrawerOnMobile && !isDesktop;
 
   if (shouldUseMobileDrawer) {
     return (

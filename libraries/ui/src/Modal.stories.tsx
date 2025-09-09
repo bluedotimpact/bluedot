@@ -121,3 +121,41 @@ export const CustomTitle: Story = {
     children: 'This modal demonstrates how a long title is displayed.',
   },
 };
+
+export const BottomDrawerOnMobile: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <div>
+        <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Bottom Drawer Modal</CTALinkOrButton>
+        <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title="Bottom Drawer Modal"
+          bottomDrawerOnMobile
+        >
+          <div className="max-w-[600px]">
+            <p className="mb-4">
+              This modal uses the <code>bottomDrawerOnMobile</code> prop.
+              On mobile devices (width &lt; 768px), it appears as a bottom drawer that can be dragged.
+              On desktop, it appears as a regular centered modal.
+            </p>
+            <p className="mb-4">
+              <strong>Try resizing your browser window</strong> or viewing this on a mobile device
+              to see the different behaviors.
+            </p>
+            <div className="bg-gray-100 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Features on mobile:</h3>
+              <ul className="list-disc list-inside space-y-1 text-size-sm">
+                <li>Slides up from bottom</li>
+                <li>Drag handle at the top</li>
+                <li>Can be dragged to dismiss</li>
+              </ul>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    );
+  },
+};
