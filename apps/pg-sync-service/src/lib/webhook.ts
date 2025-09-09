@@ -314,7 +314,16 @@ export class AirtableWebhook {
               statusCode: error.response?.status,
               errorType: error.response?.data?.error?.type,
               errorMessage: error.response?.data?.error?.message,
+              feedbackMessage: '',
             };
+
+            if (error.response?.status === 422) {
+              errorDetails.feedbackMessage = 'This may mean one of the field IDs has been deleted in Airtable. Additionally, check that the base exists and that you have access.';
+            } else if (error.response?.status === 403) {
+              errorDetails.feedbackMessage = 'Check that your Airtable PAT has the webhook:manage scope';
+            } else if (error.response?.status === 401) {
+              errorDetails.feedbackMessage = 'Check that your Airtable PAT is valid and has not expired';
+            }
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
             slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`]);
             throw error;
