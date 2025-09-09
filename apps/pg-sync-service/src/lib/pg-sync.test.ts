@@ -5,6 +5,7 @@ import {
   beforeEach,
   vi,
 } from 'vitest';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import {
   addToQueue,
   processUpdateQueue,
@@ -276,5 +277,14 @@ describe('pg-sync priority queue', () => {
     const finalStatus = getQueueStatus();
     expect(finalStatus.high).toBe(0);
     expect(finalStatus.low).toBe(0);
+
+    // Slack alert should be called once for final failure
+    expect(vi.mocked(slackAlert)).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(slackAlert)).toHaveBeenCalledWith(
+      expect.any(Object),
+      expect.arrayContaining([
+        expect.stringContaining('Update failed after 3 attempts, giving up: base1/table1/fail1'),
+      ]),
+    );
   });
 });
