@@ -43,8 +43,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
               <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
                 <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
               </AnnouncementBanner>
-              <AnnouncementBanner ctaText="Log out" ctaUrl="https://bluedot.org/login/clear" hideAfter={new Date('2025-09-10T18:30:00+01:00')}>
-                <b>⚠️ Temporary issue: </b>We're experiencing an error affecting logged-in users viewing courses. Please log out to browse courses while we fix this issue. We apologize for the inconvenience.
+              <AnnouncementBanner ctaText="Log in" ctaUrl="https://bluedot.org/login" hideAfter={new Date('2025-09-10T18:30:00+01:00')}>
+                <b>Functionality restored: </b>Earlier we were experiencing a Vultr outage affecting logged-in users viewing courses. This has now been resolved and all courses are fully available again. 
               </AnnouncementBanner>
               <main className="bluedot-base">
                 <Component {...pageProps} />
