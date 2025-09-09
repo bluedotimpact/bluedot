@@ -1,8 +1,6 @@
 import cron from 'node-cron';
 import { logger } from '@bluedot/ui/src/api';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
-import env from '../env';
 
 const POLLING_INTERVAL_SECONDS = 5;
 let isProcessing = false;
