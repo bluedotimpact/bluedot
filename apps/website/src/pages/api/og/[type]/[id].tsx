@@ -57,6 +57,7 @@ export default async function handler(req: NextRequest) {
           flexDirection: 'row',
           padding: '50px 100px',
           flex: 1,
+          gap: '100px',
         }}
         >
           <div style={{
