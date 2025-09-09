@@ -237,7 +237,13 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
         logger.info(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
         addToQueue([update], 'low');
       } else {
-        const finalFailure = `[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`;
+        const errorDetails = {
+          baseId: update.baseId,
+          tableId: update.tableId,
+          recordId: update.recordId,
+          isDelete: update.isDelete,
+        };
+        const finalFailure = `[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${JSON.stringify(errorDetails)}`;
         logger.error(finalFailure);
         slackAlert(env, [finalFailure]);
         retryCountMap.delete(retryKey);
