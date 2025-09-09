@@ -44,7 +44,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                 <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
               </AnnouncementBanner>
               <AnnouncementBanner ctaText="Log in" ctaUrl="https://bluedot.org/login" hideAfter={new Date('2025-09-10T18:30:00+01:00')}>
-                <b>Functionality restored: </b>Earlier we were experiencing a Vultr outage affecting logged-in users viewing courses. This has now been resolved and all courses are fully available again. 
+                <b>Functionality restored: </b>Earlier we were experiencing a Vultr outage affecting logged-in users viewing courses. This has now been resolved and all courses are fully available again.
               </AnnouncementBanner>
               <main className="bluedot-base">
                 <Component {...pageProps} />
