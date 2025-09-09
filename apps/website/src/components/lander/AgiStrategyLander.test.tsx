@@ -5,6 +5,14 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AgiStrategyLander from './AgiStrategyLander';
 
+const courseData = {
+  type: 'success',
+  course: {
+    title: 'AGI Strategy',
+    slug: 'agi-strategy',
+  },
+};
+
 // Mock Next.js Head component
 vi.mock('next/head', () => ({
   default: ({ children }: { children: React.ReactNode }) => children,
@@ -33,12 +41,12 @@ vi.mock('../courses/MarkdownExtendedRenderer', () => ({
 
 describe('AgiStrategyLander', () => {
   it('renders the complete page correctly (snapshot)', () => {
-    const { container } = render(<AgiStrategyLander />);
+    const { container } = render(<AgiStrategyLander courseData={courseData} />);
     expect(container).toMatchSnapshot();
   });
 
   it('renders HeroSection with correct props', () => {
-    render(<AgiStrategyLander />);
+    render(<AgiStrategyLander courseData={courseData} />);
 
     // Check title - appears in HeroSection title and page title
     const titleText = "AGI Strategy – Learn how to navigate humanity's most critical decade";
@@ -58,12 +66,12 @@ describe('AgiStrategyLander', () => {
   });
 
   it('renders Graduate section', () => {
-    render(<AgiStrategyLander />);
+    render(<AgiStrategyLander courseData={courseData} />);
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
   });
 
   it('renders course content with markdown', () => {
-    render(<AgiStrategyLander />);
+    render(<AgiStrategyLander courseData={courseData} />);
 
     const markdownContent = screen.getByTestId('markdown-content');
     expect(markdownContent).toBeInTheDocument();
@@ -75,7 +83,7 @@ describe('AgiStrategyLander', () => {
   });
 
   it('renders testimonials section', () => {
-    render(<AgiStrategyLander />);
+    render(<AgiStrategyLander courseData={courseData} />);
 
     const testimonialSection = screen.getByTestId('testimonial-section');
     expect(testimonialSection).toBeInTheDocument();
@@ -84,7 +92,7 @@ describe('AgiStrategyLander', () => {
   });
 
   it('renders AGI Strategy banner with CTA', () => {
-    render(<AgiStrategyLander />);
+    render(<AgiStrategyLander courseData={courseData} />);
 
     expect(
       screen.getByText("Understand AI today — be ready to shape what's next"),
@@ -92,12 +100,12 @@ describe('AgiStrategyLander', () => {
   });
 
   it('has correct meta tags in Head', () => {
-    const { container } = render(<AgiStrategyLander />);
+    const { container } = render(<AgiStrategyLander courseData={courseData} />);
 
     // Since Head is mocked, we can at least verify the component renders
     // In a real test environment with Next.js testing utils, we could check actual meta tags
     const titleElement = container.querySelector('title');
     expect(titleElement).toBeTruthy();
-    expect(titleElement?.textContent).toBe('AGI Strategy Course | BlueDot Impact');
+    expect(titleElement?.textContent).toBe('AGI Strategy | BlueDot Impact');
   });
 });
