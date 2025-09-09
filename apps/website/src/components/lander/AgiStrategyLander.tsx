@@ -14,6 +14,7 @@ import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection
 import GraduateSection from './agi-strategy/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
+import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -55,12 +56,27 @@ const testimonials1: Testimonial[] = [
   },
 ];
 
-const AgiStrategyLander = () => {
+const customDescription = 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.';
+
+const AgiStrategyLander = ({ courseData }: { courseData: GetCourseResponse }) => {
   return (
     <div className="bg-white">
       <Head>
-        <title>AGI Strategy Course | BlueDot Impact</title>
-        <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
+        <title>{courseData.course.title} | BlueDot Impact</title>
+        <meta name="description" content={customDescription} />
+        <meta property="og:title" content={`${courseData.course.title} | BlueDot Impact`} />
+        <meta property="og:description" content={customDescription} />
+        <meta property="og:image" content={`https://bluedot.org/api/og/course/${courseData.course.slug}`} />
+        <meta property="og:url" content={`https://bluedot.org/courses/${courseData.course.slug}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* Twitter card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${courseData.course.title} | BlueDot Impact`} />
+        <meta name="twitter:description" content={customDescription} />
+        <meta name="twitter:image" content={`https://bluedot.org/api/og/course/${courseData.course.slug}`} />
       </Head>
 
       <HeroSection

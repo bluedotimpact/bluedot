@@ -53,7 +53,7 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
   }
 
   if (slug === 'agi-strategy') {
-    return <AgiStrategyLander />;
+    return <AgiStrategyLander courseData={data} />;
   }
 
   // Default case
@@ -67,7 +67,20 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
         <>
           <Head>
             <title>{`${courseData.course.title} | BlueDot Impact`}</title>
-            <meta name="description" content={courseData.course.description} />
+            <meta name="description" content={courseData.course.shortDescription} />
+            <meta property="og:title" content={`${courseData.course.title} | BlueDot Impact`} />
+            <meta property="og:description" content={courseData.course.shortDescription} />
+            <meta property="og:image" content={`https://bluedot.org/api/og/course/${courseData.course.slug}`} />
+            <meta property="og:url" content={`https://bluedot.org/courses/${courseData.course.slug}`} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:type" content="website" />
+
+            {/* Twitter card tags */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={`${courseData.course.title} | BlueDot Impact`} />
+            <meta name="twitter:description" content={courseData.course.shortDescription} />
+            <meta name="twitter:image" content={`https://bluedot.org/api/og/course/${courseData.course.slug}`} />
           </Head>
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
