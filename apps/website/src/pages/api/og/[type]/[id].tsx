@@ -30,13 +30,32 @@ export default async function handler(req: NextRequest) {
   ]);
 
   let data = null;
+  let title = '';
+  let description = '';
+  let CTA = '';
+  let CTAWidth = '300px';
 
   if (type === 'course' && id) {
     try {
       const response = await fetch(`https://bluedot.org/api/courses/${id}`);
       data = await response.json();
+      title = data?.course?.title;
+      description = data?.course?.shortDescription;
+      CTA = 'Start learning for free';
+      CTAWidth = '300px';
     } catch (error) {
       return new Response('Failed to fetch course data', { status: 500 });
+    }
+  } else if (type === 'job' && id) {
+    try {
+      const response = await fetch(`https://bluedot.org/api/cms/jobs/${id}`);
+      data = await response.json();
+      title = data?.job?.title;
+      description = data?.job?.subtitle;
+      CTA = 'Work with us!';
+      CTAWidth = '220px';
+    } catch (error) {
+      return new Response('Failed to fetch job data', { status: 500 });
     }
   }
   return new ImageResponse(
@@ -80,7 +99,7 @@ export default async function handler(req: NextRequest) {
               fontWeight: 700,
               color: 'black',
             }}
-            >{data?.course?.title}
+            >{title}
             </h1>
             <p style={{
               fontSize: 32,
@@ -88,7 +107,7 @@ export default async function handler(req: NextRequest) {
               color: '#808080',
               lineHeight: 1.1,
             }}
-            >{data?.course?.shortDescription}
+            >{description}
             </p>
           </div>
           <div style={{
@@ -130,10 +149,10 @@ export default async function handler(req: NextRequest) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '300px',
+            width: CTAWidth,
           }}
           >
-            Start learning for free
+            {CTA}
           </div>
         </div>
       </div>

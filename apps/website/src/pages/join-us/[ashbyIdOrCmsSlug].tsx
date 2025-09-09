@@ -61,6 +61,19 @@ const CmsJobPostingPage = ({ slug }: { slug: string }) => {
           <Head>
             <title>{`${data.job.title} | BlueDot Impact`}</title>
             <meta name="description" content={data.job.subtitle} />
+            <meta property="og:title" content={`${currentRoute.title} | BlueDot Impact`} />
+            <meta property="og:description" content={data.job.subtitle} />
+            <meta property="og:image" content={`https://bluedot.org/api/og/job/${slug}`} />
+            <meta property="og:url" content={currentRoute.url} />
+            <meta property="og:type" content="website" />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+
+            {/* Twitter card tags */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={`${currentRoute.title} | BlueDot Impact`} />
+            <meta name="twitter:description" content={data.job.subtitle} />
+            <meta name="twitter:image" content={`https://bluedot.org/api/og/job/${slug}`} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
