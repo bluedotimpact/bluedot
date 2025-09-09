@@ -67,7 +67,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
             </ClickTarget>
           </div>
 
-          <div className="overflow-y-auto px-4">
+          <div className="overflow-y-auto px-4 max-h-[600px]">
             {children}
           </div>
         </Dialog>
@@ -227,22 +227,20 @@ const MobileDrawerModal: React.FC<{
               <div
                 data-modal-content
                 className={clsx(
-                  'flex flex-col flex-1 overflow-y-auto px-4 pt-4 mx-auto',
+                  'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
                   isDragging && 'pointer-events-none',
                 )}
               >
                 {children}
-                <div className="h-4" />
               </div>
               {/*
-                * Spacer div: The parent can overflow off the screen, so without this spacer
-                * it may be impossible to scroll to the bottom of the "Content / Scrollable Area".
-                * The spacer fills the off-screen space so the content fills exactly the on-screen area.
+                * Spacer div: The parent can overflow off the screen, fill the off-screen space
+                * so the content fills exactly the on-screen area.
                 */}
-              {/* <motion.div
+              <motion.div
                 style={{ height: y, minHeight: 0 }}
                 className="flex-shrink-0"
-              /> */}
+              />
             </div>
           </motion.div>
         </>

@@ -220,7 +220,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   return (
     <Modal isOpen setIsOpen={handleClose} title={title} bottomDrawerOnMobile>
-      <div className="max-h-[600px] max-w-[600px]">
+      <div className="max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
