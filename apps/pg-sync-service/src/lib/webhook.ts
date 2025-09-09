@@ -101,10 +101,33 @@ export class AirtableWebhook {
     const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
       `/bases/${this.baseId}/webhooks`,
     ).catch(async (error) => {
-      const e = new Error(`Failed to list webhooks for base ${this.baseId}. Check your token has webhook:manage permissions.`, { cause: error });
-      logger.error(e);
-      await slackAlert(env, [`[WEBHOOK] ${e.message}`]);
-      throw e;
+      const webhookListError = `Failed to list webhooks for base ${this.baseId}`;
+      if (isAxiosError(error)) {
+        const errorDetails = {
+          baseId: this.baseId,
+          statusCode: error.response?.status,
+          errorType: error.response?.data?.error?.type,
+          errorMessage: error.response?.data?.error?.message,
+          feedbackMessage: '',
+        };
+
+        if (error.response?.status === 401) {
+          errorDetails.feedbackMessage = 'Check that your Airtable PAT is valid and has not expired';
+        } else if (error.response?.status === 403) {
+          errorDetails.feedbackMessage = 'Check that your Airtable PAT has the webhook:manage scope';
+        } else if (error.response?.status === 404) {
+          errorDetails.feedbackMessage = 'Check that the base exists and that you have access to it';
+        }
+
+        logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
+        await slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`]);
+        throw error;
+      } else {
+        const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
+        logger.error(e);
+        await slackAlert(env, [`[WEBHOOK] ${e.message}`]);
+        throw e;
+      }
     });
     const { webhooks } = response.data;
 
