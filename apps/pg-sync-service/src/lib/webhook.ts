@@ -298,7 +298,7 @@ export class AirtableWebhook {
         return; // Success
       } catch (error) {
         // Check if we hit the webhook limit
-        if (isAxiosError(error) && error?.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
+        if (isAxiosError(error) && error.response?.data?.error?.type === 'TOO_MANY_WEBHOOKS_IN_BASE') {
           logger.warn(`[WEBHOOK] Hit webhook limit for base ${this.baseId}, attempting cleanup...`);
           // eslint-disable-next-line no-await-in-loop
           await this.cleanupOldWebhooks();
@@ -311,9 +311,9 @@ export class AirtableWebhook {
             const errorDetails = {
               baseId: this.baseId,
               fieldIds: this.fieldIds,
-              statusCode: error?.response?.status,
-              errorType: error?.response?.data?.error?.type,
-              errorMessage: error?.response?.data?.error?.message,
+              statusCode: error.response?.status,
+              errorType: error.response?.data?.error?.type,
+              errorMessage: error.response?.data?.error?.message,
             };
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
             slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`]);
