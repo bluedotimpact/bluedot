@@ -50,7 +50,15 @@ export async function processTableForInitialSync(
     }
 
     if (!records) {
-      throw new Error(lastError?.message || 'Failed to scan records after retries');
+      const errorDetails = {
+        baseId,
+        tableId,
+        fieldIds,
+        maxRetries,
+        lastErrorType: lastError?.name || 'Unknown',
+        lastErrorMessage: lastError?.message || 'No error details available',
+      };
+      throw new Error(`Failed to scan records after ${maxRetries} retries: ${JSON.stringify(errorDetails)}`);
     }
 
     const duration = Date.now() - startTime;
