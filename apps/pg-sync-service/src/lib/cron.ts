@@ -28,18 +28,6 @@ cron.schedule(`*/${POLLING_INTERVAL_SECONDS} * * * * *`, cronJob);
 
 export const startCronJobs = async () => {
   logger.info('Starting cron jobs...');
-  try {
-    await initializeWebhooks();
-    cronJob();
-  } catch (error) {
-    const errorDetails = {
-      operation: 'initializing webhooks on startup',
-      errorType: error instanceof Error ? error.name : 'Unknown',
-      errorMessage: error instanceof Error ? error.message : String(error),
-      feedbackMessage: 'Webhook initialization failed - real-time sync will not work. Check database connection and Airtable credentials.',
-    };
-    const initError = `[startCronJobs] Critical webhook initialization failure: ${JSON.stringify(errorDetails)}`;
-    logger.error(initError);
-    await slackAlert(env, [initError]);
-  }
+  await initializeWebhooks();
+  cronJob();
 };

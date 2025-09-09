@@ -46,35 +46,46 @@ export async function waitForQueueToEmpty(): Promise<void> {
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
  */
 export async function initializeWebhooks(): Promise<void> {
+  try {
   // Get all base IDs and their corresponding field IDs
-  const baseFieldMappings = await db.pg
-    .select({
-      baseId: metaTable.airtableBaseId,
-      fieldId: metaTable.airtableFieldId,
-    })
-    .from(metaTable)
-    .where(eq(metaTable.enabled, true));
+    const baseFieldMappings = await db.pg
+      .select({
+        baseId: metaTable.airtableBaseId,
+        fieldId: metaTable.airtableFieldId,
+      })
+      .from(metaTable)
+      .where(eq(metaTable.enabled, true));
 
-  // Group field IDs by base ID
-  const fieldsByBase: Record<string, string[]> = {};
-  for (const { baseId, fieldId } of baseFieldMappings) {
-    if (!fieldsByBase[baseId]) {
-      fieldsByBase[baseId] = [];
+    // Group field IDs by base ID
+    const fieldsByBase: Record<string, string[]> = {};
+    for (const { baseId, fieldId } of baseFieldMappings) {
+      if (!fieldsByBase[baseId]) {
+        fieldsByBase[baseId] = [];
+      }
+      fieldsByBase[baseId].push(fieldId);
     }
-    fieldsByBase[baseId].push(fieldId);
-  }
 
-  // Create webhooks for each base with their specific field filters
-  const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
-    logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
-    return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
-      webhookInstances[baseId] = webhook;
+    // Create webhooks for each base with their specific field filters
+    const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
+      logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
+      return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
+        webhookInstances[baseId] = webhook;
+      });
     });
-  });
 
-  await Promise.all(webhookPromises);
+    await Promise.all(webhookPromises);
 
-  logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+    logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+  } catch (error) {
+    const errorDetails = {
+      name: error instanceof Error ? error.name : 'UnknownError',
+      message: error instanceof Error ? error.message : String(error),
+    };
+    const initError = `[initializeWebhooks] Critical webhook initialization failure: ${JSON.stringify(errorDetails)}`;
+    logger.error(initError);
+    await slackAlert(env, [initError]);
+    throw error;
+  }
 }
 
 /**
