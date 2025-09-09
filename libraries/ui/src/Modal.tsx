@@ -213,7 +213,6 @@ const MobileDrawerModal: React.FC<{
                   <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
                 </div>
 
-                {/* Title and close button */}
                 <div className="flex items-center justify-between px-5 pb-4">
                   <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
                     {title}
@@ -228,21 +227,22 @@ const MobileDrawerModal: React.FC<{
               <div
                 data-modal-content
                 className={clsx(
-                  'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
+                  'flex flex-col flex-1 overflow-y-auto px-4 pt-4 mx-auto',
                   isDragging && 'pointer-events-none',
                 )}
               >
                 {children}
+                <div className="h-4" />
               </div>
               {/*
                 * Spacer div: The parent can overflow off the screen, so without this spacer
                 * it may be impossible to scroll to the bottom of the "Content / Scrollable Area".
-                * This spacer fills the off-screen space so the content fills exactly the on-screen area.
+                * The spacer fills the off-screen space so the content fills exactly the on-screen area.
                 */}
-              <motion.div
+              {/* <motion.div
                 style={{ height: y, minHeight: 0 }}
-                className="flex-shrink-0 mt-4"
-              />
+                className="flex-shrink-0"
+              /> */}
             </div>
           </motion.div>
         </>
