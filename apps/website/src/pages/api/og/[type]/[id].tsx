@@ -3,31 +3,31 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-// Load different weights of Inter
-const interRegular = fetch(
-  'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff',
-).then((res) => res.arrayBuffer());
-
-const interLight = fetch(
-  'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuDyfAZ9hjp-Ek-_EeA.woff',
-).then((res) => res.arrayBuffer());
-
-const interBold = fetch(
-  'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeA.woff',
-).then((res) => res.arrayBuffer());
-
-// Then in your handler:
-const [fontRegular, fontLight, fontBold] = await Promise.all([
-  interRegular,
-  interLight,
-  interBold,
-]);
-
 export default async function handler(req: NextRequest) {
   const url = new URL(req.url);
   const pathSegments = url.pathname.split('/');
   const type = pathSegments[3];
   const id = pathSegments[4];
+
+  // Load different weights of Inter
+  const interRegular = fetch(
+    'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff',
+  ).then((res) => res.arrayBuffer());
+
+  const interLight = fetch(
+    'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuDyfAZ9hjp-Ek-_EeA.woff',
+  ).then((res) => res.arrayBuffer());
+
+  const interBold = fetch(
+    'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hjp-Ek-_EeA.woff',
+  ).then((res) => res.arrayBuffer());
+
+  // Then in your handler:
+  const [fontRegular, fontLight, fontBold] = await Promise.all([
+    interRegular,
+    interLight,
+    interBold,
+  ]);
 
   let data = null;
 
@@ -36,7 +36,7 @@ export default async function handler(req: NextRequest) {
       const response = await fetch(`https://bluedot.org/api/courses/${id}`);
       data = await response.json();
     } catch (error) {
-      console.error('Failed to fetch course data:', error);
+      return new Response('Failed to fetch course data', { status: 500 });
     }
   }
   return new ImageResponse(
