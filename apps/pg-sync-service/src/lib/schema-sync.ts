@@ -6,7 +6,9 @@ import {
 } from '@bluedot/db';
 import * as schema from '@bluedot/db/src/schema';
 import { pushSchema } from 'drizzle-kit/api';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
+import env from '../env';
 
 /**
  * Cleans up columns that exist in the database but are no longer in the schema definition.
@@ -157,7 +159,9 @@ export async function ensureSchemaUpToDate(): Promise<boolean> {
     logger.info(`[schema-sync] ✅ Schema is now up to date. ${schemaChangesDetected ? 'Changes applied.' : 'No changes needed.'}`);
     return schemaChangesDetected;
   } catch (error) {
-    logger.error('[schema-sync] ❌ Failed to update database schema:', error);
+    const schemaError = `[schema-sync] ❌ Failed to update database schema: ${error instanceof Error ? error.message : String(error)}`;
+    logger.error(schemaError);
+    slackAlert(env, [schemaError]);
     throw error;
   }
 }
