@@ -155,12 +155,10 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
       <div className="border-t-[0.5px] border-color-divider" />
 
       {/* Testimonials Section */}
-      <div className="py-16 px-12">
-        <div className="max-w-[1120px] mx-auto">
-          <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">What learners are saying</H2>
-          <AgiStrategyTestimonialSubSection testimonials={testimonials1} />
-        </div>
-      </div>
+      <Section className="py-16">
+        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">What learners are saying</H2>
+        <AgiStrategyTestimonialSubSection testimonials={testimonials1} />
+      </Section>
 
       {/* Banner */}
       <AgiStrategyBanner
