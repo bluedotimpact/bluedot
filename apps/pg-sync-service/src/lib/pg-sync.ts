@@ -77,11 +77,7 @@ export async function initializeWebhooks(): Promise<void> {
 
     logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
   } catch (error) {
-    const errorDetails = {
-      name: error instanceof Error ? error.name : 'UnknownError',
-      message: error instanceof Error ? error.message : String(error),
-    };
-    const initError = `[initializeWebhooks] Critical webhook initialization failure: ${JSON.stringify(errorDetails)}`;
+    const initError = `[initializeWebhooks] Critical webhook initialization failure: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(initError);
     await slackAlert(env, [initError]);
     throw error;
