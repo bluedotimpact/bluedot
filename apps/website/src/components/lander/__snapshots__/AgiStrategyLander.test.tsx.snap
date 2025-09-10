@@ -90,6 +90,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             
 
+## How will this course benefit you?
+
 ### Take action in less than 30 hours
 
 You don’t need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
@@ -148,16 +150,13 @@ We’ve raised $35M in total, including $25M in 2025.
         <h2
           class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
         >
-          Members of our community
+          Some of our graduates
         </h2>
         <div
-          data-testid="testimonial-section"
+          data-testid="community-members-section"
         >
-          <h2>
-            Members of our community
-          </h2>
           <span>
-            Testimonials: 
+            Members: 
             3
           </span>
         </div>
@@ -169,7 +168,7 @@ We’ve raised $35M in total, including $25M in 2025.
       <h3
         class="bluedot-h3 not-prose agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]"
       >
-        Don’t wait until the world’s even more crazy. Start making an impact today.
+        Don't wait until the world's even more crazy. Start making an impact today.
       </h3>
       <a
         class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"

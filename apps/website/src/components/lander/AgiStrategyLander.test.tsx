@@ -25,6 +25,16 @@ vi.mock('./agi-strategy/TestimonialSubSection', () => ({
   Testimonial: {},
 }));
 
+vi.mock('./agi-strategy/CommunityMembersSubSection', () => ({
+  default: ({ members, title }: { members?: unknown[]; title?: string }) => (
+    <div data-testid="community-members-section">
+      {title && <h2>{title}</h2>}
+      {members?.length && <span>Members: {members.length}</span>}
+    </div>
+  ),
+  CommunityMember: {},
+}));
+
 vi.mock('../courses/MarkdownExtendedRenderer', () => ({
   default: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="markdown-content">{children}</div>
@@ -69,13 +79,13 @@ describe('AgiStrategyLander', () => {
     expect(screen.getByText(/How the course works/)).toBeInTheDocument();
   });
 
-  it('renders testimonials section', () => {
+  it('renders community members section', () => {
     render(<AgiStrategyLander />);
 
-    const testimonialSection = screen.getByTestId('testimonial-section');
-    expect(testimonialSection).toBeInTheDocument();
-    expect(screen.getAllByText('Members of our community')).toHaveLength(2);
-    expect(screen.getByText('Testimonials: 3')).toBeInTheDocument();
+    const communityMembersSection = screen.getByTestId('community-members-section');
+    expect(communityMembersSection).toBeInTheDocument();
+    expect(screen.getByText('Some of our graduates')).toBeInTheDocument();
+    expect(screen.getByText('Members: 3')).toBeInTheDocument();
   });
 
   it('renders AGI Strategy banner with CTA', () => {
