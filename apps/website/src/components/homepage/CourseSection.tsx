@@ -29,10 +29,6 @@ const CourseSection = () => {
   // Find the first featured course, or fall back to the first course
   const featuredCourse = courses.find((course) => course.isFeatured) || courses[0];
 
-  if (loading) {
-    return <ProgressDots />;
-  }
-
   if (!featuredCourse) {
     return null;
   }
