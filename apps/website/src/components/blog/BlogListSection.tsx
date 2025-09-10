@@ -19,7 +19,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
     method: 'get',
     url: '/api/cms/blogs',
   });
-  const title = 'Latest articles';
+  const title = 'Recent blog posts';
 
   if (error) {
     return <ErrorSection error={error} />;
@@ -45,7 +45,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
       )}
       {maxItems && data && data.blogs.length > maxItems && (
         <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withChevron className="mt-8">
-          Read more blog articles
+          Read more
         </CTALinkOrButton>
       )}
     </Section>
@@ -68,7 +68,7 @@ export const BlogListItem = ({ blog }: {
     <div className="blog-list__listing">
       <Card
         className="blog-list__card container-lined hover:container-elevated p-8"
-        ctaText="Read more"
+        ctaText="Read"
         ctaUrl={url}
         isEntireCardClickable={!isMobile}
         isFullWidth={!isMobile}

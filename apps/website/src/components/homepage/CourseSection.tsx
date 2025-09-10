@@ -40,9 +40,7 @@ const CourseSection = () => {
   return (
     <Section
       className="course-section"
-      title="Our courses"
-      subtitle="Our courses combine self-paced study with guided discussions, deepening your learning while fostering connections in the field"
-      subtitleLevel="p"
+      title="Courses"
     >
       <div className="course-section__content flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch">
         <CourseCardWithTracking
