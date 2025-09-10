@@ -10,7 +10,7 @@ import { RateLimiter } from './rate-limiter';
 import { syncManager } from './sync-manager';
 import env from '../env';
 
-const MAX_RETRIES = 3;
+export const MAX_RETRIES = 3;
 const highPriorityQueue: AirtableAction[] = [];
 const lowPriorityQueue: AirtableAction[] = [];
 const rateLimiter = new RateLimiter(5);

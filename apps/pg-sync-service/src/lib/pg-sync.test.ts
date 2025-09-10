@@ -12,6 +12,7 @@ import {
   getQueueStatus,
   deduplicateActions,
   clearQueues,
+  MAX_RETRIES,
 } from './pg-sync';
 import type { AirtableAction } from './webhook';
 
@@ -283,7 +284,7 @@ describe('pg-sync priority queue', () => {
     expect(vi.mocked(slackAlert)).toHaveBeenCalledWith(
       expect.any(Object),
       expect.arrayContaining([
-        expect.stringContaining('Update failed after 3 attempts, giving up: base1/table1/fail1'),
+        expect.stringContaining(`Update failed after ${MAX_RETRIES} attempts, giving up: base1/table1/fail1`),
       ]),
     );
   });
