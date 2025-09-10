@@ -112,7 +112,7 @@ export class AirtableWebhook {
         };
 
         logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
-        await slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`]);
+        await slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`]);
         throw error;
       } else {
         const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
@@ -333,7 +333,7 @@ export class AirtableWebhook {
             };
 
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
-            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`]);
+            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${formatForSlack(errorDetails)}`]);
             throw error;
           } else {
             throw new Error(webhookCreationError, { cause: error });
@@ -481,4 +481,18 @@ const getAirtableFeedbackMessage = (statusCode: number | undefined): string => {
     default:
       return 'Unknown error';
   }
+};
+
+/**
+ * Formats an object into a readable string for Slack, with each key-value pair on a new line.
+ */
+const formatForSlack = (obj: Record<string, unknown>): string => {
+  return Object.entries(obj)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return `${key}: [${value.join(', ')}]`;
+      }
+      return `${key}: ${value}`;
+    })
+    .join('\n');
 };
