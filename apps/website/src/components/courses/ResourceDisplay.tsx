@@ -91,7 +91,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
           >
             Resources{totalCoreResourceTime > 0 ? ` (${formatResourceTime(totalCoreResourceTime)})` : ''}
           </h4>
-          <div className="flex flex-col gap-6" role="list" aria-labelledby={resourcesHeadingId}>
+          <ul className="flex flex-col gap-6" aria-labelledby={resourcesHeadingId}>
             {coreResources.map((resource) => (
               <ResourceListItem
                 key={resource.id}
@@ -99,7 +99,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 aria-label={unitContext ? `${resource.resourceName} - ${unitContext}` : resource.resourceName}
               />
             ))}
-          </div>
+          </ul>
         </section>
       )}
 
@@ -112,14 +112,14 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
           >
             Exercises
           </h4>
-          <div className="resource-display__exercises flex flex-col gap-6" role="list" aria-labelledby={exercisesHeadingId}>
+          <ul className="resource-display__exercises flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
             {exercises.map((exercise) => (
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
               />
             ))}
-          </div>
+          </ul>
         </section>
       )}
 
@@ -127,14 +127,14 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
       {optionalResources.length > 0 && (
         <section className="resource-display__optional mt-8">
           <Collapsible title="Optional Resources" summaryClassName="justify-start gap-2">
-            <div className="flex flex-col gap-6" role="list" aria-label="Optional resources">
+            <ul className="flex flex-col gap-6" aria-label="Optional resources">
               {optionalResources.map((resource) => (
                 <ResourceListItem
                   key={resource.id}
                   resource={resource}
                 />
               ))}
-            </div>
+            </ul>
           </Collapsible>
         </section>
       )}

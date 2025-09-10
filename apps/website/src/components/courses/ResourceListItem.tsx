@@ -205,7 +205,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   }
 
   return (
-    <div className="resource-item-wrapper" role="listitem">
+    <li className="resource-item-wrapper">
       <div className="relative">
         {/* Desktop completion circle */}
         {auth && (
@@ -404,6 +404,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
           </div>
         )}
       </div>
-    </div>
+    </li>
   );
 };
