@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useRef, useState, useEffect } from 'react';
 import { SectionHeading } from '@bluedot/ui';
 import clsx from 'clsx';
@@ -128,18 +127,22 @@ const CommunityMembersSubSection = ({
 
   // ResizeObserver to monitor container width
   useEffect(() => {
-    if (!containerRef.current) return;
+    let resizeObserver: ResizeObserver | null = null;
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setContainerWidth(entry.contentRect.width);
-      }
-    });
+    if (containerRef.current) {
+      resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          setContainerWidth(entry.contentRect.width);
+        }
+      });
 
-    resizeObserver.observe(containerRef.current);
+      resizeObserver.observe(containerRef.current);
+    }
 
     return () => {
-      resizeObserver.disconnect();
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
   }, []);
 
@@ -155,46 +158,41 @@ const CommunityMembersSubSection = ({
   // Handle infinite scroll logic
   const handleScroll = () => {
     const container = scrollContainerRef.current;
-    if (!container || isScrollingRef.current || members.length === 0) {
-      return;
-    }
+    if (container && !isScrollingRef.current && members.length > 0) {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const cardWidth = 320 + 24; // card width + gap
+      const sectionWidth = members.length * cardWidth;
 
-    const { scrollLeft, scrollWidth, clientWidth } = container;
-    const cardWidth = 320 + 24; // card width + gap
-    const sectionWidth = members.length * cardWidth;
-
-    // Check if we need to reset position for infinite scroll
-    if (scrollLeft <= 0) {
-      // Scrolled to the beginning, jump to the end of the first section
-      isScrollingRef.current = true;
-      container.scrollLeft = sectionWidth;
-      requestAnimationFrame(() => {
-        isScrollingRef.current = false;
-      });
-      return;
-    }
-
-    if (scrollLeft >= scrollWidth - clientWidth) {
-      // Scrolled to the end, jump to the beginning of the second section
-      isScrollingRef.current = true;
-      container.scrollLeft = sectionWidth;
-      requestAnimationFrame(() => {
-        isScrollingRef.current = false;
-      });
+      // Check if we need to reset position for infinite scroll
+      if (scrollLeft <= 0) {
+        // Scrolled to the beginning, jump to the end of the first section
+        isScrollingRef.current = true;
+        container.scrollLeft = sectionWidth;
+        requestAnimationFrame(() => {
+          isScrollingRef.current = false;
+        });
+      } else if (scrollLeft >= scrollWidth - clientWidth) {
+        // Scrolled to the end, jump to the beginning of the second section
+        isScrollingRef.current = true;
+        container.scrollLeft = sectionWidth;
+        requestAnimationFrame(() => {
+          isScrollingRef.current = false;
+        });
+      }
     }
   };
 
   const scroll = (direction: 'left' | 'right') => {
-    if (!scrollContainerRef.current) return;
+    if (scrollContainerRef.current) {
+      const scrollAmount = 320 + 24; // Card width + gap
+      const newScrollLeft = scrollContainerRef.current.scrollLeft
+        + (direction === 'right' ? scrollAmount : -scrollAmount);
 
-    const scrollAmount = 320 + 24; // Card width + gap
-    const newScrollLeft = scrollContainerRef.current.scrollLeft
-      + (direction === 'right' ? scrollAmount : -scrollAmount);
-
-    scrollContainerRef.current.scrollTo({
-      left: newScrollLeft,
-      behavior: 'smooth',
-    });
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth',
+      });
+    }
   };
 
   if (showCarousel) {
