@@ -35,8 +35,16 @@ export default makeApiRoute(
   async (body, { raw, auth }) => {
     const { courseSlug, unitNumber } = raw.req.query;
 
-    if (!auth.email || typeof courseSlug !== 'string' || typeof unitNumber !== 'string') {
-      throw new createHttpError.BadRequest();
+    if (!auth.email) {
+      throw new createHttpError.Unauthorized('Authentication required');
+    }
+
+    if (typeof courseSlug !== 'string') {
+      throw new createHttpError.BadRequest('Invalid course slug');
+    }
+
+    if (typeof unitNumber !== 'string') {
+      throw new createHttpError.BadRequest('Invalid unit number');
     }
 
     const { method } = raw.req;
