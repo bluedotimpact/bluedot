@@ -8,10 +8,10 @@ exports[`CourseCard > renders Featured as expected 1`] = `
     tabindex="0"
   >
     <div
-      class="course-card__content block md:flex gap-space-between w-full"
+      class="course-card__content flex flex-col gap-4 md:flex-row md:gap-space-between w-full"
     >
       <div
-        class="course-card__text"
+        class="course-card__text flex flex-col"
       >
         <h3
           class="course-card__title mb-6 bluedot-h3"
@@ -19,19 +19,19 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           Title
         </h3>
         <p
-          class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p"
+          class="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p flex-grow"
         >
           Description
         </p>
         <button
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark course-card__cta mb-6 px-6"
+          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm py-3 rounded-sm font-[650] cta-button--primary link-on-dark course-card__cta px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
           type="button"
         >
-          Start learning for free
+          Apply now
         </button>
       </div>
       <div
-        class="course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6"
+        class="course-card__image-container shrink-0 md:max-w-[60%] w-fit flex items-stretch"
       >
         <img
           alt=""
