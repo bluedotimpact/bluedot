@@ -108,7 +108,7 @@ export class AirtableWebhook {
           statusCode: error.response?.status,
           errorType: error.response?.data?.error?.type,
           errorMessage: error.response?.data?.error?.message,
-          feedbackMessage: getAirtableFeedbackMessage(error.response?.status),
+          feedbackMessage: `*${getAirtableFeedbackMessage(error.response?.status)}*`,
         };
 
         logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
@@ -329,7 +329,7 @@ export class AirtableWebhook {
               statusCode: error.response?.status,
               errorType: error.response?.data?.error?.type,
               errorMessage: error.response?.data?.error?.message,
-              feedbackMessage: getAirtableFeedbackMessage(error.response?.status),
+              feedbackMessage: `*${getAirtableFeedbackMessage(error.response?.status)}*`,
             };
 
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
