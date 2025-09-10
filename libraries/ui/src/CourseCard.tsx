@@ -46,7 +46,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       url={url}
       className={wrapperClassName}
     >
-      <div className="course-card__content block md:flex gap-space-between w-full">
+      <div className="course-card__content flex flex-col gap-4 md:flex-row md:gap-space-between w-full">
         <div className="course-card__text flex flex-col">
           <h3 className="course-card__title mb-6 bluedot-h3">
             {title}

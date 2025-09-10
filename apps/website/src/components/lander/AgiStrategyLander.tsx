@@ -99,7 +99,7 @@ const AgiStrategyLander = () => {
 
 ### Take action in less than 30 hours
 
-You don’t need another degree. This course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
+You don’t need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
 
 ### Join a network of builders
 
