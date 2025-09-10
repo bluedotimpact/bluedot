@@ -10,7 +10,6 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
-import AgiStrategyTestimonialSubSection, { Testimonial } from './agi-strategy/TestimonialSubSection';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
@@ -34,27 +33,6 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
 };
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
-
-const testimonials1: Testimonial[] = [
-  {
-    quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
-    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
-    role: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/sabrina.jpg',
-  },
-  {
-    quote: "BlueDot's course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate.",
-    name: 'Matthew Bradbury: Senior AI Risk Analyst, UK Government',
-    role: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/matthew.png',
-  },
-  {
-    quote: 'Coming from a public sector responsible AI background and having designed several educational programmes myself, I found the BlueDot course truly humbling and impressive pedagogically. This course is suitable for anyone motivated to work on AI Safety and contribute to the wider discourse in one of the most important topics of our time',
-    name: 'Mishka Nemes: Responsible AI & Skills Advisor, Alan Turing Institute',
-    role: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/mishka.jpg',
-  },
-];
 
 const communityMembers: CommunityMember[] = [
   {

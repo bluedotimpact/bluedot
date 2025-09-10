@@ -153,9 +153,11 @@ const CommunityMembersSubSection = ({
 
   // Handle infinite scroll logic
   const handleScroll = () => {
-    if (!scrollContainerRef.current || isScrollingRef.current || members.length === 0) return;
-
     const container = scrollContainerRef.current;
+    if (!container || isScrollingRef.current || members.length === 0) {
+      return;
+    }
+
     const { scrollLeft, scrollWidth, clientWidth } = container;
     const cardWidth = 320 + 24; // card width + gap
     const sectionWidth = members.length * cardWidth;
@@ -168,7 +170,10 @@ const CommunityMembersSubSection = ({
       setTimeout(() => {
         isScrollingRef.current = false;
       }, 50);
-    } else if (scrollLeft >= scrollWidth - clientWidth) {
+      return;
+    }
+
+    if (scrollLeft >= scrollWidth - clientWidth) {
       // Scrolled to the end, jump to the beginning of the second section
       isScrollingRef.current = true;
       container.scrollLeft = sectionWidth;
