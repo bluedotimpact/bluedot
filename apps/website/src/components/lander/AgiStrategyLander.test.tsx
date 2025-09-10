@@ -41,16 +41,11 @@ describe('AgiStrategyLander', () => {
     render(<AgiStrategyLander />);
 
     // Check title - appears in HeroSection title and page title
-    const titleText = "AGI Strategy – Learn how to navigate humanity's most critical decade";
+    const titleText = 'Start building the defences that protect humanity';
     expect(screen.getByText(titleText)).toBeInTheDocument();
 
     // Check description
-    expect(screen.getByText(/Artificial General Intelligence is moving from research to reality/)).toBeInTheDocument();
-
-    // Check metadata
-    expect(screen.getByText('30 hours')).toBeInTheDocument();
-    expect(screen.getByText('Verified certificate')).toBeInTheDocument();
-    expect(screen.getByText('Beginner-friendly')).toBeInTheDocument();
+    expect(screen.getByText(/Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours./)).toBeInTheDocument();
 
     // Check CTAs - "Apply now" appears in HeroSection and banner (2 times total)
     const applyButtons = screen.getAllByRole('link', { name: /Apply now/i });
@@ -69,9 +64,9 @@ describe('AgiStrategyLander', () => {
     expect(markdownContent).toBeInTheDocument();
 
     // Check for key content sections
-    expect(screen.getByText(/What is AGI\?/)).toBeInTheDocument();
-    expect(screen.getByText(/Who we are/)).toBeInTheDocument();
-    expect(screen.getByText(/Logistics made simple/)).toBeInTheDocument();
+    expect(screen.getByText(/Take action in less than 30 hours/)).toBeInTheDocument();
+    expect(screen.getByText(/Join a network of builders/)).toBeInTheDocument();
+    expect(screen.getByText(/How the course works/)).toBeInTheDocument();
   });
 
   it('renders testimonials section', () => {
@@ -79,16 +74,17 @@ describe('AgiStrategyLander', () => {
 
     const testimonialSection = screen.getByTestId('testimonial-section');
     expect(testimonialSection).toBeInTheDocument();
-    expect(screen.getByText('What learners are saying')).toBeInTheDocument();
+    expect(screen.getAllByText('Members of our community')).toHaveLength(2);
     expect(screen.getByText('Testimonials: 3')).toBeInTheDocument();
   });
 
   it('renders AGI Strategy banner with CTA', () => {
     render(<AgiStrategyLander />);
 
-    expect(
-      screen.getByText("Understand AI today — be ready to shape what's next"),
-    ).toBeInTheDocument();
+    // Check that the banner section exists and contains the expected text
+    const bannerElement = document.querySelector('.agi-strategy-lander__banner');
+    expect(bannerElement).toBeTruthy();
+    expect(bannerElement?.textContent).toContain('wait until the world');
   });
 
   it('has correct meta tags in Head', () => {
