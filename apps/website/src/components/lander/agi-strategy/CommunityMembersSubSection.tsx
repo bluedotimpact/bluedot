@@ -106,9 +106,8 @@ const CommunityMembersSubSection = ({
     if (containerWidth === 0) return 0;
 
     const availableWidth = containerWidth - CARD_CONFIG.PADDING;
-    const actualCardWidth = containerWidth < CARD_CONFIG.MOBILE_BREAKPOINT
-      ? CARD_CONFIG.MOBILE_WIDTH
-      : CARD_CONFIG.DESKTOP_WIDTH;
+    // Use DESKTOP_WIDTH consistently since CSS uses w-80 (320px) for all cards
+    const actualCardWidth = CARD_CONFIG.DESKTOP_WIDTH;
 
     return Math.max(1, Math.floor(availableWidth / (actualCardWidth + CARD_CONFIG.GAP)));
   }, [containerWidth]);
@@ -155,7 +154,7 @@ const CommunityMembersSubSection = ({
   // Initialize scroll position to middle section for infinite scroll
   useEffect(() => {
     if (showCarousel && scrollContainerRef.current && members.length > 0) {
-      const cardWidth = 320 + 24; // card width + gap
+      const cardWidth = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
       const middlePosition = members.length * cardWidth;
       scrollContainerRef.current.scrollLeft = middlePosition;
     }
@@ -166,7 +165,7 @@ const CommunityMembersSubSection = ({
     const container = scrollContainerRef.current;
     if (container && !isScrollingRef.current && members.length > 0) {
       const { scrollLeft, scrollWidth, clientWidth } = container;
-      const cardWidth = 320 + 24; // card width + gap
+      const cardWidth = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
       const sectionWidth = members.length * cardWidth;
 
       // Check if we need to reset position for infinite scroll
@@ -190,7 +189,7 @@ const CommunityMembersSubSection = ({
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 320 + 24; // Card width + gap
+      const scrollAmount = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
       const newScrollLeft = scrollContainerRef.current.scrollLeft
         + (direction === 'right' ? scrollAmount : -scrollAmount);
 
