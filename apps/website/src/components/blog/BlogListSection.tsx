@@ -1,5 +1,5 @@
 import {
-  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
+  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section, Tag,
 } from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 import useAxios from 'axios-hooks';
@@ -19,18 +19,17 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
     method: 'get',
     url: '/api/cms/blogs',
   });
-  const title = 'Latest articles';
 
   if (error) {
     return <ErrorSection error={error} />;
   }
 
   if (loading) {
-    return <Section title={title}><ProgressDots /></Section>;
+    return <Section><ProgressDots /></Section>;
   }
 
   return (
-    <Section className="blog-list-section" title={title}>
+    <Section className="blog-list-section">
       <div id="blog-articles-anchor" className="invisible relative bottom-48" />
       {data?.blogs.length === 0 ? (
         <P>
@@ -74,6 +73,7 @@ export const BlogListItem = ({ blog }: {
         isFullWidth={!isMobile}
         subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
         title={blog.title || 'Untitled'}
+        subtitleBadge={blog.isFeatured && <Tag variant="secondary">FEATURED</Tag>}
       />
     </div>
   );

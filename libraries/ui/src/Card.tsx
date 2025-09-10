@@ -16,6 +16,7 @@ export type CardProps = {
   isFullWidth?: boolean;
   subtitle?: string;
   subtitleClassName?: string;
+  subtitleBadge?: React.ReactNode;
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -32,6 +33,7 @@ export const Card: React.FC<CardProps> = ({
   isFullWidth = false,
   subtitle,
   subtitleClassName = '',
+  subtitleBadge,
 }) => {
   const Wrapper = isEntireCardClickable ? 'a' : 'div';
   const wrapperClassName = clsx(
@@ -65,7 +67,10 @@ export const Card: React.FC<CardProps> = ({
         )}
       >
         <div className="card__text">
-          <p className="card__title bluedot-h4 mb-2">{title}</p>
+          <div className="flex flex-row gap-4 items-center mb-2">
+            <p className="card__title bluedot-h4">{title}</p>
+            {subtitleBadge && (subtitleBadge)}
+          </div>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
         </div>
         {/* When isEntireCardClickable is true, the CTALinkOrButton does not render a URL because nested URLs are invalid HTML. */}

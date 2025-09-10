@@ -115,11 +115,15 @@ exports[`CourseSection > renders as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <p
-                            class="card__title bluedot-h4 mb-2"
+                          <div
+                            class="flex flex-row gap-4 items-center mb-2"
                           >
-                            New Course
-                          </p>
+                            <p
+                              class="card__title bluedot-h4"
+                            >
+                              New Course
+                            </p>
+                          </div>
                           <p
                             class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
@@ -159,11 +163,15 @@ exports[`CourseSection > renders as expected 1`] = `
                         <div
                           class="card__text"
                         >
-                          <p
-                            class="card__title bluedot-h4 mb-2"
+                          <div
+                            class="flex flex-row gap-4 items-center mb-2"
                           >
-                            Another Course
-                          </p>
+                            <p
+                              class="card__title bluedot-h4"
+                            >
+                              Another Course
+                            </p>
+                          </div>
                           <p
                             class="card__subtitle bluedot-p grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
                           >
