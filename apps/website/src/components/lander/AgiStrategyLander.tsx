@@ -172,7 +172,7 @@ We’ve raised $35M in total, including $25M in 2025.
 
       {/* Community Members Section */}
       <Section className="py-16">
-        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Our graduates</H2>
+        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
         <CommunityMembersSubSection members={communityMembers} />
       </Section>
 
