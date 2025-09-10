@@ -214,11 +214,14 @@ const CommunityMembersSubSection = ({
             }}
             onScroll={handleScroll}
           >
-            {infiniteMembers.map((member, index) => (
-              <div key={`${member.name}-${member.jobTitle}-${Math.floor(index / members.length)}`} style={{ scrollSnapAlign: 'start' }}>
-                <CommunityMemberCard member={member} isCarousel />
-              </div>
-            ))}
+            {infiniteMembers.map((member, index) => {
+              const sectionNumber = Math.floor(index / members.length);
+              return (
+                <div key={`${member.name}-${member.jobTitle}-section-${sectionNumber}`} style={{ scrollSnapAlign: 'start' }}>
+                  <CommunityMemberCard member={member} isCarousel />
+                </div>
+              );
+            })}
           </div>
 
           {/* Navigation Buttons - Always enabled for infinite scroll */}
