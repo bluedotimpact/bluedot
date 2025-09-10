@@ -62,27 +62,6 @@ const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
   return <a href={href} {...props}>{children}</a>;
 };
 
-// Custom list components to handle React keys
-const UnorderedList = ({ children, ...props }: React.ComponentProps<'ul'>) => {
-  const keyedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, { key: child.key || index });
-    }
-    return child;
-  });
-  return <ul {...props}>{keyedChildren}</ul>;
-};
-
-const OrderedList = ({ children, ...props }: React.ComponentProps<'ol'>) => {
-  const keyedChildren = React.Children.map(children, (child, index) => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, { key: child.key || index });
-    }
-    return child;
-  });
-  return <ol {...props}>{keyedChildren}</ol>;
-};
-
 export type MarkdownRendererProps = {
   children?: string;
   className?: string;
@@ -96,9 +75,26 @@ export const getSupportedComponents = () => ({
   Callout,
   Exercise,
   a: Link,
-  ul: UnorderedList,
-  ol: OrderedList,
 });
+
+// Custom jsxs function that adds keys to list items
+// This is needed to fix React warnings about missing keys in lists
+const jsxsWithKey = (type: React.ElementType, props: Record<string, unknown> & { children?: React.ReactNode }) => {
+  const { children, ...restProps } = props;
+
+  if (children && Array.isArray(children)) {
+    const keyedChildren = children.map((child, index) => {
+      if (React.isValidElement(child) && !child.key) {
+        // eslint-disable-next-line react/no-array-index-key
+        return React.cloneElement(child as React.ReactElement, { key: index });
+      }
+      return child;
+    });
+    return React.createElement(type, restProps, ...keyedChildren);
+  }
+
+  return React.createElement(type, restProps, children);
+};
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
   const [Component, setComponent] = React.useState<MDXContent | null>(null);
@@ -113,7 +109,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
         remarkPlugins: [remarkUnescapeMdxAttributes, remarkGfm],
         Fragment: React.Fragment,
         jsx: React.createElement,
-        jsxs: React.createElement,
+        jsxs: jsxsWithKey,
       });
       setComponent(() => evalResult.default);
     })();
