@@ -6,10 +6,16 @@ type SlackAlertEnv = {
 
 export const slackAlert = async (env: SlackAlertEnv, messages: string[]): Promise<void> => {
   if (messages.length === 0) return;
-  const res = await sendSingleSlackMessage(env, messages[0]!);
-  for (let i = 1; i < messages.length; i++) {
-    // eslint-disable-next-line no-await-in-loop
-    await sendSingleSlackMessage(env, messages[i]!, res.ts);
+
+  try {
+    const res = await sendSingleSlackMessage(env, messages[0]!);
+    for (let i = 1; i < messages.length; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      await sendSingleSlackMessage(env, messages[i]!, res.ts);
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error sending Slack alert:', error);
   }
 };
 
