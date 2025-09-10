@@ -94,10 +94,10 @@ export const Card: React.FC<CardProps> = ({
         </div>
         {/* For isFullWidth cards, show CTA and children in a separate section */}
         {isFullWidth && showBottomSection && (
-          <div className="card__bottom-section flex flex-col gap-space-between">
+          <div className="card__bottom-section flex flex-col gap-space-between justify-center">
             {showCTA && (
               <CTALinkOrButton
-                className="card__cta mt-4 md:mt-0"
+                className="card__cta"
                 url={isEntireCardClickable ? undefined : ctaUrl}
                 variant="secondary"
                 withChevron
