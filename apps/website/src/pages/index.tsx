@@ -41,6 +41,8 @@ const HomePage = () => {
         <HomeHeroContent />
       </HeroSection>
       <GraduateSection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
       <CourseSection />
       <BlogListSection maxItems={3} />
       <StorySection />
