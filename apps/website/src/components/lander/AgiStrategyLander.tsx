@@ -118,14 +118,17 @@ If your final course proposal is strong, you’ll receive $10-50k to kickstart y
 
 **Format**
 
-- Before each live 2-hour online discussion, you'll complete 2-3 hours of reading and writing
-- You'll meet with a group of ~8 peers to discuss and debate the content
-- Your discussions are facilitated by an AI safety expert
-- Participation is free for everyone
+- Each day/week, you will:
+    - Complete 2-3 hours of reading and writing, and
+    - Join ~8 peers in a 2-hour Zoom meeting to discuss the content.
+- Your discussions are facilitated by an AI safety expert.
 
-The next round starts on 29 September. **Application deadline 21 September**.
+**Other info**
 
-**New round every month.**
+- The course operates on a “pay-what-you-want” model.
+- A new round starts every month.
+- The next round starts on 29 September.
+- **Application deadline 21 September**.
 
 ## Who is BlueDot Impact
 
