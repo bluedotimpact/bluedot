@@ -258,7 +258,7 @@ exports[`Footer > renders default as expected 1`] = `
         >
           BlueDot Impact
         </a>
-         is primarily funded by 
+         is funded by 
         <a
           class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
           href="https://www.openphilanthropy.org/"
@@ -539,7 +539,7 @@ exports[`Footer > renders with optional args 1`] = `
         >
           BlueDot Impact
         </a>
-         is primarily funded by 
+         is funded by 
         <a
           class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
           href="https://www.openphilanthropy.org/"
