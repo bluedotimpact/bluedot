@@ -12,6 +12,7 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 import { H1, H2, H3 } from '../Text';
 import AgiStrategyTestimonialSubSection, { Testimonial } from './agi-strategy/TestimonialSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
+import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
 
@@ -151,8 +152,11 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
         </div>
       </Section>
 
+      {/* Why take this course section */}
+      <WhyTakeThisCourseSection />
+
       {/* Divider */}
-      <div className="border-t-[0.5px] border-color-divider" />
+      <div className="border-t-hairline border-color-divider" />
 
       {/* Testimonials Section */}
       <Section className="py-16">
