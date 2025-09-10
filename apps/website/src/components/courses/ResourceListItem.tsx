@@ -255,7 +255,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               <div className="flex items-start gap-4">
                 <div className="flex-1">
                   {/* Resource title and link */}
-                  <P className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
+                  <div className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
                     {resource.resourceLink ? (
                       <div className="flex items-center group">
                         {/* Favicon */}
@@ -289,7 +289,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                     ) : (
                       resource.resourceName
                     )}
-                  </P>
+                  </div>
                 </div>
               </div>
             </div>
