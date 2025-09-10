@@ -1,5 +1,4 @@
 import { Card, Section } from '@bluedot/ui';
-import { isMobile } from 'react-device-detect';
 import { jobPostingTable, InferSelectModel } from '@bluedot/db';
 import { P } from '../Text';
 import { ROUTES } from '../../lib/routes';
@@ -62,8 +61,8 @@ const JobListItem = ({ job }: {
         className="jobs-list__card container-lined hover:container-elevated p-8"
         ctaText="Learn more"
         ctaUrl={url}
-        isEntireCardClickable={!isMobile}
-        isFullWidth={!isMobile}
+        isEntireCardClickable
+        isFullWidth
         subtitle={job.location}
         title={job.title}
       />

@@ -1,7 +1,6 @@
 import {
   Card, CTALinkOrButton, ErrorSection, ProgressDots, Section, Tag,
 } from '@bluedot/ui';
-import { isMobile } from 'react-device-detect';
 import useAxios from 'axios-hooks';
 import { blogTable, InferSelectModel } from '@bluedot/db';
 import { P } from '../Text';
@@ -69,11 +68,11 @@ export const BlogListItem = ({ blog }: {
         className="blog-list__card container-lined hover:container-elevated p-8"
         ctaText="Read more"
         ctaUrl={url}
-        isEntireCardClickable={!isMobile}
-        isFullWidth={!isMobile}
+        isEntireCardClickable
+        isFullWidth
         subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
         title={blog.title || 'Untitled'}
-        subtitleBadge={blog.isFeatured && <Tag variant="secondary">FEATURED</Tag>}
+        subtitleBadge={blog.isFeatured ? <Tag variant="secondary">FEATURED</Tag> : null}
       />
     </div>
   );
