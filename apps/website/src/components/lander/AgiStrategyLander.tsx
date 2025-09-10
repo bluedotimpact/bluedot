@@ -128,7 +128,7 @@ If your final course proposal is strong, you’ll receive $10-50k to kickstart y
 - The course operates on a “pay-what-you-want” model.
 - A new round starts every month.
 - The next round starts on 29 September.
-- **Application deadline 21 September**.
+- **Application deadline 19 September**.
 
 ## Who is BlueDot Impact
 
