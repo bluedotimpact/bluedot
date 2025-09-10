@@ -60,7 +60,7 @@ export default makeApiRoute({
   try {
     allChunks = await db.scan(chunkTable, { unitId: unit.id });
   } catch (error) {
-    throw new createHttpError.InternalServerError('Database error occurred');
+    throw new createHttpError.InternalServerError(`Database error occurred: ${error instanceof Error ? error.message : String(error)}`);
   }
   const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
   const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
