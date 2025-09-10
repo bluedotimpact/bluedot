@@ -43,8 +43,6 @@ export async function processTableForInitialSync(
           await new Promise((resolve) => {
             setTimeout(resolve, retryDelay);
           });
-        } else {
-          throw error;
         }
       }
     }
