@@ -62,16 +62,20 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      Contextual Constitutional AI
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        Contextual Constitutional AI
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p text-base"
                     >
@@ -100,16 +104,20 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p text-base"
                     >
@@ -138,16 +146,20 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      Societal Adaptation to AI Human-Labor Automation
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        Societal Adaptation to AI Human-Labor Automation
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p text-base"
                     >
@@ -176,16 +188,20 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p text-base"
                     >
