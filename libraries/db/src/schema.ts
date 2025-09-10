@@ -544,6 +544,10 @@ export const blogTable = pgAirtable('blog', {
       pgColumn: text(),
       airtableId: 'fldiDvLbKKWNPeny4',
     },
+    isFeatured: {
+      pgColumn: boolean(),
+      airtableId: 'fldBboUp1a7defS83',
+    },
   },
 });
 
