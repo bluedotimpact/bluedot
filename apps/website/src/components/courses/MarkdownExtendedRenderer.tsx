@@ -62,6 +62,27 @@ const Link = ({ href, children, ...props }: React.ComponentProps<'a'>) => {
   return <a href={href} {...props}>{children}</a>;
 };
 
+// Custom list components to handle React keys
+const UnorderedList = ({ children, ...props }: React.ComponentProps<'ul'>) => {
+  const keyedChildren = React.Children.map(children, (child, index) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { key: child.key || index });
+    }
+    return child;
+  });
+  return <ul {...props}>{keyedChildren}</ul>;
+};
+
+const OrderedList = ({ children, ...props }: React.ComponentProps<'ol'>) => {
+  const keyedChildren = React.Children.map(children, (child, index) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { key: child.key || index });
+    }
+    return child;
+  });
+  return <ol {...props}>{keyedChildren}</ol>;
+};
+
 export type MarkdownRendererProps = {
   children?: string;
   className?: string;
@@ -75,6 +96,8 @@ export const getSupportedComponents = () => ({
   Callout,
   Exercise,
   a: Link,
+  ul: UnorderedList,
+  ol: OrderedList,
 });
 
 const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, className }) => {
