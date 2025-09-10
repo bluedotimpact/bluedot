@@ -206,7 +206,7 @@ const CommunityMembersSubSection = ({
         <div className="relative">
           <div
             ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide pb-4"
+            className="flex gap-6 overflow-x-auto scrollbar-hidden pb-4"
             style={{
               scrollSnapType: 'x mandatory',
               scrollbarWidth: 'none',

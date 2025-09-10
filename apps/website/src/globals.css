@@ -74,13 +74,3 @@
     transform: translateY(0);
   }
 }
-
-/* Hide scrollbars for carousel components */
-.scrollbar-hide {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none; /* WebKit */
-}
