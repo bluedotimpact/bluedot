@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { useRef, useState, useEffect } from 'react';
 import { SectionHeading } from '@bluedot/ui';
 import clsx from 'clsx';
