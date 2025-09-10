@@ -47,17 +47,17 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       className={wrapperClassName}
     >
       <div className="course-card__content block md:flex gap-space-between w-full">
-        <div className="course-card__text">
+        <div className="course-card__text flex flex-col">
           <h3 className="course-card__title mb-6 bluedot-h3">
             {title}
           </h3>
           {description && (
-            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
+            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p flex-grow">
               {description}
             </p>
           )}
           <CTALinkOrButton
-            className="course-card__cta mb-6 px-6"
+            className="course-card__cta px-6 mt-auto"
             variant="primary"
             withChevron={false}
           >
@@ -65,7 +65,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
           </CTALinkOrButton>
         </div>
         {imageSrc && (
-        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6', imageClassName)}>
+        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit flex items-stretch', imageClassName)}>
           <img
             className="course-card__image size-full object-cover"
             src={imageSrc}

@@ -11,7 +11,7 @@ type CourseMetaData = {
 };
 
 type HeroSectionProps = {
-  metadata: CourseMetaData;
+  metadata?: CourseMetaData;
   title: string;
   description: string;
   primaryCta: { text: string; url: string };
@@ -38,11 +38,13 @@ const HeroSection = ({
         <div className="w-full px-5 py-8 pb-12 space-y-8 order-2 lg:order-1 lg:pl-12 lg:pr-8 lg:py-12 lg:flex lg:flex-col lg:justify-center xl:pr-16 xl:pl-12">
 
           {/* Metadata Badges */}
-          <div className="flex flex-wrap gap-3 justify-start">
-            <MetaBadge icon={PiClockBold} text={metadata.duration} />
-            <MetaBadge icon={PiCertificate} text={metadata.certification} />
-            <MetaBadge icon={PiLightbulb} text={metadata.level} />
-          </div>
+          {metadata && (
+            <div className="flex flex-wrap gap-3 justify-start">
+              <MetaBadge icon={PiClockBold} text={metadata.duration} />
+              <MetaBadge icon={PiCertificate} text={metadata.certification} />
+              <MetaBadge icon={PiLightbulb} text={metadata.level} />
+            </div>
+          )}
 
           {/* Text Content */}
           <div className="space-y-4 text-left">

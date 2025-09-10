@@ -64,13 +64,8 @@ const AgiStrategyLander = () => {
       </Head>
 
       <HeroSection
-        metadata={{
-          duration: '30 hours',
-          certification: 'Verified certificate',
-          level: 'Beginner-friendly',
-        }}
-        title="AGI Strategy – Learn how to navigate humanity's most critical decade"
-        description="Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future."
+        title="Start building the defences that protect humanity"
+        description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
         primaryCta={{
           text: 'Apply now',
           url: applicationUrl,
@@ -101,50 +96,44 @@ const AgiStrategyLander = () => {
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
-## What is AGI?
 
-**AI that matches or exceeds human capabilities at everything.**
+### Take action in less than 30 hours
 
-Not just chatbots. Not just image generation. Systems that can do everything you can do: write, research, strategise, code, innovate. But better, faster, cheaper, and at infinite scale.
+You don’t need another degree. This course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
 
-**Leading AI researchers believe this is coming within 3-10 years.**
+### Join a network of builders
 
-Big Tech companies have it as their mission to build it. The governments regulating it don't understand it. And the decisions being made today determine whether this technology liberates humanity or destabilises it.
+This course isn’t for everyone. We’re building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
 
-**This workshop prepares you to be part of those decisions.**
+### Get funded to accelerate your impact
 
-## Who we are
+If your final course proposal is strong, you’ll receive $10-50k to kickstart your transition into impactful work, and you’ll be invited to co-work with us in London for 1-2 weeks. We’ll do whatever it takes to accelerate your journey.
 
-The team behind **BlueDot Impact** has trained over 5,000 AI safety professionals since 2021, before ChatGPT made AI mainstream. We were founded at the University of Cambridge, working closely with leading AI researchers, engineers and policymakers. 
-
-Our community includes:
-
-- Former AI company researchers who've worked on frontier models
-- Government advisors who've shaped national AI strategies
-- Entrepreneurs who've built AI safety tools
-
-We're funded by philanthropic grants, not venture capital. Our incentive is impact, not profit.
-
-## Logistics made simple
-
-**How the course works**
-
-- You'll join a small group of ~8 peers, and you'll meet with them online to discuss readings and complete learning activities
-- Before each live discussion, you'll do 2-3 hours of reading and writing
-- Each discussion lasts 2 hours
-- Your discussions are facilitated by an AI safety expert
-- Participation is free for everyone, and the course is virtual so anyone on earth can join
+## How the course works
 
 **Choose your intensity**
 
-- **Intensive**: 6-day course
-    - 1 live discussion each day
-    - 5 hours/day total
-- **Part-time**: 6-week course
-    - 1 live discussion each week
-    - 5 hours/week total
+- **Intensive**: 6-day course (5h/day)
+- **Part-time**: 6-week course (5h/week)
 
-**New round every month**
+**Format**
+
+- Before each live 2-hour online discussion, you'll complete 2-3 hours of reading and writing
+- You'll meet with a group of ~8 peers to discuss and debate the content
+- Your discussions are facilitated by an AI safety expert
+- Participation is free for everyone
+
+The next round starts on 29 September. **Application deadline 21 September**.
+
+**New round every month.**
+
+## Who is BlueDot Impact
+
+We’re a London-based startup. Since 2022, we’ve trained 5,000 people, with ~1,000 now working on making AI go well.
+
+Our courses are the main entry point into the AI safety field.
+
+We’ve raised $35M in total, including $25M in 2025.
 
 `}
           </MarkdownExtendedRenderer>
@@ -156,13 +145,13 @@ We're funded by philanthropic grants, not venture capital. Our incentive is impa
 
       {/* Testimonials Section */}
       <Section className="py-16">
-        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">What learners are saying</H2>
+        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Members of our community</H2>
         <AgiStrategyTestimonialSubSection testimonials={testimonials1} />
       </Section>
 
       {/* Banner */}
       <AgiStrategyBanner
-        title="Understand AI today — be ready to shape what's next"
+        title="Don’t wait until the world’s even more crazy. Start making an impact today."
         ctaUrl={applicationUrl}
       />
 
