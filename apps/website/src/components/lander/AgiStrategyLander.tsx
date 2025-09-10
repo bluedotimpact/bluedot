@@ -11,6 +11,7 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
 import AgiStrategyTestimonialSubSection, { Testimonial } from './agi-strategy/TestimonialSubSection';
+import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
@@ -51,6 +52,27 @@ const testimonials1: Testimonial[] = [
     quote: 'Coming from a public sector responsible AI background and having designed several educational programmes myself, I found the BlueDot course truly humbling and impressive pedagogically. This course is suitable for anyone motivated to work on AI Safety and contribute to the wider discourse in one of the most important topics of our time',
     name: 'Mishka Nemes: Responsible AI & Skills Advisor, Alan Turing Institute',
     role: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/mishka.jpg',
+  },
+];
+
+const communityMembers: CommunityMember[] = [
+  {
+    name: 'Sabrina Shih',
+    jobTitle: 'AI Policy Manager, Responsible AI Institute',
+    course: 'AI Alignment Course Graduate',
+    imageSrc: '/images/graduates/sabrina.jpg',
+  },
+  {
+    name: 'Matthew Bradbury',
+    jobTitle: 'Senior AI Risk Analyst, UK Government',
+    course: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/matthew.png',
+  },
+  {
+    name: 'Mishka Nemes',
+    jobTitle: 'Responsible AI & Skills Advisor, Alan Turing Institute',
+    course: 'AI Governance Course Graduate',
     imageSrc: '/images/graduates/mishka.jpg',
   },
 ];
@@ -96,6 +118,8 @@ const AgiStrategyLander = () => {
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
+
+## How will this course benefit you?
 
 ### Take action in less than 30 hours
 
@@ -146,15 +170,15 @@ We’ve raised $35M in total, including $25M in 2025.
       {/* Divider */}
       <div className="border-t-[0.5px] border-color-divider" />
 
-      {/* Testimonials Section */}
+      {/* Community Members Section */}
       <Section className="py-16">
-        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Members of our community</H2>
-        <AgiStrategyTestimonialSubSection testimonials={testimonials1} title="Members of our community" />
+        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Our graduates</H2>
+        <CommunityMembersSubSection members={communityMembers} />
       </Section>
 
       {/* Banner */}
       <AgiStrategyBanner
-        title="Don’t wait until the world’s even more crazy. Start making an impact today."
+        title="Don't wait until the world's even more crazy. Start making an impact today."
         ctaUrl={applicationUrl}
       />
 
