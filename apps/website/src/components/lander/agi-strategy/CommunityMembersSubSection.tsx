@@ -168,9 +168,9 @@ const CommunityMembersSubSection = ({
       // Scrolled to the beginning, jump to the end of the first section
       isScrollingRef.current = true;
       container.scrollLeft = sectionWidth;
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         isScrollingRef.current = false;
-      }, 50);
+      });
       return;
     }
 
@@ -178,9 +178,9 @@ const CommunityMembersSubSection = ({
       // Scrolled to the end, jump to the beginning of the second section
       isScrollingRef.current = true;
       container.scrollLeft = sectionWidth;
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         isScrollingRef.current = false;
-      }, 50);
+      });
     }
   };
 
