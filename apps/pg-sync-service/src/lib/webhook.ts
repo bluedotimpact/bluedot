@@ -108,16 +108,8 @@ export class AirtableWebhook {
           statusCode: error.response?.status,
           errorType: error.response?.data?.error?.type,
           errorMessage: error.response?.data?.error?.message,
-          feedbackMessage: '',
+          feedbackMessage: getAirtableFeedbackMessage(error.response?.status),
         };
-
-        if (error.response?.status === 401) {
-          errorDetails.feedbackMessage = 'Check that your Airtable PAT is valid and has not expired';
-        } else if (error.response?.status === 403) {
-          errorDetails.feedbackMessage = 'Check that your Airtable PAT has the webhook:manage scope';
-        } else if (error.response?.status === 404) {
-          errorDetails.feedbackMessage = 'Check that the base exists and that you have access to it';
-        }
 
         logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
         await slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`]);
@@ -337,16 +329,9 @@ export class AirtableWebhook {
               statusCode: error.response?.status,
               errorType: error.response?.data?.error?.type,
               errorMessage: error.response?.data?.error?.message,
-              feedbackMessage: '',
+              feedbackMessage: getAirtableFeedbackMessage(error.response?.status),
             };
 
-            if (error.response?.status === 401) {
-              errorDetails.feedbackMessage = 'Check that your Airtable PAT is valid and has not expired';
-            } else if (error.response?.status === 403) {
-              errorDetails.feedbackMessage = 'Check that your Airtable PAT has the webhook:manage scope';
-            } else if (error.response?.status === 422) {
-              errorDetails.feedbackMessage = 'This may mean one of the field IDs has been deleted in Airtable. Additionally, check that the base exists and that you have access.';
-            }
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
             slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`]);
             throw error;
@@ -474,3 +459,26 @@ export class AirtableWebhook {
     }
   }
 }
+
+const getAirtableFeedbackMessage = (statusCode: number | undefined): string => {
+  switch (statusCode) {
+    case 400:
+      return 'Bad request - check your webhook configuration';
+    case 401:
+      return 'Unauthorized - check your Airtable PAT is valid and has not expired';
+    case 403:
+      return 'Forbidden - check your Airtable PAT has the webhook:manage scope';
+    case 404:
+      return 'Not found - check that the base exists and that you have access to it';
+    case 422:
+      return 'Unprocessable Entity - this may mean one of the field IDs has been deleted in Airtable. Additionally, check that the base exists and that you have access.';
+    case 429:
+      return 'Rate limited - too many requests to the Airtable API, slow down...';
+    case 500:
+      return 'Internal server error - a problem occurred on Airtable\'s side, try again later';
+    case 503:
+      return 'Service unavailable - Airtable is temporarily unavailable, try again later';
+    default:
+      return 'Unknown error';
+  }
+};
