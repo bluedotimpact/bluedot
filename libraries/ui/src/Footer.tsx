@@ -100,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({
           <FooterSocial className="sm:hidden" />
         </nav>
         <p className="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p">
-          &copy; {new Date().getFullYear()} <A href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white">BlueDot Impact</A> is primarily funded by <A href="https://www.openphilanthropy.org/" className="footer__link text-bluedot-lighter hover:text-white">Open Philanthropy</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="footer__link text-bluedot-lighter hover:text-white">14964572</A>).
+          &copy; {new Date().getFullYear()} <A href="https://bluedot.org/" className="footer__link text-bluedot-lighter hover:text-white">BlueDot Impact</A> is funded by <A href="https://www.openphilanthropy.org/" className="footer__link text-bluedot-lighter hover:text-white">Open Philanthropy</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="footer__link text-bluedot-lighter hover:text-white">14964572</A>).
         </p>
       </div>
     )}
