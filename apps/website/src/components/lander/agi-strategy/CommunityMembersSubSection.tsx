@@ -1,4 +1,9 @@
-import { useRef, useState, useEffect } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 import { SectionHeading } from '@bluedot/ui';
 import clsx from 'clsx';
 
@@ -14,6 +19,15 @@ type CommunityMembersSubSectionProps = {
   title?: string;
 };
 
+// Card configuration constants
+const CARD_CONFIG = {
+  DESKTOP_WIDTH: 320,
+  MOBILE_WIDTH: 280,
+  GAP: 24,
+  PADDING: 0,
+  MOBILE_BREAKPOINT: 768,
+} as const;
+
 // Community Member Card Component
 const CommunityMemberCard = ({ member, isCarousel = false }: { member: CommunityMember; isCarousel?: boolean }) => (
   <div
@@ -26,7 +40,7 @@ const CommunityMemberCard = ({ member, isCarousel = false }: { member: Community
       <div className="community-member__avatar size-32 rounded-lg overflow-hidden flex-shrink-0">
         <img
           src={member.imageSrc}
-          alt={member.name}
+          alt={`Profile of ${member.name}`}
           className="size-full object-cover"
         />
       </div>
@@ -87,24 +101,17 @@ const CommunityMembersSubSection = ({
   const [containerWidth, setContainerWidth] = useState(0);
   const isScrollingRef = useRef(false);
 
-  // Calculate how many cards can fit in a single row based on container width
-  const calculateCardCapacity = (width: number) => {
-    const cardWidth = 320; // w-80 = 320px
-    const gap = 24; // gap-6 = 24px
-    const padding = 0; // No container padding for this calculation
+  // Memoized card capacity calculation using constants
+  const cardCapacity = useMemo(() => {
+    if (containerWidth === 0) return 0;
 
-    const availableWidth = width - padding;
+    const availableWidth = containerWidth - CARD_CONFIG.PADDING;
+    const actualCardWidth = containerWidth < CARD_CONFIG.MOBILE_BREAKPOINT
+      ? CARD_CONFIG.MOBILE_WIDTH
+      : CARD_CONFIG.DESKTOP_WIDTH;
 
-    // Account for responsive card sizing
-    let actualCardWidth = cardWidth;
-    if (width < 768) {
-      // Mobile: cards are narrower
-      actualCardWidth = 280;
-    }
-
-    // Calculate single row capacity only
-    return Math.max(1, Math.floor(availableWidth / (actualCardWidth + gap)));
-  };
+    return Math.max(1, Math.floor(availableWidth / (actualCardWidth + CARD_CONFIG.GAP)));
+  }, [containerWidth]);
 
   // Create infinite scroll data by duplicating members
   const createInfiniteScrollData = () => {
@@ -120,10 +127,9 @@ const CommunityMembersSubSection = ({
   // Determine if we should show carousel based on container width
   useEffect(() => {
     if (containerWidth > 0) {
-      const capacity = calculateCardCapacity(containerWidth);
-      setShowCarousel(members.length > capacity);
+      setShowCarousel(members.length > cardCapacity);
     }
-  }, [members.length, containerWidth]);
+  }, [members.length, containerWidth, cardCapacity]);
 
   // ResizeObserver to monitor container width
   useEffect(() => {
@@ -202,6 +208,11 @@ const CommunityMembersSubSection = ({
 
         {/* Horizontal Scrolling Carousel */}
         <div className="relative">
+          {/* Hidden description for screen readers */}
+          <div id="carousel-description" className="sr-only">
+            This carousel uses infinite scrolling. Navigation buttons will continuously scroll through community members without reaching an end.
+          </div>
+
           <div
             ref={scrollContainerRef}
             className="flex gap-6 overflow-x-auto scrollbar-hidden pb-4"
@@ -211,11 +222,12 @@ const CommunityMembersSubSection = ({
               msOverflowStyle: 'none',
             }}
             onScroll={handleScroll}
+            aria-describedby="carousel-description"
           >
             {infiniteMembers.map((member, index) => {
               const sectionNumber = Math.floor(index / members.length);
               return (
-                <div key={`${member.name}-${member.jobTitle}-section-${sectionNumber}`} style={{ scrollSnapAlign: 'start' }}>
+                <div key={`${member.name}-${sectionNumber}`} style={{ scrollSnapAlign: 'start' }}>
                   <CommunityMemberCard member={member} isCarousel />
                 </div>
               );
