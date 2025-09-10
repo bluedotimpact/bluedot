@@ -7,7 +7,7 @@ export default async function handler(req: NextRequest) {
   const url = new URL(req.url);
   const pathSegments = url.pathname.split('/');
   const type = pathSegments[3];
-  const id = pathSegments[4];
+  const slug = pathSegments[4];
 
   // Load different weights of Inter
   const interRegular = fetch(
@@ -35,9 +35,14 @@ export default async function handler(req: NextRequest) {
   let CTA = '';
   let CTAWidth = '300px';
 
-  if (type === 'course' && id) {
+  if (type === 'course' && slug) {
     try {
-      const response = await fetch(`https://bluedot.org/api/courses/${id}`);
+      const response = await fetch(`https://bluedot.org/api/courses/${slug}`);
+
+      if (!response.ok) {
+        return new Response('Failed to fetch course data', { status: 500 });
+      }
+
       data = await response.json();
       title = data?.course?.title;
       description = data?.course?.shortDescription;
@@ -46,9 +51,14 @@ export default async function handler(req: NextRequest) {
     } catch (error) {
       return new Response('Failed to fetch course data', { status: 500 });
     }
-  } else if (type === 'job' && id) {
+  } else if (type === 'job' && slug) {
     try {
-      const response = await fetch(`https://bluedot.org/api/cms/jobs/${id}`);
+      const response = await fetch(`https://bluedot.org/api/cms/jobs/${slug}`);
+
+      if (!response.ok) {
+        return new Response('Failed to fetch job data', { status: 500 });
+      }
+
       data = await response.json();
       title = data?.job?.title;
       description = data?.job?.subtitle;
@@ -58,6 +68,11 @@ export default async function handler(req: NextRequest) {
       return new Response('Failed to fetch job data', { status: 500 });
     }
   }
+
+  if (!title && !description) {
+    return new Response('No content to display', { status: 400 });
+  }
+
   return new ImageResponse(
     (
       <div
