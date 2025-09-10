@@ -21,7 +21,7 @@ export type CourseCardProps = React.PropsWithChildren<{
 }>;
 
 const applyByText = (applicationDeadline: string | undefined) => {
-  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Start learning for free';
+  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
 };
 
 const FeaturedCourseCard: React.FC<CourseCardProps> = ({
@@ -57,8 +57,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
           <CTALinkOrButton
-            className="course-card__cta px-6 mt-auto"
-            variant="primary"
+            className="course-card__cta px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
             withChevron={false}
           >
             {applyByText(applicationDeadline)}
