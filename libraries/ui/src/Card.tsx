@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
+import { Tag } from './Tag';
 
 export type CardProps = {
   // Required
@@ -16,7 +17,7 @@ export type CardProps = {
   isFullWidth?: boolean;
   subtitle?: string;
   subtitleClassName?: string;
-  subtitleBadge?: React.ReactNode;
+  subtitleBadge?: string;
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -71,7 +72,7 @@ export const Card: React.FC<CardProps> = ({
         <div className="card__text">
           <div className="flex flex-row gap-4 items-center mb-2">
             <p className="card__title bluedot-h4">{title}</p>
-            {subtitleBadge && (subtitleBadge)}
+            {subtitleBadge && <Tag variant="secondary">{subtitleBadge}</Tag>}
           </div>
           {subtitle && (<p className={`card__subtitle bluedot-p ${subtitleClassName}`}>{subtitle}</p>)}
           {/* For non-fullWidth cards, show CTA and children inline */}

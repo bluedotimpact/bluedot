@@ -1,5 +1,5 @@
 import {
-  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section, Tag,
+  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { blogTable, InferSelectModel } from '@bluedot/db';
@@ -72,7 +72,7 @@ export const BlogListItem = ({ blog }: {
         isFullWidth
         subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
         title={blog.title || 'Untitled'}
-        subtitleBadge={blog.isFeatured ? <Tag variant="secondary">FEATURED</Tag> : null}
+        subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
       />
     </div>
   );

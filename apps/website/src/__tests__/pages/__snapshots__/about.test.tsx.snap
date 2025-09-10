@@ -207,7 +207,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
@@ -248,7 +248,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
@@ -289,7 +289,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
@@ -330,7 +330,7 @@ exports[`AboutPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
