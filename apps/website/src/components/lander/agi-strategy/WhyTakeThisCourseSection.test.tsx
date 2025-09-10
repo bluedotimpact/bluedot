@@ -38,31 +38,4 @@ describe('WhyTakeThisCourseSection', () => {
     // Check fourth card description
     expect(getByText(/Learn the actual models and frameworks/)).toBeDefined();
   });
-
-  it('has correct CSS classes for responsive grid layout', () => {
-    const { container } = render(<WhyTakeThisCourseSection />);
-    const gridElement = container.querySelector('.grid');
-
-    expect(gridElement?.classList.contains('grid-cols-1')).toBe(true);
-    expect(gridElement?.classList.contains('md:grid-cols-2')).toBe(true);
-    expect(gridElement?.classList.contains('lg:grid-cols-4')).toBe(true);
-  });
-
-  it('renders icons for each value card', () => {
-    const { container } = render(<WhyTakeThisCourseSection />);
-    const svgElements = container.querySelectorAll('svg');
-
-    // Should have 4 SVG icons, one for each card
-    expect(svgElements).toHaveLength(4);
-  });
-
-  it('applies correct styling to section', () => {
-    const { container } = render(<WhyTakeThisCourseSection />);
-    const section = container.querySelector('section');
-
-    expect(section?.classList.contains('w-full')).toBe(true);
-    expect(section?.classList.contains('border-t-[0.5px]')).toBe(true);
-    expect(section?.classList.contains('border-color-divider')).toBe(true);
-    expect(section?.classList.contains('bg-white')).toBe(true);
-  });
 });

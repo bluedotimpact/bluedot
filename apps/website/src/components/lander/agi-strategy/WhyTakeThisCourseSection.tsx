@@ -2,12 +2,6 @@ import { NewText } from '@bluedot/ui';
 
 const { H2, H3, P } = NewText;
 
-const IconContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="size-11 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0">
-    {children}
-  </div>
-);
-
 const valueCards = [
   {
     icon: (
@@ -58,7 +52,9 @@ const WhyTakeThisCourseSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {valueCards.map(({ icon, title, description }) => (
             <div key={title} className="flex flex-col gap-6">
-              <IconContainer>{icon}</IconContainer>
+              <div className="size-11 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0">
+                {icon}
+              </div>
               <div className="space-y-2">
                 <H3 className="text-[18px] font-semibold leading-tight text-[#13132E]">
                   {title}
