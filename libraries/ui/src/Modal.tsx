@@ -69,6 +69,7 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [isFullyExpanded, setIsFullyExpanded] = useState(false);
   const dragControls = useDragControls();
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
@@ -157,6 +158,12 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
             onDragStart={() => {
               setIsDragging(true);
             }}
+            onDrag={() => {
+              const shouldBeFullyExpanded = y.get() < 20;
+              if (isFullyExpanded !== shouldBeFullyExpanded) {
+                setIsFullyExpanded(shouldBeFullyExpanded);
+              }
+            }}
             onDragEnd={(e, info) => {
               setIsDragging(false);
 
@@ -173,7 +180,11 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
           >
             <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
               {/* Header Section with Drag Handle */}
-              <div className="flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px]">
+              <div className={clsx(
+                'flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px] transition-shadow duration-300',
+                isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
+              )}
+              >
                 {/* Drag handle */}
                 <div
                   className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
