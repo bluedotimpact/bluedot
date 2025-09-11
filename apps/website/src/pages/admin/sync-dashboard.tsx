@@ -28,6 +28,7 @@ const SyncDashboard = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
+  const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
   // Set up useAxios for fetching sync history
@@ -89,16 +90,24 @@ const SyncDashboard = () => {
     if (syncData?.requests) {
       setRequests(syncData.requests);
       setHasAccess(true);
+      setGeneralError(null);
       setHasInitiallyLoaded(true);
     }
   }, [syncData]);
 
   // Handle errors (including 401/403 for access control)
   useEffect(() => {
-    if (syncError) {
+    if (!syncError) return;
+    const status = (syncError as any)?.response?.status;
+    if (status === 401 || status === 403) {
       setHasAccess(false);
-      setHasInitiallyLoaded(true);
+      setGeneralError(null);
+    } else {
+      // Non-auth error (network, server error, etc.)
+      setHasAccess(null);
+      setGeneralError('Unable to load sync dashboard. Please check your connection and try again.');
     }
+    setHasInitiallyLoaded(true);
   }, [syncError]);
 
   // Request a new sync
@@ -146,6 +155,34 @@ const SyncDashboard = () => {
             <div className="pt-2 border-t border-red-200">
               <p className="text-size-sm">
                 Only authorized team members with access to the BlueDot Notion workspace can use this dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show general error (network, server errors, etc.)
+  if (generalError) {
+    return (
+      <div className="p-8 max-w-2xl">
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+          <div className="flex items-center mb-4">
+            <div className="flex-shrink-0">
+              <svg className="size-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-size-lg font-medium text-amber-800">Connection Error</h3>
+            </div>
+          </div>
+          <div className="text-amber-700 space-y-4">
+            <p>{generalError}</p>
+            <div className="pt-2 border-t border-amber-200">
+              <p className="text-size-sm">
+                If this problem persists, please check Slack to see if there was an ongoing issue
               </p>
             </div>
           </div>
