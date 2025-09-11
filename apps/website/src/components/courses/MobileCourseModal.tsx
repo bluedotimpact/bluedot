@@ -85,12 +85,8 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     <Modal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
-      title={courseTitle}
-      bottomDrawerOnMobile
-    >
-      <div className="flex flex-col gap-1 w-full max-w-[600px]">
-        {/* Course info header */}
-        <div className="flex items-center gap-4 mb-4">
+      title={(
+        <div className="flex items-center gap-4 pb-1">
           <CourseIcon />
           <div className="flex flex-col justify-center gap-0.5 flex-1">
             <h3 className="text-size-md leading-[110%] font-semibold text-[#13132E]">
@@ -99,7 +95,10 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
           </div>
         </div>
-
+      )}
+      bottomDrawerOnMobile
+    >
+      <div className="flex flex-col gap-1 w-full max-w-[600px]">
         {/* Unit Listing */}
         {units.map((unit, unitIndex) => {
           const isCurrent = isCurrentUnit(unit);

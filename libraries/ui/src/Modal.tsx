@@ -19,7 +19,7 @@ import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 export type ModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
 };
@@ -37,7 +37,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       onOpenChange={setIsOpen}
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
-      <AriaModal>
+      <AriaModal className="bluedot-base">
         <Dialog className="bg-white rounded-lg shadow-xl w-full py-10 px-6 outline-none">
           <div className="flex justify-between items-center mb-4 px-4">
             <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading>
@@ -129,11 +129,11 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
         isOpen ? 'opacity-100' : 'opacity-0',
       )}
     >
-      <AriaModal>
+      <AriaModal className="bluedot-base">
         <AnimatePresence>
           {/* Modal Container */}
           <motion.div
-            className="bg-white fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col"
+            className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col"
             transition={{
               duration: 0.3,
               ease: [0.32, 0.72, 0, 1],
@@ -173,22 +173,19 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
           >
             <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
               {/* Header Section with Drag Handle */}
-              <div className="flex flex-col bg-gray-50 border-b border-gray-200 rounded-t-[24px]">
+              <div className="flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px]">
                 {/* Drag handle */}
                 <div
-                  className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
+                  className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
                   onPointerDown={(e) => dragControls.start(e)}
                 >
-                  <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
+                  <div className="w-[30px] h-1 bg-[rgba(19,19,46,0.3)] rounded-[3px]" />
                 </div>
 
                 <div className="flex items-center justify-between px-5 pb-4">
-                  <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
+                  <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-[#13132E]">
                     {title}
                   </h2>
-                  <ClickTarget onClick={handleClose} className="text-gray-500 hover:text-gray-700">
-                    <span className="text-2xl">&times;</span>
-                  </ClickTarget>
                 </div>
               </div>
 
