@@ -6,7 +6,7 @@ import { performFullSync } from './lib/scan';
 import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
-import { completeAllPendingRequests } from './lib/admin-dashboard-sync';
+import { completeAllRunningRequests, includeQueuedRequestsInCurrentSync } from './lib/admin-dashboard-sync';
 
 const getInitialSyncTableNames = (args: string[]) => {
   const startIdx = args.indexOf('--initial-sync-tables');
@@ -69,15 +69,21 @@ const start = async () => {
       }
 
       try {
+        // Mark any queued admin dashboard requests as running so they're handled by the initial sync
+        const queuedRequestsMarkedAsRunning = await includeQueuedRequestsInCurrentSync();
+        if (queuedRequestsMarkedAsRunning > 0) {
+          logger.info(`[main] Included ${queuedRequestsMarkedAsRunning} queued admin dashboard requests in current sync`);
+        }
+
         await syncManager.markSyncStarted();
         await performFullSync(addToQueue, initialSyncTableNames);
         await waitForQueueToEmpty();
         await syncManager.markSyncCompleted();
 
         // Initial sync satisfies all pending sync requests
-        const completedRequests = await completeAllPendingRequests();
+        const completedRequests = await completeAllRunningRequests();
         if (completedRequests > 0) {
-          logger.info(`[main] Completed ${completedRequests} pending sync requests after initial sync`);
+          logger.info(`[main] Completed ${completedRequests} running sync requests after initial sync`);
         }
 
         logger.info('[main] Full sync completed successfully');

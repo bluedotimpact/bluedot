@@ -44,14 +44,14 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
 
       await syncManager.markSyncCompleted();
 
-      await markRequestsCompleted(requestIds);
+      await setRequestsToCompleted(requestIds);
 
       logger.info(`[admin-dashboard] Successfully completed ${queuedRequests.length} admin dashboard sync requests`);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       await syncManager.markSyncFailed(errorMessage);
 
-      await markRequestsForRetry(requestIds);
+      await resetRequestsToQueued(requestIds);
 
       logger.error('[admin-dashboard] Failed to complete admin dashboard sync requests:', error);
     }
@@ -60,7 +60,7 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
   }
 }
 
-export async function markRequestsCompleted(requestIds: number[]): Promise<void> {
+export async function setRequestsToCompleted(requestIds: number[]): Promise<void> {
   try {
     if (requestIds.length === 0) {
       logger.info('[admin-dashboard] No request IDs provided to complete');
@@ -80,7 +80,7 @@ export async function markRequestsCompleted(requestIds: number[]): Promise<void>
   }
 }
 
-export async function markRequestsForRetry(requestIds: number[]): Promise<void> {
+export async function resetRequestsToQueued(requestIds: number[]): Promise<void> {
   try {
     if (requestIds.length === 0) {
       logger.info('[admin-dashboard] No request IDs provided for retry');
@@ -100,15 +100,44 @@ export async function markRequestsForRetry(requestIds: number[]): Promise<void> 
   }
 }
 
-// Complete all pending admin dashboard requests after initial sync (initial sync satisfies all requests)
-export async function completeAllPendingRequests(): Promise<number> {
+export async function includeQueuedRequestsInCurrentSync(): Promise<number> {
+  try {
+    const queuedRequests = await db.pg.select()
+      .from(syncRequestsTable)
+      .where(eq(syncRequestsTable.status, 'queued'));
+
+    if (queuedRequests.length === 0) {
+      logger.info('[admin-dashboard] No queued requests to include in current sync');
+      return 0;
+    }
+
+    const requestIds = queuedRequests.map((r) => r.id);
+    const now = new Date();
+
+    await db.pg.update(syncRequestsTable)
+      .set({
+        status: 'running',
+        startedAt: now,
+      })
+      .where(inArray(syncRequestsTable.id, requestIds));
+
+    logger.info(`[admin-dashboard] Included ${queuedRequests.length} queued requests in current sync: [${requestIds.join(', ')}]`);
+    
+    return queuedRequests.length;
+  } catch (error) {
+    logger.error('[admin-dashboard] Error including queued requests in current sync:', error);
+    return 0;
+  }
+}
+
+export async function completeAllRunningRequests(): Promise<number> {
   try {
     const runningRequests = await db.pg.select()
       .from(syncRequestsTable)
       .where(eq(syncRequestsTable.status, 'running'));
 
     if (runningRequests.length === 0) {
-      logger.info('[admin-dashboard] No pending admin dashboard requests to complete');
+      logger.info('[admin-dashboard] No running admin dashboard requests to complete');
       return 0;
     }
     await db.pg.update(syncRequestsTable)
@@ -119,11 +148,11 @@ export async function completeAllPendingRequests(): Promise<number> {
       .where(eq(syncRequestsTable.status, 'running'));
 
     const completedIds = runningRequests.map((r) => r.id);
-    logger.info(`[admin-dashboard] Completed ${runningRequests.length} pending admin dashboard requests: [${completedIds.join(', ')}]`);
+    logger.info(`[admin-dashboard] Completed ${runningRequests.length} running admin dashboard requests: [${completedIds.join(', ')}]`);
 
     return runningRequests.length;
   } catch (error) {
-    logger.error('[admin-dashboard] Error completing pending admin dashboard requests:', error);
+    logger.error('[admin-dashboard] Error completing running admin dashboard requests:', error);
     return 0;
   }
 }
