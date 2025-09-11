@@ -210,9 +210,9 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
                     {children}
                   </div>
                   {/*
-                * Spacer div: The parent can overflow off the screen, fill the off-screen space
-                * so the content fills exactly the on-screen area.
-                */}
+                    * Spacer div: The parent can overflow off the screen, fill the off-screen space
+                    * so the content fills exactly the on-screen area.
+                    */}
                   <motion.div
                     style={{ height: y, minHeight: 0 }}
                     className="flex-shrink-0"
