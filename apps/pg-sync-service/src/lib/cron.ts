@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import { logger } from '@bluedot/ui/src/api';
 import { initializeWebhooks, pollForUpdates, processUpdateQueue } from './pg-sync';
+import { processAdminDashboardSyncRequests } from './admin-dashboard-sync';
 
 const POLLING_INTERVAL_SECONDS = 5;
 let isProcessing = false;
@@ -15,6 +16,7 @@ const cronJob = async () => {
   try {
     await pollForUpdates();
     await processUpdateQueue();
+    await processAdminDashboardSyncRequests();
   } catch (error) {
     logger.error('[cron] Error in processing cycle:', error);
   } finally {
