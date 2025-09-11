@@ -122,7 +122,7 @@ export async function includeQueuedRequestsInCurrentSync(): Promise<number> {
       .where(inArray(syncRequestsTable.id, requestIds));
 
     logger.info(`[admin-dashboard] Included ${queuedRequests.length} queued requests in current sync: [${requestIds.join(', ')}]`);
-    
+
     return queuedRequests.length;
   } catch (error) {
     logger.error('[admin-dashboard] Error including queued requests in current sync:', error);
