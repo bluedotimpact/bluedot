@@ -256,7 +256,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               href={addQueryParam(resource.resourceLink, 'utm_source', 'bluedot-impact')}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center group gap-2"
+              className="flex items-center gap-2"
               aria-label={`${resource.resourceName} (opens in new tab)`}
             >
               {/* Favicon */}
