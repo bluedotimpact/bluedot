@@ -9,12 +9,33 @@ import {
 import {
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
+import {
+  Button,
+  Label,
+  ListBox,
+  ListBoxItem,
+  Select as AriaSelect,
+} from 'react-aria-components';
 import useAxios from 'axios-hooks';
+import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Course = InferSelectModel<typeof courseTable.pg>;
+
+// TODO:
+// 0. [x] Implement mobile "slide up from bottom" design, see if it is possible to make Modal do this generically (I have seen this somewhere)
+//   a. [x] Put this up as a separate PR if possible
+// 1. [x] Improve styling of selects, otherwise leave as they are (don't implement expanding selects, bid against this in the PR)
+// 2. [x] Improve the styling of the textarea
+//   a. Skipped until we have a common textarea component
+// 3. [ ] Build out these components (for divide-and-conquer reasons, can later be ported inline again):
+//   a. [ ] CurrentGroupInfo
+//   b. [ ] DiscussionListItem, which can later be reused in CourseDetails/the future course settings page. Pull out from renderDiscussionItem
+//      in CourseDetails if possible
+// 4. [ ] Add "Update your availability" to the manual switch view, overall update to match designs
+// 5. [ ] Update success view to match designs
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
@@ -219,39 +240,24 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
           )}
           <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-0.5">
-              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Action</label>
-              <select
-                id="switchType"
-                value={switchType}
-                onChange={(e) => setSwitchType(e.target.value as SwitchType)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-              >
-                {SWITCH_TYPE_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label="Action"
+              value={switchType}
+              onChange={(value) => setSwitchType(value as typeof switchType)}
+              options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+            />
 
             {isTemporarySwitch && (
-            <div className="flex flex-col gap-0.5">
-              <label htmlFor="unitSelect" className="block text-size-xs text-[#666C80]">Unit</label>
-              <select
-                id="unitSelect"
-                value={selectedUnitNumber}
-                onChange={(e) => setSelectedUnitNumber(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                required
-              >
-                <option value="">Select a unit</option>
-                {unitOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </div>
+            <Select
+              label="Unit"
+              value={selectedUnitNumber}
+              onChange={(value) => setSelectedUnitNumber(value)}
+              options={unitOptions}
+              placeholder="Select a unit"
+            />
             )}
 
-            <div className="flex flex-col gap-2 px-1">
+            <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-2">
                 <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
                 <p className="text-size-xs text-[#666C80]">
@@ -263,59 +269,64 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 placeholder="Share your reason here"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
+                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px]"
                 required
               />
             </div>
 
+            {/* TODO probably add on to the section eventually */}
+            <div className="h-px bg-color-divider my-4" />
+
             {!isManualRequest && (
-            <div className="flex flex-col gap-2">
-              <label htmlFor="targetSelect" className="block text-size-sm font-medium text-[#00114D]">
-                {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
-              </label>
-              {currentInfo && (
-              <div className="bg-gray-50 border border-gray-200 rounded-md p-3">
-                <h4 className="text-size-sm font-medium text-gray-700 mb-1">
-                  {isTemporarySwitch ? 'Current discussion:' : 'Current group (next discussion):'}
-                </h4>
-                <p className="text-size-sm text-gray-600">
-                  {currentInfo.name} - {currentInfo.time}
-                </p>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+                  {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
+                </label>
+                {currentInfo && (
+                <div className="bg-gray-50 border border-gray-200 rounded-md p-3">
+                  <h4 className="text-size-sm font-medium text-gray-700 mb-1">
+                    {isTemporarySwitch ? 'Current discussion:' : 'Current group (next discussion):'}
+                  </h4>
+                  <p className="text-size-sm text-gray-600">
+                    {currentInfo.name} - {currentInfo.time}
+                  </p>
+                </div>
+                )}
+                {isTemporarySwitch && (
+                <select
+                  id="targetSelect"
+                  value={selectedDiscussionId}
+                  onChange={(e) => setSelectedDiscussionId(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                  required
+                  aria-describedby="targetSelect-description"
+                >
+                  <option value="">Select a discussion</option>
+                  {discussionOptions.map((option) => (
+                    <option key={option.value} value={option.value} disabled={option.disabled}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                )}
+                {!isTemporarySwitch && (
+                <select
+                  id="targetSelect"
+                  value={selectedGroupId}
+                  onChange={(e) => setSelectedGroupId(e.target.value)}
+                  className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
+                  required
+                  aria-describedby="targetSelect-description"
+                >
+                  <option value="">Select a group</option>
+                  {groupOptions.map((option) => (
+                    <option key={option.value} value={option.value} disabled={option.disabled}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                )}
               </div>
-              )}
-              {isTemporarySwitch && (
-              <select
-                id="targetSelect"
-                value={selectedDiscussionId}
-                onChange={(e) => setSelectedDiscussionId(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                required
-              >
-                <option value="">Select a discussion</option>
-                {discussionOptions.map((option) => (
-                  <option key={option.value} value={option.value} disabled={option.disabled}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              )}
-              {!isTemporarySwitch && (
-              <select
-                id="targetSelect"
-                value={selectedGroupId}
-                onChange={(e) => setSelectedGroupId(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                required
-              >
-                <option value="">Select a group</option>
-                {groupOptions.map((option) => (
-                  <option key={option.value} value={option.value} disabled={option.disabled}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              )}
-            </div>
             )}
 
             <div className="flex gap-2 justify-end">
@@ -336,7 +347,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
 
             {!isManualRequest && (
-            <div className="border-t border-gray-200 pt-4">
+            <div className="border-t border-color-divider pt-4">
               <div className="flex flex-col gap-2">
                 <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
                 <p className="text-size-xs text-[#666C80]">
@@ -358,6 +369,78 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         )}
       </div>
     </Modal>
+  );
+};
+
+type SelectProps = {
+  label: string;
+  options: { value: string; label: string; disabled?: boolean }[];
+  value?: string;
+  onChange?: (value: string) => void;
+  placeholder?: string;
+};
+
+const Select: React.FC<SelectProps> = ({
+  label,
+  options,
+  value,
+  onChange,
+  placeholder = 'Select an option',
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedOption = options.find((op) => op.value === value);
+
+  const handleSelectionChange = (key: React.Key | null) => {
+    if (key !== null) {
+      onChange?.(key as string);
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <AriaSelect
+      selectedKey={value}
+      onSelectionChange={handleSelectionChange}
+      className="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all"
+    >
+      <Button
+        className="w-full flex border-none justify-between px-4 py-3 items-center cursor-pointer text-left"
+        onPress={() => setIsOpen(!isOpen)}
+      >
+        <div className="flex flex-col gap-2 flex-1 min-w-0">
+          <Label className="text-size-xs font-medium text-gray-500 flex-shrink-0">
+            {label}
+          </Label>
+          {!isOpen && (
+            <div className="text-size-sm text-gray-900">
+              {selectedOption?.label || value || placeholder}
+            </div>
+          )}
+        </div>
+        <FaChevronDown
+          className={`size-3 flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
+      </Button>
+      {isOpen && (
+        <ListBox className="flex flex-col px-4 pb-3 gap-1 max-h-60 overflow-y-auto outline-none">
+          {options.map((option) => (
+            <ListBoxItem
+              key={option.value}
+              id={option.value}
+              textValue={option.label}
+              isDisabled={option.disabled}
+              className="px-3 py-2 gap-3 text-size-sm rounded cursor-pointer transition-colors hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-900 selected:bg-gray-100 selected:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed outline-none flex items-center"
+            >
+              <span>{option.label}</span>
+              {option.value === value && (
+                <FaCheck className="size-3 text-blue-600" aria-hidden="true" />
+              )}
+            </ListBoxItem>
+          ))}
+        </ListBox>
+      )}
+    </AriaSelect>
   );
 };
 
