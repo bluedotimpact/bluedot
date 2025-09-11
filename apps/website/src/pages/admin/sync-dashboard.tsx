@@ -98,7 +98,7 @@ const SyncDashboard = () => {
   // Handle errors (including 401/403 for access control)
   useEffect(() => {
     if (!syncError) return;
-    const status = (syncError as any)?.response?.status;
+    const status = syncError?.response?.status;
     if (status === 401 || status === 403) {
       setHasAccess(false);
       setGeneralError(null);
