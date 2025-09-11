@@ -117,7 +117,39 @@ export default function SyncDashboard() {
   
   // Access denied
   if (hasAccess === false) {
-    return <div className="p-8 text-xl">You don't have access to this page</div>;
+    return (
+      <div className="p-8 max-w-2xl">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <div className="flex items-center mb-4">
+            <div className="flex-shrink-0">
+              <svg className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.888-.833-2.828 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-lg font-medium text-red-800">Access Denied</h3>
+            </div>
+          </div>
+          <div className="text-red-700 space-y-4">
+            <p>You don't have permission to access the admin dashboard.</p>
+            
+            <div>
+              <p className="font-medium mb-2">To access the admin dashboard:</p>
+              <ol className="list-decimal list-inside space-y-2 ml-4">
+                <li>Confirm you're logged in with your BlueDot email address that's associated with the BlueDot Notion workspace</li>
+                <li>If you believe you should have access but still see this message, please ask in the Slack channel</li>
+              </ol>
+            </div>
+            
+            <div className="pt-2 border-t border-red-200">
+              <p className="text-sm">
+                Only authorized team members with access to the BlueDot Notion workspace can use this dashboard.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
   
   // Show loading only on initial load before any data is available
