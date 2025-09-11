@@ -18,7 +18,7 @@ const HistorySection = () => {
 
 const HistoryEvent = ({ year, now, children }: { year: string, now?: boolean, children: React.ReactNode }) => {
   return (
-    <div className="history-section__event">
+    <div className="history-section__event flex-1">
       {isMobile ? (
         <div className={
           `history-section__event-container--mobile w-full flex flex-row gap-12 p-8
