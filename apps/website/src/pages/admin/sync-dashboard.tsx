@@ -225,7 +225,7 @@ const SyncDashboard = () => {
               {requests.map((req) => (
                 <tr key={req.id} className="border-b hover:bg-gray-50">
                   <td className="p-3">
-                    <StatusBadge status={req.status} request={req} />
+                    <StatusBadge status={req.status} />
                   </td>
                   <td className="p-3">{req.requestedBy}</td>
                   <td className="p-3">
