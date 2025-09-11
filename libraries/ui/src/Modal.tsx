@@ -1,4 +1,6 @@
-import React, { ReactNode, useState, useEffect, useRef } from 'react';
+import React, {
+  ReactNode, useState, useEffect, useRef,
+} from 'react';
 import {
   Dialog,
   Modal as AriaModal,
