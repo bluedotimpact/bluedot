@@ -271,19 +271,16 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
+                stroke="#13132E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path
                   d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042"
-                  stroke="#13132E"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
                 />
                 <path
                   d="M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859"
-                  stroke="#13132E"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
                 />
               </svg>
             </a>
