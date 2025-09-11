@@ -3,7 +3,7 @@ import { Card, SectionHeading, SlideList } from '@bluedot/ui';
 const values = [
   {
     imageSrc: '/images/community-values/network.png',
-    title: 'Our online community brings together 4,500+ professionals across 100+ countries',
+    title: 'Our online community brings together 6,400+ professionals across 100+ countries',
   },
   {
     imageSrc: '/images/community-values/people.png',
