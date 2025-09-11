@@ -32,7 +32,7 @@ const SyncDashboard = () => {
   const auth = useAuthStore((s) => s.auth);
 
   // Set up useAxios for fetching sync history
-  const [{ data: syncData, loading: isInitialLoading, error: syncError }, fetchHistory] = useAxios<{ requests: SyncRequest[] }>(
+  const [{ data: syncData, error: syncError }, fetchHistory] = useAxios<{ requests: SyncRequest[] }>(
     {
       method: 'get',
       url: '/api/admin/sync-history',
@@ -75,15 +75,13 @@ const SyncDashboard = () => {
 
   // Initial load and auto-refresh setup
   useEffect(() => {
-    if (auth) {
-      fetchData(true);
-      const interval = setInterval(() => {
-        fetchData(false);
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-    return undefined;
-  }, [auth, fetchData]);
+    // Always make the API call - let the API determine access, not client-side auth state
+    fetchData(true);
+    const interval = setInterval(() => {
+      fetchData(false);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [fetchData]);
 
   // Handle successful data updates
   useEffect(() => {
@@ -142,11 +140,16 @@ const SyncDashboard = () => {
             </div>
           </div>
           <div className="text-red-700 space-y-4">
-            <p>You don't have permission to access the admin dashboard.</p>
+            <p>
+              {auth
+                ? "You don't have permission to access the admin dashboard."
+                : 'You need to log in to access the admin dashboard.'}
+            </p>
 
             <div>
               <p className="font-medium mb-2">To access the admin dashboard:</p>
               <ol className="list-decimal list-inside space-y-2 ml-4">
+                {!auth && <li>Log in with your BlueDot email address</li>}
                 <li>Confirm you're logged in with your BlueDot email address that's associated with the BlueDot Notion workspace</li>
                 <li>If you believe you should have access but still see this message, please ask in the Slack channel</li>
               </ol>
@@ -191,8 +194,8 @@ const SyncDashboard = () => {
     );
   }
 
-  // Show loading only on initial load before any data is available
-  if (!hasInitiallyLoaded && isInitialLoading) {
+  // Show loading until we have determined access (either success or error response from API)
+  if (hasAccess === null && !generalError) {
     return <div className="p-8">Loading...</div>;
   }
 

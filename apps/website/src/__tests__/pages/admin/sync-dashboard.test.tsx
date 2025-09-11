@@ -73,6 +73,33 @@ describe('SyncDashboard - Main User Journeys', () => {
     expect(screen.getByText("You don't have permission to access the admin dashboard.")).toBeInTheDocument();
   });
 
+  test('shows login required message when user is logged out', () => {
+    // Mock no auth (user logged out)
+    mockedUseAuthStore.mockImplementation((selector) => {
+      const state = { auth: null };
+      return selector(state);
+    });
+
+    // Mock API error (401) - API call is made but returns unauthorized
+    const mockError = { response: { status: 401 } };
+
+    mockedUseAxios
+      .mockReturnValueOnce([
+        { data: null, loading: false, error: mockError },
+        vi.fn(),
+      ])
+      .mockReturnValueOnce([
+        { data: null, loading: false, error: null },
+        vi.fn(),
+      ]);
+
+    render(<SyncDashboard />);
+
+    expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
+    expect(screen.getByText('You need to log in to access the admin dashboard.')).toBeInTheDocument();
+    expect(screen.getByText('Log in with your BlueDot email address')).toBeInTheDocument();
+  });
+
   test('authorized user can access dashboard and interact with sync button', async () => {
     const user = userEvent.setup({ delay: null });
     const mockFetchHistory = vi.fn().mockResolvedValue({ data: { requests: [] } });
