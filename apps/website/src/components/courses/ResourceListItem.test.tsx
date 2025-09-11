@@ -57,6 +57,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     avgRating: null,
     syncedAudioUrl: null,
     year: 2024,
+    autoNumberId: null,
   };
 
   it('should render metadata without Listen to article button when no audio URL', () => {

@@ -10,46 +10,48 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { H1, H2, H3 } from '../Text';
-import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
-import GraduateSection from '../homepage/GraduateSection';
+import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
+import GraduateSection from './agi-strategy/GraduateSection';
+import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
-    <div className="agi-strategy-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
-      <H3 className="agi-strategy-lander__banner-title">{title}</H3>
-      <div className="flex flex-col sm:flex-row gap-4">
-        <CTALinkOrButton className="agi-strategy-lander__banner-cta" url={ctaUrl} withChevron>
-          Apply now
-        </CTALinkOrButton>
-        <CTALinkOrButton className="agi-strategy-lander__banner-cta" url="/courses/agi-strategy/1">
-          Browse curriculum
-        </CTALinkOrButton>
-      </div>
+    <div className="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px">
+      <H3 className="agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]">
+        {title}
+      </H3>
+      <CTALinkOrButton
+        size="small"
+        className="agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
+        url={ctaUrl}
+      >
+        Apply now
+      </CTALinkOrButton>
     </div>
   );
 };
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
 
-const testimonials1: Testimonial[] = [
+const communityMembers: CommunityMember[] = [
   {
-    quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
-    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
-    role: 'AI Alignment Course Graduate',
+    name: 'Sabrina Shih',
+    jobTitle: 'AI Policy Manager, Responsible AI Institute',
+    course: 'AI Alignment Course Graduate',
     imageSrc: '/images/graduates/sabrina.jpg',
   },
   {
-    quote: "BlueDot's course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate.",
-    name: 'Matthew Bradbury: Senior AI Risk Analyst, UK Government',
-    role: 'AI Governance Course Graduate',
+    name: 'Matthew Bradbury',
+    jobTitle: 'Senior AI Risk Analyst, UK Government',
+    course: 'AI Governance Course Graduate',
     imageSrc: '/images/graduates/matthew.png',
   },
   {
-    quote: 'Coming from a public sector responsible AI background and having designed several educational programmes myself, I found the BlueDot course truly humbling and impressive pedagogically. This course is suitable for anyone motivated to work on AI Safety and contribute to the wider discourse in one of the most important topics of our time',
-    name: 'Mishka Nemes: Responsible AI & Skills Advisor, Alan Turing Institute',
-    role: 'AI Governance Course Graduate',
+    name: 'Mishka Nemes',
+    jobTitle: 'Responsible AI & Skills Advisor, Alan Turing Institute',
+    course: 'AI Governance Course Graduate',
     imageSrc: '/images/graduates/mishka.jpg',
   },
 ];
@@ -63,13 +65,8 @@ const AgiStrategyLander = () => {
       </Head>
 
       <HeroSection
-        metadata={{
-          duration: '30 hours',
-          certification: 'Verified certificate',
-          level: 'Beginner-friendly',
-        }}
-        title="AGI Strategy – Learn how to navigate humanity's most critical decade"
-        description="Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future."
+        title="Start building the defences that protect humanity"
+        description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
         primaryCta={{
           text: 'Apply now',
           url: applicationUrl,
@@ -87,71 +84,83 @@ const AgiStrategyLander = () => {
         )}
       />
 
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+
       {/* Graduate section */}
       <GraduateSection />
 
-      <Section>
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+
+      <Section className="!border-b-0">
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
-## What is AGI?
 
-**AI that matches or exceeds human capabilities at everything.**
+## How will this course benefit you?
 
-Not just chatbots. Not just image generation. Systems that can do everything you can do: write, research, strategise, code, innovate. But better, faster, cheaper, and at infinite scale.
+### Take action in less than 30 hours
 
-**Leading AI researchers believe this is coming within 3-10 years.**
+You don’t need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
 
-Big Tech companies have it as their mission to build it. The governments regulating it don't understand it. And the decisions being made today determine whether this technology liberates humanity or destabilises it.
+### Join a network of builders
 
-**This workshop prepares you to be part of those decisions.**
+This course isn’t for everyone. We’re building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
 
-## Who we are
+### Get funded to accelerate your impact
 
-The team behind **BlueDot Impact** has trained over 5,000 AI safety professionals since 2021, before ChatGPT made AI mainstream. We were founded at the University of Cambridge, working closely with leading AI researchers, engineers and policymakers. 
+If your final course proposal is strong, you’ll receive $10-50k to kickstart your transition into impactful work, and you’ll be invited to co-work with us in London for 1-2 weeks. We’ll do whatever it takes to accelerate your journey.
 
-Our community includes:
-
-- Former AI company researchers who've worked on frontier models
-- Government advisors who've shaped national AI strategies
-- Entrepreneurs who've built AI safety tools
-
-We're funded by philanthropic grants, not venture capital. Our incentive is impact, not profit.
-
-## Logistics made simple
-
-**How the course works**
-
-- You’ll join a small group of ~8 peers, and you’ll meet with them online to discuss readings and complete learning activities
-- Before each live discussion, you’ll do 2-3 hours of reading and writing
-- Each discussion lasts 2 hours
-- Your discussions are facilitated by an AI safety expert
-- Participation is free for everyone, and the course is virtual so anyone on earth can join
+## How the course works
 
 **Choose your intensity**
 
-- **Intensive**: 6-day course
-    - 1 live discussion each day
-    - 5 hours/day total
-- **Part-time**: 6-week course
-    - 1 live discussion each week
-    - 5 hours/week total
+- **Intensive**: 6-day course (5h/day)
+- **Part-time**: 6-week course (5h/week)
 
-**New round every month**
+**Format**
+
+- Each day/week, you will:
+    - Complete 2-3 hours of reading and writing, and
+    - Join ~8 peers in a 2-hour Zoom meeting to discuss the content.
+- Your discussions are facilitated by an AI safety expert.
+
+**Other info**
+
+- The course operates on a “pay-what-you-want” model.
+- A new round starts every month.
+- The next round starts on 29 September.
+- **Application deadline 19 September**.
+
+## Who is BlueDot Impact
+
+We’re a London-based startup. Since 2022, we’ve trained 5,000 people, with ~1,000 now working on making AI go well.
+
+Our courses are the main entry point into the AI safety field.
+
+We’ve raised $35M in total, including $25M in 2025.
 
 `}
           </MarkdownExtendedRenderer>
         </div>
       </Section>
 
-      <Section className="mt-8">
-        {/* Testimonials */}
-        <TestimonialSubSection testimonials={testimonials1} title="What people say about us" />
+      {/* Why take this course section */}
+      <WhyTakeThisCourseSection />
+
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+
+      {/* Community Members Section */}
+      <Section className="py-16">
+        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
+        <CommunityMembersSubSection members={communityMembers} />
       </Section>
 
       {/* Banner */}
       <AgiStrategyBanner
-        title="Join our AGI Strategy Course and become a leader in shaping humanity's AI future."
+        title="Don't wait until the world's even more crazy. Start making an impact today."
         ctaUrl={applicationUrl}
       />
 

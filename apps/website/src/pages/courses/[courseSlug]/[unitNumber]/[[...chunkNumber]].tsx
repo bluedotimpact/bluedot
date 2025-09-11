@@ -107,7 +107,7 @@ const CourseUnitChunkPage = () => {
     return <ProgressDots />;
   }
 
-  if (error || groupDiscussionError || !data) {
+  if (error || !data) {
     return <ErrorSection error={error ?? new Error('Missing data from API')} />;
   }
 
@@ -123,7 +123,8 @@ const CourseUnitChunkPage = () => {
       unitNumber={parseInt(unitNumber)}
       chunkIndex={chunkIndex}
       setChunkIndex={handleSetChunkIndex}
-      groupDiscussion={groupDiscussionData?.groupDiscussion || undefined}
+      groupDiscussion={groupDiscussionData?.groupDiscussion}
+      groupDiscussionError={groupDiscussionError}
     />
   );
 };

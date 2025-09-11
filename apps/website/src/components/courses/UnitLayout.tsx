@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import {
   Section,
   CTALinkOrButton,
+  ErrorSection,
 } from '@bluedot/ui';
 import {
   FaBars, FaChevronRight, FaChevronDown,
@@ -54,6 +55,7 @@ type UnitLayoutProps = {
   setChunkIndex: (index: number) => void;
   // Optional
   groupDiscussion?: GroupDiscussion;
+  groupDiscussionError?: Error | null;
 };
 
 type MobileHeaderProps = {
@@ -143,6 +145,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   chunkIndex,
   setChunkIndex,
   groupDiscussion,
+  groupDiscussionError,
 }) => {
   const router = useRouter();
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
@@ -392,6 +395,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
+          {groupDiscussionError && (
+            <ErrorSection error={groupDiscussionError} />
+          )}
           {groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner

@@ -1,5 +1,5 @@
 import {
-  pgTable, text, boolean, numeric, timestamp, serial,
+  pgTable, text, boolean, numeric, timestamp,
 } from 'drizzle-orm/pg-core';
 import { InferSelectModel } from 'drizzle-orm';
 
@@ -38,34 +38,6 @@ export const syncMetadataTable = pgTable('sync_metadata', {
   lastSyncStatus: text(), // 'success', 'failed', 'in_progress'
   lastSyncError: text(),
   updatedAt: timestamp().defaultNow(),
-});
-
-/**
- * Admin users table for pg-sync dashboard access control.
- * NOTE: This is a regular pgTable, NOT synced from Airtable.
- * Used solely for internal admin authentication. Currently we add
- * emails manually to this table.
- */
-export const adminUsersTable = pgTable('admin_users', {
-  email: text().primaryKey(),
-  addedAt: timestamp().defaultNow().notNull(),
-});
-
-// Define sync status type
-export type SyncStatus = 'queued' | 'running' | 'completed';
-
-/**
- * Table to track manual sync requests from the admin dashboard.
- * NOTE: This is a regular pgTable, NOT synced from Airtable.
- * Used to queue and track pg-sync operations.
- */
-export const syncRequestsTable = pgTable('sync_requests', {
-  id: serial().primaryKey(),
-  requestedBy: text().notNull(),
-  status: text().$type<SyncStatus>().default('queued').notNull(),
-  requestedAt: timestamp().defaultNow().notNull(),
-  startedAt: timestamp(),
-  completedAt: timestamp(),
 });
 
 export const courseTable = pgAirtable('course', {
@@ -571,6 +543,10 @@ export const blogTable = pgAirtable('blog', {
     publicationStatus: {
       pgColumn: text(),
       airtableId: 'fldiDvLbKKWNPeny4',
+    },
+    isFeatured: {
+      pgColumn: boolean(),
+      airtableId: 'fldBboUp1a7defS83',
     },
   },
 });
