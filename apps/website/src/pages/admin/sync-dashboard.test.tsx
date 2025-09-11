@@ -1,13 +1,14 @@
-import { render, screen, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import {
+  render, screen,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   describe, expect, test, vi, beforeEach, afterEach, type Mock,
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
-import SyncDashboard from './sync-dashboard';
 import type { SyncRequest, SyncStatus } from '@bluedot/db';
+import SyncDashboard from './sync-dashboard';
 
 // Mock dependencies
 vi.mock('axios-hooks');
@@ -40,13 +41,13 @@ describe('SyncDashboard - Main User Journeys', () => {
     vi.clearAllMocks();
     vi.clearAllTimers();
     vi.useFakeTimers();
-    
+
     // Default auth store state
     mockedUseAuthStore.mockImplementation((selector) => {
       const state = { auth: mockAuth };
       return selector(state);
     });
-    
+
     // Default useAxios mock (will be overridden in individual tests)
     mockedUseAxios.mockReturnValue([
       { data: null, loading: false, error: null },
@@ -62,7 +63,7 @@ describe('SyncDashboard - Main User Journeys', () => {
   test('denies access to unauthorized users', () => {
     // Mock API error (403) - component shows access denied when there's an error
     const mockError = { response: { status: 403 } };
-    
+
     mockedUseAxios
       .mockReturnValueOnce([
         { data: null, loading: false, error: mockError },
@@ -101,10 +102,12 @@ describe('SyncDashboard - Main User Journeys', () => {
   test('displays sync status with different states', () => {
     const requests = [
       { ...mockSyncRequest, id: 1, status: 'queued' as SyncStatus },
-      { ...mockSyncRequest, id: 2, status: 'running' as SyncStatus, completedAt: null },
+      {
+        ...mockSyncRequest, id: 2, status: 'running' as SyncStatus, completedAt: null,
+      },
       { ...mockSyncRequest, id: 3, status: 'completed' as SyncStatus },
     ];
-    
+
     mockedUseAxios
       .mockReturnValueOnce([
         { data: { requests }, loading: false, error: null },
@@ -129,7 +132,7 @@ describe('SyncDashboard - Main User Journeys', () => {
       status: 'running' as SyncStatus,
       completedAt: null,
     };
-    
+
     mockedUseAxios
       .mockReturnValueOnce([
         { data: { requests: [runningSync] }, loading: false, error: null },
