@@ -1,6 +1,7 @@
 import {
-  render, screen,
+  render, screen, act, type RenderResult,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import {
   describe, expect, test, vi, beforeEach, afterEach, type Mock,
@@ -28,14 +29,6 @@ vi.mock('react-icons/ri', () => ({
 
 describe('SyncDashboard - Main User Journeys', () => {
   const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
-  const mockSyncRequest: SyncRequest = {
-    id: 1,
-    requestedBy: 'test@bluedot.org',
-    status: 'completed' as SyncStatus,
-    requestedAt: new Date('2023-01-01T10:00:00Z'),
-    startedAt: new Date('2023-01-01T10:01:00Z'),
-    completedAt: new Date('2023-01-01T10:05:00Z'),
-  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -80,93 +73,141 @@ describe('SyncDashboard - Main User Journeys', () => {
     expect(screen.getByText("You don't have permission to access the admin dashboard.")).toBeInTheDocument();
   });
 
-  test('allows authorized users to view dashboard and request syncs', () => {
-    // Mock successful data load
+  test('authorized user can access dashboard and interact with sync button', async () => {
+    const user = userEvent.setup({ delay: null });
+    const mockFetchHistory = vi.fn().mockResolvedValue({ data: { requests: [] } });
+    const mockRequestSync = vi.fn().mockResolvedValue({ data: { success: true, requestId: 1 } });
+
+    // Mock successful dashboard access with empty requests initially  
     mockedUseAxios
-      .mockReturnValueOnce([
-        { data: { requests: [] }, loading: false, error: null },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
-
-    render(<SyncDashboard />);
-
+      .mockReturnValueOnce([{ 
+        data: { requests: [] }, 
+        loading: false, 
+        error: null 
+      }, mockFetchHistory])
+      .mockReturnValueOnce([{ 
+        data: null, 
+        loading: false, 
+        error: null 
+      }, mockRequestSync]);
+    
+    let component: RenderResult;
+    await act(async () => {
+      component = render(<SyncDashboard />);
+      // Advance timers to handle any initial effects
+      vi.advanceTimersByTime(100);
+    });
+    
     expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Request Full Sync' })).toBeInTheDocument();
     expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
+    
+    // Find the sync button
+    const syncButton = screen.getByRole('button', { name: 'Request Full Sync' });
+    expect(syncButton).toBeInTheDocument();
+    expect(syncButton).toBeEnabled();
+    expect(syncButton).toHaveClass('bg-blue-600');
+    
+    // Setup mock for after sync request - should return a new request
+    const newRequest = {
+      id: 1,
+      status: 'queued' as SyncStatus,
+      requestedBy: 'test@bluedot.org',
+      requestedAt: new Date('2023-01-01T10:00:00Z'),
+      startedAt: null,
+      completedAt: null
+    };
+    
+    // Mock the refetch to return new data after sync request
+    mockFetchHistory.mockResolvedValueOnce({ data: { requests: [newRequest] } });
+    
+    // Click the button
+    await act(async () => {
+      await user.click(syncButton);
+      vi.advanceTimersByTime(100);
+    });
+    
+    // Mock the component re-render with new data
+    mockedUseAxios
+      .mockReturnValueOnce([{ 
+        data: { requests: [newRequest] }, 
+        loading: false, 
+        error: null 
+      }, mockFetchHistory])
+      .mockReturnValueOnce([{ 
+        data: null, 
+        loading: false, 
+        error: null 
+      }, mockRequestSync]);
+    
+    // Re-render to simulate the effect of fetchHistory updating the data
+    await act(async () => {
+      component.rerender(<SyncDashboard />);
+      vi.advanceTimersByTime(100);
+    });
+    
+    // Verify the empty state is gone
+    expect(screen.queryByText('No manual sync requests in the last 24 hours')).not.toBeInTheDocument();
+    
+    // Verify the actual request data is displayed
+    expect(screen.getByText('queued')).toBeInTheDocument();
+    expect(screen.getByText('test@bluedot.org')).toBeInTheDocument();
+    expect(screen.getByText('Waiting')).toBeInTheDocument(); // Run time column shows "Waiting" for queued status
   });
 
-  test('displays sync status with different states', () => {
+  test('displays different sync status states correctly', async () => {
+    const mockRefetch = vi.fn();
+    
+    // Test queued, running, and completed states
     const requests = [
-      { ...mockSyncRequest, id: 1, status: 'queued' as SyncStatus },
-      {
-        ...mockSyncRequest, id: 2, status: 'running' as SyncStatus, completedAt: null,
+      { 
+        id: 1, 
+        status: 'queued' as SyncStatus, 
+        requestedBy: 'test@bluedot.org',
+        requestedAt: new Date('2023-01-01T10:00:00Z'),
+        startedAt: null,
+        completedAt: null
       },
-      { ...mockSyncRequest, id: 3, status: 'completed' as SyncStatus },
+      {
+        id: 2, 
+        status: 'running' as SyncStatus, 
+        requestedBy: 'test@bluedot.org',
+        requestedAt: new Date('2023-01-01T10:00:00Z'),
+        startedAt: new Date('2023-01-01T10:01:00Z'),
+        completedAt: null
+      },
+      { 
+        id: 3, 
+        status: 'completed' as SyncStatus, 
+        requestedBy: 'test@bluedot.org',
+        requestedAt: new Date('2023-01-01T10:00:00Z'),
+        startedAt: new Date('2023-01-01T10:01:00Z'),
+        completedAt: new Date('2023-01-01T10:05:00Z')
+      },
     ];
 
     mockedUseAxios
-      .mockReturnValueOnce([
-        { data: { requests }, loading: false, error: null },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
+      .mockReturnValueOnce([{ 
+        data: { requests }, 
+        loading: false, 
+        error: null 
+      }, mockRefetch])
+      .mockReturnValueOnce([{ 
+        data: null, 
+        loading: false, 
+        error: null 
+      }, vi.fn()]);
 
-    render(<SyncDashboard />);
+    await act(async () => {
+      render(<SyncDashboard />);
+      vi.advanceTimersByTime(100);
+    });
 
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getByText('queued')).toHaveClass('bg-gray-500');
     expect(screen.getByText('running')).toHaveClass('bg-yellow-500');
     expect(screen.getByText('completed')).toHaveClass('bg-green-500');
-  });
-
-  test('shows running sync message and allows queueing', () => {
-    const runningSync = {
-      ...mockSyncRequest,
-      status: 'running' as SyncStatus,
-      completedAt: null,
-    };
-
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: { requests: [runningSync] }, loading: false, error: null },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
-
-    render(<SyncDashboard />);
-
+    
+    // Should show warning message when sync is running
     expect(screen.getByText('A sync is currently running. Your request will be queued.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Request Full Sync' })).toBeEnabled();
-  });
-
-  test('displays sync data and handles updates', () => {
-    // Test that component properly displays sync data when available
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: { requests: [mockSyncRequest] }, loading: false, error: null },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
-
-    render(<SyncDashboard />);
-
-    // Should display the sync data properly
-    expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.getByText('test@bluedot.org')).toBeInTheDocument();
-    expect(screen.getByText('completed')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
   });
 });
