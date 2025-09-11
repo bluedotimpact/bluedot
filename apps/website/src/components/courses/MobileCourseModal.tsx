@@ -88,7 +88,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       title={courseTitle}
       bottomDrawerOnMobile
     >
-      <div className="flex flex-col gap-1 max-w-[600px]">
+      <div className="flex flex-col gap-1 w-full max-w-[600px]">
         {/* Course info header */}
         <div className="flex items-center gap-4 mb-4">
           <CourseIcon />
@@ -167,7 +167,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                         )}
                       >
                         <ChunkIcon isActive={isActive} />
-                        <div className="flex flex-col flex-1 min-h-[44px]">
+                        <div className="flex flex-col flex-1 min-h-[44px] justify-center">
                           {/* Chunk content wrapper with proper spacing */}
                           <div className="flex flex-col gap-[6px]">
                             {/* Chunk Title */}

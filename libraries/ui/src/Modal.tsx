@@ -196,7 +196,7 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
               <div
                 data-modal-content
                 className={clsx(
-                  'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
+                  'flex flex-col flex-1 overflow-y-auto p-4 w-full items-center',
                   isDragging && 'pointer-events-none',
                 )}
               >
