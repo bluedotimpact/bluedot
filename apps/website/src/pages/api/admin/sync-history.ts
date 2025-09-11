@@ -5,12 +5,21 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 import { checkAdminAccess } from './request-sync';
 
+const syncRequestSchema = z.object({
+  id: z.number(),
+  requestedBy: z.string(),
+  status: z.enum(['queued', 'running', 'completed']),
+  requestedAt: z.date(),
+  startedAt: z.date().nullable(),
+  completedAt: z.date().nullable(),
+});
+
 export default makeApiRoute({
   requireAuth: true,
   requestBody: z.object({}).optional(),
   responseBody: z.object({
     type: z.literal('success'),
-    requests: z.array(z.any()),
+    requests: z.array(syncRequestSchema),
   }),
 }, async (body, { auth, raw }) => {
   if (raw.req.method !== 'GET') {

@@ -44,8 +44,12 @@ export default makeApiRoute({
     status: 'queued',
   }).returning();
 
+  if (!syncRequestResult?.[0]?.id) {
+    throw new createHttpError.InternalServerError('Failed to create sync request');
+  }
+
   return {
     type: 'success' as const,
-    requestId: syncRequestResult?.[0]?.id,
+    requestId: syncRequestResult[0].id,
   };
 });
