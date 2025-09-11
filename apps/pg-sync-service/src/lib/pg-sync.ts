@@ -32,76 +32,52 @@ export async function waitForQueueToEmpty(): Promise<void> {
   // If queue already empty, return immediately
   if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
     logger.info('[waitForQueueToEmpty] Queues already empty, returning immediately');
-    return Promise.resolve();
+    return;
   }
 
   logger.info(`[waitForQueueToEmpty] Waiting for queues to empty. Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`);
 
-  const TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
-  const CHECK_INTERVAL_MS = 1000; // 1 second
+  const TIMEOUT_MS = 45 * 60 * 1000; // 45 minutes
+  const CHECK_INTERVAL_MS = 100; // Check more frequently for responsiveness
+  const LOG_INTERVAL_MS = 30000; // Log every 30 seconds
+
+  const startTime = Date.now();
+  let lastLogTime = startTime;
 
   return new Promise((resolve, reject) => {
-    const startTime = Date.now();
-    let callbackResolved = false;
-
-    // Set up the callback as before for compatibility
-    queueEmptyCallback = () => {
-      if (!callbackResolved) {
-        callbackResolved = true;
-        logger.info('[waitForQueueToEmpty] Queue empty callback triggered');
-        resolve();
-      }
-    };
-
-    // Set up periodic checking as backup
     const intervalId = setInterval(() => {
       const currentTime = Date.now();
       const elapsed = currentTime - startTime;
 
       // Check if queues are empty
       if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
-        if (!callbackResolved) {
-          callbackResolved = true;
-          clearInterval(intervalId);
-          logger.info(`[waitForQueueToEmpty] Queues detected empty via periodic check after ${elapsed}ms`);
-          resolve();
-        }
+        clearInterval(intervalId);
+        logger.info(`[waitForQueueToEmpty] Queues empty after ${elapsed}ms`);
+        resolve();
         return;
       }
 
       // Check for timeout
       if (elapsed >= TIMEOUT_MS) {
-        if (!callbackResolved) {
-          callbackResolved = true;
-          clearInterval(intervalId);
-          queueEmptyCallback = null;
-          const error = new Error(`Timeout waiting for queues to empty after ${TIMEOUT_MS}ms. Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`);
-          logger.error('[waitForQueueToEmpty]', error.message);
-          reject(error);
-        }
+        clearInterval(intervalId);
+        const error = new Error(
+          `Timeout waiting for queues to empty after ${TIMEOUT_MS}ms. ` +
+          `Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`
+        );
+        logger.error('[waitForQueueToEmpty]', error.message);
+        reject(error);
         return;
       }
 
-      // Log progress every 30 seconds
-      if (elapsed % 30000 === 0) {
-        logger.info(`[waitForQueueToEmpty] Still waiting... elapsed: ${elapsed}ms, high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`);
+      // Log progress periodically
+      if (currentTime - lastLogTime >= LOG_INTERVAL_MS) {
+        logger.info(
+          `[waitForQueueToEmpty] Still waiting... elapsed: ${Math.round(elapsed/1000)}s, ` +
+          `high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`
+        );
+        lastLogTime = currentTime;
       }
     }, CHECK_INTERVAL_MS);
-
-    // Cleanup function when promise resolves/rejects
-    const cleanup = () => {
-      clearInterval(intervalId);
-      if (queueEmptyCallback === resolve) {
-        queueEmptyCallback = null;
-      }
-    };
-
-    // Ensure cleanup happens
-    Promise.resolve().then(() => {
-      if (callbackResolved) {
-        cleanup();
-      }
-    });
   });
 }
 
