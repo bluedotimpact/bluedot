@@ -1,29 +1,15 @@
-import React, {
-  useState, useRef, useEffect, useCallback,
-} from 'react';
-import {
-  animate, AnimatePresence, motion, useMotionTemplate, useMotionValue, useTransform, useDragControls,
-} from 'framer-motion';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
-
+import { Modal } from '@bluedot/ui';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
-// Layout constants - ensures modal doesn't overlap with navigation
-const NAV_HEIGHT = 64;
-const SHEET_MARGIN = NAV_HEIGHT + 12;
-
-// Drag behavior thresholds
-const CLOSE_VELOCITY_THRESHOLD = 500; // px/s - fast downward swipes close the modal
-const CLOSE_POSITION_THRESHOLD = 0.8; // 80% of height - dragging past this point closes modal
-const EXPANSION_SENSITIVITY = 2; // Multiplier for scroll-to-expand - makes expansion feel responsive
-
 type MobileCourseModalProps = {
   isOpen: boolean;
-  onClose: () => void;
+  setIsOpen: (isOpen: boolean) => void;
   courseTitle: string;
   units: Unit[];
   currentUnitNumber: number;
@@ -59,7 +45,7 @@ const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
 
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   isOpen,
-  onClose,
+  setIsOpen,
   courseTitle,
   units,
   currentUnitNumber,
@@ -69,177 +55,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   onUnitSelect,
 }) => {
   const [isCurrentUnitExpanded, setIsCurrentUnitExpanded] = useState(true);
-  const [isHeaderSticky, setIsHeaderSticky] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const dragControls = useDragControls();
-
-  const scrollPositionRef = useRef<number>(0);
-  const isScrollLockedRef = useRef<boolean>(false);
-  const preventTouchMoveRef = useRef<((e: TouchEvent) => void) | null>(null);
-
-  const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
-
-  // Prevents background scrolling while modal is open
-  // Uses position:fixed approach to maintain scroll position across all browsers
-  const lockBodyScroll = useCallback(() => {
-    if (typeof window === 'undefined' || isScrollLockedRef.current) return;
-
-    // Preserve current scroll position to restore later
-    scrollPositionRef.current = window.scrollY || document.documentElement.scrollTop;
-
-    const { body } = document;
-    body.style.overflow = 'hidden';
-    document.documentElement.style.overscrollBehavior = 'none';
-    // Fix body position to prevent scroll jump when locking
-    body.style.position = 'fixed';
-    body.style.top = `-${scrollPositionRef.current}px`;
-    body.style.left = '0';
-    body.style.right = '0';
-
-    // iOS requires additional touch event prevention to fully disable background scroll
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-      const preventTouchMove = (e: TouchEvent) => {
-        const target = e.target as Element;
-        const modalContent = target.closest('[data-modal-content]');
-        // Only prevent scrolling outside modal content area
-        if (!modalContent) {
-          e.preventDefault();
-        }
-      };
-
-      document.addEventListener('touchmove', preventTouchMove, { passive: false });
-      preventTouchMoveRef.current = preventTouchMove;
-    }
-
-    isScrollLockedRef.current = true;
-  }, []);
-
-  const unlockBodyScroll = useCallback(() => {
-    if (typeof window === 'undefined' || !isScrollLockedRef.current) return;
-
-    const { body } = document;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
-    body.style.overflow = '';
-    body.style.position = '';
-    body.style.top = '';
-    body.style.left = '';
-    body.style.right = '';
-    document.documentElement.style.overscrollBehavior = '';
-
-    if (isIOS) {
-      const preventTouchMove = preventTouchMoveRef.current;
-      if (preventTouchMove) {
-        document.removeEventListener('touchmove', preventTouchMove);
-        preventTouchMoveRef.current = null;
-      }
-    }
-
-    window.scrollTo(0, scrollPositionRef.current);
-    isScrollLockedRef.current = false;
-  }, []);
-
-  // Modal positioning calculations based on viewport
-  // Coordinate system: 0 = fully expanded, closedY = fully closed
-  const availableHeight = windowHeight - SHEET_MARGIN;
-  const halfOpenY = availableHeight * 0.15; // Initial position - shows ~85% of content
-  const closedY = availableHeight; // Fully closed position
-
-  const y = useMotionValue(halfOpenY);
-
-  const bgOpacity = useTransform(y, [0, closedY], [0.4, 0.1]);
-  const bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
-
-  const isFullyExpanded = () => y.get() < 20; // 20px threshold for "fully expanded" state
-
-  // Scroll-to-expand behavior: scrolling up when at top of content expands the modal
-  // This creates an intuitive gesture where users naturally scroll to see more content
-  useEffect(() => {
-    if (!isOpen || !scrollContainerRef.current || isDragging) return undefined;
-
-    const handleScroll = () => {
-      if (!scrollContainerRef.current || isDragging) return;
-      const { scrollTop } = scrollContainerRef.current;
-
-      // Toggle sticky header based on expansion state and scroll position
-      if (isFullyExpanded()) {
-        setIsHeaderSticky(true);
-      } else if (scrollTop === 0) {
-        setIsHeaderSticky(false);
-      }
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (!scrollContainerRef.current || isDragging) return;
-
-      const { scrollTop } = scrollContainerRef.current;
-      const currentY = y.get();
-
-      // When at top of scroll area and scrolling up, expand modal instead of scrolling
-      if (scrollTop === 0 && e.deltaY < 0 && currentY > 0) {
-        e.preventDefault();
-        const newY = Math.max(0, currentY + e.deltaY * EXPANSION_SENSITIVITY);
-
-        animate(y, newY, {
-          duration: 0.2,
-          ease: [0.32, 0.72, 0, 1], // Custom easing for smooth expansion
-        });
-
-        if (newY < 20) {
-          setIsHeaderSticky(true);
-        }
-      }
-    };
-
-    const scrollContainer = scrollContainerRef.current;
-    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
-    scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      scrollContainer.removeEventListener('scroll', handleScroll);
-      scrollContainer.removeEventListener('wheel', handleWheel);
-    };
-  }, [isOpen, y, isDragging]);
-
-  // Reset on modal state changes
-  useEffect(() => {
-    if (!isOpen) {
-      setIsHeaderSticky(false);
-      setIsDragging(false);
-      setIsClosing(false);
-    } else {
-      setIsClosing(false);
-      setIsHeaderSticky(false);
-    }
-  }, [isOpen]);
-
-  // Animate modal on open/close
-  useEffect(() => {
-    // When opening, animate to half-open baseline; when closing from parent, animate to closed
-    if (isOpen) {
-      animate(y, halfOpenY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
-    } else {
-      animate(y, closedY, { duration: 0.2, ease: [0.32, 0.72, 0, 1] });
-    }
-  }, [isOpen, halfOpenY, closedY, y, animate]);
-
-  // Body scroll lock
-  useEffect(() => {
-    if (isOpen) {
-      lockBodyScroll();
-    } else {
-      unlockBodyScroll();
-    }
-
-    return () => {
-      if (isScrollLockedRef.current) {
-        unlockBodyScroll();
-      }
-    };
-  }, [isOpen, lockBodyScroll, unlockBodyScroll]);
 
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
@@ -253,251 +68,128 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       setIsCurrentUnitExpanded((prev) => !prev);
     } else {
       // Different unit: navigate to first chunk and close modal
-      // This creates a seamless navigation experience
-      if (onUnitSelect && !isClosing) {
+      if (onUnitSelect) {
         const unitPath = `${unit.coursePath}/${unit.unitNumber}`;
         onUnitSelect(unitPath);
       }
-      if (!isClosing) {
-        setIsClosing(true);
-        animate(y, closedY, {
-          duration: 0.3,
-          ease: [0.32, 0.72, 0, 1],
-        }).then(() => {
-          onClose();
-        });
-      }
+      setIsOpen(false);
     }
   };
 
   const handleChunkClick = (index: number) => {
-    if (!isClosing) {
-      onChunkSelect(index);
-      setIsClosing(true);
-      animate(y, closedY, {
-        duration: 0.3,
-        ease: [0.32, 0.72, 0, 1],
-      }).then(() => {
-        onClose();
-      });
-    }
-  };
-
-  const handleClose = () => {
-    if (!isClosing) {
-      setIsClosing(true);
-      animate(y, closedY, {
-        duration: 0.3,
-        ease: [0.32, 0.72, 0, 1],
-      }).then(() => {
-        onClose();
-      });
-    }
+    onChunkSelect(index);
+    setIsOpen(false);
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            className="fixed inset-0 z-40"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{ backgroundColor: bg as unknown as string }}
-            onClick={handleClose}
-          />
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      title={courseTitle}
+      bottomDrawerOnMobile
+    >
+      <div className="flex flex-col gap-1 max-w-[600px]">
+        {/* Course info header */}
+        <div className="flex items-center gap-4 mb-4">
+          <CourseIcon />
+          <div className="flex flex-col justify-center gap-0.5 flex-1">
+            <h3 className="text-size-md leading-[110%] font-semibold text-[#13132E]">
+              {courseTitle}
+            </h3>
+            <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
+          </div>
+        </div>
 
-          {/* Modal Container */}
-          <motion.div
-            className="bg-color-canvas fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col z-50"
-            transition={{
-              duration: 0.3,
-              ease: [0.32, 0.72, 0, 1],
-            }}
-            style={{
-              y,
-              height: availableHeight,
-            }}
-            id="mobile-course-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="mobile-course-modal-title"
-            tabIndex={-1}
-            drag="y"
-            dragListener={false}
-            dragControls={dragControls}
-            dragConstraints={{
-              top: 0,
-              bottom: closedY,
-            }}
-            dragElastic={0}
-            onDragStart={() => {
-              setIsDragging(true);
-            }}
-            onDrag={() => {
-              if (isFullyExpanded()) {
-                setIsHeaderSticky(true);
-              } else {
-                setIsHeaderSticky(false);
-              }
-            }}
-            onDragEnd={(e, info) => {
-              setIsDragging(false);
+        {/* Unit Listing */}
+        {units.map((unit, unitIndex) => {
+          const isCurrent = isCurrentUnit(unit);
+          const isExpanded = isCurrent && isCurrentUnitExpanded;
+          const unitChunks = isCurrent ? chunks : []; // Only show chunks for current unit
 
-              if (isClosing) return;
+          return (
+            <div key={unit.id} className="relative">
+              {unitIndex > 0 && (
+                <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
+              )}
 
-              // Close modal if user drags fast enough downward OR drags far enough down
-              const velocity = info.velocity.y;
-              const currentY = y.get();
-              const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
-
-              if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
-                setIsClosing(true);
-                animate(y, closedY, {
-                  duration: 0.3,
-                  ease: [0.32, 0.72, 0, 1],
-                }).then(() => {
-                  onClose();
-                });
-              }
-            }}
-          >
-            <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
-
-              {/* Header Section with Drag Handle */}
-              <div
-                className={clsx(
-                  'flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px] transition-shadow duration-300',
-                  isHeaderSticky && 'sticky top-0 z-10 shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
-                )}
-              >
-                {/* Drag handle */}
-                <div
-                  className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
-                  onPointerDown={(e) => dragControls.start(e)}
+              {/* Current unit - shows as non-clickable with expand/collapse toggle */}
+              {isCurrent ? (
+                <div className="w-full flex items-center px-2 py-4 gap-2">
+                  <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
+                    {unit.unitNumber}. {unit.title}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsCurrentUnitExpanded((prev) => !prev);
+                    }}
+                    className="p-2 -m-2 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    aria-label={isExpanded ? 'Collapse unit' : 'Expand unit'}
+                    aria-expanded={isExpanded}
+                    aria-controls={`unit-${unit.id}-chunks`}
+                  >
+                    <FaChevronRight
+                      className={clsx(
+                        'size-3 transition-all duration-200 group-hover:scale-110',
+                        isExpanded && 'rotate-90',
+                      )}
+                    />
+                  </button>
+                </div>
+              ) : (
+                // Other units - clickable to navigate to that unit
+                <button
+                  type="button"
+                  onClick={() => handleUnitHeaderClick(unit)}
+                  className="w-full flex items-center px-2 py-4 gap-2 text-left hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
                 >
-                  <div className="w-[30px] h-1 bg-[rgba(19,19,46,0.3)] rounded-[3px]" />
-                </div>
+                  <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
+                    {unit.unitNumber}. {unit.title}
+                  </p>
+                  <FaChevronRight className="size-3 text-[#13132E]" />
+                </button>
+              )}
 
-                {/* Course info */}
-                <div className="flex items-center px-5 gap-4 w-full pt-1 pb-5">
-                  <CourseIcon />
-                  <div className="flex flex-col justify-center gap-0.5 flex-1">
-                    <h2 id="mobile-course-modal-title" className="text-size-md leading-[110%] font-semibold text-[#13132E]">
-                      {courseTitle}
-                    </h2>
-                    <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content / Scrollable Area */}
-              <div
-                ref={scrollContainerRef}
-                data-modal-content
-                className={clsx(
-                  'flex flex-col gap-1 flex-1 overflow-y-auto px-4 pb-safe',
-                  isDragging && 'pointer-events-none',
-                )}
-              >
-                {/* Unit Listing */}
-                {units.map((unit, unitIndex) => {
-                  const isCurrent = isCurrentUnit(unit);
-                  const isExpanded = isCurrent && isCurrentUnitExpanded;
-                  const unitChunks = isCurrent ? chunks : []; // Only show chunks for current unit
-
-                  return (
-                    <div key={unit.id} className="relative">
-                      {unitIndex > 0 && (
-                        <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-6" />
-                      )}
-
-                      {/* Current unit - shows as non-clickable with expand/collapse toggle */}
-                      {isCurrent ? (
-                        <div className="w-full flex items-center px-6 py-4 gap-2">
-                          <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
-                            {unit.unitNumber}. {unit.title}
-                          </p>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsCurrentUnitExpanded((prev) => !prev);
-                            }}
-                            className="p-2 -m-2 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                            aria-label={isExpanded ? 'Collapse unit' : 'Expand unit'}
-                            aria-expanded={isExpanded}
-                            aria-controls={`unit-${unit.id}-chunks`}
-                          >
-                            <FaChevronRight
-                              className={clsx(
-                                'size-3 transition-all duration-200 group-hover:scale-110',
-                                isExpanded && 'rotate-90',
-                              )}
-                            />
-                          </button>
+              {/* Chunk Listing (only for current unit when expanded) */}
+              {isCurrent && isExpanded && (
+                <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
+                  {unitChunks.map((chunk, index) => {
+                    const isActive = currentChunkIndex === index;
+                    return (
+                      <button
+                        type="button"
+                        key={chunk.id}
+                        onClick={() => handleChunkClick(index)}
+                        className={clsx(
+                          'flex items-center px-2 py-4 gap-3 text-left transition-colors rounded-lg',
+                          isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
+                        )}
+                      >
+                        <ChunkIcon isActive={isActive} />
+                        <div className="flex flex-col flex-1 min-h-[44px]">
+                          {/* Chunk content wrapper with proper spacing */}
+                          <div className="flex flex-col gap-[6px]">
+                            {/* Chunk Title */}
+                            <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                              {chunk.chunkTitle}
+                            </p>
+                          </div>
+                          {chunk.estimatedTime != null && (
+                            <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
+                              {formatTime(chunk.estimatedTime)}
+                            </span>
+                          )}
                         </div>
-                      ) : (
-                        // Other units - clickable to navigate to that unit
-                        <button
-                          type="button"
-                          onClick={() => handleUnitHeaderClick(unit)}
-                          className="w-full flex items-center px-6 py-4 gap-2 text-left hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
-                        >
-                          <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
-                            {unit.unitNumber}. {unit.title}
-                          </p>
-                          <FaChevronRight className="size-3 text-[#13132E]" />
-                        </button>
-                      )}
-
-                      {/* Chunk Listing (only for current unit when expanded) */}
-                      {isCurrent && isExpanded && (
-                        <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
-                          {unitChunks.map((chunk, index) => {
-                            const isActive = currentChunkIndex === index;
-                            return (
-                              <button
-                                type="button"
-                                key={chunk.id}
-                                onClick={() => handleChunkClick(index)}
-                                className={clsx(
-                                  'flex items-center px-6 py-4 gap-3 text-left transition-colors rounded-lg',
-                                  isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
-                                )}
-                              >
-                                <ChunkIcon isActive={isActive} />
-                                <div className="flex flex-col flex-1 min-h-[44px]">
-                                  {/* Chunk content wrapper with proper spacing */}
-                                  <div className="flex flex-col gap-[6px]">
-                                    {/* Chunk Title */}
-                                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
-                                      {chunk.chunkTitle}
-                                    </p>
-                                  </div>
-                                  {chunk.estimatedTime != null && (
-                                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
-                                      {formatTime(chunk.estimatedTime)}
-                                    </span>
-                                  )}
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+          );
+        })}
+      </div>
+    </Modal>
   );
 };
-
-export default MobileCourseModal;

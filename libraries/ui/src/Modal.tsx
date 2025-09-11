@@ -9,9 +9,7 @@ import {
   animate,
   AnimatePresence,
   motion,
-  useMotionTemplate,
   useMotionValue,
-  useTransform,
   useDragControls,
 } from 'framer-motion';
 import clsx from 'clsx';
@@ -63,14 +61,9 @@ const SHEET_MARGIN = NAV_HEIGHT + 12;
 const CLOSE_VELOCITY_THRESHOLD = 500;
 const CLOSE_POSITION_THRESHOLD = 0.8;
 
-const MobileDrawerModal: React.FC<{
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  children: ReactNode;
-}> = ({
+const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   isOpen,
-  onClose,
+  setIsOpen,
   title,
   children,
 }) => {
@@ -87,8 +80,6 @@ const MobileDrawerModal: React.FC<{
 
   // Always start from closed position, even if isOpen is initially true
   const y = useMotionValue(closedY);
-  const bgOpacity = useTransform(y, [0, closedY], [0.4, 0.1]);
-  const bg = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
 
   // Reset on modal state changes
   useEffect(() => {
@@ -107,7 +98,7 @@ const MobileDrawerModal: React.FC<{
       animate(y, halfOpenY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
     } else if (!isOpen) {
       // Slide down to bottom
-      animate(y, closedY, { duration: 0.2, ease: [0.32, 0.72, 0, 1] });
+      animate(y, closedY, { duration: 1.0, ease: [0.32, 0.72, 0, 1] });
     }
   }, [isOpen, halfOpenY, closedY, y]);
 
@@ -118,7 +109,7 @@ const MobileDrawerModal: React.FC<{
         duration: 0.3,
         ease: [0.32, 0.72, 0, 1],
       }).then(() => {
-        onClose();
+        setIsOpen(false);
       });
     }
   };
@@ -126,117 +117,103 @@ const MobileDrawerModal: React.FC<{
   return (
     <ModalOverlay
       isDismissable
+      data-is-open={isOpen}
       isOpen={isOpen}
       onOpenChange={(open) => {
         if (!open) {
           handleClose();
         }
       }}
-      className="fixed inset-0 z-40"
+      className={clsx(
+        'fixed inset-0 z-60 flex min-h-full items-center justify-center backdrop-blur-xs bg-black/25 transition-opacity duration-300 ease-out',
+        isOpen ? 'opacity-100' : 'opacity-0',
+      )}
     >
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={{ backgroundColor: bg as unknown as string }}
-              onClick={handleClose}
-            />
+      <AriaModal>
+        <AnimatePresence>
+          {/* Modal Container */}
+          <motion.div
+            className="bg-white fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col"
+            transition={{
+              duration: 0.3,
+              ease: [0.32, 0.72, 0, 1],
+            }}
+            style={{
+              y,
+              height: availableHeight,
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mobile-modal-title"
+            tabIndex={-1}
+            drag="y"
+            dragListener={false}
+            dragControls={dragControls}
+            dragConstraints={{
+              top: 0,
+              bottom: closedY,
+            }}
+            dragElastic={0}
+            onDragStart={() => {
+              setIsDragging(true);
+            }}
+            onDragEnd={(e, info) => {
+              setIsDragging(false);
 
-            {/* Modal Container */}
-            <motion.div
-              className="bg-white fixed bottom-0 inset-x-0 rounded-t-[24px] shadow-lg will-change-transform flex flex-col z-50"
-              transition={{
-                duration: 0.3,
-                ease: [0.32, 0.72, 0, 1],
-              }}
-              style={{
-                y,
-                height: availableHeight,
-              }}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="mobile-modal-title"
-              tabIndex={-1}
-              drag="y"
-              dragListener={false}
-              dragControls={dragControls}
-              dragConstraints={{
-                top: 0,
-                bottom: closedY,
-              }}
-              dragElastic={0}
-              onDragStart={() => {
-                setIsDragging(true);
-              }}
-              onDragEnd={(e, info) => {
-                setIsDragging(false);
+              if (isClosing) return;
 
-                if (isClosing) return;
+              const velocity = info.velocity.y;
+              const currentY = y.get();
+              const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
 
-                const velocity = info.velocity.y;
-                const currentY = y.get();
-                const closeThreshold = closedY * CLOSE_POSITION_THRESHOLD;
-
-                if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
-                  setIsClosing(true);
-                  animate(y, closedY, {
-                    duration: 0.3,
-                    ease: [0.32, 0.72, 0, 1],
-                  }).then(() => {
-                    onClose();
-                  });
-                }
-              }}
-            >
-              <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
-                {/* Header Section with Drag Handle */}
-                <div className="flex flex-col bg-gray-50 border-b border-gray-200 rounded-t-[24px]">
-                  {/* Drag handle */}
-                  <div
-                    className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
-                    onPointerDown={(e) => dragControls.start(e)}
-                  >
-                    <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
-                  </div>
-
-                  <div className="flex items-center justify-between px-5 pb-4">
-                    <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
-                      {title}
-                    </h2>
-                    <ClickTarget onClick={handleClose} className="text-gray-500 hover:text-gray-700">
-                      <span className="text-2xl">&times;</span>
-                    </ClickTarget>
-                  </div>
-                </div>
-
-                {/* Content / Scrollable Area */}
+              if (velocity > CLOSE_VELOCITY_THRESHOLD || currentY > closeThreshold) {
+                handleClose();
+              }
+            }}
+          >
+            <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
+              {/* Header Section with Drag Handle */}
+              <div className="flex flex-col bg-gray-50 border-b border-gray-200 rounded-t-[24px]">
+                {/* Drag handle */}
                 <div
-                  data-modal-content
-                  className={clsx(
-                    'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
-                    isDragging && 'pointer-events-none',
-                  )}
+                  className="flex justify-center pt-1 pb-3 cursor-grab active:cursor-grabbing touch-none"
+                  onPointerDown={(e) => dragControls.start(e)}
                 >
-                  {children}
+                  <div className="w-[30px] h-1 bg-gray-400 rounded-[3px]" />
                 </div>
-                {/*
-                  * Spacer div: The parent can overflow off the screen, fill the off-screen space
-                  * so the content fills exactly the on-screen area.
-                  */}
-                <motion.div
-                  style={{ height: y, minHeight: 0 }}
-                  className="flex-shrink-0"
-                />
+
+                <div className="flex items-center justify-between px-5 pb-4">
+                  <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-gray-900">
+                    {title}
+                  </h2>
+                  <ClickTarget onClick={handleClose} className="text-gray-500 hover:text-gray-700">
+                    <span className="text-2xl">&times;</span>
+                  </ClickTarget>
+                </div>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+
+              {/* Content / Scrollable Area */}
+              <div
+                data-modal-content
+                className={clsx(
+                  'flex flex-col flex-1 overflow-y-auto p-4 mx-auto',
+                  isDragging && 'pointer-events-none',
+                )}
+              >
+                {children}
+              </div>
+              {/*
+                * Spacer div: The parent can overflow off the screen, fill the off-screen space
+                * so the content fills exactly the on-screen area.
+                */}
+              <motion.div
+                style={{ height: y, minHeight: 0 }}
+                className="flex-shrink-0"
+              />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </AriaModal>
     </ModalOverlay>
   );
 };
@@ -259,7 +236,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <MobileDrawerModal isOpen={isOpen} onClose={() => setIsOpen(false)} title={title}>
+      <MobileDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
         {children}
       </MobileDrawerModal>
     );

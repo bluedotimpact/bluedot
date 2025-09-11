@@ -478,7 +478,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
-        onClose={() => setIsMobileCourseMenuOpen(false)}
+        setIsOpen={setIsMobileCourseMenuOpen}
         courseTitle={unit.courseTitle}
         units={units}
         currentUnitNumber={unitNumber}
