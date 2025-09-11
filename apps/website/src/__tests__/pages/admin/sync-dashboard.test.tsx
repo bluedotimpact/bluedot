@@ -8,7 +8,7 @@ import {
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { SyncRequest, SyncStatus } from '@bluedot/db';
-import SyncDashboard from './sync-dashboard';
+import SyncDashboard from '../../../pages/admin/sync-dashboard';
 
 // Mock dependencies
 vi.mock('axios-hooks');
