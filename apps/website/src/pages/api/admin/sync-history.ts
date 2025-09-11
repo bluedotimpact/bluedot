@@ -18,20 +18,20 @@ export default makeApiRoute({
   }
 
   const hasAccess = await checkAdminAccess(auth.email);
-  
+
   if (!hasAccess) {
     throw new createHttpError.Forbidden('Unauthorized');
   }
-  
+
   // Get last 24 hours of requests, newest first
   const twentyFourHoursAgo = new Date();
   twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
-  
+
   const requests = await db.pg.select()
     .from(syncRequestsTable)
     .where(gte(syncRequestsTable.requestedAt, twentyFourHoursAgo))
     .orderBy(desc(syncRequestsTable.requestedAt));
-  
+
   return {
     type: 'success' as const,
     requests,

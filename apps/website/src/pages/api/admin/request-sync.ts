@@ -14,7 +14,7 @@ export const checkAdminAccess = async (email: string): Promise<boolean> => {
       .from(adminUsersTable)
       .where(eq(adminUsersTable.email, email))
       .limit(1);
-    
+
     return admin.length > 0;
   } catch {
     return false;
@@ -34,16 +34,16 @@ export default makeApiRoute({
   }
 
   const hasAccess = await checkAdminAccess(auth.email);
-  
+
   if (!hasAccess) {
     throw new createHttpError.Forbidden('Unauthorized');
   }
-  
+
   const syncRequestResult = await db.pg.insert(syncRequestsTable).values({
     requestedBy: auth.email,
     status: 'queued',
   }).returning();
-  
+
   return {
     type: 'success' as const,
     requestId: syncRequestResult?.[0]?.id,
