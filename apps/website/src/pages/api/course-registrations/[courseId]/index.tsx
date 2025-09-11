@@ -35,7 +35,7 @@ export default makeApiRoute({
           },
         });
       } catch (error) {
-        throw new createHttpError.InternalServerError('Database error occurred');
+        throw new createHttpError.InternalServerError(`Database error occurred: ${error instanceof Error ? error.message : String(error)}`);
       }
 
       if (courseRegistration) {
