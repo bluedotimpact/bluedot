@@ -1,5 +1,6 @@
 import {
-  pgTable, text, boolean, numeric, timestamp, serial, pgEnum,
+  pgTable, text, boolean, numeric, timestamp,
+  serial,
 } from 'drizzle-orm/pg-core';
 import { InferSelectModel } from 'drizzle-orm';
 
@@ -43,7 +44,7 @@ export const syncMetadataTable = pgTable('sync_metadata', {
 /**
  * Admin users table for pg-sync dashboard access control.
  * NOTE: This is a regular pgTable, NOT synced from Airtable.
- * Used solely for internal admin authentication. Currently we add 
+ * Used solely for internal admin authentication. Currently we add
  * emails manually to this table.
  */
 export const adminUsersTable = pgTable('admin_users', {
