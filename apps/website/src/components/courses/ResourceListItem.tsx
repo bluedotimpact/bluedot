@@ -259,7 +259,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               className="flex items-center gap-2"
               aria-label={`${resource.resourceName} (opens in new tab)`}
             >
-              {/* Favicon */}
               <FaviconImage url={resource.resourceLink} displaySize={16} />
               <span className="no-underline hover:underline hover:text-[#2244BB] text-inherit transition-colors font-semibold leading-[140%] tracking-[-0.005em]">{resource.resourceName}</span>
               {/* External link icon */}
