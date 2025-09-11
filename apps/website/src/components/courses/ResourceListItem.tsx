@@ -265,7 +265,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                           className="mr-2"
                         />
                         <a
-                          href={resource.resourceLink}
+                          href={addQueryParam(resource.resourceLink, 'utm_source', 'bluedot-impact')}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="no-underline hover:underline hover:text-[#2244BB] text-inherit transition-colors"
@@ -274,7 +274,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                           {resource.resourceName}
                         </a>
                         <a
-                          href={resource.resourceLink}
+                          href={addQueryParam(resource.resourceLink, 'utm_source', 'bluedot-impact')}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex group-hover:opacity-80 transition-opacity ml-2"
