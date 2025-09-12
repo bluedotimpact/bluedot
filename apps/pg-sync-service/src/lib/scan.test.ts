@@ -15,6 +15,10 @@ vi.mock('./db', () => ({
   },
 }));
 
+vi.mock('@bluedot/utils/src/slackNotifications', () => ({
+  slackAlert: vi.fn(),
+}));
+
 describe('processTableForInitialSync', () => {
   let mockAddToQueue: ReturnType<typeof vi.fn>;
   let mockPgAirtable: { airtable: { name: string; baseId: string; tableId: string; schema: Record<string, string>; mappings: Record<string, string> } };
