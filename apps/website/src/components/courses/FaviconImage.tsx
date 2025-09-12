@@ -44,6 +44,7 @@ export const FaviconImage: React.FC<FaviconImageProps> = ({
     <img
       src={faviconUrl}
       alt={alt || `${domain} favicon`}
+      aria-hidden={alt === undefined || alt === ''}
       width={displaySize} // Display dimensions (e.g., 16x16)
       height={displaySize} // Browser scales down the high-res image
       className={`inline-block flex-shrink-0 ${className}`}
