@@ -1,7 +1,7 @@
 import { logger } from '@bluedot/ui/src/api';
 import { getInstance } from './app';
 import env from './env';
-import { startCronJobs } from './lib/cron';
+import { startWebhooksAndProcessingUpdates, startAdminSyncCron } from './lib/cron';
 import { performFullSync } from './lib/scan';
 import { addToQueue, waitForQueueToEmpty } from './lib/pg-sync';
 import { syncManager } from './lib/sync-manager';
@@ -52,7 +52,7 @@ const start = async () => {
       logger.info(`Server listening on ${address}`);
     });
 
-    await startCronJobs();
+    await startWebhooksAndProcessingUpdates();
 
     // Check if initial sync is needed (either via flag, automatic detection, or schema changes)
     const needsFullSync = hasInitialSyncFlag || hasInitialSyncTablesFlag || schemaChangesDetected || await syncManager.isInitialSyncNeeded();
@@ -107,6 +107,9 @@ const start = async () => {
     } else {
       logger.info('[main] No full sync needed, continuing with normal operations');
     }
+
+    // Start admin sync cron after any initial sync logic is complete
+    startAdminSyncCron();
   } catch (error) {
     logger.error('Failed to start server', error);
     process.exit(1);

@@ -5,7 +5,7 @@ import {
 import { db } from './db';
 import { syncManager } from './sync-manager';
 import { performFullSync } from './scan';
-import { addToQueue, waitForQueueToEmpty } from './pg-sync';
+import { addToQueue } from './pg-sync';
 
 export async function processAdminDashboardSyncRequests(): Promise<void> {
   try {
@@ -41,16 +41,7 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
 
       await performFullSync(addToQueue);
 
-      // Wait for queue to empty with defensive timeout handling
-      try {
-        logger.info('[admin-dashboard] Waiting for sync queue to empty...');
-        await waitForQueueToEmpty();
-        logger.info('[admin-dashboard] Queue emptied successfully');
-      } catch (waitError) {
-        // If waitForQueueToEmpty times out or fails, log the error but continue
-        // This ensures we don't get stuck with syncInProgress=true forever
-        logger.error('[admin-dashboard] Failed to wait for queue to empty, but continuing to complete sync:', waitError);
-      }
+      logger.info('[admin-dashboard] Sync items queued successfully, queue processor will handle them');
 
       await syncManager.markSyncCompleted();
 
