@@ -40,7 +40,17 @@ export async function processAdminDashboardSyncRequests(): Promise<void> {
       await syncManager.markSyncStarted();
 
       await performFullSync(addToQueue);
-      await waitForQueueToEmpty();
+
+      // Wait for queue to empty with defensive timeout handling
+      try {
+        logger.info('[admin-dashboard] Waiting for sync queue to empty...');
+        await waitForQueueToEmpty();
+        logger.info('[admin-dashboard] Queue emptied successfully');
+      } catch (waitError) {
+        // If waitForQueueToEmpty times out or fails, log the error but continue
+        // This ensures we don't get stuck with syncInProgress=true forever
+        logger.error('[admin-dashboard] Failed to wait for queue to empty, but continuing to complete sync:', waitError);
+      }
 
       await syncManager.markSyncCompleted();
 

@@ -31,12 +31,53 @@ export { rateLimiter };
 export async function waitForQueueToEmpty(): Promise<void> {
   // If queue already empty, return immediately
   if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
+    logger.info('[waitForQueueToEmpty] Queues already empty, returning immediately');
     return Promise.resolve();
   }
 
-  // Wait for queue to drain
-  return new Promise((resolve) => {
-    queueEmptyCallback = resolve;
+  logger.info(`[waitForQueueToEmpty] Waiting for queues to empty. Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`);
+
+  const TIMEOUT_MS = 45 * 60 * 1000; // 45 minutes
+  const CHECK_INTERVAL_MS = 100; // Check more frequently for responsiveness
+  const LOG_INTERVAL_MS = 30000; // Log every 30 seconds
+
+  const startTime = Date.now();
+  let lastLogTime = startTime;
+
+  return new Promise((resolve, reject) => {
+    const intervalId = setInterval(() => {
+      const currentTime = Date.now();
+      const elapsed = currentTime - startTime;
+
+      // Check if queues are empty
+      if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
+        clearInterval(intervalId);
+        logger.info(`[waitForQueueToEmpty] Queues empty after ${elapsed}ms`);
+        resolve();
+        return;
+      }
+
+      // Check for timeout
+      if (elapsed >= TIMEOUT_MS) {
+        clearInterval(intervalId);
+        const error = new Error(
+          `Timeout waiting for queues to empty after ${TIMEOUT_MS}ms. `
+          + `Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`,
+        );
+        logger.error('[waitForQueueToEmpty]', error.message);
+        reject(error);
+        return;
+      }
+
+      // Log progress periodically
+      if (currentTime - lastLogTime >= LOG_INTERVAL_MS) {
+        logger.info(
+          `[waitForQueueToEmpty] Still waiting... elapsed: ${Math.round(elapsed / 1000)}s, `
+          + `high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`,
+        );
+        lastLogTime = currentTime;
+      }
+    }, CHECK_INTERVAL_MS);
   });
 }
 
