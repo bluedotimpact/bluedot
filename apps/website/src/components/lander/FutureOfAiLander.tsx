@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
@@ -128,11 +127,6 @@ const FutureOfAiLander = ({
 
   return (
     <>
-      <Head>
-        <title>{courseData.course.title} | BlueDot Impact</title>
-        <meta name="description" content={customDescription} />
-      </Head>
-
       {/* Hero section */}
       <div className="md:hidden">
         {/* Mobile Hero with Blue Background */}
