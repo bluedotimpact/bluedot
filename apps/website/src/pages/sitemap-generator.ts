@@ -6,6 +6,17 @@ import path from 'path';
 import { ROUTES } from '../lib/routes';
 
 const BASE_URL = 'https://bluedot.org';
+const INCLUDED_ROUTES = [
+  '/',
+  '/about',
+  '/certification',
+  '/contact',
+  '/join-us',
+  '/login',
+  '/privacy-policy',
+
+  // blog, courses and projects do not have base routes, only slugs
+];
 
 /** Parse git history to determine when file was last updated */
 const getLastModified = (filePath: string): string => {
@@ -24,10 +35,7 @@ const getRouteFilePath = (url: string): string => {
 
 export const getStaticProps: GetStaticProps = () => {
   const urls = Object.values(ROUTES)
-    .filter((route) => !route.url.includes('?')) // Exclude URLs with query params
-    .filter((route) => route.url !== '/login/clear') // Exclude logout route
-    // We don't have 'base' routes, e.g. /blog, /courses, /projects, etc, only slugs for those
-    .filter((route) => fs.existsSync(`src/pages${route.url}.tsx`))
+    .filter((route) => INCLUDED_ROUTES.includes(route.url)) // Only include specific routes
     .map((route) => {
       const filePath = getRouteFilePath(route.url);
       const lastModified = getLastModified(filePath);
@@ -42,12 +50,6 @@ export const getStaticProps: GetStaticProps = () => {
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${BASE_URL}</loc>
-    <lastmod>${getLastModified('src/pages/index.tsx')}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
 ${urls}
 </urlset>`;
 
