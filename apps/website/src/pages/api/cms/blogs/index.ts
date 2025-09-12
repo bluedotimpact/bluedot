@@ -12,7 +12,7 @@ export type GetBlogsResponse = {
   blogs: Omit<CmsBlog, 'body'>[],
 };
 
-export const getAllBlogs = async () => {
+export const getAllPublishedBlogs = async () => {
   const allBlogs = await db.scan(blogTable, { publicationStatus: 'Published' });
 
   // Sort by publishedAt descending and remove the body field from each blog to make the response lighter
@@ -30,7 +30,7 @@ export default makeApiRoute({
     blogs: z.array(z.any()),
   }),
 }, async () => {
-  const blogs = await getAllBlogs();
+  const blogs = await getAllPublishedBlogs();
 
   return {
     type: 'success' as const,

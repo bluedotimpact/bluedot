@@ -1,11 +1,11 @@
 import type { GetServerSideProps } from 'next';
-import { getAllBlogs } from '../api/cms/blogs';
+import { getAllPublishedBlogs } from '../api/cms/blogs';
 
 const BASE_URL = 'https://bluedot.org/blog';
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // TODO: only fetch slugs and publishedAt timestamps
-  const blogs = await getAllBlogs();
+  const blogs = await getAllPublishedBlogs();
   const urls = blogs.map((blog) => {
     return `  <url>
     <loc>${BASE_URL}/${encodeURIComponent(blog.slug)}</loc>
