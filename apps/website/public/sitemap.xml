@@ -7,12 +7,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bluedot.org/blog</loc>
-    <lastmod>2025-04-29T15:30:00+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://bluedot.org/certification</loc>
     <lastmod>2025-06-20T23:07:26+01:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -25,30 +19,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bluedot.org/courses</loc>
-    <lastmod>2025-06-20T22:28:05+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bluedot.org/</loc>
-    <lastmod>2025-09-10T22:48:21+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://bluedot.org/join-us</loc>
-    <lastmod>2025-05-17T17:54:44+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bluedot.org/login</loc>
-    <lastmod>2025-04-30T12:15:50+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://bluedot.org/privacy-policy</loc>
     <lastmod>2025-05-16T12:36:11+01:00</lastmod>
     <changefreq>monthly</changefreq>
@@ -57,18 +27,6 @@
   <url>
     <loc>https://bluedot.org/profile</loc>
     <lastmod>2025-06-29T04:43:05-04:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bluedot.org/projects</loc>
-    <lastmod>2025-05-07T15:59:09+01:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bluedot.org/settings</loc>
-    <lastmod>2025-09-12T10:10:08.990Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

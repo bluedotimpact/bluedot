@@ -19,21 +19,15 @@ const getLastModified = (filePath: string): string => {
 
 const getRouteFilePath = (url: string): string => {
   if (url === '/') return 'src/pages/index.tsx';
-
-  // Try direct file first, then index.tsx pattern, e.g. /blog -> /blog.tsx -> /blog/index.tsx
-  const directPath = `src/pages${url}.tsx`;
-  const indexPath = `src/pages${url}/index.tsx`;
-
-  if (fs.existsSync(directPath)) {
-    return directPath;
-  }
-  return indexPath;
+  return `src/pages${url}.tsx`;
 };
 
 export const getStaticProps: GetStaticProps = () => {
   const urls = Object.values(ROUTES)
     .filter((route) => !route.url.includes('?')) // Exclude URLs with query params
     .filter((route) => route.url !== '/login/clear') // Exclude logout route
+    // We don't have 'base' routes, e.g. /blog, /courses, /projects, etc, only slugs for those
+    .filter((route) => fs.existsSync(`src/pages${route.url}.tsx`))
     .map((route) => {
       const filePath = getRouteFilePath(route.url);
       const lastModified = getLastModified(filePath);
