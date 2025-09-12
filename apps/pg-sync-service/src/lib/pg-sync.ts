@@ -32,7 +32,7 @@ export async function waitForQueueToEmpty(): Promise<void> {
   // If queue already empty, return immediately
   if (highPriorityQueue.length === 0 && lowPriorityQueue.length === 0) {
     logger.info('[waitForQueueToEmpty] Queues already empty, returning immediately');
-    return;
+    return Promise.resolve();
   }
 
   logger.info(`[waitForQueueToEmpty] Waiting for queues to empty. Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`);
@@ -61,8 +61,8 @@ export async function waitForQueueToEmpty(): Promise<void> {
       if (elapsed >= TIMEOUT_MS) {
         clearInterval(intervalId);
         const error = new Error(
-          `Timeout waiting for queues to empty after ${TIMEOUT_MS}ms. ` +
-          `Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`
+          `Timeout waiting for queues to empty after ${TIMEOUT_MS}ms. `
+          + `Current state: high=${highPriorityQueue.length}, low=${lowPriorityQueue.length}`,
         );
         logger.error('[waitForQueueToEmpty]', error.message);
         reject(error);
@@ -72,8 +72,8 @@ export async function waitForQueueToEmpty(): Promise<void> {
       // Log progress periodically
       if (currentTime - lastLogTime >= LOG_INTERVAL_MS) {
         logger.info(
-          `[waitForQueueToEmpty] Still waiting... elapsed: ${Math.round(elapsed/1000)}s, ` +
-          `high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`
+          `[waitForQueueToEmpty] Still waiting... elapsed: ${Math.round(elapsed / 1000)}s, `
+          + `high: ${highPriorityQueue.length}, low: ${lowPriorityQueue.length}`,
         );
         lastLogTime = currentTime;
       }
