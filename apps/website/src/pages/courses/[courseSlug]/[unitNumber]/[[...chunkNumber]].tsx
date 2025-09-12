@@ -15,10 +15,6 @@ const CourseUnitChunkPage = () => {
     },
   } = router;
 
-  if (typeof unitNumber !== 'string') {
-    return <ProgressDots />;
-  }
-
   // Handle old ?chunk={n-1} format redirect
   useEffect(() => {
     if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof legacyChunkParam === 'string') {
@@ -102,6 +98,10 @@ const CourseUnitChunkPage = () => {
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
   };
+
+  if (typeof unitNumber !== 'string') {
+    return <ProgressDots />;
+  }
 
   if (loading || groupDiscussionLoading) {
     return <ProgressDots />;
