@@ -1,17 +1,11 @@
-import { GetServerSideProps } from 'next';
-import { GetBlogsResponse } from '../api/cms/blogs';
+import type { GetServerSideProps } from 'next';
+import { getAllBlogs } from '../api/cms/blogs';
 
 const BASE_URL = 'https://bluedot.org/blog';
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  const data = await fetch('https://bluedot.org/api/cms/blogs', { method: 'GET' });
-  if (!data.ok) {
-    res.statusCode = data.status;
-    res.end();
-    return { props: {} };
-  }
-
-  const { blogs } = await data.json() as GetBlogsResponse;
+  // TODO: only fetch slugs and publishedAt timestamps
+  const blogs = await getAllBlogs();
   const urls = blogs.map((blog) => {
     return `  <url>
     <loc>${BASE_URL}/${encodeURIComponent(blog.slug)}</loc>
