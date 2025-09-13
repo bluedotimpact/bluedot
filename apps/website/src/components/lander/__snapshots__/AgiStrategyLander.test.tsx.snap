@@ -311,9 +311,82 @@ We’ve raised $35M in total, including $25M in 2025.
         </div>
       </div>
     </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
+    <section
+      class="flex flex-col items-center w-full py-6 px-5 lg:p-12"
+      style="background-color: #FAFAF7;"
+    >
+      <div
+        class="flex flex-col items-center gap-8 w-full max-w-[350px] lg:max-w-[1120px] mx-auto"
+      >
+        <div
+          class="flex flex-col lg:flex-row w-full rounded-xl overflow-hidden h-[409px] lg:h-[385px]"
+          style="background-color: #ECF0FF;"
+        >
+          <div
+            class="flex flex-col items-center lg:items-start p-8 px-6 lg:p-16 gap-12 flex-grow justify-between lg:justify-start"
+          >
+            <blockquote
+              class="text-[20px] lg:text-[32px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+              style="color: #13132E;"
+            >
+              "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
+            </blockquote>
+            <div
+              class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+            >
+              <img
+                alt="Ursula von der Leyen"
+                class="size-16 object-cover rounded-full lg:hidden"
+                src="/images/agi-strategy/ursula.png"
+              />
+              <div
+                class="flex flex-col items-center lg:items-start"
+              >
+                <div
+                  class="text-[18px] leading-tight font-semibold"
+                  style="color: #13132E;"
+                >
+                  Ursula von der Leyen
+                </div>
+                <div
+                  class="text-[16px] leading-[1.6] opacity-80"
+                  style="color: #13132E;"
+                >
+                  President, European Commission
+                </div>
+              </div>
+            </div>
+          </div>
+          <img
+            alt="Ursula von der Leyen"
+            class="hidden lg:block w-80 h-[385px] object-cover flex-shrink-0"
+            src="/images/agi-strategy/ursula.png"
+          />
+        </div>
+        <div
+          class="flex gap-2"
+        >
+          <button
+            aria-label="Go to quote 1"
+            class="h-1.5 w-12 rounded transition-all duration-300 opacity-100"
+            style="background-color: #2244BB;"
+            type="button"
+          />
+          <button
+            aria-label="Go to quote 2"
+            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            style="background-color: #13132E;"
+            type="button"
+          />
+          <button
+            aria-label="Go to quote 3"
+            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            style="background-color: #13132E;"
+            type="button"
+          />
+        </div>
+      </div>
+    </section>
     <section
       class="section section-body py-16"
     >
