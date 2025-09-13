@@ -384,6 +384,12 @@ We’ve raised $35M in total, including $25M in 2025.
             style="background-color: #13132E;"
             type="button"
           />
+          <button
+            aria-label="Go to quote 4"
+            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            style="background-color: #13132E;"
+            type="button"
+          />
         </div>
       </div>
     </section>
