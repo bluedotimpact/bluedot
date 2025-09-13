@@ -35,14 +35,33 @@ const testimonialQuotes: Quote[] = [
   },
 ];
 
+// Font sizing configuration
+const FONT_SIZE_THRESHOLDS = {
+  EXTRA_LONG: 400, // Characters threshold for smallest font
+  LONG: 200, // Characters threshold for medium font
+} as const;
+
+const FONT_SIZE_CLASSES = {
+  EXTRA_LONG: 'text-[13px] lg:text-[20px]', // For quotes > 400 chars
+  LONG: 'text-[16px] lg:text-[24px]', // For quotes 200-400 chars
+  DEFAULT: 'text-[20px] lg:text-[32px]', // For quotes < 200 chars
+} as const;
+
+// Automatically determine font size based on quote length
+const getFontSizeForQuote = (quote: string): string => {
+  const { length } = quote;
+
+  if (length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
+    return FONT_SIZE_CLASSES.EXTRA_LONG;
+  } if (length > FONT_SIZE_THRESHOLDS.LONG) {
+    return FONT_SIZE_CLASSES.LONG;
+  }
+  return FONT_SIZE_CLASSES.DEFAULT;
+};
+
 const QuoteSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const autorotateTiming = 7000;
-
-  const fontSizes = {
-    1: 'text-[16px] lg:text-[24px]', // Sundar
-    3: 'text-[13px] lg:text-[20px]', // David
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -75,9 +94,9 @@ const QuoteSection = () => {
         >
           {/* Quote and author info - Mobile: center aligned, Desktop: left aligned */}
           <div className="flex flex-col items-center lg:items-start p-8 px-6 lg:p-16 gap-12 flex-grow justify-between lg:justify-start">
-            {/* Quote text - custom sizing per quote */}
+            {/* Quote text - sizing automatically determined by content length */}
             <blockquote
-              className={`${fontSizes[activeIndex as keyof typeof fontSizes] ?? 'text-[20px] lg:text-[32px]'} leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left`}
+              className={`${getFontSizeForQuote(activeQuote.quote)} leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left`}
               style={{ color: COLORS.text }}
             >
               {activeQuote.quote}
