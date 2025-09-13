@@ -2,19 +2,15 @@ import Head from 'next/head';
 import {
   CTALinkOrButton,
   Section,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  QuoteCarousel,
 } from '@bluedot/ui';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { H1, H2, H3 } from '../Text';
+import { H2, H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
+import QuoteSection from './agi-strategy/QuoteSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -149,10 +145,10 @@ We’ve raised $35M in total, including $25M in 2025.
       {/* Why take this course section */}
       <WhyTakeThisCourseSection />
 
-      {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
+      {/* Quote Section - What global leaders say about AGI */}
+      <QuoteSection />
 
-      {/* Community Members Section */}
+      {/* Community Members Section - What learners are saying */}
       <Section className="py-16">
         <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
         <CommunityMembersSubSection members={communityMembers} />
