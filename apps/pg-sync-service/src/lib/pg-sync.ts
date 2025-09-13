@@ -3,12 +3,14 @@ import {
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { AirtableItemFromColumnsMap, PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
 import { syncManager } from './sync-manager';
+import env from '../env';
 
-const MAX_RETRIES = 3;
+export const MAX_RETRIES = 3;
 const highPriorityQueue: AirtableAction[] = [];
 const lowPriorityQueue: AirtableAction[] = [];
 const rateLimiter = new RateLimiter(5);
@@ -44,35 +46,42 @@ export async function waitForQueueToEmpty(): Promise<void> {
  * Initialize AirtableWebhook instances for each unique baseId in the meta table.
  */
 export async function initializeWebhooks(): Promise<void> {
+  try {
   // Get all base IDs and their corresponding field IDs
-  const baseFieldMappings = await db.pg
-    .select({
-      baseId: metaTable.airtableBaseId,
-      fieldId: metaTable.airtableFieldId,
-    })
-    .from(metaTable)
-    .where(eq(metaTable.enabled, true));
+    const baseFieldMappings = await db.pg
+      .select({
+        baseId: metaTable.airtableBaseId,
+        fieldId: metaTable.airtableFieldId,
+      })
+      .from(metaTable)
+      .where(eq(metaTable.enabled, true));
 
-  // Group field IDs by base ID
-  const fieldsByBase: Record<string, string[]> = {};
-  for (const { baseId, fieldId } of baseFieldMappings) {
-    if (!fieldsByBase[baseId]) {
-      fieldsByBase[baseId] = [];
+    // Group field IDs by base ID
+    const fieldsByBase: Record<string, string[]> = {};
+    for (const { baseId, fieldId } of baseFieldMappings) {
+      if (!fieldsByBase[baseId]) {
+        fieldsByBase[baseId] = [];
+      }
+      fieldsByBase[baseId].push(fieldId);
     }
-    fieldsByBase[baseId].push(fieldId);
-  }
 
-  // Create webhooks for each base with their specific field filters
-  const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
-    logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
-    return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
-      webhookInstances[baseId] = webhook;
+    // Create webhooks for each base with their specific field filters
+    const webhookPromises = Object.entries(fieldsByBase).map(([baseId, fieldIds]) => {
+      logger.info(`[initializeWebhooks] Initializing webhook for base ${baseId} with ${fieldIds.length} field filters`);
+      return AirtableWebhook.getOrCreate(baseId, fieldIds, rateLimiter).then((webhook) => {
+        webhookInstances[baseId] = webhook;
+      });
     });
-  });
 
-  await Promise.all(webhookPromises);
+    await Promise.all(webhookPromises);
 
-  logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+    logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length} webhooks with field-level filtering`);
+  } catch (error) {
+    const initError = `[initializeWebhooks] Critical webhook initialization failure: ${error instanceof Error ? error.message : String(error)}`;
+    logger.error(initError);
+    await slackAlert(env, [initError]);
+    throw error;
+  }
 }
 
 /**
@@ -122,6 +131,7 @@ export async function pollForUpdates(): Promise<void> {
       allUpdates.push(deduplicateActions(updates));
     } catch (err) {
       logger.error('[pollForUpdates] Failed to poll webhook:', err);
+      slackAlert(env, [`[pollForUpdates] Failed to poll webhook: ${err instanceof Error ? err.message : String(err)}`]);
     }
   }
 
@@ -188,6 +198,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
     return true;
   } catch (err) {
     logger.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
+    // Don't alert, retry logic handles final failure alerts
     return false;
   }
 }
@@ -233,7 +244,9 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
         logger.info(`[processUpdateQueue] Update failed (attempt ${currentRetries + 1}/${MAX_RETRIES}), retrying: ${update.baseId}/${update.tableId}/${update.recordId}`);
         addToQueue([update], 'low');
       } else {
-        logger.error(`[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`);
+        const finalFailure = `[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`;
+        logger.error(finalFailure);
+        slackAlert(env, [finalFailure]);
         retryCountMap.delete(retryKey);
       }
     }
