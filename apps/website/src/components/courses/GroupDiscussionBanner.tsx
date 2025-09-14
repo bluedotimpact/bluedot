@@ -11,6 +11,7 @@ import {
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import GroupSwitchModal from './GroupSwitchModal';
+import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -22,58 +23,6 @@ type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
   onClickPrepare: () => void;
-};
-
-const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
-  const startDate = new Date(startDateTime * 1000);
-  const now = new Date();
-  const timeDiffMs = startDate.getTime() - now.getTime();
-
-  // Helper to pluralize units
-  const pluralizeTimeUnit = (value: number, unit: string) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
-
-  // Helper to build human-readable time until/since
-  const buildRelativeTimeString = (minutes: number, hours: number, days: number, suffix: string) => {
-    if (days >= 1) {
-      return `${pluralizeTimeUnit(days, 'day')}${suffix}`;
-    }
-    if (hours >= 1) {
-      const remainingMinutes = minutes % 60;
-      const hourPart = pluralizeTimeUnit(hours, 'hour');
-      return remainingMinutes > 0
-        ? `${hourPart} ${pluralizeTimeUnit(remainingMinutes, 'minute')}${suffix}`
-        : `${hourPart}${suffix}`;
-    }
-    return `${pluralizeTimeUnit(minutes, 'minute')}${suffix}`;
-  };
-
-  // Calculate time units
-  const absMinutes = Math.abs(Math.floor(timeDiffMs / (1000 * 60)));
-  const absHours = Math.floor(absMinutes / 60);
-  const absDays = Math.floor(absHours / 24);
-
-  // Determine relative time string
-  let startTimeDisplayRelative: string;
-  if (timeDiffMs >= 0 && timeDiffMs < 60000) {
-    startTimeDisplayRelative = 'starting now';
-  } else if (timeDiffMs > 0) {
-    startTimeDisplayRelative = `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
-  } else {
-    startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
-  }
-
-  // Format date and time
-  const startTimeDisplayDate = startDate.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-  const startTimeDisplayTime = startDate.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-
-  return { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime };
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
