@@ -131,7 +131,6 @@ export async function pollForUpdates(): Promise<void> {
       allUpdates.push(deduplicateActions(updates));
     } catch (err) {
       logger.error('[pollForUpdates] Failed to poll webhook:', err);
-      slackAlert(env, [`[pollForUpdates] Failed to poll webhook: ${err instanceof Error ? err.message : String(err)}`]);
     }
   }
 
