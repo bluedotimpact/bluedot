@@ -41,9 +41,7 @@ vi.mock('next/router', () => ({
 const mockCreateSigninRequest = vi.fn(() => Promise.resolve({
   url: OIDC_PROVIDER_URL,
 }));
-const mockProcessSigninResponse = vi.fn(() => Promise.resolve({
-  url: OIDC_PROVIDER_URL,
-}));
+const mockProcessSigninResponse = vi.fn();
 
 vi.mock('oidc-client-ts', () => {
   return {
