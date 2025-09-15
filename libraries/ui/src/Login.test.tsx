@@ -57,6 +57,17 @@ describe('LoginRedirectPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // By default, mock no auth
+    vi.mocked(useAuthStore).mockImplementation((selector) => {
+      const store = {
+        auth: null,
+        setAuth: mockSetAuth,
+        internal_clearTimer: null,
+        internal_refreshTimer: null,
+      };
+      return selector(store);
+    });
   });
 
   test('should navigate to the redirect_to value when auth is present', () => {
@@ -73,7 +84,6 @@ describe('LoginRedirectPage', () => {
   });
 
   test('if not authed, should createSigninRequest with redirect_to query param', async () => {
-    vi.mocked(useAuthStore).mockReturnValue(null);
     vi.mocked(getQueryParam).mockReturnValue(CUSTOM_REDIRECT_PATH);
 
     render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
@@ -98,7 +108,6 @@ describe('LoginRedirectPage', () => {
   });
 
   test('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
-    vi.mocked(useAuthStore).mockReturnValue(null);
     vi.mocked(getQueryParam).mockReturnValue(null);
 
     render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
@@ -129,6 +138,17 @@ describe('LoginOauthCallbackPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // By default, mock no auth
+    vi.mocked(useAuthStore).mockImplementation((selector) => {
+      const store = {
+        auth: null,
+        setAuth: mockSetAuth,
+        internal_clearTimer: null,
+        internal_refreshTimer: null,
+      };
+      return selector(store);
+    });
   });
 
   test('should set auth and call `onLoginComplete` on success', async () => {
