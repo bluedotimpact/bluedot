@@ -1,10 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import {
-  describe,
-  test,
-  expect,
-  beforeEach,
-  vi,
+  describe, test, expect, beforeEach, vi,
 } from 'vitest';
 import { OidcClient } from 'oidc-client-ts';
 import { LoginOauthCallbackPage, LoginRedirectPage, loginPresets } from './Login';
