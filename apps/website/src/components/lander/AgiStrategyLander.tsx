@@ -33,22 +33,39 @@ const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_
 
 const communityMembers: CommunityMember[] = [
   {
-    name: 'Sabrina Shih',
-    jobTitle: 'AI Policy Manager, Responsible AI Institute',
+    name: 'Neel Nanda',
+    jobTitle: 'Mech Interp Lead at Google DeepMind',
+    course: 'Former participant and facilitator',
+    imageSrc: '/images/graduates/neel.jpeg',
+    url: 'https://www.neelnanda.io/about',
+  },
+  {
+    name: 'Marius Hobbhahn',
+    jobTitle: 'CEO at Apollo Research',
     course: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/sabrina.jpg',
+    imageSrc: '/images/graduates/marius.jpeg',
+    url: 'https://www.mariushobbhahn.com/aboutme/',
   },
   {
-    name: 'Matthew Bradbury',
-    jobTitle: 'Senior AI Risk Analyst, UK Government',
+    name: 'Catherine Fist',
+    jobTitle: 'Head of Delivery at UK AISI',
     course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/matthew.png',
+    imageSrc: '/images/graduates/catherine.jpeg',
+    url: 'https://www.linkedin.com/in/catherine-fist/',
   },
   {
-    name: 'Mishka Nemes',
-    jobTitle: 'Responsible AI & Skills Advisor, Alan Turing Institute',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/mishka.jpg',
+    name: 'Richard Ngo',
+    jobTitle: 'Former OpenAI and DeepMind',
+    course: 'AI Alignment Course Designer',
+    imageSrc: '/images/graduates/richard.jpg',
+    url: 'https://www.richardcngo.com/',
+  },
+  {
+    name: 'Adam Jones',
+    jobTitle: 'Member of Technical Staff at Anthropic',
+    course: 'Former AI safety lead at BlueDot',
+    imageSrc: '/images/graduates/adam.jpg',
+    url: 'https://adamjones.me/',
   },
 ];
 
