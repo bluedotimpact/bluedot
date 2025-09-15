@@ -202,4 +202,27 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockPush).not.toHaveBeenCalled();
     expect(getByText('Bad login response: No user returned')).toBeInTheDocument();
   });
+
+  test('should throw error if user.expires_at is missing', async () => {
+    const mockUser = {
+      // Commenting out to simulate missing expires_at
+      // expires_at: Math.floor(Date.now() / 1000) + 3600,
+      id_token: 'id-token',
+      profile: {
+        email: 'email@bluedot.org',
+      },
+    };
+    mockProcessSigninResponse.mockResolvedValue(mockUser);
+
+    const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
+
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+    });
+
+    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+    expect(mockSetAuth).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(getByText('Bad login response: user.expires_at is missing or not a number')).toBeInTheDocument();
+  });
 });
