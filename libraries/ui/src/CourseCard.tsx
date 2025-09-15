@@ -21,7 +21,7 @@ export type CourseCardProps = React.PropsWithChildren<{
 }>;
 
 const applyByText = (applicationDeadline: string | undefined) => {
-  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Start learning for free';
+  return applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now';
 };
 
 const FeaturedCourseCard: React.FC<CourseCardProps> = ({
@@ -46,26 +46,25 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       url={url}
       className={wrapperClassName}
     >
-      <div className="course-card__content block md:flex gap-space-between w-full">
-        <div className="course-card__text">
+      <div className="course-card__content flex flex-col gap-4 md:flex-row md:gap-space-between w-full">
+        <div className="course-card__text flex flex-col">
           <h3 className="course-card__title mb-6 bluedot-h3">
             {title}
           </h3>
           {description && (
-            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p">
+            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p flex-grow">
               {description}
             </p>
           )}
           <CTALinkOrButton
-            className="course-card__cta mb-6 px-6"
-            variant="primary"
+            className="course-card__cta px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
             withChevron={false}
           >
             {applyByText(applicationDeadline)}
           </CTALinkOrButton>
         </div>
         {imageSrc && (
-        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit mb-6', imageClassName)}>
+        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit flex items-stretch', imageClassName)}>
           <img
             className="course-card__image size-full object-cover"
             src={imageSrc}

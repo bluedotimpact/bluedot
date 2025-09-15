@@ -43,8 +43,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
               <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
                 <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
               </AnnouncementBanner>
-              <AnnouncementBanner ctaText="Log in" ctaUrl="https://bluedot.org/login" hideAfter={new Date('2025-09-10T18:30:00+01:00')}>
-                <b>Functionality restored: </b>Earlier we were experiencing a Vultr outage affecting logged-in users viewing courses. This has now been resolved and all courses are fully available again.
+              <AnnouncementBanner ctaText="Apply by Sept 21" ctaUrl="https://bluedot.org/courses/agi-strategy" hideAfter={new Date('2025-09-19T18:30:00+01:00')}>
+                <b>$1M available: </b>Applications are open for our AGI Strategy Course. Navigate the decade ahead and turn uncertainty into fundable action plans.
               </AnnouncementBanner>
               <main className="bluedot-base">
                 <Component {...pageProps} />

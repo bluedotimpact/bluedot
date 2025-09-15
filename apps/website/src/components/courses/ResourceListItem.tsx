@@ -249,51 +249,39 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         )}
 
         {/* Main resource card */}
-        <div className="resource-item p-6 container-lined bg-white relative z-[1]">
-          <div className="resource-item__header flex items-start justify-between">
-            <div className="resource-item__content w-full">
-              <div className="flex items-start gap-4">
-                <div className="flex-1">
-                  {/* Resource title and link */}
-                  <div className="resource-item__title font-semibold leading-[140%] tracking-[-0.005em]">
-                    {resource.resourceLink ? (
-                      <div className="flex items-center group">
-                        {/* Favicon */}
-                        <FaviconImage
-                          url={resource.resourceLink}
-                          displaySize={16}
-                          className="mr-2"
-                        />
-                        <a
-                          href={resource.resourceLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="no-underline hover:underline hover:text-[#2244BB] text-inherit transition-colors"
-                          aria-label={`${resource.resourceName} (opens in new tab)`}
-                        >
-                          {resource.resourceName}
-                        </a>
-                        <a
-                          href={resource.resourceLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex group-hover:opacity-80 transition-opacity ml-2"
-                          aria-label={`Open ${resource.resourceName} in new tab`}
-                        >
-                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            <path d="M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" stroke="#13132E" strokeWidth="1.5" strokeLinecap="round" />
-                          </svg>
-                        </a>
-                      </div>
-                    ) : (
-                      resource.resourceName
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="resource-item container-lined relative z-[1] bg-white p-6">
+          {/* Resource title and link */}
+          {resource.resourceLink ? (
+            <a
+              href={addQueryParam(resource.resourceLink, 'utm_source', 'bluedot-impact')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+              aria-label={`${resource.resourceName} (opens in new tab)`}
+            >
+              <FaviconImage url={resource.resourceLink} displaySize={16} />
+              <span className="leading-[140%] font-semibold tracking-[-0.005em] text-inherit no-underline transition-colors hover:text-[#2244BB] hover:underline">
+                {resource.resourceName}
+              </span>
+              {/* External link icon */}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                stroke="#13132E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" />
+              </svg>
+            </a>
+          ) : (
+            resource.resourceName
+          )}
 
           {/* Resource guide */}
           {resource.resourceGuide && (
