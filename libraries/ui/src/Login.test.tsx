@@ -156,15 +156,6 @@ describe('LoginOauthCallbackPage', () => {
       />,
     );
 
-    await waitFor(() => {
-      expect(OidcClient).toHaveBeenCalledTimes(1);
-    });
-
-    expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
-
-    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
-    expect(mockProcessSigninResponse).toHaveBeenCalledWith(window.location.href);
-
     const expectedAuthObject = {
       expiresAt: mockUser.expires_at * 1000,
       token: mockUser.id_token,
@@ -173,12 +164,19 @@ describe('LoginOauthCallbackPage', () => {
       email: mockUser.profile.email,
     };
 
+    await waitFor(() => {
+      expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
+      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
+    });
+
+    expect(OidcClient).toHaveBeenCalledTimes(1);
+    expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+    expect(mockProcessSigninResponse).toHaveBeenCalledWith(window.location.href);
+
     expect(mockSetAuth).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
-
-    expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
-    expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
-
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
     // });
