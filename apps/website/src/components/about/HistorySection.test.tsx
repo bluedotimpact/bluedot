@@ -20,6 +20,6 @@ describe('HistorySection', () => {
     const { container } = render(<HistorySection />);
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.history-section__event-container--mobile')).not.toBeNull();
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 });
