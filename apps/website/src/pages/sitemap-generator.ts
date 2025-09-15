@@ -53,10 +53,33 @@ export const getStaticProps: GetStaticProps = () => {
 ${urls}
 </urlset>`;
 
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${BASE_URL}/sitemap.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE_URL}/blog/sitemap.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE_URL}/courses/sitemap.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE_URL}/projects/sitemap.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+  </sitemap>
+</sitemapindex>
+`;
+
   const sitemapOutputPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+  const sitemapIndexOutputPath = path.join(process.cwd(), 'public', 'sitemap_index.xml');
 
   try {
     fs.writeFileSync(sitemapOutputPath, sitemap, 'utf8');
+    fs.writeFileSync(sitemapIndexOutputPath, sitemapIndex, 'utf8');
     console.log(`[Sitemap] Sitemap successfully generated at ${sitemapOutputPath}`);
   } catch (error) {
     console.error(`[Sitemap] Error generating sitemap: ${error instanceof Error ? error.message : String(error)}`);
