@@ -147,8 +147,6 @@ We’ve raised $35M in total, including $25M in 2025.
         </div>
       </Section>
 
-
-
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />
 
