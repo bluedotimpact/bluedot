@@ -84,19 +84,20 @@ describe('LoginRedirectPage', () => {
     // `waitFor` is needed because createSigninRequest is called in a useEffect
     await waitFor(() => {
       expect(OidcClient).toHaveBeenCalledTimes(1);
-      expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
-
-      expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
-      expect(mockCreateSigninRequest).toHaveBeenCalledWith({
-        request_type: 'si:r',
-        state: {
-          redirectTo: CUSTOM_REDIRECT_PATH,
-          attribution: expect.any(Object),
-        },
-      });
-
-      expect(window.location.href).toBe(OIDC_PROVIDER_URL);
     });
+
+    expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+    expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
+    expect(mockCreateSigninRequest).toHaveBeenCalledWith({
+      request_type: 'si:r',
+      state: {
+        redirectTo: CUSTOM_REDIRECT_PATH,
+        attribution: expect.any(Object),
+      },
+    });
+
+    expect(window.location.href).toBe(OIDC_PROVIDER_URL);
   });
 
   test('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
@@ -108,19 +109,20 @@ describe('LoginRedirectPage', () => {
     // `waitFor` is needed because createSigninRequest is called in a useEffect
     await waitFor(() => {
       expect(OidcClient).toHaveBeenCalledTimes(1);
-      expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
-
-      expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
-      expect(mockCreateSigninRequest).toHaveBeenCalledWith({
-        request_type: 'si:r',
-        state: {
-          redirectTo: '/',
-          attribution: expect.any(Object),
-        },
-      });
-
-      expect(window.location.href).toBe(OIDC_PROVIDER_URL);
     });
+
+    expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+    expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
+    expect(mockCreateSigninRequest).toHaveBeenCalledWith({
+      request_type: 'si:r',
+      state: {
+        redirectTo: '/',
+        attribution: expect.any(Object),
+      },
+    });
+
+    expect(window.location.href).toBe(OIDC_PROVIDER_URL);
   });
 });
 
@@ -159,27 +161,29 @@ describe('LoginOauthCallbackPage', () => {
 
     await waitFor(() => {
       expect(OidcClient).toHaveBeenCalledTimes(1);
-      expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
-
-      expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
-      expect(mockProcessSigninResponse).toHaveBeenCalledWith(window.location.href);
-
-      const expectedAuthObject = {
-        expiresAt: mockUser.expires_at * 1000,
-        token: mockUser.id_token,
-        refreshToken: mockUser.refresh_token,
-        oidcSettings: mockLoginPreset.oidcSettings,
-        email: mockUser.profile.email,
-      };
-
-      expect(mockSetAuth).toHaveBeenCalledTimes(1);
-      expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
-
-      expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
-      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
-
-      expect(mockPush).toHaveBeenCalledTimes(1);
-      expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
     });
+
+    expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+    expect(mockProcessSigninResponse).toHaveBeenCalledWith(window.location.href);
+
+    const expectedAuthObject = {
+      expiresAt: mockUser.expires_at * 1000,
+      token: mockUser.id_token,
+      refreshToken: mockUser.refresh_token,
+      oidcSettings: mockLoginPreset.oidcSettings,
+      email: mockUser.profile.email,
+    };
+
+    expect(mockSetAuth).toHaveBeenCalledTimes(1);
+    expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
+
+    expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
+    expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
+
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
+    // });
   });
 });
