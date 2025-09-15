@@ -10,6 +10,7 @@ export default validateEnv({
     'ZOOM_CLIENT_SECRET',
 
     'ALERTS_SLACK_CHANNEL_ID',
+    'INFO_SLACK_CHANNEL_ID',
     'ALERTS_SLACK_BOT_TOKEN',
   ],
 });

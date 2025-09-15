@@ -33,6 +33,7 @@ export type MakeMakeApiRouteEnv = {
   APP_NAME: string;
   ALERTS_SLACK_BOT_TOKEN: string;
   ALERTS_SLACK_CHANNEL_ID: string;
+  INFO_SLACK_CHANNEL_ID: string;
 };
 
 const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
