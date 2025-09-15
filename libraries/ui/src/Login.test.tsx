@@ -11,6 +11,7 @@ import { LoginOauthCallbackPage, LoginRedirectPage, loginPresets } from './Login
 import { Navigate } from './Navigate';
 import { useAuthStore } from './utils/auth';
 import { getQueryParam } from './utils/getQueryParam';
+import '@testing-library/jest-dom';
 
 const mockSetAuth = vi.fn();
 vi.mock('./utils/auth', () => ({
@@ -185,5 +186,20 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
     // });
+  });
+
+  test('should throw error if no user returned', async () => {
+    mockProcessSigninResponse.mockResolvedValue(null);
+
+    const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
+
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+    });
+
+    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+    expect(mockSetAuth).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(getByText('Bad login response: No user returned')).toBeInTheDocument();
   });
 });
