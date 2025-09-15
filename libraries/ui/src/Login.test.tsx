@@ -185,7 +185,6 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
     expect(mockPush).toHaveBeenCalledTimes(1);
     expect(mockPush).toHaveBeenCalledWith(CUSTOM_REDIRECT_PATH);
-    // });
   });
 
   test('should throw error if no user returned', async () => {
