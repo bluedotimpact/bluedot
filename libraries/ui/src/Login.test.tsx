@@ -52,23 +52,23 @@ vi.mock('oidc-client-ts', () => {
 const CUSTOM_REDIRECT_PATH = '/custom-path';
 const OIDC_PROVIDER_URL = 'https://mock-oidc-provider.com/';
 
+beforeEach(() => {
+  vi.clearAllMocks();
+
+  // By default, mock no auth
+  vi.mocked(useAuthStore).mockImplementation((selector) => {
+    const store = {
+      auth: null,
+      setAuth: mockSetAuth,
+      internal_clearTimer: null,
+      internal_refreshTimer: null,
+    };
+    return selector(store);
+  });
+});
+
 describe('LoginRedirectPage', () => {
   const mockLoginPreset = loginPresets.keycloak;
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    // By default, mock no auth
-    vi.mocked(useAuthStore).mockImplementation((selector) => {
-      const store = {
-        auth: null,
-        setAuth: mockSetAuth,
-        internal_clearTimer: null,
-        internal_refreshTimer: null,
-      };
-      return selector(store);
-    });
-  });
 
   test('should navigate to the redirect_to value when auth is present', () => {
     vi.mocked(useAuthStore).mockReturnValue({ auth: { token: 'test-token' } });
@@ -135,21 +135,6 @@ describe('LoginRedirectPage', () => {
 describe('LoginOauthCallbackPage', () => {
   const mockLoginPreset = loginPresets.keycloak;
   const userRedirectPath = '/some-path';
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    // By default, mock no auth
-    vi.mocked(useAuthStore).mockImplementation((selector) => {
-      const store = {
-        auth: null,
-        setAuth: mockSetAuth,
-        internal_clearTimer: null,
-        internal_refreshTimer: null,
-      };
-      return selector(store);
-    });
-  });
 
   test('should set auth and call `onLoginComplete` on success', async () => {
     const mockOnLoginComplete = vi.fn();
