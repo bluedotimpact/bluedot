@@ -52,6 +52,21 @@ vi.mock('oidc-client-ts', () => {
 const CUSTOM_REDIRECT_PATH = '/custom-path';
 const OIDC_PROVIDER_URL = 'https://mock-oidc-provider.com/';
 
+const createMockUser = (overrides = {}) => ({
+  expires_at: Math.floor(Date.now() / 1000) + 3600,
+  id_token: 'id-token',
+  refresh_token: 'refresh-token',
+  profile: {
+    email: 'email@bluedot.org',
+    sub: 'sub-id',
+  },
+  userState: {
+    redirectTo: CUSTOM_REDIRECT_PATH,
+  },
+  url: OIDC_PROVIDER_URL,
+  ...overrides,
+});
+
 beforeEach(() => {
   vi.clearAllMocks();
 
@@ -134,24 +149,10 @@ describe('LoginRedirectPage', () => {
 
 describe('LoginOauthCallbackPage', () => {
   const mockLoginPreset = loginPresets.keycloak;
-  const userRedirectPath = '/some-path';
 
   test('should set auth and call `onLoginComplete` on success', async () => {
     const mockOnLoginComplete = vi.fn();
-    const mockUser = {
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      id_token: 'id-token',
-      refresh_token: 'refresh-token',
-      profile: {
-        email: 'email@bluedot.org',
-        sub: 'sub-id',
-      },
-      userState: {
-        redirectTo: userRedirectPath,
-      },
-      url: OIDC_PROVIDER_URL,
-    };
-
+    const mockUser = createMockUser();
     mockProcessSigninResponse.mockResolvedValue(mockUser);
 
     render(
@@ -183,7 +184,7 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockSetAuth).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
     expect(mockPush).toHaveBeenCalledTimes(1);
-    expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
+    expect(mockPush).toHaveBeenCalledWith(CUSTOM_REDIRECT_PATH);
     // });
   });
 
@@ -203,14 +204,8 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.expires_at is missing', async () => {
-    const mockUser = {
-      // Commenting out to simulate missing expires_at
-      // expires_at: Math.floor(Date.now() / 1000) + 3600,
-      id_token: 'id-token',
-      profile: {
-        email: 'email@bluedot.org',
-      },
-    };
+    const mockUser = createMockUser({ expires_at: undefined });
+
     mockProcessSigninResponse.mockResolvedValue(mockUser);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
@@ -226,14 +221,7 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.id_token is missing', async () => {
-    const mockUser = {
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      // Commenting out to simulate missing id_token
-      // id_token: 'id-token',
-      profile: {
-        email: 'email@bluedot.org',
-      },
-    };
+    const mockUser = createMockUser({ id_token: undefined });
     mockProcessSigninResponse.mockResolvedValue(mockUser);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
@@ -249,14 +237,7 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.profile.email is missing', async () => {
-    const mockUser = {
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      id_token: 'id-token',
-      profile: {
-        // Commenting out to simulate missing email
-        // email: 'email@bluedot.org',
-      },
-    };
+    const mockUser = createMockUser({ profile: { email: undefined } });
     mockProcessSigninResponse.mockResolvedValue(mockUser);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
