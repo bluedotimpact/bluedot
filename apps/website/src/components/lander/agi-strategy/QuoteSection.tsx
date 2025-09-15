@@ -69,7 +69,7 @@ const getFontSizeForQuote = (quote: string): string => {
 
 const QuoteSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const autorotateTiming = 7000;
+  const autorotateTiming = 11000;
 
   useEffect(() => {
     const interval = setInterval(() => {

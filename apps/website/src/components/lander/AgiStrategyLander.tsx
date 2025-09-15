@@ -47,11 +47,11 @@ const communityMembers: CommunityMember[] = [
     url: 'https://www.mariushobbhahn.com/aboutme/',
   },
   {
-    name: 'Catherine Fist',
-    jobTitle: 'Head of Delivery at UK AISI',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/catherine.jpeg',
-    url: 'https://www.linkedin.com/in/catherine-fist/',
+    name: 'Chiara Gerosa',
+    jobTitle: 'Executive Director at Talos',
+    course: 'AI Governance Course Facilitator',
+    imageSrc: '/images/graduates/chiara.jpeg',
+    url: 'https://www.linkedin.com/in/chiaragerosa/',
   },
   {
     name: 'Richard Ngo',
@@ -66,6 +66,13 @@ const communityMembers: CommunityMember[] = [
     course: 'Former AI safety lead at BlueDot',
     imageSrc: '/images/graduates/adam.jpg',
     url: 'https://adamjones.me/',
+  },
+  {
+    name: 'Catherine Fist',
+    jobTitle: 'Head of Delivery at UK AISI',
+    course: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/catherine.jpeg',
+    url: 'https://www.linkedin.com/in/catherine-fist/',
   },
 ];
 
