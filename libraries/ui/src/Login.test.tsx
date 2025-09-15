@@ -168,6 +168,7 @@ describe('LoginOauthCallbackPage', () => {
       refreshToken: mockUser.refresh_token,
       oidcSettings: mockLoginPreset.oidcSettings,
       email: mockUser.profile.email,
+      attribution: undefined,
     };
 
     await waitFor(() => {
