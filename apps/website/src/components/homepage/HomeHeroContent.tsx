@@ -1,6 +1,5 @@
 import {
-  HeroH1,
-  HeroH2,
+  HeroH1
 } from '@bluedot/ui';
 import Rive, { Fit, Layout } from '@rive-app/react-canvas';
 import clsx from 'clsx';
