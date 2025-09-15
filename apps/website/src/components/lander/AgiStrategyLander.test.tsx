@@ -85,7 +85,7 @@ describe('AgiStrategyLander', () => {
     const communityMembersSection = screen.getByTestId('community-members-section');
     expect(communityMembersSection).toBeInTheDocument();
     expect(screen.getByText('Some of our graduates')).toBeInTheDocument();
-    expect(screen.getByText('Members: 5')).toBeInTheDocument();
+    expect(screen.getByText('Members: 6')).toBeInTheDocument();
   });
 
   it('renders AGI Strategy banner with CTA', () => {
