@@ -244,4 +244,27 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockPush).not.toHaveBeenCalled();
     expect(getByText('Bad login response: user.id_token is missing or not a string')).toBeInTheDocument();
   });
+
+  test('should throw error if user.profile.email is missing', async () => {
+    const mockUser = {
+      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      id_token: 'id-token',
+      profile: {
+        // Commenting out to simulate missing email
+        // email: 'email@bluedot.org',
+      },
+    };
+    mockProcessSigninResponse.mockResolvedValue(mockUser);
+
+    const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
+
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+    });
+
+    expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+    expect(mockSetAuth).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(getByText('Bad login response: user.profile.email is missing or not a string')).toBeInTheDocument();
+  });
 });
