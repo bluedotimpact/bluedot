@@ -33,22 +33,39 @@ const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_
 
 const communityMembers: CommunityMember[] = [
   {
-    name: 'Sabrina Shih',
-    jobTitle: 'AI Policy Manager, Responsible AI Institute',
+    name: 'Neel Nanda',
+    jobTitle: 'Mech Interp Lead at Google DeepMind',
+    course: 'Former participant and facilitator',
+    imageSrc: '/images/graduates/neel.jpeg',
+    url: 'https://www.neelnanda.io/about',
+  },
+  {
+    name: 'Marius Hobbhahn',
+    jobTitle: 'CEO at Apollo Research',
     course: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/sabrina.jpg',
+    imageSrc: '/images/graduates/marius.jpeg',
+    url: 'https://www.mariushobbhahn.com/aboutme/',
   },
   {
-    name: 'Matthew Bradbury',
-    jobTitle: 'Senior AI Risk Analyst, UK Government',
+    name: 'Catherine Fist',
+    jobTitle: 'Head of Delivery at UK AISI',
     course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/matthew.png',
+    imageSrc: '/images/graduates/catherine.jpeg',
+    url: 'https://www.linkedin.com/in/catherine-fist/',
   },
   {
-    name: 'Mishka Nemes',
-    jobTitle: 'Responsible AI & Skills Advisor, Alan Turing Institute',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/mishka.jpg',
+    name: 'Richard Ngo',
+    jobTitle: 'Former OpenAI and DeepMind',
+    course: 'AI Alignment Course Designer',
+    imageSrc: '/images/graduates/richard.jpg',
+    url: 'https://www.richardcngo.com/',
+  },
+  {
+    name: 'Adam Jones',
+    jobTitle: 'Member of Technical Staff at Anthropic',
+    course: 'Former AI safety lead at BlueDot',
+    imageSrc: '/images/graduates/adam.jpg',
+    url: 'https://adamjones.me/',
   },
 ];
 
@@ -89,25 +106,13 @@ const AgiStrategyLander = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
 
+      {/* Why take this course section */}
+      <WhyTakeThisCourseSection />
+
       <Section className="!border-b-0">
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
-
-## How will this course benefit you?
-
-### Take action in less than 30 hours
-
-You don’t need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
-
-### Join a network of builders
-
-This course isn’t for everyone. We’re building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
-
-### Get funded to accelerate your impact
-
-If your final course proposal is strong, you’ll receive $10-50k to kickstart your transition into impactful work, and you’ll be invited to co-work with us in London for 1-2 weeks. We’ll do whatever it takes to accelerate your journey.
-
 ## How the course works
 
 **Choose your intensity**
@@ -141,9 +146,6 @@ We’ve raised $35M in total, including $25M in 2025.
           </MarkdownExtendedRenderer>
         </div>
       </Section>
-
-      {/* Why take this course section */}
-      <WhyTakeThisCourseSection />
 
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />

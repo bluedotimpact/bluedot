@@ -10,11 +10,49 @@ exports[`WhyTakeThisCourseSection > renders correctly 1`] = `
     <h2
       class="bluedot-h2 not-prose text-[36px] font-semibold leading-tight text-[#13132E] text-center mb-16"
     >
-      Why take this course
+      How will this course benefit you?
     </h2>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
     >
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-11 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+        >
+          <svg
+            fill="none"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45768C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
+              fill="none"
+              stroke="white"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Join a network of builders
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
+          </p>
+        </div>
+      </div>
       <div
         class="flex flex-col gap-6"
       >
@@ -40,12 +78,12 @@ exports[`WhyTakeThisCourseSection > renders correctly 1`] = `
           <h3
             class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
           >
-            Simulations, Not Slides
+            Take action in less than 30 hours
           </h3>
           <p
             class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
           >
-            No lectures. No PowerPoints. Practice real strategic decision-making through crisis simulations, case studies, and interactive scenarios.
+            You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.
           </p>
         </div>
       </div>
@@ -78,96 +116,12 @@ exports[`WhyTakeThisCourseSection > renders correctly 1`] = `
           <h3
             class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
           >
-            Your Strategic Action Plan
+            Get funded to accelerate your impact
           </h3>
           <p
             class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
           >
-            Don't just understand the problem—develop your personal roadmap for contributing to AGI governance based on your skills and interests.
-          </p>
-        </div>
-      </div>
-      <div
-        class="flex flex-col gap-6"
-      >
-        <div
-          class="size-11 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
-        >
-          <svg
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45768C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z"
-              fill="none"
-              stroke="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-          </svg>
-        </div>
-        <div
-          class="space-y-2"
-        >
-          <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
-          >
-            Access to Active Players
-          </h3>
-          <p
-            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
-          >
-            Connect with people already working on AGI governance in government, industry, and research—your future colleagues and collaborators.
-          </p>
-        </div>
-      </div>
-      <div
-        class="flex flex-col gap-6"
-      >
-        <div
-          class="size-11 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
-        >
-          <svg
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z"
-              fill="none"
-              stroke="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-            <path
-              d="M7.5 4.21L12 6.81L16.5 4.21M12 22.08V12M12 6.81L3.27 2.04"
-              fill="none"
-              stroke="white"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            />
-          </svg>
-        </div>
-        <div
-          class="space-y-2"
-        >
-          <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
-          >
-            Frameworks That Matter
-          </h3>
-          <p
-            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
-          >
-            Learn the actual models and frameworks being used by policymakers and researchers to think about AGI timelines, risks, and governance.
+            If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.
           </p>
         </div>
       </div>

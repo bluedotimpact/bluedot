@@ -4,6 +4,7 @@ import {
   useEffect,
   useMemo,
 } from 'react';
+import Link from 'next/link';
 import { SectionHeading } from '@bluedot/ui';
 import clsx from 'clsx';
 
@@ -12,6 +13,7 @@ export type CommunityMember = {
   jobTitle: string;
   course: string;
   imageSrc: string;
+  url: string;
 };
 
 type CommunityMembersSubSectionProps = {
@@ -30,7 +32,10 @@ const CARD_CONFIG = {
 
 // Community Member Card Component
 const CommunityMemberCard = ({ member, isCarousel = false }: { member: CommunityMember; isCarousel?: boolean }) => (
-  <div
+  <Link
+    href={member.url}
+    target="_blank"
+    rel="noopener noreferrer"
     className={clsx(
       'community-member flex flex-col border border-[#E7E5E4] rounded-lg p-8 bg-white gap-6',
       isCarousel ? 'flex-shrink-0 w-80 h-full' : 'h-full',
@@ -56,7 +61,7 @@ const CommunityMemberCard = ({ member, isCarousel = false }: { member: Community
         </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 // Carousel Navigation Button Component
