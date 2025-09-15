@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  afterEach, describe, it, expect, vi, beforeAll,
+  afterEach, beforeAll, describe, expect, it, vi,
 } from 'vitest';
 import * as deviceDetect from 'react-device-detect';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
