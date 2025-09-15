@@ -84,7 +84,27 @@ describe('LoginRedirectPage', () => {
     });
   });
 
-  test.skip('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
-    // TODO #720
+  test('if not authed and no redirect_to, should createSigninRequest with default redirect path', async () => {
+    vi.mocked(useAuthStore).mockReturnValue(null);
+    vi.mocked(getQueryParam).mockReturnValue(null);
+
+    render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
+
+    // `waitFor` is needed because createSigninRequest is called in a useEffect
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+      expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+      expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
+      expect(mockCreateSigninRequest).toHaveBeenCalledWith({
+        request_type: 'si:r',
+        state: {
+          redirectTo: '/',
+          attribution: expect.any(Object),
+        },
+      });
+
+      expect(window.location.href).toBe(OIDC_PROVIDER_URL);
+    });
   });
 });
