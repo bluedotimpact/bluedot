@@ -14,11 +14,8 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
       />
     </div>
     <HeroH1 className="home-hero-content__heading slide-up-fade-in">
-      The expertise you need to shape safe AI
+      The leading talent accelerator for beneficial AI and societal resilience
     </HeroH1>
-    <HeroH2 className="home-hero-content__subheading slide-up-fade-in" style={{ animationDelay: '100ms' }}>
-      Learn alongside thousands of professionals through comprehensive courses designed with leading AI safety experts.
-    </HeroH2>
   </div>
 );
 
