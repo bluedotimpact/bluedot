@@ -62,9 +62,7 @@ describe('LoginRedirectPage', () => {
 
   test('if not authed, should createSigninRequest with redirect_to query param', async () => {
     vi.mocked(useAuthStore).mockReturnValue(null);
-    vi.mocked(getQueryParam).mockImplementation((_url, param) => {
-      return param === 'redirect_to' ? CUSTOM_REDIRECT_PATH : null;
-    });
+    vi.mocked(getQueryParam).mockReturnValue(CUSTOM_REDIRECT_PATH);
 
     render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
 
