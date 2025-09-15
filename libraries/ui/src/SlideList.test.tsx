@@ -60,9 +60,8 @@ describe('SlideList', () => {
     originalResizeObserver = window.ResizeObserver;
   });
 
-    vi.clearAllMocks();
-    vi.resetAllMocks();
   afterEach(() => {
+    vi.restoreAllMocks();
     window.ResizeObserver = originalResizeObserver;
   });
 
@@ -90,10 +89,6 @@ describe('SlideList', () => {
       </SlideList>,
     );
     expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(0);
-
-    vi.clearAllMocks();
-    // TODO: clearAllMocks() doesn't actually clear this
-    vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(false);
   });
 
   it('hides next/previous buttons if container is wide enough to fit all items on one row', async () => {
