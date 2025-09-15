@@ -89,25 +89,13 @@ const AgiStrategyLander = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
 
+      {/* Why take this course section */}
+      <WhyTakeThisCourseSection />
+
       <Section className="!border-b-0">
         <div className="prose prose-lg max-w-none">
           <MarkdownExtendedRenderer>
             {`
-
-## How will this course benefit you?
-
-### Take action in less than 30 hours
-
-You don’t need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You’ll finish with a fundable plan.
-
-### Join a network of builders
-
-This course isn’t for everyone. We’re building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
-
-### Get funded to accelerate your impact
-
-If your final course proposal is strong, you’ll receive $10-50k to kickstart your transition into impactful work, and you’ll be invited to co-work with us in London for 1-2 weeks. We’ll do whatever it takes to accelerate your journey.
-
 ## How the course works
 
 **Choose your intensity**
@@ -142,8 +130,7 @@ We’ve raised $35M in total, including $25M in 2025.
         </div>
       </Section>
 
-      {/* Why take this course section */}
-      <WhyTakeThisCourseSection />
+
 
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />
