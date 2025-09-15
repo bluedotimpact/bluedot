@@ -20,14 +20,8 @@ exports[`HomeHeroContent > renders as expected 1`] = `
     <h1
       class="hero-section__title text-color-text-on-dark text-center bluedot-h1 home-hero-content__heading slide-up-fade-in"
     >
-      The expertise you need to shape safe AI
+      The leading talent accelerator for beneficial AI and societal resilience
     </h1>
-    <h2
-      class="hero-section__subtitle text-color-text-on-dark text-2xl font-[400] text-center mt-4 bluedot-h2 home-hero-content__subheading slide-up-fade-in"
-      style="animation-delay: 100ms;"
-    >
-      Learn alongside thousands of professionals through comprehensive courses designed with leading AI safety experts.
-    </h2>
   </div>
 </div>
 `;
