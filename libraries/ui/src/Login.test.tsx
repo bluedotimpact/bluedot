@@ -7,13 +7,20 @@ import {
   vi,
 } from 'vitest';
 import { OidcClient } from 'oidc-client-ts';
-import { LoginRedirectPage, loginPresets } from './Login';
+import { LoginOauthCallbackPage, LoginRedirectPage, loginPresets } from './Login';
 import { Navigate } from './Navigate';
 import { useAuthStore } from './utils/auth';
 import { getQueryParam } from './utils/getQueryParam';
 
+const mockSetAuth = vi.fn();
 vi.mock('./utils/auth', () => ({
-  useAuthStore: vi.fn(),
+  useAuthStore: vi.fn((selector) => {
+    const store = {
+      auth: null,
+      setAuth: mockSetAuth,
+    };
+    return selector(store);
+  }),
 }));
 
 vi.mock('./Navigate', () => ({
@@ -24,7 +31,17 @@ vi.mock('./utils/getQueryParam', () => ({
   getQueryParam: vi.fn(),
 }));
 
+const mockPush = vi.fn();
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(() => ({
+    push: mockPush,
+  })),
+}));
+
 const mockCreateSigninRequest = vi.fn(() => Promise.resolve({
+  url: OIDC_PROVIDER_URL,
+}));
+const mockProcessSigninResponse = vi.fn(() => Promise.resolve({
   url: OIDC_PROVIDER_URL,
 }));
 
@@ -32,7 +49,7 @@ vi.mock('oidc-client-ts', () => {
   return {
     OidcClient: vi.fn().mockImplementation(() => ({
       createSigninRequest: mockCreateSigninRequest,
-      processSigninResponse: vi.fn(),
+      processSigninResponse: mockProcessSigninResponse,
     })),
   };
 });
@@ -105,6 +122,66 @@ describe('LoginRedirectPage', () => {
       });
 
       expect(window.location.href).toBe(OIDC_PROVIDER_URL);
+    });
+  });
+});
+
+describe('LoginOauthCallbackPage', () => {
+  const mockLoginPreset = loginPresets.keycloak;
+  const userRedirectPath = '/some-path';
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('should set auth and call `onLoginComplete` on success', async () => {
+    const mockOnLoginComplete = vi.fn();
+    const mockUser = {
+      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      id_token: 'id-token',
+      refresh_token: 'refresh-token',
+      profile: {
+        email: 'email@bluedot.org',
+        sub: 'sub-id',
+      },
+      userState: {
+        redirectTo: userRedirectPath,
+      },
+      url: OIDC_PROVIDER_URL,
+    };
+
+    mockProcessSigninResponse.mockResolvedValue(mockUser);
+
+    render(
+      <LoginOauthCallbackPage
+        loginPreset={mockLoginPreset}
+        onLoginComplete={mockOnLoginComplete}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+      expect(OidcClient).toHaveBeenCalledWith(mockLoginPreset.oidcSettings);
+
+      expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
+      expect(mockProcessSigninResponse).toHaveBeenCalledWith(window.location.href);
+
+      const expectedAuthObject = {
+        expiresAt: mockUser.expires_at * 1000,
+        token: mockUser.id_token,
+        refreshToken: mockUser.refresh_token,
+        oidcSettings: mockLoginPreset.oidcSettings,
+        email: mockUser.profile.email,
+      };
+
+      expect(mockSetAuth).toHaveBeenCalledTimes(1);
+      expect(mockSetAuth).toHaveBeenCalledWith(expectedAuthObject);
+
+      expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
+      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
+
+      expect(mockPush).toHaveBeenCalledTimes(1);
+      expect(mockPush).toHaveBeenCalledWith(userRedirectPath);
     });
   });
 });
