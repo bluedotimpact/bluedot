@@ -10,32 +10,28 @@ describe('WhyTakeThisCourseSection', () => {
 
   it('renders the section title', () => {
     const { getByText } = render(<WhyTakeThisCourseSection />);
-    expect(getByText('Why take this course')).toBeDefined();
+    expect(getByText('How will this course benefit you?')).toBeDefined();
   });
 
-  it('renders all four value cards', () => {
+  it('renders all three value cards', () => {
     const { getByText } = render(<WhyTakeThisCourseSection />);
 
     // Check all card titles are rendered
-    expect(getByText('Simulations, Not Slides')).toBeDefined();
-    expect(getByText('Your Strategic Action Plan')).toBeDefined();
-    expect(getByText('Access to Active Players')).toBeDefined();
-    expect(getByText('Frameworks That Matter')).toBeDefined();
+    expect(getByText('Join a network of builders')).toBeDefined();
+    expect(getByText('Take action in less than 30 hours')).toBeDefined();
+    expect(getByText('Get funded to accelerate your impact')).toBeDefined();
   });
 
   it('renders value card descriptions', () => {
     const { getByText } = render(<WhyTakeThisCourseSection />);
 
     // Check first card description
-    expect(getByText(/No lectures. No PowerPoints/)).toBeDefined();
+    expect(getByText(/This course isn.t for everyone/)).toBeDefined();
 
     // Check second card description
-    expect(getByText(/develop your personal roadmap/)).toBeDefined();
+    expect(getByText(/You don.t need another degree/)).toBeDefined();
 
     // Check third card description
-    expect(getByText(/Connect with people already working/)).toBeDefined();
-
-    // Check fourth card description
-    expect(getByText(/Learn the actual models and frameworks/)).toBeDefined();
+    expect(getByText(/If your final course proposal is strong/)).toBeDefined();
   });
 });
