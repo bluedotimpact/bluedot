@@ -7,14 +7,14 @@ import { ROUTES } from '../src/lib/routes.ts';
 
 const BASE_URL = 'https://bluedot.org';
 const INCLUDED_ROUTES = [
-  '/',
-  '/about',
-  '/certification',
-  '/contact',
-  '/join-us',
-  '/login',
-  '/privacy-policy',
-
+  ROUTES.home,
+  ROUTES.about,
+  ROUTES.certification,
+  ROUTES.contact,
+  ROUTES.courses,
+  ROUTES.joinUs,
+  ROUTES.login,
+  ROUTES.privacyPolicy,
   // blog, courses and projects do not have base routes, only slugs
 ];
 
@@ -35,7 +35,7 @@ const getRouteFilePath = (url: string): string => {
 
 const generateSitemaps = async () => {
   const urls = Object.values(ROUTES)
-    .filter((route) => INCLUDED_ROUTES.includes(route.url)) // Only include specific routes
+    .filter((route) => INCLUDED_ROUTES.includes(route)) // Only include specific routes
     .map((route) => {
       const filePath = getRouteFilePath(route.url);
       const lastModified = getLastModified(filePath);
