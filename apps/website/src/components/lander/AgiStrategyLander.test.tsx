@@ -86,6 +86,6 @@ describe('AgiStrategyLander', () => {
     // In a real test environment with Next.js testing utils, we could check actual meta tags
     const titleElement = container.querySelector('title');
     expect(titleElement).toBeTruthy();
-    expect(titleElement?.textContent).toBe('AGI Strategy Course | BlueDot Impact');
+    expect(titleElement?.textContent).toBe('AGI Strategy Course| BlueDot Impact');
   });
 });

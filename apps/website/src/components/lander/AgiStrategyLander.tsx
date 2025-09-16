@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import {
   CTALinkOrButton,
   Section,
@@ -79,11 +78,6 @@ const communityMembers: CommunityMember[] = [
 const AgiStrategyLander = () => {
   return (
     <div className="bg-white">
-      <Head>
-        <title>AGI Strategy Course | BlueDot Impact</title>
-        <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
-      </Head>
-
       <HeroSection
         title="Start building the defences that protect humanity"
         description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
