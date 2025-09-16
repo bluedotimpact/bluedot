@@ -18,6 +18,6 @@ describe('ValuesSection', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
     const { container } = render(<ValuesSection />);
     expect(container).toMatchSnapshot();
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 });
