@@ -1,6 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import {
-  describe, test, expect, beforeEach, vi,
+  afterEach, describe, expect, test, vi,
 } from 'vitest';
 import { OidcClient } from 'oidc-client-ts';
 import { LoginOauthCallbackPage, LoginRedirectPage, loginPresets } from './Login';
@@ -67,7 +67,9 @@ const createMockUser = (overrides = {}) => ({
   ...overrides,
 });
 
-beforeEach(() => {
+const originalWindowLocation = window.location;
+
+afterEach(() => {
   vi.clearAllMocks();
 
   // By default, mock no auth
@@ -79,6 +81,21 @@ beforeEach(() => {
       internal_refreshTimer: null,
     };
     return selector(store);
+  });
+
+  // Create a new mock to prevent modifying the original window.location
+  // Using a spread doesn't work because some properties (like href) are readonly
+  const mockLocation = new URL(originalWindowLocation.href);
+  Object.assign(mockLocation, {
+    assign: vi.fn(),
+    replace: vi.fn(),
+    reload: vi.fn(),
+  });
+
+  Object.defineProperty(window, 'location', {
+    value: mockLocation,
+    configurable: true,
+    writable: true,
   });
 });
 
