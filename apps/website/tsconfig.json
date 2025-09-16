@@ -2,7 +2,11 @@
   "extends": "@bluedot/typescript-config/nextjs.json",
   "include": [
     "next-env.d.ts",
+    "scripts/**/*.ts",
     "src/**/*",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "allowImportingTsExtensions": true
+  }
 }

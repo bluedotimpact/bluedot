@@ -2,7 +2,8 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { ROUTES } from '../src/lib/routes';
+// eslint-disable-next-line import/extensions
+import { ROUTES } from '../src/lib/routes.ts';
 
 const BASE_URL = 'https://bluedot.org';
 const INCLUDED_ROUTES = [
