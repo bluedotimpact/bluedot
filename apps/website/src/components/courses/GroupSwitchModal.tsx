@@ -211,7 +211,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80] mb-4">
               We're keen for you to request manual switches where necessary to attend group discussions.
-              However, because they do take time for us to process but we expect you to have made a sincere
+              However, because they do take time for us to process we expect you to have made a sincere
               effort to make your original discussion group and consider others available on the last screen.
             </div>
           )}
