@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import type { GetStaticProps } from 'next';
 import path from 'path';
-import { ROUTES } from '../lib/routes';
+import { ROUTES } from '../src/lib/routes';
 
 const BASE_URL = 'https://bluedot.org';
 const INCLUDED_ROUTES = [
