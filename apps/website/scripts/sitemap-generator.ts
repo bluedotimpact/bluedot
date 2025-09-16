@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process';
 import fs from 'fs';
-import type { GetStaticProps } from 'next';
 import path from 'path';
 import { ROUTES } from '../src/lib/routes';
 
@@ -33,7 +32,7 @@ const getRouteFilePath = (url: string): string => {
   return `src/pages${url}.tsx`;
 };
 
-export const getStaticProps: GetStaticProps = () => {
+const generateSitemaps = async () => {
   const urls = Object.values(ROUTES)
     .filter((route) => INCLUDED_ROUTES.includes(route.url)) // Only include specific routes
     .map((route) => {
@@ -84,10 +83,6 @@ ${urls}
   } catch (error) {
     console.error(`[Sitemap] Error generating sitemap: ${error instanceof Error ? error.message : String(error)}`);
   }
-
-  return {
-    props: {},
-  };
 };
 
-export default function Sitemap() {}
+generateSitemaps();
