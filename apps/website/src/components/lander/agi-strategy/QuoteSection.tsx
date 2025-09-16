@@ -73,42 +73,24 @@ const QuoteSection = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const autorotateTiming = 11000;
 
-  // Start timer function
-  const startTimer = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
-    }, autorotateTiming);
-  };
-
-  // Timer management effect
+  // Single effect that handles all timer logic
   useEffect(() => {
     if (!isPaused) {
-      startTimer();
-    } else if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+      intervalRef.current = setInterval(() => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
+      }, autorotateTiming);
     }
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [isPaused]);
+  }, [activeIndex, isPaused]); // Restart timer when activeIndex changes
 
   const handleIndicatorClick = (index: number) => {
-    setActiveIndex(index);
-    // Always clear the timer to reset it, but only restart if not paused
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    if (!isPaused) {
-      startTimer();
-    }
+    setActiveIndex(index); // Timer will restart automatically via useEffect
   };
 
   const handleMouseEnter = () => {
