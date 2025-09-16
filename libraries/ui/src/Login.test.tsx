@@ -10,13 +10,15 @@ import { getQueryParam } from './utils/getQueryParam';
 import '@testing-library/jest-dom';
 
 const mockSetAuth = vi.fn();
+const defaultMockStore = {
+  auth: null, // no auth by default
+  setAuth: mockSetAuth,
+  internal_clearTimer: null,
+  internal_refreshTimer: null,
+};
 vi.mock('./utils/auth', () => ({
   useAuthStore: vi.fn((selector) => {
-    const store = {
-      auth: null,
-      setAuth: mockSetAuth,
-    };
-    return selector(store);
+    return selector(defaultMockStore);
   }),
 }));
 
@@ -72,15 +74,8 @@ const originalWindowLocation = window.location;
 afterEach(() => {
   vi.clearAllMocks();
 
-  // By default, mock no auth
   vi.mocked(useAuthStore).mockImplementation((selector) => {
-    const store = {
-      auth: null,
-      setAuth: mockSetAuth,
-      internal_clearTimer: null,
-      internal_refreshTimer: null,
-    };
-    return selector(store);
+    return selector(defaultMockStore);
   });
 
   // Create a new mock to prevent modifying the original window.location
