@@ -305,7 +305,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(e) => setSelectedDiscussionId(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
                 required
-                aria-describedby="targetSelect-description"
               >
                 <option value="">Select a discussion</option>
                 {discussionOptions.map((option) => (
@@ -322,7 +321,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(e) => setSelectedGroupId(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
                 required
-                aria-describedby="targetSelect-description"
               >
                 <option value="">Select a group</option>
                 {groupOptions.map((option) => (
