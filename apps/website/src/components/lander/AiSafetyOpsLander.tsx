@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import {
   CTALinkOrButton,
   Section,
@@ -76,6 +77,12 @@ const testimonials2 = [
 const AiSafetyOpsLander = () => {
   return (
     <>
+      <Head>
+        <title>AI Safety Operations Bootcamp | BlueDot Impact</title>
+        <meta name="description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
+        <meta property="og:image" content="/images/courses/ops-bootcamp-og-image.png" />
+      </Head>
+
       {/* Mobile hero */}
       <HeroSection className="2xl:hidden">
         <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
