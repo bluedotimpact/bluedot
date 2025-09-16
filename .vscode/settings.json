@@ -1,9 +1,6 @@
 {
     "tailwindCSS.experimental.classRegex": [
-        [
-            "clsx\\(([^)]*)\\)",
-            "'([^']*)'"
-        ]
+        ["clsx\\(([^)]*)\\)", "'([^']*)'"]
     ],
     "cSpell.words": [
         "Airtable",

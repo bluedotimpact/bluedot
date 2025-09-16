@@ -282,19 +282,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <Head>
         <title>{title}</title>
         <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={`https://bluedot.org/api/og/course/${unit.courseSlug}`} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:url" content={`https://bluedot.org/courses/${unit.courseSlug}/${unitNumber}`} />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={`https://bluedot.org/api/og/course/${unit.courseSlug}`} />
       </Head>
 
       {/* Aria live region for screen reader announcements */}
