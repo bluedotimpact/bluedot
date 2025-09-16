@@ -27,6 +27,8 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
+type SwitchType = typeof SWITCH_TYPE_OPTIONS[number]['value'];
+
 const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString('en-US', {
@@ -43,7 +45,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   currentUnit,
   courseSlug,
 }) => {
-  const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
+  const [switchType, setSwitchType] = useState<SwitchType>('Switch group for one unit');
   // Use the current unit's number as the default selected unit
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
   const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
