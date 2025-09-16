@@ -39,6 +39,6 @@ describe('CourseDetailsSection', () => {
     expect(getByText(/facilitated by an AI safety expert/)).toBeDefined();
     expect(getByText(/pay-what-you-want/)).toBeDefined();
     expect(getByText('29th Sep')).toBeDefined();
-    expect(getByText('19th Sep')).toBeDefined();
+    expect(getByText('21st Sep')).toBeDefined();
   });
 });
