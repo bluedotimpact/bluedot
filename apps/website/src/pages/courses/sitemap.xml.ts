@@ -21,6 +21,7 @@ ${urls}
 </urlset>`;
 
   res.setHeader('Content-Type', 'text/xml');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=3600'); // Users get fresh version, CDN caches for 1 hour
   res.write(sitemap);
   res.end();
 
