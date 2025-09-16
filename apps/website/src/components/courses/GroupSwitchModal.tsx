@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback, useEffect,
+  useState, useMemo, useCallback,
 } from 'react';
 import {
   InferSelectModel,
@@ -48,7 +48,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [switchType, setSwitchType] = useState<SwitchType>('Switch group for one unit');
   // Use the current unit's number as the default selected unit
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
-  const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -69,13 +68,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     method: 'get',
   });
 
-  // Update courseUnits when courseData is loaded
-  useEffect(() => {
-    if (courseData?.units) {
-      setCourseUnits(courseData.units);
-    }
-  }, [courseData]);
-
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
     headers: auth?.token ? {
@@ -93,7 +85,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   }, { manual: true });
 
   // Generate unit options from the course units
-  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
+  const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
 
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
