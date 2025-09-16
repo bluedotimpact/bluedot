@@ -110,8 +110,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
   // we do at least display the group/discussion the user is switching out of so that
   // they can notice and request manual support.
-  const oldGroup = groups.filter((g) => g.userIsParticipant)[0];
-  const oldDiscussion = discussions.filter((d) => d.userIsParticipant)[0];
+  const oldGroup = groups.find((g) => g.userIsParticipant);
+  const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
   const groupOptions = groups
     .filter((g) => !g.userIsParticipant)
