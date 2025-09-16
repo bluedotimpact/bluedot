@@ -207,8 +207,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const successMessages = getSuccessMessages();
 
   return (
-    <Modal isOpen setIsOpen={handleClose} title={title}>
-      <div className="max-h-[600px] max-w-[600px] overflow-y-auto">
+    <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
+      <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
