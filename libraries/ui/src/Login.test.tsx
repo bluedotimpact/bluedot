@@ -263,4 +263,16 @@ describe('LoginOauthCallbackPage', () => {
     expect(mockPush).not.toHaveBeenCalled();
     expect(getByText('Bad login response: user.profile.email is missing or not a string')).toBeInTheDocument();
   });
+
+  test('should redirect to "/" when userState.redirectTo is missing', async () => {
+    mockProcessSigninResponse.mockResolvedValue(createMockUser({ userState: {} }));
+    render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/'));
+  });
+
+  test('should handle processSigninResponse errors', async () => {
+    mockProcessSigninResponse.mockRejectedValue(new Error('Network error'));
+    const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
+    await waitFor(() => expect(getByText('Network error')).toBeInTheDocument());
+  });
 });
