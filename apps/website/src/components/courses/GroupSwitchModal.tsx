@@ -224,7 +224,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 value={switchType}
                 onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                aria-describedby="switchType-description"
               >
                 {SWITCH_TYPE_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -240,7 +239,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 value={selectedUnitNumber}
                 onChange={(e) => setSelectedUnitNumber(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                aria-describedby="unitSelect-description"
                 required
               >
                 <option value="">Select a unit</option>
@@ -265,7 +263,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(e) => setReason(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
                 required
-                aria-describedby="reason-description"
               />
             </div>
 
