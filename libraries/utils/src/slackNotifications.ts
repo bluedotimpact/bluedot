@@ -5,7 +5,17 @@ type SlackAlertEnv = {
   INFO_SLACK_CHANNEL_ID: string;
 };
 
-export const slackAlert = async (env: SlackAlertEnv, messages: string[], level?: 'error' | 'info'): Promise<void> => {
+/**
+ * Sends Slack message(s) to our prod/dev channels
+ * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
+ * - By default, messages are sent to the alerts channel
+ * - If level is 'info', messages are sent to the info channel
+ */
+export const slackAlert = async (
+  env: SlackAlertEnv,
+  messages: string[],
+  level: 'error' | 'info' = 'error',
+): Promise<void> => {
   if (messages.length === 0) return;
 
   try {
@@ -20,9 +30,14 @@ export const slackAlert = async (env: SlackAlertEnv, messages: string[], level?:
   }
 };
 
-const sendSingleSlackMessage = async (env: SlackAlertEnv, message: string, level?: 'error' | 'info', threadTs?: string): Promise<{ ts: string }> => {
+const sendSingleSlackMessage = async (
+  env: SlackAlertEnv,
+  message: string,
+  level: 'error' | 'info' = 'error',
+  threadTs?: string,
+): Promise<{ ts: string }> => {
   // By default we send to the alerts channel if no explicit channel is provided
-  const channel = !level || level === 'error' ? env.ALERTS_SLACK_CHANNEL_ID : env.INFO_SLACK_CHANNEL_ID;
+  const channel = level === 'error' ? env.ALERTS_SLACK_CHANNEL_ID : env.INFO_SLACK_CHANNEL_ID;
 
   const response = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
