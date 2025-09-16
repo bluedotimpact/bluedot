@@ -101,10 +101,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Generate unit options from the course units
   const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
 
-  const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
-  const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
-    ? switchingData.discussionsAvailable[selectedUnitNumber] || []
-    : [];
+  const groups = switchingData?.groupsAvailable ?? [];
+  const discussions = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
