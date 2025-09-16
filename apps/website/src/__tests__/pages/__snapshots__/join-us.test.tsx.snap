@@ -259,16 +259,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
                     >
-                      <p
-                        class="card__title bluedot-h4 mb-2"
+                      <div
+                        class="flex flex-row gap-4 items-center mb-2"
                       >
-                        Own the mission
-                      </p>
+                        <p
+                          class="card__title bluedot-h4"
+                        >
+                          Own the mission
+                        </p>
+                      </div>
                       <p
                         class="card__subtitle bluedot-p "
                       >
@@ -296,16 +300,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
                     >
-                      <p
-                        class="card__title bluedot-h4 mb-2"
+                      <div
+                        class="flex flex-row gap-4 items-center mb-2"
                       >
-                        Find the fastest, best way to do everything
-                      </p>
+                        <p
+                          class="card__title bluedot-h4"
+                        >
+                          Find the fastest, best way to do everything
+                        </p>
+                      </div>
                       <p
                         class="card__subtitle bluedot-p "
                       >
@@ -333,16 +341,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     />
                   </div>
                   <div
-                    class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                    class="card__content flex gap-6 w-full flex-1 flex-col"
                   >
                     <div
                       class="card__text"
                     >
-                      <p
-                        class="card__title bluedot-h4 mb-2"
+                      <div
+                        class="flex flex-row gap-4 items-center mb-2"
                       >
-                        Say the uncomfortable truth
-                      </p>
+                        <p
+                          class="card__title bluedot-h4"
+                        >
+                          Say the uncomfortable truth
+                        </p>
+                      </div>
                       <p
                         class="card__subtitle bluedot-p "
                       >

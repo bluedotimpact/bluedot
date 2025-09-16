@@ -56,16 +56,20 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      AGI could arrive soon, and society is dangerously unprepared
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        AGI could arrive soon, and society is dangerously unprepared
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p "
                     >
@@ -93,16 +97,20 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      What we do now matters
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        What we do now matters
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p "
                     >
@@ -130,16 +138,20 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      People at key moments rewrite history
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        People at key moments rewrite history
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p "
                     >
@@ -167,16 +179,20 @@ exports[`BeliefsSection > renders default as expected 1`] = `
                   />
                 </div>
                 <div
-                  class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                  class="card__content flex gap-6 w-full flex-1 flex-col"
                 >
                   <div
                     class="card__text"
                   >
-                    <p
-                      class="card__title bluedot-h4 mb-2"
+                    <div
+                      class="flex flex-row gap-4 items-center mb-2"
                     >
-                      We need urgency, wisdom and optimism
-                    </p>
+                      <p
+                        class="card__title bluedot-h4"
+                      >
+                        We need urgency, wisdom and optimism
+                      </p>
+                    </div>
                     <p
                       class="card__subtitle bluedot-p "
                     >

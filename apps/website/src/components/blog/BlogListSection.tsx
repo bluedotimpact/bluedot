@@ -1,7 +1,6 @@
 import {
   Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
 } from '@bluedot/ui';
-import { isMobile } from 'react-device-detect';
 import useAxios from 'axios-hooks';
 import { blogTable, InferSelectModel } from '@bluedot/db';
 import { P } from '../Text';
@@ -19,7 +18,8 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
     method: 'get',
     url: '/api/cms/blogs',
   });
-  const title = 'Recent blog posts';
+
+  const title = 'Latest articles';
 
   if (error) {
     return <ErrorSection error={error} />;
@@ -70,10 +70,11 @@ export const BlogListItem = ({ blog }: {
         className="blog-list__card container-lined hover:container-elevated p-8"
         ctaText="Read"
         ctaUrl={url}
-        isEntireCardClickable={!isMobile}
-        isFullWidth={!isMobile}
+        isEntireCardClickable
+        isFullWidth
         subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
         title={blog.title || 'Untitled'}
+        subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
       />
     </div>
   );

@@ -53,16 +53,20 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
                 />
               </div>
               <div
-                class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                class="card__content flex gap-6 w-full flex-1 flex-col"
               >
                 <div
                   class="card__text"
                 >
-                  <p
-                    class="card__title bluedot-h4 mb-2"
+                  <div
+                    class="flex flex-row gap-4 items-center mb-2"
                   >
-                    Our online community brings together 4,500+ professionals across 100+ countries
-                  </p>
+                    <p
+                      class="card__title bluedot-h4"
+                    >
+                      Our online community brings together 4,500+ professionals across 100+ countries
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -85,16 +89,20 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
                 />
               </div>
               <div
-                class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                class="card__content flex gap-6 w-full flex-1 flex-col"
               >
                 <div
                   class="card__text"
                 >
-                  <p
-                    class="card__title bluedot-h4 mb-2"
+                  <div
+                    class="flex flex-row gap-4 items-center mb-2"
                   >
-                    Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers
-                  </p>
+                    <p
+                      class="card__title bluedot-h4"
+                    >
+                      Diverse expertise, from engineers and entrepreneurs to policymakers and philosophers
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -117,16 +125,20 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
                 />
               </div>
               <div
-                class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                class="card__content flex gap-6 w-full flex-1 flex-col"
               >
                 <div
                   class="card__text"
                 >
-                  <p
-                    class="card__title bluedot-h4 mb-2"
+                  <div
+                    class="flex flex-row gap-4 items-center mb-2"
                   >
-                    40+ independent study groups worldwide have used our materials to run their own courses
-                  </p>
+                    <p
+                      class="card__title bluedot-h4"
+                    >
+                      40+ independent study groups worldwide have used our materials to run their own courses
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,16 +161,20 @@ exports[`CommunityValuesSection > renders default as expected 1`] = `
                 />
               </div>
               <div
-                class="card__content flex gap-6 w-full flex-1 justify-between flex-col"
+                class="card__content flex gap-6 w-full flex-1 flex-col"
               >
                 <div
                   class="card__text"
                 >
-                  <p
-                    class="card__title bluedot-h4 mb-2"
+                  <div
+                    class="flex flex-row gap-4 items-center mb-2"
                   >
-                    We run regular in-person events across the world, turning online connections into lasting relationships
-                  </p>
+                    <p
+                      class="card__title bluedot-h4"
+                    >
+                      We run regular in-person events across the world, turning online connections into lasting relationships
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
