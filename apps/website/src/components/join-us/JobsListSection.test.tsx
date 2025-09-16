@@ -67,7 +67,7 @@ describe('JobsListSection', () => {
     const jobListings = container.querySelectorAll('.jobs-list__listing');
     expect(jobListings.length).toBe(2);
 
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('renders empty state when no jobs are provided', () => {
