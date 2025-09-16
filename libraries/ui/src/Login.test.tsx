@@ -9,6 +9,9 @@ import { useAuthStore } from './utils/auth';
 import { getQueryParam } from './utils/getQueryParam';
 import '@testing-library/jest-dom';
 
+const CUSTOM_REDIRECT_PATH = '/custom-path';
+const OIDC_PROVIDER_URL = 'https://mock-oidc-provider.com/';
+
 const mockSetAuth = vi.fn();
 const defaultMockStore = {
   auth: null, // no auth by default
@@ -50,9 +53,6 @@ vi.mock('oidc-client-ts', () => {
     })),
   };
 });
-
-const CUSTOM_REDIRECT_PATH = '/custom-path';
-const OIDC_PROVIDER_URL = 'https://mock-oidc-provider.com/';
 
 const createMockUser = (overrides = {}) => ({
   expires_at: Math.floor(Date.now() / 1000) + 3600,
