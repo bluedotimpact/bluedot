@@ -8,9 +8,9 @@ import { H2, H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
-import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
+import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -116,43 +116,8 @@ const AgiStrategyLander = () => {
       {/* Why take this course section */}
       <WhyTakeThisCourseSection />
 
-      <Section className="!border-b-0">
-        <div className="prose prose-lg max-w-none">
-          <MarkdownExtendedRenderer>
-            {`
-## How the course works
-
-**Choose your intensity**
-
-- **Intensive**: 6-day course (5h/day)
-- **Part-time**: 6-week course (5h/week)
-
-**Format**
-
-- Each day/week, you will:
-    - Complete 2-3 hours of reading and writing, and
-    - Join ~8 peers in a 2-hour Zoom meeting to discuss the content.
-- Your discussions are facilitated by an AI safety expert.
-
-**Other info**
-
-- The course operates on a “pay-what-you-want” model.
-- A new round starts every month.
-- The next round starts on 29 September.
-- **Application deadline 19 September**.
-
-## Who is BlueDot Impact
-
-We’re a London-based startup. Since 2022, we’ve trained 5,000 people, with ~1,000 now working on making AI go well.
-
-Our courses are the main entry point into the AI safety field.
-
-We’ve raised $35M in total, including $25M in 2025.
-
-`}
-          </MarkdownExtendedRenderer>
-        </div>
-      </Section>
+      {/* Course Details Section */}
+      <CourseDetailsSection />
 
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />
