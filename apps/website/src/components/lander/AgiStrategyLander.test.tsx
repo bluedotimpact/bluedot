@@ -35,12 +35,6 @@ vi.mock('./agi-strategy/CommunityMembersSubSection', () => ({
   CommunityMember: {},
 }));
 
-vi.mock('../courses/MarkdownExtendedRenderer', () => ({
-  default: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="markdown-content">{children}</div>
-  ),
-}));
-
 describe('AgiStrategyLander', () => {
   it('renders the complete page correctly (snapshot)', () => {
     const { container } = render(<AgiStrategyLander />);
@@ -57,26 +51,14 @@ describe('AgiStrategyLander', () => {
     // Check description
     expect(screen.getByText(/Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours./)).toBeInTheDocument();
 
-    // Check CTAs - "Apply now" appears in HeroSection and banner (2 times total)
+    // Check CTAs - "Apply now" appears in HeroSection, CourseDetailsSection, and banner (3 times total)
     const applyButtons = screen.getAllByRole('link', { name: /Apply now/i });
-    expect(applyButtons).toHaveLength(2);
+    expect(applyButtons).toHaveLength(3);
   });
 
   it('renders Graduate section', () => {
     render(<AgiStrategyLander />);
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
-  });
-
-  it('renders course content with markdown', () => {
-    render(<AgiStrategyLander />);
-
-    const markdownContent = screen.getByTestId('markdown-content');
-    expect(markdownContent).toBeInTheDocument();
-
-    // Check for key content sections
-    expect(screen.getByText(/Take action in less than 30 hours/)).toBeInTheDocument();
-    expect(screen.getByText(/Join a network of builders/)).toBeInTheDocument();
-    expect(screen.getByText(/How the course works/)).toBeInTheDocument();
   });
 
   it('renders community members section', () => {
