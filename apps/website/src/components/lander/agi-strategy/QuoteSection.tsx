@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Quote } from '@bluedot/ui';
 
 type QuoteWithUrl = Quote & {
@@ -69,17 +69,36 @@ const getFontSizeForQuote = (quote: string): string => {
 
 const QuoteSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const autorotateTiming = 11000;
 
+  // Single effect that handles all timer logic
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
-    }, autorotateTiming);
-    return () => clearInterval(interval);
-  }, []);
+    if (!isPaused) {
+      intervalRef.current = setInterval(() => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
+      }, autorotateTiming);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [activeIndex, isPaused]); // Restart timer when activeIndex changes
 
   const handleIndicatorClick = (index: number) => {
-    setActiveIndex(index);
+    setActiveIndex(index); // Timer will restart automatically via useEffect
+  };
+
+  const handleMouseEnter = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPaused(false);
   };
 
   const activeQuote = testimonialQuotes[activeIndex];
@@ -92,6 +111,8 @@ const QuoteSection = () => {
     <section
       className="flex flex-col items-center w-full py-6 px-5 lg:p-12"
       style={{ backgroundColor: COLORS.background }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Main content container - Mobile: 350px, Desktop: 1120px */}
       <div className="flex flex-col items-center gap-8 w-full max-w-[350px] lg:max-w-[1120px] mx-auto">
