@@ -15,7 +15,7 @@ import { ROUTES } from '../../lib/routes';
 import { GetJobsResponse } from '../api/cms/jobs';
 import CultureSection from '../../components/join-us/CultureSection';
 import ValuesSection from '../../components/join-us/ValuesSection';
-import JobsListSection, { GetAshbyJobsResponse } from '../../components/join-us/JobsListSection';
+import JobsListSection from '../../components/join-us/JobsListSection';
 
 const CURRENT_ROUTE = ROUTES.joinUs;
 
@@ -23,11 +23,6 @@ const JoinUsPage = () => {
   const [{ data: cmsData, loading: cmsLoading, error: cmsError }] = useAxios<GetJobsResponse>({
     method: 'get',
     url: '/api/cms/jobs',
-  });
-
-  const [{ data: ashbyData, loading: ashbyLoading, error: ashbyError }] = useAxios<GetAshbyJobsResponse>({
-    method: 'get',
-    url: 'https://api.ashbyhq.com/posting-api/job-board/bluedot',
   });
 
   return (
@@ -44,9 +39,9 @@ const JoinUsPage = () => {
         </HeroCTAContainer>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
-      {(cmsLoading || ashbyLoading) && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
-      {(cmsError || ashbyError) && <ErrorSection error={cmsError || ashbyError} />}
-      {(cmsData && ashbyData) && <JobsListSection cmsJobs={cmsData.jobs} ashbyJobs={ashbyData.jobs} />}
+      {cmsLoading && <Section title="Careers at BlueDot Impact"><ProgressDots /></Section>}
+      {cmsError && <ErrorSection error={cmsError} />}
+      {cmsData && <JobsListSection cmsJobs={cmsData.jobs} />}
       <CultureSection />
       <ValuesSection />
     </div>
