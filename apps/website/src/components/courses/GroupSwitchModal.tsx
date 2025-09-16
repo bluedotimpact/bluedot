@@ -7,7 +7,7 @@ import {
   courseTable,
 } from '@bluedot/db';
 import {
-  CTALinkOrButton, Modal, ProgressDots, useAuthStore,
+  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
@@ -52,6 +52,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
+  const [error, setError] = useState<unknown | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -172,11 +173,12 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
       if (response.data?.type === 'success') {
         setShowSuccess(true);
+        setError(undefined);
       } else {
         throw new Error('Failed to submit request');
       }
-    } catch {
-      // TODO: Show error message
+    } catch (e) {
+      setError(e);
     } finally {
       setIsSubmitting(false);
     }
@@ -210,6 +212,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
+        {!!error && <ErrorSection error={error} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {successMessages.map((message) => (
