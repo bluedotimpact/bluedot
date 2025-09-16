@@ -24,8 +24,8 @@ export type GroupSwitchModalProps = {
 
 const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group for one unit', label: 'Switch group for one unit' },
-  { value: 'Join group for one unit', label: 'Join group for one unit' },
   { value: 'Switch group permanently', label: 'Switch group permanently' },
+  { value: 'Join group for one unit', label: 'Join group for one unit' },
 ] as const;
 
 type SwitchType = typeof SWITCH_TYPE_OPTIONS[number]['value'];

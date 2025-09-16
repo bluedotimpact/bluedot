@@ -17,7 +17,7 @@ import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
 
 const requestBodySchema = z.object({
-  switchType: z.enum(['Switch group for one unit', 'Join group for one unit', 'Switch group permanently']),
+  switchType: z.enum(['Switch group for one unit', 'Switch group permanently', 'Join group for one unit']),
   notesFromParticipant: z.string().min(1),
   oldGroupId: z.string().optional(),
   newGroupId: z.string().optional(),
