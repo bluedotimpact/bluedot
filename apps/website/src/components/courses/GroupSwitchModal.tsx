@@ -49,7 +49,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Use the current unit's number as the default selected unit
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
   const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
-  const [courseLoading, setCourseLoading] = useState(true);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -62,7 +61,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const auth = useAuthStore((s) => s.auth);
 
   // Fetch course and its units
-  const [{ data: courseData, loading: courseDataLoading }] = useAxios<{ course: Course; units: Unit[] }>({
+  const [{ data: courseData, loading: courseLoading }] = useAxios<{ course: Course; units: Unit[] }>({
     url: `/api/courses/${courseSlug}`,
     headers: auth?.token ? {
       Authorization: `Bearer ${auth.token}`,
@@ -74,12 +73,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   useEffect(() => {
     if (courseData?.units) {
       setCourseUnits(courseData.units);
-      setCourseLoading(false);
-    } else if (!courseDataLoading) {
-      // If no units data but loading is done, set loading to false
-      setCourseLoading(false);
     }
-  }, [courseData, courseDataLoading]);
+  }, [courseData]);
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
