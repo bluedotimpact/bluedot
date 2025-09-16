@@ -336,7 +336,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             <div className="flex gap-2 justify-end">
               <CTALinkOrButton
                 variant="secondary"
-                onClick={() => handleClose()}
+                onClick={handleClose}
                 aria-label="Cancel group switching"
               >
                 Cancel
