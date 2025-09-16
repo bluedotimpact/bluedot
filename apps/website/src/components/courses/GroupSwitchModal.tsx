@@ -56,7 +56,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const isTemporarySwitch = switchType === 'Switch group for one unit';
+  const isUnitScoped = switchType === 'Switch group for one unit' || switchType === 'Join group for one unit';
 
   const auth = useAuthStore((s) => s.auth);
 
@@ -115,13 +115,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }));
 
   const getCurrentDiscussionInfo = useCallback(() => {
-    if (isTemporarySwitch && oldDiscussion) {
+    if (isUnitScoped && oldDiscussion) {
       return {
         name: oldDiscussion.groupName,
         time: formatDiscussionDateTime(oldDiscussion.discussion.startDateTime),
       };
     }
-    if (!isTemporarySwitch && oldGroup) {
+    if (!isUnitScoped && oldGroup) {
       // For permanent switch, show next upcoming discussion time
       const nextTime = oldGroup.nextDiscussionStartDateTime;
       return {
@@ -130,21 +130,21 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     }
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup]);
+  }, [isUnitScoped, oldDiscussion, oldGroup]);
 
   const currentInfo = getCurrentDiscussionInfo();
 
-  const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+  const submitDisabled = isSubmitting || !((isUnitScoped ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
   const handleSubmit = async () => {
     if (submitDisabled) return;
 
     setIsSubmitting(true);
 
-    const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
-    const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
-    const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
-    const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
+    const oldGroupId = !isUnitScoped ? oldGroup?.group.id : undefined;
+    const newGroupId = !isUnitScoped && !isManualRequest ? selectedGroupId : undefined;
+    const oldDiscussionId = isUnitScoped ? oldDiscussion?.discussion.id : undefined;
+    const newDiscussionId = isUnitScoped && !isManualRequest ? selectedDiscussionId : undefined;
     try {
       const payload: GroupSwitchingRequest = {
         switchType,
@@ -189,7 +189,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       ];
     }
 
-    const message = `You will receive ${isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
+    const message = `You will receive ${isUnitScoped ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
     return [message];
   };
   const successMessages = getSuccessMessages();
@@ -231,7 +231,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               </select>
             </div>
 
-            {isTemporarySwitch && (
+            {isUnitScoped && (
             <div>
               <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
               <select
@@ -269,19 +269,19 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             {!isManualRequest && (
             <div className="flex flex-col gap-2">
               <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
-                {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
+                {isUnitScoped ? 'Select new discussion' : 'Select new group'}
               </label>
               {currentInfo && (
               <div className="bg-gray-50 border border-gray-200 rounded-md p-3">
                 <h4 className="text-size-sm font-medium text-gray-700 mb-1">
-                  {isTemporarySwitch ? 'Current discussion:' : 'Current group (next discussion):'}
+                  {isUnitScoped ? 'Current discussion:' : 'Current group (next discussion):'}
                 </h4>
                 <p className="text-size-sm text-gray-600">
                   {currentInfo.name} - {currentInfo.time}
                 </p>
               </div>
               )}
-              {isTemporarySwitch && (
+              {isUnitScoped && (
               <select
                 id="targetSelect"
                 value={selectedDiscussionId}
@@ -297,7 +297,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 ))}
               </select>
               )}
-              {!isTemporarySwitch && (
+              {!isUnitScoped && (
               <select
                 id="targetSelect"
                 value={selectedGroupId}
