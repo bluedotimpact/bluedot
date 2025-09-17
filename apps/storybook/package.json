@@ -35,9 +35,16 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-plugin-storybook": "^0.12.0",
+    "msw": "^2.11.2",
+    "msw-storybook-addon": "^2.0.5",
     "postcss": "^8",
     "storybook": "^8.6.12",
     "tailwindcss": "^4.0.6",
     "typescript": "^5.8.3"
+  },
+  "msw": {
+    "workerDirectory": [
+      "../website/public"
+    ]
   }
 }
