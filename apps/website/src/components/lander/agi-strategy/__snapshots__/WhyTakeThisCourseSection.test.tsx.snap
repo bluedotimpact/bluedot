@@ -2,7 +2,7 @@
 
 exports[`WhyTakeThisCourseSection > renders correctly 1`] = `
 <section
-  class="w-full border-t-[0.5px] border-color-divider bg-white"
+  class="w-full bg-white"
 >
   <div
     class="max-w-max-width mx-auto px-spacing-x py-16"
