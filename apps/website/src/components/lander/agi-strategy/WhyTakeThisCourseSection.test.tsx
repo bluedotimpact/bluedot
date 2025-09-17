@@ -8,11 +8,6 @@ describe('WhyTakeThisCourseSection', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('renders the section title', () => {
-    const { getByText } = render(<WhyTakeThisCourseSection />);
-    expect(getByText('How will this course benefit you?')).toBeDefined();
-  });
-
   it('renders all three value cards', () => {
     const { getByText } = render(<WhyTakeThisCourseSection />);
 

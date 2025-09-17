@@ -126,7 +126,7 @@ const AgiStrategyLander = () => {
       {/* Community Members Section - What learners are saying */}
       <div className="w-full bg-[#FAFAF7]">
         <Section className="py-16">
-          <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
+          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-16 tracking-[-0.01em]">Some of our graduates</H2>
           <CommunityMembersSubSection members={communityMembers} />
         </Section>
       </div>
