@@ -24,7 +24,7 @@ const targetAudiences = [
 const WhoIsThisForSection = () => {
   return (
     <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-spacing-x py-12 md:py-16">
+      <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
         <H2 className="text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
           Who is this course for?
         </H2>

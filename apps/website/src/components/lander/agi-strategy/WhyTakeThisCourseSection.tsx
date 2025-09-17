@@ -23,7 +23,7 @@ const valueCards = [
 
 const WhyTakeThisCourseSection = () => {
   return (
-    <section className="w-full border-t-[0.5px] border-color-divider bg-white">
+    <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-spacing-x py-16">
         <H2 className="text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]">
           How this course will benefit you
