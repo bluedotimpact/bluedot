@@ -250,10 +250,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             <div className="flex flex-col gap-2 px-1">
               <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium">Why are you making this change?*</label>
+                <label htmlFor="reason" className="text-size-sm font-medium">Tell us why you're making this change.*</label>
                 <p className="text-size-sm text-[#666C80]">
-                  Briefly, we'd like to understand why you're making this change. We've found that
-                  participants who stick with their group usually have a better experience on the course.
+                  Participants who stick with their group usually have a better experience on the course.
                 </p>
               </div>
               <textarea
