@@ -364,8 +364,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                             <ParticipationInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} subText={getGroupSubtext(group)} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
                           </button>
                           {selectedGroupId === group.group.id && (
-                            <CTALinkOrButton onClick={handleSubmit} className="rounded-md m-2">
-                              Confirm
+                            <CTALinkOrButton
+                              onClick={handleSubmit}
+                              className="rounded-md m-2"
+                              disabled={submitDisabled}
+                              aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+                            >
+                              {isSubmitting ? 'Submitting...' : 'Confirm'}
                             </CTALinkOrButton>
                           )}
                         </div>
@@ -376,23 +381,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               )}
             </div>
             )}
-
-            <div className="flex gap-2 justify-end">
-              <CTALinkOrButton
-                variant="secondary"
-                onClick={handleClose}
-                aria-label="Cancel group switching"
-              >
-                Cancel
-              </CTALinkOrButton>
-              <CTALinkOrButton
-                onClick={handleSubmit}
-                disabled={submitDisabled}
-                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-              >
-                {isSubmitting ? 'Submitting...' : 'Confirm'}
-              </CTALinkOrButton>
-            </div>
 
             {!isManualRequest && (
             <div className="border-t border-gray-200 pt-4">
