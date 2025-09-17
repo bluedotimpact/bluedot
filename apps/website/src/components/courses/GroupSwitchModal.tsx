@@ -510,7 +510,7 @@ const UserIcon = ({ className }: { className?: string }) => (
 );
 
 type GroupSwitchOptionProps = {
-  id: string;
+  id?: string;
   groupName: string;
   dateTime: number | null;
   spotsLeft: number | null;
