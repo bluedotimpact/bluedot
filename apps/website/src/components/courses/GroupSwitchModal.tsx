@@ -250,8 +250,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             <div className="flex flex-col gap-2 px-1">
               <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium">Tell us why you're making this change.*</label>
-                <p className="text-size-sm text-[#666C80]">
+                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
+                <p className="text-size-xs text-[#666C80]">
                   Participants who stick with their group usually have a better experience on the course.
                 </p>
               </div>
@@ -267,7 +267,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             {!isManualRequest && (
             <div className="flex flex-col gap-2">
-              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+              <label htmlFor="targetSelect" className="block text-size-sm font-medium text-[#00114D]">
                 {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
               </label>
               {currentInfo && (
