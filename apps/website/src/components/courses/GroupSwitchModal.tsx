@@ -189,21 +189,23 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const successMessages = getSuccessMessages();
 
   const getGroupSubtext = (group: GetGroupSwitchingAvailableResponse['groupsAvailable'][number]) => {
+    const baseStyle = 'text-[12px] leading-none font-medium text-[#666C80]';
+
     if (group.userIsParticipant) {
       if (selectedGroupId) {
         // When there is another group selected, 'you are switching out'
-        return <span>You are switching out of this group for remaining units.</span>;
+        return <span className={baseStyle}>You are switching out of this group for remaining units.</span>;
       }
       return (
         <div className="flex items-center gap-1 text-[#0037FF]">
-          <span>You are currently in this group.</span>
+          <span className={baseStyle}>You are currently in this group.</span>
           <FaCheck />
         </div>
       );
     }
 
     if (group.group.id === selectedGroupId) {
-      return <span className="text-[#0037FF]">You are switching into this group for all remaining units.</span>;
+      return <span className={cn(baseStyle, 'text-[#0037FF]')}>You are switching into this group for all remaining units.</span>;
     }
 
     let spotsLeft = 'No spots left';
@@ -220,7 +222,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             strokeLinejoin="round"
           />
         </svg>
-        <span>{spotsLeft}</span>
+        <span className={baseStyle}>{spotsLeft}</span>
       </div>
     );
   };
@@ -415,9 +417,7 @@ const GroupInfo = ({
       </div>
       <div className="flex flex-1 flex-col items-start">
         <div className="text-size-sm mb-1 leading-snug font-semibold text-blue-950">{groupName}</div>
-        <div className="flex items-center gap-1">
-          <span className={cn('text-[12px] leading-none font-medium text-[#666C80]', isActive && 'text-[#0037FF]')}>{subText}</span>
-        </div>
+        {subText}
       </div>
     </div>
   );
