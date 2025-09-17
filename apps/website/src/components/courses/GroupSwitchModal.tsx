@@ -295,7 +295,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   {newGroups.map((group) => {
                     return (
                       <li key={group.group.id} className="list-none">
-                        <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} />
+                        <button type="button" className="w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
+                          <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} />
+                        </button>
                       </li>
                     );
                   })}
@@ -359,12 +361,12 @@ const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
   const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
 
   return (
-    <div className={cn('p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4 hover:bg-[#F2F6FF]', spotsLeft === 0 && 'opacity-50')}>
+    <div className="p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4 hover:bg-[#F2F6FF]">
       <div className="px-3 py-1.5 rounded-md flex flex-col items-center">
         <div className="text-blue-950 text-size-sm font-medium leading-snug">{day}</div>
         <div className="text-[#666C80] text-size-xs font-medium leading-none">{time}</div>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col items-start">
         <div className="text-blue-950 text-size-sm font-semibold leading-snug mb-1">{groupName}</div>
         <div className="flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
