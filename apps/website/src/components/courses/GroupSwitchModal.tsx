@@ -336,7 +336,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                     return (
                       <li key={group.group.id} className="list-none">
                         <div className={cn('flex items-center rounded-xl outline-[0.5px] outline-stone-300', selectedGroupId === group.group.id && 'bg-[#F2F6FF]')}>
-                          <button type="button" className="flex-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
+                          <button type="button" className="flex-1 cursor-pointer hover:enabled:bg-[#F2F6FF] disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
                             <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} subText={getGroupSubtext(group)} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
                           </button>
                           {selectedGroupId === group.group.id && (
