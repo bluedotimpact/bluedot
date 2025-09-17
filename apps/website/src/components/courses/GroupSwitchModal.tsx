@@ -216,8 +216,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
           )}
           <form className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Action</label>
               <select
                 id="switchType"
                 value={switchType}
@@ -231,8 +231,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
 
             {isTemporarySwitch && (
-            <div>
-              <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Unit</label>
               <select
                 id="unitSelect"
                 value={selectedUnitNumber}
