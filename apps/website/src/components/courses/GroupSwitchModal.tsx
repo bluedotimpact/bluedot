@@ -7,6 +7,7 @@ import {
   courseTable,
 } from '@bluedot/db';
 import {
+  cn,
   CTALinkOrButton, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
@@ -87,23 +88,16 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Generate unit options from the course units
   const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
 
-  const groups = switchingData?.groupsAvailable ?? [];
+  const groupsAvailable = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
   // we do at least display the group/discussion the user is switching out of so that
   // they can notice and request manual support.
-  const oldGroup = groups.find((g) => g.userIsParticipant);
+  const oldGroup = groupsAvailable.find((g) => g.userIsParticipant);
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
-
-  const groupOptions = groups
-    .filter((g) => !g.userIsParticipant)
-    .map((g) => ({
-      value: g.group.id,
-      label: `${g.group.groupName || `Group ${g.group.id}`} (${g.spotsLeft} spots left)`,
-      disabled: g.spotsLeft !== null && g.spotsLeft <= 0,
-    }));
+  const newGroups = groupsAvailable.filter((g) => !g.userIsParticipant);
 
   const discussionOptions = discussions
     .filter((d) => !d.userIsParticipant)
@@ -297,20 +291,15 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               </select>
               )}
               {!isTemporarySwitch && (
-              <select
-                id="targetSelect"
-                value={selectedGroupId}
-                onChange={(e) => setSelectedGroupId(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                required
-              >
-                <option value="">Select a group</option>
-                {groupOptions.map((option) => (
-                  <option key={option.value} value={option.value} disabled={option.disabled}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <ul className="flex flex-col gap-2">
+                  {newGroups.map((group) => {
+                    return (
+                      <li key={group.group.id} className="list-none">
+                        <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} />
+                      </li>
+                    );
+                  })}
+                </ul>
               )}
             </div>
             )}
@@ -355,6 +344,36 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         )}
       </div>
     </Modal>
+  );
+};
+
+type GroupInfoProps = {
+  date: Date,
+  spotsLeft: number,
+  groupName: string,
+};
+
+const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
+  const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
+
+  return (
+    <div className={cn('p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4', spotsLeft === 0 && 'opacity-50')}>
+      <div className="px-3 py-1.5 rounded-md flex flex-col items-center">
+        <div className="text-blue-950 text-size-sm font-medium leading-snug">{day}</div>
+        <div className="text-[#666C80] text-size-xs font-medium leading-none">{time}</div>
+      </div>
+      <div className="flex-1">
+        <div className="text-blue-950 text-size-sm font-semibold leading-snug mb-1">{groupName}</div>
+        <div className="flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="#666C80" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span className="text-[#666C80] text-size-xs font-medium leading-none">{spotsText}</span>
+        </div>
+      </div>
+    </div>
   );
 };
 
