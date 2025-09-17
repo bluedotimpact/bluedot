@@ -12,8 +12,6 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    env:
-      AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
@@ -43,6 +41,9 @@ jobs:
         
       - name: Lint affected apps
         run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        
+      - name: Create .env.local for website
+        run: echo "AIRTABLE_PERSONAL_ACCESS_TOKEN=${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}" > apps/website/.env.local
         
       - name: Build affected apps
         run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
