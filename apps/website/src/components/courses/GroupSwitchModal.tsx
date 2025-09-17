@@ -19,6 +19,7 @@ import {
 } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
+import { twMerge } from 'tailwind-merge';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
@@ -71,7 +72,7 @@ const getGroupSwitchDescription = ({
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for Unit {selectedUnitNumber}</span>;
+      return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong> <FaCheck className="size-3 -translate-y-px inline-block ml-[2px]" aria-hidden="true" /></span>;
     }
 
     return undefined;
@@ -85,7 +86,7 @@ const getGroupSwitchDescription = ({
   }
 
   if (isSelected) {
-    return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
+    return <span className="text-[#0037FF] flex gap-2 items-center">You are switching into this group for all upcoming units <FaCheck className="size-3 -translate-y-px inline-block ml-[2px]" aria-hidden="true" /></span>;
   }
 
   return undefined;
@@ -319,6 +320,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
 
+  const selectedOption = groupSwitchOptions.filter((op) => op.isSelected)?.[0];
+
   const alternativeCount = groupSwitchOptions.filter((op) => op.spotsLeft !== 0 && !op.hasStarted).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
@@ -333,6 +336,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         {!!error && <ErrorSection error={error} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
+            {!isManualRequest && selectedOption && (
+              <GroupSwitchOption {...selectedOption} userIsParticipant />
+            )}
             {successMessages.map((message) => (
               <p key={message} className="text-size-sm text-[#666C80]">
                 {message}
@@ -632,7 +638,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               ) : description}
             </div>
           </div>
-          {isSelected && (
+          {isSelected && !isCurrentGroup && (
             <CTALinkOrButton
               onClick={(e) => {
                 e.stopPropagation(); // Avoid triggering parent onClick
