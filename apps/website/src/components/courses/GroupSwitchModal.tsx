@@ -78,7 +78,7 @@ const getGroupSwitchDescription = ({
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for unit {selectedUnitNumber}</span>;
+      return <span className="text-[#0037FF]">You are joining this group for Unit {selectedUnitNumber}</span>;
     }
 
     return undefined;
@@ -346,7 +346,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
               <label htmlFor="reason" className="text-size-sm font-medium">Why are you making this change?*</label>
-              <p className="text-size-sm text-[#666C80]">
+              <p id="reason-description" className="text-size-sm text-[#666C80]">
                 Briefly, we'd like to understand why you're making this change. We've found that
                 participants who stick with their group usually have a better experience on the course.
               </p>
@@ -358,6 +358,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
               required
               aria-describedby="reason-description"
+              aria-label="Reason for group switch request"
             />
           </div>
           {!isManualRequest && (
@@ -466,6 +467,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <AriaSelect
       selectedKey={value}
+      aria-label={`Select ${label}`}
       onSelectionChange={handleSelectionChange}
       className="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all"
     >
