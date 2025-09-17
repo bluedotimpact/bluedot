@@ -761,6 +761,10 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text(),
       airtableId: 'flddCXEeJ9oFOhfNb',
     },
+    courseUnit: {
+      pgColumn: text(),
+      airtableId: 'fld0ba6PYWqirsjnH',
+    },
     description: {
       pgColumn: text().notNull(),
       airtableId: 'fldpJLWVPh0IXHfmm',
