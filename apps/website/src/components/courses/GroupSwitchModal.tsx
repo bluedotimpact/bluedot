@@ -129,11 +129,23 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     method: 'post',
   }, { manual: true });
 
-  // Generate unit options from the course units
-  const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
+  const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
+  const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
+    ? switchingData.discussionsAvailable[selectedUnitNumber] || []
+    : [];
 
-  const groups = switchingData?.groupsAvailable ?? [];
-  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
+  const unitOptions = useMemo(() => {
+    return courseUnits.map((u) => {
+      const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
+      const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
+
+      return {
+        value: u.unitNumber.toString(),
+        label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+        disabled: !isManualRequest && !hasAvailableDiscussions,
+      };
+    });
+  }, [courseUnits, switchingData?.discussionsAvailable, isManualRequest]);
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
@@ -155,6 +167,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           isTemporarySwitch,
           selectedUnitNumber,
         }),
+        hasStarted: false,
         userIsParticipant: true,
       };
     }
@@ -171,6 +184,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           isTemporarySwitch,
           selectedUnitNumber,
         }),
+        hasStarted: false,
         userIsParticipant: true,
       };
     }
@@ -259,6 +273,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.nextDiscussionStartDateTime,
         spotsLeft: g.spotsLeft,
+        hasStarted: g.allDiscussionsHaveStarted,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
@@ -281,6 +296,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
         spotsLeft: d.spotsLeft,
+        hasStarted: d.hasStarted,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
@@ -296,7 +312,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
 
-  const alternativeCount = groupSwitchOptions.filter((op) => !(op.spotsLeft !== null && op.spotsLeft <= 0)).length;
+  const alternativeCount = groupSwitchOptions.filter((op) => op.spotsLeft !== 0 && !op.hasStarted).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
@@ -486,7 +502,10 @@ const Select: React.FC<SelectProps> = ({
               id={option.value}
               textValue={option.label}
               isDisabled={option.disabled}
-              className="px-3 py-2 gap-3 text-size-sm rounded cursor-pointer transition-colors hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-900 selected:bg-gray-100 selected:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed outline-none flex items-center"
+              className={clsx(
+                'px-3 py-2 gap-3 text-size-sm rounded transition-colors hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center',
+                option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+              )}
             >
               <span>{option.label}</span>
               {option.value === value && (
@@ -510,6 +529,7 @@ type GroupSwitchOptionProps = {
   id?: string;
   groupName: string;
   dateTime: number | null;
+  hasStarted?: boolean;
   spotsLeft: number | null;
   description?: React.ReactNode;
   isSelected?: boolean;
@@ -524,6 +544,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   groupName,
   dateTime,
   spotsLeft,
+  hasStarted,
   description,
   isSelected,
   userIsParticipant,
@@ -540,13 +561,13 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     return getDiscussionTimeDisplayStrings(dateTime);
   }, [dateTime]);
 
-  const getSpotsLeftText = () => {
+  const getDefaultDescription = () => {
     if (!hasAnySpotsLeft) return 'No spots left';
     if (spotsLeft === null) return 'Spots available';
     return `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`;
   };
 
-  const spotsLeftText = getSpotsLeftText();
+  const defaultDescription = getDefaultDescription();
 
   const getClassNames = () => {
     const classNames = [];
@@ -599,7 +620,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               {!description ? (
                 <>
                   <UserIcon className="-translate-y-px" />
-                  <span>{spotsLeftText}</span>
+                  <span>{defaultDescription}</span>
                 </>
               ) : description}
             </div>
