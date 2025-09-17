@@ -361,13 +361,20 @@ const GroupInfo = ({
 }: GroupInfoProps) => {
   const day = date.toLocaleDateString('en-US', { weekday: 'short' });
   const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-  const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
+
+  let subText = 'No spots left';
+  if (isActive) {
+    // TODO: actual numbers, e.g. units 2-12
+    subText = 'You are switching into this group for all remaining units.';
+  } else if (spotsLeft > 0) {
+    subText = `${spotsLeft} spot${spotsLeft > 1 ? 's' : ''} left`;
+  }
 
   return (
     <div className={cn('flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:enabled:bg-[#F2F6FF]', isActive && 'bg-[#F2F6FF]')}>
       <div className="flex flex-col items-center rounded-md px-3 py-1.5">
         <div className="text-size-sm leading-snug font-medium text-blue-950">{day}</div>
-        <div className="text-size-xs leading-none font-medium text-[#666C80]">{time}</div>
+        <div className={cn('text-[12px] leading-none font-medium text-[#666C80]', isActive && 'text-[#0037FF]')}>{time}</div>
       </div>
       <div className="flex flex-1 flex-col items-start">
         <div className="text-size-sm mb-1 leading-snug font-semibold text-blue-950">{groupName}</div>
@@ -375,12 +382,12 @@ const GroupInfo = ({
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z"
-              stroke="#666C80"
+              stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-          <span className="text-size-xs leading-none font-medium text-[#666C80]">{spotsText}</span>
+          <span className={cn('text-[12px] leading-none font-medium text-[#666C80]', isActive && 'text-[#0037FF]')}>{subText}</span>
         </div>
       </div>
     </div>
