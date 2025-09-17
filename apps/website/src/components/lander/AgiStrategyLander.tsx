@@ -11,6 +11,7 @@ import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
 import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
+import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -123,10 +124,13 @@ const AgiStrategyLander = () => {
       <QuoteSection />
 
       {/* Community Members Section - What learners are saying */}
-      <Section className="py-16">
+      <Section className="py-16 bg-[#FAFAF7]">
         <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
         <CommunityMembersSubSection members={communityMembers} />
       </Section>
+
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Banner */}
       <AgiStrategyBanner
