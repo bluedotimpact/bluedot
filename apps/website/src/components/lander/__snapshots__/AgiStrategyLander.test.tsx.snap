@@ -570,27 +570,31 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
-    <section
-      class="section section-body py-16 bg-[#FAFAF7]"
+    <div
+      class="w-full bg-[#FAFAF7]"
     >
-      <div
-        class="section__body"
+      <section
+        class="section section-body py-16"
       >
-        <h2
-          class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
-        >
-          Some of our graduates
-        </h2>
         <div
-          data-testid="community-members-section"
+          class="section__body"
         >
-          <span>
-            Members: 
-            6
-          </span>
+          <h2
+            class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
+          >
+            Some of our graduates
+          </h2>
+          <div
+            data-testid="community-members-section"
+          >
+            <span>
+              Members: 
+              6
+            </span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
     <section
       class="section section-body bg-white py-16 px-5 md:px-12 lg:px-44"
     >
