@@ -346,14 +346,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
               </label>
               {currentInfo && (
-              <div className="bg-gray-50 border border-gray-200 rounded-md p-3">
-                <h4 className="text-size-sm font-medium text-gray-700 mb-1">
-                  {isTemporarySwitch ? 'Current discussion:' : 'Current group (next discussion):'}
-                </h4>
-                <p className="text-size-sm text-gray-600">
-                  {currentInfo.name} - {currentInfo.time}
-                </p>
-              </div>
+                <div className="flex flex-col gap-2">
+                  <GroupInfo date={currentInfo.date || new Date()} groupName={currentInfo.name} subText={currentInfo.subText} />
+                  {/* TODO: there are n remaining time slots */}
+                  <hr />
+                </div>
               )}
               {isTemporarySwitch && (
               <select
