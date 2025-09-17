@@ -108,7 +108,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       disabled: d.spotsLeft !== null && d.spotsLeft <= 0,
     }));
 
-  const getCurrentDiscussionInfo = useCallback(() => {
+  const getCurrentParticipationInfo = useCallback(() => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
         name: oldDiscussion.groupName,
@@ -126,7 +126,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     return null;
   }, [isTemporarySwitch, oldDiscussion, oldGroup]);
 
-  const currentInfo = getCurrentDiscussionInfo();
+  const currentInfo = getCurrentParticipationInfo();
 
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
