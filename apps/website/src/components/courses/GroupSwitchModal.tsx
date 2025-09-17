@@ -111,16 +111,18 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const getCurrentParticipationInfo = useCallback(() => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
+        date: new Date(oldDiscussion.discussion.startDateTime * 1000),
         name: oldDiscussion.groupName,
-        time: formatDiscussionDateTime(oldDiscussion.discussion.startDateTime),
+        subText: getDiscussionSubtext(oldDiscussion),
       };
     }
     if (!isTemporarySwitch && oldGroup) {
       // For permanent switch, show next upcoming discussion time
       const nextTime = oldGroup.nextDiscussionStartDateTime;
       return {
+        date: nextTime ? new Date(nextTime * 1000) : undefined,
         name: oldGroup.group.groupName || `Group ${oldGroup.group.id}`,
-        time: nextTime ? formatDiscussionDateTime(nextTime) : 'No upcoming discussions',
+        subText: getGroupSubtext(oldGroup),
       };
     }
     return null;
