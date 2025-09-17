@@ -364,7 +364,7 @@ const GroupInfo = ({
   const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
 
   return (
-    <div className={cn('flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:bg-[#F2F6FF]', isActive && 'bg-[#F2F6FF]')}>
+    <div className={cn('flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:enabled:bg-[#F2F6FF]', isActive && 'bg-[#F2F6FF]')}>
       <div className="flex flex-col items-center rounded-md px-3 py-1.5">
         <div className="text-size-sm leading-snug font-medium text-blue-950">{day}</div>
         <div className="text-size-xs leading-none font-medium text-[#666C80]">{time}</div>
