@@ -198,8 +198,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       }
       return (
         <div className="flex items-center gap-1 text-[#0037FF]">
-          <span className={baseStyle}>You are currently in this group.</span>
-          <FaCheck />
+          <span className={cn(baseStyle, 'text-inherit')}>You are currently in this group</span>
+          <FaCheck size={10} />
         </div>
       );
     }
