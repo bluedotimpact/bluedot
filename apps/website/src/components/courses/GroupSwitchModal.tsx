@@ -232,7 +232,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             {isTemporarySwitch && (
             <div className="flex flex-col gap-0.5">
-              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Unit</label>
+              <label htmlFor="unitSelect" className="block text-size-xs text-[#666C80]">Unit</label>
               <select
                 id="unitSelect"
                 value={selectedUnitNumber}
