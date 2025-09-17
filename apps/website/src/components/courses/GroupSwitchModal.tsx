@@ -31,17 +31,6 @@ const SWITCH_TYPE_OPTIONS = [
 
 type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
-const formatDiscussionDateTime = (timestamp: number): string => {
-  const date = new Date(timestamp * 1000);
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-};
-
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
   currentUnit,
@@ -90,23 +79,16 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
 
   const groupsAvailable = switchingData?.groupsAvailable ?? [];
-  const discussions = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
+  const discussionsAvailable = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
   // we do at least display the group/discussion the user is switching out of so that
   // they can notice and request manual support.
   const oldGroup = groupsAvailable.find((g) => g.userIsParticipant);
-  const oldDiscussion = discussions.find((d) => d.userIsParticipant);
+  const oldDiscussion = discussionsAvailable.find((d) => d.userIsParticipant);
   const newGroups = groupsAvailable.filter((g) => !g.userIsParticipant);
-
-  const discussionOptions = discussions
-    .filter((d) => !d.userIsParticipant)
-    .map((d) => ({
-      value: d.discussion.id,
-      label: `${d.groupName} - ${formatDiscussionDateTime(d.discussion.startDateTime)}${d.spotsLeft !== null ? ` (${d.spotsLeft} spots left)` : ''}`,
-      disabled: d.spotsLeft !== null && d.spotsLeft <= 0,
-    }));
+  const newDiscussions = discussionsAvailable.filter((d) => !d.userIsParticipant);
 
   const getCurrentParticipationInfo = useCallback(() => {
     if (isTemporarySwitch && oldDiscussion) {
@@ -126,7 +108,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     }
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedGroupId]);
+  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedGroupId, selectedDiscussionId]);
 
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
@@ -353,20 +335,24 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 </div>
               )}
               {isTemporarySwitch && (
-              <select
-                id="targetSelect"
-                value={selectedDiscussionId}
-                onChange={(e) => setSelectedDiscussionId(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                required
-              >
-                <option value="">Select a discussion</option>
-                {discussionOptions.map((option) => (
-                  <option key={option.value} value={option.value} disabled={option.disabled}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <ul className="flex flex-col gap-2">
+                  {newDiscussions.map((discussion) => {
+                    return (
+                      <li key={discussion.discussion.id} className="list-none">
+                        <div className={cn('flex items-center rounded-xl outline-[0.5px] outline-stone-300', selectedDiscussionId === discussion.discussion.id && 'bg-[#F2F6FF]')}>
+                          <button type="button" className="flex-1 cursor-pointer hover:enabled:bg-[#F2F6FF] disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedDiscussionId(discussion.discussion.id); }} aria-pressed={selectedDiscussionId === discussion.discussion.id} disabled={discussion.spotsLeft === 0}>
+                            <GroupInfo date={new Date((discussion.discussion.startDateTime || Date.now()) * 1000)} subText={getDiscussionSubtext(discussion)} groupName={discussion.groupName || ''} isActive={selectedDiscussionId === discussion.discussion.id} />
+                          </button>
+                          {selectedDiscussionId === discussion.discussion.id && (
+                            <CTALinkOrButton onClick={handleSubmit} className="rounded-md m-2">
+                              Confirm
+                            </CTALinkOrButton>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               )}
               {!isTemporarySwitch && (
                 <ul className="flex flex-col gap-2">
