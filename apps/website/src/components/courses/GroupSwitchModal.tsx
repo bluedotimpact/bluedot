@@ -335,8 +335,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             {!isManualRequest && (
             <div className="border-t border-gray-200 pt-4">
               <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium">Don't see a group that works?</h3>
-                <p className="text-size-sm text-[#666C80]">
+                <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
                 </p>
