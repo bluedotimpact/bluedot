@@ -7,7 +7,6 @@ import {
   courseTable,
 } from '@bluedot/db';
 import {
-  cn,
   CTALinkOrButton, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
@@ -28,7 +27,7 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
-type SwitchType = typeof SWITCH_TYPE_OPTIONS[number]['value'];
+type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
@@ -350,9 +349,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 };
 
 type GroupInfoProps = {
-  date: Date,
-  spotsLeft: number,
-  groupName: string,
+  date: Date;
+  spotsLeft: number;
+  groupName: string;
 };
 
 const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
@@ -361,18 +360,23 @@ const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
   const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
 
   return (
-    <div className="p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4 hover:bg-[#F2F6FF]">
-      <div className="px-3 py-1.5 rounded-md flex flex-col items-center">
-        <div className="text-blue-950 text-size-sm font-medium leading-snug">{day}</div>
-        <div className="text-[#666C80] text-size-xs font-medium leading-none">{time}</div>
+    <div className="flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:bg-[#F2F6FF]">
+      <div className="flex flex-col items-center rounded-md px-3 py-1.5">
+        <div className="text-size-sm leading-snug font-medium text-blue-950">{day}</div>
+        <div className="text-size-xs leading-none font-medium text-[#666C80]">{time}</div>
       </div>
-      <div className="flex-1 flex flex-col items-start">
-        <div className="text-blue-950 text-size-sm font-semibold leading-snug mb-1">{groupName}</div>
+      <div className="flex flex-1 flex-col items-start">
+        <div className="text-size-sm mb-1 leading-snug font-semibold text-blue-950">{groupName}</div>
         <div className="flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="#666C80" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z"
+              stroke="#666C80"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
-          <span className="text-[#666C80] text-size-xs font-medium leading-none">{spotsText}</span>
+          <span className="text-size-xs leading-none font-medium text-[#666C80]">{spotsText}</span>
         </div>
       </div>
     </div>
