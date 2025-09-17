@@ -7,6 +7,7 @@ import {
   courseTable,
 } from '@bluedot/db';
 import {
+  cn,
   CTALinkOrButton, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
@@ -295,7 +296,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                     return (
                       <li key={group.group.id} className="list-none">
                         <button type="button" className="w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
-                          <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} />
+                          <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
                         </button>
                       </li>
                     );
@@ -352,15 +353,18 @@ type GroupInfoProps = {
   date: Date;
   spotsLeft: number;
   groupName: string;
+  isActive?: boolean;
 };
 
-const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
+const GroupInfo = ({
+  date, spotsLeft, groupName, isActive = false,
+}: GroupInfoProps) => {
   const day = date.toLocaleDateString('en-US', { weekday: 'short' });
   const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
 
   return (
-    <div className="flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:bg-[#F2F6FF]">
+    <div className={cn('flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:bg-[#F2F6FF]', isActive && 'bg-[#F2F6FF]')}>
       <div className="flex flex-col items-center rounded-md px-3 py-1.5">
         <div className="text-size-sm leading-snug font-medium text-blue-950">{day}</div>
         <div className="text-size-xs leading-none font-medium text-[#666C80]">{time}</div>
