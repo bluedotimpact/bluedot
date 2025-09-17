@@ -33,8 +33,7 @@ const getRouteFilePath = (url: string): string => {
 };
 
 const generateSitemaps = async () => {
-  const urls = Object.values(ROUTES)
-    .filter((route) => INCLUDED_ROUTES.includes(route)) // Only include specific routes
+  const urls = Object.values(INCLUDED_ROUTES)
     .map((route) => {
       const filePath = getRouteFilePath(route.url);
       const lastModified = getLastModified(filePath);
