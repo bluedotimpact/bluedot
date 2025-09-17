@@ -244,7 +244,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     .map((g) => {
       const isSelected = selectedGroupId === g.group.id;
       return {
-        value: g.group.id,
+        id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.nextDiscussionStartDateTime,
         spotsLeft: g.spotsLeft,
@@ -266,7 +266,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     .map((d) => {
       const isSelected = selectedDiscussionId === d.discussion.id;
       return {
-        value: d.discussion.id,
+        id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
         spotsLeft: d.spotsLeft,
@@ -379,7 +379,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                {groupSwitchOptions.map((option) => <GroupSwitchOption key={option.groupName} {...option} />)}
+                {groupSwitchOptions.map((option) => (
+                  <GroupSwitchOption key={option.id} {...option} />
+                ))}
               </div>
             </>
           )}
@@ -508,6 +510,7 @@ const UserIcon = ({ className }: { className?: string }) => (
 );
 
 type GroupSwitchOptionProps = {
+  id: string;
   groupName: string;
   dateTime: number | null;
   spotsLeft: number | null;
