@@ -329,7 +329,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               </label>
               {currentInfo && (
                 <div className="flex flex-col gap-2">
-                  <GroupInfo date={currentInfo.date || new Date()} groupName={currentInfo.name} subText={currentInfo.subText} />
+                  <ParticipationInfo date={currentInfo.date || new Date()} groupName={currentInfo.name} subText={currentInfo.subText} />
                   {/* TODO: there are n remaining time slots */}
                   <hr />
                 </div>
@@ -341,7 +341,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                       <li key={discussion.discussion.id} className="list-none">
                         <div className={cn('flex items-center rounded-xl outline-[0.5px] outline-stone-300', selectedDiscussionId === discussion.discussion.id && 'bg-[#F2F6FF]')}>
                           <button type="button" className="flex-1 cursor-pointer hover:enabled:bg-[#F2F6FF] disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedDiscussionId(discussion.discussion.id); }} aria-pressed={selectedDiscussionId === discussion.discussion.id} disabled={discussion.spotsLeft === 0}>
-                            <GroupInfo date={new Date((discussion.discussion.startDateTime || Date.now()) * 1000)} subText={getDiscussionSubtext(discussion)} groupName={discussion.groupName || ''} isActive={selectedDiscussionId === discussion.discussion.id} />
+                            <ParticipationInfo date={new Date((discussion.discussion.startDateTime || Date.now()) * 1000)} subText={getDiscussionSubtext(discussion)} groupName={discussion.groupName || ''} isActive={selectedDiscussionId === discussion.discussion.id} />
                           </button>
                           {selectedDiscussionId === discussion.discussion.id && (
                             <CTALinkOrButton onClick={handleSubmit} className="rounded-md m-2">
@@ -361,7 +361,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                       <li key={group.group.id} className="list-none">
                         <div className={cn('flex items-center rounded-xl outline-[0.5px] outline-stone-300', selectedGroupId === group.group.id && 'bg-[#F2F6FF]')}>
                           <button type="button" className="flex-1 cursor-pointer hover:enabled:bg-[#F2F6FF] disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
-                            <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} subText={getGroupSubtext(group)} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
+                            <ParticipationInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} subText={getGroupSubtext(group)} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
                           </button>
                           {selectedGroupId === group.group.id && (
                             <CTALinkOrButton onClick={handleSubmit} className="rounded-md m-2">
@@ -420,16 +420,16 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   );
 };
 
-type GroupInfoProps = {
+type ParticipationInfoProps = {
   date: Date;
   subText?: React.ReactNode;
   groupName: string;
   isActive?: boolean;
 };
 
-const GroupInfo = ({
+const ParticipationInfo = ({
   date, groupName, isActive = false, subText,
-}: GroupInfoProps) => {
+}: ParticipationInfoProps) => {
   const day = date.toLocaleDateString('en-US', { weekday: 'short' });
   const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
