@@ -267,7 +267,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   };
 
   const currentInfo = getCurrentParticipationInfo();
-  
+
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
@@ -307,7 +307,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             {isTemporarySwitch && (
             <div className="flex flex-col gap-0.5">
-              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Unit</label>
+              <label htmlFor="unitSelect" className="block text-size-xs text-[#666C80]">Unit</label>
               <select
                 id="unitSelect"
                 value={selectedUnitNumber}
