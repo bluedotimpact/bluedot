@@ -126,7 +126,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     }
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup]);
+  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedGroupId]);
 
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
