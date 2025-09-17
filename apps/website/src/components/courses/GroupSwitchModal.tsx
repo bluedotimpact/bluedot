@@ -257,6 +257,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               </div>
               <textarea
                 id="reason"
+                placeholder="Share your reason here"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
