@@ -27,7 +27,7 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
-type SwitchType = typeof SWITCH_TYPE_OPTIONS[number]['value'];
+type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
@@ -221,7 +221,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               <select
                 id="switchType"
                 value={switchType}
-                onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
+                onChange={(e) => setSwitchType(e.target.value as SwitchType)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
               >
                 {SWITCH_TYPE_OPTIONS.map((option) => (
