@@ -80,7 +80,7 @@ const getGroupSwitchDescription = ({
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for unit {selectedUnitNumber}</span>;
+      return <span className="text-[#0037FF]">You are joining this group for Unit {selectedUnitNumber}</span>;
     }
 
     return undefined;
@@ -346,6 +346,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px]"
                 required
                 aria-describedby="reason-description"
+                aria-label="Reason for group switch request"
               />
             </div>
           </div>
@@ -455,6 +456,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <AriaSelect
       selectedKey={value}
+      aria-label={`Select ${label}`}
       onSelectionChange={handleSelectionChange}
       className="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all"
     >
