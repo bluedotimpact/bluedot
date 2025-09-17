@@ -44,6 +44,8 @@ jobs:
         
       - name: Build affected apps
         run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        env:
+          AIRTABLE_PERSONAL_ACCESS_TOKEN: ${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}
 
       - name: Get affected deployable apps
         id: get_affected_deployable_apps
