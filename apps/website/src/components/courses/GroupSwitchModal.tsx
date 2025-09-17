@@ -588,7 +588,6 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               {groupName}
             </div>
             <div className="flex items-center gap-[6px] text-size-xs text-gray-500">
-              {/* TODO note in PR decision to drop "Unit x" here */}
               {!description ? (
                 <>
                   <UserIcon className="-translate-y-px" />
