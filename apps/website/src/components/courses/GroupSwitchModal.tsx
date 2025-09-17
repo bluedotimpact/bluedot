@@ -359,7 +359,7 @@ const GroupInfo = ({ date, spotsLeft, groupName }: GroupInfoProps) => {
   const spotsText = spotsLeft > 0 ? `${spotsLeft} spots left` : 'No spots left';
 
   return (
-    <div className={cn('p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4', spotsLeft === 0 && 'opacity-50')}>
+    <div className={cn('p-2.5 rounded-xl outline-[0.5px] outline-stone-300 flex items-center gap-4 hover:bg-[#F2F6FF]', spotsLeft === 0 && 'opacity-50')}>
       <div className="px-3 py-1.5 rounded-md flex flex-col items-center">
         <div className="text-blue-950 text-size-sm font-medium leading-snug">{day}</div>
         <div className="text-[#666C80] text-size-xs font-medium leading-none">{time}</div>
