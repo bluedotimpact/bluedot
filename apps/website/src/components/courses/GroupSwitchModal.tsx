@@ -128,8 +128,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     return null;
   }, [isTemporarySwitch, oldDiscussion, oldGroup]);
 
-  const currentInfo = getCurrentParticipationInfo();
-
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
   const handleSubmit = async () => {
@@ -268,6 +266,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     );
   };
 
+  const currentInfo = getCurrentParticipationInfo();
+  
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
