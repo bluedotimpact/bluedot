@@ -570,24 +570,109 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
+    <div
+      class="w-full bg-[#FAFAF7]"
+    >
+      <section
+        class="section section-body py-16"
+      >
+        <div
+          class="section__body"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
+          >
+            Some of our graduates
+          </h2>
+          <div
+            data-testid="community-members-section"
+          >
+            <span>
+              Members: 
+              6
+            </span>
+          </div>
+        </div>
+      </section>
+    </div>
     <section
-      class="section section-body py-16"
+      class="section section-body bg-white py-16 px-5 md:px-12 lg:px-44"
     >
       <div
         class="section__body"
       >
-        <h2
-          class="bluedot-h2 not-prose text-[36px] text-center font-semibold leading-tight mb-16"
-        >
-          Some of our graduates
-        </h2>
         <div
-          data-testid="community-members-section"
+          class="max-w-[928px] mx-auto flex flex-col gap-16"
         >
-          <span>
-            Members: 
-            6
-          </span>
+          <h2
+            class="text-[28px] lg:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
+          >
+            Frequently Asked Questions
+          </h2>
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-funding"
+                aria-expanded="false"
+                class="w-full flex items-center justify-between text-left py-6 px-8 transition-colors hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] pr-4"
+                >
+                  Can I just apply for funding?
+                </span>
+                <svg
+                  class="size-4 text-[#13132E] flex-shrink-0"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-bluedot"
+                aria-expanded="false"
+                class="w-full flex items-center justify-between text-left py-6 px-8 transition-colors hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] pr-4"
+                >
+                  Who is BlueDot Impact?
+                </span>
+                <svg
+                  class="size-4 text-[#13132E] flex-shrink-0"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
