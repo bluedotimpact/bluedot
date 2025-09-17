@@ -295,9 +295,16 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   {newGroups.map((group) => {
                     return (
                       <li key={group.group.id} className="list-none">
-                        <button type="button" className="w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
-                          <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
-                        </button>
+                        <div className={cn('flex items-center rounded-xl outline-[0.5px] outline-stone-300', selectedGroupId === group.group.id && 'bg-[#F2F6FF]')}>
+                          <button type="button" className="flex-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => { setSelectedGroupId(group.group.id); }} aria-pressed={selectedGroupId === group.group.id} disabled={group.spotsLeft === 0}>
+                            <GroupInfo date={new Date((group.nextDiscussionStartDateTime || Date.now()) * 1000)} spotsLeft={group.spotsLeft || 0} groupName={group.group.groupName || ''} isActive={selectedGroupId === group.group.id} />
+                          </button>
+                          {selectedGroupId === group.group.id && (
+                            <CTALinkOrButton onClick={handleSubmit} className="rounded-md m-2">
+                              Confirm
+                            </CTALinkOrButton>
+                          )}
+                        </div>
                       </li>
                     );
                   })}
@@ -371,7 +378,7 @@ const GroupInfo = ({
   }
 
   return (
-    <div className={cn('flex items-center gap-4 rounded-xl p-2.5 outline-[0.5px] outline-stone-300 hover:enabled:bg-[#F2F6FF]', isActive && 'bg-[#F2F6FF]')}>
+    <div className="flex items-center gap-4 p-2.5">
       <div className="flex flex-col items-center rounded-md px-3 py-1.5">
         <div className="text-size-sm leading-snug font-medium text-blue-950">{day}</div>
         <div className={cn('text-[12px] leading-none font-medium text-[#666C80]', isActive && 'text-[#0037FF]')}>{time}</div>
