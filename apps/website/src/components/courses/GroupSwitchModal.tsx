@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback, useEffect,
+  useState, useMemo, useCallback,
 } from 'react';
 import {
   InferSelectModel,
@@ -27,6 +27,8 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
+type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+
 const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString('en-US', {
@@ -43,11 +45,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   currentUnit,
   courseSlug,
 }) => {
-  const [switchType, setSwitchType] = useState<'Switch group for one unit' | 'Switch group permanently'>('Switch group for one unit');
+  const [switchType, setSwitchType] = useState<SwitchType>('Switch group for one unit');
   // Use the current unit's number as the default selected unit
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
-  const [courseUnits, setCourseUnits] = useState<Unit[]>([]);
-  const [courseLoading, setCourseLoading] = useState(true);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -61,24 +61,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const auth = useAuthStore((s) => s.auth);
 
   // Fetch course and its units
-  const [{ data: courseData, loading: courseDataLoading }] = useAxios<{ course: Course; units: Unit[] }>({
+  const [{ data: courseData, loading: courseLoading }] = useAxios<{ course: Course; units: Unit[] }>({
     url: `/api/courses/${courseSlug}`,
     headers: auth?.token ? {
       Authorization: `Bearer ${auth.token}`,
     } : undefined,
     method: 'get',
   });
-
-  // Update courseUnits when courseData is loaded
-  useEffect(() => {
-    if (courseData?.units) {
-      setCourseUnits(courseData.units);
-      setCourseLoading(false);
-    } else if (!courseDataLoading) {
-      // If no units data but loading is done, set loading to false
-      setCourseLoading(false);
-    }
-  }, [courseData, courseDataLoading]);
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
@@ -97,19 +86,17 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   }, { manual: true });
 
   // Generate unit options from the course units
-  const unitOptions = useMemo(() => courseUnits.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })), [courseUnits]);
+  const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
 
-  const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
-  const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
-    ? switchingData.discussionsAvailable[selectedUnitNumber] || []
-    : [];
+  const groups = switchingData?.groupsAvailable ?? [];
+  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
   // we do at least display the group/discussion the user is switching out of so that
   // they can notice and request manual support.
-  const oldGroup = groups.filter((g) => g.userIsParticipant)[0];
-  const oldDiscussion = discussions.filter((d) => d.userIsParticipant)[0];
+  const oldGroup = groups.find((g) => g.userIsParticipant);
+  const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
   const groupOptions = groups
     .filter((g) => !g.userIsParticipant)
@@ -227,19 +214,18 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80] mb-4">
               We're keen for you to request manual switches where necessary to attend group discussions.
-              However, because they do take time for us to process but we expect you to have made a sincere
+              However, because they do take time for us to process we expect you to have made a sincere
               effort to make your original discussion group and consider others available on the last screen.
             </div>
           )}
           <form className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Action</label>
               <select
                 id="switchType"
                 value={switchType}
-                onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
+                onChange={(e) => setSwitchType(e.target.value as SwitchType)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                aria-describedby="switchType-description"
               >
                 {SWITCH_TYPE_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>{option.label}</option>
@@ -248,14 +234,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
 
             {isTemporarySwitch && (
-            <div>
-              <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="unitSelect" className="block text-size-xs text-[#666C80]">Unit</label>
               <select
                 id="unitSelect"
                 value={selectedUnitNumber}
                 onChange={(e) => setSelectedUnitNumber(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
-                aria-describedby="unitSelect-description"
                 required
               >
                 <option value="">Select a unit</option>
@@ -268,25 +253,24 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             <div className="flex flex-col gap-2 px-1">
               <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium">Why are you making this change?*</label>
-                <p className="text-size-sm text-[#666C80]">
-                  Briefly, we'd like to understand why you're making this change. We've found that
-                  participants who stick with their group usually have a better experience on the course.
+                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
+                <p className="text-size-xs text-[#666C80]">
+                  Participants who stick with their group usually have a better experience on the course.
                 </p>
               </div>
               <textarea
                 id="reason"
+                placeholder="Share your reason here"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
                 required
-                aria-describedby="reason-description"
               />
             </div>
 
             {!isManualRequest && (
             <div className="flex flex-col gap-2">
-              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+              <label htmlFor="targetSelect" className="block text-size-sm font-medium text-[#00114D]">
                 {isTemporarySwitch ? 'Select new discussion' : 'Select new group'}
               </label>
               {currentInfo && (
@@ -306,7 +290,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(e) => setSelectedDiscussionId(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
                 required
-                aria-describedby="targetSelect-description"
               >
                 <option value="">Select a discussion</option>
                 {discussionOptions.map((option) => (
@@ -323,7 +306,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(e) => setSelectedGroupId(e.target.value)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
                 required
-                aria-describedby="targetSelect-description"
               >
                 <option value="">Select a group</option>
                 {groupOptions.map((option) => (
@@ -339,7 +321,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             <div className="flex gap-2 justify-end">
               <CTALinkOrButton
                 variant="secondary"
-                onClick={() => handleClose()}
+                onClick={handleClose}
                 aria-label="Cancel group switching"
               >
                 Cancel
@@ -356,8 +338,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             {!isManualRequest && (
             <div className="border-t border-gray-200 pt-4">
               <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium">Don't see a group that works?</h3>
-                <p className="text-size-sm text-[#666C80]">
+                <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
                 </p>
