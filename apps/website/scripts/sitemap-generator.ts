@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { ROUTES } from '../src/lib/routes';
 
-const BASE_URL = 'https://bluedot.org';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
 const INCLUDED_ROUTES = [
   ROUTES.home,
   ROUTES.about,

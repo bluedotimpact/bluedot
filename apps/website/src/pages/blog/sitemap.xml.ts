@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import { getAllPublishedBlogs } from '../api/cms/blogs';
 
-const BASE_URL = 'https://bluedot.org/blog';
+const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/blog`;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // TODO: only fetch slugs and publishedAt timestamps
