@@ -8,12 +8,13 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
 const INCLUDED_ROUTES = [
   ROUTES.home,
   ROUTES.about,
+  ROUTES.blog,
   ROUTES.certification,
   ROUTES.contact,
   ROUTES.courses,
   ROUTES.joinUs,
   ROUTES.privacyPolicy,
-  // blog, courses and projects do not have base routes, only slugs
+  ROUTES.projects,
 ];
 
 /** Parse git history to determine when file was last updated */
