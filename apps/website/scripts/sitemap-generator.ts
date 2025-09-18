@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { ROUTES } from '../src/lib/routes';
@@ -19,7 +19,7 @@ const INCLUDED_ROUTES = [
 /** Parse git history to determine when file was last updated */
 const getLastModified = (filePath: string): string => {
   try {
-    const result = execSync(`git log -1 --format=%cI -- ${filePath}`, { encoding: 'utf8' });
+    const result = execFileSync('git', ['log', '-1', '--format=%cI', '--', filePath], { encoding: 'utf8' });
     return result.trim() || new Date().toISOString();
   } catch {
     return new Date().toISOString();
