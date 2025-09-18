@@ -12,7 +12,6 @@ const INCLUDED_ROUTES = [
   ROUTES.contact,
   ROUTES.courses,
   ROUTES.joinUs,
-  ROUTES.login,
   ROUTES.privacyPolicy,
   // blog, courses and projects do not have base routes, only slugs
 ];
