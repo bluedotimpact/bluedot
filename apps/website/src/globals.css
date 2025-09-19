@@ -42,6 +42,31 @@
   font-family: var(--font-inter-display), var(--font-inter), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
+/* Hide default scrollbar while keeping scroll functionality */
+.scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Custom curriculum scrollbar */
+.scrollbar-curriculum::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-curriculum::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+.scrollbar-curriculum::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+.scrollbar-curriculum::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
 /* 
  * Custom font-weight override: Inter font only supports weights up to 600, not 650
  * The UI library uses font-[650] but we need to map this to 600 for Inter

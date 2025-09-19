@@ -59,8 +59,8 @@ const CourseDetailsSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-spacing-x flex flex-col items-center gap-16">
+    <section className="w-full bg-[#FAFAF7]">
+      <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
         <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
           AGI Strategy Course Details
