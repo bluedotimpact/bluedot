@@ -51,27 +51,6 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
-/* Custom curriculum scrollbar */
-.scrollbar-curriculum {
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
-.scrollbar-curriculum::-webkit-scrollbar {
-  width: 4px;
-}
-.scrollbar-curriculum::-webkit-scrollbar-track {
-  background: transparent;
-}
-.scrollbar-curriculum::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  min-height: 30px;
-}
-.scrollbar-curriculum::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
 /* 
  * Custom font-weight override: Inter font only supports weights up to 600, not 650
  * The UI library uses font-[650] but we need to map this to 600 for Inter

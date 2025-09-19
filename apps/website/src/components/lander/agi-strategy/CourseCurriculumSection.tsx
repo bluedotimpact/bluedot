@@ -50,9 +50,31 @@ const CourseCurriculumSection = () => {
   }
 
   return (
-    <SectionWrapper>
-      <div className="max-w-[928px] mx-auto">
-        <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum pr-3">
+    <>
+      <style jsx>{`
+        .scrollbar-curriculum {
+          /* Firefox */
+          scrollbar-width: thin;
+          scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+        }
+        .scrollbar-curriculum::-webkit-scrollbar {
+          width: 4px;
+        }
+        .scrollbar-curriculum::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .scrollbar-curriculum::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
+          min-height: 30px;
+        }
+        .scrollbar-curriculum::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      `}</style>
+      <SectionWrapper>
+        <div className="max-w-[928px] mx-auto">
+          <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum pr-3">
           <div className="pb-[120px]">
             {[...data.units]
               .sort((a, b) => {
@@ -66,9 +88,10 @@ const CourseCurriculumSection = () => {
           </div>
           {/* Fade gradient at bottom */}
           <div className="sticky bottom-0 h-[102px] bg-gradient-to-t from-white via-white/[0.93] to-transparent pointer-events-none -mt-[102px]" />
+          </div>
         </div>
-      </div>
-    </SectionWrapper>
+      </SectionWrapper>
+    </>
   );
 };
 
