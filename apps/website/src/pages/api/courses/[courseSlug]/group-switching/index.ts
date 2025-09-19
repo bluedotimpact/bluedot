@@ -106,7 +106,7 @@ export default makeApiRoute({
     // Error will be thrown here if oldDiscussion is not found
     const [oldDiscussion, newDiscussion] = await Promise.all([
       db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
-      !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
+      isManualRequest ? null : db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
     ]);
 
     if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
@@ -137,7 +137,7 @@ export default makeApiRoute({
     // Error will be thrown here if oldGroup is not found
     const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
       db.get(groupTable, { id: inputOldGroupId }),
-      !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
+      isManualRequest ? null : db.get(groupTable, { id: inputNewGroupId }),
       db.pg
         .select()
         .from(groupDiscussionTable.pg)
