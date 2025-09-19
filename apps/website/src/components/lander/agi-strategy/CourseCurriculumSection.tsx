@@ -7,7 +7,7 @@ import useAxios from 'axios-hooks';
 import { FaChevronDown } from 'react-icons/fa';
 import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
-import { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
+import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
 
 /* Common Section Wrapper */
 const SectionWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -54,7 +54,7 @@ const CourseCurriculumSection = () => {
       <div className="max-w-[928px] mx-auto">
         <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum">
           <div className="pb-[120px]">
-            {data.units
+            {[...data.units]
               .sort((a, b) => {
                 const aNum = parseInt(a.unitNumber || '0', 10);
                 const bNum = parseInt(b.unitNumber || '0', 10);
@@ -77,7 +77,8 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
   const [isOpen, setIsOpen] = useState(defaultExpanded);
 
   const unitTitle = (unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`)
-    .replace(/^AGI Strategy\s*-\s*/i, '');
+    .replace(/^AGI Strategy\s*-\s*/i, '')
+    .trim();
   const description = unit.menuText || unit.description;
 
   const handleToggle = () => {
@@ -97,16 +98,16 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
               <button
                 type="button"
                 onClick={handleToggle}
-                className="size-5 flex items-center justify-center"
+                className="size-5 flex items-center justify-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2244BB]"
                 aria-expanded={isOpen}
                 aria-controls={`curriculum-unit-${unit.id}`}
               >
-                <FaChevronDown className="size-3 text-[#13132E]" />
+                <FaChevronDown className="size-3 text-[#13132E] transition-transform duration-200" />
               </button>
             </div>
             {description && (
               <div className="pl-6">
-                <div className="text-[16px] font-normal leading-[160%] text-[#13132E] opacity-80">
+                <div className="text-[16px] font-normal leading-[160%] text-[#13132E] opacity-80 whitespace-pre-line">
                   {description}
                 </div>
               </div>
@@ -119,7 +120,7 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
           <button
             type="button"
             onClick={handleToggle}
-            className="w-full py-[18px] px-3 flex items-center gap-2 hover:bg-gray-50 transition-colors"
+            className="w-full py-[18px] px-3 flex items-center gap-2 hover:bg-gray-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2244BB]"
             aria-expanded={isOpen}
             aria-controls={`curriculum-unit-${unit.id}`}
           >
