@@ -122,7 +122,7 @@ export default makeApiRoute({
       throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
     }
 
-    if (newDiscussion && !isManualRequest && typeof maxParticipants === 'number') {
+    if (newDiscussion && !isManualRequest && maxParticipants) {
       const spotsLeft = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
       if (spotsLeft === 0) {
         throw new createHttpError.BadRequest('Selected discussion has no spots remaining');
@@ -169,7 +169,7 @@ export default makeApiRoute({
       throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
     }
 
-    if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
+    if (newGroup && !isManualRequest && maxParticipants) {
       // Calculate spots left based on the minimum spots across all discussions in the group
       // This matches the logic in available.ts
       const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
