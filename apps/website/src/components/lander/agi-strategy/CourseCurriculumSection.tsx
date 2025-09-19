@@ -5,11 +5,9 @@ import {
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { FaChevronDown } from 'react-icons/fa';
-import { unitTable, InferSelectModel } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
 import { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
 
 /* Common Section Wrapper */
 const SectionWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -63,7 +61,7 @@ const CourseCurriculumSection = () => {
         >
           <div className="pb-[120px]">
             {data.units.map((unit) => (
-              <CurriculumUnit key={unit.id} unit={unit} defaultExpanded />
+              <CurriculumUnit key={unit.id} unit={unit} />
             ))}
           </div>
           {/* Fade gradient at bottom */}
