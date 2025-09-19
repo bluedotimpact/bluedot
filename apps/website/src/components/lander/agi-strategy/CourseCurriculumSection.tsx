@@ -52,13 +52,7 @@ const CourseCurriculumSection = () => {
   return (
     <SectionWrapper>
       <div className="max-w-[928px] mx-auto">
-        <div
-          className="max-h-[400px] overflow-y-auto scrollbar-curriculum"
-          style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: 'rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.2)',
-          }}
-        >
+        <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum">
           <div className="pb-[120px]">
             {data.units
               .sort((a, b) => {
