@@ -52,7 +52,7 @@ const CourseCurriculumSection = () => {
   return (
     <SectionWrapper>
       <div className="max-w-[928px] mx-auto">
-        <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum">
+        <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum pr-3">
           <div className="pb-[120px]">
             {[...data.units]
               .sort((a, b) => {
@@ -60,8 +60,8 @@ const CourseCurriculumSection = () => {
                 const bNum = parseInt(b.unitNumber || '0', 10);
                 return aNum - bNum;
               })
-              .map((unit) => (
-                <CurriculumUnit key={unit.id} unit={unit} />
+              .map((unit, index) => (
+                <CurriculumUnit key={unit.id} unit={unit} defaultExpanded={index === 0} />
               ))}
           </div>
           {/* Fade gradient at bottom */}
