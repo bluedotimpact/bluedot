@@ -100,8 +100,7 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('No course round found');
   }
 
-  const round = await db.get(roundTable, { id: roundId });
-  const maxParticipants = round.maxParticipantsPerGroup;
+  const { maxParticipantsPerGroup: maxParticipants } = await db.get(roundTable, { id: roundId });
 
   if (isTemporarySwitch) {
     // Error will be thrown here if oldDiscussion is not found
