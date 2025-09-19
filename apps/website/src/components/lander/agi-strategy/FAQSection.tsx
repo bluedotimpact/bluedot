@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { FaPlus, FaTimes } from 'react-icons/fa';
 
 const FAQSection = () => {
   const [openQuestion, setOpenQuestion] = useState<string | null>(null);
@@ -49,20 +48,27 @@ const FAQSection = () => {
                   <button
                     type="button"
                     onClick={() => handleToggle(item.id)}
-                    className={`w-full flex items-center justify-between text-left py-6 px-8 transition-colors ${
+                    className={`w-full flex items-center gap-8 text-left px-8 py-6 transition-colors ${
                       !isOpen ? 'hover:bg-gray-50' : ''
                     }`}
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${item.id}`}
                   >
-                    <span className="text-[18px] font-semibold leading-[125%] text-[#13132E] pr-4">
+                    <span className="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow">
                       {item.question}
                     </span>
-                    {isOpen ? (
-                      <FaTimes className="size-4 text-[#13132E] flex-shrink-0" />
-                    ) : (
-                      <FaPlus className="size-4 text-[#13132E] flex-shrink-0" />
-                    )}
+                    <svg
+                      width="16"
+                      height="17"
+                      viewBox="0 0 16 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`flex-shrink-0 transition-transform ${
+                        isOpen ? 'rotate-45' : ''
+                      }`}
+                    >
+                      <path d="M0 8.5H16M8 0.5L8 16.5" stroke="#001133" strokeWidth="2" />
+                    </svg>
                   </button>
 
                   {isOpen && (

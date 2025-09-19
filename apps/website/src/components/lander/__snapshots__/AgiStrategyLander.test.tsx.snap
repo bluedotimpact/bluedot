@@ -764,26 +764,26 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <button
                 aria-controls="faq-answer-funding"
                 aria-expanded="false"
-                class="w-full flex items-center justify-between text-left py-6 px-8 transition-colors hover:bg-gray-50"
+                class="w-full flex items-center gap-8 text-left px-8 py-6 transition-colors hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] pr-4"
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
                 >
                   Can I just apply for funding?
                 </span>
                 <svg
-                  class="size-4 text-[#13132E] flex-shrink-0"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 448 512"
-                  width="1em"
+                  class="flex-shrink-0 transition-transform "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
                   />
                 </svg>
               </button>
@@ -794,26 +794,26 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <button
                 aria-controls="faq-answer-bluedot"
                 aria-expanded="false"
-                class="w-full flex items-center justify-between text-left py-6 px-8 transition-colors hover:bg-gray-50"
+                class="w-full flex items-center gap-8 text-left px-8 py-6 transition-colors hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] pr-4"
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
                 >
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="size-4 text-[#13132E] flex-shrink-0"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 448 512"
-                  width="1em"
+                  class="flex-shrink-0 transition-transform "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
                   />
                 </svg>
               </button>

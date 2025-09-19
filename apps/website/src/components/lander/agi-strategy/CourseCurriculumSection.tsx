@@ -4,7 +4,7 @@ import {
   ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { FaChevronDown } from 'react-icons/fa';
+import { CgChevronDown } from 'react-icons/cg';
 import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
 import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
@@ -127,7 +127,7 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
                 aria-expanded={isOpen}
                 aria-controls={`curriculum-unit-${unit.id}`}
               >
-                <FaChevronDown className="size-3 text-[#13132E] transition-transform duration-200" />
+                <CgChevronDown className="size-4 md:size-5 text-[#13132E] transition-transform duration-200" />
               </button>
             </div>
             {description && (
@@ -153,7 +153,7 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
               {unitTitle}
             </h3>
             <div className="size-5 flex items-center justify-center">
-              <FaChevronDown className="size-3 text-[#13132E] -rotate-90 transition-transform duration-200" />
+              <CgChevronDown className="size-4 md:size-5 text-[#13132E] -rotate-90 transition-transform duration-200" />
             </div>
           </button>
         </div>
