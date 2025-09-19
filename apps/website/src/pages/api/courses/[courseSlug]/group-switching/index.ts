@@ -52,22 +52,31 @@ export default makeApiRoute({
     isManualRequest,
   } = body;
 
-  const isTemporarySwitch = switchType === 'Switch group for one unit';
+  const isTempGroupSwitch = switchType === 'Switch group for one unit';
+  const isPermanentGroupSwitch = switchType === 'Switch group permanently';
+  const isUnitJoin = switchType === 'Join group for one unit';
 
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (isTemporarySwitch && !inputOldDiscussionId) {
+  if (isTempGroupSwitch && !inputOldDiscussionId) {
     throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit');
   }
-  if (!isTemporarySwitch && !inputOldGroupId) {
+  if (isPermanentGroupSwitch && !inputOldGroupId) {
     throw new createHttpError.BadRequest('oldGroupId is required when switching groups permanently');
   }
-  if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
-    throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
-  }
-  if (!isTemporarySwitch && !isManualRequest && !inputNewGroupId) {
-    throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently, unless requesting a manual switch');
+  if (isManualRequest) {
+    // We don't need to do any validation for new discussion/group for manual requests
+  } else {
+    if (isTempGroupSwitch && !inputNewDiscussionId) {
+      throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit');
+    }
+    if (isUnitJoin && !inputNewDiscussionId) {
+      throw new createHttpError.BadRequest('newDiscussionId is required when joining a group for one unit');
+    }
+    if (isPermanentGroupSwitch && !inputNewGroupId) {
+      throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently');
+    }
   }
 
   const course = await db.get(courseTable, { slug: courseSlug });
@@ -102,7 +111,7 @@ export default makeApiRoute({
 
   const { maxParticipantsPerGroup: maxParticipants } = await db.get(roundTable, { id: roundId });
 
-  if (isTemporarySwitch) {
+  if (isTempGroupSwitch) {
     // Error will be thrown here if oldDiscussion is not found
     const [oldDiscussion, newDiscussion] = await Promise.all([
       db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
