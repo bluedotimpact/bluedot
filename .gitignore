@@ -25,6 +25,8 @@ build/
 dist/
 dist_*/
 storybook-static/
+sitemap.xml
+pages-sitemap.xml
 
 # Generated files
 generated/
