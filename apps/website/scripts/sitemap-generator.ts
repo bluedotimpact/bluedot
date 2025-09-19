@@ -55,7 +55,7 @@ ${urls}
   const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>${BASE_URL}/sitemap.xml</loc>
+    <loc>${BASE_URL}/pages-sitemap.xml</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>
   <sitemap>
@@ -73,13 +73,13 @@ ${urls}
 </sitemapindex>
 `;
 
-  const sitemapOutputPath = path.join(process.cwd(), 'public', 'sitemap.xml');
-  const sitemapIndexOutputPath = path.join(process.cwd(), 'public', 'sitemap_index.xml');
+  const pagesSitemapOutPath = path.join(process.cwd(), 'public', 'pages-sitemap.xml');
+  const indexSitemapOutPath = path.join(process.cwd(), 'public', 'sitemap.xml');
 
   try {
-    fs.writeFileSync(sitemapOutputPath, sitemap, 'utf8');
-    fs.writeFileSync(sitemapIndexOutputPath, sitemapIndex, 'utf8');
-    console.log(`[Sitemap] Sitemap successfully generated at ${sitemapOutputPath}`);
+    fs.writeFileSync(pagesSitemapOutPath, sitemap, 'utf8');
+    fs.writeFileSync(indexSitemapOutPath, sitemapIndex, 'utf8');
+    console.log(`[Sitemap] Sitemap successfully generated at ${pagesSitemapOutPath}`);
   } catch (error) {
     console.error(`[Sitemap] Error generating sitemap: ${error instanceof Error ? error.message : String(error)}`);
   }
