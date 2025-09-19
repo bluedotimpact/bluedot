@@ -100,8 +100,11 @@ export default makeApiRoute({
   let unitId: string | null = null;
   let oldGroupId: string | null = null;
   let newGroupId: string | null = null;
-  let oldDiscussionId: string | null = null;
-  let newDiscussionId: string | null = null;
+  // Note: The reason the groupIds are values and discussionIds are single-element
+  // arrays is just due to a mistake in setting up the db scheme. TODO fix this,
+  // but in the meantime this does insert correctly as is.
+  let oldDiscussionId: string[] | null = null;
+  let newDiscussionId: string[] | null = null;
 
   const roundId = participant.round;
 
@@ -140,8 +143,8 @@ export default makeApiRoute({
 
     unitId = oldDiscussion.unit;
     newGroupId = newDiscussion?.group ?? null;
-    oldDiscussionId = inputOldDiscussionId!;
-    newDiscussionId = inputNewDiscussionId ?? null;
+    oldDiscussionId = inputOldDiscussionId ? [inputOldDiscussionId] : [];
+    newDiscussionId = inputNewDiscussionId ? [inputNewDiscussionId] : [];
   } else {
     // Error will be thrown here if oldGroup is not found
     const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
@@ -203,11 +206,8 @@ export default makeApiRoute({
     notesFromParticipant,
     oldGroup: oldGroupId,
     newGroup: newGroupId,
-    // Note: The reason the groupIds are values and discussionIds are single-element
-    // arrays is just due to a mistake in setting up the db scheme. TODO fix this,
-    // but in the meantime this does insert correctly as is.
-    oldDiscussion: oldDiscussionId ? [oldDiscussionId] : [],
-    newDiscussion: newDiscussionId ? [newDiscussionId] : [],
+    oldDiscussion: oldDiscussionId,
+    newDiscussion: newDiscussionId,
     unit: unitId,
     manualRequest: isManualRequest,
   };
