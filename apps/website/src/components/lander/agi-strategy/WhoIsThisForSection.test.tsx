@@ -10,7 +10,7 @@ describe('WhoIsThisForSection', () => {
 
   it('renders the section title', () => {
     const { getByText } = render(<WhoIsThisForSection />);
-    expect(getByText('Who is this course for?')).toBeDefined();
+    expect(getByText('Who is this course for')).toBeDefined();
   });
 
   it('renders all three target audience cards', () => {

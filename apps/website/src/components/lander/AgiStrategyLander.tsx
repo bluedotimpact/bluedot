@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import {
   CTALinkOrButton,
-  Section,
 } from '@bluedot/ui';
 
 import { H2, H3 } from '../Text';
@@ -12,6 +11,7 @@ import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
 import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
+import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
 import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
@@ -118,6 +118,9 @@ const AgiStrategyLander = () => {
       {/* Who is this course for section */}
       <WhoIsThisForSection />
 
+      {/* Course Curriculum Section */}
+      <CourseCurriculumSection />
+
       {/* Why take this course section */}
       <WhyTakeThisCourseSection />
 
@@ -128,12 +131,12 @@ const AgiStrategyLander = () => {
       <QuoteSection />
 
       {/* Community Members Section - What learners are saying */}
-      <div className="w-full bg-[#FAFAF7]">
-        <Section className="py-16">
-          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-16 tracking-[-0.01em]">Some of our graduates</H2>
+      <section className="w-full bg-[#FAFAF7]">
+        <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-12 md:mb-16 tracking-[-0.01em]">Some of our graduates</H2>
           <CommunityMembersSubSection members={communityMembers} />
-        </Section>
-      </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <FAQSection />

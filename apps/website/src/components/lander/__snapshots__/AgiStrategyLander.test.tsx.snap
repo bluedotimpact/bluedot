@@ -85,7 +85,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         <h2
           class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
         >
-          Who is this course for?
+          Who is this course for
         </h2>
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
@@ -199,7 +199,40 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-16"
+        class="max-w-max-width mx-auto px-spacing-x pt-12 pb-8 md:pt-20 md:pb-12 lg:pt-24 lg:pb-16"
+      >
+        <h2
+          class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
+        >
+          Curriculum Overview
+        </h2>
+        <div
+          class="flex justify-center"
+        >
+          <div
+            class="progress-dots flex justify-center space-x-2 my-6"
+          >
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 0ms;"
+            />
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 150ms;"
+            />
+            <span
+              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+              style="animation-delay: 300ms;"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="w-full bg-white"
+    >
+      <div
+        class="max-w-max-width mx-auto px-spacing-x pt-12 pb-16"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
@@ -321,10 +354,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <section
-      class="py-16 bg-[#FAFAF7]"
+      class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x flex flex-col items-center gap-16"
+        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
@@ -687,42 +720,38 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
-    <div
+    <section
       class="w-full bg-[#FAFAF7]"
     >
-      <section
-        class="section section-body py-16"
+      <div
+        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
-        <div
-          class="section__body"
+        <h2
+          class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-12 md:mb-16 tracking-[-0.01em]"
         >
-          <h2
-            class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-16 tracking-[-0.01em]"
-          >
-            Some of our graduates
-          </h2>
-          <div
-            data-testid="community-members-section"
-          >
-            <span>
-              Members: 
-              6
-            </span>
-          </div>
+          Some of our graduates
+        </h2>
+        <div
+          data-testid="community-members-section"
+        >
+          <span>
+            Members: 
+            6
+          </span>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
     <section
-      class="section section-body bg-white py-16 px-5 md:px-12 lg:px-44"
+      class="w-full bg-white"
     >
       <div
-        class="section__body"
+        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
         <div
-          class="max-w-[928px] mx-auto flex flex-col gap-16"
+          class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-[28px] lg:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
+            class="text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
           >
             Frequently Asked Questions
           </h2>
