@@ -60,9 +60,11 @@ const CourseCurriculumSection = () => {
           }}
         >
           <div className="pb-[120px]">
-            {data.units.map((unit) => (
-              <CurriculumUnit key={unit.id} unit={unit} />
-            ))}
+            {data.units
+              .sort((a, b) => (a.unitNumber || 0) - (b.unitNumber || 0))
+              .map((unit) => (
+                <CurriculumUnit key={unit.id} unit={unit} />
+              ))}
           </div>
           {/* Fade gradient at bottom */}
           <div className="sticky bottom-0 h-[102px] bg-gradient-to-t from-white via-white/[0.93] to-transparent pointer-events-none -mt-[102px]" />
