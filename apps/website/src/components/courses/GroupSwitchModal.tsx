@@ -7,7 +7,7 @@ import {
   courseTable,
 } from '@bluedot/db';
 import {
-  CTALinkOrButton, Modal, ProgressDots, useAuthStore,
+  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
@@ -28,7 +28,7 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Join group for one unit', label: 'Join group for one unit' },
 ] as const;
 
-type SwitchType = typeof SWITCH_TYPE_OPTIONS[number]['value'];
+type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const formatDiscussionDateTime = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
@@ -53,6 +53,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
+  const [error, setError] = useState<unknown | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -89,7 +90,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const unitOptions = useMemo(() => courseData?.units.map((u) => ({ value: u.unitNumber.toString(), label: `Unit ${u.unitNumber}: ${u.title}` })) || [], [courseData]);
 
   const groups = switchingData?.groupsAvailable ?? [];
-  const discussions = switchingData?.discussionsAvailable[selectedUnitNumber] ?? [];
+  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
@@ -160,11 +161,12 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
       if (response.data?.type === 'success') {
         setShowSuccess(true);
+        setError(undefined);
       } else {
         throw new Error('Failed to submit request');
       }
-    } catch {
-      // TODO: Show error message
+    } catch (e) {
+      setError(e);
     } finally {
       setIsSubmitting(false);
     }
@@ -198,6 +200,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
+        {!!error && <ErrorSection error={error} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {successMessages.map((message) => (
@@ -217,12 +220,12 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
           )}
           <form className="flex flex-col gap-4">
-            <div>
-              <label htmlFor="switchType" className="block text-size-sm font-medium mb-1">Action</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="switchType" className="block text-size-xs text-[#666C80]">Action</label>
               <select
                 id="switchType"
                 value={switchType}
-                onChange={(e) => setSwitchType(e.target.value as typeof switchType)}
+                onChange={(e) => setSwitchType(e.target.value as SwitchType)}
                 className="w-full border border-gray-300 rounded px-3 py-2 focus:border-blue-500"
               >
                 {SWITCH_TYPE_OPTIONS.map((option) => (
@@ -232,8 +235,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
 
             {isUnitSwitch && (
-            <div>
-              <label htmlFor="unitSelect" className="block text-size-sm font-medium mb-1">Unit</label>
+            <div className="flex flex-col gap-0.5">
+              <label htmlFor="unitSelect" className="block text-size-xs text-[#666C80]">Unit</label>
               <select
                 id="unitSelect"
                 value={selectedUnitNumber}
@@ -251,14 +254,14 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             <div className="flex flex-col gap-2 px-1">
               <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium">Why are you making this change?*</label>
-                <p className="text-size-sm text-[#666C80]">
-                  Briefly, we'd like to understand why you're making this change. We've found that
-                  participants who stick with their group usually have a better experience on the course.
+                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
+                <p className="text-size-xs text-[#666C80]">
+                  Participants who stick with their group usually have a better experience on the course.
                 </p>
               </div>
               <textarea
                 id="reason"
+                placeholder="Share your reason here"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 className="border border-gray-300 rounded px-3 py-2 min-h-[80px] focus:border-blue-500"
@@ -268,7 +271,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
             {!isManualRequest && (
             <div className="flex flex-col gap-2">
-              <label htmlFor="targetSelect" className="block text-size-sm font-medium mb-1">
+              <label htmlFor="targetSelect" className="block text-size-sm font-medium text-[#00114D]">
                 {isUnitSwitch ? 'Select new discussion' : 'Select new group'}
               </label>
               {currentInfo && (
@@ -336,8 +339,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             {!isManualRequest && (
             <div className="border-t border-gray-200 pt-4">
               <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium">Don't see a group that works?</h3>
-                <p className="text-size-sm text-[#666C80]">
+                <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
                 </p>

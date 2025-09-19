@@ -5,38 +5,30 @@ import {
 import * as deviceDetect from 'react-device-detect';
 import JobsListSection from './JobsListSection';
 
-const mockJobs = [
+const mockCmsJobs = [
   {
     id: '1',
+    slug: 'software-engineer',
     title: 'Software Engineer',
-    department: 'Engineering',
-    team: 'Frontend',
-    employmentType: 'Full-time',
-    location: 'Remote',
-    shouldDisplayCompensationOnJobPostings: false,
-    publishedAt: new Date().toISOString(),
-    isListed: true,
-    isRemote: true,
-    descriptionHtml: '<p>Job description</p>',
+    subtitle: 'Remote',
+    applicationUrl: 'https://example.com/apply/software-engineer',
+    publicationStatus: 'Published' as const,
+    publishedAt: Date.now() / 1000,
   },
   {
     id: '2',
+    slug: 'product-manager',
     title: 'Product Manager',
-    department: 'Product',
-    team: 'Core',
-    employmentType: 'Full-time',
-    location: 'London, UK',
-    shouldDisplayCompensationOnJobPostings: false,
-    publishedAt: new Date().toISOString(),
-    isListed: true,
-    isRemote: false,
-    descriptionHtml: '<p>Job description</p>',
+    subtitle: 'London, UK',
+    applicationUrl: 'https://example.com/apply/product-manager',
+    publicationStatus: 'Published' as const,
+    publishedAt: Date.now() / 1000,
   },
 ];
 
 describe('JobsListSection', () => {
   test('renders default as expected', () => {
-    const { container } = render(<JobsListSection ashbyJobs={mockJobs} cmsJobs={[]} />);
+    const { container } = render(<JobsListSection cmsJobs={mockCmsJobs} />);
 
     // Check if job titles and locations are rendered
     const content = container.textContent;
@@ -53,7 +45,7 @@ describe('JobsListSection', () => {
 
   test('renders mobile as expected', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
-    const { container } = render(<JobsListSection ashbyJobs={mockJobs} cmsJobs={[]} />);
+    const { container } = render(<JobsListSection cmsJobs={mockCmsJobs} />);
 
     // Check if job titles and locations are rendered
     const content = container.textContent;
@@ -71,7 +63,7 @@ describe('JobsListSection', () => {
   });
 
   test('renders empty state when no jobs are provided', () => {
-    const { container } = render(<JobsListSection ashbyJobs={[]} cmsJobs={[]} />);
+    const { container } = render(<JobsListSection cmsJobs={[]} />);
     expect(container.textContent).toContain("We're not currently running any open hiring rounds at the moment.");
   });
 });

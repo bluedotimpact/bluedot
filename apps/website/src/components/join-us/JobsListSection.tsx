@@ -5,32 +5,12 @@ import { ROUTES } from '../../lib/routes';
 
 type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 
-export type GetAshbyJobsResponse = {
-  jobs: {
-    id: string;
-    title: string;
-    department: string;
-    team: string;
-    employmentType: string;
-    location: string;
-    shouldDisplayCompensationOnJobPostings: boolean;
-    publishedAt: string;
-    isListed: boolean;
-    isRemote: boolean;
-    descriptionHtml: string;
-  }[]
-};
-
 export type JobsListSectionProps = {
-  ashbyJobs: GetAshbyJobsResponse['jobs']
   cmsJobs: Omit<CmsJobPosting, 'body'>[],
 };
 
-const JobsListSection = ({ ashbyJobs, cmsJobs }: JobsListSectionProps) => {
-  const jobs = [
-    ...cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle })),
-    ...ashbyJobs,
-  ];
+const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
+  const jobs = cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle }));
 
   return (
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">

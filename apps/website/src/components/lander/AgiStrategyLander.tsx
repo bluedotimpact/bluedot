@@ -8,9 +8,11 @@ import { H2, H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
+import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
 import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
+import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -113,6 +115,9 @@ const AgiStrategyLander = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
 
+      {/* Who is this course for section */}
+      <WhoIsThisForSection />
+
       {/* Why take this course section */}
       <WhyTakeThisCourseSection />
 
@@ -123,10 +128,15 @@ const AgiStrategyLander = () => {
       <QuoteSection />
 
       {/* Community Members Section - What learners are saying */}
-      <Section className="py-16">
-        <H2 className="text-[36px] text-center font-semibold leading-tight mb-16">Some of our graduates</H2>
-        <CommunityMembersSubSection members={communityMembers} />
-      </Section>
+      <div className="w-full bg-[#FAFAF7]">
+        <Section className="py-16">
+          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-16 tracking-[-0.01em]">Some of our graduates</H2>
+          <CommunityMembersSubSection members={communityMembers} />
+        </Section>
+      </div>
+
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Banner */}
       <AgiStrategyBanner
