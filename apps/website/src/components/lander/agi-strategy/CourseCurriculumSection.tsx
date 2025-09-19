@@ -61,7 +61,11 @@ const CourseCurriculumSection = () => {
         >
           <div className="pb-[120px]">
             {data.units
-              .sort((a, b) => (a.unitNumber || 0) - (b.unitNumber || 0))
+              .sort((a, b) => {
+                const aNum = parseInt(a.unitNumber || '0', 10);
+                const bNum = parseInt(b.unitNumber || '0', 10);
+                return aNum - bNum;
+              })
               .map((unit) => (
                 <CurriculumUnit key={unit.id} unit={unit} />
               ))}
