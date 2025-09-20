@@ -31,6 +31,7 @@ exports[`Congratulations > renders FoAI course with special component 1`] = `
       <a
         class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
         href="https://community.bluedot.org"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -65,6 +66,7 @@ exports[`Congratulations > renders default as expected 1`] = `
         aria-label="X (Twitter)"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -86,6 +88,7 @@ exports[`Congratulations > renders default as expected 1`] = `
         aria-label="LinkedIn"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -107,6 +110,7 @@ exports[`Congratulations > renders default as expected 1`] = `
         aria-label="Facebook"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -153,6 +157,7 @@ exports[`Congratulations > renders with custom args 1`] = `
         aria-label="X (Twitter)"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -174,6 +179,7 @@ exports[`Congratulations > renders with custom args 1`] = `
         aria-label="LinkedIn"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
@@ -195,6 +201,7 @@ exports[`Congratulations > renders with custom args 1`] = `
         aria-label="Facebook"
         class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
         href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+        rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >

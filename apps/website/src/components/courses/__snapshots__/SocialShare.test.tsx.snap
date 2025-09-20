@@ -9,6 +9,7 @@ exports[`SocialShare > renders default as expected 1`] = `
       aria-label="X (Twitter)"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
       href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
+      rel="noopener noreferrer"
       tabindex="0"
       target="_blank"
     >
@@ -30,6 +31,7 @@ exports[`SocialShare > renders default as expected 1`] = `
       aria-label="LinkedIn"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
       href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=I've%20just%20completed%20a%20free%2C%202-hour%20course%20on%20the%20future%20of%20AI%20and%20its%20impacts%20on%20society.%20Here%20are%20my%20takeaways%3A"
+      rel="noopener noreferrer"
       tabindex="0"
       target="_blank"
     >
@@ -51,6 +53,7 @@ exports[`SocialShare > renders default as expected 1`] = `
       aria-label="Facebook"
       class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
       href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ffuture-of-ai%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
+      rel="noopener noreferrer"
       tabindex="0"
       target="_blank"
     >
