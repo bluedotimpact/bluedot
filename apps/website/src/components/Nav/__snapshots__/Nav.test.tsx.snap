@@ -180,6 +180,13 @@ exports[`Nav > renders with courses 1`] = `
                   Events
                 </a>
                 <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+                  href="https://shop.bluedot.org/"
+                  tabindex="0"
+                >
+                  Shop
+                </a>
+                <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-bluedot-primary font-medium"
                   href="/join-us"
                   tabindex="0"
@@ -327,6 +334,13 @@ exports[`Nav > renders with courses 1`] = `
             tabindex="0"
           >
             Events
+          </a>
+          <a
+            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
+            href="https://shop.bluedot.org/"
+            tabindex="0"
+          >
+            Shop
           </a>
           <a
             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-bluedot-primary font-medium"
