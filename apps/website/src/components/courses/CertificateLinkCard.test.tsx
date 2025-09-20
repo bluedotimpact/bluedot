@@ -178,8 +178,7 @@ describe('CertificateLinkCard', () => {
       // Verify specific content
       expect(screen.getByText('Earned by Test User')).toBeTruthy();
       // Use a flexible date check to tolerate locale-specific ordering
-      const issuedOnText = screen.getByText((content) => content.trim().startsWith('Issued on '));
-      expect(issuedOnText.textContent ?? '').toMatch(/Issued on .*20\d{2}/);
+      expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeTruthy();
       expect(screen.getByText('View Certificate')).toBeTruthy();
 
       // Verify the certificate link opens in a new tab

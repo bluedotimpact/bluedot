@@ -173,16 +173,22 @@ exports[`Nav > renders with courses 1`] = `
                   Blog
                 </a>
                 <a
+                  aria-label="Events (opens in new tab)"
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Events
                 </a>
                 <a
+                  aria-label="Shop (opens in new tab)"
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
                   href="https://shop.bluedot.org/"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Shop
                 </a>
@@ -329,16 +335,22 @@ exports[`Nav > renders with courses 1`] = `
             Blog
           </a>
           <a
+            aria-label="Events (opens in new tab)"
             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+            rel="noopener noreferrer"
             tabindex="0"
+            target="_blank"
           >
             Events
           </a>
           <a
+            aria-label="Shop (opens in new tab)"
             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline"
             href="https://shop.bluedot.org/"
+            rel="noopener noreferrer"
             tabindex="0"
+            target="_blank"
           >
             Shop
           </a>
