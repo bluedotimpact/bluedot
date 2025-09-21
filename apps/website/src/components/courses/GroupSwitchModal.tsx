@@ -136,7 +136,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     : [];
 
   const unitOptions = useMemo(() => {
-    return courseUnits.map((u) => {
+    if (!courseData?.units) return [];
+
+    return courseData.units.map((u) => {
       const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
       const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
 
@@ -146,7 +148,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         disabled: !isManualRequest && !hasAvailableDiscussions,
       };
     });
-  }, [courseUnits, switchingData?.discussionsAvailable, isManualRequest]);
+  }, [courseData?.units, switchingData?.discussionsAvailable, isManualRequest]);
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
