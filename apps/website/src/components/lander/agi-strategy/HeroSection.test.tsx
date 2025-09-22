@@ -5,11 +5,6 @@ import HeroSection from './HeroSection';
 
 describe('HeroSection', () => {
   const defaultProps = {
-    metadata: {
-      duration: '30 hours',
-      certification: 'Verified certificate',
-      level: 'Beginner-friendly',
-    },
     title: "AGI Strategy – Learn how to navigate humanity's most critical decade",
     description: 'Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.',
     primaryCta: {
@@ -40,14 +35,6 @@ describe('HeroSection', () => {
       <HeroSection {...defaultProps} visualComponent={visualComponent} />,
     );
     expect(container).toMatchSnapshot();
-  });
-
-  it('renders metadata badges correctly', () => {
-    render(<HeroSection {...defaultProps} />);
-
-    expect(screen.getByText('30 hours')).toBeInTheDocument();
-    expect(screen.getByText('Verified certificate')).toBeInTheDocument();
-    expect(screen.getByText('Beginner-friendly')).toBeInTheDocument();
   });
 
   it('renders title and description correctly', () => {
