@@ -426,22 +426,36 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           )}
 
           {isManualRequest && (
-            <div className="flex gap-2 justify-end">
-              <CTALinkOrButton
-                variant="secondary"
-                onClick={handleClose}
-                aria-label="Cancel group switching"
-              >
-                Cancel
-              </CTALinkOrButton>
-              <CTALinkOrButton
-                onClick={handleSubmit}
-                disabled={isSubmitDisabled}
-                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-              >
-                {isSubmitting ? 'Submitting...' : 'Confirm'}
-              </CTALinkOrButton>
-            </div>
+            <>
+              {auth?.email && (
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
+                  <p className="text-size-xs text-[#666C80]">
+                    This helps us assign you to a group which best suits you. Then, return here to click "Submit".
+                  </p>
+                  <CTALinkOrButton
+                    variant="secondary"
+                    className="mx-auto"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
+                    aria-label="Request manual group switch"
+                  >
+                    Update availability
+                  </CTALinkOrButton>
+                </div>
+              )}
+              <div className="flex gap-2 justify-end">
+                <CTALinkOrButton
+                  className="mx-auto"
+                  onClick={handleSubmit}
+                  disabled={isSubmitDisabled}
+                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </CTALinkOrButton>
+              </div>
+            </>
           )}
         </form>
         )}
