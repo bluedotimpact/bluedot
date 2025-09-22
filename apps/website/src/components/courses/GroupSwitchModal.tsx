@@ -561,7 +561,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   canSubmit,
 }) => {
   const hasAnySpotsLeft = spotsLeft !== 0;
-  const isDisabled = userIsParticipant || !hasAnySpotsLeft;
+  const isDisabled = userIsParticipant || !hasAnySpotsLeft || hasStarted;
 
   const displayDateTimeStrings = useMemo(() => {
     if (!dateTime) return null;
@@ -582,7 +582,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     // Later classes have higher priority
     classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
     if (isSelected) classNames.push('border-[#0037FF] hover:border-[#0037FF] bg-blue-50');
-    if (!hasAnySpotsLeft) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
+    if (!hasAnySpotsLeft || hasStarted) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
     return cn(...classNames);
