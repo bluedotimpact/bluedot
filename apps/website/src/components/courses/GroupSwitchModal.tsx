@@ -19,7 +19,6 @@ import {
 } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
-import { twMerge } from 'tailwind-merge';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
@@ -640,7 +639,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               ) : description}
             </div>
           </div>
-          {isSelected && !isCurrentGroup && (
+          {isSelected && !userIsParticipant && (
             <CTALinkOrButton
               onClick={(e) => {
                 e.stopPropagation(); // Avoid triggering parent onClick
