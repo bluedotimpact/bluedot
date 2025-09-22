@@ -52,7 +52,7 @@ const CourseDetailsSection = () => {
         <>
           New cohorts start every month:
           <br />
-          Next round <span className="font-semibold">29th Sep</span>, application deadline <span className="font-semibold">21st Sep</span>
+          Next round <span className="font-semibold">3rd November</span>, application deadline <span className="font-semibold">26th October</span>
         </>
       ),
     },
