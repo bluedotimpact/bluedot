@@ -14,7 +14,6 @@ import {
   Select as AriaSelect,
 } from 'react-aria-components';
 import useAxios from 'axios-hooks';
-import { twMerge } from 'tailwind-merge';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { Course, Unit } from '@bluedot/db';
@@ -633,7 +632,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               ) : description}
             </div>
           </div>
-          {isSelected && !isCurrentGroup && (
+          {isSelected && !userIsParticipant && (
             <CTALinkOrButton
               onClick={(e) => {
                 e.stopPropagation(); // Avoid triggering parent onClick
