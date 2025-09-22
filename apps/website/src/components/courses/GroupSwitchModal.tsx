@@ -614,7 +614,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {isSelected && (
             <CTALinkOrButton
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Avoid triggering parent onClick
                 onConfirm?.();
               }}
               disabled={isDisabled || !canSubmit || isSubmitting}
