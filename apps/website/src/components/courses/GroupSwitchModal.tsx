@@ -1,5 +1,6 @@
 import React, {
   useState, useMemo, useCallback,
+  useEffect,
 } from 'react';
 import {
   InferSelectModel,
@@ -39,18 +40,7 @@ const SWITCH_TYPE_OPTIONS = [
 
 type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
-const formatDiscussionDateTime = (timestamp: number): string => {
-  const date = new Date(timestamp * 1000);
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-};
-
-const formatTimezone = () => {
+const getGMTOffsetWithCity = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const now = new Date();
   const offsetMinutes = now.getTimezoneOffset();
@@ -62,18 +52,18 @@ const formatTimezone = () => {
 };
 
 const getGroupSwitchDescription = ({
-  isCurrentGroup = false,
+  userIsParticipant = false,
   isSelected,
   isTemporarySwitch,
   selectedUnitNumber,
 }: {
-  isCurrentGroup?: boolean;
+  userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
-    if (isCurrentGroup) {
+    if (userIsParticipant) {
       return isSelected
         ? <span>You are switching out of this discussion</span>
         : <span className="text-[#0037FF]">You are attending this discussion</span>;
@@ -87,7 +77,7 @@ const getGroupSwitchDescription = ({
   }
 
   // For permanent switches
-  if (isCurrentGroup) {
+  if (userIsParticipant) {
     return isSelected
       ? <span>You are switching out of this group for all upcoming units</span>
       : <span className="text-[#0037FF]">You are currently in this group</span>;
@@ -166,12 +156,12 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         dateTime: oldDiscussion.discussion.startDateTime,
         spotsLeft: null,
         description: getGroupSwitchDescription({
-          isCurrentGroup: true,
+          userIsParticipant: true,
           isSelected: false,
           isTemporarySwitch,
           selectedUnitNumber,
         }),
-        isCurrentGroup: true,
+        userIsParticipant: true,
       };
     }
     if (!isTemporarySwitch && oldGroup) {
@@ -182,12 +172,12 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         dateTime: oldGroup.nextDiscussionStartDateTime,
         spotsLeft: null,
         description: getGroupSwitchDescription({
-          isCurrentGroup: true,
+          userIsParticipant: true,
           isSelected: false,
           isTemporarySwitch,
           selectedUnitNumber,
         }),
-        isCurrentGroup: true,
+        userIsParticipant: true,
       };
     }
 
@@ -197,6 +187,15 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const currentInfo = getCurrentDiscussionInfo();
 
   const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+
+  useEffect(() => {
+    setSelectedDiscussionId('');
+    setSelectedGroupId('');
+  }, [switchType]);
+
+  useEffect(() => {
+    setSelectedDiscussionId('');
+  }, [selectedUnitNumber]);
 
   const handleSubmit = async () => {
     if (submitDisabled) return;
@@ -308,7 +307,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
 
-  const timezoneMessage = `Times are in your time zone: ${formatTimezone()}`;
+  const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
 
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
@@ -390,6 +389,22 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   <GroupSwitchOption key={option.id} {...option} />
                 ))}
               </div>
+              <div className="border-t border-color-divider pt-4">
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
+                  <p className="text-size-xs text-[#666C80]">
+                    You can request a manual switch to join a group that's full or a group that is not
+                    listed above, and we'll do our best to accommodate you.
+                  </p>
+                  <CTALinkOrButton
+                    variant="secondary"
+                    onClick={() => setIsManualRequest(true)}
+                    aria-label="Request manual group switch"
+                  >
+                    Request manual switch
+                  </CTALinkOrButton>
+                </div>
+              </div>
             </>
           )}
 
@@ -409,25 +424,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               >
                 {isSubmitting ? 'Submitting...' : 'Confirm'}
               </CTALinkOrButton>
-            </div>
-          )}
-
-          {!isManualRequest && (
-            <div className="border-t border-color-divider pt-4">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
-                <p className="text-size-xs text-[#666C80]">
-                  You can request a manual switch to join a group that's full or a group that is not
-                  listed above, and we'll do our best to accommodate you.
-                </p>
-                <CTALinkOrButton
-                  variant="secondary"
-                  onClick={() => setIsManualRequest(true)}
-                  aria-label="Request manual group switch"
-                >
-                  Request manual switch
-                </CTALinkOrButton>
-              </div>
             </div>
           )}
         </form>
@@ -523,7 +519,7 @@ type GroupSwitchOptionProps = {
   spotsLeft: number | null;
   description?: React.ReactNode;
   isSelected?: boolean;
-  isCurrentGroup?: boolean;
+  userIsParticipant?: boolean;
   onSelect?: () => void;
   onConfirm?: () => void;
   isSubmitting?: boolean;
@@ -536,14 +532,14 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   spotsLeft,
   description,
   isSelected,
-  isCurrentGroup,
+  userIsParticipant,
   onSelect,
   onConfirm,
   isSubmitting,
   canSubmit,
 }) => {
-  const disabledStyle = spotsLeft !== null && spotsLeft <= 0;
-  const disabled = isCurrentGroup || disabledStyle;
+  const hasAnySpotsLeft = spotsLeft !== 0;
+  const disabled = userIsParticipant || !hasAnySpotsLeft;
 
   const displayDateTimeStrings = useMemo(() => {
     if (!dateTime) return null;
@@ -551,7 +547,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   }, [dateTime]);
 
   const getSpotsLeftText = () => {
-    if (disabledStyle) return 'No spots left';
+    if (!hasAnySpotsLeft) return 'No spots left';
     if (spotsLeft === null) return 'Spots available';
     return `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`;
   };
@@ -562,16 +558,21 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     <div
       className={clsx(
         'rounded-lg p-3 transition-all',
-        !isCurrentGroup && 'border bg-white cursor-pointer hover:bg-blue-50',
+        !userIsParticipant && 'border bg-white cursor-pointer hover:bg-blue-50',
         isSelected && 'border-[#0037FF] bg-blue-50',
-        disabledStyle && 'opacity-50',
+        !hasAnySpotsLeft && 'opacity-50',
         !isSelected && !disabled && 'border-gray-200 hover:border-gray-300',
       )}
       {...(!disabled && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
+            const target = e.target as HTMLElement;
+            // Don't prevent default if focus is on the confirm button
+            if (target?.tagName === 'BUTTON') {
+              return;
+            }
+            e.preventDefault(); // Stop page from scrolling on space
             onSelect?.();
           }
         },
@@ -605,11 +606,10 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           </div>
           {isSelected && (
             <CTALinkOrButton
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={() => {
                 onConfirm?.();
               }}
-              disabled={disabled || !canSubmit || isSubmitting || !isSelected}
+              disabled={disabled || !canSubmit || isSubmitting}
               aria-label={`Confirm selection of ${groupName}`}
               className="h-fit my-auto"
             >
