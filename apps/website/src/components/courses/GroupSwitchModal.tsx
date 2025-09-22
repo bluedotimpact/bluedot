@@ -17,13 +17,13 @@ import {
   ListBoxItem,
   Select as AriaSelect,
 } from 'react-aria-components';
+import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
-import { twMerge } from 'tailwind-merge';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Course = InferSelectModel<typeof courseTable.pg>;
@@ -66,8 +66,8 @@ const getGroupSwitchDescription = ({
   if (isTemporarySwitch) {
     if (userIsParticipant) {
       return isSelected
-        ? <span>You are switching out of this discussion</span>
-        : <span className="text-[#0037FF]">You are attending this discussion</span>;
+        ? <span className="text-[#0037FF]">You are attending this discussion</span>
+        : <span>You are switching out of this discussion</span>;
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
@@ -80,8 +80,8 @@ const getGroupSwitchDescription = ({
   // For permanent switches
   if (userIsParticipant) {
     return isSelected
-      ? <span>You are switching out of this group for all upcoming units</span>
-      : <span className="text-[#0037FF]">You are currently in this group</span>;
+      ? <span className="text-[#0037FF]">You are currently in this group</span>
+      : <span>You are switching out of this group for all upcoming units</span>;
   }
 
   if (isSelected) {
@@ -158,7 +158,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         spotsLeft: null,
         description: getGroupSwitchDescription({
           userIsParticipant: true,
-          isSelected: false,
+          isSelected: !selectedDiscussionId,
           isTemporarySwitch,
           selectedUnitNumber,
         }),
@@ -174,7 +174,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         spotsLeft: null,
         description: getGroupSwitchDescription({
           userIsParticipant: true,
-          isSelected: false,
+          isSelected: !selectedGroupId,
           isTemporarySwitch,
           selectedUnitNumber,
         }),
@@ -183,7 +183,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
 
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup]);
+  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedDiscussionId, selectedGroupId]);
 
   const currentInfo = getCurrentDiscussionInfo();
 
