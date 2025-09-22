@@ -564,7 +564,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     if (!hasAnySpotsLeft) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
-    return twMerge(classNames);
+    return twMerge(...classNames);
   };
 
   return (
