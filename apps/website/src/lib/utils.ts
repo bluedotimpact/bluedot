@@ -31,14 +31,36 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
   return defaultErrorMessage;
 };
 
-/**
- * Takes a timestamp (in Airtable format, seconds) and returns display strings:
- * - startTimeDisplayRelative: 'starting now'/'in 5 minutes'/'5 minutes ago'
- * - startTimeDisplayDate: 'Jun 8'
- * - startTimeDisplayTime: '3:00 PM'
- */
-export const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
-  const startDate = new Date(startDateTime * 1000);
+/** Example: '3:00 PM' */
+export const formatTime12HourClock = (dateTime: number): string => {
+  const date = new Date(dateTime * 1000);
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
+
+/** Example: 'Jun 19' */
+export const formatDateMonthAndDay = (dateTime: number): string => {
+  const date = new Date(dateTime * 1000);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
+/** Example: 'Tue' */
+export const formatDateDayOfWeek = (dateTime: number): string => {
+  const date = new Date(dateTime * 1000);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+  });
+};
+
+/** Examples: 'starting now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
+export const formatDateTimeRelative = (dateTime: number): string => {
+  const startDate = new Date(dateTime * 1000);
   const now = new Date();
   const timeDiffMs = startDate.getTime() - now.getTime();
 
@@ -66,25 +88,11 @@ export const getDiscussionTimeDisplayStrings = (startDateTime: number) => {
   const absDays = Math.floor(absHours / 24);
 
   // Determine relative time string
-  let startTimeDisplayRelative: string;
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
-    startTimeDisplayRelative = 'starting now';
-  } else if (timeDiffMs > 0) {
-    startTimeDisplayRelative = `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
-  } else {
-    startTimeDisplayRelative = buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
+    return 'starting now';
   }
-
-  // Format date and time
-  const startTimeDisplayDate = startDate.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-  const startTimeDisplayTime = startDate.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-
-  return { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime };
+  if (timeDiffMs > 0) {
+    return `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
+  }
+  return buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
 };

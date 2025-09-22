@@ -22,7 +22,6 @@ export type GetGroupSwitchingAvailableResponse = {
   groupsAvailable: {
     group: Group;
     spotsLeft: number | null;
-    nextDiscussionStartDateTime: number | null;
     userIsParticipant: boolean;
     allDiscussionsHaveStarted: boolean;
   }[],
@@ -56,7 +55,6 @@ function calculateGroupAvailability({
   const groupData: Record<string, {
     group: Group;
     spotsLeft: number | null;
-    nextDiscussionStartDateTime: number | null;
     userIsParticipant: boolean;
     allDiscussionsHaveStarted: boolean;
   }> = {};
@@ -105,7 +103,6 @@ function calculateGroupAvailability({
       groupData[groupId] = {
         group,
         spotsLeft: !hasStarted ? spotsLeft : null,
-        nextDiscussionStartDateTime: !hasStarted ? discussion.startDateTime : null,
         userIsParticipant: group.participants.includes(participantId),
         allDiscussionsHaveStarted: hasStarted,
       };
@@ -122,16 +119,6 @@ function calculateGroupAvailability({
           existing.spotsLeft = Math.max(Math.min(existing.spotsLeft, spotsLeft), 0);
         } else if (spotsLeft !== null) {
           existing.spotsLeft = spotsLeft;
-        }
-
-        // Update next discussion start time (earliest upcoming)
-        if (existing.nextDiscussionStartDateTime === null) {
-          existing.nextDiscussionStartDateTime = discussion.startDateTime;
-        } else {
-          existing.nextDiscussionStartDateTime = Math.min(
-            existing.nextDiscussionStartDateTime,
-            discussion.startDateTime,
-          );
         }
       }
     }
@@ -150,7 +137,6 @@ export default makeApiRoute({
     groupsAvailable: z.array(z.object({
       group: z.any(),
       spotsLeft: z.number().nullable(),
-      nextDiscussionStartDateTime: z.number().nullable(),
       userIsParticipant: z.boolean(),
       allDiscussionsHaveStarted: z.boolean(),
     })),
