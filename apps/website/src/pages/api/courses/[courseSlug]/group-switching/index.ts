@@ -114,23 +114,23 @@ export default makeApiRoute({
 
   const { maxParticipantsPerGroup: maxParticipants } = await db.get(roundTable, { id: roundId });
 
-  if (isTempGroupSwitch) {
-    // Error will be thrown here if oldDiscussion is not found
+  if (isTempGroupSwitch || isUnitJoin) {
+    // Old discussion may be undefined when `isUnitJoin` is true - in this case we are not leaving a previous discussion group.
     const [oldDiscussion, newDiscussion] = await Promise.all([
-      db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
+      isUnitJoin ? null : db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
       isManualRequest ? null : db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
     ]);
 
-    if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+    if (oldDiscussion?.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
       throw new createHttpError.BadRequest('Facilitators cannot switch groups by this method');
     }
-    if (!oldDiscussion.participantsExpected.includes(participantId)) {
+    if (oldDiscussion && !oldDiscussion.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User not found in old discussion');
     }
     if (newDiscussion?.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already expected to attend new discussion');
     }
-    if (newDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
+    if (newDiscussion && oldDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
       throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
     }
 
@@ -141,7 +141,7 @@ export default makeApiRoute({
       }
     }
 
-    unitId = oldDiscussion.unit;
+    unitId = oldDiscussion?.unit || newDiscussion?.unit || null;
     newGroupId = newDiscussion?.group ?? null;
     oldDiscussionId = inputOldDiscussionId ? [inputOldDiscussionId] : [];
     newDiscussionId = inputNewDiscussionId ? [inputNewDiscussionId] : [];
