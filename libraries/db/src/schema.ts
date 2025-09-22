@@ -327,6 +327,11 @@ export const groupTable = pgAirtable('group', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldMS1Hxn8OOO5vUb',
     },
+    /** Datetime of first session, can also be used to infer recurring session time */
+    startTimeUtc: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldim9d4xwSmw0QeI',
+    },
   },
 });
 
