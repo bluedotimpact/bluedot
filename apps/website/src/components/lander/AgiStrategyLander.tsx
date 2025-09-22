@@ -98,6 +98,7 @@ const AgiStrategyLander = () => {
       </Head>
 
       <HeroSection
+        categoryLabel="AGI STRATEGY"
         title="Start building the defences that protect humanity"
         description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
         primaryCta={{

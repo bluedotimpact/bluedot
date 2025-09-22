@@ -16,46 +16,55 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="w-full grid grid-cols-1 lg:h-[600px] lg:grid-cols-2 lg:max-w-[1440px] lg:mx-auto"
+        class="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:h-[600px]"
       >
         <div
-          class="w-full px-5 py-8 pb-12 space-y-8 order-2 lg:order-1 lg:pl-12 lg:pr-8 lg:py-12 lg:flex lg:flex-col lg:justify-center xl:pr-16 xl:pl-12"
+          class="px-5 py-8 lg:flex lg:items-center lg:px-12 xl:pl-[max(48px,calc((100vw-1436px)/2+48px))] xl:pr-8"
         >
           <div
-            class="space-y-4 text-left"
+            class="w-full lg:max-w-[512px] space-y-8"
           >
-            <h1
-              class="bluedot-h1 not-prose text-[32px] leading-tight font-semibold text-[#13132E] lg:text-5xl lg:leading-[3.75rem] lg:tracking-[-0.5px]"
+            <div
+              class="space-y-5"
             >
-              Start building the defences that protect humanity
-            </h1>
-            <p
-              class="bluedot-p not-prose text-[18px] leading-relaxed text-[#13132E] opacity-80 lg:text-lg lg:leading-[1.6] lg:max-w-lg"
+              <p
+                class="bluedot-p not-prose text-size-md font-semibold tracking-wide text-[#2244BB]"
+              >
+                AGI STRATEGY
+              </p>
+              <h1
+                class="bluedot-h1 not-prose text-[32px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-[#13132E] tracking-[-0.5px]"
+              >
+                Start building the defences that protect humanity
+              </h1>
+              <p
+                class="bluedot-p not-prose text-size-md lg:text-lg leading-relaxed text-[#13132E] opacity-80"
+              >
+                Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+              </p>
+            </div>
+            <div
+              class="flex gap-3"
             >
-              Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
-            </p>
-          </div>
-          <div
-            class="flex flex-row gap-3"
-          >
-            <a
-              class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
-              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
-              tabindex="0"
-            >
-              Apply now
-            </a>
-            <a
-              class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark w-auto h-11 px-5 py-3.5 text-[14px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
-              href="/courses/agi-strategy/1"
-              tabindex="0"
-            >
-              Browse curriculum
-            </a>
+              <a
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors"
+                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+                tabindex="0"
+              >
+                Apply now
+              </a>
+              <a
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors"
+                href="/courses/agi-strategy/1"
+                tabindex="0"
+              >
+                Browse curriculum
+              </a>
+            </div>
           </div>
         </div>
         <div
-          class="w-full h-60 order-1 lg:order-2 lg:h-[600px] relative overflow-hidden"
+          class="h-80 lg:h-full relative overflow-hidden"
         >
           <img
             alt="AGI Strategy visualization"

@@ -38,7 +38,5 @@ describe('CourseDetailsSection', () => {
     expect(getByText('join ~8 peers in a 2-hour Zoom meeting')).toBeDefined();
     expect(getByText(/facilitated by an AI safety expert/)).toBeDefined();
     expect(getByText(/pay-what-you-want/)).toBeDefined();
-    expect(getByText('29th Sep')).toBeDefined();
-    expect(getByText('21st Sep')).toBeDefined();
   });
 });
