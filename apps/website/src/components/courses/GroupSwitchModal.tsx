@@ -158,21 +158,39 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const oldGroup = groups.find((g) => g.userIsParticipant);
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
-  const getCurrentDiscussionInfo = useCallback(() => {
+  const getCurrentDiscussionInfo = useCallback((): GroupSwitchOptionProps | null => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
-        name: oldDiscussion.groupName,
-        time: formatDiscussionDateTime(oldDiscussion.discussion.startDateTime),
+        id: oldDiscussion.discussion.id,
+        groupName: oldDiscussion.groupName,
+        dateTime: oldDiscussion.discussion.startDateTime,
+        spotsLeft: null,
+        description: getGroupSwitchDescription({
+          isCurrentGroup: true,
+          isSelected: false,
+          isTemporarySwitch,
+          selectedUnitNumber,
+        }),
+        isCurrentGroup: true,
       };
     }
     if (!isTemporarySwitch && oldGroup) {
       // For permanent switch, show next upcoming discussion time
-      const nextTime = oldGroup.nextDiscussionStartDateTime;
       return {
-        name: oldGroup.group.groupName || `Group ${oldGroup.group.id}`,
-        time: nextTime ? formatDiscussionDateTime(nextTime) : 'No upcoming discussions',
+        id: oldGroup.group.id,
+        groupName: oldGroup.group.groupName ?? 'Group [Unknown]',
+        dateTime: oldGroup.nextDiscussionStartDateTime,
+        spotsLeft: null,
+        description: getGroupSwitchDescription({
+          isCurrentGroup: true,
+          isSelected: false,
+          isTemporarySwitch,
+          selectedUnitNumber,
+        }),
+        isCurrentGroup: true,
       };
     }
+
     return null;
   }, [isTemporarySwitch, oldDiscussion, oldGroup]);
 
@@ -343,7 +361,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 placeholder="Share your reason here"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px]"
+                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
                 required
                 aria-describedby="reason-description"
                 aria-label="Reason for group switch request"
@@ -354,22 +372,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             <>
               <div className="h-px bg-color-divider" />
               <div className="flex flex-col gap-2">
-                <label htmlFor="targetSelect" className="block text-size-sm font-medium">
+                <div className="block text-size-sm font-medium">
                   Select a group
-                </label>
+                </div>
                 {currentInfo && (
-                <GroupSwitchOption
-                  groupName={currentInfo.name}
-                  dateTime={isTemporarySwitch && oldDiscussion ? oldDiscussion.discussion.startDateTime : (oldGroup?.nextDiscussionStartDateTime || null)}
-                  spotsLeft={null}
-                  description={getGroupSwitchDescription({
-                    isCurrentGroup: true,
-                    isSelected: isTemporarySwitch ? !!selectedDiscussionId : !!selectedGroupId,
-                    isTemporarySwitch,
-                    selectedUnitNumber,
-                  })}
-                  isCurrentGroup
-                />
+                  <GroupSwitchOption {...currentInfo} />
                 )}
                 <p className="text-size-xs text-[#666C80]">
                   {alternativeCountMessage}
@@ -593,9 +600,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
                   <UserIcon className="-translate-y-px" />
                   <span>{spotsLeftText}</span>
                 </>
-              ) : (
-                <span>{description}</span>
-              )}
+              ) : description}
             </div>
           </div>
           {isSelected && (
