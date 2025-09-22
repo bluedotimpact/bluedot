@@ -74,9 +74,7 @@ describe('AgiStrategyLander', () => {
     render(<AgiStrategyLander />);
 
     // Check that the banner section exists and contains the expected text
-    const bannerElement = document.querySelector('.agi-strategy-lander__banner');
-    expect(bannerElement).toBeTruthy();
-    expect(bannerElement?.textContent).toContain('wait until the world');
+    expect(screen.getByText('Start building towards a good future today')).toBeInTheDocument();
   });
 
   it('has correct meta tags in Head', () => {
