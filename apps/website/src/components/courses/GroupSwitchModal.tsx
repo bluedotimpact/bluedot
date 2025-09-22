@@ -23,6 +23,7 @@ import clsx from 'clsx';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
+import { twMerge } from 'tailwind-merge';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Course = InferSelectModel<typeof courseTable.pg>;
@@ -554,15 +555,21 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
 
   const spotsLeftText = getSpotsLeftText();
 
+  const getClassNames = () => {
+    const classNames = [];
+
+    // Later classes have higher priority
+    classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
+    if (isSelected) classNames.push('border-[#0037FF] hover:border-[#0037FF] bg-blue-50');
+    if (!hasAnySpotsLeft) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
+    if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
+
+    return twMerge(classNames);
+  };
+
   return (
     <div
-      className={clsx(
-        'rounded-lg p-3 transition-all',
-        !userIsParticipant && 'border bg-white cursor-pointer hover:bg-blue-50',
-        isSelected && 'border-[#0037FF] bg-blue-50',
-        !hasAnySpotsLeft && 'opacity-50',
-        !isSelected && !isDisabled && 'border-gray-200 hover:border-gray-300',
-      )}
+      className={getClassNames()}
       {...(!isDisabled && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
