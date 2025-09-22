@@ -23,7 +23,7 @@ import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
-import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
+import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Course = InferSelectModel<typeof courseTable.pg>;
@@ -181,11 +181,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     }
     if (!isTemporarySwitch && oldGroup) {
-      // For permanent switch, show next upcoming discussion time
+      // For permanent switch, show recurring discussion time
       return {
         id: oldGroup.group.id,
         groupName: oldGroup.group.groupName ?? 'Group [Unknown]',
-        dateTime: oldGroup.nextDiscussionStartDateTime,
+        dateTime: oldGroup.group.startTimeUtc,
         spotsLeft: null,
         description: getGroupSwitchDescription({
           userIsParticipant: true,
@@ -195,6 +195,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         }),
         hasStarted: false,
         userIsParticipant: true,
+        isRecurringTime: true,
       };
     }
 
@@ -280,10 +281,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       return {
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
-        dateTime: g.nextDiscussionStartDateTime,
+        dateTime: g.group.startTimeUtc,
         spotsLeft: g.spotsLeft,
         hasStarted: g.allDiscussionsHaveStarted,
         isSelected,
+        isRecurringTime: true,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: false,
@@ -562,6 +564,7 @@ type GroupSwitchOptionProps = {
   description?: React.ReactNode;
   isSelected?: boolean;
   userIsParticipant?: boolean;
+  isRecurringTime?: boolean;
   onSelect?: () => void;
   onConfirm?: () => void;
   isSubmitting?: boolean;
@@ -576,6 +579,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   description,
   isSelected,
   userIsParticipant,
+  isRecurringTime,
   onSelect,
   onConfirm,
   isSubmitting,
@@ -584,9 +588,14 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   const hasAnySpotsLeft = spotsLeft !== 0;
   const isDisabled = userIsParticipant || !hasAnySpotsLeft || hasStarted;
 
-  const displayDateTimeStrings = useMemo(() => {
+  const displayDate = useMemo(() => {
     if (!dateTime) return null;
-    return getDiscussionTimeDisplayStrings(dateTime);
+    return isRecurringTime ? formatDateDayOfWeek(dateTime) : formatDateMonthAndDay(dateTime);
+  }, [dateTime, isRecurringTime]);
+
+  const displayTime = useMemo(() => {
+    if (!dateTime) return null;
+    return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
   const getDefaultDescription = () => {
@@ -632,10 +641,10 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     >
       <div className="grid gap-4 grid-cols-[80px_1fr] items-end">
         <div className="text-center my-auto">
-          {displayDateTimeStrings && (
+          {displayDate && displayTime && (
             <>
-              <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDateTimeStrings.startTimeDisplayDate}</div>
-              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-[#0037FF]' : 'text-gray-500')}>{displayDateTimeStrings.startTimeDisplayTime}</div>
+              <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
+              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-[#0037FF]' : 'text-gray-500')}>{displayTime}</div>
             </>
           )}
         </div>
