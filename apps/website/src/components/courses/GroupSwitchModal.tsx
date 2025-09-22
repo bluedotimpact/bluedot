@@ -186,7 +186,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const currentInfo = getCurrentDiscussionInfo();
 
-  const submitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+  const isSubmitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
   useEffect(() => {
     setSelectedDiscussionId('');
@@ -198,7 +198,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   }, [selectedUnitNumber]);
 
   const handleSubmit = async () => {
-    if (submitDisabled) return;
+    if (isSubmitDisabled) return;
 
     setIsSubmitting(true);
 
@@ -273,7 +273,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         }),
         onSelect: () => setSelectedGroupId(g.group.id),
         onConfirm: handleSubmit,
-        canSubmit: !submitDisabled,
+        canSubmit: !isSubmitDisabled,
         isSubmitting,
       };
     });
@@ -295,7 +295,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
-        canSubmit: !submitDisabled,
+        canSubmit: !isSubmitDisabled,
         isSubmitting,
       };
     });
@@ -419,7 +419,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               </CTALinkOrButton>
               <CTALinkOrButton
                 onClick={handleSubmit}
-                disabled={submitDisabled}
+                disabled={isSubmitDisabled}
                 aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
               >
                 {isSubmitting ? 'Submitting...' : 'Confirm'}
@@ -539,7 +539,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   canSubmit,
 }) => {
   const hasAnySpotsLeft = spotsLeft !== 0;
-  const disabled = userIsParticipant || !hasAnySpotsLeft;
+  const isDisabled = userIsParticipant || !hasAnySpotsLeft;
 
   const displayDateTimeStrings = useMemo(() => {
     if (!dateTime) return null;
@@ -561,9 +561,9 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
         !userIsParticipant && 'border bg-white cursor-pointer hover:bg-blue-50',
         isSelected && 'border-[#0037FF] bg-blue-50',
         !hasAnySpotsLeft && 'opacity-50',
-        !isSelected && !disabled && 'border-gray-200 hover:border-gray-300',
+        !isSelected && !isDisabled && 'border-gray-200 hover:border-gray-300',
       )}
-      {...(!disabled && {
+      {...(!isDisabled && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -609,7 +609,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               onClick={() => {
                 onConfirm?.();
               }}
-              disabled={disabled || !canSubmit || isSubmitting}
+              disabled={isDisabled || !canSubmit || isSubmitting}
               aria-label={`Confirm selection of ${groupName}`}
               className="h-fit my-auto"
             >
