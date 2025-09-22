@@ -851,7 +851,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               Start building towards a good future today
             </h3>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--outline-black border-black text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 border-0"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 hover:text-[#13132E]"
               href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
               tabindex="0"
             >

@@ -31,8 +31,8 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
         </H3>
 
         <CTALinkOrButton
-          variant="outline-black"
-          className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 border-0"
+          variant="ghost"
+          className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 hover:text-[#13132E]"
           url={ctaUrl}
         >
           Apply now
