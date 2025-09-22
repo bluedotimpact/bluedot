@@ -822,22 +822,45 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
-    <div
-      class="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px"
+    <section
+      class="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20"
     >
-      <h3
-        class="bluedot-h3 not-prose agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]"
+      <div
+        class="max-w-max-width mx-auto px-spacing-x"
       >
-        Don't wait until the world's even more crazy. Start making an impact today.
-      </h3>
-      <a
-        class="cta-button flex items-center justify-center whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
-        href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
-        tabindex="0"
-      >
-        Apply now
-      </a>
-    </div>
+        <div
+          class="relative w-full max-w-[350px] lg:max-w-[1118px] mx-auto overflow-hidden rounded-xl bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center"
+        >
+          <div
+            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+          />
+          <div
+            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+          />
+          <div
+            class="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center"
+          >
+            <img
+              alt="BlueDot"
+              class="w-8 h-[30px]"
+              src="/images/agi-strategy/bluedot-icon.png"
+            />
+            <h3
+              class="bluedot-h3 not-prose max-w-[238px] lg:max-w-[496px] text-[20px] lg:text-[36px] font-semibold text-white"
+            >
+              Start building towards a good future today
+            </h3>
+            <a
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--outline-black border-black text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 border-0"
+              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+              tabindex="0"
+            >
+              Apply now
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 `;
