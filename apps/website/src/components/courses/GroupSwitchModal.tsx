@@ -56,15 +56,15 @@ const getGMTOffsetWithCity = () => {
 const getGroupSwitchDescription = ({
   userIsParticipant = false,
   isSelected,
-  isTemporarySwitch,
+  isUnitSwitch,
   selectedUnitNumber,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
-  isTemporarySwitch: boolean;
+  isUnitSwitch: boolean;
   selectedUnitNumber?: string;
 }): React.ReactNode => {
-  if (isTemporarySwitch) {
+  if (isUnitSwitch) {
     if (userIsParticipant) {
       return isSelected
         ? <span className="text-[#0037FF]">You are attending this discussion</span>
@@ -160,7 +160,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedDiscussionId,
-          isTemporarySwitch: isUnitSwitch,
+          isUnitSwitch,
           selectedUnitNumber,
         }),
         userIsParticipant: true,
@@ -176,7 +176,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedGroupId,
-          isTemporarySwitch: isUnitSwitch,
+          isUnitSwitch,
           selectedUnitNumber,
         }),
         userIsParticipant: true,
@@ -270,7 +270,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
-          isTemporarySwitch: false,
+          isUnitSwitch: false,
           selectedUnitNumber,
         }),
         onSelect: () => setSelectedGroupId(g.group.id),
@@ -292,7 +292,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
-          isTemporarySwitch: true,
+          isUnitSwitch: true,
           selectedUnitNumber,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
