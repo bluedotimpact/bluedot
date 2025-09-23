@@ -2,10 +2,10 @@ import {
   useRef,
   useState,
   useEffect,
-  useMemo,
+  useCallback,
 } from 'react';
 import Link from 'next/link';
-import { SectionHeading } from '@bluedot/ui';
+import { NewText } from '@bluedot/ui';
 import clsx from 'clsx';
 
 export type CommunityMember = {
@@ -23,49 +23,59 @@ type CommunityMembersSubSectionProps = {
 
 // Card configuration constants
 const CARD_CONFIG = {
-  DESKTOP_WIDTH: 320,
-  MOBILE_WIDTH: 280,
-  GAP: 24,
+  WIDTH: 280,
+  HEIGHT: 437,
+  GAP: 32,
   PADDING: 0,
-  MOBILE_BREAKPOINT: 768,
+  AUTO_SCROLL_INTERVAL: 3000, // 3 seconds
 } as const;
 
 // Community Member Card Component
-const CommunityMemberCard = ({ member, isCarousel = false }: { member: CommunityMember; isCarousel?: boolean }) => (
+const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
   <Link
     href={member.url}
     target="_blank"
     rel="noopener noreferrer"
-    className={clsx(
-      'community-member flex flex-col border border-[#E7E5E4] rounded-lg p-8 bg-white gap-6',
-      isCarousel ? 'flex-shrink-0 w-80 h-full' : 'h-full',
-    )}
+    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden"
+    style={{
+      width: `${CARD_CONFIG.WIDTH}px`,
+      height: `${CARD_CONFIG.HEIGHT}px`,
+    }}
   >
-    <div className="community-member__content flex-grow flex flex-col justify-center items-center text-center gap-4">
-      <div className="community-member__avatar size-32 rounded-lg overflow-hidden flex-shrink-0">
-        <img
-          src={member.imageSrc}
-          alt={`Profile of ${member.name}`}
-          className="size-full object-cover"
-        />
-      </div>
-      <div className="community-member__info flex flex-col gap-2">
-        <div className="community-member__name font-semibold text-size-base leading-normal text-[#13132E]">
+    {/* Image Section */}
+    <div className="community-member__image-container flex-shrink-0" style={{ width: '280px', height: '280px' }}>
+      <img
+        src={member.imageSrc}
+        alt={`Profile of ${member.name}`}
+        className="size-full object-cover"
+      />
+    </div>
+
+    {/* Content Section */}
+    <div className="community-member__content flex flex-col items-start justify-between p-6 gap-4 h-[157px]">
+      {/* Name and Job Title Container */}
+      <div className="community-member__info flex flex-col items-start gap-1 w-[232px]">
+        {/* Name */}
+        <NewText.P className="community-member__name text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
           {member.name}
-        </div>
-        <div className="community-member__job-title text-size-sm leading-[1.4] text-[#13132E] opacity-80">
+        </NewText.P>
+
+        {/* Job Title */}
+        <NewText.P className="community-member__job-title text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
           {member.jobTitle}
-        </div>
-        <div className="community-member__course text-size-xs leading-[20px] text-[#13132E] opacity-70 font-medium">
-          {member.course}
-        </div>
+        </NewText.P>
       </div>
+
+      {/* Course */}
+      <NewText.P className="community-member__course text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-[232px] opacity-60">
+        {member.course}
+      </NewText.P>
     </div>
   </Link>
 );
 
-// Carousel Navigation Button Component
-const CarouselButton = ({
+// Header Navigation Button Component
+const HeaderNavigationButton = ({
   direction,
   onClick,
   disabled,
@@ -79,20 +89,26 @@ const CarouselButton = ({
     onClick={onClick}
     disabled={disabled}
     className={clsx(
-      'absolute top-1/2 -translate-y-1/2 z-10 size-12 rounded-full bg-white border border-[#E7E5E4] shadow-lg flex items-center justify-center transition-all duration-200',
-      'hover:bg-gray-50 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed',
-      direction === 'left' ? '-left-6' : '-right-6',
+      'size-12 rounded-full flex items-center justify-center transition-all duration-200',
+      'hover:opacity-100 disabled:cursor-not-allowed',
+      disabled ? 'opacity-30' : 'opacity-30 hover:opacity-60',
     )}
+    style={{
+      background: 'rgba(19, 19, 46, 0.1)',
+    }}
     aria-label={`Scroll ${direction}`}
   >
-    <svg
-      className={clsx('size-5 text-[#13132E]', direction === 'right' && 'rotate-180')}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
+    <span
+      className="text-[22.4px] font-medium text-[#13132E] inline-flex items-center justify-center"
+      style={{
+        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
+        lineHeight: 1,
+        width: '24px',
+        height: '24px',
+      }}
     >
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-    </svg>
+      →
+    </span>
   </button>
 );
 
@@ -101,100 +117,103 @@ const CommunityMembersSubSection = ({
   title,
 }: CommunityMembersSubSectionProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [showCarousel, setShowCarousel] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const isScrollingRef = useRef(false);
+  const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const isResettingRef = useRef(false);
 
-  // Memoized card capacity calculation using constants
-  const cardCapacity = useMemo(() => {
-    if (containerWidth === 0) return 0;
-
-    const availableWidth = containerWidth - CARD_CONFIG.PADDING;
-    // Use DESKTOP_WIDTH consistently since CSS uses w-80 (320px) for all cards
-    const actualCardWidth = CARD_CONFIG.DESKTOP_WIDTH;
-
-    return Math.max(1, Math.floor(availableWidth / (actualCardWidth + CARD_CONFIG.GAP)));
-  }, [containerWidth]);
-
-  // Create infinite scroll data by duplicating members
+  // Create infinite scroll data - 3 copies for smooth looping
   const createInfiniteScrollData = () => {
     if (members.length === 0) return [];
-
-    // For infinite scroll, we need at least 3 copies to ensure smooth transitions
-    // Structure: [...members, ...members, ...members]
+    // 3 copies: [buffer][main][buffer]
     return [...members, ...members, ...members];
   };
 
   const infiniteMembers = createInfiniteScrollData();
 
-  // Determine if we should show carousel based on container width
-  useEffect(() => {
-    if (containerWidth > 0) {
-      setShowCarousel(members.length > cardCapacity);
-    }
-  }, [members.length, containerWidth, cardCapacity]);
-
-  // ResizeObserver to monitor container width
-  useEffect(() => {
-    let resizeObserver: ResizeObserver | null = null;
-
-    if (containerRef.current) {
-      resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          setContainerWidth(entry.contentRect.width);
-        }
-      });
-
-      resizeObserver.observe(containerRef.current);
+  // Auto-scroll functionality
+  const startAutoScroll = useCallback(() => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
     }
 
-    return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
+    autoScrollIntervalRef.current = setInterval(() => {
+      if (scrollContainerRef.current && !isResettingRef.current) {
+        const scrollAmount = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
+        const currentScrollLeft = scrollContainerRef.current.scrollLeft;
+        const newScrollLeft = currentScrollLeft + scrollAmount;
+
+        scrollContainerRef.current.scrollTo({
+          left: newScrollLeft,
+          behavior: 'smooth',
+        });
       }
-    };
+    }, CARD_CONFIG.AUTO_SCROLL_INTERVAL);
   }, []);
 
-  // Initialize scroll position to middle section for infinite scroll
-  useEffect(() => {
-    if (showCarousel && scrollContainerRef.current && members.length > 0) {
-      const cardWidth = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
-      const middlePosition = members.length * cardWidth;
-      scrollContainerRef.current.scrollLeft = middlePosition;
+  const stopAutoScroll = useCallback(() => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
     }
-  }, [showCarousel, members.length]);
+  }, []);
 
-  // Handle infinite scroll logic
-  const handleScroll = () => {
-    const container = scrollContainerRef.current;
-    if (container && !isScrollingRef.current && members.length > 0) {
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      const cardWidth = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
+  // Start auto-scroll on mount and restart when hover state changes
+  useEffect(() => {
+    if (!isHovered) {
+      startAutoScroll();
+    } else {
+      stopAutoScroll();
+    }
+    return () => {
+      stopAutoScroll();
+    };
+  }, [isHovered, startAutoScroll, stopAutoScroll]);
+
+  // Handle hover state for auto-scroll
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  // Initialize scroll position to middle section
+  useEffect(() => {
+    if (scrollContainerRef.current && members.length > 0) {
+      const cardWidth = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
       const sectionWidth = members.length * cardWidth;
+      // Start at the beginning of the middle section
+      scrollContainerRef.current.scrollLeft = sectionWidth;
+    }
+  }, [members.length]);
 
-      // Check if we need to reset position for infinite scroll
-      if (scrollLeft <= 0) {
-        // Scrolled to the beginning, jump to the end of the first section
-        isScrollingRef.current = true;
-        container.scrollLeft = sectionWidth;
-        requestAnimationFrame(() => {
-          isScrollingRef.current = false;
-        });
-      } else if (scrollLeft >= scrollWidth - clientWidth) {
-        // Scrolled to the end, jump to the beginning of the second section
-        isScrollingRef.current = true;
-        container.scrollLeft = sectionWidth;
-        requestAnimationFrame(() => {
-          isScrollingRef.current = false;
-        });
+  // Handle infinite scroll with seamless reset
+  const handleScroll = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (container && !isResettingRef.current && members.length > 0) {
+      const { scrollLeft } = container;
+      const cardWidth = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
+      const sectionWidth = members.length * cardWidth;
+      // We want to reset when we're exactly one section away from the visible edges
+      // This ensures the same cards remain visible during reset
+      if (scrollLeft >= sectionWidth * 2) {
+        // Scrolled a full section past middle, reset back exactly one section
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft - sectionWidth;
+        isResettingRef.current = false;
+      } else if (scrollLeft < sectionWidth) {
+        // Scrolled a full section before middle, reset forward exactly one section
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft + sectionWidth;
+        isResettingRef.current = false;
       }
     }
-  };
+  }, [members.length]);
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = CARD_CONFIG.DESKTOP_WIDTH + CARD_CONFIG.GAP;
+      const scrollAmount = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
       const newScrollLeft = scrollContainerRef.current.scrollLeft
         + (direction === 'right' ? scrollAmount : -scrollAmount);
 
@@ -203,71 +222,89 @@ const CommunityMembersSubSection = ({
         behavior: 'smooth',
       });
     }
-  };
+  }, []);
 
-  if (showCarousel) {
-    return (
-      <div ref={containerRef} className="community-members-section w-full" data-testid="community-members-section">
-        {title && <SectionHeading title={title} titleLevel="h3" className="community-members-section__heading mb-8" />}
+  // Handle keyboard navigation
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scroll('left');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scroll('right');
+    }
+  }, [scroll]);
 
-        {/* Horizontal Scrolling Carousel */}
-        <div className="relative">
-          {/* Hidden description for screen readers */}
-          <div id="carousel-description" className="sr-only">
-            This carousel uses infinite scrolling. Navigation buttons will continuously scroll through community members without reaching an end.
+  return (
+    <section className="community-members-section w-full bg-[#FAFAF7] py-12 md:py-20 lg:py-24" data-testid="community-members-section">
+      {/* Header Container - constrained to content width */}
+      <div className="mx-auto px-5 md:px-12 lg:px-40 max-w-[1440px] mb-16">
+        {/* Custom Header Section */}
+        <div className="flex flex-col items-center text-center lg:flex-row lg:items-end lg:justify-between lg:text-left gap-8 lg:gap-16">
+          {/* Header Content */}
+          <div className="flex flex-col gap-6">
+            <NewText.H2 className="text-[28px] md:text-[32px] lg:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
+              {title || 'Meet our Alumni Shaping AI\'s Future'}
+            </NewText.H2>
+            <NewText.P className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full lg:max-w-[610px] xl:max-w-[639px]">
+              Our students and graduates work at some of the most respectable AI organizations in the world. Here are a few of the people who graduated from Blue Dot:
+            </NewText.P>
           </div>
 
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hidden pb-4"
-            style={{
-              scrollSnapType: 'x mandatory',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-            onScroll={handleScroll}
-            aria-describedby="carousel-description"
-          >
-            {infiniteMembers.map((member, index) => {
-              const sectionNumber = Math.floor(index / members.length);
-              return (
-                <div key={`${member.name}-${sectionNumber}`} style={{ scrollSnapAlign: 'start' }}>
-                  <CommunityMemberCard member={member} isCarousel />
-                </div>
-              );
-            })}
+          {/* Navigation Buttons */}
+          <div className="hidden lg:flex gap-3 flex-shrink-0">
+            <HeaderNavigationButton
+              direction="left"
+              onClick={() => scroll('left')}
+              disabled={false}
+            />
+            <HeaderNavigationButton
+              direction="right"
+              onClick={() => scroll('right')}
+              disabled={false}
+            />
           </div>
-
-          {/* Navigation Buttons - Always enabled for infinite scroll */}
-          <CarouselButton
-            direction="left"
-            onClick={() => scroll('left')}
-            disabled={false}
-          />
-          <CarouselButton
-            direction="right"
-            onClick={() => scroll('right')}
-            disabled={false}
-          />
         </div>
       </div>
-    );
-  }
 
-  // Default flex layout when all members fit in single row
-  return (
-    <div ref={containerRef} className="community-members-section w-full" data-testid="community-members-section">
-      {title && <SectionHeading title={title} titleLevel="h3" className="community-members-section__heading" />}
+      {/* Carousel Container - full width for bleed effect */}
+      <div className="relative w-full overflow-hidden">
+        {/* Hidden description for screen readers */}
+        <div id="carousel-description" className="sr-only">
+          This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
+        </div>
 
-      {/* Single Row Flex Layout */}
-      <div className="flex gap-6 justify-center flex-wrap">
-        {members.map((member) => (
-          <div key={member.name} className="w-80">
-            <CommunityMemberCard key={member.name} member={member} />
-          </div>
-        ))}
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        <div
+          ref={scrollContainerRef}
+          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 md:px-12 lg:px-40 xl:pl-[max(160px,_calc((100vw-1120px)/2))] xl:pr-8"
+          style={{
+            gap: `${CARD_CONFIG.GAP}px`,
+            scrollSnapType: 'none', // Disable snap to prevent interference with smooth scroll
+            scrollBehavior: 'auto', // Let us control the scroll behavior
+          }}
+          onScroll={handleScroll}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onKeyDown={handleKeyDown}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+          role="region"
+          aria-label="Alumni carousel"
+          aria-describedby="carousel-description"
+        >
+          {infiniteMembers.map((member, index) => {
+            const sectionNumber = Math.floor(index / members.length);
+            const uniqueKey = `${member.name}-${index}-${sectionNumber}`;
+            return (
+              <div key={uniqueKey}>
+                <CommunityMemberCard member={member} />
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
