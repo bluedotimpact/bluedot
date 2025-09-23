@@ -2,10 +2,10 @@
 
 exports[`CourseDetailsSection > renders correctly 1`] = `
 <section
-  class="py-16 bg-[#FAFAF7]"
+  class="w-full bg-[#FAFAF7]"
 >
   <div
-    class="max-w-max-width mx-auto px-spacing-x flex flex-col items-center gap-16"
+    class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
   >
     <h2
       class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"

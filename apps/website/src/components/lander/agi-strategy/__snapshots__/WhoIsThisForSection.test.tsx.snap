@@ -10,7 +10,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
     <h2
       class="bluedot-h2 not-prose text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
     >
-      Who is this course for?
+      Who this course is for
     </h2>
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"

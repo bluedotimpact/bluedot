@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import {
   CTALinkOrButton,
-  Section,
 } from '@bluedot/ui';
 
 import { H2, H3 } from '../Text';
@@ -12,21 +11,33 @@ import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
 import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
+import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
 import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
-    <div className="agi-strategy-lander__banner flex flex-col items-center justify-center w-full py-16 px-12 gap-8 text-center bg-gradient-to-b from-white to-[#ECF0FF] -mt-px">
-      <H3 className="agi-strategy-lander__banner-title max-w-[480px] font-semibold text-size-lg leading-tight text-[#13132E]">
-        {title}
-      </H3>
-      <CTALinkOrButton
-        size="small"
-        className="agi-strategy-lander__banner-cta w-auto h-11 px-5 py-3 text-[14px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200 lg:h-[3.125rem] lg:text-[16px]"
-        url={ctaUrl}
-      >
-        Apply now
-      </CTALinkOrButton>
+    <div className="relative w-full max-w-[350px] lg:max-w-[1118px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center">
+      {/* First noise layer */}
+      <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
+
+      {/* Second noise layer */}
+      <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
+
+      <div className="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center">
+        <img src="/images/agi-strategy/bluedot-icon.png" alt="BlueDot" className="w-8 h-[30px]" />
+
+        <H3 className="max-w-[238px] lg:max-w-[496px] text-[20px] lg:text-[36px] font-semibold text-white">
+          {title}
+        </H3>
+
+        <CTALinkOrButton
+          variant="ghost"
+          className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+          url={ctaUrl}
+        >
+          Apply now
+        </CTALinkOrButton>
+      </div>
     </div>
   );
 };
@@ -87,6 +98,7 @@ const AgiStrategyLander = () => {
       </Head>
 
       <HeroSection
+        categoryLabel="AGI STRATEGY"
         title="Start building the defences that protect humanity"
         description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
         primaryCta={{
@@ -118,6 +130,9 @@ const AgiStrategyLander = () => {
       {/* Who is this course for section */}
       <WhoIsThisForSection />
 
+      {/* Course Curriculum Section */}
+      <CourseCurriculumSection />
+
       {/* Why take this course section */}
       <WhyTakeThisCourseSection />
 
@@ -128,21 +143,25 @@ const AgiStrategyLander = () => {
       <QuoteSection />
 
       {/* Community Members Section - What learners are saying */}
-      <div className="w-full bg-[#FAFAF7]">
-        <Section className="py-16">
-          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-16 tracking-[-0.01em]">Some of our graduates</H2>
+      <section className="w-full bg-[#FAFAF7]">
+        <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-12 md:mb-16 tracking-[-0.01em]">Some of our graduates</H2>
           <CommunityMembersSubSection members={communityMembers} />
-        </Section>
-      </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <FAQSection />
 
       {/* Banner */}
-      <AgiStrategyBanner
-        title="Don't wait until the world's even more crazy. Start making an impact today."
-        ctaUrl={applicationUrl}
-      />
+      <section className="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20">
+        <div className="max-w-max-width mx-auto px-spacing-x">
+          <AgiStrategyBanner
+            title="Start building towards a good future today"
+            ctaUrl={applicationUrl}
+          />
+        </div>
+      </section>
 
     </div>
   );
