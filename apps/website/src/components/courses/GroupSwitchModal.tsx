@@ -64,7 +64,7 @@ const getGroupSwitchDescription = ({
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong> <FaCheck className="size-3 -translate-y-px inline-block ml-[2px]" aria-hidden="true" /></span>;
+      return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
 
     return undefined;
@@ -78,7 +78,7 @@ const getGroupSwitchDescription = ({
   }
 
   if (isSelected) {
-    return <span className="text-[#0037FF] flex gap-2 items-center">You are switching into this group for all upcoming units <FaCheck className="size-3 -translate-y-px inline-block ml-[2px]" aria-hidden="true" /></span>;
+    return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
   }
 
   return undefined;
@@ -629,7 +629,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     // Later classes have higher priority
     classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
     if (isSelected) classNames.push('border-[#0037FF] hover:border-[#0037FF] bg-blue-50');
-    if (!hasAnySpotsLeft || hasStarted) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
+    if (isDisabled && !userIsParticipant) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
     return cn(...classNames);
