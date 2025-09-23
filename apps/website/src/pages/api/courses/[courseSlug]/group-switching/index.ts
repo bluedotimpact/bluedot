@@ -117,7 +117,7 @@ export default makeApiRoute({
   if (isTempGroupSwitch || isUnitJoin) {
     // Old discussion may be undefined when `isUnitJoin` is true - in this case we are not leaving a previous discussion group.
     const [oldDiscussion, newDiscussion] = await Promise.all([
-      isUnitJoin ? null : db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
+      inputOldDiscussionId ? null : db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
       isManualRequest ? null : db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
     ]);
 
