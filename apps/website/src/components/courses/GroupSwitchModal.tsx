@@ -390,7 +390,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             <>
               <div className="h-px bg-color-divider" />
               <div className="flex flex-col gap-2">
-                <div className="block text-size-sm font-medium">
+                <div className="block text-size-sm font-medium text-[#00114D]">
                   Select a group
                 </div>
                 {currentInfo && (
