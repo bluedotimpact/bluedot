@@ -34,7 +34,7 @@ export type GetGroupSwitchingAvailableResponse = {
   }[]>
 };
 
-function calculateGroupAvailability({
+export function calculateGroupAvailability({
   groupDiscussions,
   groups,
   maxParticipants,
