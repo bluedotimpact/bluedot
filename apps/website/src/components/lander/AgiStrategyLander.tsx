@@ -3,7 +3,7 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 
-import { H2, H3 } from '../Text';
+import { H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
@@ -143,12 +143,7 @@ const AgiStrategyLander = () => {
       <QuoteSection />
 
       {/* Community Members Section - What learners are saying */}
-      <section className="w-full bg-[#FAFAF7]">
-        <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
-          <H2 className="text-[28px] md:text-[32px] lg:text-[36px] text-center font-semibold leading-[125%] mb-12 md:mb-16 tracking-[-0.01em]">Some of our graduates</H2>
-          <CommunityMembersSubSection members={communityMembers} />
-        </div>
-      </section>
+      <CommunityMembersSubSection members={communityMembers} />
 
       {/* FAQ Section */}
       <FAQSection />
