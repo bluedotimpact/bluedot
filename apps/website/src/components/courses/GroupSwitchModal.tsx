@@ -136,10 +136,8 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     method: 'post',
   }, { manual: true });
 
-  const groups = switchingData?.groupsAvailable ? switchingData.groupsAvailable : [];
-  const discussions = switchingData?.discussionsAvailable && selectedUnitNumber
-    ? switchingData.discussionsAvailable[selectedUnitNumber] || []
-    : [];
+  const groups = switchingData?.groupsAvailable ?? [];
+  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
   const unitOptions = useMemo(() => {
     if (!courseData?.units) return [];
@@ -330,10 +328,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     });
 
   const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
+  const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
 
-  const selectedOption = groupSwitchOptions.filter((op) => op.isSelected)?.[0];
-
-  const alternativeCount = groupSwitchOptions.filter((op) => op.spotsLeft !== 0 && !op.hasStarted).length;
+  const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
@@ -456,7 +453,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
-                    aria-label="Request manual group switch"
+                    aria-label="Update availability (open in new tab)"
                   >
                     Update availability
                   </CTALinkOrButton>
