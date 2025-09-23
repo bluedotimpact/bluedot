@@ -57,11 +57,13 @@ const getGroupSwitchDescription = ({
   isSelected,
   isTemporarySwitch,
   selectedUnitNumber,
+  spotsLeft,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
+  spotsLeft: number | null;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -73,22 +75,27 @@ const getGroupSwitchDescription = ({
     if (isSelected && selectedUnitNumber !== undefined) {
       return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
+  } else {
+    if (userIsParticipant) {
+      return isSelected
+        ? <span className="text-[#0037FF]">You are currently in this group</span>
+        : <span>You are switching out of this group for all upcoming units</span>;
+    }
 
-    return undefined;
+    if (isSelected) {
+      return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
+    }
   }
 
-  // For permanent switches
-  if (userIsParticipant) {
-    return isSelected
-      ? <span className="text-[#0037FF]">You are currently in this group</span>
-      : <span>You are switching out of this group for all upcoming units</span>;
+  // Default: N spots left
+  const hasAnySpotsLeft = spotsLeft !== 0;
+  if (!hasAnySpotsLeft) {
+    return <><UserIcon className="-translate-y-px" /><span>No spots left</span></>;
   }
-
-  if (isSelected) {
-    return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
+  if (spotsLeft === null) {
+    return <><UserIcon className="-translate-y-px" /><span>Spots available</span></>;
   }
-
-  return undefined;
+  return <><UserIcon className="-translate-y-px" /><span>{spotsLeft} spot{spotsLeft === 1 ? '' : 's'} left</span></>;
 };
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
@@ -169,14 +176,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         id: oldDiscussion.discussion.id,
         groupName: oldDiscussion.groupName,
         dateTime: oldDiscussion.discussion.startDateTime,
-        spotsLeft: null,
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedDiscussionId,
           isTemporarySwitch,
           selectedUnitNumber,
+          spotsLeft: null,
         }),
-        hasStarted: false,
         userIsParticipant: true,
       };
     }
@@ -186,14 +192,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         id: oldGroup.group.id,
         groupName: oldGroup.group.groupName ?? 'Group [Unknown]',
         dateTime: oldGroup.group.startTimeUtc,
-        spotsLeft: null,
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedGroupId,
           isTemporarySwitch,
           selectedUnitNumber,
+          spotsLeft: null,
         }),
-        hasStarted: false,
         userIsParticipant: true,
         isRecurringTime: true,
       };
@@ -292,14 +297,14 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        spotsLeft: g.spotsLeft,
-        hasStarted: g.allDiscussionsHaveStarted,
+        isDisabled: g.spotsLeft === 0 || g.allDiscussionsHaveStarted,
         isSelected,
         isRecurringTime: true,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: false,
           selectedUnitNumber,
+          spotsLeft: g.spotsLeft,
         }),
         onSelect: () => setSelectedGroupId(g.group.id),
         onConfirm: handleSubmit,
@@ -316,13 +321,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
-        spotsLeft: d.spotsLeft,
-        hasStarted: d.hasStarted,
+        isDisabled: d.spotsLeft === 0 || d.hasStarted,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: true,
           selectedUnitNumber,
+          spotsLeft: d.spotsLeft,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
@@ -583,9 +588,8 @@ type GroupSwitchOptionProps = {
   id?: string;
   groupName: string;
   dateTime: number | null;
-  hasStarted?: boolean;
-  spotsLeft: number | null;
-  description?: React.ReactNode;
+  isDisabled?: boolean;
+  description: React.ReactNode;
   isSelected?: boolean;
   userIsParticipant?: boolean;
   isRecurringTime?: boolean;
@@ -598,8 +602,7 @@ type GroupSwitchOptionProps = {
 const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   groupName,
   dateTime,
-  spotsLeft,
-  hasStarted,
+  isDisabled,
   description,
   isSelected,
   userIsParticipant,
@@ -609,9 +612,6 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   isSubmitting,
   canSubmit,
 }) => {
-  const hasAnySpotsLeft = spotsLeft !== 0;
-  const isDisabled = userIsParticipant || !hasAnySpotsLeft || hasStarted;
-
   const displayDate = useMemo(() => {
     if (!dateTime) return null;
     return isRecurringTime ? formatDateDayOfWeek(dateTime) : formatDateMonthAndDay(dateTime);
@@ -621,14 +621,6 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     if (!dateTime) return null;
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
-
-  const getDefaultDescription = () => {
-    if (!hasAnySpotsLeft) return 'No spots left';
-    if (spotsLeft === null) return 'Spots available';
-    return `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`;
-  };
-
-  const defaultDescription = getDefaultDescription();
 
   const getClassNames = () => {
     const classNames = [];
@@ -645,7 +637,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   return (
     <div
       className={getClassNames()}
-      {...(!isDisabled && {
+      {...(!isDisabled && !userIsParticipant && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -678,12 +670,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
               {groupName}
             </div>
             <div className="flex items-center gap-[6px] text-size-xs text-gray-500">
-              {!description ? (
-                <>
-                  <UserIcon className="-translate-y-px" />
-                  <span>{defaultDescription}</span>
-                </>
-              ) : description}
+              {description}
             </div>
           </div>
           {isSelected && !userIsParticipant && (
