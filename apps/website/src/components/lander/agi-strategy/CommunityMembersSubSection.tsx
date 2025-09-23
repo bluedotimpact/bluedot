@@ -119,14 +119,12 @@ const CommunityMembersSubSection = ({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const isScrollingRef = useRef(false);
+  const isResettingRef = useRef(false);
 
-  // Create infinite scroll data by duplicating members
+  // Create infinite scroll data - 3 copies for smooth looping
   const createInfiniteScrollData = () => {
     if (members.length === 0) return [];
-
-    // For infinite scroll, we need at least 3 copies to ensure smooth transitions
-    // Structure: [...members, ...members, ...members]
+    // 3 copies: [buffer][main][buffer]
     return [...members, ...members, ...members];
   };
 
@@ -139,7 +137,7 @@ const CommunityMembersSubSection = ({
     }
 
     autoScrollIntervalRef.current = setInterval(() => {
-      if (!isHovered && scrollContainerRef.current && !isScrollingRef.current) {
+      if (!isHovered && scrollContainerRef.current && !isResettingRef.current) {
         const scrollAmount = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
         const currentScrollLeft = scrollContainerRef.current.scrollLeft;
         const newScrollLeft = currentScrollLeft + scrollAmount;
@@ -176,38 +174,35 @@ const CommunityMembersSubSection = ({
     setIsHovered(false);
   }, []);
 
-  // Initialize scroll position to middle section for infinite scroll
+  // Initialize scroll position to middle section
   useEffect(() => {
     if (scrollContainerRef.current && members.length > 0) {
       const cardWidth = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
-      const middlePosition = members.length * cardWidth;
-      scrollContainerRef.current.scrollLeft = middlePosition;
+      const sectionWidth = members.length * cardWidth;
+      // Start at the beginning of the middle section
+      scrollContainerRef.current.scrollLeft = sectionWidth;
     }
   }, [members.length]);
 
-  // Handle infinite scroll logic
+  // Handle infinite scroll with seamless reset
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (container && !isScrollingRef.current && members.length > 0) {
-      const { scrollLeft, scrollWidth, clientWidth } = container;
+    if (container && !isResettingRef.current && members.length > 0) {
+      const { scrollLeft } = container;
       const cardWidth = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
       const sectionWidth = members.length * cardWidth;
-
-      // Check if we need to reset position for infinite scroll
-      if (scrollLeft <= 0) {
-        // Scrolled to the beginning, jump to the end of the first section
-        isScrollingRef.current = true;
-        container.scrollLeft = sectionWidth;
-        requestAnimationFrame(() => {
-          isScrollingRef.current = false;
-        });
-      } else if (scrollLeft >= scrollWidth - clientWidth) {
-        // Scrolled to the end, jump to the beginning of the second section
-        isScrollingRef.current = true;
-        container.scrollLeft = sectionWidth;
-        requestAnimationFrame(() => {
-          isScrollingRef.current = false;
-        });
+      // We want to reset when we're exactly one section away from the visible edges
+      // This ensures the same cards remain visible during reset
+      if (scrollLeft >= sectionWidth * 2) {
+        // Scrolled a full section past middle, reset back exactly one section
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft - sectionWidth;
+        isResettingRef.current = false;
+      } else if (scrollLeft < sectionWidth) {
+        // Scrolled a full section before middle, reset forward exactly one section
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft + sectionWidth;
+        isResettingRef.current = false;
       }
     }
   }, [members.length]);
@@ -269,7 +264,8 @@ const CommunityMembersSubSection = ({
           className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 md:px-12 lg:px-40 xl:pl-[max(160px,_calc((100vw-1120px)/2))] xl:pr-8"
           style={{
             gap: `${CARD_CONFIG.GAP}px`,
-            scrollSnapType: 'x mandatory',
+            scrollSnapType: 'none', // Disable snap to prevent interference with smooth scroll
+            scrollBehavior: 'auto', // Let us control the scroll behavior
           }}
           onScroll={handleScroll}
           onMouseEnter={handleMouseEnter}
@@ -278,8 +274,9 @@ const CommunityMembersSubSection = ({
         >
           {infiniteMembers.map((member, index) => {
             const sectionNumber = Math.floor(index / members.length);
+            const uniqueKey = `${member.name}-${index}-${sectionNumber}`;
             return (
-              <div key={`${member.name}-${sectionNumber}`} style={{ scrollSnapAlign: 'start' }}>
+              <div key={uniqueKey}>
                 <CommunityMemberCard member={member} />
               </div>
             );
