@@ -137,7 +137,7 @@ const CommunityMembersSubSection = ({
     }
 
     autoScrollIntervalRef.current = setInterval(() => {
-      if (!isHovered && scrollContainerRef.current && !isResettingRef.current) {
+      if (scrollContainerRef.current && !isResettingRef.current) {
         const scrollAmount = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
         const currentScrollLeft = scrollContainerRef.current.scrollLeft;
         const newScrollLeft = currentScrollLeft + scrollAmount;
@@ -148,7 +148,7 @@ const CommunityMembersSubSection = ({
         });
       }
     }, CARD_CONFIG.AUTO_SCROLL_INTERVAL);
-  }, [isHovered]);
+  }, []);
 
   const stopAutoScroll = useCallback(() => {
     if (autoScrollIntervalRef.current) {
@@ -157,13 +157,17 @@ const CommunityMembersSubSection = ({
     }
   }, []);
 
-  // Start auto-scroll on mount
+  // Start auto-scroll on mount and restart when hover state changes
   useEffect(() => {
-    startAutoScroll();
+    if (!isHovered) {
+      startAutoScroll();
+    } else {
+      stopAutoScroll();
+    }
     return () => {
       stopAutoScroll();
     };
-  }, [startAutoScroll, stopAutoScroll]);
+  }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   // Handle hover state for auto-scroll
   const handleMouseEnter = useCallback(() => {
