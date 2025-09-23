@@ -170,6 +170,15 @@ describe('formatDateTimeRelative', () => {
 });
 
 describe('formatDateMonthAndDay', () => {
+  beforeEach(() => {
+    // Set timezone to UTC for consistent test results
+    vi.stubEnv('TZ', 'UTC');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('should format date correctly', () => {
     const testDate = new Date('2024-06-20T15:00:00.000Z');
     const timestamp = Math.floor(testDate.getTime() / 1000);
@@ -180,21 +189,50 @@ describe('formatDateMonthAndDay', () => {
 });
 
 describe('formatTime12HourClock', () => {
-  it('should format time correctly accounting for timezone', () => {
+  beforeEach(() => {
+    // Set timezone to UTC for consistent test results
+    vi.stubEnv('TZ', 'UTC');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it('should format time correctly with hardcoded expected value', () => {
+    // 3:30 PM UTC
     const testDate = new Date('2024-06-15T15:30:00.000Z');
     const timestamp = Math.floor(testDate.getTime() / 1000);
     const result = formatTime12HourClock(timestamp);
-    const expectedTime = testDate.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
 
-    expect(result).toBe(expectedTime);
+    // Hardcoded expected value instead of testing implementation against itself
+    expect(result).toBe('3:30 PM');
+  });
+
+  it('should format different times correctly', () => {
+    // Morning time: 9:00 AM UTC
+    const morningDate = new Date('2024-06-15T09:00:00.000Z');
+    const morningTimestamp = Math.floor(morningDate.getTime() / 1000);
+    const morningResult = formatTime12HourClock(morningTimestamp);
+    expect(morningResult).toBe('9:00 AM');
+
+    // Evening time: 8:45 PM UTC
+    const eveningDate = new Date('2024-06-15T20:45:00.000Z');
+    const eveningTimestamp = Math.floor(eveningDate.getTime() / 1000);
+    const eveningResult = formatTime12HourClock(eveningTimestamp);
+    expect(eveningResult).toBe('8:45 PM');
   });
 });
 
 describe('formatDateDayOfWeek', () => {
+  beforeEach(() => {
+    // Set timezone to UTC for consistent test results
+    vi.stubEnv('TZ', 'UTC');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('should display day of week correctly', () => {
     // Tuesday, June 18, 2024, 3:30 PM UTC
     const testDate = new Date('2024-06-18T15:30:00.000Z');
