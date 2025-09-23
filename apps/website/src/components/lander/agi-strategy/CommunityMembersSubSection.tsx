@@ -242,7 +242,7 @@ const CommunityMembersSubSection = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="hidden md:flex gap-3 flex-shrink-0">
+          <div className="hidden lg:flex gap-3 flex-shrink-0">
             <HeaderNavigationButton
               direction="left"
               onClick={() => scroll('left')}
