@@ -66,7 +66,6 @@ describe('AgiStrategyLander', () => {
 
     const communityMembersSection = screen.getByTestId('community-members-section');
     expect(communityMembersSection).toBeInTheDocument();
-    // Check if the component is rendered - text check removed as the title is now optional
   });
 
   it('renders AGI Strategy banner with CTA', () => {

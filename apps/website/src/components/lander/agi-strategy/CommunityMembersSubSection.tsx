@@ -117,7 +117,7 @@ const CommunityMembersSubSection = ({
   title,
 }: CommunityMembersSubSectionProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const autoScrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const isResettingRef = useRef(false);
 
@@ -224,6 +224,17 @@ const CommunityMembersSubSection = ({
     }
   }, []);
 
+  // Handle keyboard navigation
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scroll('left');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scroll('right');
+    }
+  }, [scroll]);
+
   return (
     <section className="community-members-section w-full bg-[#FAFAF7] py-12 md:py-20 lg:py-24" data-testid="community-members-section">
       {/* Header Container - constrained to content width */}
@@ -260,9 +271,10 @@ const CommunityMembersSubSection = ({
       <div className="relative w-full overflow-hidden">
         {/* Hidden description for screen readers */}
         <div id="carousel-description" className="sr-only">
-          This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Navigation buttons allow manual control.
+          This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
         </div>
 
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
           className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 md:px-12 lg:px-40 xl:pl-[max(160px,_calc((100vw-1120px)/2))] xl:pr-8"
@@ -274,6 +286,11 @@ const CommunityMembersSubSection = ({
           onScroll={handleScroll}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onKeyDown={handleKeyDown}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+          role="region"
+          aria-label="Alumni carousel"
           aria-describedby="carousel-description"
         >
           {infiniteMembers.map((member, index) => {
