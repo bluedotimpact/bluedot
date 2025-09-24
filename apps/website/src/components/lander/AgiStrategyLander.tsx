@@ -42,7 +42,7 @@ const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string })
   );
 };
 
-const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
+const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
 const communityMembers: CommunityMember[] = [
   {
