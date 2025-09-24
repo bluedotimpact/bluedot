@@ -9,7 +9,7 @@ import {
 
 const { H2, P } = NewText;
 
-const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander';
+const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
 const CourseDetailsSection = () => {
   const courseDetails = [
@@ -52,7 +52,7 @@ const CourseDetailsSection = () => {
         <>
           New cohorts start every month:
           <br />
-          Next round <span className="font-semibold">29th Sep</span>, application deadline <span className="font-semibold">21st Sep</span>
+          Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
         </>
       ),
     },
