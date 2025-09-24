@@ -12,7 +12,7 @@ import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]'
 /* Common Section Wrapper */
 const SectionWrapper = ({ children }: { children: React.ReactNode }) => (
   <section className="w-full bg-white">
-    <div className="max-w-max-width mx-auto px-spacing-x pt-12 pb-8 md:pt-20 md:pb-12 lg:pt-24 lg:pb-16">
+    <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
       <H2 className="text-[28px] md:text-[32px] lg:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
         Curriculum Overview
       </H2>
@@ -50,50 +50,21 @@ const CourseCurriculumSection = () => {
   }
 
   return (
-    <>
-      {/* eslint-disable-next-line react/no-unknown-property */}
-      <style jsx>{`
-        .scrollbar-curriculum {
-          /* Firefox */
-          scrollbar-width: thin;
-          scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-        }
-        .scrollbar-curriculum::-webkit-scrollbar {
-          width: 4px;
-        }
-        .scrollbar-curriculum::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .scrollbar-curriculum::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.2);
-          border-radius: 4px;
-          min-height: 30px;
-        }
-        .scrollbar-curriculum::-webkit-scrollbar-thumb:hover {
-          background: rgba(0, 0, 0, 0.2);
-        }
-      `}
-      </style>
-      <SectionWrapper>
-        <div className="max-w-[928px] mx-auto">
-          <div className="max-h-[400px] overflow-y-auto scrollbar-curriculum pr-3">
-            <div className="pb-[120px]">
-              {[...data.units]
-                .sort((a, b) => {
-                  const aNum = parseInt(a.unitNumber || '0', 10);
-                  const bNum = parseInt(b.unitNumber || '0', 10);
-                  return aNum - bNum;
-                })
-                .map((unit, index) => (
-                  <CurriculumUnit key={unit.id} unit={unit} defaultExpanded={index === 0} />
-                ))}
-            </div>
-            {/* Fade gradient at bottom */}
-            <div className="sticky bottom-0 h-[102px] bg-gradient-to-t from-white via-white/[0.93] to-transparent pointer-events-none -mt-[102px]" />
-          </div>
+    <SectionWrapper>
+      <div className="max-w-[928px] mx-auto">
+        <div>
+          {[...data.units]
+            .sort((a, b) => {
+              const aNum = parseInt(a.unitNumber || '0', 10);
+              const bNum = parseInt(b.unitNumber || '0', 10);
+              return aNum - bNum;
+            })
+            .map((unit, index) => (
+              <CurriculumUnit key={unit.id} unit={unit} defaultExpanded={index === 0} />
+            ))}
         </div>
-      </SectionWrapper>
-    </>
+      </div>
+    </SectionWrapper>
   );
 };
 
@@ -111,7 +82,7 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full [&:not(:first-child)]:border-t-[0.5px] [&:not(:first-child)]:border-[rgba(19,19,46,0.2)]">
       {isOpen ? (
         /* Expanded Unit */
         <div className="bg-white">
@@ -141,7 +112,7 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
         </div>
       ) : (
         /* Collapsed Unit */
-        <div className="border-t-[0.5px] border-[rgba(19,19,46,0.2)] bg-white">
+        <div className="bg-white">
           <button
             type="button"
             onClick={handleToggle}
