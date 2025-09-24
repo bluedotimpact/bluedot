@@ -48,7 +48,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <a
                 class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors"
-                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
                 tabindex="0"
               >
                 Apply now
@@ -848,7 +848,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </h3>
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] hover:text-(--ghost-gray) text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
-              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=website_lander"
+              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
               tabindex="0"
             >
               Apply now
