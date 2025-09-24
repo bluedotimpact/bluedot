@@ -30,11 +30,14 @@ const WhoIsThisForSection = () => {
         </H2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {targetAudiences.map(({ icon, boldText, normalText }) => (
-            <div key={boldText} className="flex flex-col items-center md:items-start gap-6 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-6 md:p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none">
-              <div className="size-12 md:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0">
+            <div
+              key={boldText}
+              className="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+            >
+              <div className="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0">
                 {icon}
               </div>
-              <P className="text-[16px] md:text-[18px] leading-[1.6] text-[#13132E] text-center md:text-left">
+              <P className="text-[18px] leading-[1.6] text-[#13132E]">
                 <span className="font-semibold">{boldText}</span>
                 <span>{normalText}</span>
               </P>
