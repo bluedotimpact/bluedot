@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const FAQSection = () => {
-  const [openQuestion, setOpenQuestion] = useState<string | null>(null);
+  const [openQuestions, setOpenQuestions] = useState<string[]>([]);
 
   const faqData = [
     {
@@ -25,7 +25,11 @@ const FAQSection = () => {
   ];
 
   const handleToggle = (id: string) => {
-    setOpenQuestion(openQuestion === id ? null : id);
+    setOpenQuestions((prev) => {
+      return prev.includes(id)
+        ? prev.filter((questionId) => questionId !== id) // Remove if already open
+        : [...prev, id]; // Add if not open
+    });
   };
 
   return (
@@ -38,7 +42,7 @@ const FAQSection = () => {
 
           <div className="flex flex-col gap-6">
             {faqData.map((item) => {
-              const isOpen = openQuestion === item.id;
+              const isOpen = openQuestions.includes(item.id);
 
               return (
                 <div
@@ -48,9 +52,9 @@ const FAQSection = () => {
                   <button
                     type="button"
                     onClick={() => handleToggle(item.id)}
-                    className={`w-full flex items-center gap-8 text-left px-8 py-6 transition-colors ${
-                      !isOpen ? 'hover:bg-gray-50' : ''
-                    }`}
+                    className={`w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease ${
+                      isOpen ? 'pt-6 pb-2' : 'py-6'
+                    } ${!isOpen ? 'hover:bg-gray-50' : ''}`}
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${item.id}`}
                   >
@@ -63,7 +67,7 @@ const FAQSection = () => {
                       viewBox="0 0 16 17"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className={`flex-shrink-0 transition-transform ${
+                      className={`flex-shrink-0 transition-transform duration-300 ease ${
                         isOpen ? 'rotate-45' : ''
                       }`}
                     >
@@ -71,13 +75,21 @@ const FAQSection = () => {
                     </svg>
                   </button>
 
-                  {isOpen && (
-                    <div id={`faq-answer-${item.id}`} className="px-8 pb-6 -mt-2">
-                      <div className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80">
-                        {item.answer}
+                  {/* Answer container with animation */}
+                  <div
+                    id={`faq-answer-${item.id}`}
+                    className={`grid transition-[grid-template-rows] duration-300 ease ${
+                      isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-8 pb-6">
+                        <div className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80">
+                          {item.answer}
+                        </div>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}

@@ -36,7 +36,7 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
     href={member.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden"
+    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer"
     style={{
       width: `${CARD_CONFIG.WIDTH}px`,
       height: `${CARD_CONFIG.HEIGHT}px`,
@@ -89,6 +89,7 @@ const HeaderNavigationButton = ({
     onClick={onClick}
     disabled={disabled}
     className={clsx(
+      'cursor-pointer',
       'size-12 rounded-full flex items-center justify-center transition-all duration-200',
       'hover:opacity-100 disabled:cursor-not-allowed',
       disabled ? 'opacity-30' : 'opacity-30 hover:opacity-60',

@@ -47,14 +47,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex gap-3"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
                 href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
                 tabindex="0"
               >
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
                 href="/courses/agi-strategy/1"
                 tabindex="0"
               >
@@ -381,7 +381,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div>
               <div
-                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8"
+                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
               >
                 <div
                   class="flex items-center gap-3 md:min-w-[240px]"
@@ -434,7 +434,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div>
               <div
-                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8"
+                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
               >
                 <div
                   class="flex items-center gap-3 md:min-w-[240px]"
@@ -488,7 +488,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div>
               <div
-                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8"
+                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
               >
                 <div
                   class="flex items-center gap-3 md:min-w-[240px]"
@@ -529,7 +529,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div>
               <div
-                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8"
+                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
               >
                 <div
                   class="flex items-center gap-3 md:min-w-[240px]"
@@ -570,66 +570,74 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div>
               <div
-                class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8"
+                class="flex flex-col px-6 md:px-8 py-0 gap-4 md:gap-6"
               >
                 <div
-                  class="flex items-center gap-3 md:min-w-[240px]"
+                  class="flex flex-col md:flex-row items-start gap-4 md:gap-8"
                 >
                   <div
-                    class="text-[#13132E]"
+                    class="flex items-center gap-3 md:min-w-[240px]"
                   >
-                    <svg
-                      class="size-6"
-                      fill="currentColor"
-                      height="1em"
-                      stroke="currentColor"
-                      stroke-width="0"
-                      viewBox="0 0 256 256"
-                      width="1em"
-                      xmlns="http://www.w3.org/2000/svg"
+                    <div
+                      class="text-[#13132E]"
                     >
-                      <path
-                        d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"
-                      />
-                    </svg>
+                      <svg
+                        class="size-6"
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 256 256"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"
+                        />
+                      </svg>
+                    </div>
+                    <p
+                      class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                    >
+                      Schedule
+                    </p>
                   </div>
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                  <div
+                    class="flex-1"
                   >
-                    Schedule
-                  </p>
+                    <div
+                      class="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                    >
+                      New cohorts start every month:
+                      <br />
+                      Next round 
+                      <span
+                        class="font-semibold"
+                      >
+                        27th Oct
+                      </span>
+                      , application deadline 
+                      <span
+                        class="font-semibold"
+                      >
+                        19th Oct
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <p
-                  class="bluedot-p not-prose text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal"
+                <div
+                  class="flex justify-start md:justify-center"
                 >
-                  New cohorts start every month:
-                  <br />
-                  Next round 
-                  <span
-                    class="font-semibold"
+                  <a
+                    class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark px-5 py-[9px] md:px-5 md:py-3 md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                    href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+                    tabindex="0"
                   >
-                    27th Oct
-                  </span>
-                  , application deadline 
-                  <span
-                    class="font-semibold"
-                  >
-                    19th Oct
-                  </span>
-                </p>
+                    Apply now
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            class="w-full flex justify-start md:justify-center px-6 md:px-8 pt-2 self-start md:self-center"
-          >
-            <a
-              class="cta-button flex items-center justify-center duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm font-[650] cta-button--primary link-on-dark w-auto px-5 py-3 bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] transition-colors"
-              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
-              tabindex="0"
-            >
-              Apply now
-            </a>
           </div>
         </div>
       </div>
@@ -658,6 +666,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
             >
               <a
+                class="cursor-pointer"
                 href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
                 rel="noopener noreferrer"
                 target="_blank"
@@ -687,7 +696,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
           </div>
           <a
-            class="hidden lg:block w-80 h-[385px] flex-shrink-0"
+            class="hidden lg:block w-80 h-[385px] flex-shrink-0 cursor-pointer"
             href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
             rel="noopener noreferrer"
             target="_blank"
@@ -704,25 +713,25 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <button
             aria-label="Go to quote 1"
-            class="h-1.5 w-12 rounded transition-all duration-300 opacity-100"
+            class="h-1.5 w-12 rounded cursor-pointer transition-all duration-300 opacity-100"
             style="background-color: #2244BB;"
             type="button"
           />
           <button
             aria-label="Go to quote 2"
-            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            class="h-1.5 w-12 rounded cursor-pointer transition-all duration-300 opacity-15"
             style="background-color: #13132E;"
             type="button"
           />
           <button
             aria-label="Go to quote 3"
-            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            class="h-1.5 w-12 rounded cursor-pointer transition-all duration-300 opacity-15"
             style="background-color: #13132E;"
             type="button"
           />
           <button
             aria-label="Go to quote 4"
-            class="h-1.5 w-12 rounded transition-all duration-300 opacity-15"
+            class="h-1.5 w-12 rounded cursor-pointer transition-all duration-300 opacity-15"
             style="background-color: #13132E;"
             type="button"
           />
@@ -760,7 +769,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <button
                 aria-controls="faq-answer-funding"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 py-6 transition-colors hover:bg-gray-50"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
@@ -769,7 +778,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Can I just apply for funding?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform "
+                  class="flex-shrink-0 transition-transform duration-300 ease "
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -783,6 +792,24 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   />
                 </svg>
               </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-funding"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      Funding is only available for graduates of the course.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
@@ -790,7 +817,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <button
                 aria-controls="faq-answer-bluedot"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 py-6 transition-colors hover:bg-gray-50"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
@@ -799,7 +826,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform "
+                  class="flex-shrink-0 transition-transform duration-300 ease "
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -813,6 +840,30 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   />
                 </svg>
               </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-bluedot"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
+                      <br />
+                      <br />
+                      Our courses are the main entry point into the AI safety field.
+                      <br />
+                      <br />
+                      We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
