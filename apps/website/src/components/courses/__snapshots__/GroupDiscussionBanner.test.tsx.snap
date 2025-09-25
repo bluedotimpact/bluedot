@@ -1,0 +1,79 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
+<div>
+  <div
+    class="flex flex-col p-2 border-1 border-charcoal-light gap-2"
+  >
+    <div
+      class="flex justify-between items-center px-4 my-1 gap-4"
+    >
+      <div>
+        Your discussion on 
+        <span
+          class="font-semibold"
+        >
+          Unit 1: Introduction to AI Safety
+        </span>
+         starts 
+        in 30 minutes
+      </div>
+      <div
+        class="inline-block border border-charcoal-light rounded p-2 text-center text-size-sm"
+      >
+        <div
+          class="font-semibold whitespace-nowrap"
+        >
+          Sep 25
+        </div>
+        <div
+          class="text-gray-600 whitespace-nowrap"
+        >
+          11:30 AM
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex flex-col gap-2"
+    >
+      <a
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark w-full"
+        href="https://zoom.us/j/123456789"
+        rel="noopener noreferrer"
+        tabindex="0"
+        target="_blank"
+      >
+        Join discussion
+      </a>
+      <div
+        class="grid grid-cols-[repeat(auto-fit,minmax(175px,1fr))] gap-2 w-full"
+      >
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter w-full"
+          href="https://docs.google.com/document/d/abc123"
+          rel="noopener noreferrer"
+          tabindex="0"
+          target="_blank"
+        >
+          Open discussion doc
+        </a>
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter w-full"
+          href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
+          rel="noopener noreferrer"
+          tabindex="0"
+          target="_blank"
+        >
+          Message your group
+        </a>
+        <button
+          class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter w-full"
+          type="button"
+        >
+          Can't make it?
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
