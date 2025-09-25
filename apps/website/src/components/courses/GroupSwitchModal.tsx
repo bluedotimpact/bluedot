@@ -37,6 +37,7 @@ export type GroupSwitchModalProps = {
 const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group for one unit', label: 'Switch group for one unit' },
   { value: 'Switch group permanently', label: 'Switch group permanently' },
+  { value: 'Join group for one unit', label: 'Join group for one unit' },
 ] as const;
 
 type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
@@ -55,15 +56,15 @@ const getGMTOffsetWithCity = () => {
 const getGroupSwitchDescription = ({
   userIsParticipant = false,
   isSelected,
-  isTemporarySwitch,
+  isUnitSwitch,
   selectedUnitNumber,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
-  isTemporarySwitch: boolean;
+  isUnitSwitch: boolean;
   selectedUnitNumber?: string;
 }): React.ReactNode => {
-  if (isTemporarySwitch) {
+  if (isUnitSwitch) {
     if (userIsParticipant) {
       return isSelected
         ? <span className="text-[#0037FF]">You are attending this discussion</span>
@@ -107,7 +108,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const isTemporarySwitch = switchType === 'Switch group for one unit';
+  const isUnitSwitch = switchType === 'Switch group for one unit' || switchType === 'Join group for one unit';
 
   const auth = useAuthStore((s) => s.auth);
 
@@ -150,7 +151,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
   const getCurrentDiscussionInfo = useCallback((): GroupSwitchOptionProps | null => {
-    if (isTemporarySwitch && oldDiscussion) {
+    if (isUnitSwitch && oldDiscussion) {
       return {
         id: oldDiscussion.discussion.id,
         groupName: oldDiscussion.groupName,
@@ -159,13 +160,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedDiscussionId,
-          isTemporarySwitch,
+          isUnitSwitch,
           selectedUnitNumber,
         }),
         userIsParticipant: true,
       };
     }
-    if (!isTemporarySwitch && oldGroup) {
+    if (!isUnitSwitch && oldGroup) {
       // For permanent switch, show next upcoming discussion time
       return {
         id: oldGroup.group.id,
@@ -175,7 +176,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         description: getGroupSwitchDescription({
           userIsParticipant: true,
           isSelected: !selectedGroupId,
-          isTemporarySwitch,
+          isUnitSwitch,
           selectedUnitNumber,
         }),
         userIsParticipant: true,
@@ -183,11 +184,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
 
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedDiscussionId, selectedGroupId]);
+  }, [isUnitSwitch, oldDiscussion, oldGroup, selectedDiscussionId, selectedGroupId]);
 
   const currentInfo = getCurrentDiscussionInfo();
 
-  const isSubmitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+  const isSubmitDisabled = isSubmitting || !((isUnitSwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
 
   useEffect(() => {
     setSelectedDiscussionId('');
@@ -203,10 +204,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
     setIsSubmitting(true);
 
-    const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
-    const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
-    const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
-    const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
+    const oldGroupId = !isUnitSwitch ? oldGroup?.group.id : undefined;
+    const newGroupId = !isUnitSwitch && !isManualRequest ? selectedGroupId : undefined;
+    const oldDiscussionId = isUnitSwitch ? oldDiscussion?.discussion.id : undefined;
+    const newDiscussionId = isUnitSwitch && !isManualRequest ? selectedDiscussionId : undefined;
     try {
       const payload: GroupSwitchingRequest = {
         switchType,
@@ -252,7 +253,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       ];
     }
 
-    const message = `You will receive ${isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
+    const message = `You will receive ${isUnitSwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
     return [message];
   };
   const successMessages = getSuccessMessages();
@@ -269,7 +270,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
-          isTemporarySwitch: false,
+          isUnitSwitch: false,
           selectedUnitNumber,
         }),
         onSelect: () => setSelectedGroupId(g.group.id),
@@ -291,7 +292,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
-          isTemporarySwitch: true,
+          isUnitSwitch: true,
           selectedUnitNumber,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
@@ -301,10 +302,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     });
 
-  const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
+  const groupSwitchOptions = isUnitSwitch ? discussionOptions : groupOptions;
 
   const alternativeCount = groupSwitchOptions.filter((op) => !(op.spotsLeft !== null && op.spotsLeft <= 0)).length;
-  const alternativeCountMessage = isTemporarySwitch
+  const alternativeCountMessage = isUnitSwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
 
@@ -339,7 +340,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             onChange={(value) => setSwitchType(value as SwitchType)}
             options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
           />
-          {isTemporarySwitch && (
+          {isUnitSwitch && (
             <Select
               label="Unit"
               value={selectedUnitNumber}
