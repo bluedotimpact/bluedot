@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
+  unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel,
 } from '@bluedot/db';
 import { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
