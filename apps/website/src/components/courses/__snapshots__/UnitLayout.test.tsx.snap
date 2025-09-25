@@ -463,10 +463,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           />
         </div>
         <nav
-          class="flex items-center gap-[8px] flex-1 min-h-[18px]"
+          class="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0"
         >
           <a
-            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline"
             href="/courses"
             tabindex="0"
           >
@@ -487,7 +487,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <a
-            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline truncate"
             href="/courses/test-course"
             tabindex="0"
           >
@@ -508,7 +508,8 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <span
-            class="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] inline-flex items-center"
+            class="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] truncate"
+            title="1. Basic Principles of Fish"
           >
             1
             . 

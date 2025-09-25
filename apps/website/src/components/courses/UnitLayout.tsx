@@ -342,22 +342,22 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </div>
 
           {/* Breadcrumbs - left aligned after hide */}
-          <nav className="flex items-center gap-[8px] flex-1 min-h-[18px]">
+          <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
             <A
               href={ROUTES.courses.url}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline"
             >
               Courses
             </A>
             <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
             <A
               href={unit.coursePath}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline inline-flex items-center"
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline truncate"
             >
               {unit.courseTitle}
             </A>
             <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
-            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] inline-flex items-center">
+            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] truncate" title={`${unitNumber}. ${unit.title}`}>
               {unitNumber}. {unit.title}
             </span>
           </nav>
