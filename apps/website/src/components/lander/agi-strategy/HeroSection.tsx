@@ -56,7 +56,7 @@ const HeroSection = ({
               <CTALinkOrButton
                 url={primaryCta.url}
                 size="small"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors"
+                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               >
                 {primaryCta.text}
               </CTALinkOrButton>
@@ -64,7 +64,7 @@ const HeroSection = ({
               <CTALinkOrButton
                 url={secondaryCta.url}
                 size="small"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] transition-colors"
+                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
               >
                 {secondaryCta.text}
               </CTALinkOrButton>

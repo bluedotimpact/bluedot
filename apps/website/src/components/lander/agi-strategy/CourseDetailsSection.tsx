@@ -48,13 +48,7 @@ const CourseDetailsSection = () => {
     {
       icon: <PiCalendarDots className="size-6" />,
       label: 'Schedule',
-      description: (
-        <>
-          New cohorts start every month:
-          <br />
-          Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
-        </>
-      ),
+      description: null, // Handled directly in the component with special layout
     },
   ];
 
@@ -72,22 +66,60 @@ const CourseDetailsSection = () => {
           <div className="flex flex-col w-full">
             {courseDetails.map((detail, index) => (
               <div key={detail.label}>
-                <div className="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-8">
-                  {/* Icon and Label */}
-                  <div className="flex items-center gap-3 md:min-w-[240px]">
-                    <div className="text-[#13132E]">
-                      {detail.icon}
+                {detail.label === 'Schedule' ? (
+                  /* Special layout for Schedule item */
+                  <div className="flex flex-col px-6 md:px-8 py-0 gap-4 md:gap-6">
+                    {/* Schedule header and description in standard two-column layout */}
+                    <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
+                      {/* Icon and Label */}
+                      <div className="flex items-center gap-3 md:min-w-[240px]">
+                        <div className="text-[#13132E]">
+                          {detail.icon}
+                        </div>
+                        <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
+                          {detail.label}
+                        </P>
+                      </div>
+
+                      {/* Description text only */}
+                      <div className="flex-1">
+                        <div className="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+                          New cohorts start every month:
+                          <br />
+                          Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
+                        </div>
+                      </div>
                     </div>
-                    <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
-                      {detail.label}
+
+                    {/* Button centered across full width */}
+                    <div className="flex justify-start md:justify-center">
+                      <CTALinkOrButton
+                        url={applicationUrl}
+                        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                      >
+                        Apply now
+                      </CTALinkOrButton>
+                    </div>
+                  </div>
+                ) : (
+                  /* Standard layout for other items */
+                  <div className="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8">
+                    {/* Icon and Label */}
+                    <div className="flex items-center gap-3 md:min-w-[240px]">
+                      <div className="text-[#13132E]">
+                        {detail.icon}
+                      </div>
+                      <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
+                        {detail.label}
+                      </P>
+                    </div>
+
+                    {/* Description */}
+                    <P className="text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal">
+                      {detail.description}
                     </P>
                   </div>
-
-                  {/* Description */}
-                  <P className="text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal">
-                    {detail.description}
-                  </P>
-                </div>
+                )}
 
                 {/* Divider - not after last item */}
                 {index < courseDetails.length - 1 && (
@@ -97,16 +129,6 @@ const CourseDetailsSection = () => {
             ))}
           </div>
 
-          {/* Apply Now Button Section */}
-          <div className="w-full flex justify-start md:justify-center px-6 md:px-8 pt-2 self-start md:self-center">
-            <CTALinkOrButton
-              size="medium"
-              className="w-auto px-5 py-3 bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] transition-colors"
-              url={applicationUrl}
-            >
-              Apply now
-            </CTALinkOrButton>
-          </div>
         </div>
       </div>
     </section>

@@ -135,7 +135,7 @@ const QuoteSection = () => {
             <div className="flex flex-col items-center lg:items-start gap-4 lg:gap-0">
               {/* Avatar - mobile only */}
               {activeQuote.url ? (
-                <a href={activeQuote.url} target="_blank" rel="noopener noreferrer">
+                <a href={activeQuote.url} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
                   <img
                     src={activeQuote.imageSrc}
                     alt={activeQuote.name}
@@ -168,7 +168,7 @@ const QuoteSection = () => {
               href={activeQuote.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:block w-80 h-[385px] flex-shrink-0"
+              className="hidden lg:block w-80 h-[385px] flex-shrink-0 cursor-pointer"
             >
               <img
                 src={activeQuote.imageSrc}
@@ -192,7 +192,7 @@ const QuoteSection = () => {
               type="button"
               key={`indicator-${quote.name}`}
               onClick={() => handleIndicatorClick(index)}
-              className={`h-1.5 w-12 rounded transition-all duration-300 ${
+              className={`h-1.5 w-12 rounded cursor-pointer transition-all duration-300 ${
                 index === activeIndex
                   ? 'opacity-100'
                   : 'opacity-15'

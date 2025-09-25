@@ -82,53 +82,47 @@ const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; default
   };
 
   return (
-    <div className="w-full [&:not(:first-child)]:border-t-[0.5px] [&:not(:first-child)]:border-[rgba(19,19,46,0.2)]">
-      {isOpen ? (
-        /* Expanded Unit */
-        <div className="bg-white">
-          <div className="py-[18px] px-3 flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-[#13132E] flex-1">
-                {unitTitle}
-              </h3>
-              <button
-                type="button"
-                onClick={handleToggle}
-                className="size-5 flex items-center justify-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2244BB]"
-                aria-expanded={isOpen}
-                aria-controls={`curriculum-unit-${unit.id}`}
-              >
-                <CgChevronDown className="size-4 md:size-5 text-[#13132E] transition-transform duration-200" />
-              </button>
-            </div>
-            {description && (
+    <div className="w-full [&:not(:first-child)]:border-t-[0.5px] [&:not(:first-child)]:border-[rgba(19,19,46,0.2)] bg-white">
+      <button
+        type="button"
+        onClick={handleToggle}
+        className={`w-full px-3 flex items-center gap-2 cursor-pointer transition-all duration-300 ease ${
+          isOpen ? 'pt-[18px] pb-[6px]' : 'py-[18px]'
+        } ${!isOpen ? 'hover:bg-gray-50' : ''} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2244BB]`}
+        aria-expanded={isOpen}
+        aria-controls={`curriculum-unit-${unit.id}`}
+      >
+        <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-[#13132E] flex-1 text-left">
+          {unitTitle}
+        </h3>
+        <div className="size-5 flex items-center justify-center">
+          <CgChevronDown
+            className={`size-4 md:size-5 text-[#13132E] transition-transform duration-300 ease ${
+              isOpen ? '' : '-rotate-90'
+            }`}
+          />
+        </div>
+      </button>
+
+      {/* Description container with animation */}
+      <div
+        id={`curriculum-unit-${unit.id}`}
+        className={`grid transition-[grid-template-rows] duration-300 ease ${
+          isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div className="overflow-hidden">
+          {description && (
+            <div className="px-3 pb-[18px]">
               <div className="pl-6">
                 <div className="text-[16px] font-normal leading-[160%] text-[#13132E] opacity-80 whitespace-pre-line">
                   {description}
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-      ) : (
-        /* Collapsed Unit */
-        <div className="bg-white">
-          <button
-            type="button"
-            onClick={handleToggle}
-            className="w-full py-[18px] px-3 flex items-center gap-2 hover:bg-gray-50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2244BB]"
-            aria-expanded={isOpen}
-            aria-controls={`curriculum-unit-${unit.id}`}
-          >
-            <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-[#13132E] flex-1 text-left">
-              {unitTitle}
-            </h3>
-            <div className="size-5 flex items-center justify-center">
-              <CgChevronDown className="size-4 md:size-5 text-[#13132E] -rotate-90 transition-transform duration-200" />
             </div>
-          </button>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
