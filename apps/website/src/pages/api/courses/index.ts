@@ -32,6 +32,11 @@ export const buildFormula = ({ cadence, level }: { cadence?: string[], level?: s
     : formulaParts[0];
 };
 
+export const getAllActiveCourses = async () => {
+  const courses = await db.scan(courseTable, { status: 'Active' });
+  return courses;
+};
+
 const coursesRequestBodySchema = z.object({
   cadence: z.array(z.string()).optional(),
   level: z.array(z.string()).optional(),
@@ -47,8 +52,7 @@ export default makeApiRoute({
     courses: z.array(z.any()),
   }),
 }, async () => {
-  // Filter for active courses
-  const courses = await db.scan(courseTable, { status: 'Active' });
+  const courses = await getAllActiveCourses();
 
   return {
     type: 'success' as const,
