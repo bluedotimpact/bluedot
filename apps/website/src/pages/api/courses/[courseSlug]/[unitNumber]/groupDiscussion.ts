@@ -5,25 +5,34 @@ import {
   courseTable,
   courseRegistrationTable,
   meetPersonTable,
+  zoomAccountTable,
   GroupDiscussion,
   Course,
   CourseRegistration,
   MeetPerson,
+  ZoomAccount,
   and, eq, sql,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
+export type GroupDiscussionWithZoomInfo = {
+  groupDiscussion?: GroupDiscussion,
+  userRole?: 'participant' | 'facilitator',
+  hostKey?: string,
+};
+
 export type GetGroupDiscussionResponse = {
   type: 'success',
-  groupDiscussion?: GroupDiscussion,
-};
+} & GroupDiscussionWithZoomInfo;
 
 export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
     type: z.literal('success'),
     groupDiscussion: z.any().nullable(),
+    userRole: z.enum(['participant', 'facilitator']).optional(),
+    hostKey: z.string().optional(),
   }),
 }, async (body, { auth, raw }) => {
   const { courseSlug, unitNumber } = raw.req.query;
@@ -96,7 +105,7 @@ export default makeApiRoute({
     .where(
       and(
         eq(groupDiscussionTable.pg.round, roundId),
-        sql`${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}]`,
+        sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
         sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
       ),
     )
@@ -113,8 +122,31 @@ export default makeApiRoute({
     groupDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds) || null;
   }
 
+  // Determine user role and get host key if facilitator
+  let userRole: 'participant' | 'facilitator' | undefined;
+  let hostKey: string | undefined;
+
+  if (groupDiscussion) {
+    if (groupDiscussion.facilitators.includes(participant.id)) {
+      userRole = 'facilitator';
+
+      if (groupDiscussion.zoomAccount) {
+        try {
+          const zoomAccount: ZoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
+          hostKey = zoomAccount.hostKey || undefined;
+        } catch (error) {
+          hostKey = undefined;
+        }
+      }
+    } else if (groupDiscussion.participantsExpected.includes(participant.id)) {
+      userRole = 'participant';
+    }
+  }
+
   return {
     type: 'success' as const,
     groupDiscussion,
+    userRole,
+    hostKey,
   };
 });
