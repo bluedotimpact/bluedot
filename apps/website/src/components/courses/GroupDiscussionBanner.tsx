@@ -22,12 +22,16 @@ const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
+  userRole?: 'participant' | 'facilitator';
+  hostKey?: string;
   onClickPrepare: () => void;
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   unit,
   groupDiscussion,
+  userRole,
+  hostKey,
   onClickPrepare,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -84,6 +88,19 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
     : '';
 
+  const copyHostKeyIfFacilitator = async () => {
+    if (userRole === 'facilitator' && hostKey) {
+      try {
+        await navigator.clipboard.writeText(hostKey);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to copy host key to clipboard:', error);
+      }
+    }
+  };
+
+  const joinButtonText = userRole === 'facilitator' && hostKey ? `Join discussion (Host key: ${hostKey})` : 'Join discussion';
+
   return (
     <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">
       <div className="flex justify-between items-center px-4 my-1 gap-4">
@@ -100,9 +117,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           <CTALinkOrButton
             target="_blank"
             url={discussionMeetLink}
+            onClick={copyHostKeyIfFacilitator}
             className="w-full"
           >
-            Join discussion
+            {joinButtonText}
           </CTALinkOrButton>
         ) : (
           <CTALinkOrButton onClick={onClickPrepare} className="w-full">
@@ -128,13 +146,15 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           >
             Message your group
           </CTALinkOrButton>
-          <CTALinkOrButton
-            variant="secondary"
-            className="w-full"
-            onClick={() => setGroupSwitchModalOpen(true)}
-          >
-            Can't make it?
-          </CTALinkOrButton>
+          {userRole !== 'facilitator' && (
+            <CTALinkOrButton
+              variant="secondary"
+              className="w-full"
+              onClick={() => setGroupSwitchModalOpen(true)}
+            >
+              Can't make it?
+            </CTALinkOrButton>
+          )}
         </div>
       </div>
       {groupSwitchModalOpen && (

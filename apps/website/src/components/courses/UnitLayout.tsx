@@ -14,6 +14,7 @@ import {
 import {
   unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
 } from '@bluedot/db';
+import { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -54,7 +55,7 @@ type UnitLayoutProps = {
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
   // Optional
-  groupDiscussion?: GroupDiscussion;
+  groupDiscussionWithZoomInfo?: GroupDiscussionWithZoomInfo;
   groupDiscussionError?: Error | null;
 };
 
@@ -144,7 +145,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
   chunkIndex,
   setChunkIndex,
-  groupDiscussion,
+  groupDiscussionWithZoomInfo,
   groupDiscussionError,
 }) => {
   const router = useRouter();
@@ -398,18 +399,22 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {groupDiscussionError && (
             <ErrorSection error={groupDiscussionError} />
           )}
-          {groupDiscussion && (
+          {groupDiscussionWithZoomInfo?.groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner
                 unit={unit}
-                groupDiscussion={groupDiscussion}
+                groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+                userRole={groupDiscussionWithZoomInfo.userRole}
+                hostKey={groupDiscussionWithZoomInfo.hostKey}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
-                  if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
+                  const { groupDiscussion } = groupDiscussionWithZoomInfo;
+
+                  if (groupDiscussion?.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
-                  } else if (groupDiscussion.unitNumber) {
+                  } else if (groupDiscussion?.unitNumber) {
                     // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion?.unitNumber?.toString());
                     if (discussionUnit) {
                       router.push(discussionUnit.path);
                     } else {

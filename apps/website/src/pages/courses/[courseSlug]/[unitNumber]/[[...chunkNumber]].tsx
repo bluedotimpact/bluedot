@@ -123,7 +123,7 @@ const CourseUnitChunkPage = () => {
       unitNumber={parseInt(unitNumber)}
       chunkIndex={chunkIndex}
       setChunkIndex={handleSetChunkIndex}
-      groupDiscussion={groupDiscussionData?.groupDiscussion}
+      groupDiscussionWithZoomInfo={groupDiscussionData}
       groupDiscussionError={groupDiscussionError}
     />
   );
