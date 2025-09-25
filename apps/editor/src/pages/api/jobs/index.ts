@@ -19,9 +19,23 @@ export default makeApiRoute({
 }, async () => {
   const allJobs = await db.scan(jobPostingTable);
 
-  // Sort by title ascending and remove the body field from each job to make the response lighter
+  // Sort jobs:
+  // 1. Published articles first (publicationStatus === 'Published')
+  // 2. Within each group, sort by most recent publishedAt date
   const jobSummaries = allJobs
-    .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+    .sort((a, b) => {
+      // First, sort by publication status (Published first)
+      const aIsPublished = a.publicationStatus === 'Published';
+      const bIsPublished = b.publicationStatus === 'Published';
+
+      if (aIsPublished && !bIsPublished) return -1;
+      if (!aIsPublished && bIsPublished) return 1;
+
+      // If both have the same publication status, sort by publishedAt date (most recent first)
+      const aDate = a.publishedAt || 0;
+      const bDate = b.publishedAt || 0;
+      return bDate - aDate; // Descending order (most recent first)
+    })
     .map(({ body, ...rest }) => rest);
 
   return {
