@@ -407,13 +407,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 hostKey={groupDiscussionWithZoomInfo.hostKey}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
-                  const { groupDiscussion } = groupDiscussionWithZoomInfo;
-
-                  if (groupDiscussion?.courseBuilderUnitRecordId === unit.id) {
+                  if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
-                  } else if (groupDiscussion?.unitNumber) {
+                  } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
                     // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion?.unitNumber?.toString());
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
                     if (discussionUnit) {
                       router.push(discussionUnit.path);
                     } else {
