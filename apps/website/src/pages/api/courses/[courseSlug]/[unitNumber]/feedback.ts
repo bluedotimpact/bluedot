@@ -56,7 +56,11 @@ export default makeApiRoute(
         filter: { unitId: unit.id, userEmail: auth.email },
       });
     } catch (error) {
-      throw new createHttpError.InternalServerError(`Database error occurred: ${error instanceof Error ? error.message : String(error)}`);
+      throw new createHttpError.InternalServerError(
+        process.env.NODE_ENV === 'production'
+          ? 'Database error occurred'
+          : `Database error occurred: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     if (method === 'GET') {

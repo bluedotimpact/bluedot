@@ -50,7 +50,11 @@ export default makeApiRoute({
       filter: { unitResourceIdRead: unitResourceId, email: auth.email },
     });
   } catch (error) {
-    throw new createHttpError.InternalServerError('Database error occurred');
+    throw new createHttpError.InternalServerError(
+      process.env.NODE_ENV === 'production'
+        ? 'Database error occurred'
+        : `Database error occurred: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   switch (raw.req.method) {
