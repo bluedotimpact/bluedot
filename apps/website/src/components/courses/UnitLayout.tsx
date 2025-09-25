@@ -32,7 +32,6 @@ type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 
 type ChunkWithContent = Chunk & {
   resources?: UnitResource[];
