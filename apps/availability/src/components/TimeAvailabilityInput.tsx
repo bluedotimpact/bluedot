@@ -168,7 +168,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
                 );
 
               return (
-                // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+
                 <div
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
