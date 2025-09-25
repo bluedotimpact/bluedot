@@ -14,7 +14,7 @@ import {
 import {
   unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel,
 } from '@bluedot/db';
-import { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import type { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
