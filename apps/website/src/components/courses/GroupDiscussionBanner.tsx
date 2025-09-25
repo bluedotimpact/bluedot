@@ -11,7 +11,7 @@ import {
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import GroupSwitchModal from './GroupSwitchModal';
-import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
+import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -68,7 +68,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
-  const { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime } = useMemo(() => getDiscussionTimeDisplayStrings(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+  const startTimeDisplayDate = useMemo(() => formatDateMonthAndDay(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
+  const startTimeDisplayTime = useMemo(() => formatTime12HourClock(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
 
   // Dynamic discussion starts soon check
   const discussionStartsSoon = useMemo(

@@ -22,18 +22,19 @@ export type GetGroupSwitchingAvailableResponse = {
   groupsAvailable: {
     group: Group;
     spotsLeft: number | null;
-    nextDiscussionStartDateTime: number | null;
     userIsParticipant: boolean;
+    allDiscussionsHaveStarted: boolean;
   }[],
   discussionsAvailable: Record<string, {
     discussion: GroupDiscussion
     spotsLeft: number | null;
     userIsParticipant: boolean;
     groupName: string;
+    hasStarted: boolean;
   }[]>
 };
 
-function calculateGroupAvailability({
+export function calculateGroupAvailability({
   groupDiscussions,
   groups,
   maxParticipants,
@@ -49,18 +50,13 @@ function calculateGroupAvailability({
     groupsById[group.id] = group;
   }
 
-  const discussionsByUnit: Record<string, {
-    discussion: GroupDiscussion;
-    spotsLeft: number | null;
-    userIsParticipant: boolean;
-    groupName: string;
-  }[]> = {};
+  const discussionsByUnit: GetGroupSwitchingAvailableResponse['discussionsAvailable'] = {};
 
   const groupData: Record<string, {
     group: Group;
     spotsLeft: number | null;
-    nextDiscussionStartDateTime: number | null;
     userIsParticipant: boolean;
+    allDiscussionsHaveStarted: boolean;
   }> = {};
 
   const now = Date.now();
@@ -89,45 +85,40 @@ function calculateGroupAvailability({
       discussionsByUnit[unitKey] = [];
     }
 
+    const hasStarted = discussion.startDateTime * 1000 <= now;
+
     discussionsByUnit[unitKey].push({
       discussion,
       spotsLeft,
       userIsParticipant,
       groupName,
+      hasStarted,
     });
 
     // Update group data
     const groupId = discussion.group;
-    const hasNotStarted = discussion.startDateTime * 1000 > now;
 
     if (!groupData[groupId]) {
       // First time seeing this group
       groupData[groupId] = {
         group,
-        spotsLeft,
-        nextDiscussionStartDateTime: hasNotStarted ? discussion.startDateTime : null,
+        spotsLeft: !hasStarted ? spotsLeft : null,
         userIsParticipant: group.participants.includes(participantId),
+        allDiscussionsHaveStarted: hasStarted,
       };
     } else {
       // Update existing group data
       const existing = groupData[groupId];
 
-      // Update spots left (take minimum of existing and current)
-      if (existing.spotsLeft !== null && spotsLeft !== null) {
-        existing.spotsLeft = Math.min(existing.spotsLeft, spotsLeft);
-      } else if (spotsLeft !== null) {
-        existing.spotsLeft = spotsLeft;
-      }
+      existing.allDiscussionsHaveStarted = existing.allDiscussionsHaveStarted && hasStarted;
 
-      // Update next discussion start time (earliest upcoming)
-      if (hasNotStarted) {
-        if (existing.nextDiscussionStartDateTime === null) {
-          existing.nextDiscussionStartDateTime = discussion.startDateTime;
-        } else {
-          existing.nextDiscussionStartDateTime = Math.min(
-            existing.nextDiscussionStartDateTime,
-            discussion.startDateTime,
-          );
+      if (!hasStarted) {
+        // Update spotsLeft
+        if (existing.spotsLeft !== null && spotsLeft !== null) {
+          // Clamp spotsLeft to be >= 0
+          existing.spotsLeft = Math.max(Math.min(existing.spotsLeft, spotsLeft), 0);
+        } else if (spotsLeft !== null) {
+          existing.spotsLeft = spotsLeft;
         }
       }
     }
@@ -146,14 +137,15 @@ export default makeApiRoute({
     groupsAvailable: z.array(z.object({
       group: z.any(),
       spotsLeft: z.number().nullable(),
-      nextDiscussionStartDateTime: z.number().nullable(),
       userIsParticipant: z.boolean(),
+      allDiscussionsHaveStarted: z.boolean(),
     })),
     discussionsAvailable: z.record(z.array(z.object({
       discussion: z.any(),
       spotsLeft: z.number().nullable(),
       userIsParticipant: z.boolean(),
       groupName: z.string(),
+      hasStarted: z.boolean(),
     }))),
   }),
 }, async (_, { auth, raw }) => {
