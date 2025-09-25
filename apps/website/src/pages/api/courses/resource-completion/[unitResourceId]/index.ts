@@ -40,10 +40,6 @@ export default makeApiRoute({
 }, async (body, { raw, auth }) => {
   const { unitResourceId } = raw.req.query;
 
-  if (!auth.email) {
-    throw new createHttpError.Unauthorized('Authentication required');
-  }
-
   if (typeof unitResourceId !== 'string') {
     throw new createHttpError.BadRequest('Invalid unit resource ID');
   }

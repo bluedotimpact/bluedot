@@ -31,10 +31,6 @@ export default makeApiRoute({
 }, async (body, { raw, auth }) => {
   const { exerciseId } = raw.req.query;
 
-  if (!auth.email) {
-    throw new createHttpError.Unauthorized('Authentication required');
-  }
-
   if (typeof exerciseId !== 'string') {
     throw new createHttpError.BadRequest('Invalid exercise ID');
   }
