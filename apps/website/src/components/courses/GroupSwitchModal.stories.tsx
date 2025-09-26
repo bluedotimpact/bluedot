@@ -315,6 +315,7 @@ export const Loading: Story = {
     msw: {
       handlers: [
         http.get('/api/courses/ai-safety', async () => {
+          // You may need to reload the page to force this delay and see the loading state.
           await delay(2000);
           return HttpResponse.json(mockCourseData);
         }),
