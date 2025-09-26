@@ -3,6 +3,7 @@ import React, {
   useEffect,
 } from 'react';
 import {
+  cn,
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import {
@@ -12,7 +13,6 @@ import {
   ListBoxItem,
   Select as AriaSelect,
 } from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
@@ -557,7 +557,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     if (!hasAnySpotsLeft) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
-    return twMerge(...classNames);
+    return cn(...classNames);
   };
 
   return (
