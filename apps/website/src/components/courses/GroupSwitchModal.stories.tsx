@@ -254,6 +254,9 @@ export const Default: Story = {
         http.get('/api/courses/ai-safety/group-switching/available', () => {
           return HttpResponse.json(mockSwitchingData);
         }),
+        http.post('/api/courses/ai-safety/group-switching', () => {
+          return HttpResponse.json({ type: 'success' });
+        }),
       ],
     },
   },
@@ -273,6 +276,9 @@ export const WithDifferentUnit: Story = {
         }),
         http.get('/api/courses/ai-safety/group-switching/available', () => {
           return HttpResponse.json(mockSwitchingData);
+        }),
+        http.post('/api/courses/ai-safety/group-switching', () => {
+          return HttpResponse.json({ type: 'success' });
         }),
       ],
     },
@@ -295,6 +301,9 @@ export const Loading: Story = {
         http.get('/api/courses/ai-safety/group-switching/available', async () => {
           await delay(2000);
           return HttpResponse.json(mockSwitchingData);
+        }),
+        http.post('/api/courses/ai-safety/group-switching', () => {
+          return HttpResponse.json({ type: 'success' });
         }),
       ],
     },
