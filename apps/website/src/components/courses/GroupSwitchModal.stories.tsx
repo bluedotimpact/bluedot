@@ -285,6 +285,26 @@ export const WithDifferentUnit: Story = {
   },
 };
 
+export const NoAvailableGroups: Story = {
+  args: {
+    handleClose: () => {},
+    currentUnit: unit3,
+    courseSlug: 'ai-safety',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        http.get('/api/courses/ai-safety', () => {
+          return HttpResponse.json(mockCourseData);
+        }),
+        http.get('/api/courses/ai-safety/group-switching/available', () => {
+          return HttpResponse.json(mockSwitchingData);
+        }),
+      ],
+    },
+  },
+};
+
 export const Loading: Story = {
   args: {
     handleClose: () => {},
