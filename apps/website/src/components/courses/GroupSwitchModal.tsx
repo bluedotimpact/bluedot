@@ -3,11 +3,6 @@ import React, {
   useEffect,
 } from 'react';
 import {
-  InferSelectModel,
-  unitTable,
-  courseTable,
-} from '@bluedot/db';
-import {
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import {
@@ -21,12 +16,10 @@ import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
+import { Course, Unit } from '@bluedot/db';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Course = InferSelectModel<typeof courseTable.pg>;
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
