@@ -262,7 +262,7 @@ export const Default: Story = {
   },
 };
 
-export const WithDifferentUnit: Story = {
+export const AlternativeUnit: Story = {
   args: {
     handleClose: () => {},
     currentUnit: unit2,
