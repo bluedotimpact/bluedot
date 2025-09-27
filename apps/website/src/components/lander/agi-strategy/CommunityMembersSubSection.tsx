@@ -89,23 +89,19 @@ const HeaderNavigationButton = ({
     onClick={onClick}
     disabled={disabled}
     className={clsx(
-      'cursor-pointer',
-      'size-12 rounded-full flex items-center justify-center transition-all duration-200',
-      'hover:opacity-100 disabled:cursor-not-allowed',
-      disabled ? 'opacity-30' : 'opacity-30 hover:opacity-60',
+      'size-12 rounded-full flex items-center justify-center',
+      'bg-[rgba(19,19,46,0.08)]',
+      'transition-all duration-200',
+      disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
     )}
-    style={{
-      background: 'rgba(19, 19, 46, 0.1)',
-    }}
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-[22.4px] font-medium text-[#13132E] inline-flex items-center justify-center"
+      className="text-[#13132E] text-[22.4px] font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
-        lineHeight: 1,
-        width: '24px',
-        height: '24px',
       }}
     >
       →
