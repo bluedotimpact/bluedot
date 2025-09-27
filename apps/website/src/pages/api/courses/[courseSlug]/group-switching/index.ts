@@ -17,7 +17,7 @@ import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import db from '../../../../../lib/api/db';
 
 const requestBodySchema = z.object({
-  switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
+  switchType: z.enum(['Switch group for one unit', 'Switch group permanently', 'Join group for one unit']),
   notesFromParticipant: z.string().min(1),
   oldGroupId: z.string().optional(),
   newGroupId: z.string().optional(),
@@ -52,22 +52,31 @@ export default makeApiRoute({
     isManualRequest,
   } = body;
 
-  const isTemporarySwitch = switchType === 'Switch group for one unit';
+  const isTempGroupSwitch = switchType === 'Switch group for one unit';
+  const isPermanentGroupSwitch = switchType === 'Switch group permanently';
+  const isUnitJoin = switchType === 'Join group for one unit';
 
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (isTemporarySwitch && !inputOldDiscussionId) {
+  if (isTempGroupSwitch && !inputOldDiscussionId) {
     throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit');
   }
-  if (!isTemporarySwitch && !inputOldGroupId) {
+  if (isPermanentGroupSwitch && !inputOldGroupId) {
     throw new createHttpError.BadRequest('oldGroupId is required when switching groups permanently');
   }
-  if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
-    throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
-  }
-  if (!isTemporarySwitch && !isManualRequest && !inputNewGroupId) {
-    throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently, unless requesting a manual switch');
+  if (isManualRequest) {
+    // We don't need to do any validation for new discussion/group for manual requests
+  } else {
+    if (isTempGroupSwitch && !inputNewDiscussionId) {
+      throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit');
+    }
+    if (isUnitJoin && !inputNewDiscussionId) {
+      throw new createHttpError.BadRequest('newDiscussionId is required when joining a group for one unit');
+    }
+    if (isPermanentGroupSwitch && !inputNewGroupId) {
+      throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently');
+    }
   }
 
   const course = await db.get(courseTable, { slug: courseSlug });
@@ -91,8 +100,11 @@ export default makeApiRoute({
   let unitId: string | null = null;
   let oldGroupId: string | null = null;
   let newGroupId: string | null = null;
-  let oldDiscussionId: string | null = null;
-  let newDiscussionId: string | null = null;
+  // Note: The reason the groupIds are values and discussionIds are single-element
+  // arrays is just due to a mistake in setting up the db scheme. TODO fix this,
+  // but in the meantime this does insert correctly as is.
+  let oldDiscussionId: string[] | null = null;
+  let newDiscussionId: string[] | null = null;
 
   const roundId = participant.round;
 
@@ -100,45 +112,44 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('No course round found');
   }
 
-  const round = await db.get(roundTable, { id: roundId });
-  const maxParticipants = round.maxParticipantsPerGroup;
+  const { maxParticipantsPerGroup: maxParticipants } = await db.get(roundTable, { id: roundId });
 
-  if (isTemporarySwitch) {
-    // Error will be thrown here if oldDiscussion is not found
+  if (isTempGroupSwitch || isUnitJoin) {
+    // Old discussion may be undefined when `isUnitJoin` is true - in this case we are not leaving a previous discussion group.
     const [oldDiscussion, newDiscussion] = await Promise.all([
-      db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
-      !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
+      inputOldDiscussionId ? null : db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
+      isManualRequest ? null : db.get(groupDiscussionTable, { id: inputNewDiscussionId }),
     ]);
 
-    if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+    if (oldDiscussion?.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
       throw new createHttpError.BadRequest('Facilitators cannot switch groups by this method');
     }
-    if (!oldDiscussion.participantsExpected.includes(participantId)) {
+    if (oldDiscussion && !oldDiscussion.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User not found in old discussion');
     }
     if (newDiscussion?.participantsExpected.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already expected to attend new discussion');
     }
-    if (newDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
+    if (newDiscussion && oldDiscussion && (oldDiscussion.unit !== newDiscussion.unit)) {
       throw new createHttpError.BadRequest('Old and new discussion must be on the same course unit');
     }
 
-    if (newDiscussion && !isManualRequest && typeof maxParticipants === 'number') {
+    if (newDiscussion && !isManualRequest && maxParticipants) {
       const spotsLeft = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
       if (spotsLeft === 0) {
         throw new createHttpError.BadRequest('Selected discussion has no spots remaining');
       }
     }
 
-    unitId = oldDiscussion.unit;
+    unitId = oldDiscussion?.unit || newDiscussion?.unit || null;
     newGroupId = newDiscussion?.group ?? null;
-    oldDiscussionId = inputOldDiscussionId!;
-    newDiscussionId = inputNewDiscussionId ?? null;
+    oldDiscussionId = inputOldDiscussionId ? [inputOldDiscussionId] : [];
+    newDiscussionId = inputNewDiscussionId ? [inputNewDiscussionId] : [];
   } else {
     // Error will be thrown here if oldGroup is not found
     const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
       db.get(groupTable, { id: inputOldGroupId }),
-      !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
+      isManualRequest ? null : db.get(groupTable, { id: inputNewGroupId }),
       db.pg
         .select()
         .from(groupDiscussionTable.pg)
@@ -170,7 +181,7 @@ export default makeApiRoute({
       throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
     }
 
-    if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
+    if (newGroup && !isManualRequest && maxParticipants) {
       // Calculate spots left based on the minimum spots across all discussions in the group
       // This matches the logic in available.ts
       const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
@@ -195,11 +206,8 @@ export default makeApiRoute({
     notesFromParticipant,
     oldGroup: oldGroupId,
     newGroup: newGroupId,
-    // Note: The reason the groupIds are values and discussionIds are single-element
-    // arrays is just due to a mistake in setting up the db scheme. TODO fix this,
-    // but in the meantime this does insert correctly as is.
-    oldDiscussion: oldDiscussionId ? [oldDiscussionId] : [],
-    newDiscussion: newDiscussionId ? [newDiscussionId] : [],
+    oldDiscussion: oldDiscussionId,
+    newDiscussion: newDiscussionId,
     unit: unitId,
     manualRequest: isManualRequest,
   };
