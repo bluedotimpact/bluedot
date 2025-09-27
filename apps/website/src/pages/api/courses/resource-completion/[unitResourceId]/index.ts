@@ -40,8 +40,8 @@ export default makeApiRoute({
 }, async (body, { raw, auth }) => {
   const { unitResourceId } = raw.req.query;
 
-  if (!auth.email || typeof unitResourceId !== 'string') {
-    throw new createHttpError.BadRequest();
+  if (typeof unitResourceId !== 'string') {
+    throw new createHttpError.BadRequest('Invalid unit resource ID');
   }
 
   let resourceCompletion: ResourceCompletion | null;
@@ -50,7 +50,11 @@ export default makeApiRoute({
       filter: { unitResourceIdRead: unitResourceId, email: auth.email },
     });
   } catch (error) {
-    throw new createHttpError.InternalServerError('Database error occurred');
+    throw new createHttpError.InternalServerError(
+      process.env.NODE_ENV === 'production'
+        ? 'Database error occurred'
+        : `Database error occurred: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   switch (raw.req.method) {

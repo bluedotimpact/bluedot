@@ -8,7 +8,6 @@ const localDefaults: z.TypeOf<typeof envSchema> = {
   DATABASE_CONNECTION_STRING: 'postgresql://postgres:postgres@localhost:5432/postgres',
 };
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 const constructedEnv = process.env.NODE_ENV === 'development' ? { ...process.env, ...localDefaults } : process.env;
 const parseResult = envSchema.safeParse(constructedEnv);
 
