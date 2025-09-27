@@ -80,7 +80,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
   const mainGrid = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const mouseMoveListener = (e: MouseEvent) => {
+    const movePointerListener = (e: PointerEvent) => {
       if (!dragState.dragging || !mainGrid.current) return;
 
       const mousepos = { x: e.clientX, y: e.clientY };
@@ -99,9 +99,9 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
         setDragState((prev) => ({ ...prev, cursor: cell.coord }));
       }
     };
-    document.addEventListener('mousemove', mouseMoveListener);
+    document.addEventListener('pointermove', movePointerListener);
 
-    const mouseUpListener = () => {
+    const pointerUpListener = () => {
       if (!dragState.dragging || !dragState.anchor || !dragState.cursor) return;
       const { min, max } = normalizeBlock({
         anchor: dragState.anchor,
@@ -119,11 +119,11 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
       onChange(valueCopy);
       setDragState({ dragging: false });
     };
-    document.addEventListener('mouseup', mouseUpListener);
+    document.addEventListener('pointerup', pointerUpListener);
 
     return () => {
-      document.removeEventListener('mousemove', mouseMoveListener);
-      document.removeEventListener('mouseup', mouseUpListener);
+      document.removeEventListener('pointermove', movePointerListener);
+      document.removeEventListener('pointerup', pointerUpListener);
     };
   }, [value, cellRefs, dragState, mainGrid]);
 
@@ -168,17 +168,13 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
                 );
 
               return (
-                // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+
                 <div
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
                   ref={(ref) => { cellRefs[i] = { ref, coord }; }}
                   className={clsx(`relative h-4 border-gray-800 border-r border-b ${borderStyle}`, isBlocked && 'bg-green-400')}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    dragStart(coord);
-                  }}
-                  onTouchStart={(e) => {
+                  onPointerDown={(e) => {
                     e.preventDefault();
                     dragStart(coord);
                   }}
