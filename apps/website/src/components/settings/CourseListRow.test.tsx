@@ -2,6 +2,8 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
+  afterEach,
+  beforeEach,
   describe,
   expect,
   it,
@@ -54,6 +56,14 @@ describe('CourseListRow', () => {
     lastVisitedChunkIndex: null,
     roundStatus: 'Active',
   };
+
+  beforeEach(() => {
+    vi.stubEnv('TZ', 'UTC');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
 
   it('renders in-progress course correctly (snapshot)', () => {
     const { container } = render(
