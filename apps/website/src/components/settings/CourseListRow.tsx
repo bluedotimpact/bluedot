@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import {meetPersonTable, CourseRegistration, Course} from '@bluedot/db';
+import { meetPersonTable, CourseRegistration, Course } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
