@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import { CTALinkOrButton } from '@bluedot/ui';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState, useRef,
+} from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 // eslint-disable-next-line import/no-cycle
@@ -33,6 +35,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(exerciseResponse || '');
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const inactivityTimerRef = useRef<number | null>(null);
+  const statusTimerRef = useRef<number | null>(null);
   const {
     register, handleSubmit, setValue, watch,
   } = useForm<FormData>({
@@ -41,6 +46,15 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     },
   });
   const router = useRouter();
+
+  // Cleanup all timers on unmount
+  useEffect(() => {
+    return () => {
+      [inactivityTimerRef, statusTimerRef].forEach((ref) => {
+        if (ref.current) clearTimeout(ref.current);
+      });
+    };
+  }, []);
 
   // Inject style for Firefox to hide drag notches
   useEffect(() => {
@@ -67,6 +81,11 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     };
   }, []);
 
+  // Monitor current value for showing typing status
+  const currentValue = watch('answer');
+  const hasUserChangedValue = currentValue !== (exerciseResponse || '');
+  const isEditing = currentValue !== lastSavedValue;
+
   useEffect(() => {
     if (exerciseResponse !== undefined) {
       setValue('answer', exerciseResponse);
@@ -74,58 +93,93 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     }
   }, [exerciseResponse, setValue]);
 
-  const handleSave = useCallback(async (value: string) => {
-    if (!value || value.trim() === lastSavedValue.trim()) {
-      setSaveStatus('idle');
+  // Simplified save function without circular dependencies
+  const saveValue = useCallback(async (value: string) => {
+    if (!value || value.trim() === lastSavedValue.trim() || isSaving) {
       return;
     }
 
+    setIsSaving(true);
     setSaveStatus('saving');
 
     try {
       await onExerciseSubmit(value, value.trim().length > 0);
-
       setLastSavedValue(value);
       setSaveStatus('saved');
 
-      setTimeout(() => {
+      // Clear previous status timer and set new one
+      if (statusTimerRef.current) clearTimeout(statusTimerRef.current);
+      statusTimerRef.current = window.setTimeout(() => {
         setSaveStatus('idle');
+        statusTimerRef.current = null;
       }, 3000);
     } catch (error) {
       setSaveStatus('error');
+    } finally {
+      setIsSaving(false);
     }
-  }, [onExerciseSubmit, lastSavedValue]);
+  }, [onExerciseSubmit, lastSavedValue, isSaving]);
 
-  // Monitor current value for showing typing status
-  const currentValue = watch('answer');
-  const hasUserChangedValue = currentValue !== (exerciseResponse || '');
-  const isEditing = currentValue !== lastSavedValue;
-
+  // Periodic save timer - runs independently every 3 minutes
   useEffect(() => {
-    // Show typing status when user has made changes
-    if (hasUserChangedValue && isEditing) {
-      setSaveStatus('typing');
-    }
-  }, [currentValue, lastSavedValue, hasUserChangedValue, isEditing]);
+    if (!isLoggedIn) return undefined;
 
-  const onSubmit = useCallback(async (data: FormData) => {
-    await handleSave(data.answer);
-  }, [handleSave]);
+    const runPeriodicSave = () => {
+      const currentVal = watch('answer') || '';
+      if (currentVal && currentVal.trim() !== lastSavedValue.trim()) {
+        saveValue(currentVal);
+      }
+    };
+
+    // Set up recurring 3-minute timer
+    const intervalId = window.setInterval(runPeriodicSave, 3 * 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [isLoggedIn, lastSavedValue, saveValue, watch]);
+
+  // Inactivity auto-save timer (5 seconds)
+  useEffect(() => {
+    if (!hasUserChangedValue || !isEditing || !isLoggedIn) return undefined;
+
+    // Clear and reset the inactivity timer
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+
+    inactivityTimerRef.current = window.setTimeout(() => {
+      const currentVal = watch('answer') || '';
+      saveValue(currentVal);
+    }, 5000);
+
+    return () => {
+      if (inactivityTimerRef.current) {
+        clearTimeout(inactivityTimerRef.current);
+        inactivityTimerRef.current = null;
+      }
+    };
+  }, [currentValue, hasUserChangedValue, isEditing, isLoggedIn, saveValue, watch]);
+
+  const onSubmit = useCallback((data: FormData) => {
+    // Cancel inactivity timer on manual save
+    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    saveValue(data.answer);
+  }, [saveValue]);
 
   const handleTextareaBlur = useCallback(() => {
+    if (!isLoggedIn || !hasUserChangedValue) return;
+
     const currentVal = watch('answer') || '';
-    // Only auto-save if user has changed value and it's different from saved
-    if (isLoggedIn && hasUserChangedValue && currentVal !== lastSavedValue) {
-      handleSave(currentVal);
+    if (currentVal !== lastSavedValue) {
+      // Cancel inactivity timer on blur save
+      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+      saveValue(currentVal);
     }
-  }, [lastSavedValue, isLoggedIn, hasUserChangedValue, handleSave, watch]);
+  }, [lastSavedValue, isLoggedIn, hasUserChangedValue, saveValue, watch]);
 
   const handleRetry = useCallback(() => {
     const currentVal = watch('answer') || '';
     if (currentVal && currentVal !== lastSavedValue) {
-      handleSave(currentVal);
+      saveValue(currentVal);
     }
-  }, [watch, lastSavedValue, handleSave]);
+  }, [watch, lastSavedValue, saveValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>

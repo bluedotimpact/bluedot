@@ -20,8 +20,8 @@ describe('SaveStatusIndicator', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test('renders typing status when typing', () => {
-    const { container, getByText } = render(
+  test('renders nothing for typing status (idle)', () => {
+    const { container } = render(
       <SaveStatusIndicator
         status="typing"
         isEditing
@@ -29,8 +29,8 @@ describe('SaveStatusIndicator', () => {
       />,
     );
 
-    expect(getByText('Click outside to save your answer')).toBeTruthy();
-    expect(container.querySelector('#test-status')).toBeTruthy();
+    // Typing status no longer shows anything
+    expect(container.querySelector('#test-status')).toBeNull();
   });
 
   test('renders saving status with spinner when saving', () => {
