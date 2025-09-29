@@ -90,7 +90,7 @@ describe('CourseListRow', () => {
   it('renders completed course correctly (snapshot)', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
-      certificateCreatedAt: new Date('2024-01-01').getTime(),
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
 
@@ -127,7 +127,7 @@ describe('CourseListRow', () => {
   it('shows view certificate link for completed course', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
-      certificateCreatedAt: new Date('2024-01-01').getTime(),
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
 
