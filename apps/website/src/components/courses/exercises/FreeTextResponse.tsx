@@ -95,7 +95,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   // Simplified save function without circular dependencies
   const saveValue = useCallback(async (value: string) => {
-    if (!value || value.trim() === lastSavedValue.trim() || isSaving) {
+    if (isSaving || value === lastSavedValue) {
       return;
     }
 
@@ -111,7 +111,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       if (statusTimerRef.current) clearTimeout(statusTimerRef.current);
       statusTimerRef.current = window.setTimeout(() => {
         setSaveStatus('idle');
-        statusTimerRef.current = null;
       }, 3000);
     } catch (error) {
       setSaveStatus('error');
@@ -120,14 +119,25 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     }
   }, [onExerciseSubmit, lastSavedValue, isSaving]);
 
+  // Store latest values in refs to avoid recreating timer
+  const watchRef = useRef(watch);
+  const saveValueRef = useRef(saveValue);
+  const lastSavedValueRef = useRef(lastSavedValue);
+
+  useEffect(() => {
+    watchRef.current = watch;
+    saveValueRef.current = saveValue;
+    lastSavedValueRef.current = lastSavedValue;
+  });
+
   // Periodic save timer - runs independently every 3 minutes
   useEffect(() => {
     if (!isLoggedIn) return undefined;
 
     const runPeriodicSave = () => {
-      const currentVal = watch('answer') || '';
-      if (currentVal && currentVal.trim() !== lastSavedValue.trim()) {
-        saveValue(currentVal);
+      const currentVal = watchRef.current('answer') || '';
+      if (currentVal && currentVal !== lastSavedValueRef.current) {
+        saveValueRef.current(currentVal);
       }
     };
 
@@ -135,7 +145,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     const intervalId = window.setInterval(runPeriodicSave, 3 * 60 * 1000);
 
     return () => clearInterval(intervalId);
-  }, [isLoggedIn, lastSavedValue, saveValue, watch]);
+  }, [isLoggedIn]);
 
   // Inactivity auto-save timer (5 seconds)
   useEffect(() => {
