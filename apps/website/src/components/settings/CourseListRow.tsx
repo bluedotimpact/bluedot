@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { courseTable, courseRegistrationTable, meetPersonTable } from '@bluedot/db';
+import {meetPersonTable, CourseRegistration, Course} from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 
 type CourseListRowProps = {
-  course: typeof courseTable.pg.$inferSelect;
-  courseRegistration: typeof courseRegistrationTable.pg.$inferSelect;
+  course: Course;
+  courseRegistration: CourseRegistration;
   authToken?: string;
   isFirst?: boolean;
   isLast?: boolean;
