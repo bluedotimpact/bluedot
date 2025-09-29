@@ -13,6 +13,7 @@ export const mockCourse = (overrides: Partial<Course>): Course => ({
   slug: 'course-slug',
   path: '/courses/course-slug',
   shortDescription: 'Short description',
+  status: 'published',
   title: 'Course Title',
   units: [],
   cadence: 'Weekly',
