@@ -136,7 +136,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
     const runPeriodicSave = () => {
       const currentVal = watchRef.current('answer') || '';
-      if (currentVal && currentVal !== lastSavedValueRef.current) {
+      if (currentVal !== lastSavedValueRef.current) {
         saveValueRef.current(currentVal);
       }
     };
@@ -149,7 +149,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   // Inactivity auto-save timer (5 seconds)
   useEffect(() => {
-    if (!hasUserChangedValue || !isEditing || !isLoggedIn) return undefined;
+    if (!isEditing || !isLoggedIn) return undefined;
 
     // Clear and reset the inactivity timer
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
@@ -165,7 +165,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         inactivityTimerRef.current = null;
       }
     };
-  }, [currentValue, hasUserChangedValue, isEditing, isLoggedIn, saveValue, watch]);
+  }, [currentValue, isEditing, isLoggedIn, saveValue, watch]);
 
   const onSubmit = useCallback((data: FormData) => {
     // Cancel inactivity timer on manual save
@@ -174,7 +174,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   }, [saveValue]);
 
   const handleTextareaBlur = useCallback(() => {
-    if (!isLoggedIn || !hasUserChangedValue) return;
+    if (!isLoggedIn) return;
 
     const currentVal = watch('answer') || '';
     if (currentVal !== lastSavedValue) {
@@ -182,11 +182,11 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
       if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
       saveValue(currentVal);
     }
-  }, [lastSavedValue, isLoggedIn, hasUserChangedValue, saveValue, watch]);
+  }, [lastSavedValue, isLoggedIn, saveValue, watch]);
 
   const handleRetry = useCallback(() => {
     const currentVal = watch('answer') || '';
-    if (currentVal && currentVal !== lastSavedValue) {
+    if (currentVal !== lastSavedValue) {
       saveValue(currentVal);
     }
   }, [watch, lastSavedValue, saveValue]);
