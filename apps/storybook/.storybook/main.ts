@@ -18,7 +18,7 @@ const config: StorybookConfig = {
     "../../website/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../../../libraries/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
-  staticDirs: ["../../website/public"],
+  staticDirs: ["../../website/public", "../public"],
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,
