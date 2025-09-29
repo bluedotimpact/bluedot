@@ -3,11 +3,7 @@ import React, {
   useEffect,
 } from 'react';
 import {
-  InferSelectModel,
-  unitTable,
-  courseTable,
-} from '@bluedot/db';
-import {
+  cn,
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import {
@@ -17,16 +13,13 @@ import {
   ListBoxItem,
   Select as AriaSelect,
 } from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
+import { Course, Unit } from '@bluedot/db';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Course = InferSelectModel<typeof courseTable.pg>;
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
@@ -564,7 +557,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     if (!hasAnySpotsLeft) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
-    return twMerge(...classNames);
+    return cn(...classNames);
   };
 
   return (
