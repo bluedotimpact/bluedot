@@ -1,9 +1,15 @@
-import {
-  describe, it, expect, vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
+import useAxios from 'axios-hooks';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 
@@ -17,6 +23,8 @@ vi.mock('./CourseDetails', () => ({
     <div aria-label={`Expanded details for ${course.title}`}>Course Details Content</div>
   ),
 }));
+
+vi.mock('axios-hooks');
 
 describe('CourseListRow', () => {
   const mockCourse = createMockCourse({
@@ -51,6 +59,23 @@ describe('CourseListRow', () => {
     lastVisitedChunkIndex: null,
     roundStatus: 'Active',
   };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-01-01'));
+
+    // Mock the API call for meet person data
+    vi.mocked(useAxios).mockReturnValue([{
+      data: null,
+      loading: false,
+      error: null,
+    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
 
   it('renders in-progress course correctly (snapshot)', () => {
     const { container } = render(
@@ -127,7 +152,7 @@ describe('CourseListRow', () => {
   });
 
   it('collapses and expands course details', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(
       <CourseListRow
         course={mockCourse}
