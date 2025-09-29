@@ -83,7 +83,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   // Monitor current value for showing typing status
   const currentValue = watch('answer');
-  const hasUserChangedValue = currentValue !== (exerciseResponse || '');
   const isEditing = currentValue !== lastSavedValue;
 
   useEffect(() => {
