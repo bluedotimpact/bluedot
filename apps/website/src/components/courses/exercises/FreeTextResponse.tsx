@@ -127,16 +127,21 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     watchRef.current = watch;
     saveValueRef.current = saveValue;
     lastSavedValueRef.current = lastSavedValue;
-  });
+  }, [watch, saveValue, lastSavedValue]);
 
   // Periodic save timer - runs independently every 3 minutes
   useEffect(() => {
     if (!isLoggedIn) return undefined;
 
     const runPeriodicSave = () => {
-      const currentVal = watchRef.current('answer') || '';
-      if (currentVal !== lastSavedValueRef.current) {
-        saveValueRef.current(currentVal);
+      // Always get the most current values from refs
+      const currentWatch = watchRef.current;
+      const currentSaveValue = saveValueRef.current;
+      const currentLastSaved = lastSavedValueRef.current;
+
+      const currentVal = currentWatch('answer') || '';
+      if (currentVal !== currentLastSaved) {
+        currentSaveValue(currentVal);
       }
     };
 
