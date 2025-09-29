@@ -1,4 +1,4 @@
-import type { Course } from '../lib/api/db/tables';
+import type { Course } from '@bluedot/db';
 
 export const mockCourse = (overrides: Partial<Course>): Course => ({
   certificationBadgeImage: 'badge.png',
