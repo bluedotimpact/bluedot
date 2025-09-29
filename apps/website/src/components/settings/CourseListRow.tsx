@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { Course, CourseRegistration, meetPersonTable } from '@bluedot/db';
+import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
@@ -25,7 +25,7 @@ const CourseListRow = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
+  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
     method: 'get',
     url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
     headers: authToken ? {
