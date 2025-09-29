@@ -1,6 +1,8 @@
 import type { Course } from '@bluedot/db';
 
 export const mockCourse = (overrides: Partial<Course>): Course => ({
+  averageRating: 4.5,
+  cadence: 'Weekly',
   certificationBadgeImage: 'badge.png',
   certificationDescription: 'Certificate description',
   description: 'Course description',
@@ -10,17 +12,15 @@ export const mockCourse = (overrides: Partial<Course>): Course => ({
   durationHours: 40,
   id: 'course-id',
   image: '/images/courses/default.jpg',
-  slug: 'course-slug',
+  isFeatured: false,
+  isNew: false,
+  level: 'Beginner',
   path: '/courses/course-slug',
+  publicLastUpdated: null,
   shortDescription: 'Short description',
+  slug: 'course-slug',
   status: 'published',
   title: 'Course Title',
   units: [],
-  cadence: 'Weekly',
-  level: 'Beginner',
-  averageRating: 4.5,
-  publicLastUpdated: null,
-  isFeatured: false,
-  isNew: false,
   ...overrides,
 });
