@@ -5,7 +5,6 @@ type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
 type SaveStatusIndicatorProps = {
   status: SaveStatus;
-  isEditing: boolean;
   id: string;
   onRetry?: () => void;
 };
@@ -89,7 +88,7 @@ const STATUS_CONFIG: Record<SaveStatus, {
     text: '',
   },
   typing: {
-    text: 'Click outside to save your answer',
+    text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
     icon: <RiLoader4Line className="animate-spin" size={16} style={{ color: '#1641D9' }} />,
@@ -140,11 +139,11 @@ const STATUS_CONFIG: Record<SaveStatus, {
 
 const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
   status,
-  isEditing,
   id,
   onRetry,
 }) => {
-  if (status === 'idle' && !isEditing) return null;
+  // Hide the indicator when status is idle or typing
+  if (status === 'idle' || status === 'typing') return null;
 
   const config = STATUS_CONFIG[status];
   if (!config) return null;

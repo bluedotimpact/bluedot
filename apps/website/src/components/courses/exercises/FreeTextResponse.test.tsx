@@ -91,7 +91,7 @@ describe('FreeTextResponse', () => {
       (axios.put as Mock).mockResolvedValue({ data: {} });
     });
 
-    test('shows typing status when user types in textarea', async () => {
+    test('does not show typing status with 5-second auto-save', async () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
@@ -101,11 +101,9 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Wait for status to update
-      await waitFor(() => {
-        const statusMessage = getByText(container, 'Click outside to save your answer');
-        expect(statusMessage).toBeTruthy();
-      });
+      // Should not show any status message while typing
+      const statusElement = container.querySelector('#save-status-message');
+      expect(statusElement).toBeNull();
     });
 
     test('triggers auto-save when user clicks outside after typing', async () => {
@@ -119,10 +117,8 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Wait for typing status
-      await waitFor(() => {
-        expect(getByText(container, 'Click outside to save your answer')).toBeTruthy();
-      });
+      // Small delay to ensure the component has processed the change
+      await new Promise((resolve) => { setTimeout(resolve, 50); });
 
       // Trigger blur event (clicking outside)
       fireEvent.blur(textarea);

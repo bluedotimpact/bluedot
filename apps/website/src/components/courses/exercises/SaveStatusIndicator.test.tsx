@@ -8,11 +8,10 @@ import {
 import SaveStatusIndicator from './SaveStatusIndicator';
 
 describe('SaveStatusIndicator', () => {
-  test('renders nothing when status is idle and not editing', () => {
+  test('renders nothing when status is idle', () => {
     const { container } = render(
       <SaveStatusIndicator
         status="idle"
-        isEditing={false}
         id="test-status"
       />,
     );
@@ -20,24 +19,22 @@ describe('SaveStatusIndicator', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  test('renders typing status when typing', () => {
-    const { container, getByText } = render(
+  test('renders nothing for typing status', () => {
+    const { container } = render(
       <SaveStatusIndicator
         status="typing"
-        isEditing
         id="test-status"
       />,
     );
 
-    expect(getByText('Click outside to save your answer')).toBeTruthy();
-    expect(container.querySelector('#test-status')).toBeTruthy();
+    // Typing status no longer shows anything
+    expect(container.querySelector('#test-status')).toBeNull();
   });
 
   test('renders saving status with spinner when saving', () => {
     const { container, getByText } = render(
       <SaveStatusIndicator
         status="saving"
-        isEditing
         id="test-status"
       />,
     );
@@ -50,7 +47,6 @@ describe('SaveStatusIndicator', () => {
     const { container, getByText } = render(
       <SaveStatusIndicator
         status="saved"
-        isEditing={false}
         id="test-status"
       />,
     );
@@ -65,7 +61,6 @@ describe('SaveStatusIndicator', () => {
     const { getByText, getByRole } = render(
       <SaveStatusIndicator
         status="error"
-        isEditing={false}
         id="test-status"
         onRetry={mockRetry}
       />,
@@ -84,7 +79,6 @@ describe('SaveStatusIndicator', () => {
     const { container } = render(
       <SaveStatusIndicator
         status="saving"
-        isEditing
         id="accessibility-test"
       />,
     );
