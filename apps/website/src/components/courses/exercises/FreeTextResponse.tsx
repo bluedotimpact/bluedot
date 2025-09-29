@@ -35,7 +35,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(exerciseResponse || '');
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const isSavingRef = useRef<boolean>(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
   const {
@@ -94,11 +94,11 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   // Simplified save function without circular dependencies
   const saveValue = useCallback(async (value: string) => {
-    if (isSaving || value === lastSavedValue) {
+    if (isSavingRef.current || value === lastSavedValue) {
       return;
     }
 
-    setIsSaving(true);
+    isSavingRef.current = true;
     setSaveStatus('saving');
 
     try {
@@ -114,9 +114,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     } catch (error) {
       setSaveStatus('error');
     } finally {
-      setIsSaving(false);
+      isSavingRef.current = false;
     }
-  }, [onExerciseSubmit, lastSavedValue, isSaving]);
+  }, [onExerciseSubmit, lastSavedValue]);
 
   // Store latest values in refs to avoid recreating timer
   const watchRef = useRef(watch);
