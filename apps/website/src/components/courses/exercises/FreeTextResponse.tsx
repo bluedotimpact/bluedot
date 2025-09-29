@@ -92,7 +92,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     }
   }, [exerciseResponse, setValue]);
 
-  // Simplified save function without circular dependencies
   const saveValue = useCallback(async (value: string) => {
     if (isSavingRef.current || value === lastSavedValue) {
       return;
@@ -242,7 +241,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         {isLoggedIn && (
           <SaveStatusIndicator
             status={saveStatus}
-            isEditing={isEditing}
             id="save-status-message"
             onRetry={handleRetry}
           />

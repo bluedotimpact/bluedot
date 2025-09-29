@@ -5,7 +5,6 @@ type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
 type SaveStatusIndicatorProps = {
   status: SaveStatus;
-  isEditing: boolean;
   id: string;
   onRetry?: () => void;
 };
@@ -140,7 +139,6 @@ const STATUS_CONFIG: Record<SaveStatus, {
 
 const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
   status,
-  isEditing, // eslint-disable-line @typescript-eslint/no-unused-vars
   id,
   onRetry,
 }) => {
