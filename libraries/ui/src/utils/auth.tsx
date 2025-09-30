@@ -115,19 +115,20 @@ export const useAuthStore = create<{
       clearInMs,
     );
 
-    const visibilityHandler = () => {
+    const visibilityHandler = async () => {
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
         if (!currentAuth?.refreshToken || !currentAuth?.oidcSettings) return;
         // If token expires within the next minute, refresh now
         if (currentAuth.expiresAt - Date.now() < ONE_MIN_MS) {
-          oidcRefresh(currentAuth).then((newAuth) => {
+          try {
+            const newAuth = await oidcRefresh(currentAuth);
             get().setAuth(newAuth);
-          }).catch((err) => {
+          } catch (error) {
             // eslint-disable-next-line no-console
-            console.error('Token refresh on visibility failed:', err);
+            console.error('Token refresh on visibility failed:', error);
             get().setAuth(null);
-          });
+          }
         }
       }
     };
