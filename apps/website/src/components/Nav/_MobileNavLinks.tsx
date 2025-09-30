@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import { IconButton, CTALinkOrButton } from '@bluedot/ui';
 import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
@@ -74,7 +76,7 @@ export const MobileNavLinks: React.FC<{
 
           {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}
           {!isLoggedIn && (
-            <div className="mobile-nav-cta flex flex-wrap gap-3 pt-6 mt-6 border-t border-color-divider">
+            <div className="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider">
               {/* Login button: Show when screen < 640px (since navbar login is hidden below 640px) */}
               <CTALinkOrButton
                 className={`mobile-nav-cta__login max-[639px]:flex hidden ${
