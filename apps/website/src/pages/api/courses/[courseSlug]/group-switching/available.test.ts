@@ -6,9 +6,9 @@ type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Group = InferSelectModel<typeof groupTable.pg>;
 
 describe('calculateGroupAvailability', () => {
-  const now = Date.now();
-  const futureTime = now + 24 * 60 * 60 * 1000; // 24 hours from now
-  const pastTime = now - 24 * 60 * 60 * 1000; // 24 hours ago
+  const now = Math.floor(Date.now() / 1000);
+  const futureTimeSeconds = now + 24 * 60 * 60; // 24 hours from now, in seconds
+  const pastTimeSeconds = now - 24 * 60 * 60; // 24 hours ago, in seconds
 
   const mockParticipantId = 'participant-123';
 
@@ -20,7 +20,7 @@ describe('calculateGroupAvailability', () => {
     participants: ['other-participant'],
     whoCanSwitchIntoThisGroup: [],
     autoNumberId: 1,
-    startTimeUtc: futureTime / 1000,
+    startTimeUtc: futureTimeSeconds,
     ...overrides,
   } as Group);
 
@@ -29,8 +29,8 @@ describe('calculateGroupAvailability', () => {
     facilitators: ['facilitator-1'],
     participantsExpected: ['other-participant'],
     attendees: [],
-    startDateTime: futureTime / 1000,
-    endDateTime: (futureTime + 2 * 60 * 60 * 1000) / 1000,
+    startDateTime: futureTimeSeconds,
+    endDateTime: futureTimeSeconds + 2 * 60 * 60,
     group: 'group-1',
     zoomAccount: null,
     courseSite: null,
@@ -47,12 +47,11 @@ describe('calculateGroupAvailability', () => {
   it('should calculate spots left correctly with maxParticipants', () => {
     const groups = [createMockGroup()];
     const discussions = [createMockDiscussion()];
-    const maxParticipants = 5;
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
       groups,
-      maxParticipants,
+      maxParticipants: 5,
       participantId: mockParticipantId,
     });
 
@@ -109,7 +108,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should detect when discussions have started', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({ startDateTime: pastTime / 1000 })];
+    const discussions = [createMockDiscussion({ startDateTime: pastTimeSeconds })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -124,7 +123,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should detect when discussions have not started', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({ startDateTime: futureTime / 1000 })];
+    const discussions = [createMockDiscussion({ startDateTime: futureTimeSeconds })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -142,12 +141,12 @@ describe('calculateGroupAvailability', () => {
     const discussions = [
       createMockDiscussion({
         id: 'discussion-1',
-        startDateTime: futureTime / 1000,
+        startDateTime: futureTimeSeconds,
         participantsExpected: ['participant-1', 'participant-2'],
       }),
       createMockDiscussion({
         id: 'discussion-2',
-        startDateTime: pastTime / 1000,
+        startDateTime: pastTimeSeconds,
         participantsExpected: ['participant-3'],
       }),
     ];
@@ -170,11 +169,11 @@ describe('calculateGroupAvailability', () => {
     const discussions = [
       createMockDiscussion({
         id: 'discussion-1',
-        startDateTime: pastTime / 1000,
+        startDateTime: pastTimeSeconds,
       }),
       createMockDiscussion({
         id: 'discussion-2',
-        startDateTime: pastTime / 1000 - 1000,
+        startDateTime: pastTimeSeconds - 1000,
       }),
     ];
 
@@ -275,13 +274,13 @@ describe('calculateGroupAvailability', () => {
         id: 'discussion-1',
         unitNumber: 1,
         participantsExpected: ['p1', 'p2'], // 2 participants
-        startDateTime: futureTime / 1000,
+        startDateTime: futureTimeSeconds,
       }),
       createMockDiscussion({
         id: 'discussion-2',
         unitNumber: 2,
         participantsExpected: ['p1', 'p2', 'p3'], // 3 participants
-        startDateTime: futureTime / 1000,
+        startDateTime: futureTimeSeconds,
       }),
     ];
 
