@@ -56,9 +56,9 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable).toHaveLength(1);
-    expect(result.groupsAvailable[0]?.spotsLeft).toBe(4); // 5 max - 1 existing participant
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(4); // 5 max - 1 existing participant
     expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(1);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(4);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeftIfKnown).toBe(4);
   });
 
   it('should handle null maxParticipants', () => {
@@ -72,8 +72,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.spotsLeft).toBeNull();
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBeNull();
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBeNull();
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeftIfKnown).toBeNull();
   });
 
   it('should identify when user is a participant', () => {
@@ -160,8 +160,8 @@ describe('calculateGroupAvailability', () => {
 
     // Group should show allDiscussionsHaveStarted as false (mixed)
     expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(false);
-    // Group spotsLeft should be the minimum of available spots from non-started discussions
-    expect(result.groupsAvailable[0]?.spotsLeft).toBe(3); // 5 max - 2 participants from future discussion
+    // Group spotsLeftIfKnown should be the minimum of available spots from non-started discussions
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3); // 5 max - 2 participants from future discussion
   });
 
   it('should handle groups with all discussions started', () => {
@@ -185,7 +185,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(true);
-    expect(result.groupsAvailable[0]?.spotsLeft).toBeNull(); // No spots available when all started
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBeNull(); // No spots available when all started
   });
 
   it('should skip discussions without unit numbers', () => {
@@ -292,7 +292,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     // Should take minimum: min(5-2, 5-3) = min(3, 2) = 2
-    expect(result.groupsAvailable[0]?.spotsLeft).toBe(2);
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(2);
   });
 
   it('should enforce minimum spots left of 0', () => {
@@ -308,8 +308,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.spotsLeft).toBe(0);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(0);
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(0);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeftIfKnown).toBe(0);
   });
 
   it('should exclude participant from count when calculating spots', () => {
@@ -326,7 +326,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     // Should calculate based on 2 other participants: 5 - 2 = 3
-    expect(result.groupsAvailable[0]?.spotsLeft).toBe(3);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(3);
+    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeftIfKnown).toBe(3);
   });
 });

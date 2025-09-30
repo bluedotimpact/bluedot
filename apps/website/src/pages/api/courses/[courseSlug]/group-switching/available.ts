@@ -21,13 +21,13 @@ export type GetGroupSwitchingAvailableResponse = {
   type: 'success',
   groupsAvailable: {
     group: Group;
-    spotsLeft: number | null;
+    spotsLeftIfKnown: number | null;
     userIsParticipant: boolean;
     allDiscussionsHaveStarted: boolean;
   }[],
   discussionsAvailable: Record<string, {
     discussion: GroupDiscussion
-    spotsLeft: number | null;
+    spotsLeftIfKnown: number | null;
     userIsParticipant: boolean;
     groupName: string;
     hasStarted: boolean;
@@ -54,7 +54,7 @@ export function calculateGroupAvailability({
 
   const groupData: Record<string, {
     group: Group;
-    spotsLeft: number | null;
+    spotsLeftIfKnown: number | null;
     userIsParticipant: boolean;
     allDiscussionsHaveStarted: boolean;
   }> = {};
@@ -72,7 +72,7 @@ export function calculateGroupAvailability({
 
     // Calculate spots left for this discussion
     const otherParticipants = discussion.participantsExpected.filter((id) => id !== participantId);
-    const spotsLeft = typeof maxParticipants === 'number'
+    const spotsLeftIfKnown = typeof maxParticipants === 'number'
       ? Math.max(0, maxParticipants - otherParticipants.length)
       : null;
 
@@ -89,7 +89,7 @@ export function calculateGroupAvailability({
 
     discussionsByUnit[unitKey].push({
       discussion,
-      spotsLeft,
+      spotsLeftIfKnown,
       userIsParticipant,
       groupName,
       hasStarted,
@@ -102,7 +102,7 @@ export function calculateGroupAvailability({
       // First time seeing this group
       groupData[groupId] = {
         group,
-        spotsLeft: !hasStarted ? spotsLeft : null,
+        spotsLeftIfKnown: !hasStarted ? spotsLeftIfKnown : null,
         userIsParticipant: group.participants.includes(participantId),
         allDiscussionsHaveStarted: hasStarted,
       };
@@ -113,11 +113,11 @@ export function calculateGroupAvailability({
       existing.allDiscussionsHaveStarted = existing.allDiscussionsHaveStarted && hasStarted;
 
       if (!hasStarted) {
-        // Update spotsLeft
-        if (existing.spotsLeft !== null && spotsLeft !== null) {
-          existing.spotsLeft = Math.min(existing.spotsLeft, spotsLeft);
-        } else if (spotsLeft !== null) {
-          existing.spotsLeft = spotsLeft;
+        // Update spotsLeftIfKnown
+        if (existing.spotsLeftIfKnown !== null && spotsLeftIfKnown !== null) {
+          existing.spotsLeftIfKnown = Math.min(existing.spotsLeftIfKnown, spotsLeftIfKnown);
+        } else if (spotsLeftIfKnown !== null) {
+          existing.spotsLeftIfKnown = spotsLeftIfKnown;
         }
       }
     }
@@ -135,13 +135,13 @@ export default makeApiRoute({
     type: z.literal('success'),
     groupsAvailable: z.array(z.object({
       group: z.any(),
-      spotsLeft: z.number().nullable(),
+      spotsLeftIfKnown: z.number().nullable(),
       userIsParticipant: z.boolean(),
       allDiscussionsHaveStarted: z.boolean(),
     })),
     discussionsAvailable: z.record(z.array(z.object({
       discussion: z.any(),
-      spotsLeft: z.number().nullable(),
+      spotsLeftIfKnown: z.number().nullable(),
       userIsParticipant: z.boolean(),
       groupName: z.string(),
       hasStarted: z.boolean(),
