@@ -23,7 +23,7 @@ type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
   userRole?: 'participant' | 'facilitator';
-  hostKey?: string;
+  hostKeyForFacilitators?: string;
   onClickPrepare: () => void;
 };
 
@@ -31,7 +31,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   unit,
   groupDiscussion,
   userRole,
-  hostKey,
+  hostKeyForFacilitators,
   onClickPrepare,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -89,9 +89,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : '';
 
   const copyHostKeyIfFacilitator = async () => {
-    if (userRole === 'facilitator' && hostKey) {
+    if (userRole === 'facilitator' && hostKeyForFacilitators) {
       try {
-        await navigator.clipboard.writeText(hostKey);
+        await navigator.clipboard.writeText(hostKeyForFacilitators);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.warn('Failed to copy host key to clipboard:', error);
@@ -99,7 +99,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     }
   };
 
-  const joinButtonText = userRole === 'facilitator' && hostKey ? `Join discussion (Host key: ${hostKey})` : 'Join discussion';
+  const joinButtonText = userRole === 'facilitator' && hostKeyForFacilitators ? `Join discussion (Host key: ${hostKeyForFacilitators})` : 'Join discussion';
 
   return (
     <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">

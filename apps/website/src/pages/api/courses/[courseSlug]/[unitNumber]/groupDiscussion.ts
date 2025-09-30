@@ -19,7 +19,7 @@ import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 export type GroupDiscussionWithZoomInfo = {
   groupDiscussion?: GroupDiscussion,
   userRole?: 'participant' | 'facilitator',
-  hostKey?: string,
+  hostKeyForFacilitators?: string,
 };
 
 export type GetGroupDiscussionResponse = {
@@ -32,7 +32,7 @@ export default makeApiRoute({
     type: z.literal('success'),
     groupDiscussion: z.any().nullable(),
     userRole: z.enum(['participant', 'facilitator']).optional(),
-    hostKey: z.string().optional(),
+    hostKeyForFacilitators: z.string().optional(),
   }),
 }, async (body, { auth, raw }) => {
   const { courseSlug, unitNumber } = raw.req.query;
@@ -124,7 +124,7 @@ export default makeApiRoute({
 
   // Determine user role and get host key if facilitator
   let userRole: 'participant' | 'facilitator' | undefined;
-  let hostKey: string | undefined;
+  let hostKeyForFacilitators: string | undefined;
 
   if (groupDiscussion) {
     if (groupDiscussion.facilitators.includes(participant.id)) {
@@ -133,9 +133,9 @@ export default makeApiRoute({
       if (groupDiscussion.zoomAccount) {
         try {
           const zoomAccount: ZoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
-          hostKey = zoomAccount.hostKey || undefined;
+          hostKeyForFacilitators = zoomAccount.hostKey || undefined;
         } catch (error) {
-          hostKey = undefined;
+          hostKeyForFacilitators = undefined;
         }
       }
     } else if (groupDiscussion.participantsExpected.includes(participant.id)) {
@@ -147,6 +147,6 @@ export default makeApiRoute({
     type: 'success' as const,
     groupDiscussion,
     userRole,
-    hostKey,
+    hostKeyForFacilitators,
   };
 });

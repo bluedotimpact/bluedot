@@ -12,7 +12,10 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel,
+  Chunk,
+  UnitResource,
+  Exercise,
+  Unit,
 } from '@bluedot/db';
 import type { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
@@ -28,14 +31,9 @@ import {
   A, H1, P,
 } from '../Text';
 
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
-type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
-type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
-
 type ChunkWithContent = Chunk & {
   resources?: UnitResource[];
-  exercises?: ExerciseType[];
+  exercises?: Exercise[];
 };
 
 const CourseIcon: React.FC = () => (
@@ -404,7 +402,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 unit={unit}
                 groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
                 userRole={groupDiscussionWithZoomInfo.userRole}
-                hostKey={groupDiscussionWithZoomInfo.hostKey}
+                hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
                   if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
