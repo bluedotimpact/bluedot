@@ -73,7 +73,9 @@ export const useAuthStore = create<{
     if (existingVisibilityHandler) document.removeEventListener('visibilitychange', existingVisibilityHandler);
 
     if (!auth) {
-      set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null, internal_visibilityHandler: null });
+      set({
+        auth: null, internal_clearTimer: null, internal_refreshTimer: null, internal_visibilityHandler: null,
+      });
       posthog.reset();
       return;
     }
