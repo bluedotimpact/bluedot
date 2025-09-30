@@ -109,12 +109,12 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         groupDiscussions: [],
         round: '',
         participants: [],
-        startTimeUtc: null,
+        startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000), // 9:00 AM UTC
         whoCanSwitchIntoThisGroup: [],
       },
       userIsParticipant: true,
-      spotsLeft: 0,
-      nextDiscussionStartDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000), // 2 hours from now
+      spotsLeftIfKnown: 0,
+      allDiscussionsHaveStarted: false,
     },
     {
       group: {
@@ -124,12 +124,12 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         groupDiscussions: [],
         round: '',
         participants: [],
-        startTimeUtc: null,
+        startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000), // 7:00 PM UTC
         whoCanSwitchIntoThisGroup: [],
       },
       userIsParticipant: false,
-      spotsLeft: 3,
-      nextDiscussionStartDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000), // 24 hours from now
+      spotsLeftIfKnown: 3,
+      allDiscussionsHaveStarted: false,
     },
     {
       group: {
@@ -139,12 +139,12 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         groupDiscussions: [],
         round: '',
         participants: [],
-        startTimeUtc: null,
+        startTimeUtc: Math.floor(new Date('2024-01-06T14:00:00Z').getTime() / 1000), // Saturday 2:00 PM UTC
         whoCanSwitchIntoThisGroup: [],
       },
       userIsParticipant: false,
-      spotsLeft: 0,
-      nextDiscussionStartDateTime: Math.floor((Date.now() + 48 * 60 * 60 * 1000) / 1000), // 48 hours from now
+      spotsLeftIfKnown: 0,
+      allDiscussionsHaveStarted: false,
     },
   ],
   discussionsAvailable: {
@@ -171,7 +171,8 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         },
         groupName: 'Morning Group A',
         userIsParticipant: true,
-        spotsLeft: 0,
+        spotsLeftIfKnown: 0,
+        hasStarted: false,
       },
       {
         discussion: {
@@ -195,7 +196,8 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         },
         groupName: 'Evening Group B',
         userIsParticipant: false,
-        spotsLeft: 2,
+        spotsLeftIfKnown: 2,
+        hasStarted: false,
       },
     ],
     2: [
@@ -221,7 +223,8 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
         },
         groupName: 'Weekend Group C',
         userIsParticipant: false,
-        spotsLeft: 1,
+        spotsLeftIfKnown: 1,
+        hasStarted: false,
       },
     ],
   },
