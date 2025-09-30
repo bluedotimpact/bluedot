@@ -58,8 +58,8 @@ describe('calculateGroupAvailability', () => {
 
     expect(result.groupsAvailable).toHaveLength(1);
     expect(result.groupsAvailable[0]?.spotsLeft).toBe(4); // 5 max - 1 existing participant
-    expect(result.discussionsAvailable['1']).toHaveLength(1);
-    expect(result.discussionsAvailable['1']?.[0]?.spotsLeft).toBe(4);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(1);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(4);
   });
 
   it('should handle null maxParticipants', () => {
@@ -74,7 +74,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.spotsLeft).toBeNull();
-    expect(result.discussionsAvailable['1']?.[0]?.spotsLeft).toBeNull();
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBeNull();
   });
 
   it('should identify when user is a participant', () => {
@@ -89,7 +89,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.userIsParticipant).toBe(true);
-    expect(result.discussionsAvailable['1']?.[0]?.userIsParticipant).toBe(true);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.userIsParticipant).toBe(true);
   });
 
   it('should identify when user is not a participant', () => {
@@ -104,7 +104,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.userIsParticipant).toBe(false);
-    expect(result.discussionsAvailable['1']?.[0]?.userIsParticipant).toBe(false);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.userIsParticipant).toBe(false);
   });
 
   it('should detect when discussions have started', () => {
@@ -119,7 +119,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(true);
-    expect(result.discussionsAvailable['1']?.[0]?.hasStarted).toBe(true);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.hasStarted).toBe(true);
   });
 
   it('should detect when discussions have not started', () => {
@@ -134,7 +134,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(false);
-    expect(result.discussionsAvailable['1']?.[0]?.hasStarted).toBe(false);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.hasStarted).toBe(false);
   });
 
   it('should handle multiple discussions per group correctly', () => {
@@ -249,8 +249,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.discussionsAvailable['1']).toHaveLength(2);
-    expect(result.discussionsAvailable['2']).toHaveLength(1);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(2);
+    expect(result.discussionsAvailable[String(discussions[2]!.unitNumber)]).toHaveLength(1);
     expect(result.groupsAvailable).toHaveLength(2);
   });
 
@@ -265,7 +265,7 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.discussionsAvailable['1']?.[0]?.groupName).toBe('Group [Unknown]');
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.groupName).toBe('Group [Unknown]');
   });
 
   it('should calculate minimum spots left across multiple discussions for a group', () => {
@@ -310,7 +310,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.spotsLeft).toBe(0);
-    expect(result.discussionsAvailable['1']?.[0]?.spotsLeft).toBe(0);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(0);
   });
 
   it('should exclude participant from count when calculating spots', () => {
@@ -328,6 +328,6 @@ describe('calculateGroupAvailability', () => {
 
     // Should calculate based on 2 other participants: 5 - 2 = 3
     expect(result.groupsAvailable[0]?.spotsLeft).toBe(3);
-    expect(result.discussionsAvailable['1']?.[0]?.spotsLeft).toBe(3);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeft).toBe(3);
   });
 });

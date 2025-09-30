@@ -115,8 +115,7 @@ export function calculateGroupAvailability({
       if (!hasStarted) {
         // Update spotsLeft
         if (existing.spotsLeft !== null && spotsLeft !== null) {
-          // Clamp spotsLeft to be >= 0
-          existing.spotsLeft = Math.max(Math.min(existing.spotsLeft, spotsLeft), 0);
+          existing.spotsLeft = Math.min(existing.spotsLeft, spotsLeft);
         } else if (spotsLeft !== null) {
           existing.spotsLeft = spotsLeft;
         }

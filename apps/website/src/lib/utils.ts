@@ -32,8 +32,8 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
 };
 
 /** Example: '3:00 PM' */
-export const formatTime12HourClock = (dateTime: number): string => {
-  const date = new Date(dateTime * 1000);
+export const formatTime12HourClock = (dateTimeSeconds: number): string => {
+  const date = new Date(dateTimeSeconds * 1000);
   return date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
@@ -42,8 +42,8 @@ export const formatTime12HourClock = (dateTime: number): string => {
 };
 
 /** Example: 'Jun 19' */
-export const formatDateMonthAndDay = (dateTime: number): string => {
-  const date = new Date(dateTime * 1000);
+export const formatDateMonthAndDay = (dateTimeSeconds: number): string => {
+  const date = new Date(dateTimeSeconds * 1000);
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -51,16 +51,16 @@ export const formatDateMonthAndDay = (dateTime: number): string => {
 };
 
 /** Example: 'Tue' */
-export const formatDateDayOfWeek = (dateTime: number): string => {
-  const date = new Date(dateTime * 1000);
+export const formatDateDayOfWeek = (dateTimeSeconds: number): string => {
+  const date = new Date(dateTimeSeconds * 1000);
   return date.toLocaleDateString('en-US', {
     weekday: 'short',
   });
 };
 
 /** Examples: 'starting now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
-export const formatDateTimeRelative = (dateTime: number): string => {
-  const startDate = new Date(dateTime * 1000);
+export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
+  const startDate = new Date(dateTimeSeconds * 1000);
   const now = new Date();
   const timeDiffMs = startDate.getTime() - now.getTime();
 
