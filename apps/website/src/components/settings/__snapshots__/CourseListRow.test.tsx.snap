@@ -57,7 +57,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
           >
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest w-full"
-              href="http://localhost:3000/certification?id=cert-123"
+              href="/certification?id=cert-123"
               tabindex="0"
             >
               View your certificate
@@ -109,7 +109,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
           >
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
-              href="http://localhost:3000/certification?id=cert-123"
+              href="/certification?id=cert-123"
               tabindex="0"
             >
               View your certificate

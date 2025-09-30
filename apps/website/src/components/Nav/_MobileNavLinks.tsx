@@ -1,19 +1,29 @@
+'use client';
+
 import clsx from 'clsx';
-import { IconButton } from '@bluedot/ui';
+import { IconButton, CTALinkOrButton } from '@bluedot/ui';
 import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
+import { useRouter } from 'next/router';
 
 import { NavLinks } from './_NavLinks';
 import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
+import { getLoginUrl } from '../../utils/getLoginUrl';
 
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   isScrolled: boolean;
+  isLoggedIn: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   isScrolled,
+  isLoggedIn,
 }) => {
+  const router = useRouter();
+  const loginUrl = getLoginUrl(router.asPath);
+  const joinUrl = getLoginUrl(router.asPath, true);
+
   const onToggleMobileNav = () => {
     updateExpandedSections({
       mobileNav: !expandedSections.mobileNav,
@@ -63,6 +73,30 @@ export const MobileNavLinks: React.FC<{
             updateExpandedSections={updateExpandedSections}
             isScrolled={isScrolled}
           />
+
+          {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}
+          {!isLoggedIn && (
+            <div className="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider">
+              {/* Login button: Show when screen < 640px (since navbar login is hidden below 640px) */}
+              <CTALinkOrButton
+                className={`mobile-nav-cta__login max-[639px]:flex hidden ${
+                  isScrolled ? 'border-white text-white hover:bg-white/10' : ''
+                }`}
+                variant="secondary"
+                url={loginUrl}
+              >
+                Login
+              </CTALinkOrButton>
+              {/* Join button: Show when screen < 640px (same as Login for unified breakpoint) */}
+              <CTALinkOrButton
+                className="mobile-nav-cta__join max-[639px]:flex hidden"
+                variant="primary"
+                url={joinUrl}
+              >
+                Join for free
+              </CTALinkOrButton>
+            </div>
+          )}
         </div>
       </div>
     </div>

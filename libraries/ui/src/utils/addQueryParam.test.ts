@@ -23,7 +23,7 @@ describe('addQueryParam', () => {
   test('adds query parameter to relative path URL', () => {
     const url = '/login';
     const result = addQueryParam(url, 'key', 'value');
-    expect(result).toBe('http://localhost:3000/login?key=value');
+    expect(result).toBe('/login?key=value');
   });
 
   test('can set param with empty string key', () => {
@@ -38,7 +38,8 @@ describe('addQueryParam', () => {
     expect(result).toBe('https://example.com/?key=');
   });
 
-  test('throws error when URL is empty', () => {
-    expect(() => addQueryParam('', 'key', 'value')).toThrow('URL is required');
+  test('handles empty URL', () => {
+    const result = addQueryParam('', 'key', 'value');
+    expect(result).toBe('?key=value');
   });
 });

@@ -87,7 +87,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
     >
       <a
         class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !w-auto !whitespace-normal text-center min-w-0"
-        href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-path"
+        href="/login?register=true&redirect_to=%2Ftest-path"
         tabindex="0"
       >
         Create a free account to save your answers
