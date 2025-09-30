@@ -205,14 +205,14 @@ exports[`Nav > renders with courses 1`] = `
               >
                 <a
                   class="cta-button items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mobile-nav-cta__login max-[639px]:flex hidden"
-                  href="http://localhost:3000/login?redirect_to=%2Ftest-page"
+                  href="/login?redirect_to=%2Ftest-page"
                   tabindex="0"
                 >
                   Login
                 </a>
                 <a
                   class="cta-button items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark mobile-nav-cta__join max-[639px]:flex hidden"
-                  href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-page"
+                  href="/login?register=true&redirect_to=%2Ftest-page"
                   tabindex="0"
                 >
                   Join for free
@@ -385,14 +385,14 @@ exports[`Nav > renders with courses 1`] = `
         >
           <a
             class="cta-button items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter nav-cta__secondary-cta hidden sm:block"
-            href="http://localhost:3000/login?redirect_to=%2Ftest-page"
+            href="/login?redirect_to=%2Ftest-page"
             tabindex="0"
           >
             Login
           </a>
           <a
             class="cta-button items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark nav-cta__primary-cta hidden sm:flex"
-            href="http://localhost:3000/login?register=true&redirect_to=%2Ftest-page"
+            href="/login?register=true&redirect_to=%2Ftest-page"
             tabindex="0"
           >
             Join for free
