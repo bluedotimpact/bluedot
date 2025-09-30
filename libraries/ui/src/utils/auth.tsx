@@ -6,7 +6,7 @@ import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
 const FIVE_SEC_MS = 5 * 1000;
-const ONE_MINUTE_MS = 60 * 1000;
+const ONE_MIN_MS = 60 * 1000;
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -86,7 +86,7 @@ export const useAuthStore = create<{
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
     const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
-    const refreshInMs = expiresInMs - ONE_MINUTE_MS; // Refresh 1 minute before expiry
+    const refreshInMs = expiresInMs - ONE_MIN_MS; // Refresh 1 minute before expiry
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
@@ -118,7 +118,7 @@ export const useAuthStore = create<{
         const currentAuth = get().auth;
         if (!currentAuth?.refreshToken || !currentAuth?.oidcSettings) return;
         // If token expires within the next minute, refresh now
-        if (currentAuth.expiresAt - Date.now() < ONE_MINUTE_MS) {
+        if (currentAuth.expiresAt - Date.now() < ONE_MIN_MS) {
           oidcRefresh(currentAuth).then((newAuth) => {
             get().setAuth(newAuth);
           }).catch((err) => {
