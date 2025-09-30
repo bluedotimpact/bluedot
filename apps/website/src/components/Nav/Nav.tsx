@@ -63,6 +63,7 @@ export const Nav: React.FC<NavProps> = ({
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
               isScrolled={isScrolled}
+              isLoggedIn={isLoggedIn}
             />
 
             {/* Logo */}
