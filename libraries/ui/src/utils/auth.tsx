@@ -5,6 +5,9 @@ import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
+const FIVE_SEC_MS = 5 * 1000;
+const ONE_MINUTE_MS = 60 * 1000;
+
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
     throw new Error('oidcRefresh: Missing refresh token');
@@ -79,8 +82,8 @@ export const useAuthStore = create<{
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
-    const clearInMs = expiresInMs - 5_000; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
-    const refreshInMs = expiresInMs - 60_000; // Refresh 1 minute before expiry
+    const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
+    const refreshInMs = expiresInMs - ONE_MINUTE_MS; // Refresh 1 minute before expiry
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
