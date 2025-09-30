@@ -41,6 +41,23 @@ export const Nav: React.FC<NavProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle viewport breakpoint changes to reset dropdown states on mobile/desktop transitions
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+
+    const handleBreakpointChange = () => {
+      setExpandedSections({
+        about: false,
+        explore: false,
+        mobileNav: false,
+        profile: false,
+      });
+    };
+
+    mediaQuery.addEventListener('change', handleBreakpointChange);
+    return () => mediaQuery.removeEventListener('change', handleBreakpointChange);
+  }, []);
+
   return (
     <nav
       className={clsx(
