@@ -118,9 +118,8 @@ export const useAuthStore = create<{
     const visibilityHandler = async () => {
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
-        if (!currentAuth?.refreshToken || !currentAuth?.oidcSettings) return;
         // If token expires within the next minute, refresh now
-        if (currentAuth.expiresAt - Date.now() < ONE_MIN_MS) {
+        if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
           try {
             const newAuth = await oidcRefresh(currentAuth);
             get().setAuth(newAuth);
@@ -157,7 +156,7 @@ export const useAuthStore = create<{
       // Although this is done in `setAuth`, it is done there within a `setTimeout`. This can lead to race conditions
       // where components render and make API calls with expired tokens before the refresh completes.
       // Doing it here, without a `setTimeout` forces it to happen immediately, before components render.
-      if (state.auth.refreshToken && state.auth.oidcSettings && state.auth.expiresAt - Date.now() < ONE_MIN_MS) {
+      if (state.auth.refreshToken && state.auth.oidcSettings && (state.auth.expiresAt - Date.now() < ONE_MIN_MS)) {
         try {
           const refreshedAuth = await oidcRefresh(state.auth);
           state.setAuth(refreshedAuth);
