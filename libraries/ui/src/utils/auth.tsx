@@ -59,18 +59,21 @@ export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
   internal_clearTimer: NodeJS.Timeout | null,
-  internal_refreshTimer: NodeJS.Timeout | null
+  internal_refreshTimer: NodeJS.Timeout | null,
+  internal_visibilityHandler: (() => void) | null
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
     // Clear existing timers
     const existingTimer = get().internal_clearTimer;
     const existingRefreshTimer = get().internal_refreshTimer;
+    const existingVisibilityHandler = get().internal_visibilityHandler;
     if (existingTimer) clearTimeout(existingTimer);
     if (existingRefreshTimer) clearTimeout(existingRefreshTimer);
+    if (existingVisibilityHandler) document.removeEventListener('visibilitychange', existingVisibilityHandler);
 
     if (!auth) {
-      set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null });
+      set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null, internal_visibilityHandler: null });
       posthog.reset();
       return;
     }
@@ -133,10 +136,12 @@ export const useAuthStore = create<{
       auth,
       internal_clearTimer: clearTimer,
       internal_refreshTimer: refreshTimer,
+      internal_visibilityHandler: visibilityHandler,
     });
   },
   internal_clearTimer: null,
   internal_refreshTimer: null,
+  internal_visibilityHandler: null,
 }), {
   name: 'bluedot_auth',
   version: 20250513,
