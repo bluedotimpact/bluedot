@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { http, HttpResponse, delay } from 'msw';
 import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
