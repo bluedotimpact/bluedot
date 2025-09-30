@@ -29,6 +29,7 @@ describe('CourseDetails', () => {
   });
 
   const mockCourseRegistration = {
+    autoNumberId: 1,
     id: 'reg-1',
     courseId: 'course-1',
     certificateCreatedAt: null,

@@ -1,9 +1,14 @@
-import {
-  describe, it, expect, vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 
@@ -32,6 +37,7 @@ describe('CourseListRow', () => {
   });
 
   const mockCourseRegistration = {
+    autoNumberId: 1,
     id: 'reg-1',
     courseId: 'course-1',
     certificateCreatedAt: null,
@@ -51,6 +57,14 @@ describe('CourseListRow', () => {
     roundStatus: 'Active',
   };
 
+  beforeEach(() => {
+    vi.stubEnv('TZ', 'UTC');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   it('renders in-progress course correctly (snapshot)', () => {
     const { container } = render(
       <CourseListRow
@@ -64,7 +78,7 @@ describe('CourseListRow', () => {
   it('renders completed course correctly (snapshot)', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
-      certificateCreatedAt: 1704067200, // Jan 1, 2024
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
 
@@ -101,7 +115,7 @@ describe('CourseListRow', () => {
   it('shows view certificate link for completed course', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
-      certificateCreatedAt: 1704067200, // Jan 1, 2024
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
 
