@@ -124,8 +124,8 @@ export default makeApiRoute({
     }
 
     if (newDiscussion && !isManualRequest && typeof maxParticipants === 'number') {
-      const spotsLeft = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
-      if (spotsLeft === 0) {
+      const spotsLeftIfKnown = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
+      if (spotsLeftIfKnown === 0) {
         throw new createHttpError.BadRequest('Selected discussion has no spots remaining');
       }
     }
@@ -174,12 +174,12 @@ export default makeApiRoute({
       // Calculate spots left based on the minimum spots across all discussions in the group
       // This matches the logic in available.ts
       const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
-      const spotsLeftValues = groupDiscussions
+      const spotsLeftIfKnownValues = groupDiscussions
         .map((d) => Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length))
         .filter((v) => typeof v === 'number');
 
-      const spotsLeft = spotsLeftValues.length ? Math.min(...spotsLeftValues) : null;
-      if (spotsLeft === 0) {
+      const spotsLeftIfKnown = spotsLeftIfKnownValues.length ? Math.min(...spotsLeftIfKnownValues) : null;
+      if (spotsLeftIfKnown === 0) {
         throw new createHttpError.BadRequest('Selected group has no spots remaining');
       }
     }
