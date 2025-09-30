@@ -13,7 +13,7 @@ import PasswordSection from '../../components/settings/PasswordSection';
 
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
-const AccountSettingsPage = ({ auth }: { auth: { token: string } }) => {
+const AccountSettingsPage = withAuth(({ auth }) => {
   const [{ data: userData, loading: userLoading, error: userError }, refetch] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
@@ -92,6 +92,6 @@ const AccountSettingsPage = ({ auth }: { auth: { token: string } }) => {
       )}
     </div>
   );
-};
+});
 
-export default withAuth(AccountSettingsPage);
+export default AccountSettingsPage;
