@@ -79,8 +79,8 @@ export const useAuthStore = create<{
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
-    const clearInMs = expiresInMs - 5_000;
-    const refreshInMs = expiresInMs - 60_000;
+    const clearInMs = expiresInMs - 5_000; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
+    const refreshInMs = expiresInMs - 60_000; // Refresh 1 minute before expiry
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
