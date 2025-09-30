@@ -12,8 +12,12 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  unitTable, chunkTable, unitResourceTable, exerciseTable, InferSelectModel, groupDiscussionTable,
+  Chunk,
+  UnitResource,
+  Exercise,
+  Unit,
 } from '@bluedot/db';
+import type { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -27,15 +31,9 @@ import {
   A, H1, P,
 } from '../Text';
 
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
-type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
-type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-
 type ChunkWithContent = Chunk & {
   resources?: UnitResource[];
-  exercises?: ExerciseType[];
+  exercises?: Exercise[];
 };
 
 const CourseIcon: React.FC = () => (
@@ -54,7 +52,7 @@ type UnitLayoutProps = {
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
   // Optional
-  groupDiscussion?: GroupDiscussion;
+  groupDiscussionWithZoomInfo?: GroupDiscussionWithZoomInfo;
   groupDiscussionError?: Error | null;
 };
 
@@ -144,7 +142,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
   chunkIndex,
   setChunkIndex,
-  groupDiscussion,
+  groupDiscussionWithZoomInfo,
   groupDiscussionError,
 }) => {
   const router = useRouter();
@@ -398,18 +396,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {groupDiscussionError && (
             <ErrorSection error={groupDiscussionError} />
           )}
-          {groupDiscussion && (
+          {groupDiscussionWithZoomInfo?.groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner
                 unit={unit}
-                groupDiscussion={groupDiscussion}
+                groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+                userRole={groupDiscussionWithZoomInfo.userRole}
+                hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
-                  if (groupDiscussion.courseBuilderUnitRecordId === unit.id) {
+                  if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
-                  } else if (groupDiscussion.unitNumber) {
+                  } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
                     // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussion.unitNumber?.toString());
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
                     if (discussionUnit) {
                       router.push(discussionUnit.path);
                     } else {

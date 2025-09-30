@@ -11,7 +11,7 @@ import {
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import GroupSwitchModal from './GroupSwitchModal';
-import { getDiscussionTimeDisplayStrings } from '../../lib/utils';
+import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -22,12 +22,16 @@ const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 type GroupDiscussionBannerProps = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
+  userRole?: 'participant' | 'facilitator';
+  hostKeyForFacilitators?: string;
   onClickPrepare: () => void;
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   unit,
   groupDiscussion,
+  userRole,
+  hostKeyForFacilitators,
   onClickPrepare,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -68,7 +72,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
-  const { startTimeDisplayRelative, startTimeDisplayDate, startTimeDisplayTime } = useMemo(() => getDiscussionTimeDisplayStrings(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+  const startTimeDisplayDate = useMemo(() => formatDateMonthAndDay(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
+  const startTimeDisplayTime = useMemo(() => formatTime12HourClock(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
 
   // Dynamic discussion starts soon check
   const discussionStartsSoon = useMemo(
@@ -83,6 +89,19 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const slackChannelLink = groupDiscussion.slackChannelId
     ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
     : '';
+
+  const copyHostKeyIfFacilitator = async () => {
+    if (userRole === 'facilitator' && hostKeyForFacilitators) {
+      try {
+        await navigator.clipboard.writeText(hostKeyForFacilitators);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to copy host key to clipboard:', error);
+      }
+    }
+  };
+
+  const joinButtonText = userRole === 'facilitator' && hostKeyForFacilitators ? `Join discussion (Host key: ${hostKeyForFacilitators})` : 'Join discussion';
 
   return (
     <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">
@@ -100,9 +119,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           <CTALinkOrButton
             target="_blank"
             url={discussionMeetLink}
+            onClick={copyHostKeyIfFacilitator}
             className="w-full"
           >
-            Join discussion
+            {joinButtonText}
           </CTALinkOrButton>
         ) : (
           <CTALinkOrButton onClick={onClickPrepare} className="w-full">
@@ -128,13 +148,15 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           >
             Message your group
           </CTALinkOrButton>
-          <CTALinkOrButton
-            variant="secondary"
-            className="w-full"
-            onClick={() => setGroupSwitchModalOpen(true)}
-          >
-            Can't make it?
-          </CTALinkOrButton>
+          {userRole !== 'facilitator' && (
+            <CTALinkOrButton
+              variant="secondary"
+              className="w-full"
+              onClick={() => setGroupSwitchModalOpen(true)}
+            >
+              Can't make it?
+            </CTALinkOrButton>
+          )}
         </div>
       </div>
       {groupSwitchModalOpen && (
