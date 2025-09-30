@@ -229,7 +229,7 @@ export default makeApiRoute({
 
   if (allowedGroups.length === 0) {
     await slackAlert(env, [
-      `[Group switching] Warning for course registration ${participant.id}: No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
+      `[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
     ]);
   }
 
