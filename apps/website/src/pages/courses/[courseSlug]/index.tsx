@@ -25,7 +25,7 @@ type CoursePageProps = {
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
   return (
     <div>
-      {courseData?.course && renderCoursePage({ slug: courseSlug, courseData })}
+      {renderCoursePage({ slug: courseSlug, courseData })}
     </div>
   );
 };
