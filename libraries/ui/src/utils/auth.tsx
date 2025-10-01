@@ -152,20 +152,7 @@ export const useAuthStore = create<{
   // This starts the refresh and expiry logic
   onRehydrateStorage: () => async (state) => {
     if (state?.auth) {
-      // If auth is close to expiry (or expired), try to refresh immediately.
-      // Although this is done in `setAuth`, it is done there within a `setTimeout`. This can lead to race conditions
-      // where components render and make API calls with expired tokens before the refresh completes.
-      // Doing it here, without a `setTimeout` forces it to happen immediately, before components render.
-      if (state.auth.refreshToken && state.auth.oidcSettings && (state.auth.expiresAt - Date.now() < ONE_MIN_MS)) {
-        try {
-          const refreshedAuth = await oidcRefresh(state.auth);
-          state.setAuth(refreshedAuth);
-        } catch (error) {
-          state.setAuth(null);
-        }
-      } else {
-        state.setAuth(state.auth);
-      }
+      state.setAuth(state.auth);
     }
   },
 }));
