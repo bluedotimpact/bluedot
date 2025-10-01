@@ -37,30 +37,26 @@ const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
 
   return (
     <div>
-      {project && (
-        <>
-          <Head>
-            <title>{`${project.title} | BlueDot Impact`}</title>
-            <meta name="description" content={`${project.title} - Project post by ${project.authorName}`} />
-          </Head>
-          <HeroSection>
-            <HeroMiniTitle>{project.course} Project</HeroMiniTitle>
-            <HeroH1>{project.title}</HeroH1>
-            <HeroH2><A href={project.authorUrl || '#'} className="text-white">{project.authorName}</A>{project.tag?.length ? ` • ${project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
-          </HeroSection>
-          <Breadcrumbs route={currentRoute} />
-          <Section className="max-w-3xl">
-            <MarkdownExtendedRenderer>
-              {project.body}
-            </MarkdownExtendedRenderer>
-            <div className="my-8 border-t border-color-divider pt-8">
-              <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>
-                See other student projects
-              </CTALinkOrButton>
-            </div>
-          </Section>
-        </>
-      )}
+      <Head>
+        <title>{`${project.title} | BlueDot Impact`}</title>
+        <meta name="description" content={`${project.title} - Project post by ${project.authorName}`} />
+      </Head>
+      <HeroSection>
+        <HeroMiniTitle>{project.course} Project</HeroMiniTitle>
+        <HeroH1>{project.title}</HeroH1>
+        <HeroH2><A href={project.authorUrl || '#'} className="text-white">{project.authorName}</A>{project.tag?.length ? ` • ${project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
+      </HeroSection>
+      <Breadcrumbs route={currentRoute} />
+      <Section className="max-w-3xl">
+        <MarkdownExtendedRenderer>
+          {project.body}
+        </MarkdownExtendedRenderer>
+        <div className="my-8 border-t border-color-divider pt-8">
+          <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>
+            See other student projects
+          </CTALinkOrButton>
+        </div>
+      </Section>
     </div>
   );
 };
