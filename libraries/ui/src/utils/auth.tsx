@@ -96,8 +96,8 @@ export const useAuthStore = create<{
     if (auth.refreshToken && auth.oidcSettings) {
       refreshTimer = setTimeout(async () => {
         if (get().internal_isRefreshing) return;
-        set({ internal_isRefreshing: true });
         try {
+          set({ internal_isRefreshing: true });
           const newAuth = await oidcRefresh(auth);
           get().setAuth(newAuth);
         } catch (error) {
@@ -124,10 +124,10 @@ export const useAuthStore = create<{
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
         if (get().internal_isRefreshing) return;
-        set({ internal_isRefreshing: true });
         // If token expires within the next minute, refresh now
         if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
           try {
+            set({ internal_isRefreshing: true });
             const newAuth = await oidcRefresh(currentAuth);
             get().setAuth(newAuth);
           } catch (error) {
