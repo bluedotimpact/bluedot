@@ -6,6 +6,7 @@ import {
 import { H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
+import PartnerSection from './agi-strategy/PartnerSection';
 import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
 import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
@@ -124,9 +125,6 @@ const AgiStrategyLander = () => {
       {/* Graduate section */}
       <GraduateSection />
 
-      {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
-
       {/* Who is this course for section */}
       <WhoIsThisForSection />
 
@@ -144,6 +142,9 @@ const AgiStrategyLander = () => {
 
       {/* Community Members Section - What learners are saying */}
       <CommunityMembersSubSection members={communityMembers} />
+
+      {/* Partner Module */}
+      <PartnerSection />
 
       {/* FAQ Section */}
       <FAQSection />
