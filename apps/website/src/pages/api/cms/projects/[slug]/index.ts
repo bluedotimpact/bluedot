@@ -36,6 +36,8 @@ export default makeApiRoute({
       project,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching project:', slug, error);
     throw new createHttpError.NotFound('Project not found');
   }
 });

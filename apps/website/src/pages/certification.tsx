@@ -122,6 +122,8 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
     };
   } catch (error) {
     // Certificate not found or error fetching
+    // eslint-disable-next-line no-console
+    console.error('Error fetching certificate:', certificateId, error);
     return {
       props: {
         certificate: null,

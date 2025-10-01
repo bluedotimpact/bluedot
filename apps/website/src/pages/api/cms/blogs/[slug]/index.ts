@@ -36,6 +36,8 @@ export default makeApiRoute({
       blog,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching blog post:', slug, error);
     throw new createHttpError.NotFound('Blog post not found');
   }
 });

@@ -36,6 +36,8 @@ export default makeApiRoute({
       job,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching job listing:', slug, error);
     throw new createHttpError.NotFound('Job listing not found');
   }
 });
