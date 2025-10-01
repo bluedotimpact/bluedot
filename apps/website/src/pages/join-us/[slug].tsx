@@ -9,7 +9,7 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { JobPosting } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
 import { getJobIfPublished } from '../api/cms/jobs/[slug]';
@@ -89,7 +89,16 @@ const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<JobPostingPageProps> = async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
 
   if (!slug) {
@@ -106,6 +115,7 @@ export const getServerSideProps: GetServerSideProps<JobPostingPageProps> = async
         slug,
         job,
       },
+      revalidate: 300,
     };
   } catch (error) {
     // Error fetching job data (likely not found)

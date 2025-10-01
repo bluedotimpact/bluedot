@@ -8,7 +8,7 @@ import {
   BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { Blog } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
@@ -97,7 +97,16 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<BlogPostPageProps> = async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
 
   if (!slug) {
@@ -114,6 +123,7 @@ export const getServerSideProps: GetServerSideProps<BlogPostPageProps> = async (
         slug,
         blog,
       },
+      revalidate: 300,
     };
   } catch (error) {
     // Error fetching blog data (likely not found)

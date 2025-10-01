@@ -99,7 +99,7 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
   );
 };
 
-export const getServerSideProps: GetServerSideProps<CertificatePageProps> = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps<CertificatePageProps> = async ({ query, res }) => {
   const certificateId = (query.id || query.r) as string | undefined;
 
   if (!certificateId) {
@@ -113,6 +113,13 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
 
   try {
     const certificate = await getCertificateData(certificateId);
+
+    // Equivalent to `revalidate: 300` in getStaticProps. That can't be used here because we are
+    // using query params rather than path params.
+    res.setHeader(
+      'Cache-Control',
+      'public, max-age=300, stale-while-revalidate=86400',
+    );
 
     return {
       props: {

@@ -8,7 +8,7 @@ import {
   BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { Project } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
@@ -61,7 +61,16 @@ const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<ProjectPostPageProps> = async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
 
   if (!slug) {
@@ -78,6 +87,7 @@ export const getServerSideProps: GetServerSideProps<ProjectPostPageProps> = asyn
         slug,
         project,
       },
+      revalidate: 300,
     };
   } catch (error) {
     // Error fetching project data (likely not found)

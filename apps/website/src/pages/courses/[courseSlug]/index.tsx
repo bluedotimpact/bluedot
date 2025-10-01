@@ -6,7 +6,7 @@ import {
   HeroSection,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { CourseAndUnits, getCourseData } from '../../api/courses/[courseSlug]';
 
 import { ROUTES } from '../../../lib/routes';
@@ -88,7 +88,16 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<CoursePageProps> = async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }) => {
   const courseSlug = params?.courseSlug as string;
 
   if (!courseSlug) {
@@ -105,6 +114,7 @@ export const getServerSideProps: GetServerSideProps<CoursePageProps> = async ({ 
         courseSlug,
         courseData,
       },
+      revalidate: 300,
     };
   } catch (error) {
     // Error fetching course data (likely not found)
