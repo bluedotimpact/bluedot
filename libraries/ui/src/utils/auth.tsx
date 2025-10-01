@@ -132,7 +132,7 @@ export const useAuthStore = create<{
       }
     };
 
-    document.addEventListener('visibilitychange', visibilityHandler);
+    document.addEventListener('visibilitychange', visibilityHandler, { passive: true });
 
     set({
       auth,
