@@ -147,6 +147,8 @@ export const useAuthStore = create<{
 }), {
   name: 'bluedot_auth',
   version: 20250513,
+  // Only persist the auth object to localStorage, not the timers or event handlers
+  partialize: (state) => ({ auth: state.auth }),
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
