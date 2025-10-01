@@ -110,7 +110,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
-          hostKey="123456"
+          hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
       );
@@ -162,7 +162,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
-          hostKey="123456"
+          hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
       );
@@ -235,7 +235,7 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
-          hostKey="123456"
+          hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
       );

@@ -62,7 +62,7 @@ const meta = {
       control: { type: 'select' },
       options: ['participant', 'facilitator'],
     },
-    hostKey: {
+    hostKeyForFacilitators: {
       control: { type: 'text' },
     },
   },
@@ -93,7 +93,7 @@ export const ParticipantNotStartingSoon: Story = {
 export const FacilitatorStartingSoon: Story = {
   args: {
     userRole: 'facilitator',
-    hostKey: '123456',
+    hostKeyForFacilitators: '123456',
   },
 };
 
@@ -101,7 +101,7 @@ export const FacilitatorStartingSoon: Story = {
 export const FacilitatorNotStartingSoon: Story = {
   args: {
     userRole: 'facilitator',
-    hostKey: '123456',
+    hostKeyForFacilitators: '123456',
     groupDiscussion: {
       ...mockGroupDiscussion,
       startDateTime: Math.floor(Date.now() / 1000) + 7200,
