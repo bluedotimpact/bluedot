@@ -6,37 +6,30 @@ import {
   Section,
   Breadcrumbs,
   BluedotRoute,
-  ErrorSection,
-  ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
-import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import { Project } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { GetProjectResponse } from '../api/cms/projects/[slug]';
+import { getProjectIfPublished } from '../api/cms/projects/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { A } from '../../components/Text';
 
-const ProjectPostPage = () => {
-  const { query: { slug } } = useRouter();
-  if (typeof slug !== 'string') {
-    return <ProgressDots />;
-  }
+type ProjectPostPageProps = {
+  slug: string;
+  project: Project;
+};
 
-  const [{ data, loading, error }] = useAxios<GetProjectResponse>({
-    method: 'get',
-    url: `/api/cms/projects/${slug}`,
-  });
-
+const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
   const currentRoute: BluedotRoute = {
-    title: data?.project?.title || 'Project',
+    title: project.title || 'Project',
     url: `${ROUTES.projects.url}/${slug}`,
     parentPages: [...(ROUTES.projects.parentPages ?? []), ROUTES.projects],
   };
 
-  const formattedDate = data?.project?.publishedAt
-    ? new Date(data.project.publishedAt * 1000).toLocaleDateString('en-US', {
+  const formattedDate = project.publishedAt
+    ? new Date(project.publishedAt * 1000).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
     })
@@ -44,23 +37,21 @@ const ProjectPostPage = () => {
 
   return (
     <div>
-      {loading && <ProgressDots />}
-      {error && <ErrorSection error={error} />}
-      {data?.project && (
+      {project && (
         <>
           <Head>
-            <title>{`${data.project.title} | BlueDot Impact`}</title>
-            <meta name="description" content={`${data.project.title} - Project post by ${data.project.authorName}`} />
+            <title>{`${project.title} | BlueDot Impact`}</title>
+            <meta name="description" content={`${project.title} - Project post by ${project.authorName}`} />
           </Head>
           <HeroSection>
-            <HeroMiniTitle>{data.project.course} Project</HeroMiniTitle>
-            <HeroH1>{data.project.title}</HeroH1>
-            <HeroH2><A href={data.project.authorUrl || '#'} className="text-white">{data.project.authorName}</A>{data.project.tag?.length ? ` • ${data.project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
+            <HeroMiniTitle>{project.course} Project</HeroMiniTitle>
+            <HeroH1>{project.title}</HeroH1>
+            <HeroH2><A href={project.authorUrl || '#'} className="text-white">{project.authorName}</A>{project.tag?.length ? ` • ${project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
             <MarkdownExtendedRenderer>
-              {data.project.body}
+              {project.body}
             </MarkdownExtendedRenderer>
             <div className="my-8 border-t border-color-divider pt-8">
               <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>
@@ -72,6 +63,32 @@ const ProjectPostPage = () => {
       )}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<ProjectPostPageProps> = async ({ params }) => {
+  const slug = params?.slug as string;
+
+  if (!slug) {
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const project = await getProjectIfPublished(slug);
+
+    return {
+      props: {
+        slug,
+        project,
+      },
+    };
+  } catch (error) {
+    // Error fetching project data (likely not found)
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default ProjectPostPage;
