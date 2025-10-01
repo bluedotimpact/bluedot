@@ -5,50 +5,36 @@ import {
   Section,
   Breadcrumbs,
   BluedotRoute,
-  ErrorSection,
-  ProgressDots,
   HeroCTAContainer,
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
-import { useRouter } from 'next/router';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { JobPosting } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
-import { GetJobResponse } from '../api/cms/jobs/[slug]';
+import { getJobIfPublished } from '../api/cms/jobs/[slug]';
+import { getAllPublishedJobs } from '../api/cms/jobs';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 
-const JobPostingPage = () => {
-  const router = useRouter();
-  if (!router.isReady) {
-    return <ProgressDots />;
-  }
+type JobPostingPageProps = {
+  slug: string;
+  job: JobPosting;
+};
 
-  const { slug } = router.query;
-
-  if (typeof slug !== 'string') {
-    return <ErrorSection error={new Error('Job not found: invalid path')} />;
-  }
-
-  const [{ data, loading, error }] = useAxios<GetJobResponse>({
-    method: 'get',
-    url: `/api/cms/jobs/${slug}`,
-  });
-
+const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
   const currentRoute: BluedotRoute = {
-    title: data?.job?.title || 'Job Posting',
+    title: job.title || 'Job Posting',
     url: `${ROUTES.joinUs.url}/${slug}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
 
   return (
     <div>
-      {loading && <ProgressDots />}
-      {!loading && error && <ErrorSection error={error} />}
-      {data?.job && (
+      {job && (
         <>
           <Head>
-            <title>{`${data.job.title} | BlueDot Impact`}</title>
-            <meta name="description" content={data.job.subtitle} />
+            <title>{`${job.title} | BlueDot Impact`}</title>
+            <meta name="description" content={job.subtitle} />
             <script
               type="application/ld+json"
               // eslint-disable-next-line react/no-danger
@@ -56,9 +42,9 @@ const JobPostingPage = () => {
                 __html: JSON.stringify({
                   '@context': 'https://schema.org',
                   '@type': 'JobPosting',
-                  title: data.job.title,
-                  description: data.job.body,
-                  datePosted: data.job.publishedAt ? new Date(data.job.publishedAt * 1000).toISOString() : undefined,
+                  title: job.title,
+                  description: job.body,
+                  datePosted: job.publishedAt ? new Date(job.publishedAt * 1000).toISOString() : undefined,
                   hiringOrganization: {
                     '@type': 'Organization',
                     name: 'BlueDot Impact',
@@ -73,7 +59,7 @@ const JobPostingPage = () => {
                       addressCountry: 'United Kingdom',
                     },
                   },
-                  identifier: data.job.id,
+                  identifier: job.id,
                   mainEntityOfPage: {
                     '@type': 'WebPage',
                     '@id': `${ROUTES.joinUs.url}/${slug}`,
@@ -83,22 +69,22 @@ const JobPostingPage = () => {
             />
           </Head>
           <HeroSection>
-            <HeroH1>{data.job.title}</HeroH1>
-            {data.job.subtitle && <HeroH2>{data.job.subtitle}</HeroH2>}
-            {data.job.applicationUrl && (
+            <HeroH1>{job.title}</HeroH1>
+            {job.subtitle && <HeroH2>{job.subtitle}</HeroH2>}
+            {job.applicationUrl && (
               <HeroCTAContainer>
-                <CTALinkOrButton url={data.job.applicationUrl}>Apply Now</CTALinkOrButton>
+                <CTALinkOrButton url={job.applicationUrl}>Apply Now</CTALinkOrButton>
               </HeroCTAContainer>
             )}
           </HeroSection>
           <Breadcrumbs route={currentRoute} />
           <Section className="max-w-3xl">
             <MarkdownExtendedRenderer>
-              {data.job.body}
+              {job.body}
             </MarkdownExtendedRenderer>
-            {data.job.applicationUrl && (
+            {job.applicationUrl && (
               <div className="my-8">
-                <CTALinkOrButton url={data.job.applicationUrl}>Apply Now</CTALinkOrButton>
+                <CTALinkOrButton url={job.applicationUrl}>Apply Now</CTALinkOrButton>
               </div>
             )}
           </Section>
@@ -106,6 +92,45 @@ const JobPostingPage = () => {
       )}
     </div>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const jobs = await getAllPublishedJobs();
+  const paths = jobs.map((job) => ({
+    params: { slug: job.slug },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ params }) => {
+  const slug = params?.slug as string;
+
+  if (!slug) {
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const job = await getJobIfPublished(slug);
+
+    return {
+      props: {
+        slug,
+        job,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    // Error fetching job data (likely not found)
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default JobPostingPage;

@@ -12,13 +12,7 @@ export type GetBlogResponse = {
 };
 
 export async function getBlogIfPublished(slug: string): Promise<Blog> {
-  // Get blog by slug and filter out unpublished ones
   const blog = await db.get(blogTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
-
-  if (!blog) {
-    throw new createHttpError.NotFound(`Blog not found: ${slug}`);
-  }
-
   return blog;
 }
 

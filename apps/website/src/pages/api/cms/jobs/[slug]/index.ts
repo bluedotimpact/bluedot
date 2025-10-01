@@ -1,17 +1,20 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  jobPostingTable, InferSelectModel,
+  jobPostingTable, JobPosting,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
-type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
-
 export type GetJobResponse = {
   type: 'success',
-  job: CmsJobPosting,
+  job: JobPosting,
 };
+
+export async function getJobIfPublished(slug: string): Promise<JobPosting> {
+  const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
+  return job;
+}
 
 export default makeApiRoute({
   requireAuth: false,
@@ -25,8 +28,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  // Get job by slug and filter out unpublished ones
-  const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
+  const job = await getJobIfPublished(slug);
 
   return {
     type: 'success' as const,
