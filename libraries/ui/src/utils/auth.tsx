@@ -4,6 +4,7 @@ import React from 'react';
 import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
+import { ProgressDots } from '../ProgressDots';
 
 const FIVE_SEC_MS = 5 * 1000;
 const ONE_MIN_MS = 60 * 1000;
@@ -60,7 +61,9 @@ export const useAuthStore = create<{
   setAuth:(auth: Auth | null) => void,
   internal_clearTimer: NodeJS.Timeout | null,
   internal_refreshTimer: NodeJS.Timeout | null,
-  internal_visibilityHandler: (() => void) | null
+  internal_visibilityHandler: (() => void) | null,
+  hasHydrated: boolean,
+  setHasHydrated: (b: boolean) => void,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
@@ -144,6 +147,8 @@ export const useAuthStore = create<{
   internal_clearTimer: null,
   internal_refreshTimer: null,
   internal_visibilityHandler: null,
+  hasHydrated: false,
+  setHasHydrated: (state) => { set({ hasHydrated: state }); },
 }), {
   name: 'bluedot_auth',
   version: 20250513,
@@ -169,13 +174,19 @@ export const useAuthStore = create<{
         state.setAuth(state.auth);
       }
     }
+    state?.setHasHydrated(true);
   },
 }));
 
 export const withAuth = (Component: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }>, loginRoute = '/login'): React.FC => {
   return () => {
     const auth = useAuthStore((s) => s.auth);
+    const hasHydrated = useAuthStore((s) => s.hasHydrated);
     const setAuth = useAuthStore((s) => s.setAuth);
+
+    if (!hasHydrated) {
+      return typeof window === 'undefined' ? null : <ProgressDots />;
+    }
 
     if (!auth) {
       if (typeof window === 'undefined') {
