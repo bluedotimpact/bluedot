@@ -1,18 +1,15 @@
 import {
   Breadcrumbs,
   CTALinkOrButton,
-  ErrorSection,
   HeroCTAContainer,
   HeroH1,
   HeroSection,
-  ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
-import { useRouter } from 'next/router';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { CourseAndUnits, getCourseData } from '../../api/courses/[courseSlug]';
 
 import { ROUTES } from '../../../lib/routes';
-import { GetCourseResponse } from '../../api/courses/[courseSlug]';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
@@ -20,32 +17,24 @@ import AgiStrategyLander from '../../../components/lander/AgiStrategyLander';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 
-const CoursePage = () => {
-  const { query: { courseSlug } } = useRouter();
+type CoursePageProps = {
+  courseSlug: string;
+  courseData: CourseAndUnits;
+};
 
-  if (typeof courseSlug !== 'string') {
-    return <ProgressDots />;
-  }
-
-  const [{ data, loading, error }] = useAxios<GetCourseResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}`,
-  });
-
+const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
   return (
     <div>
-      {loading && <ProgressDots />}
-      {error && <ErrorSection error={error} />}
-      {data?.course && renderCoursePage(courseSlug, data)}
+      {renderCoursePage({ slug: courseSlug, courseData })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = (slug: string, data: GetCourseResponse) => {
+const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: CourseAndUnits; }) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
-    return <FutureOfAiLander courseData={data} />;
+    return <FutureOfAiLander courseData={courseData} />;
   }
 
   if (slug === 'ops') {
@@ -57,10 +46,10 @@ const renderCoursePage = (slug: string, data: GetCourseResponse) => {
   }
 
   // Default case
-  return <StandardCoursePage courseData={data} />;
+  return <StandardCoursePage courseData={courseData} />;
 };
 
-const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) => {
+const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
   return (
     <div>
       {courseData.course && (
@@ -97,6 +86,42 @@ const StandardCoursePage = ({ courseData }: { courseData: GetCourseResponse }) =
       )}
     </div>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }) => {
+  const courseSlug = params?.courseSlug as string;
+
+  if (!courseSlug) {
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const courseData = await getCourseData(courseSlug);
+
+    return {
+      props: {
+        courseSlug,
+        courseData,
+      },
+      revalidate: 300,
+    };
+  } catch (error) {
+    // Error fetching course data (likely not found)
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default CoursePage;

@@ -1,17 +1,20 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
-  blogTable, InferSelectModel,
+  blogTable, Blog,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
-type CmsBlog = InferSelectModel<typeof blogTable.pg>;
-
 export type GetBlogResponse = {
   type: 'success',
-  blog: CmsBlog,
+  blog: Blog,
 };
+
+export async function getBlogIfPublished(slug: string): Promise<Blog> {
+  const blog = await db.get(blogTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
+  return blog;
+}
 
 export default makeApiRoute({
   requireAuth: false,
@@ -25,11 +28,16 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  // Get blog by slug and filter out unpublished ones
-  const blog = await db.get(blogTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
+  try {
+    const blog = await getBlogIfPublished(slug);
 
-  return {
-    type: 'success' as const,
-    blog,
-  };
+    return {
+      type: 'success' as const,
+      blog,
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error fetching blog post:', slug, error);
+    throw new createHttpError.NotFound('Blog post not found');
+  }
 });

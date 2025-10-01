@@ -6,37 +6,30 @@ import {
   Section,
   Breadcrumbs,
   BluedotRoute,
-  ErrorSection,
-  ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
-import { useRouter } from 'next/router';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import { Blog } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { GetBlogResponse } from '../api/cms/blogs/[slug]';
+import { getBlogIfPublished } from '../api/cms/blogs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { A } from '../../components/Text';
 
-const BlogPostPage = () => {
-  const { query: { slug } } = useRouter();
-  if (typeof slug !== 'string') {
-    return <ProgressDots />;
-  }
+type BlogPostPageProps = {
+  slug: string;
+  blog: Blog;
+};
 
-  const [{ data, loading, error }] = useAxios<GetBlogResponse>({
-    method: 'get',
-    url: `/api/cms/blogs/${slug}`,
-  });
-
+const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
   const currentRoute: BluedotRoute = {
-    title: data?.blog?.title || 'Blog Post',
+    title: blog.title || 'Blog Post',
     url: `${ROUTES.blog.url}/${slug}`,
     parentPages: [...(ROUTES.blog.parentPages ?? []), ROUTES.blog],
   };
 
-  const formattedDate = data?.blog?.publishedAt
-    ? new Date(data.blog.publishedAt * 1000).toLocaleDateString('en-US', {
+  const formattedDate = blog.publishedAt
+    ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -45,69 +38,99 @@ const BlogPostPage = () => {
 
   return (
     <div>
-      {loading && <ProgressDots />}
-      {error && <ErrorSection error={error} />}
-      {data?.blog && (
-        <>
-          <Head>
-            <title>{`${data.blog.title} | BlueDot Impact`}</title>
-            <meta name="description" content={`${data.blog.title} - Blog post by ${data.blog.authorName}`} />
-            <meta key="og:title" property="og:title" content={data.blog.title} />
-            <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-            <meta key="og:description" property="og:description" content={data.blog.title} />
-            <meta key="og:type" property="og:type" content="article" />
-            <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(slug)}`} />
-            <script
-              type="application/ld+json"
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify({
-                  '@context': 'https://schema.org',
-                  '@type': 'BlogPosting',
-                  headline: data.blog.title,
-                  author: {
-                    '@type': 'Person',
-                    name: data.blog.authorName,
-                    url: data.blog.authorUrl,
-                  },
-                  ...(data.blog.publishedAt ? {
-                    datePublished: new Date(data.blog.publishedAt * 1000).toISOString(),
-                    dateModified: new Date(data.blog.publishedAt * 1000).toISOString(),
-                  } : {}),
-                  mainEntityOfPage: {
-                    '@type': 'WebPage',
-                    '@id': `${ROUTES.blog.url}/${slug}`,
-                  },
-                  description: data.blog.title,
-                  publisher: {
-                    '@type': 'Organization',
-                    name: 'BlueDot Impact',
-                    url: 'https://bluedot.org',
-                  },
-                }),
-              }}
-            />
-          </Head>
-          <HeroSection>
-            <HeroMiniTitle>Blog</HeroMiniTitle>
-            <HeroH1>{data.blog.title}</HeroH1>
-            <HeroH2><A href={data.blog.authorUrl || '#'} className="text-white">{data.blog.authorName || 'Unknown Author'}</A> • {formattedDate}</HeroH2>
-          </HeroSection>
-          <Breadcrumbs route={currentRoute} />
-          <Section className="max-w-3xl">
-            <MarkdownExtendedRenderer>
-              {data.blog.body ?? ''}
-            </MarkdownExtendedRenderer>
-            <div className="my-8 border-t border-color-divider pt-8">
-              <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withBackChevron>
-                See our other articles
-              </CTALinkOrButton>
-            </div>
-          </Section>
-        </>
-      )}
+      <Head>
+        <title>{`${blog.title} | BlueDot Impact`}</title>
+        <meta name="description" content={`${blog.title} - Blog post by ${blog.authorName}`} />
+        <meta key="og:title" property="og:title" content={blog.title} />
+        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+        <meta key="og:description" property="og:description" content={blog.title} />
+        <meta key="og:type" property="og:type" content="article" />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(slug)}`} />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BlogPosting',
+              headline: blog.title,
+              author: {
+                '@type': 'Person',
+                name: blog.authorName,
+                url: blog.authorUrl,
+              },
+              ...(blog.publishedAt ? {
+                datePublished: new Date(blog.publishedAt * 1000).toISOString(),
+                dateModified: new Date(blog.publishedAt * 1000).toISOString(),
+              } : {}),
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `${ROUTES.blog.url}/${slug}`,
+              },
+              description: blog.title,
+              publisher: {
+                '@type': 'Organization',
+                name: 'BlueDot Impact',
+                url: 'https://bluedot.org',
+              },
+            }),
+          }}
+        />
+      </Head>
+      <HeroSection>
+        <HeroMiniTitle>Blog</HeroMiniTitle>
+        <HeroH1>{blog.title}</HeroH1>
+        <HeroH2><A href={blog.authorUrl || '#'} className="text-white">{blog.authorName || 'Unknown Author'}</A> • {formattedDate}</HeroH2>
+      </HeroSection>
+      <Breadcrumbs route={currentRoute} />
+      <Section className="max-w-3xl">
+        <MarkdownExtendedRenderer>
+          {blog.body ?? ''}
+        </MarkdownExtendedRenderer>
+        <div className="my-8 border-t border-color-divider pt-8">
+          <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withBackChevron>
+            See our other articles
+          </CTALinkOrButton>
+        </div>
+      </Section>
     </div>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // CI is not currently set up to support connecting to the database at build
+  // time, so return no paths, and rely on `fallback: 'blocking'` to render the pages on demand.
+  return {
+    paths: [],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params }) => {
+  const slug = params?.slug as string;
+
+  if (!slug) {
+    return {
+      notFound: true,
+    };
+  }
+
+  try {
+    const blog = await getBlogIfPublished(slug);
+
+    return {
+      props: {
+        slug,
+        blog,
+      },
+      revalidate: 300,
+    };
+  } catch (error) {
+    // Error fetching blog data (likely not found)
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default BlogPostPage;

@@ -20,7 +20,7 @@ import {
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
 
-import { GetCourseResponse } from '../../pages/api/courses/[courseSlug]';
+import { CourseAndUnits } from '../../pages/api/courses/[courseSlug]';
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
@@ -115,7 +115,7 @@ const features = [
 
 const FutureOfAiLander = ({
   courseData,
-}: { courseData: GetCourseResponse }) => {
+}: { courseData: CourseAndUnits }) => {
   // Track landing page views
   useEffect(() => {
     if (typeof window !== 'undefined' && window.dataLayer) {

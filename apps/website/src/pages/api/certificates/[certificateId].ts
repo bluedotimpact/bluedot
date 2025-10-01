@@ -19,6 +19,23 @@ export type GetCertificateResponse = {
   certificate: Certificate;
 };
 
+export async function getCertificateData(certificateId: string): Promise<Certificate> {
+  const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+
+  const certificate: Certificate = {
+    certificateId,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
+    recipientName: courseRegistration.fullName,
+    courseName: course.title,
+    courseDetailsUrl: course.detailsUrl,
+    certificationDescription: course.certificationDescription || '',
+    certificationBadgeImageSrc: course.certificationBadgeImage || '',
+  };
+
+  return certificate;
+}
+
 export default makeApiRoute({
   requireAuth: false,
   responseBody: z.object({
@@ -31,19 +48,7 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Missing certificateId');
   }
 
-  const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
-
-  const course = await db.get(courseTable, { id: courseRegistration.courseId });
-
-  const certificate: Certificate = {
-    certificateId,
-    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
-    recipientName: courseRegistration.fullName,
-    courseName: course.title,
-    courseDetailsUrl: course.detailsUrl,
-    certificationDescription: course.certificationDescription || '',
-    certificationBadgeImageSrc: course.certificationBadgeImage || '',
-  };
+  const certificate = await getCertificateData(certificateId);
 
   return {
     type: 'success' as const,
