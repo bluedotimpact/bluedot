@@ -8,12 +8,11 @@ import {
   BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { GetServerSideProps } from 'next';
 import { Blog } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
 import { getBlogIfPublished } from '../api/cms/blogs/[slug]';
-import { getAllPublishedBlogs } from '../api/cms/blogs';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { A } from '../../components/Text';
 
@@ -102,19 +101,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const blogs = await getAllPublishedBlogs();
-  const paths = blogs.map((blog) => ({
-    params: { slug: blog.slug },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<BlogPostPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
 
   if (!slug) {
@@ -131,7 +118,6 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
         slug,
         blog,
       },
-      revalidate: 60,
     };
   } catch (error) {
     // Error fetching blog data (likely not found)

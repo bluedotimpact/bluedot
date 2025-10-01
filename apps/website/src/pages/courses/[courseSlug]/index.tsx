@@ -6,8 +6,7 @@ import {
   HeroSection,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { getAllActiveCourses } from '../../api/courses';
+import { GetServerSideProps } from 'next';
 import { CourseAndUnits, getCourseData } from '../../api/courses/[courseSlug]';
 
 import { ROUTES } from '../../../lib/routes';
@@ -89,19 +88,7 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const courses = await getAllActiveCourses();
-  const paths = courses.map((course) => ({
-    params: { courseSlug: course.slug },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<CoursePageProps> = async ({ params }) => {
   const courseSlug = params?.courseSlug as string;
 
   if (!courseSlug) {
@@ -118,7 +105,6 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
         courseSlug,
         courseData,
       },
-      revalidate: 60,
     };
   } catch (error) {
     // Error fetching course data (likely not found)

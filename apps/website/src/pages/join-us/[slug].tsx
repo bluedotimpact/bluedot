@@ -9,11 +9,10 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { GetServerSideProps } from 'next';
 import { JobPosting } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
 import { getJobIfPublished } from '../api/cms/jobs/[slug]';
-import { getAllPublishedJobs } from '../api/cms/jobs';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 
 type JobPostingPageProps = {
@@ -94,19 +93,7 @@ const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const jobs = await getAllPublishedJobs();
-  const paths = jobs.map((job) => ({
-    params: { slug: job.slug },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<JobPostingPageProps> = async ({ params }) => {
   const slug = params?.slug as string;
 
   if (!slug) {
@@ -123,7 +110,6 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
         slug,
         job,
       },
-      revalidate: 60,
     };
   } catch (error) {
     // Error fetching job data (likely not found)
