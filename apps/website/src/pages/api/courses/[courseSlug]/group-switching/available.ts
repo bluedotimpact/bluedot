@@ -11,8 +11,10 @@ import {
   roundTable,
   arrayOverlaps,
 } from '@bluedot/db';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
+import env from '../../../../../lib/api/env';
 
 type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Group = InferSelectModel<typeof groupTable.pg>;
@@ -215,6 +217,12 @@ export default makeApiRoute({
     return allGroups.filter((group) => allowedGroupIds.has(group.id));
   };
   const allowedGroups = await getAllowedGroups();
+
+  if (allowedGroups.length === 0) {
+    await slackAlert(env, [
+      `[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
+    ]);
+  }
 
   const groupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
     OR: allowedGroups.map((g) => ({ group: g.id })),
