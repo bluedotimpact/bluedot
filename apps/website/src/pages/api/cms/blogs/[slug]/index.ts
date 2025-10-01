@@ -28,10 +28,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const blog = await getBlogIfPublished(slug);
+  try {
+    const blog = await getBlogIfPublished(slug);
 
-  return {
-    type: 'success' as const,
-    blog,
-  };
+    return {
+      type: 'success' as const,
+      blog,
+    };
+  } catch (error) {
+    throw new createHttpError.NotFound('Blog post not found');
+  }
 });

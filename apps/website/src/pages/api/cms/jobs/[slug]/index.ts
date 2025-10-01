@@ -28,10 +28,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const job = await getJobIfPublished(slug);
+  try {
+    const job = await getJobIfPublished(slug);
 
-  return {
-    type: 'success' as const,
-    job,
-  };
+    return {
+      type: 'success' as const,
+      job,
+    };
+  } catch (error) {
+    throw new createHttpError.NotFound('Job listing not found');
+  }
 });

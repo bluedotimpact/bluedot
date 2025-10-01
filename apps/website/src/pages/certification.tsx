@@ -1,24 +1,23 @@
 import {
   CTALinkOrButton,
   NewText,
-  ProgressDots,
   Section,
   Footer,
   ShareButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
+import { GetServerSideProps } from 'next';
 import { FaCircleCheck } from 'react-icons/fa6';
-import { GetCertificateResponse } from './api/certificates/[certificateId]';
+import { Certificate, getCertificateData } from './api/certificates/[certificateId]';
 import { ROUTES } from '../lib/routes';
 import { P } from '../components/Text';
 
-const CertificatePage = () => {
-  const router = useRouter();
-  const { id, r } = router.query;
-  const certificateId = id ?? r;
+type CertificatePageProps = {
+  certificate: Certificate | null;
+  certificateId: string | null;
+};
 
+const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) => {
   if (!certificateId) {
     return (
       <main className="bluedot-base flex flex-col">
@@ -37,20 +36,7 @@ const CertificatePage = () => {
     );
   }
 
-  const [{ data, loading, error }] = useAxios<GetCertificateResponse>({
-    method: 'get',
-    url: certificateId ? `/api/certificates/${certificateId}` : undefined,
-  });
-
-  if (loading) {
-    return (
-      <main className="bluedot-base flex justify-center items-center">
-        <ProgressDots />
-      </main>
-    );
-  }
-
-  if (error || !data) {
+  if (!certificate) {
     return (
       <main className="bluedot-base flex flex-col">
         <Section className="flex-1">
@@ -67,8 +53,6 @@ const CertificatePage = () => {
       </main>
     );
   }
-
-  const { certificate } = data;
 
   return (
     <main className="bluedot-base flex flex-col">
@@ -113,6 +97,38 @@ const CertificatePage = () => {
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
     </main>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<CertificatePageProps> = async ({ query }) => {
+  const certificateId = (query.id || query.r) as string | undefined;
+
+  if (!certificateId) {
+    return {
+      props: {
+        certificate: null,
+        certificateId: null,
+      },
+    };
+  }
+
+  try {
+    const certificate = await getCertificateData(certificateId);
+
+    return {
+      props: {
+        certificate,
+        certificateId,
+      },
+    };
+  } catch (error) {
+    // Certificate not found or error fetching
+    return {
+      props: {
+        certificate: null,
+        certificateId,
+      },
+    };
+  }
 };
 
 CertificatePage.rawLayout = true;

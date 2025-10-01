@@ -28,10 +28,14 @@ export default makeApiRoute({
     throw new createHttpError.BadRequest('Invalid slug');
   }
 
-  const project = await getProjectIfPublished(slug);
+  try {
+    const project = await getProjectIfPublished(slug);
 
-  return {
-    type: 'success' as const,
-    project,
-  };
+    return {
+      type: 'success' as const,
+      project,
+    };
+  } catch (error) {
+    throw new createHttpError.NotFound('Project not found');
+  }
 });
