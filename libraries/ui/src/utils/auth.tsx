@@ -150,7 +150,7 @@ export const useAuthStore = create<{
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
-  onRehydrateStorage: () => async (state) => {
+  onRehydrateStorage: () => (state) => {
     if (state?.auth) {
       state.setAuth(state.auth);
     }
