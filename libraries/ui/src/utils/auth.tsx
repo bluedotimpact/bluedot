@@ -60,7 +60,8 @@ export const useAuthStore = create<{
   setAuth:(auth: Auth | null) => void,
   internal_clearTimer: NodeJS.Timeout | null,
   internal_refreshTimer: NodeJS.Timeout | null,
-  internal_visibilityHandler: (() => void) | null
+  internal_visibilityHandler: (() => void) | null,
+  internal_isRefreshing: boolean,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
@@ -94,6 +95,8 @@ export const useAuthStore = create<{
     let refreshTimer: NodeJS.Timeout | null = null;
     if (auth.refreshToken && auth.oidcSettings) {
       refreshTimer = setTimeout(async () => {
+        if (get().internal_isRefreshing) return;
+        set({ internal_isRefreshing: true });
         try {
           const newAuth = await oidcRefresh(auth);
           get().setAuth(newAuth);
@@ -101,6 +104,8 @@ export const useAuthStore = create<{
           // eslint-disable-next-line no-console
           console.error('Token refresh failed:', error);
           get().setAuth(null);
+        } finally {
+          set({ internal_isRefreshing: false });
         }
       }, refreshInMs);
     }
@@ -118,6 +123,8 @@ export const useAuthStore = create<{
     const visibilityHandler = async () => {
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
+        if (get().internal_isRefreshing) return;
+        set({ internal_isRefreshing: true });
         // If token expires within the next minute, refresh now
         if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
           try {
@@ -127,6 +134,8 @@ export const useAuthStore = create<{
             // eslint-disable-next-line no-console
             console.error('Token refresh on visibility failed:', error);
             get().setAuth(null);
+          } finally {
+            set({ internal_isRefreshing: false });
           }
         }
       }
@@ -144,6 +153,7 @@ export const useAuthStore = create<{
   internal_clearTimer: null,
   internal_refreshTimer: null,
   internal_visibilityHandler: null,
+  internal_isRefreshing: false,
 }), {
   name: 'bluedot_auth',
   version: 20250513,
