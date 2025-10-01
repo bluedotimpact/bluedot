@@ -54,7 +54,7 @@ const meta = {
     groupDiscussion: mockGroupDiscussion,
     onClickPrepare: () => {
       // eslint-disable-next-line no-alert
-      alert('[Debug action for storybook] onClickPrepare called')
+      alert('[Debug action for storybook] onClickPrepare called');
     },
   },
   argTypes: {

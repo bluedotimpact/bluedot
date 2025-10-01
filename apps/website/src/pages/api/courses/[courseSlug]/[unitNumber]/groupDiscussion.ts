@@ -17,7 +17,7 @@ import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 
 export type GroupDiscussionWithZoomInfo = {
-  groupDiscussion?: GroupDiscussion,
+  groupDiscussion: GroupDiscussion | null,
   userRole?: 'participant' | 'facilitator',
   hostKeyForFacilitators?: string,
 };
