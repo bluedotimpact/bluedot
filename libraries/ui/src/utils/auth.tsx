@@ -5,6 +5,9 @@ import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
+const FIVE_SEC_MS = 5 * 1000;
+const ONE_MIN_MS = 60 * 1000;
+
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
     throw new Error('oidcRefresh: Missing refresh token');
@@ -56,18 +59,24 @@ export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
   internal_clearTimer: NodeJS.Timeout | null,
-  internal_refreshTimer: NodeJS.Timeout | null
+  internal_refreshTimer: NodeJS.Timeout | null,
+  internal_visibilityHandler: (() => void) | null,
+  internal_isRefreshing: boolean,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
     // Clear existing timers
     const existingTimer = get().internal_clearTimer;
     const existingRefreshTimer = get().internal_refreshTimer;
+    const existingVisibilityHandler = get().internal_visibilityHandler;
     if (existingTimer) clearTimeout(existingTimer);
     if (existingRefreshTimer) clearTimeout(existingRefreshTimer);
+    if (existingVisibilityHandler) document.removeEventListener('visibilitychange', existingVisibilityHandler);
 
     if (!auth) {
-      set({ auth: null, internal_clearTimer: null, internal_refreshTimer: null });
+      set({
+        auth: null, internal_clearTimer: null, internal_refreshTimer: null, internal_visibilityHandler: null,
+      });
       posthog.reset();
       return;
     }
@@ -79,20 +88,24 @@ export const useAuthStore = create<{
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
-    const clearInMs = expiresInMs - 5_000;
-    const refreshInMs = expiresInMs - 60_000;
+    const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
+    const refreshInMs = expiresInMs - ONE_MIN_MS; // Refresh 1 minute before expiry
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
     if (auth.refreshToken && auth.oidcSettings) {
       refreshTimer = setTimeout(async () => {
+        if (get().internal_isRefreshing) return;
         try {
+          set({ internal_isRefreshing: true });
           const newAuth = await oidcRefresh(auth);
           get().setAuth(newAuth);
         } catch (error) {
           // eslint-disable-next-line no-console
           console.error('Token refresh failed:', error);
           get().setAuth(null);
+        } finally {
+          set({ internal_isRefreshing: false });
         }
       }, refreshInMs);
     }
@@ -107,22 +120,50 @@ export const useAuthStore = create<{
       clearInMs,
     );
 
+    const visibilityHandler = async () => {
+      if (document.visibilityState === 'visible') {
+        const currentAuth = get().auth;
+        if (get().internal_isRefreshing) return;
+        // If token expires within the next minute, refresh now
+        if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
+          try {
+            set({ internal_isRefreshing: true });
+            const newAuth = await oidcRefresh(currentAuth);
+            get().setAuth(newAuth);
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Token refresh on visibility failed:', error);
+            get().setAuth(null);
+          } finally {
+            set({ internal_isRefreshing: false });
+          }
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', visibilityHandler, { passive: true });
+
     set({
       auth,
       internal_clearTimer: clearTimer,
       internal_refreshTimer: refreshTimer,
+      internal_visibilityHandler: visibilityHandler,
     });
   },
   internal_clearTimer: null,
   internal_refreshTimer: null,
+  internal_visibilityHandler: null,
+  internal_isRefreshing: false,
 }), {
   name: 'bluedot_auth',
   version: 20250513,
+  // Only persist the auth object to localStorage, not the timers or event handlers
+  partialize: (state) => ({ auth: state.auth }),
 
   // On rehydration, set the state again
   // This starts the refresh and expiry logic
   onRehydrateStorage: () => (state) => {
-    if (state && state.auth) {
+    if (state?.auth) {
       state.setAuth(state.auth);
     }
   },

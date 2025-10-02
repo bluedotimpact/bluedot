@@ -12,7 +12,7 @@ import CoursesContent from '../../components/settings/CoursesContent';
 
 const CURRENT_ROUTE = ROUTES.settingsCourses;
 
-const CoursesSettingsPage = ({ auth }: { auth: { token: string } }) => {
+const CoursesSettingsPage = withAuth(({ auth }) => {
   const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
     method: 'get',
     url: '/api/users/me',
@@ -35,6 +35,6 @@ const CoursesSettingsPage = ({ auth }: { auth: { token: string } }) => {
       )}
     </div>
   );
-};
+});
 
-export default withAuth(CoursesSettingsPage);
+export default CoursesSettingsPage;
