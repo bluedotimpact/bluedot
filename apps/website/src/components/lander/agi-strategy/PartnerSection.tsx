@@ -15,7 +15,7 @@ const partners: Partner[] = [
     logo: '/images/agi-strategy/ef.png',
     descriptionShort: (
       <>
-        A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>. See <a href="https://luma.com/bluedotevents" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">here</a> for future events.
+        We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
       </>
     ),
     descriptionFull: (
@@ -30,7 +30,7 @@ const partners: Partner[] = [
     logo: '/images/agi-strategy/ifp.png',
     descriptionShort: (
       <>
-        IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
+        We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
       </>
     ),
     descriptionFull: (
@@ -45,7 +45,7 @@ const partners: Partner[] = [
     logo: null,
     descriptionShort: (
       <>
-        A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
+        We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
       </>
     ),
     descriptionFull: (
@@ -60,7 +60,7 @@ const partners: Partner[] = [
     logo: '/images/agi-strategy/seldon-lab.png',
     descriptionShort: (
       <>
-        Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
+        We help our most entrepreneurial community members get ready to join future Seldon batches.
       </>
     ),
     descriptionFull: (
@@ -75,7 +75,7 @@ const partners: Partner[] = [
     logo: '/images/agi-strategy/halcyon-futures.png',
     descriptionShort: (
       <>
-        Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
+        We introduce our most promising leaders to Halcyon.
       </>
     ),
     descriptionFull: (
@@ -97,7 +97,7 @@ const PartnerCard = ({
   tabIndex?: number;
 }) => {
   const isDesktop = variant === 'desktop';
-  const description = isDesktop ? partner.descriptionShort : partner.descriptionFull;
+  const description = isDesktop ? partner.descriptionFull : partner.descriptionShort;
 
   return (
     <div className={isDesktop ? 'flex flex-col gap-6 md:gap-8 min-h-[174px]' : 'flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0'}>
