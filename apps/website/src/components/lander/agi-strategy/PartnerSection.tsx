@@ -42,7 +42,7 @@ const partners: Partner[] = [
   {
     name: '50 Years',
     url: 'https://www.fiftyyears.com/',
-    logo: null,
+    logo: '/images/agi-strategy/fifty-years.png',
     descriptionShort: (
       <>
         We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.

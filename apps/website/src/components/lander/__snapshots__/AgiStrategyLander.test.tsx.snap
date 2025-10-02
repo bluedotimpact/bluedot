@@ -846,11 +846,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <div
-                    class="w-[160px] h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80"
-                  >
-                    50 Years
-                  </div>
+                  <img
+                    alt="50 Years"
+                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                    src="/images/agi-strategy/fifty-years.png"
+                  />
                 </a>
                 <div
                   class="h-[130px]"
@@ -1021,11 +1021,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   tabindex="-1"
                   target="_blank"
                 >
-                  <div
-                    class="w-[160px] h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80"
-                  >
-                    50 Years
-                  </div>
+                  <img
+                    alt="50 Years"
+                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                    src="/images/agi-strategy/fifty-years.png"
+                  />
                 </a>
                 <div
                   class="h-[130px]"
@@ -1199,11 +1199,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               rel="noopener noreferrer"
               target="_blank"
             >
-              <div
-                class="w-[160px] h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80"
-              >
-                50 Years
-              </div>
+              <img
+                alt="50 Years"
+                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/fifty-years.png"
+              />
             </a>
             <div
               class="flex-1"
