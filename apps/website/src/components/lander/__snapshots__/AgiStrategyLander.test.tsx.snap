@@ -761,7 +761,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="w-full inline-flex flex-nowrap overflow-hidden"
           >
             <div
-              class="flex items-start gap-12 animate-infinite-scroll pl-spacing-x"
+              class="flex items-start gap-12 animate-infinite-scroll pl-12"
             >
               <div
                 class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
@@ -933,7 +933,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div
               aria-hidden="true"
-              class="flex items-start gap-12 animate-infinite-scroll pl-spacing-x"
+              class="flex items-start gap-12 animate-infinite-scroll pl-12"
             >
               <div
                 class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"

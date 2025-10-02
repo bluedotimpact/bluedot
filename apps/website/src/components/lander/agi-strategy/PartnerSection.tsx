@@ -149,7 +149,7 @@ const PartnerSection = () => {
             {[1, 2].map((setIndex) => (
               <div
                 key={`set-${setIndex}`}
-                className="flex items-start gap-12 animate-infinite-scroll pl-spacing-x"
+                className="flex items-start gap-12 animate-infinite-scroll pl-12"
                 aria-hidden={setIndex === 2 ? true : undefined}
               >
                 {partners.map((partner, partnerIndex) => (
