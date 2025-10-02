@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import useAxios from 'axios-hooks';
 import {
   Section,
   CTALinkOrButton,
   ErrorSection,
+  useAuthStore,
 } from '@bluedot/ui';
 import {
   FaBars, FaChevronRight, FaChevronDown,
@@ -17,7 +19,7 @@ import {
   Exercise,
   Unit,
 } from '@bluedot/db';
-import type { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import type { GetGroupDiscussionResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -47,13 +49,11 @@ type UnitLayoutProps = {
   // Required
   chunks: ChunkWithContent[];
   unit: Unit;
-  unitNumber: number;
+  unitNumber: string;
   units: Unit[];
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
-  // Optional
-  groupDiscussionWithZoomInfo?: GroupDiscussionWithZoomInfo;
-  groupDiscussionError?: Error | null;
+  courseSlug: string;
 };
 
 type MobileHeaderProps = {
@@ -142,14 +142,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
   chunkIndex,
   setChunkIndex,
-  groupDiscussionWithZoomInfo,
-  groupDiscussionError,
+  courseSlug,
 }) => {
   const router = useRouter();
+  const auth = useAuthStore((s) => s.auth);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
+
+  const [{ data: groupDiscussionData, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
+    method: 'get',
+    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  }, {
+    manual: !auth,
+  });
 
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
@@ -181,26 +191,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
-      const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${prevUnit.unitNumber}/${lastChunkNumber}`);
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(chunkIndex - 1);
     }
-  }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect]);
+  }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect, courseSlug]);
 
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${nextUnit.unitNumber}/1`);
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
       handleChunkSelect(chunkIndex + 1);
     }
-  }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect]);
+  }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect, courseSlug]);
 
   // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
@@ -310,7 +318,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           courseTitle={unit.courseTitle}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
-          currentUnitNumber={unitNumber}
+          currentUnitNumber={parseInt(unitNumber)}
           chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
@@ -396,20 +404,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {groupDiscussionError && (
             <ErrorSection error={groupDiscussionError} />
           )}
-          {groupDiscussionWithZoomInfo?.groupDiscussion && (
+          {groupDiscussionData?.groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner
                 unit={unit}
-                groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
-                userRole={groupDiscussionWithZoomInfo.userRole}
-                hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
+                groupDiscussion={groupDiscussionData.groupDiscussion}
+                userRole={groupDiscussionData.userRole}
+                hostKeyForFacilitators={groupDiscussionData.hostKeyForFacilitators}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
-                  if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
+                  if (groupDiscussionData.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
-                  } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
+                  } else if (groupDiscussionData.groupDiscussion!.unitNumber) {
                     // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionData.groupDiscussion!.unitNumber?.toString());
                     if (discussionUnit) {
                       router.push(discussionUnit.path);
                     } else {
@@ -441,7 +449,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
-              unitNumber={unitNumber}
+              unitNumber={parseInt(unitNumber)}
               className={clsx(
                 (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
               )}
@@ -487,7 +495,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         setIsOpen={setIsMobileCourseMenuOpen}
         courseTitle={unit.courseTitle}
         units={units}
-        currentUnitNumber={unitNumber}
+        currentUnitNumber={parseInt(unitNumber)}
         chunks={chunks}
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}

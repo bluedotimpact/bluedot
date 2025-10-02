@@ -5,22 +5,26 @@ import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
-import { GetGroupDiscussionResponse } from '../../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
 
-type CourseUnitChunkPageProps = UnitWithContent;
+type CourseUnitChunkPageProps = UnitWithContent & {
+  courseSlug: string;
+  unitNumber: string;
+};
 
-const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) => {
+const CourseUnitChunkPage = ({
+  units, unit, chunks, courseSlug, unitNumber,
+}: CourseUnitChunkPageProps) => {
   const router = useRouter();
   const {
     query: {
-      courseSlug, unitNumber, chunkNumber, chunk: legacyChunkParam,
+      chunkNumber, chunk: legacyChunkParam,
     },
   } = router;
 
   // Handle old ?chunk={n-1} format redirect
   useEffect(() => {
-    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof legacyChunkParam === 'string') {
+    if (typeof legacyChunkParam === 'string') {
       const oldChunkIndex = parseInt(legacyChunkParam, 10);
       if (!Number.isNaN(oldChunkIndex) && oldChunkIndex >= 0) {
         const newChunkNumber = oldChunkIndex + 1;
@@ -31,7 +35,7 @@ const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) 
 
   // Redirect /course/course-name/1 -> /course/course-name/1/1 (to the first chunk)
   useEffect(() => {
-    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && !Array.isArray(chunkNumber)) {
+    if (!Array.isArray(chunkNumber)) {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
   }, [courseSlug, unitNumber, chunkNumber, router]);
@@ -49,16 +53,6 @@ const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) 
   const parsedChunk = Number.parseInt(actualChunkNumber, 10);
   const isInvalidChunk = !Number.isFinite(parsedChunk) || parsedChunk < 1;
   const chunkIndex = isInvalidChunk ? 0 : parsedChunk - 1;
-
-  const [{ data: groupDiscussionData, loading: groupDiscussionLoading, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, {
-    manual: !auth,
-  });
 
   // Track visits to Unit 1 of Future of AI course
   useEffect(() => {
@@ -98,14 +92,6 @@ const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) 
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
   };
 
-  if (typeof unitNumber !== 'string') {
-    return <ProgressDots />;
-  }
-
-  if (groupDiscussionLoading) {
-    return <ProgressDots />;
-  }
-
   if (chunkIndex < 0 || chunkIndex >= chunks.length) {
     return <ProgressDots />;
   }
@@ -115,11 +101,10 @@ const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) 
       chunks={chunks}
       unit={unit}
       units={units}
-      unitNumber={parseInt(unitNumber)}
+      unitNumber={unitNumber}
       chunkIndex={chunkIndex}
       setChunkIndex={handleSetChunkIndex}
-      groupDiscussionWithZoomInfo={groupDiscussionData}
-      groupDiscussionError={groupDiscussionError}
+      courseSlug={courseSlug}
     />
   );
 };
@@ -139,6 +124,8 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   return {
     props: {
       ...unitWithContent,
+      courseSlug,
+      unitNumber,
     },
   };
 };
