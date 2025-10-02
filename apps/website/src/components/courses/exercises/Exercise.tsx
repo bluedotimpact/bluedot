@@ -53,9 +53,7 @@ const Exercise: React.FC<ExerciseProps> = ({
         },
       },
     );
-
-    await fetchExerciseResponse().catch(() => { /* no op, as we handle errors above */ });
-  }, [exerciseId, auth, fetchExerciseResponse]);
+  }, [exerciseId, auth]);
 
   if (exerciseLoading) {
     return <ProgressDots />;

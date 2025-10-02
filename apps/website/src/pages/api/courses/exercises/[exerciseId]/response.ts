@@ -55,8 +55,8 @@ export default makeApiRoute({
         type: 'success' as const,
         exerciseResponse: {
           ...exerciseResponse,
-          // For some reason Airtable often adds a newline to the end of the response
-          response: exerciseResponse.response?.trimEnd(),
+          // Preserve trailing whitespace and line feeds as entered by the user
+          response: exerciseResponse.response,
         },
       };
     }
