@@ -12,7 +12,7 @@ const partners: Partner[] = [
   {
     name: 'Entrepreneur First',
     url: 'https://www.joinef.com/',
-    logo: '/images/agi-strategy/ef.png',
+    logo: '/images/agi-strategy/ef.svg',
     descriptionShort: (
       <>
         We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
@@ -27,7 +27,7 @@ const partners: Partner[] = [
   {
     name: 'Institute for Progress',
     url: 'https://ifp.org/',
-    logo: '/images/agi-strategy/ifp.png',
+    logo: '/images/agi-strategy/ifp.svg',
     descriptionShort: (
       <>
         We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
@@ -42,7 +42,7 @@ const partners: Partner[] = [
   {
     name: '50 Years',
     url: 'https://www.fiftyyears.com/',
-    logo: '/images/agi-strategy/fifty-years.png',
+    logo: '/images/agi-strategy/fifty-years.svg',
     descriptionShort: (
       <>
         We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
@@ -57,7 +57,7 @@ const partners: Partner[] = [
   {
     name: 'Seldon Lab',
     url: 'https://seldonlab.com/',
-    logo: '/images/agi-strategy/seldon-lab.png',
+    logo: '/images/agi-strategy/seldon-lab.svg',
     descriptionShort: (
       <>
         We help our most entrepreneurial community members get ready to join future Seldon batches.
@@ -72,7 +72,7 @@ const partners: Partner[] = [
   {
     name: 'Halcyon Futures',
     url: 'https://halcyonfutures.org/',
-    logo: '/images/agi-strategy/halcyon-futures.png',
+    logo: '/images/agi-strategy/halcyon-futures.svg',
     descriptionShort: (
       <>
         We introduce our most promising leaders to Halcyon.

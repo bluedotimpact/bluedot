@@ -775,7 +775,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Entrepreneur First"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ef.png"
+                    src="/images/agi-strategy/ef.svg"
                   />
                 </a>
                 <div
@@ -812,7 +812,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Institute for Progress"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ifp.png"
+                    src="/images/agi-strategy/ifp.svg"
                   />
                 </a>
                 <div
@@ -849,7 +849,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="50 Years"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/fifty-years.png"
+                    src="/images/agi-strategy/fifty-years.svg"
                   />
                 </a>
                 <div
@@ -886,7 +886,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Seldon Lab"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/seldon-lab.png"
+                    src="/images/agi-strategy/seldon-lab.svg"
                   />
                 </a>
                 <div
@@ -914,7 +914,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Halcyon Futures"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/halcyon-futures.png"
+                    src="/images/agi-strategy/halcyon-futures.svg"
                   />
                 </a>
                 <div
@@ -948,7 +948,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Entrepreneur First"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ef.png"
+                    src="/images/agi-strategy/ef.svg"
                   />
                 </a>
                 <div
@@ -986,7 +986,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Institute for Progress"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ifp.png"
+                    src="/images/agi-strategy/ifp.svg"
                   />
                 </a>
                 <div
@@ -1024,7 +1024,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="50 Years"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/fifty-years.png"
+                    src="/images/agi-strategy/fifty-years.svg"
                   />
                 </a>
                 <div
@@ -1062,7 +1062,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Seldon Lab"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/seldon-lab.png"
+                    src="/images/agi-strategy/seldon-lab.svg"
                   />
                 </a>
                 <div
@@ -1091,7 +1091,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <img
                     alt="Halcyon Futures"
                     class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/halcyon-futures.png"
+                    src="/images/agi-strategy/halcyon-futures.svg"
                   />
                 </a>
                 <div
@@ -1125,7 +1125,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="Entrepreneur First"
                 class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/ef.png"
+                src="/images/agi-strategy/ef.svg"
               />
             </a>
             <div
@@ -1168,7 +1168,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="Institute for Progress"
                 class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/ifp.png"
+                src="/images/agi-strategy/ifp.svg"
               />
             </a>
             <div
@@ -1202,7 +1202,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="50 Years"
                 class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/fifty-years.png"
+                src="/images/agi-strategy/fifty-years.svg"
               />
             </a>
             <div
@@ -1243,7 +1243,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="Seldon Lab"
                 class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/seldon-lab.png"
+                src="/images/agi-strategy/seldon-lab.svg"
               />
             </a>
             <div
@@ -1268,7 +1268,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="Halcyon Futures"
                 class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/halcyon-futures.png"
+                src="/images/agi-strategy/halcyon-futures.svg"
               />
             </a>
             <div
