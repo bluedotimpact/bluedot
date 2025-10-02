@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Head from 'next/head';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
@@ -280,16 +279,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     throw new Error('Unit not found');
   }
 
-  const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
-  const metaDescription = chunk?.metaDescription || unit.title;
-
   return (
     <div>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={metaDescription} />
-      </Head>
-
       {/* Aria live region for screen reader announcements */}
       <div
         role="status"

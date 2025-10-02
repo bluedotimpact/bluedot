@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
 import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
@@ -96,16 +97,26 @@ const CourseUnitChunkPage = ({
     return <ProgressDots />;
   }
 
+  const chunk = chunks[chunkIndex];
+  const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  const metaDescription = chunk?.metaDescription || unit.title;
+
   return (
-    <UnitLayout
-      chunks={chunks}
-      unit={unit}
-      units={units}
-      unitNumber={unitNumber}
-      chunkIndex={chunkIndex}
-      setChunkIndex={handleSetChunkIndex}
-      courseSlug={courseSlug}
-    />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={metaDescription} />
+      </Head>
+      <UnitLayout
+        chunks={chunks}
+        unit={unit}
+        units={units}
+        unitNumber={unitNumber}
+        chunkIndex={chunkIndex}
+        setChunkIndex={handleSetChunkIndex}
+        courseSlug={courseSlug}
+      />
+    </>
   );
 };
 
