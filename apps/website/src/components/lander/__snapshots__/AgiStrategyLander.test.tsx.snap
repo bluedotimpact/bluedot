@@ -750,7 +750,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-spacing-x py-12 md:py-20 lg:py-24"
       >
         <h2
-          class="text-[28px] md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
+          class="text-[28px] min-[681px]:text-[32px] min-[1025px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
         >
           Co-created with our network of leading AI industry partners
         </h2>
@@ -784,7 +784,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc 
+                    We collaborate with EF to host AI safety and def/acc 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://luma.com/AI-security-hackathon"
@@ -793,16 +793,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     >
                       hackathons
                     </a>
-                    . See 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://luma.com/bluedotevents"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      here
-                    </a>
-                     for future events.
+                    .
                   </p>
                 </div>
               </div>
@@ -830,7 +821,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their 
+                    We collaborate with IFP to get impactful projects from their 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://ifp.org/the-launch-sequence/"
@@ -867,7 +858,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their 
+                    We fast-track our most promising entrepreneurs into their 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://www.fiftyyears.com/5050/ai"
@@ -904,7 +895,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
+                    We help our most entrepreneurial community members get ready to join future Seldon batches.
                   </p>
                 </div>
               </div>
@@ -932,7 +923,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
+                    We introduce our most promising leaders to Halcyon.
                   </p>
                 </div>
               </div>
@@ -966,7 +957,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc 
+                    We collaborate with EF to host AI safety and def/acc 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://luma.com/AI-security-hackathon"
@@ -975,16 +966,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     >
                       hackathons
                     </a>
-                    . See 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://luma.com/bluedotevents"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      here
-                    </a>
-                     for future events.
+                    .
                   </p>
                 </div>
               </div>
@@ -1013,7 +995,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their 
+                    We collaborate with IFP to get impactful projects from their 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://ifp.org/the-launch-sequence/"
@@ -1051,7 +1033,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their 
+                    We fast-track our most promising entrepreneurs into their 
                     <a
                       class="underline hover:opacity-70 transition-opacity"
                       href="https://www.fiftyyears.com/5050/ai"
@@ -1089,7 +1071,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
+                    We help our most entrepreneurial community members get ready to join future Seldon batches.
                   </p>
                 </div>
               </div>
@@ -1118,7 +1100,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
                   >
-                    Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
+                    We introduce our most promising leaders to Halcyon.
                   </p>
                 </div>
               </div>
