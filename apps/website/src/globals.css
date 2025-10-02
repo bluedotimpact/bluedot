@@ -71,6 +71,13 @@
   --border-width-hairline: var(--border-hairline);
 }
 
+/* Respect prefers-reduced-motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-infinite-scroll {
+    animation: none !important;
+  }
+}
+
 .slide-up-fade-in {
   opacity: 0;
   transform: translateY(50px);
