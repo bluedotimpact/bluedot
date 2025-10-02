@@ -15,7 +15,7 @@ type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 type FreeTextResponseProps = {
   className?: string;
   description: string;
-  onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => void;
+  onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => Promise<void>;
   title: string;
   exerciseResponse?: string;
   isLoggedIn?: boolean;
@@ -150,7 +150,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     return () => clearInterval(intervalId);
   }, [isLoggedIn]);
 
-  // Inactivity auto-save timer (5 seconds)
+  // Inactivity auto-save timer (20 seconds)
   useEffect(() => {
     if (!isEditing || !isLoggedIn) return undefined;
 
@@ -160,7 +160,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     inactivityTimerRef.current = window.setTimeout(() => {
       const currentVal = watch('answer') || '';
       saveValue(currentVal);
-    }, 5000);
+    }, 20000);
 
     return () => {
       if (inactivityTimerRef.current) {
