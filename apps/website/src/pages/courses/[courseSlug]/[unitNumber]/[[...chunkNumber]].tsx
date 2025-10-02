@@ -1,13 +1,16 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitNumber]';
+import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
 import { GetGroupDiscussionResponse } from '../../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
 import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
 
-const CourseUnitChunkPage = () => {
+type CourseUnitChunkPageProps = UnitWithContent;
+
+const CourseUnitChunkPage = ({ units, unit, chunks }: CourseUnitChunkPageProps) => {
   const router = useRouter();
   const {
     query: {
@@ -47,11 +50,6 @@ const CourseUnitChunkPage = () => {
   const isInvalidChunk = !Number.isFinite(parsedChunk) || parsedChunk < 1;
   const chunkIndex = isInvalidChunk ? 0 : parsedChunk - 1;
 
-  const [{ data, loading, error }] = useAxios<GetUnitResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}`,
-  });
-
   const [{ data: groupDiscussionData, loading: groupDiscussionLoading, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
@@ -76,24 +74,25 @@ const CourseUnitChunkPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
     method: 'get',
-    url: `/api/course-registrations/${data?.unit.courseId}`,
+    url: `/api/course-registrations/${unit.courseId}`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
   }, { manual: true });
+
   useEffect(() => {
-    const shouldRecordCourseRegistration = !!(auth && data?.unit.courseId);
+    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
       fetchCourseRegistration().catch(() => { /* no op, as we ignore errors */ });
     }
-  }, [auth, data?.unit.courseId]);
+  }, [auth, unit.courseId, fetchCourseRegistration]);
 
   useEffect(() => {
-    if (data && data.chunks && (chunkIndex < 0 || chunkIndex >= data.chunks.length)) {
-      if (data.unit.unitNumber !== unitNumber) return; // Handle case where data hasn't updated yet
+    if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
+      if (unit.unitNumber !== unitNumber) return; // Handle case where data hasn't updated yet
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
-  }, [data, chunkIndex, courseSlug, unitNumber, router]);
+  }, [chunkIndex, courseSlug, unitNumber, router]);
 
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
@@ -103,23 +102,19 @@ const CourseUnitChunkPage = () => {
     return <ProgressDots />;
   }
 
-  if (loading || groupDiscussionLoading) {
+  if (groupDiscussionLoading) {
     return <ProgressDots />;
   }
 
-  if (error || !data) {
-    return <ErrorSection error={error ?? new Error('Missing data from API')} />;
-  }
-
-  if (chunkIndex < 0 || chunkIndex >= data.chunks.length) {
+  if (chunkIndex < 0 || chunkIndex >= chunks.length) {
     return <ProgressDots />;
   }
 
   return (
     <UnitLayout
-      chunks={data.chunks}
-      unit={data.unit}
-      units={data.units}
+      chunks={chunks}
+      unit={unit}
+      units={units}
       unitNumber={parseInt(unitNumber)}
       chunkIndex={chunkIndex}
       setChunkIndex={handleSetChunkIndex}
@@ -127,6 +122,25 @@ const CourseUnitChunkPage = () => {
       groupDiscussionError={groupDiscussionError}
     />
   );
+};
+
+export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = async ({ params }) => {
+  const { courseSlug, unitNumber } = params ?? {};
+
+  if (typeof courseSlug !== 'string') {
+    throw new Error('Invalid course slug');
+  }
+  if (typeof unitNumber !== 'string') {
+    throw new Error('Invalid unit number');
+  }
+
+  const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
+
+  return {
+    props: {
+      ...unitWithContent,
+    },
+  };
 };
 
 CourseUnitChunkPage.hideFooter = true;
