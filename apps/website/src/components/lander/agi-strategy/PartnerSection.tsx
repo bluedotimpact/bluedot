@@ -138,7 +138,7 @@ const PartnerSection = () => {
       <div className="max-w-max-width mx-auto px-spacing-x py-12 md:py-20 lg:py-24">
 
         {/* Section Header */}
-        <h2 className="text-[28px] min-[681px]:text-[32px] min-[1025px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
+        <h2 className="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
           Co-created with our network of leading AI industry partners
         </h2>
 
