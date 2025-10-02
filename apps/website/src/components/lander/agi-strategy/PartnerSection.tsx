@@ -144,12 +144,12 @@ const PartnerSection = () => {
 
         {/* Mobile Infinite Scroll Carousel (1024px and below) */}
         <div className="max-lg:block hidden -mx-spacing-x">
-          <div className="w-full inline-flex flex-nowrap overflow-hidden">
+          <div className="w-full inline-flex flex-nowrap overflow-hidden group">
             {/* Duplicate the partners array for infinite scroll */}
             {[1, 2].map((setIndex) => (
               <div
                 key={`set-${setIndex}`}
-                className="flex items-start gap-12 animate-infinite-scroll pl-12"
+                className="flex items-start gap-12 animate-infinite-scroll pl-12 group-hover:[animation-play-state:paused]"
                 aria-hidden={setIndex === 2 ? true : undefined}
               >
                 {partners.map((partner, partnerIndex) => (
