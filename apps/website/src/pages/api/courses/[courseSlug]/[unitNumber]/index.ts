@@ -64,7 +64,7 @@ export async function getUnitWithContent(courseSlug: string, unitNumber: string)
       resources = resolvedResources
         .filter((r): r is UnitResource => r !== null)
         .sort((a, b) => {
-          // Sort by readingORder
+          // Sort by readingOrder
           const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
           const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
           return orderA - orderB;

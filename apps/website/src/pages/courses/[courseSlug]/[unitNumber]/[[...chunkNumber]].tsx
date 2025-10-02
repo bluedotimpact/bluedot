@@ -84,7 +84,6 @@ const CourseUnitChunkPage = ({
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
-      if (unit.unitNumber !== unitNumber) return; // Handle case where data hasn't updated yet
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
   }, [chunkIndex, courseSlug, unitNumber, router]);
