@@ -14,7 +14,7 @@ import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import { unitFilterActiveChunks } from '../../../../../lib/api/utils';
 
-type ChunkWithContent = Chunk & {
+export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
   exercises: Exercise[];
 };
