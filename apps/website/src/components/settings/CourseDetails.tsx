@@ -157,7 +157,6 @@ const CourseDetails = ({
     } else if (course.slug && discussion.unitNumber) {
       buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
     }
-    const openInNewTab = isStartingSoon;
 
     return (
       <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
@@ -203,7 +202,7 @@ const CourseDetails = ({
                     size="small"
                     url={buttonUrl}
                     disabled={!discussion.zoomLink && isStartingSoon}
-                    target={openInNewTab ? '_blank' : undefined}
+                    target={isStartingSoon ? '_blank' : undefined}
                   >
                     {buttonText}
                   </CTALinkOrButton>
@@ -272,7 +271,7 @@ const CourseDetails = ({
                 size="small"
                 url={buttonUrl}
                 disabled={!discussion.zoomLink && isStartingSoon}
-                target={openInNewTab ? '_blank' : undefined}
+                target={isStartingSoon ? '_blank' : undefined}
               >
                 {buttonText}
               </CTALinkOrButton>
