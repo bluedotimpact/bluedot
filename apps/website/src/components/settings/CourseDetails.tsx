@@ -21,13 +21,12 @@ const CourseDetails = ({
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
   const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
+  const [{ data: meetPersonData, loading }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
     method: 'get',
     url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
     headers: authToken ? {
@@ -39,11 +38,8 @@ const CourseDetails = ({
   useEffect(() => {
     const fetchDiscussions = async () => {
       if (!meetPersonData?.meetPerson) {
-        setLoading(false);
         return;
       }
-
-      setLoading(true);
 
       // Fetch all expected discussions (will be filtered later to show only those not ended)
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
@@ -93,7 +89,6 @@ const CourseDetails = ({
 
       setExpectedDiscussions(validExpected);
       setAttendedDiscussions(validAttended);
-      setLoading(false);
     };
 
     fetchDiscussions();
