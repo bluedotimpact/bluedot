@@ -25,14 +25,14 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 lg:h-[600px]">
+      <div className="flex flex-col sm:pt-8 sm:gap-12 lg:pt-0 lg:gap-0 lg:grid lg:grid-cols-2 lg:h-[600px]">
 
         {/* Content - Aligned with site sections */}
-        <div className="px-5 py-8 lg:flex lg:items-center lg:px-12 xl:pl-[max(48px,calc((100vw-1436px)/2+48px))] xl:pr-8">
-          <div className="w-full lg:max-w-[512px] space-y-8">
+        <div className="px-5 py-8 sm:px-8 sm:py-0 lg:flex lg:items-center lg:px-12 xl:pl-[max(48px,calc((100vw-1436px)/2+48px))] xl:pr-8">
+          <div className="w-full lg:max-w-[512px] space-y-8 sm:space-y-8">
 
             {/* Text Content */}
-            <div className="space-y-5">
+            <div className="space-y-5 sm:space-y-4">
               {/* Course Category */}
               {categoryLabel && (
                 <P className="text-size-md font-semibold tracking-wide text-[#2244BB]">
@@ -41,12 +41,12 @@ const HeroSection = ({
               )}
 
               {/* Title - Cleaner responsive sizing */}
-              <H1 className="text-[32px] lg:text-[40px] xl:text-5xl leading-tight font-semibold text-[#13132E] tracking-[-0.5px]">
+              <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold text-[#13132E] tracking-[-0.5px]">
                 {title}
               </H1>
 
               {/* Description */}
-              <P className="text-size-md lg:text-lg leading-relaxed text-[#13132E] opacity-80">
+              <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80">
                 {description}
               </P>
             </div>
@@ -74,12 +74,14 @@ const HeroSection = ({
 
         {/* Image - Automatically ordered by flex-col-reverse */}
         {(visualComponent || imageUrl) && (
-          <div className="h-80 lg:h-full relative overflow-hidden">
+          <div className="h-80 sm:h-[430px] lg:h-full relative overflow-hidden">
             {imageUrl ? (
               <img src={imageUrl} alt="" className="size-full object-cover lg:object-left" />
             ) : (
               visualComponent
             )}
+            {/* Noise layer */}
+            <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
           </div>
         )}
 

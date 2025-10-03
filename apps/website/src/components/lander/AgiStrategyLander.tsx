@@ -18,10 +18,7 @@ import FAQSection from './agi-strategy/FAQSection';
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
     <div className="relative w-full max-w-[350px] lg:max-w-[1118px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center">
-      {/* First noise layer */}
-      <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
-
-      {/* Second noise layer */}
+      {/* Noise layer */}
       <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
 
       <div className="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center">
