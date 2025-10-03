@@ -4,6 +4,7 @@ import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 
 type CourseDetailsProps = {
   course: Course;
@@ -143,21 +144,6 @@ const CourseDetails = ({
     (discussion) => discussion.endDateTime > currentTimeSeconds,
   );
 
-  // Format date and time
-  const formatDiscussionDate = (timestamp: number) => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  };
-
-  const formatDiscussionTime = (timestamp: number) => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
     const oneHourInSeconds = 60 * 60;
@@ -184,10 +170,10 @@ const CourseDetails = ({
           {/* Date and time column */}
           <div className="flex flex-col items-center justify-start min-w-[50px] pt-1">
             <div className="text-size-sm font-semibold text-gray-900 text-center">
-              {formatDiscussionDate(discussion.startDateTime)}
+              {formatDateMonthAndDay(discussion.startDateTime)}
             </div>
             <div className="text-size-xs text-gray-500 text-center">
-              {formatDiscussionTime(discussion.startDateTime)}
+              {formatTime12HourClock(discussion.startDateTime)}
             </div>
           </div>
 
@@ -255,10 +241,10 @@ const CourseDetails = ({
             {/* Date and time */}
             <div className="flex flex-col items-center justify-center min-w-[60px]">
               <div className="text-size-sm font-semibold text-gray-900 text-center">
-                {formatDiscussionDate(discussion.startDateTime)}
+                {formatDateMonthAndDay(discussion.startDateTime)}
               </div>
               <div className="text-size-xs text-gray-500 text-center">
-                {formatDiscussionTime(discussion.startDateTime)}
+                {formatTime12HourClock(discussion.startDateTime)}
               </div>
             </div>
 
