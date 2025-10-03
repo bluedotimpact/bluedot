@@ -240,7 +240,7 @@ const CommunityMembersSubSection = ({
         <div className="flex flex-col items-center text-center lg:flex-row lg:items-end lg:justify-between lg:text-left gap-8 lg:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-6">
-            <NewText.H2 className="text-[28px] md:text-[32px] lg:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
+            <NewText.H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
               {title || 'Meet our Alumni Shaping AI\'s Future'}
             </NewText.H2>
             <NewText.P className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full lg:max-w-[610px] xl:max-w-[639px]">
