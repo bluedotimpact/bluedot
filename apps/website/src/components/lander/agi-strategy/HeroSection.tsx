@@ -46,7 +46,7 @@ const HeroSection = ({
               </H1>
 
               {/* Description */}
-              <P className="text-size-md sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80">
+              <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80">
                 {description}
               </P>
             </div>

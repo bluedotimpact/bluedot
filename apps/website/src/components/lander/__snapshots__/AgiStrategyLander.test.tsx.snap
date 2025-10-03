@@ -38,7 +38,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Start building the defences that protect humanity
               </h1>
               <p
-                class="bluedot-p not-prose text-size-md sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80"
+                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80"
               >
                 Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
               </p>
