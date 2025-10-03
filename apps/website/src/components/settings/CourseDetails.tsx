@@ -6,6 +6,8 @@ import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/gro
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 
+const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
+
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -111,9 +113,9 @@ const CourseDetails = ({
       return 'Discussion has started';
     }
 
-    const days = Math.floor(timeUntilStart / (24 * 60 * 60));
-    const hours = Math.floor((timeUntilStart % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((timeUntilStart % (60 * 60)) / 60);
+    const days = Math.floor(timeUntilStart / (24 * HOUR_IN_SECONDS));
+    const hours = Math.floor((timeUntilStart % (24 * HOUR_IN_SECONDS)) / (HOUR_IN_SECONDS));
+    const minutes = Math.floor((timeUntilStart % (HOUR_IN_SECONDS)) / 60);
 
     if (days > 0) {
       if (days === 1) {
@@ -141,9 +143,8 @@ const CourseDetails = ({
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
-    const oneHourInSeconds = 60 * 60;
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
-    const isStartingSoon = timeUntilStart < oneHourInSeconds && timeUntilStart > 0;
+    const isStartingSoon = timeUntilStart < HOUR_IN_SECONDS && timeUntilStart > 0;
 
     // Check if user is a facilitator
     const isFacilitator = courseRegistration.role === 'Facilitator';
