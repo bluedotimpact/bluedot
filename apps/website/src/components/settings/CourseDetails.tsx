@@ -36,6 +36,8 @@ const CourseDetails = ({
     } : undefined,
   });
 
+  const isFacilitator = courseRegistration.role === 'Facilitator';
+
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
     const fetchDiscussions = async () => {
@@ -45,7 +47,6 @@ const CourseDetails = ({
 
       // Fetch all expected discussions (will be filtered later to show only those not ended)
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const isFacilitator = courseRegistration.role === 'Facilitator';
       const expectedDiscussionIds = isFacilitator
         ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
         : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
@@ -145,9 +146,6 @@ const CourseDetails = ({
     // Check if discussion starts in less than 1 hour
     const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
     const isStartingSoon = timeUntilStart < HOUR_IN_SECONDS && timeUntilStart > 0;
-
-    // Check if user is a facilitator
-    const isFacilitator = courseRegistration.role === 'Facilitator';
 
     // Determine button text and URL based on timing
     const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
