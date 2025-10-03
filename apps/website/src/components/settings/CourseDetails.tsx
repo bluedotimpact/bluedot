@@ -1,13 +1,13 @@
-import { courseTable, courseRegistrationTable, meetPersonTable } from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import { useState, useEffect } from 'react';
+import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 type CourseDetailsProps = {
-  course: typeof courseTable.pg.$inferSelect;
-  courseRegistration: typeof courseRegistrationTable.pg.$inferSelect;
+  course: Course;
+  courseRegistration: CourseRegistration;
   authToken?: string;
   isLast?: boolean;
 };
@@ -26,7 +26,7 @@ const CourseDetails = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: typeof meetPersonTable.pg.$inferSelect | null }>({
+  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
     method: 'get',
     url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
     headers: authToken ? {
