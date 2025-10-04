@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Head from 'next/head';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import useAxios from 'axios-hooks';
 import {
   Section,
   CTALinkOrButton,
   ErrorSection,
+  useAuthStore,
 } from '@bluedot/ui';
 import {
   FaBars, FaChevronRight, FaChevronDown,
 } from 'react-icons/fa6';
 
 import {
-  Chunk,
-  UnitResource,
-  Exercise,
   Unit,
 } from '@bluedot/db';
-import type { GroupDiscussionWithZoomInfo } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import type { GetGroupDiscussionResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import type { ChunkWithContent } from '../../pages/api/courses/[courseSlug]/[unitNumber]/index';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -31,11 +30,6 @@ import {
   A, H1, P,
 } from '../Text';
 
-type ChunkWithContent = Chunk & {
-  resources?: UnitResource[];
-  exercises?: Exercise[];
-};
-
 const CourseIcon: React.FC = () => (
   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="40" height="40" rx="8" fill="#2244BB" />
@@ -47,13 +41,11 @@ type UnitLayoutProps = {
   // Required
   chunks: ChunkWithContent[];
   unit: Unit;
-  unitNumber: number;
+  unitNumber: string;
   units: Unit[];
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
-  // Optional
-  groupDiscussionWithZoomInfo?: GroupDiscussionWithZoomInfo;
-  groupDiscussionError?: Error | null;
+  courseSlug: string;
 };
 
 type MobileHeaderProps = {
@@ -142,14 +134,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   units,
   chunkIndex,
   setChunkIndex,
-  groupDiscussionWithZoomInfo,
-  groupDiscussionError,
+  courseSlug,
 }) => {
   const router = useRouter();
+  const auth = useAuthStore((s) => s.auth);
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
+
+  const [{ data: groupDiscussionWithZoomInfo, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
+    method: 'get',
+    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
+    headers: {
+      Authorization: `Bearer ${auth?.token}`,
+    },
+  }, {
+    manual: !auth,
+  });
 
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
@@ -181,26 +183,24 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
-      const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${prevUnit.unitNumber}/${lastChunkNumber}`);
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
       handleChunkSelect(chunkIndex - 1);
     }
-  }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect]);
+  }, [isFirstChunk, chunks.length, prevUnit, chunkIndex, router, handleChunkSelect, courseSlug]);
 
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      const { courseSlug } = router.query;
       router.push(`/courses/${courseSlug}/${nextUnit.unitNumber}/1`);
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
       handleChunkSelect(chunkIndex + 1);
     }
-  }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect]);
+  }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect, courseSlug]);
 
   // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
@@ -272,16 +272,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     throw new Error('Unit not found');
   }
 
-  const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
-  const metaDescription = chunk?.metaDescription || unit.title;
-
   return (
     <div>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={metaDescription} />
-      </Head>
-
       {/* Aria live region for screen reader announcements */}
       <div
         role="status"
@@ -310,7 +302,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           courseTitle={unit.courseTitle}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
-          currentUnitNumber={unitNumber}
+          currentUnitNumber={parseInt(unitNumber)}
           chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
@@ -441,7 +433,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
-              unitNumber={unitNumber}
+              unitNumber={parseInt(unitNumber)}
               className={clsx(
                 (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
               )}
@@ -487,7 +479,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         setIsOpen={setIsMobileCourseMenuOpen}
         courseTitle={unit.courseTitle}
         units={units}
-        currentUnitNumber={unitNumber}
+        currentUnitNumber={parseInt(unitNumber)}
         chunks={chunks}
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}

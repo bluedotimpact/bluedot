@@ -1,23 +1,32 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ErrorSection, ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { isHttpError } from 'http-errors';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitNumber]';
-import { GetGroupDiscussionResponse } from '../../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
 import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
 
-const CourseUnitChunkPage = () => {
+type CourseUnitChunkPageProps = UnitWithContent & {
+  courseSlug: string;
+  unitNumber: string;
+};
+
+const CourseUnitChunkPage = ({
+  units, unit, chunks, courseSlug, unitNumber,
+}: CourseUnitChunkPageProps) => {
   const router = useRouter();
   const {
     query: {
-      courseSlug, unitNumber, chunkNumber, chunk: legacyChunkParam,
+      chunkNumber, chunk: legacyChunkParam,
     },
   } = router;
 
   // Handle old ?chunk={n-1} format redirect
   useEffect(() => {
-    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && typeof legacyChunkParam === 'string') {
+    if (typeof legacyChunkParam === 'string') {
       const oldChunkIndex = parseInt(legacyChunkParam, 10);
       if (!Number.isNaN(oldChunkIndex) && oldChunkIndex >= 0) {
         const newChunkNumber = oldChunkIndex + 1;
@@ -28,7 +37,7 @@ const CourseUnitChunkPage = () => {
 
   // Redirect /course/course-name/1 -> /course/course-name/1/1 (to the first chunk)
   useEffect(() => {
-    if (typeof courseSlug === 'string' && typeof unitNumber === 'string' && !Array.isArray(chunkNumber)) {
+    if (!Array.isArray(chunkNumber)) {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
   }, [courseSlug, unitNumber, chunkNumber, router]);
@@ -47,21 +56,6 @@ const CourseUnitChunkPage = () => {
   const isInvalidChunk = !Number.isFinite(parsedChunk) || parsedChunk < 1;
   const chunkIndex = isInvalidChunk ? 0 : parsedChunk - 1;
 
-  const [{ data, loading, error }] = useAxios<GetUnitResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}`,
-  });
-
-  const [{ data: groupDiscussionData, loading: groupDiscussionLoading, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, {
-    manual: !auth,
-  });
-
   // Track visits to Unit 1 of Future of AI course
   useEffect(() => {
     if (courseSlug === 'future-of-ai' && unitNumber === '1' && typeof window !== 'undefined' && window.dataLayer) {
@@ -76,57 +70,82 @@ const CourseUnitChunkPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
     method: 'get',
-    url: `/api/course-registrations/${data?.unit.courseId}`,
+    url: `/api/course-registrations/${unit.courseId}`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
   }, { manual: true });
+
   useEffect(() => {
-    const shouldRecordCourseRegistration = !!(auth && data?.unit.courseId);
+    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
       fetchCourseRegistration().catch(() => { /* no op, as we ignore errors */ });
     }
-  }, [auth, data?.unit.courseId]);
+  }, [auth, unit.courseId, fetchCourseRegistration]);
 
   useEffect(() => {
-    if (data && data.chunks && (chunkIndex < 0 || chunkIndex >= data.chunks.length)) {
-      if (data.unit.unitNumber !== unitNumber) return; // Handle case where data hasn't updated yet
+    if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
-  }, [data, chunkIndex, courseSlug, unitNumber, router]);
+  }, [chunkIndex, courseSlug, unitNumber, router]);
 
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
   };
 
-  if (typeof unitNumber !== 'string') {
+  if (chunkIndex < 0 || chunkIndex >= chunks.length) {
     return <ProgressDots />;
   }
 
-  if (loading || groupDiscussionLoading) {
-    return <ProgressDots />;
-  }
-
-  if (error || !data) {
-    return <ErrorSection error={error ?? new Error('Missing data from API')} />;
-  }
-
-  if (chunkIndex < 0 || chunkIndex >= data.chunks.length) {
-    return <ProgressDots />;
-  }
+  const chunk = chunks[chunkIndex];
+  const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  const metaDescription = chunk?.metaDescription || unit.title;
 
   return (
-    <UnitLayout
-      chunks={data.chunks}
-      unit={data.unit}
-      units={data.units}
-      unitNumber={parseInt(unitNumber)}
-      chunkIndex={chunkIndex}
-      setChunkIndex={handleSetChunkIndex}
-      groupDiscussionWithZoomInfo={groupDiscussionData}
-      groupDiscussionError={groupDiscussionError}
-    />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={metaDescription} />
+      </Head>
+      <UnitLayout
+        chunks={chunks}
+        unit={unit}
+        units={units}
+        unitNumber={unitNumber}
+        chunkIndex={chunkIndex}
+        setChunkIndex={handleSetChunkIndex}
+        courseSlug={courseSlug}
+      />
+    </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = async ({ params }) => {
+  const { courseSlug, unitNumber } = params ?? {};
+
+  if (typeof courseSlug !== 'string') {
+    throw new Error('Invalid course slug');
+  }
+  if (typeof unitNumber !== 'string') {
+    throw new Error('Invalid unit number');
+  }
+
+  try {
+    const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
+
+    return {
+      props: {
+        ...unitWithContent,
+        courseSlug,
+        unitNumber,
+      },
+    };
+  } catch (error) {
+    if (isHttpError(error) && error.statusCode === 404) {
+      return { notFound: true };
+    }
+    throw error;
+  }
 };
 
 CourseUnitChunkPage.hideFooter = true;
