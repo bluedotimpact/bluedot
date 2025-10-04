@@ -12,11 +12,10 @@ type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   authToken?: string;
-  isLast?: boolean;
 };
 
 const CourseDetails = ({
-  course, courseRegistration, authToken, isLast = false,
+  course, courseRegistration, authToken,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
@@ -298,7 +297,7 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className="bg-white border-x border-b border-gray-200 last:rounded-b-xl" role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-gray-200">
