@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { loggedOutStory } from '@bluedot/ui';
 import CourseDetails from './CourseDetails';
 
 const meta: Meta<typeof CourseDetails> = {
@@ -6,6 +7,9 @@ const meta: Meta<typeof CourseDetails> = {
   component: CourseDetails,
   parameters: {
     layout: 'padded',
+  },
+  args: {
+    ...loggedOutStory,
   },
 };
 
@@ -85,21 +89,6 @@ export const Facilitator: Story = {
     docs: {
       description: {
         story: 'Facilitators do not see the "Switch group" button for discussions.',
-      },
-    },
-  },
-};
-
-export const NoAuthToken: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    isLast: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Component can be rendered without an auth token for public viewing.',
       },
     },
   },
