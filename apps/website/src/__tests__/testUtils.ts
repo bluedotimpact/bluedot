@@ -12,7 +12,7 @@ declare global {
 }
 
 /**
- * Mock <Head> for testing. Based on the workaround desribed here:
+ * Mock <Head> for testing. Based on the workaround described here:
  * https://github.com/vercel/next.js/discussions/11060#discussioncomment-33628
  *
  * Usage:

@@ -10,7 +10,7 @@ import { renderWithHead } from '../../../testUtils';
 vi.mock('next/head', () => ({
   __esModule: true,
   default: ({ children }: { children: React.ReactNode }) => {
-    if (typeof window !== 'undefined' && children) {
+    if (children) {
       return (
         <head-proxy data-testid="head-proxy">
           {children}
