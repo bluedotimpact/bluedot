@@ -56,12 +56,6 @@ const mockCourseRegistration = {
   decision: null,
 };
 
-// Mock facilitator registration
-const mockFacilitatorRegistration = {
-  ...mockCourseRegistration,
-  role: 'Facilitator' as const,
-};
-
 export const Default: Story = {
   args: {
     course: mockCourse,
@@ -83,7 +77,7 @@ export const LastItem: Story = {
 export const Facilitator: Story = {
   args: {
     course: mockCourse,
-    courseRegistration: mockFacilitatorRegistration,
+    courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
     authToken: 'test-token',
     isLast: false,
   },
