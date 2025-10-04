@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { http, HttpResponse } from 'msw';
 import { loggedOutStory } from '@bluedot/ui';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
@@ -39,6 +42,115 @@ const mockCourseRegistration = {
   decision: null,
 };
 
+const now = Math.floor(Date.now() / 1000);
+const hour = 60 * 60;
+
+const mockDiscussions: Record<string, GroupDiscussion> = {
+  'discussion-1': {
+    id: 'discussion-1',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: [],
+    startDateTime: now + 2 * hour,
+    endDateTime: now + 3 * hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 1,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/123',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-1',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '1', title: 'Introduction to AI Safety' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
+  'discussion-2': {
+    id: 'discussion-2',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: [],
+    startDateTime: now + 7 * 24 * hour,
+    endDateTime: now + 7 * 24 * hour + hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 2,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/456',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-2',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '2', title: 'AI Alignment' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
+  'discussion-3': {
+    id: 'discussion-3',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: ['participant-1'],
+    startDateTime: now - 7 * 24 * hour,
+    endDateTime: now - 7 * 24 * hour + hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 0,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/789',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-0',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '0', title: 'Kickoff' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
+};
+
+const mockMeetPerson = {
+  id: 'meet-person-1',
+  name: 'John Doe',
+  applicationsBaseRecordId: null,
+  round: 'Round 1',
+  expectedDiscussionsParticipant: ['discussion-1', 'discussion-2'],
+  expectedDiscussionsFacilitator: [],
+  attendedDiscussions: ['discussion-3'],
+  autoNumberId: 1,
+};
+
+const mockFacilitatorMeetPerson = {
+  id: 'meet-person-2',
+  name: 'Jane Facilitator',
+  applicationsBaseRecordId: null,
+  round: 'Round 1',
+  expectedDiscussionsParticipant: [],
+  expectedDiscussionsFacilitator: ['discussion-1', 'discussion-2'],
+  attendedDiscussions: ['discussion-3'],
+  autoNumberId: 2,
+};
+
+const handlers = [
+  http.get('/api/meet-person', () => {
+    return HttpResponse.json({ type: 'success', meetPerson: mockMeetPerson });
+  }),
+  http.get('/api/group-discussions/:id', ({ params }) => {
+    const { id } = params;
+    const discussion = mockDiscussions[id as string];
+
+    return HttpResponse.json({
+      type: 'success',
+      discussion,
+    });
+  }),
+];
+
 export const Default: Story = {
   args: {
     course: mockCourse,
@@ -46,7 +158,11 @@ export const Default: Story = {
     authToken: 'test-token',
     isLast: false,
   },
-              type: 'success',
+  parameters: {
+    msw: {
+      handlers,
+    },
+  },
 };
 
 export const LastItem: Story = {
@@ -55,6 +171,11 @@ export const LastItem: Story = {
     courseRegistration: mockCourseRegistration,
     authToken: 'test-token',
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers,
+    },
   },
 };
 
@@ -70,6 +191,22 @@ export const Facilitator: Story = {
       description: {
         story: 'Facilitators do not see the "Switch group" button for discussions.',
       },
+    },
+    msw: {
+      handlers: [
+        http.get('/api/meet-person', () => {
+          return HttpResponse.json({ type: 'success', meetPerson: mockFacilitatorMeetPerson });
+        }),
+        http.get('/api/group-discussions/:id', ({ params }) => {
+          const { id } = params;
+          const discussion = mockDiscussions[id as string];
+
+          return HttpResponse.json({
+            type: 'success',
+            discussion,
+          });
+        }),
+      ],
     },
   },
 };
