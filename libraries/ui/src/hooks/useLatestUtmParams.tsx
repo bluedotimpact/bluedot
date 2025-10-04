@@ -88,8 +88,15 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
 
 export const useLatestUtmParams = () => {
   const latestUtmParams = useContext(latestUtmParamsContext);
+
   if (!latestUtmParams) {
-    throw new Error('Latest UTM params context not found');
+    // eslint-disable-next-line no-console
+    console.warn('Latest UTM params context not found. Make sure LatestUtmParamsProvider is wrapping your component tree.');
+    return {
+      latestUtmParams: {},
+      appendLatestUtmParamsToUrl: (url: string) => url,
+    };
   }
+
   return latestUtmParams;
 };
