@@ -93,35 +93,3 @@ export const Facilitator: Story = {
     },
   },
 };
-
-export const WithDescription: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    authToken: 'test-token',
-    isLast: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This component displays the expanded details for a course, including:
-- **Upcoming discussions**: Shows all scheduled group discussions
-- **Discussion timing**: Displays time until each discussion starts
-- **Action buttons**: 
-  - "Join Discussion" (when starting within 1 hour)
-  - "Prepare for discussion" (when more than 1 hour away)
-  - "Switch group" (for participants only, not facilitators)
-
-The component fetches discussion data from the \`/api/group-discussions\` endpoint.
-
-Features:
-- Responsive design with different layouts for mobile and desktop
-- Real-time countdown to discussion start times
-- Modal for switching groups
-- Different button states based on timing and user role
-        `,
-      },
-    },
-  },
-};
