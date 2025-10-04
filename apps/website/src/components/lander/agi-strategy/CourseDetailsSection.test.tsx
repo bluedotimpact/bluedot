@@ -10,7 +10,7 @@ describe('CourseDetailsSection', () => {
 
   it('renders the section title', () => {
     const { getByText } = render(<CourseDetailsSection />);
-    expect(getByText('AGI Strategy Course Details')).toBeDefined();
+    expect(getByText('Course information')).toBeDefined();
   });
 
   it('renders all course detail cards', () => {
