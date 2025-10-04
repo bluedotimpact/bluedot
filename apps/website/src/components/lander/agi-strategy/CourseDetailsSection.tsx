@@ -14,6 +14,7 @@ const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 const CourseDetailsSection = () => {
   const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
   const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
+
   const courseDetails = [
     {
       icon: <PiGraduationCap className="size-6" />,

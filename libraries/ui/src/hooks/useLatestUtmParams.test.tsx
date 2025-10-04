@@ -147,4 +147,22 @@ describe('useLatestUtmParams', () => {
 
     expect(result.current.latestUtmParams).toEqual({});
   });
+
+  it('should append latest UTM params to URL', () => {
+    const query = {
+      utm_source: 'probably-good',
+      utm_campaign: 'agi-strategy-launch',
+    };
+
+    const { result } = renderHook(() => useLatestUtmParams(), {
+      wrapper: createWrapper(query),
+    });
+
+    const testUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
+    const urlWithParams = result.current.appendLatestUtmParamsToUrl(testUrl);
+
+    expect(urlWithParams).toBe(
+      'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=probably-good&utm_campaign=agi-strategy-launch',
+    );
+  });
 });
