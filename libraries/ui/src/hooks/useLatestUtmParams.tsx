@@ -33,7 +33,7 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
 
   const latestUtmParams = useMemo(() => {
     if (!router.isReady) {
-      return {};
+      return latestUtmParamsRef.current;
     }
 
     const currentParams: LatestUtmParamsContext['latestUtmParams'] = {};
