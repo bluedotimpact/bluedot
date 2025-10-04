@@ -136,21 +136,6 @@ const mockFacilitatorMeetPerson = {
   autoNumberId: 2,
 };
 
-const handlers = [
-  http.get('/api/meet-person', () => {
-    return HttpResponse.json({ type: 'success', meetPerson: mockMeetPerson });
-  }),
-  http.get('/api/group-discussions/:id', ({ params }) => {
-    const { id } = params;
-    const discussion = mockDiscussions[id as string];
-
-    return HttpResponse.json({
-      type: 'success',
-      discussion,
-    });
-  }),
-];
-
 export const Default: Story = {
   args: {
     course: mockCourse,
@@ -160,21 +145,20 @@ export const Default: Story = {
   },
   parameters: {
     msw: {
-      handlers,
-    },
-  },
-};
+      handlers: [
+        http.get('/api/meet-person', () => {
+          return HttpResponse.json({ type: 'success', meetPerson: mockMeetPerson });
+        }),
+        http.get('/api/group-discussions/:id', ({ params }) => {
+          const { id } = params;
+          const discussion = mockDiscussions[id as string];
 
-export const LastItem: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    authToken: 'test-token',
-    isLast: true,
-  },
-  parameters: {
-    msw: {
-      handlers,
+          return HttpResponse.json({
+            type: 'success',
+            discussion,
+          });
+        }),
+      ],
     },
   },
 };
