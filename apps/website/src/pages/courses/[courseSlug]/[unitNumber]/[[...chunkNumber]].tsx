@@ -4,6 +4,7 @@ import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { isHttpError } from 'http-errors';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
 import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
@@ -129,15 +130,22 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     throw new Error('Invalid unit number');
   }
 
-  const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
+  try {
+    const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
 
-  return {
-    props: {
-      ...unitWithContent,
-      courseSlug,
-      unitNumber,
-    },
-  };
+    return {
+      props: {
+        ...unitWithContent,
+        courseSlug,
+        unitNumber,
+      },
+    };
+  } catch (error) {
+    if (isHttpError(error) && error.statusCode === 404) {
+      return { notFound: true };
+    }
+    throw error;
+  }
 };
 
 CourseUnitChunkPage.hideFooter = true;
