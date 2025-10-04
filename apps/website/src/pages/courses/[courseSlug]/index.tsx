@@ -4,6 +4,7 @@ import {
   HeroCTAContainer,
   HeroH1,
   HeroSection,
+  useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
@@ -50,6 +51,9 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
 };
 
 const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
+  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
+  const registerInterestUrl = appendLatestUtmParamsToUrl('https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc');
+
   return (
     <div>
       {courseData.course && (
@@ -68,7 +72,7 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
                 </HeroCTAContainer>
               )}
               <HeroCTAContainer>
-                <CTALinkOrButton url="https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc">Register interest</CTALinkOrButton>
+                <CTALinkOrButton url={registerInterestUrl}>Register interest</CTALinkOrButton>
               </HeroCTAContainer>
             </div>
           </HeroSection>

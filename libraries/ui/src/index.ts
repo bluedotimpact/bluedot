@@ -94,3 +94,7 @@ export * as constants from './constants';
 export { loggedOutStory, loggedInStory } from './utils/storybook';
 
 export * from './SocialShare';
+
+// Hooks
+
+export { useLatestUtmParams, LatestUtmParamsProvider } from './hooks/useLatestUtmParams';
