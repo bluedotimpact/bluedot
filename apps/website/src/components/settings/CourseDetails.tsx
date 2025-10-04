@@ -94,7 +94,7 @@ const CourseDetails = ({
     };
 
     fetchDiscussions();
-  }, [meetPersonData, courseRegistration.role]);
+  }, [meetPersonData, isFacilitator]);
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
