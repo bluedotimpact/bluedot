@@ -7,12 +7,29 @@ import type { NextRouter } from 'next/router';
 import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { ChunkWithContent } from '../../../../../pages/api/courses/[courseSlug]/[unitNumber]/index';
+import { renderWithHead } from '../../../../testUtils';
 
 // Mock next/router
 vi.mock('next/router', () => ({
   useRouter: vi.fn(() => ({
     query: { courseSlug: 'test-course', unitNumber: '3' },
   })),
+}));
+
+// Mock <Head>, which doesn't work in tests. See docstring of
+// `renderWithHead` for more details.
+vi.mock('next/head', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => {
+    if (typeof window !== 'undefined' && children) {
+      return (
+        <head-proxy data-testid="head-proxy">
+          {children}
+        </head-proxy>
+      );
+    }
+    return null;
+  },
 }));
 
 // Mock axios-hooks
@@ -193,5 +210,41 @@ describe('CourseUnitPage', () => {
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
+  });
+
+  test('renders SEO meta tags during SSR without API calls', () => {
+    document.head.innerHTML = '';
+
+    vi.mocked(useRouter).mockReturnValueOnce({
+      query: { courseSlug: 'test-course', unitNumber: '3', chunkNumber: ['1'] },
+    } as unknown as NextRouter);
+
+    const mockUnits = [
+      createMockUnit('1', 'Unit 1', 'First unit content'),
+      createMockUnit('2', 'Unit 2', 'Second unit content'),
+      createMockUnit('3', 'Unit 3', 'Third unit content'),
+    ];
+
+    const mockChunks = [createMockChunk(mockUnits[2]!.id)];
+
+    mockUseAxios.mockReturnValue([{
+      data: null,
+      loading: false,
+    }]);
+
+    renderWithHead(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[2]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
+
+    expect(document.title).toBe('Test Course: Unit 3 | Test Chunk');
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    expect(metaDescription?.getAttribute('content')).toBe('Test chunk meta description');
   });
 });
