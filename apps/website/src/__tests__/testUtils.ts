@@ -1,6 +1,6 @@
 import type { Course } from '@bluedot/db';
 
-export const mockCourse = (overrides: Partial<Course>): Course => ({
+export const mockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
   cadence: 'Weekly',
   certificationBadgeImage: 'badge.png',
