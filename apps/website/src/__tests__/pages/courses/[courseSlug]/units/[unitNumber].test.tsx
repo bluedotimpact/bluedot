@@ -74,7 +74,6 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[0]!.id)];
 
-    // Mock the course registration API call (manual: true, so won't execute)
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
       data: null,
