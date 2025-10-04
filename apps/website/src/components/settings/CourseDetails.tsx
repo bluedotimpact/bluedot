@@ -4,7 +4,7 @@ import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
-import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 
@@ -105,37 +105,6 @@ const CourseDetails = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Helper function to format time until discussion
-  const formatTimeUntilDiscussion = (startDateTime: number): string => {
-    const timeUntilStart = startDateTime - currentTimeSeconds;
-
-    if (timeUntilStart <= 0) {
-      return 'Discussion has started';
-    }
-
-    const days = Math.floor(timeUntilStart / (24 * HOUR_IN_SECONDS));
-    const hours = Math.floor((timeUntilStart % (24 * HOUR_IN_SECONDS)) / (HOUR_IN_SECONDS));
-    const minutes = Math.floor((timeUntilStart % (HOUR_IN_SECONDS)) / 60);
-
-    if (days > 0) {
-      if (days === 1) {
-        return '1 day';
-      }
-      return `${days} days`;
-    }
-
-    if (hours > 0 && minutes > 0) {
-      return `${hours}hr ${minutes}min`;
-    }
-    if (hours > 0) {
-      return `${hours}hr`;
-    }
-    if (minutes > 0) {
-      return `${minutes}min`;
-    }
-    return 'Less than 1min';
-  };
-
   // Filter expected discussions to only show those where the end datetime hasn't passed yet
   const upcomingDiscussions = expectedDiscussions.filter(
     (discussion) => discussion.endDateTime > currentTimeSeconds,
@@ -180,7 +149,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (
@@ -249,7 +218,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts in ${formatTimeUntilDiscussion(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (
