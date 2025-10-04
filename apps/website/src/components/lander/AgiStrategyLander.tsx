@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import {
   CTALinkOrButton,
+  useLatestUtmParams,
 } from '@bluedot/ui';
 
 import { H3 } from '../Text';
@@ -88,6 +89,9 @@ const communityMembers: CommunityMember[] = [
 ];
 
 const AgiStrategyLander = () => {
+  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
+  const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
+
   return (
     <div className="bg-white">
       <Head>
@@ -101,7 +105,7 @@ const AgiStrategyLander = () => {
         description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
         primaryCta={{
           text: 'Apply now',
-          url: applicationUrl,
+          url: applicationUrlWithUtm,
         }}
         secondaryCta={{
           text: 'Browse curriculum',
@@ -151,7 +155,7 @@ const AgiStrategyLander = () => {
         <div className="max-w-max-width mx-auto px-spacing-x">
           <AgiStrategyBanner
             title="Start building towards a good future today"
-            ctaUrl={applicationUrl}
+            ctaUrl={applicationUrlWithUtm}
           />
         </div>
       </section>

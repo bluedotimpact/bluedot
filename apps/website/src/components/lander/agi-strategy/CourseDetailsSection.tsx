@@ -1,4 +1,4 @@
-import { NewText, CTALinkOrButton } from '@bluedot/ui';
+import { NewText, CTALinkOrButton, useLatestUtmParams } from '@bluedot/ui';
 import {
   PiGraduationCap,
   PiClockClockwise,
@@ -12,6 +12,8 @@ const { H2, P } = NewText;
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
 const CourseDetailsSection = () => {
+  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
+  const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
   const courseDetails = [
     {
       icon: <PiGraduationCap className="size-6" />,
@@ -94,7 +96,7 @@ const CourseDetailsSection = () => {
                     {/* Button centered across full width */}
                     <div className="flex justify-start md:justify-center">
                       <CTALinkOrButton
-                        url={applicationUrl}
+                        url={applicationUrlWithUtm}
                         className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
                       >
                         Apply now

@@ -1,3 +1,7 @@
+/**
+ * Adds or updates (upserts) a query parameter in the given URL.
+ * If the key already exists, its value is replaced.
+ */
 export const addQueryParam = (url: string, key: string, value: string) => {
   // Try to parse as absolute URL first
   try {
