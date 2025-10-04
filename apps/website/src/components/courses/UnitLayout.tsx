@@ -143,7 +143,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
-  const [{ data: groupDiscussionData, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
+  const [{ data: groupDiscussionWithZoomInfo, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
     method: 'get',
     url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
     headers: {
@@ -388,20 +388,20 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {groupDiscussionError && (
             <ErrorSection error={groupDiscussionError} />
           )}
-          {groupDiscussionData?.groupDiscussion && (
+          {groupDiscussionWithZoomInfo?.groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner
                 unit={unit}
-                groupDiscussion={groupDiscussionData.groupDiscussion}
-                userRole={groupDiscussionData.userRole}
-                hostKeyForFacilitators={groupDiscussionData.hostKeyForFacilitators}
+                groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+                userRole={groupDiscussionWithZoomInfo.userRole}
+                hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
                 // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
                 onClickPrepare={() => {
-                  if (groupDiscussionData.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
+                  if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
                     handleChunkSelect(0);
-                  } else if (groupDiscussionData.groupDiscussion!.unitNumber) {
+                  } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
                     // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionData.groupDiscussion!.unitNumber?.toString());
+                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
                     if (discussionUnit) {
                       router.push(discussionUnit.path);
                     } else {
