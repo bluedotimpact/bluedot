@@ -52,8 +52,8 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-[14px] sm:text-[16px] min-[680px]:text-[16px] lg:text-[16px] xl:text-[20px]', // For quotes > 400 chars
-  LONG: 'text-[18px] sm:text-[20px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px]', // For quotes 200-400 chars
+  EXTRA_LONG: 'text-[12px] sm:text-[14px] min-[680px]:text-[16px] lg:text-[16px] xl:text-[20px]', // For quotes > 400 chars
+  LONG: 'text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px]', // For quotes 200-400 chars
   DEFAULT: 'text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
 
@@ -81,7 +81,7 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
       <div className="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
         <blockquote
-          className={`${getFontSizeForQuote(quote.quote)} leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left`}
+          className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left`}
           style={{ color: COLORS.text }}
         >
           {quote.quote}
@@ -111,7 +111,7 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
             <div className="text-[18px] leading-tight font-semibold" style={{ color: COLORS.text }}>
               {quote.name}
             </div>
-            <div className="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0" style={{ color: COLORS.text }}>
+            <div className="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: COLORS.text }}>
               {quote.role}
             </div>
           </div>
@@ -286,14 +286,14 @@ const QuoteSection = () => {
       aria-atomic="true"
     >
       {/* Main content container */}
-      <div className="flex flex-col items-center gap-8 w-full max-w-[90vw] min-[680px]:max-w-none min-[680px]:w-[616px] lg:w-auto lg:max-w-none mx-auto overflow-visible">
+      <div className="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible">
         {/* Quote cards container */}
         <div className="relative w-full">
           {/* Mobile and Tablet layout with peek effect (below 1024px) */}
           <div className="lg:hidden relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
-              <div className="w-[90vw] min-[680px]:w-[616px] relative z-10">
+              <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10">
                 <QuoteCard quote={activeQuote} isActive />
               </div>
             </div>
@@ -303,16 +303,16 @@ const QuoteSection = () => {
               <>
                 {/* Mobile peek card (below 680px) */}
                 <div className="min-[680px]:hidden absolute top-0 left-1/2 pointer-events-none">
-                  <div className="relative pointer-events-auto" style={{ left: 'calc(45vw + 10px)' }}>
-                    <div className="w-[90vw]">
+                  <div className="relative pointer-events-auto" style={{ left: 'calc((100vw - 40px) / 2 + 10px)' }}>
+                    <div className="w-[calc(100vw-40px)]">
                       <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
                     </div>
                   </div>
                 </div>
 
                 {/* Tablet peek card (680px-1023px) */}
-                <div className="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none" style={{ left: 'calc(50% + 318px)' }}>
-                  <div className="w-[616px] pointer-events-auto">
+                <div className="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none" style={{ left: 'calc(50% + (100vw - 64px) / 2 + 10px)' }}>
+                  <div className="w-[calc(100vw-64px)] pointer-events-auto">
                     <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
                   </div>
                 </div>
@@ -361,7 +361,7 @@ const QuoteSection = () => {
         </div>
 
         {/* Navigation controls - Match 680px Figma specs exactly */}
-        <div className="flex items-center justify-center min-[680px]:gap-8 min-[680px]:w-[616px] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
+        <div className="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
           {/* Left arrow - Shows at 680px+ matching CommunityMembersSubSection */}
           {isDesktop && (
             <button

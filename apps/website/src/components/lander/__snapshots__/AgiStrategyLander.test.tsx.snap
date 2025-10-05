@@ -650,7 +650,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       style="background-color: #FAFAF7;"
     >
       <div
-        class="flex flex-col items-center gap-8 w-full max-w-[90vw] min-[680px]:max-w-none min-[680px]:w-[616px] lg:w-auto lg:max-w-none mx-auto overflow-visible"
+        class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
       >
         <div
           class="relative w-full"
@@ -662,7 +662,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex justify-center w-full"
             >
               <div
-                class="w-[90vw] min-[680px]:w-[616px] relative z-10"
+                class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10"
               >
                 <div
                   class="w-full rounded-xl overflow-hidden"
@@ -675,7 +675,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                     >
                       <blockquote
-                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                         style="color: #13132E;"
                       >
                         "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
@@ -705,7 +705,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                             Ursula von der Leyen
                           </div>
                           <div
-                            class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                            class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                             style="color: #13132E;"
                           >
                             President, European Commission
@@ -738,10 +738,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <div
                 class="relative pointer-events-auto"
-                style="left: calc(45vw + 10px);"
               >
                 <div
-                  class="w-[90vw]"
+                  class="w-[calc(100vw-40px)]"
                 >
                   <button
                     aria-label="Go to next quote"
@@ -756,7 +755,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                       >
                         <blockquote
-                          class="text-[18px] sm:text-[20px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                          class="text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                           style="color: #13132E;"
                         >
                           "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
@@ -779,7 +778,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                               Sundar Pichai
                             </div>
                             <div
-                              class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                              class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                               style="color: #13132E;"
                             >
                               CEO, Google
@@ -803,10 +802,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div
               class="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none"
-              style="left: calc(50% + 318px);"
             >
               <div
-                class="w-[616px] pointer-events-auto"
+                class="w-[calc(100vw-64px)] pointer-events-auto"
               >
                 <button
                   aria-label="Go to next quote"
@@ -821,7 +819,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                     >
                       <blockquote
-                        class="text-[18px] sm:text-[20px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                        class="text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                         style="color: #13132E;"
                       >
                         "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
@@ -844,7 +842,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                             Sundar Pichai
                           </div>
                           <div
-                            class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                            class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                             style="color: #13132E;"
                           >
                             CEO, Google
@@ -886,7 +884,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                     >
                       <blockquote
-                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                         style="color: #13132E;"
                       >
                         "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
@@ -916,7 +914,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                             Ursula von der Leyen
                           </div>
                           <div
-                            class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                            class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                             style="color: #13132E;"
                           >
                             President, European Commission
@@ -967,7 +965,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                       >
                         <blockquote
-                          class="text-[18px] sm:text-[20px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                          class="text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                           style="color: #13132E;"
                         >
                           "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
@@ -990,7 +988,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                               Sundar Pichai
                             </div>
                             <div
-                              class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                              class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                               style="color: #13132E;"
                             >
                               CEO, Google
@@ -1031,7 +1029,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
                       >
                         <blockquote
-                          class="text-[18px] sm:text-[20px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-[1.4] lg:leading-tight font-semibold text-center lg:text-left"
+                          class="text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                           style="color: #13132E;"
                         >
                           "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
@@ -1054,7 +1052,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                               Sundar Pichai
                             </div>
                             <div
-                              class="text-[16px] leading-[1.6] opacity-80 whitespace-nowrap px-2 lg:px-0"
+                              class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                               style="color: #13132E;"
                             >
                               CEO, Google
@@ -1079,7 +1077,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           </div>
         </div>
         <div
-          class="flex items-center justify-center min-[680px]:gap-8 min-[680px]:w-[616px] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
+          class="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
         >
           <button
             aria-label="Previous quote"
