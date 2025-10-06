@@ -19,7 +19,7 @@ export const useAboveBreakpoint = (breakpoint: number) => {
   // Returns false during SSR when window is undefined.
   // This avoids the initial null state that would cause components to flicker on first render.
   const [isAbove, setIsAbove] = useState<boolean>(
-    typeof window !== 'undefined' ? window.innerWidth >= breakpoint : false
+    typeof window !== 'undefined' ? window.innerWidth >= breakpoint : false,
   );
 
   useEffect(() => {
