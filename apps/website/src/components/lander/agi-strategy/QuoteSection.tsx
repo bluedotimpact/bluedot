@@ -210,9 +210,11 @@ const QuoteSection = () => {
     setIsPaused(true);
   };
 
-  const handleBlurCapture = (e: React.FocusEvent) => {
+  const handleBlurCapture = (e: React.FocusEvent<HTMLElement>) => {
     // Only unpause if focus is leaving the entire section
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+    const nextFocusedNode = e.relatedTarget instanceof Node ? e.relatedTarget : null;
+
+    if (!nextFocusedNode || !e.currentTarget.contains(nextFocusedNode)) {
       setIsPaused(false);
     }
   };
