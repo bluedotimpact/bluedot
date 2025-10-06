@@ -26,7 +26,11 @@
     "@next/third-parties": "^15.3.1",
     "@rive-app/react-canvas": "^4.18.2",
     "@tailwindcss/typography": "^0.5.16",
-    "@tanstack/react-query": "^5.29.0",
+    "@tanstack/react-query": "^5.90.2",
+    "@trpc/client": "^11.6.0",
+    "@trpc/next": "^11.6.0",
+    "@trpc/react-query": "^11.6.0",
+    "@trpc/server": "^11.6.0",
     "@ts-rest/core": "^3.41.1",
     "@ts-rest/react-query": "^3.41.1",
     "axios": "^1.6.8",
@@ -45,7 +49,7 @@
     "react-icons": "^5.5.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1",
-    "zod": "^3.24.2",
+    "zod": "^3.25.76",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
