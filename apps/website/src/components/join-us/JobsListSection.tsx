@@ -1,12 +1,10 @@
 import { Card, Section } from '@bluedot/ui';
-import { jobPostingTable, InferSelectModel } from '@bluedot/db';
+import { JobPosting } from '@bluedot/db';
 import { P } from '../Text';
 import { ROUTES } from '../../lib/routes';
 
-type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
-
 export type JobsListSectionProps = {
-  cmsJobs: Omit<CmsJobPosting, 'body'>[],
+  cmsJobs: Omit<JobPosting, 'body'>[],
 };
 
 const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
