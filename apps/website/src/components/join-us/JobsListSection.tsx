@@ -34,6 +34,7 @@ const JobListItem = ({ job }: { job: JobsListSectionProps['jobs'][number] }) => 
         ctaUrl={url}
         isEntireCardClickable
         isFullWidth
+        subtitle={job.subtitle}
         title={job.title}
       />
     </div>
