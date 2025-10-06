@@ -1,25 +1,9 @@
-import { z } from 'zod';
 import { jobPostingTable } from '@bluedot/db';
-import { publicProcedure, router } from '../trpc'; // Adjust path to your tRPC setup
+import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
 
 export const jobsRouter = router({
   getJobs: publicProcedure
-    .output(
-      z.object({
-        jobs: z.array(
-          z.object({
-            id: z.string(),
-            slug: z.string(),
-            title: z.string(),
-            subtitle: z.string(),
-            applicationUrl: z.nullable(z.string()),
-            publicationStatus: z.nullable(z.string()),
-            publishedAt: z.number(),
-          }),
-        ),
-      }),
-    )
     .query(async () => {
       const allJobs = await db.scan(jobPostingTable, {
         publicationStatus: 'Published',
