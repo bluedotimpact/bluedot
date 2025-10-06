@@ -14,9 +14,7 @@ const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
       {jobs.length === 0 ? (
-        <P>
-          We're not currently running any open hiring rounds at the moment.
-        </P>
+        <P>We're not currently running any open hiring rounds at the moment.</P>
       ) : (
         <div className="jobs-list__container flex flex-col gap-8">
           {jobs.map((job) => (
