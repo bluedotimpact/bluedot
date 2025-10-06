@@ -2,6 +2,7 @@ import {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import { Quote } from '@bluedot/ui';
+import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
 
 type QuoteWithUrl = Quote & {
   url: string;
@@ -168,37 +169,12 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
   );
 };
 
-// Hook to detect screen size
-const useIsDesktop = () => {
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-
-    const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 680);
-    };
-
-    // Check on mount
-    checkScreenSize();
-
-    // Add event listener
-    window.addEventListener('resize', checkScreenSize);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
-
-  return isMounted && isDesktop;
-};
-
 const QuoteSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const autorotateTiming = 11000;
-  const isDesktop = useIsDesktop();
+  const isDesktop = useAboveBreakpoint(680); // 680px is the design breakpoint specified
 
   // Single effect that handles all timer logic
   useEffect(() => {
