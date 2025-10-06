@@ -744,7 +744,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <button
                     aria-label="Go to next quote"
-                    class="w-full cursor-pointer focus:outline-none rounded-xl overflow-hidden"
+                    class="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
                     style="background-color: #ECF0FF;"
                     type="button"
                   >
@@ -808,7 +808,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <button
                   aria-label="Go to next quote"
-                  class="w-full cursor-pointer focus:outline-none rounded-xl overflow-hidden"
+                  class="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
                   style="background-color: #ECF0FF;"
                   type="button"
                 >
@@ -954,7 +954,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <button
                     aria-label="Go to next quote"
-                    class="w-full cursor-pointer focus:outline-none rounded-xl overflow-hidden"
+                    class="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
                     style="background-color: #ECF0FF;"
                     type="button"
                   >
@@ -1018,7 +1018,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <button
                     aria-label="Go to next quote"
-                    class="w-full cursor-pointer focus:outline-none rounded-xl overflow-hidden"
+                    class="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
                     style="background-color: #ECF0FF;"
                     type="button"
                   >
@@ -1081,7 +1081,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <button
             aria-label="Previous quote"
-            class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus:outline-none"
+            class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
             type="button"
           >
             <span
@@ -1096,7 +1096,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <button
               aria-label="Go to quote 1"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus:outline-none"
+              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               type="button"
             >
               <div
@@ -1106,7 +1106,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </button>
             <button
               aria-label="Go to quote 2"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus:outline-none"
+              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               type="button"
             >
               <div
@@ -1116,7 +1116,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </button>
             <button
               aria-label="Go to quote 3"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus:outline-none"
+              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               type="button"
             >
               <div
@@ -1126,7 +1126,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </button>
             <button
               aria-label="Go to quote 4"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus:outline-none"
+              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               type="button"
             >
               <div
@@ -1137,7 +1137,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           </div>
           <button
             aria-label="Next quote"
-            class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus:outline-none"
+            class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
             type="button"
           >
             <span

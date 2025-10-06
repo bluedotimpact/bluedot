@@ -149,7 +149,7 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
       <button
         type="button"
         onClick={onClick}
-        className="w-full cursor-pointer focus:outline-none rounded-xl overflow-hidden"
+        className="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
         style={{ backgroundColor: COLORS.cardBg }}
         aria-label="Go to next quote"
       >
@@ -239,21 +239,21 @@ const QuoteSection = () => {
   }, []);
 
   // Touch/swipe handling for mobile
-  const touchStartX = useRef<number>(0);
-  const touchEndX = useRef<number>(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
   const minSwipeDistance = 50;
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0]?.clientX || 0;
+    touchStartX.current = e.targetTouches[0]?.clientX ?? null;
+    touchEndX.current = null;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0]?.clientX || 0;
+    touchEndX.current = e.targetTouches[0]?.clientX ?? null;
   };
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-
+    if (touchStartX.current === null || touchEndX.current === null) return;
     const distance = touchStartX.current - touchEndX.current;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -263,6 +263,8 @@ const QuoteSection = () => {
     } else if (isRightSwipe) {
       handlePrevious();
     }
+    touchStartX.current = null;
+    touchEndX.current = null;
   };
 
   const activeQuote = testimonialQuotes[activeIndex];
@@ -367,8 +369,7 @@ const QuoteSection = () => {
             <button
               type="button"
               onClick={handlePrevious}
-              onKeyDown={(e) => e.key === 'Enter' && handlePrevious()}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus:outline-none"
+              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               aria-label="Previous quote"
             >
               <span
@@ -389,8 +390,7 @@ const QuoteSection = () => {
                 type="button"
                 key={`indicator-${quote.name}`}
                 onClick={() => handleIndicatorClick(index)}
-                onKeyDown={(e) => e.key === 'Enter' && handleIndicatorClick(index)}
-                className="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus:outline-none"
+                className="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
                 aria-label={`Go to quote ${index + 1}`}
               >
                 <div
@@ -409,8 +409,7 @@ const QuoteSection = () => {
             <button
               type="button"
               onClick={handleNext}
-              onKeyDown={(e) => e.key === 'Enter' && handleNext()}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus:outline-none"
+              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
               aria-label="Next quote"
             >
               <span
