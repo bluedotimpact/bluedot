@@ -1,15 +1,12 @@
 import { Card, Section } from '@bluedot/ui';
-import { JobPosting } from '@bluedot/db';
-import { P } from '../Text';
+import { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
+import { AppRouter } from '../../server/routers/_app';
+import { P } from '../Text';
 
-export type JobsListSectionProps = {
-  cmsJobs: Omit<JobPosting, 'body'>[],
-};
+type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getJobs'];
 
-const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
-  const jobs = cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle }));
-
+const JobsListSection = ({ jobs }: JobsListSectionProps) => {
   return (
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
@@ -26,9 +23,7 @@ const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
   );
 };
 
-const JobListItem = ({ job }: {
-  job: { id: string; title: string; location: string };
-}) => {
+const JobListItem = ({ job }: { job: JobsListSectionProps['jobs'][number] }) => {
   const url = `${ROUTES.joinUs.url}/${job.id}`;
 
   return (
@@ -39,7 +34,6 @@ const JobListItem = ({ job }: {
         ctaUrl={url}
         isEntireCardClickable
         isFullWidth
-        subtitle={job.location}
         title={job.title}
       />
     </div>
