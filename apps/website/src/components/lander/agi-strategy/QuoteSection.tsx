@@ -206,6 +206,17 @@ const QuoteSection = () => {
     setIsPaused(false);
   };
 
+  const handleFocusCapture = () => {
+    setIsPaused(true);
+  };
+
+  const handleBlurCapture = (e: React.FocusEvent) => {
+    // Only unpause if focus is leaving the entire section
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsPaused(false);
+    }
+  };
+
   const handlePrevious = useCallback(() => {
     setActiveIndex((prevIndex) => (prevIndex === 0 ? testimonialQuotes.length - 1 : prevIndex - 1));
   }, []);
@@ -256,6 +267,8 @@ const QuoteSection = () => {
       style={{ backgroundColor: COLORS.background }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocusCapture={handleFocusCapture}
+      onBlurCapture={handleBlurCapture}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
