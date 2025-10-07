@@ -5,6 +5,15 @@ import type { AppRouter } from '../server/routers/_app';
 // Creates a separate tRPC React client for testing, independent from the production client in utils/trpc.ts.
 const trpcTest = createTRPCReact<AppRouter>();
 
+// Shared tRPC client instance for tests
+const trpcClient = trpcTest.createClient({
+  links: [
+    httpBatchLink({
+      url: 'http://localhost:8000/api/trpc',
+    }),
+  ],
+});
+
 /**
  * TrpcWrapper - Test wrapper component that provides tRPC context
  *
@@ -23,14 +32,6 @@ export const TrpcWrapper = ({ children }: { children: React.ReactNode }) => {
       queries: { retry: false },
       mutations: { retry: false },
     },
-  });
-
-  const trpcClient = trpcTest.createClient({
-    links: [
-      httpBatchLink({
-        url: 'http://localhost:8000/api/trpc',
-      }),
-    ],
   });
 
   return (
