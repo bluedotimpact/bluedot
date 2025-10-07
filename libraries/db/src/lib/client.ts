@@ -3,8 +3,9 @@ import {
 } from 'drizzle-orm';
 import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { AirtableTs, AirtableTsError } from 'airtable-ts';
-import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
+import {
+  AirtableTs, AirtableTsError, AirtableTsOptions, ErrorType,
+} from 'airtable-ts';
 import { PgAirtableTable } from './db-core';
 import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
 
@@ -112,9 +113,18 @@ export class PgAirtableDb {
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
 
-  constructor({ pgConnString, airtableApiKey }: { pgConnString: string; airtableApiKey: string }) {
+  constructor({
+    pgConnString,
+    airtableApiKey,
+    airtableTsOptions,
+  }: {
+    pgConnString: string;
+    airtableApiKey: string;
+    airtableTsOptions: AirtableTsOptions;
+  }) {
     this.airtableClient = new AirtableTs({
       apiKey: airtableApiKey,
+      ...airtableTsOptions,
     });
     this.pgUnrestricted = drizzle(pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
