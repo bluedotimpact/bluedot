@@ -24,7 +24,7 @@ const JobsListSection = ({ jobs }: JobsListSectionProps) => {
 };
 
 const JobListItem = ({ job }: { job: JobsListSectionProps['jobs'][number] }) => {
-  const url = `${ROUTES.joinUs.url}/${job.id}`;
+  const url = `${ROUTES.joinUs.url}/${job.slug}`;
 
   return (
     <div className="jobs-list__listing">
