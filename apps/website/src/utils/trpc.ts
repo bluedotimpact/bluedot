@@ -8,9 +8,7 @@ function getBaseUrl() {
     return '';
   }
 
-  // TODO: properly declare `SITE_URL` in turbo.json and add to all .env files
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  return process.env.SITE_URL ?? 'http://localhost:8000';
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:8000';
 }
 
 export const trpc = createTRPCNext<AppRouter>({
