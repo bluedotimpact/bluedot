@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import { createTRPCMsw, httpLink } from 'msw-trpc';
 import {
