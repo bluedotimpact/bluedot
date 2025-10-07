@@ -168,7 +168,7 @@ const CourseDetails = ({
                     size="small"
                     url={buttonUrl}
                     disabled={!discussion.zoomLink && isStartingSoon}
-                    target={isStartingSoon ? '_blank' : undefined}
+                    target="_blank"
                   >
                     {buttonText}
                   </CTALinkOrButton>
@@ -237,7 +237,7 @@ const CourseDetails = ({
                 size="small"
                 url={buttonUrl}
                 disabled={!discussion.zoomLink && isStartingSoon}
-                target={isStartingSoon ? '_blank' : undefined}
+                target="blank"
               >
                 {buttonText}
               </CTALinkOrButton>
