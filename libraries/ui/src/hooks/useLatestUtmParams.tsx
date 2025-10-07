@@ -10,12 +10,12 @@ import {
 import { useRouter } from 'next/router';
 import { addQueryParam } from '../utils/addQueryParam';
 
-type LatestUtmParamsContext = {
+type LatestUtmParamsContextType = {
   latestUtmParams: Record<string, string | string[]>;
   appendLatestUtmParamsToUrl: (url: string) => string;
 };
 
-const latestUtmParamsContext = createContext<LatestUtmParamsContext | null>(null);
+const latestUtmParamsContext = createContext<LatestUtmParamsContextType | null>(null);
 
 const PASSTHROUGH_PARAMS = [
   'utm_source',
@@ -36,7 +36,7 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
       return latestUtmParamsRef.current;
     }
 
-    const currentParams: LatestUtmParamsContext['latestUtmParams'] = {};
+    const currentParams: LatestUtmParamsContextType['latestUtmParams'] = {};
     let hasCurrentUtmParams = false;
 
     for (const param of PASSTHROUGH_PARAMS) {
