@@ -41,7 +41,7 @@ export const renderWithHead = (ui: React.ReactElement): RenderResult => {
   return result;
 };
 
-export const mockCourse = (overrides: Partial<Course>): Course => ({
+export const mockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
   cadence: 'Weekly',
   certificationBadgeImage: 'badge.png',
