@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { http, HttpResponse } from 'msw';
 import { loggedOutStory } from '@bluedot/ui';
+import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
@@ -114,7 +115,7 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
   },
 };
 
-const mockMeetPerson = {
+const mockMeetPerson: MeetPerson = {
   id: 'meet-person-1',
   name: 'John Doe',
   applicationsBaseRecordId: null,
@@ -125,7 +126,7 @@ const mockMeetPerson = {
   autoNumberId: 1,
 };
 
-const mockFacilitatorMeetPerson = {
+const mockFacilitatorMeetPerson: MeetPerson = {
   id: 'meet-person-2',
   name: 'Jane Facilitator',
   applicationsBaseRecordId: null,
@@ -136,6 +137,22 @@ const mockFacilitatorMeetPerson = {
   autoNumberId: 2,
 };
 
+const createMswHandlers = (meetPerson: MeetPerson) => [
+  http.get('/api/meet-person', () => {
+    return HttpResponse.json({ type: 'success', meetPerson });
+  }),
+  http.get('/api/group-discussions/:id', ({ params }) => {
+    const { id } = params;
+    const discussion = mockDiscussions[id as string];
+
+    return HttpResponse.json({
+      type: 'success',
+      discussion,
+    });
+  }),
+
+];
+
 export const Default: Story = {
   args: {
     course: mockCourse,
@@ -144,20 +161,7 @@ export const Default: Story = {
   },
   parameters: {
     msw: {
-      handlers: [
-        http.get('/api/meet-person', () => {
-          return HttpResponse.json({ type: 'success', meetPerson: mockMeetPerson });
-        }),
-        http.get('/api/group-discussions/:id', ({ params }) => {
-          const { id } = params;
-          const discussion = mockDiscussions[id as string];
-
-          return HttpResponse.json({
-            type: 'success',
-            discussion,
-          });
-        }),
-      ],
+      handlers: createMswHandlers(mockMeetPerson),
     },
   },
 };
@@ -175,20 +179,7 @@ export const Facilitator: Story = {
       },
     },
     msw: {
-      handlers: [
-        http.get('/api/meet-person', () => {
-          return HttpResponse.json({ type: 'success', meetPerson: mockFacilitatorMeetPerson });
-        }),
-        http.get('/api/group-discussions/:id', ({ params }) => {
-          const { id } = params;
-          const discussion = mockDiscussions[id as string];
-
-          return HttpResponse.json({
-            type: 'success',
-            discussion,
-          });
-        }),
-      ],
+      handlers: createMswHandlers(mockFacilitatorMeetPerson),
     },
   },
 };
