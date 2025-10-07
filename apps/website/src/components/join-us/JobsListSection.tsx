@@ -6,7 +6,7 @@ import { P } from '../Text';
 
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getJobs'];
 
-const JobsListSection = ({ jobs }: JobsListSectionProps) => {
+const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   return (
     <Section className="jobs-list-section" title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
@@ -23,7 +23,7 @@ const JobsListSection = ({ jobs }: JobsListSectionProps) => {
   );
 };
 
-const JobListItem = ({ job }: { job: JobsListSectionProps['jobs'][number] }) => {
+const JobListItem = ({ job }: { job: JobsListSectionProps[number] }) => {
   const url = `${ROUTES.joinUs.url}/${job.slug}`;
 
   return (
