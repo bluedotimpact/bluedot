@@ -1,7 +1,5 @@
 import '@testing-library/jest-dom';
-import {
-  act, fireEvent, render, screen, waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import { createTRPCMsw, httpLink } from 'msw-trpc';
 import {
@@ -29,11 +27,6 @@ describe('PasswordSection - User Journeys', () => {
     current: 'MyCurrentPassword123!',
     new: 'MyNewSecurePassword456!',
   };
-
-  // Helper to flush all pending promises
-  const flushPromises = () => new Promise((resolve) => {
-    setTimeout(resolve, 0);
-  });
 
   // Helper functions
   const openPasswordModal = () => {
@@ -87,11 +80,6 @@ describe('PasswordSection - User Journeys', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees error when current password is wrong', async () => {
@@ -124,11 +112,6 @@ describe('PasswordSection - User Journeys', () => {
 
     // Error clears when user types
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees validation errors for invalid inputs', async () => {
@@ -209,11 +192,6 @@ describe('PasswordSection - User Journeys', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees helpful password hint', () => {
@@ -257,11 +235,6 @@ describe('PasswordSection - User Journeys', () => {
     resolvePromise!({ message: 'Password updated successfully' });
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
     });
   });
 
@@ -316,11 +289,6 @@ describe('PasswordSection - User Journeys', () => {
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees generic error message for unexpected backend errors', async () => {
@@ -350,11 +318,6 @@ describe('PasswordSection - User Journeys', () => {
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees fallback error message when backend error has no details', async () => {
@@ -382,10 +345,5 @@ describe('PasswordSection - User Journeys', () => {
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 });
