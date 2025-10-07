@@ -3,7 +3,13 @@ import { TRPCError } from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
-  const token = req.headers.authorization?.slice('Bearer '.length).trim();
+  const authHeader = req.headers.authorization;
+
+  if (authHeader && !authHeader.startsWith('Bearer ')) {
+    throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid authorization header' });
+  }
+
+  const token = authHeader?.slice('Bearer '.length).trim();
 
   let auth: { sub: string, email: string } | null = null;
 
