@@ -1,7 +1,7 @@
 import { Card, Section } from '@bluedot/ui';
 import { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
-import { AppRouter } from '../../server/routers/_app';
+import type { AppRouter } from '../../server/routers/_app';
 import { P } from '../Text';
 
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getJobs'];
