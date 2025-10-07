@@ -8,6 +8,7 @@ import { ClickTarget } from './ClickTarget';
 import { ProgressDots } from './ProgressDots';
 
 export type FooterProps = React.PropsWithChildren<{
+  // Optional props (including children from PropsWithChildren)
   className?: string;
   logo?: string;
   courses?: { path: string; title: string }[];
