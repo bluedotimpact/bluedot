@@ -1,10 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@testing-library/jest-dom';
 import {
   act, fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
-import { httpBatchLink } from '@trpc/client';
-import { createTRPCReact } from '@trpc/react-query';
 import { TRPCError } from '@trpc/server';
 import { createTRPCMsw, httpLink } from 'msw-trpc';
 import {
@@ -12,15 +9,9 @@ import {
 } from 'vitest';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { setupServer } from 'msw/node';
+import { TrpcWrapper } from '../../__tests__/trpcWrapper';
 import type { AppRouter } from '../../server/routers/_app';
 import PasswordSection from './PasswordSection';
-
-// Note: We create two separate tRPC clients for testing:
-// 1. trpcMsw - Used by MSW to create HTTP request handlers for mocking
-// 2. trpcTest - The actual React client that our test wrapper provides
-// The component imports the real `trpc` from utils/trpc, but since we provide
-// a test provider via TestWrapper, it uses our controlled test client instead.
-const trpcTest = createTRPCReact<AppRouter>();
 
 const trpcMsw = createTRPCMsw<AppRouter>({
   links: [
@@ -29,29 +20,6 @@ const trpcMsw = createTRPCMsw<AppRouter>({
     }),
   ],
 });
-
-// Test wrapper that provides tRPC context
-const TrpcWrapper = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  });
-  const trpcClient = trpcTest.createClient({
-    links: [
-      httpBatchLink({
-        url: 'http://localhost:8000/api/trpc',
-      }),
-    ],
-  });
-
-  return (
-    <trpcTest.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpcTest.Provider>
-  );
-};
 
 describe('PasswordSection - User Journeys', () => {
   const server = setupServer();
