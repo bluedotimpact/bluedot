@@ -46,7 +46,7 @@ const JoinUsPage = () => {
         </Section>
       )}
       {cmsError && <ErrorSection error={cmsError} />}
-      {cmsData && <JobsListSection jobs={cmsData.jobs} />}
+      {cmsData && <JobsListSection jobs={cmsData} />}
       <CultureSection />
       <ValuesSection />
     </div>
