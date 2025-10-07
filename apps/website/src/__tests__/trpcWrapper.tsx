@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { createTRPCReact, httpBatchLink } from '@trpc/react-query';
 import type { AppRouter } from '../server/routers/_app';
 
@@ -35,7 +35,7 @@ export const TrpcWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <trpcTest.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      {children}
     </trpcTest.Provider>
   );
 };
