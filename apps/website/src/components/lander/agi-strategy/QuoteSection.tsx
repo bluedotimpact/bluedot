@@ -70,7 +70,6 @@ const getFontSizeForQuote = (quote: string): string => {
   return FONT_SIZE_CLASSES.DEFAULT;
 };
 
-// QuoteCard Component - Reusable card structure
 const QuoteCard = ({ quote, isActive = true, onClick }: {
   quote: QuoteWithUrl;
   isActive?: boolean;
