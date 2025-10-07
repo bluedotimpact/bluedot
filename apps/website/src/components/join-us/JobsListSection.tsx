@@ -1,5 +1,5 @@
 import { Card, Section } from '@bluedot/ui';
-import { inferRouterOutputs } from '@trpc/server';
+import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { P } from '../Text';
