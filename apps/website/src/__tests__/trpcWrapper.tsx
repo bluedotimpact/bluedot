@@ -1,5 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createTRPCReact, httpBatchLink } from '@trpc/react-query';
+import { useState } from 'react';
 import type { AppRouter } from '../server/routers/_app';
 
 // Creates a separate tRPC React client for testing, independent from the production client in utils/trpc.ts.
@@ -27,12 +28,14 @@ const trpcClient = trpcTest.createClient({
  * ```
  */
 export const TrpcWrapper = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  });
+  const [queryClient] = useState(
+    () => new QueryClient({
+      defaultOptions: {
+        queries: { retry: false },
+        mutations: { retry: false },
+      },
+    }),
+  );
 
   return (
     <trpcTest.Provider client={trpcClient} queryClient={queryClient}>
