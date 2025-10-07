@@ -141,7 +141,6 @@ export const Default: Story = {
     course: mockCourse,
     courseRegistration: mockCourseRegistration,
     authToken: 'test-token',
-    isLast: false,
   },
   parameters: {
     msw: {
@@ -168,7 +167,6 @@ export const Facilitator: Story = {
     course: mockCourse,
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
     authToken: 'test-token',
-    isLast: false,
   },
   parameters: {
     docs: {
