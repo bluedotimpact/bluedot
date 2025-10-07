@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { http, HttpResponse } from 'msw';
+import { loggedOutStory } from '@bluedot/ui';
+import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
+import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
@@ -7,35 +13,16 @@ const meta: Meta<typeof CourseDetails> = {
   parameters: {
     layout: 'padded',
   },
+  args: {
+    ...loggedOutStory,
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Mock course data
-const mockCourse = {
-  id: 'course-1',
-  title: 'Introduction to AI Safety',
-  slug: 'intro-ai-safety',
-  path: '/courses/intro-ai-safety',
-  description: 'Learn the fundamentals of AI safety and alignment',
-  shortDescription: 'AI safety basics',
-  detailsUrl: '/courses/intro-ai-safety',
-  displayOnCourseHubIndex: true,
-  durationDescription: '8 weeks',
-  durationHours: 40,
-  units: ['unit-1', 'unit-2', 'unit-3'],
-  cadence: 'Weekly',
-  level: 'Beginner',
-  status: 'Active',
-  isNew: false,
-  isFeatured: true,
-  image: null,
-  certificationBadgeImage: null,
-  certificationDescription: null,
-  averageRating: null,
-  publicLastUpdated: null,
-};
+const mockCourse = createMockCourse();
 
 // Mock course registration
 const mockCourseRegistration = {
@@ -56,36 +43,134 @@ const mockCourseRegistration = {
   decision: null,
 };
 
-// Mock facilitator registration
-const mockFacilitatorRegistration = {
-  ...mockCourseRegistration,
-  role: 'Facilitator' as const,
+const now = Math.floor(Date.now() / 1000);
+const hour = 60 * 60;
+
+const mockDiscussions: Record<string, GroupDiscussion> = {
+  'discussion-1': {
+    id: 'discussion-1',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: [],
+    startDateTime: now + 2 * hour,
+    endDateTime: now + 3 * hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 1,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/123',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-1',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '1', title: 'Introduction to AI Safety' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
+  'discussion-2': {
+    id: 'discussion-2',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: [],
+    startDateTime: now + 7 * 24 * hour,
+    endDateTime: now + 7 * 24 * hour + hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 2,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/456',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-2',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '2', title: 'AI Alignment' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
+  'discussion-3': {
+    id: 'discussion-3',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: ['participant-1'],
+    startDateTime: now - 7 * 24 * hour,
+    endDateTime: now - 7 * 24 * hour + hour,
+    group: 'group-1',
+    groupId: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: 0,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/789',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-0',
+    autoNumberId: null,
+    unitRecord: { unitNumber: '0', title: 'Kickoff' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
 };
+
+const mockMeetPerson: MeetPerson = {
+  id: 'meet-person-1',
+  name: 'John Doe',
+  applicationsBaseRecordId: null,
+  round: 'Round 1',
+  expectedDiscussionsParticipant: ['discussion-1', 'discussion-2'],
+  expectedDiscussionsFacilitator: [],
+  attendedDiscussions: ['discussion-3'],
+  autoNumberId: 1,
+};
+
+const mockFacilitatorMeetPerson: MeetPerson = {
+  id: 'meet-person-2',
+  name: 'Jane Facilitator',
+  applicationsBaseRecordId: null,
+  round: 'Round 1',
+  expectedDiscussionsParticipant: [],
+  expectedDiscussionsFacilitator: ['discussion-1', 'discussion-2'],
+  attendedDiscussions: ['discussion-3'],
+  autoNumberId: 2,
+};
+
+const createMswHandlers = (meetPerson: MeetPerson) => [
+  http.get('/api/meet-person', () => {
+    return HttpResponse.json({ type: 'success', meetPerson });
+  }),
+  http.get('/api/group-discussions/:id', ({ params }) => {
+    const { id } = params;
+    const discussion = mockDiscussions[id as string];
+
+    return HttpResponse.json({
+      type: 'success',
+      discussion,
+    });
+  }),
+
+];
 
 export const Default: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockCourseRegistration,
     authToken: 'test-token',
-    isLast: false,
   },
-};
-
-export const LastItem: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    authToken: 'test-token',
-    isLast: true,
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };
 
 export const Facilitator: Story = {
   args: {
     course: mockCourse,
-    courseRegistration: mockFacilitatorRegistration,
+    courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
     authToken: 'test-token',
-    isLast: false,
   },
   parameters: {
     docs: {
@@ -93,52 +178,8 @@ export const Facilitator: Story = {
         story: 'Facilitators do not see the "Switch group" button for discussions.',
       },
     },
-  },
-};
-
-export const NoAuthToken: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    isLast: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Component can be rendered without an auth token for public viewing.',
-      },
-    },
-  },
-};
-
-export const WithDescription: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-    authToken: 'test-token',
-    isLast: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: `
-This component displays the expanded details for a course, including:
-- **Upcoming discussions**: Shows all scheduled group discussions
-- **Discussion timing**: Displays time until each discussion starts
-- **Action buttons**: 
-  - "Join Discussion" (when starting within 1 hour)
-  - "Prepare for discussion" (when more than 1 hour away)
-  - "Switch group" (for participants only, not facilitators)
-
-The component fetches discussion data from the \`/api/group-discussions\` endpoint.
-
-Features:
-- Responsive design with different layouts for mobile and desktop
-- Real-time countdown to discussion start times
-- Modal for switching groups
-- Different button states based on timing and user role
-        `,
-      },
+    msw: {
+      handlers: createMswHandlers(mockFacilitatorMeetPerson),
     },
   },
 };
