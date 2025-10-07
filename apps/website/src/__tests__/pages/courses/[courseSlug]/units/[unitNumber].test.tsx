@@ -4,11 +4,9 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
+import type { ChunkWithContent } from '../../../../../pages/api/courses/[courseSlug]/[unitNumber]/index';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -29,6 +27,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   courseTitle: 'Test Course',
   coursePath: '/courses/test-course',
   courseSlug: 'test-course',
+  courseUnit: null,
   path: `/courses/test-course/${unitNumber}`,
   title,
   content,
@@ -43,7 +42,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   autoNumberId: 1,
 });
 
-const createMockChunk = (unitId: string): Chunk => ({
+const createMockChunk = (unitId: string): ChunkWithContent => ({
   chunkId: 'recuC87TILbjW4eF4',
   unitId,
   chunkTitle: 'Test Chunk',
@@ -56,6 +55,8 @@ const createMockChunk = (unitId: string): Chunk => ({
   chunkResources: [],
   chunkExercises: [],
   status: 'Active',
+  resources: [],
+  exercises: [],
 });
 
 describe('CourseUnitPage', () => {
@@ -73,16 +74,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[0]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[0]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[0]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="0"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -102,16 +108,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[3]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[3]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[3]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -131,16 +142,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[2]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[2]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[2]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -159,16 +175,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[1]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[1]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[1]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());

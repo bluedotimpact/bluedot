@@ -14,35 +14,22 @@ import db from '../../../../../lib/api/db';
 import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import { unitFilterActiveChunks } from '../../../../../lib/api/utils';
 
-type ChunkWithContent = Chunk & {
+export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
   exercises: Exercise[];
 };
 
-export type GetUnitResponse = {
-  type: 'success',
+export type UnitWithContent = {
   units: Unit[],
   unit: Unit,
   chunks: ChunkWithContent[],
 };
 
-export default makeApiRoute({
-  requireAuth: false,
-  responseBody: z.object({
-    type: z.literal('success'),
-    units: z.array(z.any()),
-    unit: z.any(),
-    chunks: z.array(z.any()),
-  }),
-}, async (body, { raw }) => {
-  const { courseSlug, unitNumber } = raw.req.query;
-  if (typeof courseSlug !== 'string') {
-    throw new createHttpError.BadRequest('Invalid course slug');
-  }
-  if (typeof unitNumber !== 'string') {
-    throw new createHttpError.BadRequest('Invalid unit number');
-  }
+export type GetUnitResponse = {
+  type: 'success',
+} & UnitWithContent;
 
+export async function getUnitWithContent(courseSlug: string, unitNumber: string): Promise<UnitWithContent> {
   // Get all active units for this course, filter the chunks field to only include the ids of active chunks
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
   const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
@@ -77,7 +64,7 @@ export default makeApiRoute({
       resources = resolvedResources
         .filter((r): r is UnitResource => r !== null)
         .sort((a, b) => {
-          // Sort by readingORder
+          // Sort by readingOrder
           const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
           const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
           return orderA - orderB;
@@ -108,9 +95,33 @@ export default makeApiRoute({
   }));
 
   return {
-    type: 'success' as const,
     units,
     unit,
     chunks: chunksWithContent,
+  };
+}
+
+export default makeApiRoute({
+  requireAuth: false,
+  responseBody: z.object({
+    type: z.literal('success'),
+    units: z.array(z.any()),
+    unit: z.any(),
+    chunks: z.array(z.any()),
+  }),
+}, async (body, { raw }) => {
+  const { courseSlug, unitNumber } = raw.req.query;
+  if (typeof courseSlug !== 'string') {
+    throw new createHttpError.BadRequest('Invalid course slug');
+  }
+  if (typeof unitNumber !== 'string') {
+    throw new createHttpError.BadRequest('Invalid unit number');
+  }
+
+  const data = await getUnitWithContent(courseSlug, unitNumber);
+
+  return {
+    type: 'success' as const,
+    ...data,
   };
 });
