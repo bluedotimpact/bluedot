@@ -22,7 +22,7 @@ const trpcClient = trpcTest.createClient({
  *
  * @example
  * ```tsx
- * import { TrpcWrapper } from './__tests__/trpc';
+ * import { TrpcWrapper } from './__tests__/trpcWrapper';
  *
  * render(<MyComponent />, { wrapper: TrpcWrapper });
  * ```
