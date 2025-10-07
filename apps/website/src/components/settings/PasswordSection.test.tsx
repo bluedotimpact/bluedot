@@ -3,27 +3,12 @@ import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
-import { createTRPCMsw, httpLink } from 'msw-trpc';
-import {
-  afterAll, beforeAll, beforeEach, describe, expect, test,
-} from 'vitest';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { setupServer } from 'msw/node';
+import { describe, expect, test } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcWrapper } from '../../__tests__/trpcWrapper';
-import type { AppRouter } from '../../server/routers/_app';
 import PasswordSection from './PasswordSection';
 
-const trpcMsw = createTRPCMsw<AppRouter>({
-  links: [
-    httpLink({
-      url: 'http://localhost:8000/api/trpc',
-    }),
-  ],
-});
-
 describe('PasswordSection - User Journeys', () => {
-  const server = setupServer();
-
   // Test data
   const validPasswords = {
     current: 'MyCurrentPassword123!',
@@ -52,13 +37,6 @@ describe('PasswordSection - User Journeys', () => {
     const updateButton = screen.getByRole('button', { name: /update password/i });
     fireEvent.click(updateButton);
   };
-
-  beforeAll(() => server.listen());
-  afterAll(() => server.close());
-
-  beforeEach(() => {
-    server.resetHandlers();
-  });
 
   test('User can successfully change their password', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
