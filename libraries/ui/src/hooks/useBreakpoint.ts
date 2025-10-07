@@ -18,9 +18,7 @@ export const useAboveBreakpoint = (breakpoint: number) => {
   // Initialize with actual boolean value based on current window width to prevent layout shifts.
   // Returns false during SSR when window is undefined.
   // This avoids the initial null state that would cause components to flicker on first render.
-  const [isAbove, setIsAbove] = useState<boolean>(
-    typeof window !== 'undefined' ? window.innerWidth >= breakpoint : false,
-  );
+  const [isAbove, setIsAbove] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkBreakpoint = () => {
