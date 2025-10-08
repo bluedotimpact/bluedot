@@ -39,9 +39,18 @@ export default makeApiRoute({
       const isNewUser = !existingUser;
       if (!existingUser) {
         // Create user if doesn't exist
+        const { utmSource, utmCampaign, utmContent } = raw.req.query as {
+          utmSource?: string;
+          utmCampaign?: string;
+          utmContent?: string;
+        };
+
         user = await db.insert(userTable, {
           email: auth.email,
           lastSeenAt: new Date().toISOString(),
+          ...(utmSource && { utmSource }),
+          ...(utmCampaign && { utmCampaign }),
+          ...(utmContent && { utmContent }),
         });
       } else {
         // Update last seen timestamp if does exist
