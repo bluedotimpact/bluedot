@@ -18,14 +18,14 @@ import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
-    <div className="relative w-full max-w-[350px] lg:max-w-[1118px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center">
+    <div className="relative w-full mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]">
       {/* Noise layer */}
       <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
 
       <div className="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center">
-        <img src="/images/agi-strategy/bluedot-icon.png" alt="BlueDot" className="w-8 h-[30px]" />
+        <img src="/images/agi-strategy/bluedot-icon.svg" alt="BlueDot" className="w-8 h-[30px]" />
 
-        <H3 className="max-w-[238px] lg:max-w-[496px] text-[20px] lg:text-[36px] font-semibold text-white">
+        <H3 className="max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-semibold text-white">
           {title}
         </H3>
 
@@ -152,7 +152,7 @@ const AgiStrategyLander = () => {
 
       {/* Banner */}
       <section className="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20">
-        <div className="max-w-max-width mx-auto px-spacing-x">
+        <div className="max-w-max-width mx-auto px-4 min-[680px]:px-8 lg:px-spacing-x">
           <AgiStrategyBanner
             title="Start building towards a good future today"
             ctaUrl={applicationUrlWithUtm}
