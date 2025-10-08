@@ -16,7 +16,7 @@ export type LoginPageProps = {
 };
 
 export type LoginOauthCallbackPageProps = LoginPageProps & {
-  onLoginComplete?: (auth: Auth) => Promise<void>
+  onLoginComplete?: (auth: Auth, redirectTo: string) => Promise<void>
 };
 
 const verifyJwt = async (
@@ -176,7 +176,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
       }
 
       // Add a visible indicator
-      // TODO add link to issue here
+      // This is currently not working as expected, see: https://github.com/bluedotimpact/bluedot/issues/1441
       const attribution = {
         referralCode: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'r') : undefined,
         utmSource: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_source') : undefined,
@@ -255,10 +255,13 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           posthog.capture('attribution_data', attributionData);
         }
 
+        const redirectTo = (user.userState as { redirectTo?: string }).redirectTo || '/';
+
         if (onLoginComplete) {
-          await onLoginComplete(auth);
+          await onLoginComplete(auth, redirectTo);
         }
-        router.push((user.userState as { redirectTo?: string }).redirectTo || '/');
+
+        router.push(redirectTo);
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }
