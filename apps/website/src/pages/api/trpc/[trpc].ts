@@ -9,7 +9,6 @@ export default trpcNext.createNextApiHandler({
   createContext: () => ({}),
   onError(opts) {
     const { error, type, path } = opts;
-    const message = `tRPC Error: ${error.code} | ${error.message}\nType: ${type} | Path: ${path}`;
 
     const criticalErrors = [
       'TOO_MANY_REQUESTS', // HTTP 429
@@ -23,7 +22,11 @@ export default trpcNext.createNextApiHandler({
     // Only alert on critical errors
     if (!criticalErrors.includes(error.code)) return;
 
-    slackAlert(env, [message]).catch((slackError) => {
+    slackAlert(env, [
+      `Error: Failed request on route ${path}, type ${type}: ${error.message}`,
+      // Stack is sent as response to Slack thread
+      `Stack:\n\`\`\`${error.stack}\`\`\``,
+    ]).catch((slackError) => {
       // eslint-disable-next-line no-console
       console.error('Failed to send Slack alert:', slackError);
     });
