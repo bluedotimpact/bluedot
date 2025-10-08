@@ -5,7 +5,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import { describe, expect, test } from 'vitest';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { TrpcWrapper } from '../../__tests__/trpcWrapper';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import PasswordSection from './PasswordSection';
 
 describe('PasswordSection - User Journeys', () => {
@@ -41,7 +41,7 @@ describe('PasswordSection - User Journeys', () => {
   test('User can successfully change their password', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User clicks "Change Password" button
     openPasswordModal();
@@ -69,7 +69,7 @@ describe('PasswordSection - User Journeys', () => {
       }),
     );
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -95,7 +95,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees validation errors for invalid inputs', async () => {
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -129,7 +129,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can cancel password change', async () => {
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -153,7 +153,7 @@ describe('PasswordSection - User Journeys', () => {
   test('User can submit form with Enter key', async () => {
     server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
     fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
@@ -175,7 +175,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees helpful password hint', () => {
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -194,7 +194,7 @@ describe('PasswordSection - User Journeys', () => {
 
     server.use(trpcMsw.users.changePassword.mutation(() => promise));
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
     fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
@@ -219,7 +219,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can close modal with Escape key', async () => {
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -252,7 +252,7 @@ describe('PasswordSection - User Journeys', () => {
       }),
     );
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -281,7 +281,7 @@ describe('PasswordSection - User Journeys', () => {
       }),
     );
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
@@ -310,7 +310,7 @@ describe('PasswordSection - User Journeys', () => {
       }),
     );
 
-    render(<PasswordSection />, { wrapper: TrpcWrapper });
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();

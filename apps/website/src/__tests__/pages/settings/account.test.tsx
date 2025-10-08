@@ -4,7 +4,7 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import AccountSettingsPage from '../../../pages/settings/account';
-import { TrpcWrapper } from '../../trpcWrapper';
+import { TrpcProvider } from '../../trpcProvider';
 
 // Mock dependencies
 vi.mock('axios-hooks');
@@ -61,7 +61,7 @@ describe('AccountSettingsPage', () => {
     // Cast the component to accept auth prop since we mocked withAuth
     const AccountSettingsPageWithAuth = AccountSettingsPage as React.ComponentType<{ auth: { token: string } }>;
 
-    const { container } = render(<AccountSettingsPageWithAuth auth={mockAuth} />, { wrapper: TrpcWrapper });
+    const { container } = render(<AccountSettingsPageWithAuth auth={mockAuth} />, { wrapper: TrpcProvider });
 
     expect(container).toMatchSnapshot();
   });
