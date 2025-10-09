@@ -19,7 +19,3 @@ export const changePasswordWithConfirmSchema = changePasswordSchema.extend({
   message: 'Passwords do not match',
   path: ['confirmPassword'],
 });
-
-// Export types for TypeScript usage
-export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
-export type ChangePasswordWithConfirmInput = z.infer<typeof changePasswordWithConfirmSchema>;

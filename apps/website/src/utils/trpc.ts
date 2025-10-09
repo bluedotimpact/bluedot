@@ -1,3 +1,4 @@
+import { useAuthStore } from '@bluedot/ui';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
@@ -23,8 +24,9 @@ export const trpc = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
           // You can pass any HTTP headers you wish here
           async headers() {
+            const { auth } = useAuthStore.getState();
             return {
-              // authorization: getAuthCookie(),
+              authorization: auth?.token ? `Bearer ${auth.token}` : '',
             };
           },
         }),
