@@ -1825,10 +1825,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x"
+        class="max-w-max-width mx-auto px-4 min-[680px]:px-8 lg:px-spacing-x"
       >
         <div
-          class="relative w-full max-w-[350px] lg:max-w-[1118px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center"
+          class="relative w-full mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]"
         >
           <div
             class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
@@ -1839,10 +1839,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             <img
               alt="BlueDot"
               class="w-8 h-[30px]"
-              src="/images/agi-strategy/bluedot-icon.png"
+              src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] lg:max-w-[496px] text-[20px] lg:text-[36px] font-semibold text-white"
+              class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-semibold text-white"
             >
               Start building towards a good future today
             </h3>
