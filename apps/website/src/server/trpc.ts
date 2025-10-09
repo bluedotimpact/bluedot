@@ -1,4 +1,5 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
+import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { trace, metrics, SpanStatusCode } from '@opentelemetry/api';
 
@@ -39,8 +40,14 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
 
     return result;
   } catch (error) {
+    if (error instanceof TRPCError) {
+      statusCode = getHTTPStatusCodeFromError(error);
+    } else {
+      // Fallback to 500
+      statusCode = 500;
+    }
+
     // Set span attributes for error
-    statusCode = 500;
     activeSpan?.setAttribute('http.status_code', statusCode);
     activeSpan?.setStatus({
       code: SpanStatusCode.ERROR,
