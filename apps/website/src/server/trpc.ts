@@ -1,17 +1,12 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
+import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { trace, metrics, SpanStatusCode } from '@opentelemetry/api';
+import { SpanStatusCode, trace } from '@opentelemetry/api';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
 // For instance, the use of a t variable is common in i18n libraries.
 const t = initTRPC.create();
-
-// OpenTelemetry setup
-const meter = metrics.getMeter('api-routes');
-const requestCounter = meter.createCounter('api_requests_total', {
-  description: 'Total number of API requests',
-});
 
 const openTelemetryMiddleware = t.middleware(async (opts) => {
   const { type, path } = opts;
