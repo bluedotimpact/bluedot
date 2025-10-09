@@ -4,20 +4,10 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import AccountSettingsPage from '../../../pages/settings/account';
+import { TrpcProvider } from '../../trpcProvider';
 
 // Mock dependencies
 vi.mock('axios-hooks');
-
-// Mock tRPC for PasswordSection
-vi.mock('../../../utils/trpc', () => ({
-  trpc: {
-    users: {
-      changePassword: {
-        useMutation: vi.fn(),
-      },
-    },
-  },
-}));
 
 // Only mock withAuth from @bluedot/ui since it wraps the component with auth logic
 // withAuth is a HOC that normally provides auth props from a zustand store
@@ -71,9 +61,7 @@ describe('AccountSettingsPage', () => {
     // Cast the component to accept auth prop since we mocked withAuth
     const AccountSettingsPageWithAuth = AccountSettingsPage as React.ComponentType<{ auth: { token: string } }>;
 
-    const { container } = render(
-      <AccountSettingsPageWithAuth auth={mockAuth} />,
-    );
+    const { container } = render(<AccountSettingsPageWithAuth auth={mockAuth} />, { wrapper: TrpcProvider });
 
     expect(container).toMatchSnapshot();
   });
