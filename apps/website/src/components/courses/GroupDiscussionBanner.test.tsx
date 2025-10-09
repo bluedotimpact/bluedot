@@ -119,6 +119,27 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
 
+    test('facilitator sees discussion doc button even when discussion is not starting soon', () => {
+      const futureDiscussion = {
+        ...mockGroupDiscussion,
+        startDateTime: BASE_TIME + 7200, // 2 hours from base time
+      };
+
+      render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={futureDiscussion}
+          userRole="facilitator"
+          hostKeyForFacilitators="123456"
+          onClickPrepare={mockOnClickPrepare}
+        />,
+      );
+
+      expect(screen.getByText('Open discussion doc')).toBeInTheDocument();
+      expect(screen.getByText('Prepare for discussion')).toBeInTheDocument();
+      expect(screen.queryByText('Join discussion')).not.toBeInTheDocument();
+    });
+
     test('renders prepare button when discussion is not starting soon', () => {
       const futureDiscussion = {
         ...mockGroupDiscussion,
