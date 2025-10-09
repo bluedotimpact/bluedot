@@ -8,7 +8,7 @@ type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getJobs'];
 
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   return (
-    <Section className="jobs-list-section" title="Careers at BlueDot Impact">
+    <Section title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
       {jobs.length === 0 ? (
         <P>We're not currently running any open hiring rounds at the moment.</P>
