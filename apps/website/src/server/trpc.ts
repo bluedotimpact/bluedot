@@ -14,7 +14,10 @@ const requestCounter = meter.createCounter('api_requests_total', {
 
 const openTelemetryMiddleware = t.middleware(async (opts) => {
   const { type, path } = opts;
-  const method = type === 'query' ? 'GET' : 'POST';
+
+  let method = 'UNKNOWN';
+  if (type === 'query') method = 'GET';
+  else if (type === 'mutation') method = 'POST';
 
   const activeSpan = trace.getActiveSpan();
   activeSpan?.setAttribute('http.method', method);
