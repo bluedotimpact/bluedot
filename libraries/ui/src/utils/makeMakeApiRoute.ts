@@ -42,7 +42,7 @@ export const StreamingResponseSchema = EmptyBodySchema.transform(() => streaming
 
 // Use the meter for API request metrics
 const meter = metrics.getMeter('api-routes');
-const requestCounter = meter.createCounter('api_requests_total', {
+export const requestCounter = meter.createCounter('api_requests_total', {
   description: 'Total number of API requests',
 });
 
