@@ -1,17 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
 import {
-  CTALinkOrButton, Modal, Input, ProgressDots,
+  CTALinkOrButton,
+  Input,
+  Modal,
+  ProgressDots,
 } from '@bluedot/ui';
-import axios from 'axios';
+import { TRPCClientError } from '@trpc/client';
+import { useEffect, useRef, useState } from 'react';
 import type { ZodError } from 'zod';
-import { P } from '../Text';
 import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
+import { trpc } from '../../utils/trpc';
+import { P } from '../Text';
 
-type PasswordSectionProps = {
-  authToken: string;
-};
-
-const PasswordSection = ({ authToken }: PasswordSectionProps) => {
+const PasswordSection = () => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
 
@@ -52,7 +52,6 @@ const PasswordSection = ({ authToken }: PasswordSectionProps) => {
       <ChangePasswordModal
         isOpen={showChangePasswordModal}
         setIsOpen={setShowChangePasswordModal}
-        authToken={authToken}
         onSuccess={handlePasswordChangeSuccess}
       />
     </>
@@ -62,14 +61,12 @@ const PasswordSection = ({ authToken }: PasswordSectionProps) => {
 type ChangePasswordModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  authToken: string;
   onSuccess: () => void;
 };
 
 const ChangePasswordModal = ({
   isOpen,
   setIsOpen,
-  authToken,
   onSuccess,
 }: ChangePasswordModalProps) => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -82,6 +79,8 @@ const ChangePasswordModal = ({
   });
   const [isLoading, setIsLoading] = useState(false);
   const currentPasswordRef = useRef<HTMLInputElement>(null);
+
+  const changePasswordMutation = trpc.users.changePassword.useMutation();
 
   // Reset state when modal opens/closes
   useEffect(() => {
@@ -134,36 +133,24 @@ const ChangePasswordModal = ({
     setErrors({ current: '', new: '', confirm: '' });
 
     try {
-      await axios.post(
-        '/api/users/change-password',
-        {
-          currentPassword,
-          newPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      );
+      await changePasswordMutation.mutateAsync({ currentPassword, newPassword });
 
       // Close modal immediately and trigger success callback
       setIsOpen(false);
       onSuccess(); // This will show success message in account settings
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        if (err.response?.status === 401) {
+      if (err instanceof TRPCClientError) {
+        if (err.data?.code === 'UNAUTHORIZED') {
           setErrors({ ...errors, current: 'Incorrect password' });
-        } else if (err.response?.status === 400) {
+        } else if (err.data?.code === 'BAD_REQUEST') {
           // Handle password policy violations
-          const message = err.response?.data?.error
-            || 'Password must be at least 8 characters';
+          const message = err.message || 'Password must be at least 8 characters';
           setErrors({ ...errors, new: message });
         } else {
           // Other errors
           setErrors({
             ...errors,
-            current: `Failed to update password: ${err.response?.data?.error || 'Please try again.'}`,
+            current: `Failed to update password: ${err.message || 'Please try again.'}`,
           });
         }
       } else {
