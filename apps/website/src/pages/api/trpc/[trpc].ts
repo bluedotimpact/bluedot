@@ -11,7 +11,7 @@ export default trpcNext.createNextApiHandler({
   onError(opts) {
     const { error, type, path } = opts;
 
-    const criticalErrors = [
+    const serverErrors = [
       'INTERNAL_SERVER_ERROR', // HTTP 500
       'NOT_IMPLEMENTED', // HTTP 501
       'BAD_GATEWAY', // HTTP 502
@@ -20,7 +20,7 @@ export default trpcNext.createNextApiHandler({
     ];
 
     // Only log client errors (4xx)
-    if (!criticalErrors.includes(error.code)) {
+    if (!serverErrors.includes(error.code)) {
       logger.warn('Client error handling request:', error);
       return;
     }
