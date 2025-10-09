@@ -10,7 +10,7 @@ import { Context } from './context';
 const t = initTRPC.context<Context>().create();
 
 const openTelemetryMiddleware = t.middleware(async (opts) => {
-  const { type, path } = opts;
+  const { type, path, ctx } = opts;
 
   let method = 'UNKNOWN';
   if (type === 'query') method = 'GET';
@@ -19,6 +19,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   const activeSpan = trace.getActiveSpan();
   activeSpan?.setAttribute('http.method', method);
   activeSpan?.setAttribute('http.url', path);
+  activeSpan?.setAttribute('user.email', ctx.auth?.email ?? 'anonymous');
 
   let statusCode = 200;
 
