@@ -1,3 +1,4 @@
+import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import * as trpcNext from '@trpc/server/adapters/next';
 import env from '../../../lib/api/env';
@@ -18,16 +19,20 @@ export default trpcNext.createNextApiHandler({
       'GATEWAY_TIMEOUT', // HTTP 504
     ];
 
-    // Only alert on critical errors
-    if (!criticalErrors.includes(error.code)) return;
+    // Only log client errors (4xx)
+    if (!criticalErrors.includes(error.code)) {
+      logger.warn('Client error handling request:', error);
+      return;
+    }
 
+    // Log and alert on server errors (5xx)
+    logger.error('Internal error handling request:', error);
     slackAlert(env, [
       `Error: Failed request on route ${path}, type ${type}: ${error.message}`,
       // Stack is sent as response to Slack thread
       `Stack:\n\`\`\`${error.stack}\`\`\``,
     ]).catch((slackError) => {
-      // eslint-disable-next-line no-console
-      console.error('Failed to send Slack alert:', slackError);
+      logger.error('Failed to send Slack alert:', slackError);
     });
   },
 });
