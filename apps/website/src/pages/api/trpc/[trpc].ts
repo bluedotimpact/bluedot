@@ -11,7 +11,6 @@ export default trpcNext.createNextApiHandler({
     const { error, type, path } = opts;
 
     const criticalErrors = [
-      'TOO_MANY_REQUESTS', // HTTP 429
       'INTERNAL_SERVER_ERROR', // HTTP 500
       'NOT_IMPLEMENTED', // HTTP 501
       'BAD_GATEWAY', // HTTP 502
