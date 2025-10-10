@@ -1,24 +1,22 @@
-import React from 'react';
 import {
   Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
 } from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
+import React from 'react';
 import { isMobile } from 'react-device-detect';
-import useAxios from 'axios-hooks';
-import { projectTable, InferSelectModel } from '@bluedot/db';
-import { H3, P } from '../Text';
-import { GetProjectsResponse } from '../../pages/api/cms/projects';
 import { ROUTES } from '../../lib/routes';
+import type { AppRouter } from '../../server/routers/_app';
+import { trpc } from '../../utils/trpc';
+import { H3, P } from '../Text';
 
-type CmsProject = InferSelectModel<typeof projectTable.pg>;
+type CmsProject = inferRouterOutputs<AppRouter>['projects']['getProjects'][number];
 
 export type ProjectsListSectionProps = {
   maxItems?: number | undefined,
 };
 
 // Component for rendering a single project item
-export const ProjectListItem = ({ project }: {
-  project: Omit<CmsProject, 'body'>
-}) => {
+export const ProjectListItem = ({ project }: { project: CmsProject }) => {
   const url = `/projects/${project.slug}`;
   const tags = project.tag || [];
 
@@ -38,7 +36,7 @@ export const ProjectListItem = ({ project }: {
 // Component for rendering the projects list view
 type ProjectsListViewProps = {
   title: string;
-  projects: Omit<CmsProject, 'body'>[];
+  projects: CmsProject[]
   maxItems?: number;
 };
 
@@ -53,7 +51,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
       }
       acc[course].push(project);
       return acc;
-    }, {} as Record<string, Omit<CmsProject, 'body'>[]>);
+    }, {} as Record<string, CmsProject[]>);
 
     // Convert to array of [course, projects] pairs
     const groupsArray = Object.entries(groups);
@@ -100,10 +98,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
 
 // Main component that handles data loading
 const ProjectsListSection = ({ maxItems }: ProjectsListSectionProps) => {
-  const [{ data, loading, error }] = useAxios<GetProjectsResponse>({
-    method: 'get',
-    url: '/api/cms/projects',
-  });
+  const { data: projects, isLoading: loading, error } = trpc.projects.getProjects.useQuery();
   const title = 'Latest projects';
 
   if (error) {
@@ -117,7 +112,7 @@ const ProjectsListSection = ({ maxItems }: ProjectsListSectionProps) => {
   return (
     <ProjectsListView
       title={title}
-      projects={data?.projects || []}
+      projects={projects || []}
       maxItems={maxItems}
     />
   );
