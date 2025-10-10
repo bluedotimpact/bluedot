@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
   }
 
   try {
-    const job = await db.get(jobPostingTable, { slug, publicationStatus: 'Published' });
+    const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
     return {
       props: {
