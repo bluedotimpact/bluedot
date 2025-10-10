@@ -108,6 +108,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
   }
 
   try {
+    // Fetches both published and unlisted jobs, but not unpublished ones
     const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
     return {
