@@ -9,12 +9,12 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Project } from '@bluedot/db';
+import { Project, projectTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { getProjectIfPublished } from '../api/cms/projects/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { A } from '../../components/Text';
+import db from '../../lib/api/db';
 
 type ProjectPostPageProps = {
   slug: string;
@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
   }
 
   try {
-    const project = await getProjectIfPublished(slug);
+    const project = await db.get(projectTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
     return {
       props: {
