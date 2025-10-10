@@ -1,7 +1,24 @@
+import { blogTable } from '@bluedot/db';
 import type { GetServerSideProps } from 'next';
-import { getAllPublishedBlogs } from '../api/cms/blogs';
+import db from '../../lib/api/db';
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/blog`;
+
+const getAllPublishedBlogs = async () => {
+  const allBlogs = await db.scan(blogTable, { publicationStatus: 'Published' });
+
+  // Sort by publishedAt descending and remove the body field from each blog to make the response lighter
+  const blogSummaries = allBlogs
+    .sort((a, b) => {
+      if (a.isFeatured !== b.isFeatured) {
+        return b.isFeatured ? 1 : -1;
+      }
+      return (b.publishedAt || 0) - (a.publishedAt || 0);
+    })
+    .map(({ body, ...rest }) => rest);
+
+  return blogSummaries;
+};
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // TODO: only fetch slugs and publishedAt timestamps
