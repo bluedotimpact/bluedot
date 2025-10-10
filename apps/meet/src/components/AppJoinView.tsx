@@ -9,7 +9,11 @@ export type AppJoinViewProps = {
   page: PageState & { name: 'appJoin' },
 };
 
-const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetingPassword, meetingHostKey } }) => {
+const AppJoinView: React.FC<AppJoinViewProps> = ({
+  page: {
+    meetingNumber, meetingPassword, meetingHostKey, activityDoc,
+  },
+}) => {
   const [secondsToOpen, setSecondsToOpen] = useState(meetingHostKey ? 5 : 0);
   const joinDirect = () => {
     window.open(`zoomus://zoom.us/join?action=join&confno=${meetingNumber}&pwd=${meetingPassword}`, '_self');
@@ -41,6 +45,16 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetin
         <NewText.H1 className="mb-4">Enjoy your meeting!</NewText.H1>
         {meetingHostKeyMessage}
         <CTALinkOrButton onClick={() => joinDirect()}>Join now</CTALinkOrButton>
+        {activityDoc && (
+          <CTALinkOrButton
+            className="mt-2"
+            variant="secondary"
+            url={activityDoc}
+            target="_blank"
+          >
+            Open Google Doc
+          </CTALinkOrButton>
+        )}
         <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>
       </Page>
     );

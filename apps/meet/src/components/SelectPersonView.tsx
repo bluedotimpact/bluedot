@@ -92,6 +92,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
                 meetingNumber: data.meetingNumber,
                 meetingPassword: data.meetingPassword,
                 meetingHostKey: participant.role === 'host' ? data.meetingHostKey : undefined,
+                activityDoc: data.activityDoc,
               });
             }}
           >
