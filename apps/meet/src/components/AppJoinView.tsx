@@ -9,7 +9,11 @@ export type AppJoinViewProps = {
   page: PageState & { name: 'appJoin' },
 };
 
-const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetingPassword, meetingHostKey } }) => {
+const AppJoinView: React.FC<AppJoinViewProps> = ({
+  page: {
+    meetingNumber, meetingPassword, meetingHostKey, activityDoc,
+  },
+}) => {
   const [secondsToOpen, setSecondsToOpen] = useState(meetingHostKey ? 5 : 0);
   const joinDirect = () => {
     window.open(`zoomus://zoom.us/join?action=join&confno=${meetingNumber}&pwd=${meetingPassword}`, '_self');
@@ -35,22 +39,25 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({ page: { meetingNumber, meetin
     </>
   ) : null;
 
-  if (secondsToOpen <= 0) {
-    return (
-      <Page>
-        <NewText.H1 className="mb-4">Enjoy your meeting!</NewText.H1>
-        {meetingHostKeyMessage}
-        <CTALinkOrButton onClick={() => joinDirect()}>Join now</CTALinkOrButton>
-        <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>
-      </Page>
-    );
-  }
-
   return (
     <Page>
-      <NewText.H1 className="mb-4">Joining your meeting in {secondsToOpen}...</NewText.H1>
+      <NewText.H1 className="mb-4">{secondsToOpen <= 0 ? 'Enjoy your meeting!' : `Joining your meeting in ${secondsToOpen}...`}</NewText.H1>
       {meetingHostKeyMessage}
-      <CTALinkOrButton onClick={() => setSecondsToOpen(0)}>Join now</CTALinkOrButton>
+      <CTALinkOrButton onClick={() => joinDirect()}>Join now</CTALinkOrButton>
+      {activityDoc && (
+        <CTALinkOrButton
+          className="mt-2"
+          variant="secondary"
+          url={activityDoc}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Discussion Doc
+        </CTALinkOrButton>
+      )}
+      {secondsToOpen <= 0 && (
+        <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>
+      ) }
     </Page>
   );
 };

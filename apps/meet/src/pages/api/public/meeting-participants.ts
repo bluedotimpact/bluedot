@@ -26,6 +26,7 @@ export type MeetingParticipantsResponse = {
   meetingStartTime: number,
   /* unix time in seconds */
   meetingEndTime: number,
+  activityDoc?: string,
 } | {
   type: 'redirect',
   to: string,
@@ -50,6 +51,7 @@ export default makeApiRoute({
       meetingHostKey: z.string(),
       meetingStartTime: z.number(),
       meetingEndTime: z.number(),
+      activityDoc: z.string().optional(),
     }),
     z.object({
       type: z.literal('redirect'),
@@ -114,6 +116,7 @@ export default makeApiRoute({
     meetingHostKey,
     meetingStartTime: groupDiscussion.startDateTime!,
     meetingEndTime: groupDiscussion.endDateTime!,
+    activityDoc: groupDiscussion.activityDoc ?? undefined,
   };
 });
 
