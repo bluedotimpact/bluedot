@@ -65,6 +65,16 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
       <NewText.H1 className="mb-4">Joining your meeting in {secondsToOpen}...</NewText.H1>
       {meetingHostKeyMessage}
       <CTALinkOrButton onClick={() => setSecondsToOpen(0)}>Join now</CTALinkOrButton>
+      {activityDoc && (
+        <CTALinkOrButton
+          className="mt-2"
+          variant="secondary"
+          url={activityDoc}
+          target="_blank"
+        >
+          Open Discussion Doc
+        </CTALinkOrButton>
+      )}
     </Page>
   );
 };
