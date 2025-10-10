@@ -60,18 +60,16 @@ const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['
     : 'Unknown date';
 
   return (
-    <div className="blog-list__listing">
-      <Card
-        className="blog-list__card container-lined hover:container-elevated p-8"
-        ctaText="Read"
-        ctaUrl={url}
-        isEntireCardClickable
-        isFullWidth
-        subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
-        title={blog.title || 'Untitled'}
-        subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
-      />
-    </div>
+    <Card
+      className="container-lined hover:container-elevated p-8"
+      ctaText="Read"
+      ctaUrl={url}
+      isEntireCardClickable
+      isFullWidth
+      subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
+      title={blog.title || 'Untitled'}
+      subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
+    />
   );
 };
 
