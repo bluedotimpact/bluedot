@@ -50,6 +50,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
           variant="secondary"
           url={activityDoc}
           target="_blank"
+          rel="noopener noreferrer"
         >
           Open Discussion Doc
         </CTALinkOrButton>
