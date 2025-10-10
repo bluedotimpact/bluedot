@@ -10,10 +10,10 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { JobPosting } from '@bluedot/db';
+import { JobPosting, jobPostingTable } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
-import { getJobIfPublished } from '../api/cms/jobs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
+import db from '../../lib/api/db';
 
 type JobPostingPageProps = {
   slug: string;
@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
   }
 
   try {
-    const job = await getJobIfPublished(slug);
+    const job = await db.get(jobPostingTable, { slug, publicationStatus: 'Published' });
 
     return {
       props: {
