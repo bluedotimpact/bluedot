@@ -31,8 +31,8 @@ export default makeApiRoute({
 }, async (body, { raw, auth }) => {
   const { exerciseId } = raw.req.query;
 
-  if (!auth.email || typeof exerciseId !== 'string') {
-    throw new createHttpError.BadRequest();
+  if (typeof exerciseId !== 'string') {
+    throw new createHttpError.BadRequest('Invalid exercise ID');
   }
 
   let exerciseResponse: ExerciseResponse | null = null;
@@ -41,7 +41,11 @@ export default makeApiRoute({
       filter: { exerciseId, email: auth.email },
     });
   } catch (error) {
-    throw new createHttpError.InternalServerError('Database error occurred');
+    throw new createHttpError.InternalServerError(
+      process.env.NODE_ENV === 'production'
+        ? 'Database error occurred'
+        : `Database error occurred: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   switch (raw.req.method) {

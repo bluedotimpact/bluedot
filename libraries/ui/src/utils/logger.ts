@@ -8,7 +8,6 @@ export const logger = winston.createLogger({
     winston.format.errors({ stack: true }),
   ),
   transports: [
-    // eslint-disable-next-line turbo/no-undeclared-env-vars
     process.env.NODE_ENV === 'production'
       // in prod: stdout, as json
       ? new winston.transports.Console({
