@@ -30,7 +30,6 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
 
   return (
     <Section title={title}>
-      <div className="invisible relative bottom-48" />
       {blogs?.length === 0 ? (
         <P>No blog posts available at the moment.</P>
       ) : (
