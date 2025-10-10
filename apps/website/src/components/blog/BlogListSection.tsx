@@ -30,11 +30,11 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
 
   return (
     <Section title={title}>
-      <div id="blog-articles-anchor" className="invisible relative bottom-48" />
+      <div className="invisible relative bottom-48" />
       {blogs?.length === 0 ? (
         <P>No blog posts available at the moment.</P>
       ) : (
-        <div className="blog-list__container flex flex-col gap-8">
+        <div className="flex flex-col gap-8">
           {blogs?.slice(0, maxItems).map((blog) => (
             <BlogListItem key={blog.id} blog={blog} />
           ))}
