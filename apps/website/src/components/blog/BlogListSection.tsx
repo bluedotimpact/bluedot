@@ -29,7 +29,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
   }
 
   return (
-    <Section className="blog-list-section" title={title}>
+    <Section title={title}>
       <div id="blog-articles-anchor" className="invisible relative bottom-48" />
       {blogs?.length === 0 ? (
         <P>No blog posts available at the moment.</P>
