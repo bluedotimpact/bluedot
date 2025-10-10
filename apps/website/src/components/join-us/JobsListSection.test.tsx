@@ -28,7 +28,7 @@ const mockCmsJobs = [
 
 describe('JobsListSection', () => {
   test('renders default as expected', () => {
-    const { container } = render(<JobsListSection cmsJobs={mockCmsJobs} />);
+    const { container } = render(<JobsListSection jobs={mockCmsJobs} />);
 
     // Check if job titles and locations are rendered
     const content = container.textContent;
@@ -45,7 +45,7 @@ describe('JobsListSection', () => {
 
   test('renders mobile as expected', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
-    const { container } = render(<JobsListSection cmsJobs={mockCmsJobs} />);
+    const { container } = render(<JobsListSection jobs={mockCmsJobs} />);
 
     // Check if job titles and locations are rendered
     const content = container.textContent;
@@ -63,7 +63,7 @@ describe('JobsListSection', () => {
   });
 
   test('renders empty state when no jobs are provided', () => {
-    const { container } = render(<JobsListSection cmsJobs={[]} />);
+    const { container } = render(<JobsListSection jobs={[]} />);
     expect(container.textContent).toContain("We're not currently running any open hiring rounds at the moment.");
   });
 });
