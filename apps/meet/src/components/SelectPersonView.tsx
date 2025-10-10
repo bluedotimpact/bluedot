@@ -109,6 +109,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
               meetingNumber: data.meetingNumber,
               meetingPassword: data.meetingPassword,
               meetingHostKey: data.meetingHostKey,
+              activityDoc: data.activityDoc,
             });
           }}
           className="underline cursor-pointer"
