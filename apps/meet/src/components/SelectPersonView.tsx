@@ -65,15 +65,14 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
             </div>
           )}
       {data.activityDoc && (
-        <div className="mb-4">
-          <CTALinkOrButton
-            variant="primary"
-            url={data.activityDoc}
-            target="_blank"
-          >
-            Open Google Doc
-          </CTALinkOrButton>
-        </div>
+        <CTALinkOrButton
+          className="mb-2"
+          variant="primary"
+          url={data.activityDoc}
+          target="_blank"
+        >
+          Open Google Doc
+        </CTALinkOrButton>
       )}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
