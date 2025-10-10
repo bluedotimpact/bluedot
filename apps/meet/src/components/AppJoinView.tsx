@@ -52,7 +52,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
             url={activityDoc}
             target="_blank"
           >
-            Open Google Doc
+            Open Discussion Doc
           </CTALinkOrButton>
         )}
         <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>

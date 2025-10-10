@@ -71,7 +71,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
           url={data.activityDoc}
           target="_blank"
         >
-          Open Google Doc
+          Open Discussion Doc
         </CTALinkOrButton>
       )}
       <div className="grid gap-2 sm:w-1/2">
