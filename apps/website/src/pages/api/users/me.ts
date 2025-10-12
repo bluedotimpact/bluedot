@@ -15,6 +15,12 @@ export type PatchUserBody = {
   name?: string;
 };
 
+export type PostUserBody = {
+  utmSource?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+};
+
 export default makeApiRoute({
   requireAuth: true,
   requestBody: meRequestBodySchema,
@@ -38,14 +44,22 @@ export default makeApiRoute({
   }
 
   switch (raw.req.method) {
+    case 'POST':
     case 'GET': {
       let user: User;
       const isNewUser = !existingUser;
       if (!existingUser) {
         // Create user if doesn't exist
+        const initialUtmSource = raw.req.method === 'POST' ? body?.initialUtmSource : undefined;
+        const initialUtmCampaign = raw.req.method === 'POST' ? body?.initialUtmCampaign : undefined;
+        const initialUtmContent = raw.req.method === 'POST' ? body?.initialUtmContent : undefined;
+
         user = await db.insert(userTable, {
           email: auth.email,
           lastSeenAt: new Date().toISOString(),
+          ...(initialUtmSource && { utmSource: initialUtmSource }),
+          ...(initialUtmCampaign && { utmCampaign: initialUtmCampaign }),
+          ...(initialUtmContent && { utmContent: initialUtmContent }),
         });
       } else {
         // Update last seen timestamp if does exist
