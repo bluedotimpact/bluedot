@@ -5,7 +5,7 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const certificatesRouter = router({
-  requestCertificate: protectedProcedure
+  request: protectedProcedure
     .input(z.object({ courseId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {

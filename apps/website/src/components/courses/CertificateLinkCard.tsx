@@ -224,7 +224,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     },
   });
 
-  const requestCertificateMutation = trpc.certificates.requestCertificate.useMutation({
+  const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
