@@ -30,13 +30,7 @@ vi.mock('../../utils/trpc', () => ({
   },
 }));
 
-const mockedTrpc = trpc as typeof trpc & {
-  users: {
-    changePassword: {
-      useMutation: MockedFunction<typeof trpc.users.changePassword.useMutation>;
-    };
-  };
-};
+const mockedTrpc = vi.mocked(trpc, true);
 
 describe('PasswordSection - User Journeys', () => {
   // Test data
@@ -46,7 +40,14 @@ describe('PasswordSection - User Journeys', () => {
   };
 
   // Mock mutation object
-  let mockMutateAsync: MockedFunction<(args: { currentPassword: string; newPassword: string }) => Promise<void>>;
+  let mockMutate: MockedFunction<(
+    args: { currentPassword: string; newPassword: string },
+    options?: {
+      onSuccess?: () => void;
+      onError?: (error: unknown) => void;
+      onSettled?: () => void;
+    }
+  ) => void>;
 
   // Helper to flush all pending promises
   const flushPromises = () => new Promise((resolve) => { setTimeout(resolve, 0); });
@@ -78,9 +79,9 @@ describe('PasswordSection - User Journeys', () => {
     vi.clearAllMocks();
 
     // Setup mock mutation
-    mockMutateAsync = vi.fn();
+    mockMutate = vi.fn();
     mockedTrpc.users.changePassword.useMutation.mockReturnValue({
-      mutateAsync: mockMutateAsync,
+      mutate: mockMutate,
     } as unknown as ReturnType<typeof trpc.users.changePassword.useMutation>);
   });
 
@@ -90,7 +91,10 @@ describe('PasswordSection - User Journeys', () => {
 
   test('User can successfully change their password', async () => {
     // Setup successful response
-    mockMutateAsync.mockResolvedValueOnce(undefined);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onSuccess?.();
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
@@ -109,10 +113,17 @@ describe('PasswordSection - User Journeys', () => {
 
     // Wait for the API call and success flow
     await waitFor(() => {
-      expect(mockMutateAsync).toHaveBeenCalledWith({
-        currentPassword: validPasswords.current,
-        newPassword: validPasswords.new,
-      });
+      expect(mockMutate).toHaveBeenCalledWith(
+        {
+          currentPassword: validPasswords.current,
+          newPassword: validPasswords.new,
+        },
+        expect.objectContaining({
+          onSuccess: expect.any(Function),
+          onError: expect.any(Function),
+          onSettled: expect.any(Function),
+        }),
+      );
     });
 
     // User sees success message
@@ -138,7 +149,10 @@ describe('PasswordSection - User Journeys', () => {
       value: { code: 'UNAUTHORIZED' },
       writable: true,
     });
-    mockMutateAsync.mockRejectedValueOnce(error);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
@@ -190,7 +204,7 @@ describe('PasswordSection - User Journeys', () => {
     expect(errors[2]).toHaveTextContent('Please confirm your new password');
 
     // No API call should be made
-    expect(mockMutateAsync).not.toHaveBeenCalled();
+    expect(mockMutate).not.toHaveBeenCalled();
 
     // User fills current password and short new password
     fillPasswordForm(
@@ -246,7 +260,10 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can submit form with Enter key', async () => {
-    mockMutateAsync.mockResolvedValueOnce(undefined);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onSuccess?.();
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
@@ -265,7 +282,7 @@ describe('PasswordSection - User Journeys', () => {
 
     // Form is submitted
     await waitFor(() => {
-      expect(mockMutateAsync).toHaveBeenCalled();
+      expect(mockMutate).toHaveBeenCalled();
     });
 
     // Success message appears
@@ -296,12 +313,13 @@ describe('PasswordSection - User Journeys', () => {
 
   test('Form is properly disabled during submission', async () => {
     // Mock a slow API response
-    let resolvePromise: () => void;
-    const promise = new Promise<void>((resolve) => {
-      resolvePromise = resolve;
-    });
+    let callOnSuccess: (() => void) | undefined;
+    let callOnSettled: (() => void) | undefined;
 
-    mockMutateAsync.mockImplementation(() => promise);
+    mockMutate.mockImplementation((_args, options) => {
+      callOnSuccess = options?.onSuccess;
+      callOnSettled = options?.onSettled;
+    });
 
     render(<PasswordSection />);
 
@@ -324,8 +342,12 @@ describe('PasswordSection - User Journeys', () => {
     // Loading state is shown
     expect(screen.getByText('Updating...')).toBeInTheDocument();
 
-    // Resolve the promise and wait for the component to update
-    resolvePromise!();
+    // Resolve the mutation by calling callbacks
+    act(() => {
+      callOnSuccess?.();
+      callOnSettled?.();
+    });
+
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
@@ -371,7 +393,10 @@ describe('PasswordSection - User Journeys', () => {
       value: { code: 'INTERNAL_SERVER_ERROR' },
       writable: true,
     });
-    mockMutateAsync.mockRejectedValueOnce(error);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
@@ -406,7 +431,10 @@ describe('PasswordSection - User Journeys', () => {
       value: { code: 'INTERNAL_SERVER_ERROR' },
       writable: true,
     });
-    mockMutateAsync.mockRejectedValueOnce(error);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
@@ -441,7 +469,10 @@ describe('PasswordSection - User Journeys', () => {
       value: { code: 'INTERNAL_SERVER_ERROR' },
       writable: true,
     });
-    mockMutateAsync.mockRejectedValueOnce(error);
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
     render(<PasswordSection />);
 
