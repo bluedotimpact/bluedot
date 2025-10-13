@@ -22,7 +22,7 @@ export const certificatesRouter = router({
 
       if (courseRegistration.certificateId) {
         // Already created, nothing to do
-        return { courseRegistration };
+        return courseRegistration;
       }
 
       // Check if all exercises for this course have been completed
