@@ -132,33 +132,38 @@ const ChangePasswordModal = ({
     setIsLoading(true);
     setErrors({ current: '', new: '', confirm: '' });
 
-    try {
-      await changePasswordMutation.mutateAsync({ currentPassword, newPassword });
-
-      // Close modal immediately and trigger success callback
-      setIsOpen(false);
-      onSuccess(); // This will show success message in account settings
-    } catch (err) {
-      if (err instanceof TRPCClientError) {
-        if (err.data?.code === 'UNAUTHORIZED') {
-          setErrors({ ...errors, current: 'Incorrect password' });
-        } else if (err.data?.code === 'BAD_REQUEST') {
-          // Handle password policy violations
-          const message = err.message || 'Password must be at least 8 characters';
-          setErrors({ ...errors, new: message });
-        } else {
-          // Other errors
-          setErrors({
-            ...errors,
-            current: `Failed to update password: ${err.message || 'Please try again.'}`,
-          });
-        }
-      } else {
-        setErrors({ ...errors, current: 'Network error occurred. Please check your connection and try again.' });
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    changePasswordMutation.mutate(
+      { currentPassword, newPassword },
+      {
+        onSuccess: () => {
+          // Close modal immediately and trigger success callback
+          setIsOpen(false);
+          onSuccess(); // This will show success message in account settings
+        },
+        onError: (err) => {
+          if (err instanceof TRPCClientError) {
+            if (err.data?.code === 'UNAUTHORIZED') {
+              setErrors({ ...errors, current: 'Incorrect password' });
+            } else if (err.data?.code === 'BAD_REQUEST') {
+              // Handle password policy violations
+              const message = err.message || 'Password must be at least 8 characters';
+              setErrors({ ...errors, new: message });
+            } else {
+              // Other errors
+              setErrors({
+                ...errors,
+                current: `Failed to update password: ${err.message || 'Please try again.'}`,
+              });
+            }
+          } else {
+            setErrors({ ...errors, current: 'Network error occurred. Please check your connection and try again.' });
+          }
+        },
+        onSettled: () => {
+          setIsLoading(false);
+        },
+      },
+    );
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
