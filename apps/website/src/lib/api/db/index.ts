@@ -5,8 +5,16 @@ import env from '../env';
 export default new PgAirtableDb({
   pgConnString: env.PG_URL,
   airtableApiKey: env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
-  airtableTsOptions: {
-    validationMode: 'warn-and-retry',
-    onWarning: (warning: string) => slackAlert(env, [warning]),
+  onWarning: async (warning: unknown) => {
+    try {
+      const err = warning instanceof Error ? warning : new Error(String(warning));
+      await slackAlert(env, [
+        `Airtable validation warning: ${err.message}`,
+        ...(err.stack ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
+      ]);
+    } catch (slackError) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to send Slack alert', slackError);
+    }
   },
 });

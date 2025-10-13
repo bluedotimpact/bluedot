@@ -157,6 +157,16 @@ export class AirtableWebhook {
         await this.recreateWebhookWithoutDeletedFields(deletedFields);
       }
     } else {
+      // Validate field IDs before creating webhook to avoid UNKNOWN_FIELD_NAME errors
+      const validatedFieldIds = await this.validateFieldIds();
+      const removedCount = this.fieldIds.length - validatedFieldIds.length;
+
+      if (removedCount > 0) {
+        logger.warn(`[WEBHOOK] Removed ${removedCount} invalid field IDs before webhook creation for base ${this.baseId}`);
+        await slackAlert(env, [`[WEBHOOK] Removed ${removedCount} invalid field IDs from base ${this.baseId}. These fields may have been deleted in Airtable.`]);
+        this.fieldIds = validatedFieldIds;
+      }
+
       // Create new webhook with retry logic
       await this.createWebhookWithRetry();
     }
@@ -343,6 +353,49 @@ export class AirtableWebhook {
         // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
       }
+    }
+  }
+
+  /**
+   * Validates field IDs by fetching the base schema from Airtable and filtering to only existing fields
+   * Returns an array of valid field IDs that exist in Airtable
+   */
+  private async validateFieldIds(): Promise<string[]> {
+    try {
+      await this.rateLimiter.acquire();
+      const response = await this.axiosInstance.get<{
+        tables: {
+          id: string;
+          name: string;
+          fields: {
+            id: string;
+            name: string;
+            type: string;
+          }[];
+        }[];
+      }>(`/meta/bases/${this.baseId}/tables`);
+
+      // Collect all valid field IDs from all tables in the base
+      const validFieldIds = new Set<string>();
+      for (const table of response.data.tables) {
+        for (const field of table.fields) {
+          validFieldIds.add(field.id);
+        }
+      }
+
+      // Filter our field IDs to only include those that exist in Airtable
+      const validatedIds = this.fieldIds.filter((id) => validFieldIds.has(id));
+      const invalidIds = this.fieldIds.filter((id) => !validFieldIds.has(id));
+
+      if (invalidIds.length > 0) {
+        logger.warn(`[WEBHOOK] Found ${invalidIds.length} invalid field IDs for base ${this.baseId}: ${invalidIds.join(', ')}`);
+      }
+
+      return validatedIds;
+    } catch (error) {
+      logger.error(`[WEBHOOK] Failed to validate field IDs for base ${this.baseId}:`, error);
+      // If validation fails, return all field IDs as-is to avoid breaking existing functionality
+      return this.fieldIds;
     }
   }
 
