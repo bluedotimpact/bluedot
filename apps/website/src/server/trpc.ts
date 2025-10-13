@@ -1,6 +1,7 @@
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
+import { AirtableTsError, ErrorType } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import { Context } from './context';
@@ -37,8 +38,17 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
 
     return result;
   } catch (error) {
-    if (error instanceof TRPCError) {
-      statusCode = getHTTPStatusCodeFromError(error);
+    let finalError = error;
+    if (error instanceof AirtableTsError && error.type === ErrorType.RESOURCE_NOT_FOUND) {
+      finalError = new TRPCError({
+        code: 'NOT_FOUND',
+        message: error.message,
+        cause: error,
+      });
+    }
+
+    if (finalError instanceof TRPCError) {
+      statusCode = getHTTPStatusCodeFromError(finalError);
     } else {
       // Fallback to 500
       statusCode = 500;
@@ -48,7 +58,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
     activeSpan?.setAttribute('http.status_code', statusCode);
     activeSpan?.setStatus({
       code: SpanStatusCode.ERROR,
-      message: error instanceof Error ? error.message : String(error),
+      message: finalError instanceof Error ? finalError.message : String(finalError),
     });
     requestCounter.add(1, {
       method,
@@ -56,7 +66,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
       status_code: statusCode.toString(),
     });
 
-    throw error;
+    throw finalError;
   }
 });
 
