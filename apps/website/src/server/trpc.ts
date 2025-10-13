@@ -1,10 +1,9 @@
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
+import { AirtableTsError, ErrorType } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SpanStatusCode, trace } from '@opentelemetry/api';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
