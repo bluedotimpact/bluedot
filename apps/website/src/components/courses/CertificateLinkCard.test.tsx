@@ -4,14 +4,17 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
+import { CourseRegistration } from '@bluedot/db';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
+import { trpc } from '../../utils/trpc';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
 
 vi.mock('axios-hooks');
+
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
   return {
@@ -20,8 +23,39 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
+// I tried to use the existing MSW setup but it wasn't working, so just mocking tRPC directly
+vi.mock('../../utils/trpc', () => ({
+  trpc: {
+    courseRegistrations: {
+      getById: {
+        useQuery: vi.fn(),
+      },
+    },
+  },
+}));
+
 // Type helpers
 type UseAxiosReturnType = ReturnType<typeof useAxios>;
+
+const createMockCourseRegistration = (overrides: Partial<CourseRegistration> = {}): CourseRegistration => ({
+  id: 'rec-test-id',
+  role: 'Participant',
+  email: 'user@example.com',
+  autoNumberId: 1,
+  firstName: 'Test',
+  lastName: 'User',
+  courseId: 'rec123456789',
+  userId: null,
+  fullName: 'Test User',
+  courseApplicationsBaseId: 'base123',
+  decision: 'Accept',
+  certificateId: null,
+  certificateCreatedAt: null,
+  roundStatus: null,
+  lastVisitedUnitNumber: null,
+  lastVisitedChunkIndex: null,
+  ...overrides,
+});
 
 describe('CertificateLinkCard', () => {
   beforeEach(() => {
@@ -39,9 +73,7 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders regular course', () => {
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify login prompt is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -50,9 +82,7 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders FoAI course with different content', () => {
-      render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
-      );
+      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
@@ -66,18 +96,26 @@ describe('CertificateLinkCard', () => {
 
     beforeEach(() => {
       vi.mocked(useAuthStore).mockReturnValue(mockAuth as ReturnType<typeof useAuthStore>);
-    });
 
-    test('renders loading state', () => {
+      // Mock axios-hooks for certificate requests (not loading by default)
       vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: true, error: null },
+        { data: undefined, loading: false, error: null },
         vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
+    });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+    test('renders loading state', () => {
+      // Mock the tRPC query to return loading state
+      // @ts-expect-error - Mocking only essential properties for test
+      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        error: null,
+        refetch: vi.fn(),
+      });
+
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify loading indicator is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -86,26 +124,18 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - non-FoAI shows not eligible', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        {
-          data: {
-            courseRegistration: {
-              courseId: 'rec123456789',
-              certificateId: null,
-              email: 'user@example.com',
-              fullName: 'Test User',
-            },
-          },
-          loading: false,
-          error: null,
-        },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+      // @ts-expect-error - Mocking only essential properties for test
+      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: 'rec123456789',
+          certificateId: null,
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify not eligible message
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -114,36 +144,18 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
-      vi.mocked(useAxios)
-        .mockReturnValueOnce([
-          {
-            data: {
-              courseRegistration: {
-                courseId: 'rec0Zgize0c4liMl5',
-                certificateId: null,
-                email: 'user@example.com',
-                fullName: 'Test User',
-              },
-            },
-            loading: false,
-            error: null,
-          },
-          vi.fn(),
-          vi.fn(),
-        ] as UseAxiosReturnType)
-        .mockReturnValueOnce([
-          {
-            data: undefined,
-            loading: false,
-            error: null,
-          },
-          vi.fn(),
-          vi.fn(),
-        ] as UseAxiosReturnType);
+      // @ts-expect-error - Mocking only essential properties for test
+      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: 'rec0Zgize0c4liMl5',
+          certificateId: null,
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
-      );
+      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
 
       // Verify that download certificate button is shown for FoAI course
       expect(screen.getByText('Download Certificate')).toBeTruthy();
@@ -158,27 +170,19 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course with certificate (works for both regular and FoAI)', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        {
-          data: {
-            courseRegistration: {
-              courseId: 'rec123456789',
-              certificateId: 'cert123',
-              certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
-              email: 'user@example.com',
-              fullName: 'Test User',
-            },
-          },
-          loading: false,
-          error: null,
-        },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+      // @ts-expect-error - Mocking only essential properties for test
+      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: 'rec123456789',
+          certificateId: 'cert123',
+          certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify specific content
       expect(screen.getByText('Earned by Test User')).toBeTruthy();
