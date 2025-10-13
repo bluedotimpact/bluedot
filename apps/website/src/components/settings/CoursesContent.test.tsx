@@ -5,6 +5,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import useAxios from 'axios-hooks';
 import '@testing-library/jest-dom';
 import CoursesContent from './CoursesContent';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 vi.mock('axios-hooks');
 
@@ -35,11 +37,21 @@ describe('CoursesContent', () => {
 
   const mockCourseRegistration = {
     id: 'reg-1',
+    email: 'test@example.com',
+    autoNumberId: 1,
+    userId: 'user-1',
+    firstName: 'Test',
+    lastName: 'User',
+    fullName: 'Test User',
+    courseApplicationsBaseId: 'app-base-1',
     courseId: 'course-1',
+    decision: 'Accept',
+    role: 'Participant',
     certificateCreatedAt: null,
     certificateId: null,
+    lastVisitedUnitNumber: null,
     lastVisitedChunkIndex: null,
-    roundStatus: 'Active', // Add roundStatus for in-progress filtering
+    roundStatus: 'Active',
   };
 
   beforeEach(() => {
@@ -47,23 +59,15 @@ describe('CoursesContent', () => {
   });
 
   it('displays in-progress courses', async () => {
-    vi.mocked(useAxios).mockImplementation((config) => {
-      const url = typeof config === 'string' ? config : config.url;
-      if (url === '/api/course-registrations') {
-        return [{
-          data: { courseRegistrations: [mockCourseRegistration] },
-          loading: false,
-          error: null,
-        }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
-      }
-      return [{
-        data: { courses: [mockCourse] },
-        loading: false,
-        error: null,
-      }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
-    });
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => [mockCourseRegistration]));
 
-    render(<CoursesContent authToken="test-token" />);
+    vi.mocked(useAxios).mockReturnValue([{
+      data: { courses: [mockCourse] },
+      loading: false,
+      error: null,
+    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
+
+    render(<CoursesContent authToken="test-token" />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByLabelText('In Progress courses')).toBeInTheDocument();
@@ -73,23 +77,15 @@ describe('CoursesContent', () => {
   });
 
   it('displays empty state when no courses enrolled', async () => {
-    vi.mocked(useAxios).mockImplementation((config) => {
-      const url = typeof config === 'string' ? config : config.url;
-      if (url === '/api/course-registrations') {
-        return [{
-          data: { courseRegistrations: [] },
-          loading: false,
-          error: null,
-        }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
-      }
-      return [{
-        data: { courses: [] },
-        loading: false,
-        error: null,
-      }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>;
-    });
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
 
-    render(<CoursesContent authToken="test-token" />);
+    vi.mocked(useAxios).mockReturnValue([{
+      data: { courses: [] },
+      loading: false,
+      error: null,
+    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
+
+    render(<CoursesContent authToken="test-token" />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
