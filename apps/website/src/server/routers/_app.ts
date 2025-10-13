@@ -1,10 +1,10 @@
 import { router } from '../trpc';
-import { courseRegistrationRouter } from './course-registration';
+import { courseRegistrationsRouter } from './course-registrations';
 import { jobsRouter } from './jobs';
 import { usersRouter } from './users';
 
 export const appRouter = router({
-  courseRegistrations: courseRegistrationRouter,
+  courseRegistrations: courseRegistrationsRouter,
   jobs: jobsRouter,
   users: usersRouter,
 });

@@ -4,7 +4,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
-export const courseRegistrationRouter = router({
+export const courseRegistrationsRouter = router({
   getById: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
