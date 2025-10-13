@@ -29,6 +29,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   courseTitle: 'Test Course',
   coursePath: '/courses/test-course',
   courseSlug: 'test-course',
+  courseUnit: '3',
   path: `/courses/test-course/${unitNumber}`,
   title,
   content,
