@@ -92,7 +92,8 @@ describe('CertificateLinkCard', () => {
 
     test('renders loading state', () => {
       vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: true, error: undefined },
+        { data: undefined, loading: true, error: null },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 
@@ -118,8 +119,9 @@ describe('CertificateLinkCard', () => {
             },
           },
           loading: false,
-          error: undefined,
+          error: null,
         },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 
@@ -134,30 +136,22 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
-      vi.mocked(useAxios)
-        .mockReturnValueOnce([
-          {
-            data: {
-              courseRegistration: {
-                courseId: 'rec0Zgize0c4liMl5',
-                certificateId: null,
-                email: 'user@example.com',
-                fullName: 'Test User',
-              },
+      vi.mocked(useAxios).mockReturnValue([
+        {
+          data: {
+            courseRegistration: {
+              courseId: 'rec0Zgize0c4liMl5',
+              certificateId: null,
+              email: 'user@example.com',
+              fullName: 'Test User',
             },
-            loading: false,
-            error: undefined,
           },
-          vi.fn(),
-        ] as UseAxiosReturnType)
-        .mockReturnValueOnce([
-          {
-            data: undefined,
-            loading: false,
-            error: undefined,
-          },
-          vi.fn(),
-        ] as UseAxiosReturnType);
+          loading: false,
+          error: null,
+        },
+        vi.fn(),
+        vi.fn(),
+      ] as UseAxiosReturnType);
 
       render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
@@ -188,8 +182,9 @@ describe('CertificateLinkCard', () => {
             },
           },
           loading: false,
-          error: undefined,
+          error: null,
         },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 
