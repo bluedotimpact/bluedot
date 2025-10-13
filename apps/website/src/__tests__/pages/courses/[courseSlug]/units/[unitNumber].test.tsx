@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import { TrpcProvider } from '../../../../trpcProvider';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -83,7 +84,7 @@ describe('CourseUnitPage', () => {
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -112,7 +113,7 @@ describe('CourseUnitPage', () => {
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -141,7 +142,7 @@ describe('CourseUnitPage', () => {
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -169,7 +170,7 @@ describe('CourseUnitPage', () => {
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />);
+    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
