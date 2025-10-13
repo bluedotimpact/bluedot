@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { GetUnitResponse } from '../../../api/courses/[courseSlug]/[unitNumber]';
 import { GetGroupDiscussionResponse } from '../../../api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
-import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
+import { trpc } from '../../../../utils/trpc';
 
 const CourseUnitChunkPage = () => {
   const router = useRouter();
@@ -73,14 +73,8 @@ const CourseUnitChunkPage = () => {
   }, [courseSlug, unitNumber]);
 
   // If we're logged in, ensures a course registration is recorded for this course
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
-    method: 'get',
-    url: `/api/course-registrations/${data?.unit.courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
+  const { refetch: fetchCourseRegistration } = trpc.courseRegistrations.getById.useQuery(data?.unit.courseId ?? '', { enabled: false });
+
   useEffect(() => {
     const shouldRecordCourseRegistration = !!(auth && data?.unit.courseId);
     if (shouldRecordCourseRegistration) {

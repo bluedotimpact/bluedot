@@ -1,23 +1,17 @@
 import { ProgressDots, ErrorSection, CTALinkOrButton } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { GetCourseRegistrationsResponse } from '../../pages/api/course-registrations';
 import { GetCoursesResponse } from '../../pages/api/courses';
 import { ROUTES } from '../../lib/routes';
 import { P } from '../Text';
 import CourseListRow from './CourseListRow';
+import { trpc } from '../../utils/trpc';
 
 type CoursesContentProps = {
   authToken: string;
 };
 
 const CoursesContent = ({ authToken }: CoursesContentProps) => {
-  const [{ data: courseRegistrationsData, loading: courseRegistrationsLoading, error: courseRegistrationsError }] = useAxios<GetCourseRegistrationsResponse>({
-    method: 'get',
-    url: '/api/course-registrations',
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  });
+  const { data: courseRegistrations, isLoading: courseRegistrationsLoading, error: courseRegistrationsError } = trpc.courseRegistrations.getAll.useQuery();
 
   const [{ data: coursesData, loading: coursesLoading, error: coursesError }] = useAxios<GetCoursesResponse>({
     method: 'get',
@@ -25,7 +19,7 @@ const CoursesContent = ({ authToken }: CoursesContentProps) => {
   });
 
   // Combine courses and enrollments
-  const enrolledCourses = (courseRegistrationsData?.courseRegistrations || [])
+  const enrolledCourses = (courseRegistrations || [])
     .map((courseRegistration) => {
       const course = coursesData?.courses.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
