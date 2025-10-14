@@ -1015,14 +1015,8 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldlpjcdh7jpZhHhv',
     },
     autoNumberId: {
-      pgColumn: text(),
+      pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld93rcijT2GzMtFS',
-    },
-    // FAKE FIELD FOR TESTING - This field does not exist in Airtable
-    // Used to test validation error handling and retry logic
-    fakeTestField: {
-      pgColumn: text(),
-      airtableId: 'fldFAKEFIELD12345',
     },
   },
 });
