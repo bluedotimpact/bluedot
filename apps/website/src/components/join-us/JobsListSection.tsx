@@ -4,7 +4,7 @@ import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { P } from '../Text';
 
-type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getJobs'];
+type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   return (

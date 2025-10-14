@@ -185,7 +185,7 @@ describe('LoginOauthCallbackPage', () => {
 
     await waitFor(() => {
       expect(mockOnLoginComplete).toHaveBeenCalledTimes(1);
-      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject);
+      expect(mockOnLoginComplete).toHaveBeenCalledWith(expectedAuthObject, CUSTOM_REDIRECT_PATH);
     });
 
     expect(OidcClient).toHaveBeenCalledTimes(1);

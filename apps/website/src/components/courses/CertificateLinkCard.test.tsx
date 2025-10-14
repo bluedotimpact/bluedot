@@ -70,7 +70,8 @@ describe('CertificateLinkCard', () => {
 
     test('renders loading state', () => {
       vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: true, error: undefined },
+        { data: undefined, loading: true, error: null },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 
@@ -96,8 +97,9 @@ describe('CertificateLinkCard', () => {
             },
           },
           loading: false,
-          error: undefined,
+          error: null,
         },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 
@@ -124,16 +126,18 @@ describe('CertificateLinkCard', () => {
               },
             },
             loading: false,
-            error: undefined,
+            error: null,
           },
+          vi.fn(),
           vi.fn(),
         ] as UseAxiosReturnType)
         .mockReturnValueOnce([
           {
             data: undefined,
             loading: false,
-            error: undefined,
+            error: null,
           },
+          vi.fn(),
           vi.fn(),
         ] as UseAxiosReturnType);
 
@@ -166,8 +170,9 @@ describe('CertificateLinkCard', () => {
             },
           },
           loading: false,
-          error: undefined,
+          error: null,
         },
+        vi.fn(),
         vi.fn(),
       ] as UseAxiosReturnType);
 

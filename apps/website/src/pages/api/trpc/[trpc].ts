@@ -2,12 +2,13 @@ import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import * as trpcNext from '@trpc/server/adapters/next';
 import env from '../../../lib/api/env';
+import { createContext } from '../../../server/context';
 import { appRouter } from '../../../server/routers/_app';
 
 // @link https://trpc.io/docs/v11/server/adapters
 export default trpcNext.createNextApiHandler({
   router: appRouter,
-  createContext: () => ({}),
+  createContext,
   onError(opts) {
     const { error, type, path } = opts;
 

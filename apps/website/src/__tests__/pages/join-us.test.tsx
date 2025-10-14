@@ -7,7 +7,7 @@ import JoinUsPage from '../../pages/join-us';
 vi.mock('../../utils/trpc', () => ({
   trpc: {
     jobs: {
-      getJobs: {
+      getAll: {
         useQuery: vi.fn(() => ({
           data: [],
           isLoading: false,
