@@ -12,7 +12,7 @@ export type BlogListSectionProps = {
 };
 
 const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
-  const { data: blogs, isLoading: loading, error } = trpc.blogs.getBlogs.useQuery();
+  const { data: blogs, isLoading: loading, error } = trpc.blogs.getAll.useQuery();
 
   const title = 'Latest articles';
 
@@ -48,7 +48,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
   );
 };
 
-const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['getBlogs'][number] }) => {
+const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['getAll'][number] }) => {
   const url = `/blog/${blog.slug}`;
   const formattedDate = blog.publishedAt
     ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {

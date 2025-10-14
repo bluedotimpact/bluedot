@@ -17,7 +17,7 @@ export const getAllPublishedBlogs = async () => {
 };
 
 export const blogsRouter = router({
-  getBlogs: publicProcedure.query(async () => {
+  getAll: publicProcedure.query(async () => {
     return getAllPublishedBlogs();
   }),
 });
