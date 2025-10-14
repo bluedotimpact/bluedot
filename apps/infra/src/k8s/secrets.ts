@@ -17,6 +17,7 @@ const toK8s = [
   'keycloakClientId',
   'keycloakClientSecret',
   'prodOnlyWebhookDeletion',
+  'adminSecret',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

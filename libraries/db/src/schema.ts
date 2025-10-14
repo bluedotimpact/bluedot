@@ -963,6 +963,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldQJyVjaiQzsVGD9',
     },
+    createCertificate: {
+      pgColumn: boolean(),
+      airtableId: 'fld2aBvxntH7Ovl1D',
+    },
     lastVisitedUnitNumber: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldTz0302G1aNX9uP',

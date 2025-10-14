@@ -10,4 +10,7 @@ export default validateEnv({
     'KEYCLOAK_CLIENT_ID',
     'KEYCLOAK_CLIENT_SECRET',
   ],
+  optional: [
+    'ADMIN_SECRET',
+  ],
 });
