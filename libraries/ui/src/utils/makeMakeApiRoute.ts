@@ -146,15 +146,10 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
         });
 
         logger.error('Internal error handling request:', err);
-
-        try {
-          await slackAlert(env, [
-            `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
-            ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-          ]);
-        } catch (slackError) {
-          logger.error('Failed to send Slack alert', slackError);
-        }
+        slackAlert(env, [
+          `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
+          ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
+        ]);
 
         res.status(statusCode).json({
           error: 'Internal Server Error',
