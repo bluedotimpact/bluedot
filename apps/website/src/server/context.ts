@@ -1,4 +1,5 @@
 import { loginPresets } from '@bluedot/ui';
+import { logger } from '@bluedot/ui/src/api';
 import * as trpcNext from '@trpc/server/adapters/next';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
@@ -16,6 +17,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     return { auth };
   } catch (error) {
     // Token verification failed - return null and let protectedProcedure handle it
+    logger.error('Error verifying token', error);
     return { auth: null };
   }
 };
