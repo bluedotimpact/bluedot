@@ -157,13 +157,13 @@ export class AirtableWebhook {
         await this.recreateWebhookWithoutDeletedFields(deletedFields);
       }
     } else {
-      // Validate field IDs before creating webhook to avoid UNKNOWN_FIELD_NAME errors
-      const validatedFieldIds = await this.validateFieldIds();
-      const removedCount = this.fieldIds.length - validatedFieldIds.length;
+      // Remove any fields that have been deleted in Airtable to avoid UNKNOWN_FIELD_NAME errors
+      const validatedFieldIds = await this.filterToValidFieldIds(this.fieldIds);
+      const invalidFieldIds = this.fieldIds.filter((id) => !validatedFieldIds.includes(id));
 
-      if (removedCount > 0) {
-        logger.warn(`[WEBHOOK] Removed ${removedCount} invalid field IDs before webhook creation for base ${this.baseId}`);
-        await slackAlert(env, [`[WEBHOOK] Removed ${removedCount} invalid field IDs from base ${this.baseId}. These fields may have been deleted in Airtable.`]);
+      if (invalidFieldIds.length > 0) {
+        logger.warn(`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs before webhook creation for base ${this.baseId}: ${invalidFieldIds.join(', ')}`);
+        await slackAlert(env, [`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs from base ${this.baseId}: ${invalidFieldIds.join(', ')}. These fields may have been deleted in Airtable.`]);
         this.fieldIds = validatedFieldIds;
       }
 
@@ -360,7 +360,7 @@ export class AirtableWebhook {
    * Validates field IDs by fetching the base schema from Airtable and filtering to only existing fields
    * Returns an array of valid field IDs that exist in Airtable
    */
-  private async validateFieldIds(): Promise<string[]> {
+  private async filterToValidFieldIds(fieldIdsToValidate: string[]): Promise<string[]> {
     try {
       await this.rateLimiter.acquire();
       const response = await this.axiosInstance.get<{
@@ -383,19 +383,13 @@ export class AirtableWebhook {
         }
       }
 
-      // Filter our field IDs to only include those that exist in Airtable
-      const validatedIds = this.fieldIds.filter((id) => validFieldIds.has(id));
-      const invalidIds = this.fieldIds.filter((id) => !validFieldIds.has(id));
-
-      if (invalidIds.length > 0) {
-        logger.warn(`[WEBHOOK] Found ${invalidIds.length} invalid field IDs for base ${this.baseId}: ${invalidIds.join(', ')}`);
-      }
+      const validatedIds = fieldIdsToValidate.filter((id) => validFieldIds.has(id));
 
       return validatedIds;
     } catch (error) {
       logger.error(`[WEBHOOK] Failed to validate field IDs for base ${this.baseId}:`, error);
       // If validation fails, return all field IDs as-is to avoid breaking existing functionality
-      return this.fieldIds;
+      return fieldIdsToValidate;
     }
   }
 

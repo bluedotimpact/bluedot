@@ -3,10 +3,10 @@ import {
 } from 'drizzle-orm';
 import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { ErrorType } from 'airtable-ts/dist/AirtableTsError'; // TODO figure out what's going on with this type
 import {
   AirtableTs, AirtableTsError, AirtableTsOptions,
 } from 'airtable-ts';
+import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
 import { PgAirtableTable } from './db-core';
 import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
 import env from './env';
