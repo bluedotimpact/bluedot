@@ -238,7 +238,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   });
 
   const requestCertificate = () => {
-    requestCertificateMutation.mutate({ courseId });
+    requestCertificateMutation.mutate(courseId);
   };
 
   if (error || requestCertificateMutation.isError) {

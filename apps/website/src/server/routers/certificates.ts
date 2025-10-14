@@ -6,12 +6,12 @@ import { protectedProcedure, router } from '../trpc';
 
 export const certificatesRouter = router({
   request: protectedProcedure
-    .input(z.object({ courseId: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .input(z.string())
+    .mutation(async ({ ctx, input: courseId }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
-          courseId: input.courseId,
+          courseId,
           decision: 'Accept',
         },
       });
@@ -26,7 +26,7 @@ export const certificatesRouter = router({
       }
 
       // Check if all exercises for this course have been completed
-      const allExercises = await db.scan(exerciseTable, { courseIdRead: input.courseId, status: 'Active' });
+      const allExercises = await db.scan(exerciseTable, { courseIdRead: courseId, status: 'Active' });
 
       if (allExercises.length === 0) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No exercises found for this course' });
