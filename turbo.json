@@ -17,7 +17,8 @@
     "test": {},
     "start": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": ["NODE_ENV"]
     }
   }
 }

@@ -19,7 +19,7 @@ import { trpc } from '../../utils/trpc';
 const CURRENT_ROUTE = ROUTES.joinUs;
 
 const JoinUsPage = () => {
-  const { data: cmsData, isLoading: cmsLoading, error: cmsError } = trpc.jobs.getJobs.useQuery();
+  const { data: cmsData, isLoading: cmsLoading, error: cmsError } = trpc.jobs.getAll.useQuery();
 
   return (
     <div>

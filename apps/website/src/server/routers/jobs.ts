@@ -3,7 +3,7 @@ import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
 
 export const jobsRouter = router({
-  getJobs: publicProcedure
+  getAll: publicProcedure
     .query(async () => {
       const allJobs = await db.scan(jobPostingTable, {
         publicationStatus: 'Published',
