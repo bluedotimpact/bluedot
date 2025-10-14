@@ -1,4 +1,5 @@
 import { loginPresets } from '@bluedot/ui';
+import { logger } from '@bluedot/ui/src/api';
 import * as trpcNext from '@trpc/server/adapters/next';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
@@ -15,12 +16,8 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     const auth = await loginPresets.keycloak.verifyAndDecodeToken(token);
     return { auth };
   } catch (error) {
-    // TODO: do we need this fallback check to googleBlueDot?
-    // try {
-    //   auth = await loginPresets.googleBlueDot.verifyAndDecodeToken(token);
-    // } catch {
-    // }
     // Token verification failed - return null and let protectedProcedure handle it
+    logger.error('Error verifying token', error);
     return { auth: null };
   }
 };

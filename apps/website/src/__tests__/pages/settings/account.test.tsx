@@ -9,6 +9,17 @@ import { TrpcProvider } from '../../trpcProvider';
 // Mock dependencies
 vi.mock('axios-hooks');
 
+// Mock tRPC for PasswordSection
+vi.mock('../../../utils/trpc', () => ({
+  trpc: {
+    users: {
+      changePassword: {
+        useMutation: vi.fn(),
+      },
+    },
+  },
+}));
+
 // Only mock withAuth from @bluedot/ui since it wraps the component with auth logic
 // withAuth is a HOC that normally provides auth props from a zustand store
 // For testing, we bypass it to directly test the component with mock auth

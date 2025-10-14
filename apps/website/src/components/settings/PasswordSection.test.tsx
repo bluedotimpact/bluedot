@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import { TRPCClientError } from '@trpc/client';
 import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
