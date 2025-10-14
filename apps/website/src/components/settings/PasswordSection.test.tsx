@@ -6,6 +6,7 @@ import {
   act,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { TRPCClientError } from '@trpc/client';
 import {
   describe,
   expect,
@@ -15,29 +16,38 @@ import {
   afterEach,
   type MockedFunction,
 } from 'vitest';
-import axios, { AxiosError } from 'axios';
+import { trpc } from '../../utils/trpc';
 import PasswordSection from './PasswordSection';
 
-// Mock axios module
-vi.mock('axios', () => ({
-  default: {
-    post: vi.fn(),
-    isAxiosError: vi.fn(),
+// Mock tRPC
+vi.mock('../../utils/trpc', () => ({
+  trpc: {
+    users: {
+      changePassword: {
+        useMutation: vi.fn(),
+      },
+    },
   },
 }));
 
-const mockedAxios = axios as typeof axios & {
-  post: MockedFunction<typeof axios.post>;
-  isAxiosError: MockedFunction<typeof axios.isAxiosError>;
-};
+const mockedTrpc = vi.mocked(trpc, true);
 
 describe('PasswordSection - User Journeys', () => {
   // Test data
-  const authToken = 'test-token';
   const validPasswords = {
     current: 'MyCurrentPassword123!',
     new: 'MyNewSecurePassword456!',
   };
+
+  // Mock mutation object
+  let mockMutate: MockedFunction<(
+    args: { currentPassword: string; newPassword: string },
+    options?: {
+      onSuccess?: () => void;
+      onError?: (error: unknown) => void;
+      onSettled?: () => void;
+    }
+  ) => void>;
 
   // Helper to flush all pending promises
   const flushPromises = () => new Promise((resolve) => { setTimeout(resolve, 0); });
@@ -68,11 +78,11 @@ describe('PasswordSection - User Journeys', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Setup axios.isAxiosError
-    mockedAxios.isAxiosError.mockImplementation(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (error: any): error is AxiosError => error?.isAxiosError === true,
-    );
+    // Setup mock mutation
+    mockMutate = vi.fn();
+    mockedTrpc.users.changePassword.useMutation.mockReturnValue({
+      mutate: mockMutate,
+    } as unknown as ReturnType<typeof trpc.users.changePassword.useMutation>);
   });
 
   afterEach(() => {
@@ -81,9 +91,12 @@ describe('PasswordSection - User Journeys', () => {
 
   test('User can successfully change their password', async () => {
     // Setup successful response
-    mockedAxios.post.mockResolvedValueOnce({ data: {} });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onSuccess?.();
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     // User clicks "Change Password" button
     openPasswordModal();
@@ -100,17 +113,16 @@ describe('PasswordSection - User Journeys', () => {
 
     // Wait for the API call and success flow
     await waitFor(() => {
-      expect(mockedAxios.post).toHaveBeenCalledWith(
-        '/api/users/change-password',
+      expect(mockMutate).toHaveBeenCalledWith(
         {
           currentPassword: validPasswords.current,
           newPassword: validPasswords.new,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
+        expect.objectContaining({
+          onSuccess: expect.any(Function),
+          onError: expect.any(Function),
+          onSettled: expect.any(Function),
+        }),
       );
     });
 
@@ -130,14 +142,19 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees error when current password is wrong', async () => {
-    // Setup 401 error response
-    const error = {
-      isAxiosError: true,
-      response: { status: 401 },
-    };
-    mockedAxios.post.mockRejectedValueOnce(error);
+    // Setup UNAUTHORIZED error response
+    const error = new TRPCClientError('Unauthorized');
+    // Mock the data property that the component checks
+    Object.defineProperty(error, 'data', {
+      value: { code: 'UNAUTHORIZED' },
+      writable: true,
+    });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     // User opens modal and fills form
     openPasswordModal();
@@ -172,7 +189,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees validation errors for invalid inputs', async () => {
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
 
@@ -187,7 +204,7 @@ describe('PasswordSection - User Journeys', () => {
     expect(errors[2]).toHaveTextContent('Please confirm your new password');
 
     // No API call should be made
-    expect(mockedAxios.post).not.toHaveBeenCalled();
+    expect(mockMutate).not.toHaveBeenCalled();
 
     // User fills current password and short new password
     fillPasswordForm(
@@ -217,7 +234,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can cancel password change', async () => {
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
 
@@ -243,9 +260,12 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can submit form with Enter key', async () => {
-    mockedAxios.post.mockResolvedValueOnce({ data: {} });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onSuccess?.();
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
     fillPasswordForm(
@@ -262,7 +282,7 @@ describe('PasswordSection - User Journeys', () => {
 
     // Form is submitted
     await waitFor(() => {
-      expect(mockedAxios.post).toHaveBeenCalled();
+      expect(mockMutate).toHaveBeenCalled();
     });
 
     // Success message appears
@@ -281,7 +301,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees helpful password hint', () => {
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
 
@@ -293,14 +313,15 @@ describe('PasswordSection - User Journeys', () => {
 
   test('Form is properly disabled during submission', async () => {
     // Mock a slow API response
-    let resolvePromise: () => void;
-    const promise = new Promise<void>((resolve) => {
-      resolvePromise = resolve;
+    let callOnSuccess: (() => void) | undefined;
+    let callOnSettled: (() => void) | undefined;
+
+    mockMutate.mockImplementation((_args, options) => {
+      callOnSuccess = options?.onSuccess;
+      callOnSettled = options?.onSettled;
     });
 
-    mockedAxios.post.mockImplementation(() => promise);
-
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
     fillPasswordForm(
@@ -321,8 +342,12 @@ describe('PasswordSection - User Journeys', () => {
     // Loading state is shown
     expect(screen.getByText('Updating...')).toBeInTheDocument();
 
-    // Resolve the promise and wait for the component to update
-    resolvePromise!();
+    // Resolve the mutation by calling callbacks
+    act(() => {
+      callOnSuccess?.();
+      callOnSettled?.();
+    });
+
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
@@ -334,7 +359,7 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can close modal with Escape key', async () => {
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     openPasswordModal();
 
@@ -362,17 +387,18 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees system error messages when backend has configuration issues', async () => {
-    // Setup 503 error response (service unavailable)
-    const error = {
-      isAxiosError: true,
-      response: {
-        status: 503,
-        data: { error: 'Authentication service not configured. Please contact support.' },
-      },
-    };
-    mockedAxios.post.mockRejectedValueOnce(error);
+    // Setup error response with custom message
+    const error = new TRPCClientError('Authentication service not configured. Please contact support.');
+    Object.defineProperty(error, 'data', {
+      value: { code: 'INTERNAL_SERVER_ERROR' },
+      writable: true,
+    });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     // User opens modal and fills form
     openPasswordModal();
@@ -399,17 +425,18 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees generic error message for unexpected backend errors', async () => {
-    // Setup 500 error response (internal server error)
-    const error = {
-      isAxiosError: true,
-      response: {
-        status: 500,
-        data: { error: 'An unexpected error occurred during authentication.' },
-      },
-    };
-    mockedAxios.post.mockRejectedValueOnce(error);
+    // Setup error response
+    const error = new TRPCClientError('An unexpected error occurred during authentication.');
+    Object.defineProperty(error, 'data', {
+      value: { code: 'INTERNAL_SERVER_ERROR' },
+      writable: true,
+    });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     // User opens modal and fills form
     openPasswordModal();
@@ -437,16 +464,17 @@ describe('PasswordSection - User Journeys', () => {
 
   test('User sees fallback error message when backend error has no details', async () => {
     // Setup error response with no error message
-    const error = {
-      isAxiosError: true,
-      response: {
-        status: 500,
-        data: {},
-      },
-    };
-    mockedAxios.post.mockRejectedValueOnce(error);
+    const error = new TRPCClientError('');
+    Object.defineProperty(error, 'data', {
+      value: { code: 'INTERNAL_SERVER_ERROR' },
+      writable: true,
+    });
+    mockMutate.mockImplementation((_args, options) => {
+      options?.onError?.(error);
+      options?.onSettled?.();
+    });
 
-    render(<PasswordSection authToken={authToken} />);
+    render(<PasswordSection />);
 
     // User opens modal and fills form
     openPasswordModal();
