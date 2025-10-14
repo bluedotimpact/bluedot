@@ -12,6 +12,7 @@ import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
+import { trpc } from '../utils/trpc';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 
@@ -71,4 +72,4 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default trpc.withTRPC(App);

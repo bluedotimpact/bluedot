@@ -1,24 +1,17 @@
 import { Card, Section } from '@bluedot/ui';
-import { jobPostingTable, InferSelectModel } from '@bluedot/db';
-import { P } from '../Text';
+import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
+import type { AppRouter } from '../../server/routers/_app';
+import { P } from '../Text';
 
-type CmsJobPosting = InferSelectModel<typeof jobPostingTable.pg>;
+type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
-export type JobsListSectionProps = {
-  cmsJobs: Omit<CmsJobPosting, 'body'>[],
-};
-
-const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
-  const jobs = cmsJobs.map((j) => ({ id: j.slug, title: j.title, location: j.subtitle }));
-
+const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   return (
-    <Section className="jobs-list-section" title="Careers at BlueDot Impact">
+    <Section title="Careers at BlueDot Impact">
       <div id="open-roles-anchor" className="invisible relative bottom-48" />
       {jobs.length === 0 ? (
-        <P>
-          We're not currently running any open hiring rounds at the moment.
-        </P>
+        <P>We're not currently running any open hiring rounds at the moment.</P>
       ) : (
         <div className="jobs-list__container flex flex-col gap-8">
           {jobs.map((job) => (
@@ -30,10 +23,8 @@ const JobsListSection = ({ cmsJobs }: JobsListSectionProps) => {
   );
 };
 
-const JobListItem = ({ job }: {
-  job: { id: string; title: string; location: string };
-}) => {
-  const url = `${ROUTES.joinUs.url}/${job.id}`;
+const JobListItem = ({ job }: { job: JobsListSectionProps[number] }) => {
+  const url = `${ROUTES.joinUs.url}/${job.slug}`;
 
   return (
     <div className="jobs-list__listing">
@@ -43,7 +34,7 @@ const JobListItem = ({ job }: {
         ctaUrl={url}
         isEntireCardClickable
         isFullWidth
-        subtitle={job.location}
+        subtitle={job.subtitle}
         title={job.title}
       />
     </div>
