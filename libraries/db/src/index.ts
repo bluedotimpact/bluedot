@@ -68,5 +68,7 @@ export type {
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
 
+export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
+
 // TODO: restrict what's exported
 export * from 'drizzle-orm';

@@ -130,7 +130,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </CTALinkOrButton>
         )}
         <div className="grid grid-cols-[repeat(auto-fit,minmax(175px,1fr))] gap-2 w-full">
-          {discussionStartsSoon && (
+          {(discussionStartsSoon || userRole === 'facilitator') && (
             <CTALinkOrButton
               variant="secondary"
               target="_blank"

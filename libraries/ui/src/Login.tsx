@@ -9,13 +9,14 @@ import { Auth, useAuthStore } from './utils/auth';
 import { ErrorSection } from './ErrorSection';
 import { getQueryParam } from './utils/getQueryParam';
 import { ProgressDots } from './ProgressDots';
+import { useLatestUtmParams } from './hooks/useLatestUtmParams';
 
 export type LoginPageProps = {
   loginPreset: LoginPreset
 };
 
 export type LoginOauthCallbackPageProps = LoginPageProps & {
-  onLoginComplete?: (auth: Auth) => Promise<void>
+  onLoginComplete?: (auth: Auth, redirectTo: string) => Promise<void>
 };
 
 const verifyJwt = async (
@@ -160,6 +161,7 @@ export const loginPresets = {
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => {
   const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
   const auth = useAuthStore((s) => s.auth);
+  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
 
   useEffect(() => {
     if (!auth) {
@@ -174,6 +176,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
       }
 
       // Add a visible indicator
+      // This is currently not working as expected, see: https://github.com/bluedotimpact/bluedot/issues/1441
       const attribution = {
         referralCode: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'r') : undefined,
         utmSource: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_source') : undefined,
@@ -182,10 +185,13 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
         utmMedium: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_medium') : undefined,
       };
 
+      // Append latest UTM params to redirectTo URL to ensure they persist through the OAuth flow
+      const redirectToWithUtms = appendLatestUtmParamsToUrl(redirectTo);
+
       new OidcClient(loginPreset.oidcSettings)
         .createSigninRequest({
           request_type: 'si:r',
-          state: { redirectTo, attribution },
+          state: { redirectTo: redirectToWithUtms, attribution },
         })
         .then((req) => {
           const isRegister = getQueryParam(window.location.href, 'register') === 'true';
@@ -195,7 +201,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
           window.location.href = loginProviderUrl;
         });
     }
-  }, [auth]);
+  }, [auth, appendLatestUtmParamsToUrl, redirectTo]);
 
   if (auth) {
     return <Navigate url={redirectTo} />;
@@ -249,10 +255,13 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           posthog.capture('attribution_data', attributionData);
         }
 
+        const redirectTo = (user.userState as { redirectTo?: string }).redirectTo || '/';
+
         if (onLoginComplete) {
-          await onLoginComplete(auth);
+          await onLoginComplete(auth, redirectTo);
         }
-        router.push((user.userState as { redirectTo?: string }).redirectTo || '/');
+
+        router.push(redirectTo);
       } catch (err) {
         setError(err instanceof Error ? err : new Error(String(err)));
       }

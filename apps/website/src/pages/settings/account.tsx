@@ -63,7 +63,7 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               <div className="border-t border-color-divider my-6" />
 
               {/* Password Section */}
-              <PasswordSection authToken={auth.token} />
+              <PasswordSection />
             </div>
           </SettingsLayout>
 
