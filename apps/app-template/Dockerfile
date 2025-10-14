@@ -10,8 +10,8 @@ RUN apk update && apk add --no-cache dumb-init
 
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Set the correct permission for prerender cache
 RUN mkdir dist
@@ -29,3 +29,4 @@ USER node
 EXPOSE 8080
 
 CMD HOSTNAME="0.0.0.0" PORT="8080" dumb-init node ./apps/${APP_NAME}/server.js
+
