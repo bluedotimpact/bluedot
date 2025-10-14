@@ -3,34 +3,481 @@
 exports[`Footer > renders default as expected 1`] = `
 <div>
   <footer
-    class="footer bg-bluedot-darker py-10"
+    class="w-full"
+    style="background: #13132E;"
   >
     <div
-      class="footer__container section-base"
+      class="w-full py-8 px-5 min-[680px]:py-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:px-12 xl:px-20 2xl:pt-10 2xl:pb-8 2xl:px-40"
     >
-      <nav
-        class="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-4"
+      <div
+        class="max-w-[280px] min-[680px]:max-w-[616px] lg:max-w-screen-lg xl:w-[1120px] xl:max-w-[1120px] 2xl:w-[1120px] 2xl:max-w-[1120px] mx-auto"
       >
         <div
-          class="footer__brand flex flex-row lg:flex-col justify-between"
+          class="2xl:hidden mb-12"
         >
           <a
-            class="footer__logo"
             href="/"
             tabindex="0"
           >
             <p
-              class="h-8 text-size-lg text-white bluedot-p"
+              class="w-48 h-6 text-size-lg text-white bluedot-p"
             >
               BlueDot Impact
             </p>
           </a>
+        </div>
+        <div
+          class="2xl:grid 2xl:grid-cols-12 2xl:gap-8 2xl:items-stretch"
+        >
           <div
-            class="footer__social flex gap-6 hidden sm:flex"
+            class="hidden 2xl:flex 2xl:flex-col 2xl:justify-between 2xl:col-span-4"
+          >
+            <a
+              href="/"
+              tabindex="0"
+            >
+              <p
+                class="w-48 h-6 text-size-lg text-white bluedot-p"
+              >
+                BlueDot Impact
+              </p>
+            </a>
+            <div
+              class="flex gap-6 ml-2"
+            >
+              <a
+                aria-label="Twitter"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://twitter.com/BlueDotImpact"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                  />
+                </svg>
+              </a>
+              <a
+                aria-label="YouTube"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://youtube.com/@bluedotimpact"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 576 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                  />
+                </svg>
+              </a>
+              <a
+                aria-label="LinkedIn"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://www.linkedin.com/company/bluedotimpact/"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div
+            class="2xl:col-span-8 2xl:grid 2xl:grid-cols-3 2xl:gap-8"
+          >
+            <div
+              class="flex flex-col gap-12 min-[680px]:gap-0 lg:flex-row lg:gap-8 mt-12 min-[680px]:mt-0 2xl:mt-0 2xl:contents"
+            >
+              <div
+                class="flex flex-col gap-12 min-[680px]:hidden"
+              >
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    BlueDot Impact
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                        tabindex="0"
+                      >
+                        Support us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact us
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Explore
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  />
+                </div>
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Resources
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/announcements"
+                        tabindex="0"
+                      >
+                        Announcements and stories
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/useful-links"
+                        tabindex="0"
+                      >
+                        Useful links
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/community-projects"
+                        tabindex="0"
+                      >
+                        Community projects
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/privacy-policy"
+                        tabindex="0"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="hidden min-[680px]:block lg:hidden"
+              >
+                <div
+                  class="grid grid-cols-[1fr_1fr] gap-x-[100px]"
+                >
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      BlueDot Impact
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    >
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/about"
+                          tabindex="0"
+                        >
+                          About us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                          tabindex="0"
+                        >
+                          Support us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/join-us"
+                          tabindex="0"
+                        >
+                          Join us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/contact"
+                          tabindex="0"
+                        >
+                          Contact us
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      Explore
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="mt-[73px]"
+                >
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      Resources
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    >
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/announcements"
+                          tabindex="0"
+                        >
+                          Announcements and stories
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/useful-links"
+                          tabindex="0"
+                        >
+                          Useful links
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/community-projects"
+                          tabindex="0"
+                        >
+                          Community projects
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/privacy-policy"
+                          tabindex="0"
+                        >
+                          Privacy Policy
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8 lg:w-full 2xl:contents"
+              >
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    BlueDot Impact
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                        tabindex="0"
+                      >
+                        Support us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact us
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Explore
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  />
+                </div>
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Resources
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/announcements"
+                        tabindex="0"
+                      >
+                        Announcements and stories
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/useful-links"
+                        tabindex="0"
+                      >
+                        Useful links
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/community-projects"
+                        tabindex="0"
+                      >
+                        Community projects
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/privacy-policy"
+                        tabindex="0"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="2xl:hidden my-12"
+        >
+          <div
+            class="flex gap-6"
           >
             <a
               aria-label="Twitter"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://twitter.com/BlueDotImpact"
               tabindex="0"
             >
@@ -51,7 +498,7 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
             <a
               aria-label="YouTube"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://youtube.com/@bluedotimpact"
               tabindex="0"
             >
@@ -72,7 +519,7 @@ exports[`Footer > renders default as expected 1`] = `
             </a>
             <a
               aria-label="LinkedIn"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://www.linkedin.com/company/bluedotimpact/"
               tabindex="0"
             >
@@ -94,188 +541,39 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="footer__links grid grid-cols-1 sm:grid-cols-[auto_auto] gap-spacing-x"
+          class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <div
-            class="footer__section min-w-0 whitespace-nowrap"
-          >
-            <h3
-              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
+          <span>
+            © 
+            2025
+            . 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://bluedot.org/"
+              tabindex="0"
             >
               BlueDot Impact
-            </h3>
-            <ul
-              class="footer__list space-y-4 mb-auto list-none p-0"
+            </a>
+             is primarily funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.openphilanthropy.org/"
+              tabindex="0"
             >
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/about"
-                  tabindex="0"
-                >
-                  About us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/join-us"
-                  tabindex="0"
-                >
-                  Join us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/contact"
-                  tabindex="0"
-                >
-                  Contact us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/privacy-policy"
-                  tabindex="0"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="footer__section min-w-0 flex-1"
-          >
-            <h3
-              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
+              Open Philanthropy
+            </a>
+            , and is a non-profit based in the UK (company number 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              tabindex="0"
             >
-              Explore
-            </h3>
-            <ul
-              class="footer__list space-y-4 mb-auto list-none p-0"
-            />
-          </div>
+              14964572
+            </a>
+            ).
+          </span>
         </div>
-        <div
-          class="footer__social flex gap-6 sm:hidden"
-        >
-          <a
-            aria-label="Twitter"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://twitter.com/BlueDotImpact"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 512 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-              />
-            </svg>
-          </a>
-          <a
-            aria-label="YouTube"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://youtube.com/@bluedotimpact"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 576 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-              />
-            </svg>
-          </a>
-          <a
-            aria-label="LinkedIn"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://www.linkedin.com/company/bluedotimpact/"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 448 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-              />
-            </svg>
-          </a>
-        </div>
-      </nav>
-      <p
-        class="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
-      >
-        © 
-        2025
-         
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://bluedot.org/"
-          tabindex="0"
-        >
-          BlueDot Impact
-        </a>
-         is funded by 
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://www.openphilanthropy.org/"
-          tabindex="0"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          tabindex="0"
-        >
-          14964572
-        </a>
-        ).
-      </p>
+      </div>
     </div>
   </footer>
 </div>
@@ -284,34 +582,481 @@ exports[`Footer > renders default as expected 1`] = `
 exports[`Footer > renders with optional args 1`] = `
 <div>
   <footer
-    class="footer bg-bluedot-darker py-10"
+    class="w-full"
+    style="background: #13132E;"
   >
     <div
-      class="footer__container section-base"
+      class="w-full py-8 px-5 min-[680px]:py-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:px-12 xl:px-20 2xl:pt-10 2xl:pb-8 2xl:px-40"
     >
-      <nav
-        class="footer__nav grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-4"
+      <div
+        class="max-w-[280px] min-[680px]:max-w-[616px] lg:max-w-screen-lg xl:w-[1120px] xl:max-w-[1120px] 2xl:w-[1120px] 2xl:max-w-[1120px] mx-auto"
       >
         <div
-          class="footer__brand flex flex-row lg:flex-col justify-between"
+          class="2xl:hidden mb-12"
         >
           <a
-            class="footer__logo"
             href="/"
             tabindex="0"
           >
             <img
               alt="BlueDot Impact Logo"
-              class="h-8"
+              class="w-48 h-6"
               src="https://www.bluedot.com/test-logo.jpg"
             />
           </a>
+        </div>
+        <div
+          class="2xl:grid 2xl:grid-cols-12 2xl:gap-8 2xl:items-stretch"
+        >
           <div
-            class="footer__social flex gap-6 hidden sm:flex"
+            class="hidden 2xl:flex 2xl:flex-col 2xl:justify-between 2xl:col-span-4"
+          >
+            <a
+              href="/"
+              tabindex="0"
+            >
+              <img
+                alt="BlueDot Impact Logo"
+                class="w-48 h-6"
+                src="https://www.bluedot.com/test-logo.jpg"
+              />
+            </a>
+            <div
+              class="flex gap-6 ml-2"
+            >
+              <a
+                aria-label="Twitter"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://twitter.com/BlueDotImpact"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 512 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                  />
+                </svg>
+              </a>
+              <a
+                aria-label="YouTube"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://youtube.com/@bluedotimpact"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 576 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                  />
+                </svg>
+              </a>
+              <a
+                aria-label="LinkedIn"
+                class="bluedot-a not-prose link-on-dark"
+                href="https://www.linkedin.com/company/bluedotimpact/"
+                tabindex="0"
+              >
+                <svg
+                  class="size-6"
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 448 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div
+            class="2xl:col-span-8 2xl:grid 2xl:grid-cols-3 2xl:gap-8"
+          >
+            <div
+              class="flex flex-col gap-12 min-[680px]:gap-0 lg:flex-row lg:gap-8 mt-12 min-[680px]:mt-0 2xl:mt-0 2xl:contents"
+            >
+              <div
+                class="flex flex-col gap-12 min-[680px]:hidden"
+              >
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    BlueDot Impact
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                        tabindex="0"
+                      >
+                        Support us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact us
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Explore
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  />
+                </div>
+                <div
+                  class="flex flex-col"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Resources
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/announcements"
+                        tabindex="0"
+                      >
+                        Announcements and stories
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/useful-links"
+                        tabindex="0"
+                      >
+                        Useful links
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/community-projects"
+                        tabindex="0"
+                      >
+                        Community projects
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/privacy-policy"
+                        tabindex="0"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="hidden min-[680px]:block lg:hidden"
+              >
+                <div
+                  class="grid grid-cols-[1fr_1fr] gap-x-[100px]"
+                >
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      BlueDot Impact
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    >
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/about"
+                          tabindex="0"
+                        >
+                          About us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                          tabindex="0"
+                        >
+                          Support us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/join-us"
+                          tabindex="0"
+                        >
+                          Join us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/contact"
+                          tabindex="0"
+                        >
+                          Contact us
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      Explore
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="mt-[73px]"
+                >
+                  <div
+                    class="flex flex-col"
+                  >
+                    <h3
+                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                    >
+                      Resources
+                    </h3>
+                    <ul
+                      class="flex flex-col gap-[15px] list-none p-0"
+                    >
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/announcements"
+                          tabindex="0"
+                        >
+                          Announcements and stories
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/useful-links"
+                          tabindex="0"
+                        >
+                          Useful links
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/community-projects"
+                          tabindex="0"
+                        >
+                          Community projects
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                          href="/privacy-policy"
+                          tabindex="0"
+                        >
+                          Privacy Policy
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8 lg:w-full 2xl:contents"
+              >
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    BlueDot Impact
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                        tabindex="0"
+                      >
+                        Support us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/contact"
+                        tabindex="0"
+                      >
+                        Contact us
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Explore
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  />
+                </div>
+                <div
+                  class="flex flex-col flex-1 2xl:flex-initial"
+                >
+                  <h3
+                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+                  >
+                    Resources
+                  </h3>
+                  <ul
+                    class="flex flex-col gap-[15px] list-none p-0"
+                  >
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/announcements"
+                        tabindex="0"
+                      >
+                        Announcements and stories
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/useful-links"
+                        tabindex="0"
+                      >
+                        Useful links
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/community-projects"
+                        tabindex="0"
+                      >
+                        Community projects
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                        href="/privacy-policy"
+                        tabindex="0"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="2xl:hidden my-12"
+        >
+          <div
+            class="flex gap-6"
           >
             <a
               aria-label="Twitter"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://twitter.com/BlueDotImpact"
               tabindex="0"
             >
@@ -332,7 +1077,7 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
             <a
               aria-label="YouTube"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://youtube.com/@bluedotimpact"
               tabindex="0"
             >
@@ -353,7 +1098,7 @@ exports[`Footer > renders with optional args 1`] = `
             </a>
             <a
               aria-label="LinkedIn"
-              class="bluedot-a not-prose footer__social-link link-on-dark"
+              class="bluedot-a not-prose link-on-dark"
               href="https://www.linkedin.com/company/bluedotimpact/"
               tabindex="0"
             >
@@ -375,188 +1120,39 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="footer__links grid grid-cols-1 sm:grid-cols-[auto_auto] gap-spacing-x"
+          class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <div
-            class="footer__section min-w-0 whitespace-nowrap"
-          >
-            <h3
-              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
+          <span>
+            © 
+            2025
+            . 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://bluedot.org/"
+              tabindex="0"
             >
               BlueDot Impact
-            </h3>
-            <ul
-              class="footer__list space-y-4 mb-auto list-none p-0"
+            </a>
+             is primarily funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.openphilanthropy.org/"
+              tabindex="0"
             >
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/about"
-                  tabindex="0"
-                >
-                  About us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                  tabindex="0"
-                >
-                  Support us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/join-us"
-                  tabindex="0"
-                >
-                  Join us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/contact"
-                  tabindex="0"
-                >
-                  Contact us
-                </a>
-              </li>
-              <li
-                class="footer__item leading-tight"
-              >
-                <a
-                  class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white no-underline"
-                  href="/privacy-policy"
-                  tabindex="0"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div
-            class="footer__section min-w-0 flex-1"
-          >
-            <h3
-              class="footer__heading font-[650] text-color-text-on-dark mb-4 text-size-md bluedot-h3"
+              Open Philanthropy
+            </a>
+            , and is a non-profit based in the UK (company number 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              tabindex="0"
             >
-              Explore
-            </h3>
-            <ul
-              class="footer__list space-y-4 mb-auto list-none p-0"
-            />
-          </div>
+              14964572
+            </a>
+            ).
+          </span>
         </div>
-        <div
-          class="footer__social flex gap-6 sm:hidden"
-        >
-          <a
-            aria-label="Twitter"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://twitter.com/BlueDotImpact"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 512 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-              />
-            </svg>
-          </a>
-          <a
-            aria-label="YouTube"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://youtube.com/@bluedotimpact"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 576 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-              />
-            </svg>
-          </a>
-          <a
-            aria-label="LinkedIn"
-            class="bluedot-a not-prose footer__social-link link-on-dark"
-            href="https://www.linkedin.com/company/bluedotimpact/"
-            tabindex="0"
-          >
-            <svg
-              class="size-6"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 448 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-              />
-            </svg>
-          </a>
-        </div>
-      </nav>
-      <p
-        class="footer__copyright text-size-sm text-center text-bluedot-lighter mt-12 lg:mt-24 mb-8 bluedot-p"
-      >
-        © 
-        2025
-         
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://bluedot.org/"
-          tabindex="0"
-        >
-          BlueDot Impact
-        </a>
-         is funded by 
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://www.openphilanthropy.org/"
-          tabindex="0"
-        >
-          Open Philanthropy
-        </a>
-        , and is a non-profit based in the UK (company number 
-        <a
-          class="bluedot-a not-prose footer__link text-bluedot-lighter hover:text-white"
-          href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-          tabindex="0"
-        >
-          14964572
-        </a>
-        ).
-      </p>
+      </div>
     </div>
   </footer>
 </div>

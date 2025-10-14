@@ -54,6 +54,8 @@ We welcome contributions! To help improve BlueDot Impact's software:
 
 **For more complex edits**, check you have the [core skills to contribute](#background-knowledge-to-contribute), then follow the [developer setup instructions](#developer-setup-instructions) below.
 
+In-progress work is tracked in the [BlueDot design/engineering kanban](https://github.com/orgs/bluedotimpact/projects/6).
+
 If you run into any difficulties, raise an issue or [contact us](https://bluedot.org/contact/).
 
 <details>

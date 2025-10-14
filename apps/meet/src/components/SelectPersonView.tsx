@@ -64,6 +64,16 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
               <p>Your discussion ended at {new Date(data.meetingEndTime * 1000).toLocaleString()}.</p>
             </div>
           )}
+      {data.activityDoc && (
+        <CTALinkOrButton
+          className="mb-2"
+          variant="primary"
+          url={data.activityDoc}
+          target="_blank"
+        >
+          Open Discussion Doc
+        </CTALinkOrButton>
+      )}
       <div className="grid gap-2 sm:w-1/2">
         {data.participants.map((participant) => (
           <CTALinkOrButton
@@ -81,6 +91,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
                 meetingNumber: data.meetingNumber,
                 meetingPassword: data.meetingPassword,
                 meetingHostKey: participant.role === 'host' ? data.meetingHostKey : undefined,
+                activityDoc: data.activityDoc,
               });
             }}
           >
@@ -98,6 +109,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
               meetingNumber: data.meetingNumber,
               meetingPassword: data.meetingPassword,
               meetingHostKey: data.meetingHostKey,
+              activityDoc: data.activityDoc,
             });
           }}
           className="underline cursor-pointer"
