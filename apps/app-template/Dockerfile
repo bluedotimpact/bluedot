@@ -28,6 +28,6 @@ USER node
 
 EXPOSE 8080
 
-ENV HOSTNAME="0.0.0.0"
-ENV PORT="8080"
-CMD ["dumb-init", "node", "./apps/${APP_NAME}/server.js"]
+ENV HOSTNAME=0.0.0.0
+ENV PORT=8080
+CMD ["sh", "-c", "dumb-init node ./apps/${APP_NAME}/server.js"]
