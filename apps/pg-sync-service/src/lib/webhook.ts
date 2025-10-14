@@ -158,6 +158,7 @@ export class AirtableWebhook {
       }
     } else {
       // Remove any fields that have been deleted in Airtable to avoid UNKNOWN_FIELD_NAME errors
+      // Note: duplicate functionality with `extractDeletedFieldsFromPayload`, see https://github.com/bluedotimpact/bluedot/issues/1464
       const validatedFieldIds = await this.filterToValidFieldIds(this.fieldIds);
       const invalidFieldIds = this.fieldIds.filter((id) => !validatedFieldIds.includes(id));
 
