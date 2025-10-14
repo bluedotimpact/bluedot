@@ -3,7 +3,7 @@ import { slackAlert } from '@bluedot/utils';
 import env from '../env';
 import { RateLimiter } from './rate-limiter';
 
-// Rate limiting: During initial sync there is the potential to generate thousands ofredundant warnings
+// Rate limiting: During initial sync there is the potential to generate thousands of redundant warnings
 // if there is a mismatch between the schema and Airtable. Drop these above a low rate limit.
 const alertRateLimiter = new RateLimiter(30, 30_000);
 
