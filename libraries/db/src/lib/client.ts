@@ -5,10 +5,11 @@ import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core'
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError'; // TODO figure out what's going on with this type
 import {
-  AirtableTs, AirtableTsError, QueryOptions,
+  AirtableTs, AirtableTsError, AirtableTsOptions,
 } from 'airtable-ts';
 import { PgAirtableTable } from './db-core';
 import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
+import env from './env';
 
 /**
  * Base options interface for getFirst method
@@ -114,8 +115,6 @@ export class PgAirtableDb {
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
 
-  private onWarning?: QueryOptions['onWarning'];
-
   constructor({
     pgConnString,
     airtableApiKey,
@@ -123,14 +122,19 @@ export class PgAirtableDb {
   }: {
     pgConnString: string;
     airtableApiKey: string;
-    onWarning?: QueryOptions['onWarning'];
+    onWarning?: AirtableTsOptions['onWarning'];
   }) {
+    // In production, try to proceed on validation errors
+    const readValidation = env.NODE_ENV === 'production' ? 'warning' : 'error';
+
     this.airtableClient = new AirtableTs({
       apiKey: airtableApiKey,
+      readValidation,
+      onWarning,
     });
+
     this.pgUnrestricted = drizzle(pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
-    this.onWarning = onWarning;
   }
 
   /**
@@ -375,11 +379,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.insert(table.airtable, data, {
-      // TODO make this depend on NODE_ENV
-      readValidation: 'warning',
-      onWarning: this.onWarning,
-    });
+    const fullData = await this.airtableClient.insert(table.airtable, data);
 
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
 
@@ -394,10 +394,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.update(table.airtable, data, {
-      readValidation: 'warning',
-      onWarning: this.onWarning,
-    });
+    const fullData = await this.airtableClient.update(table.airtable, data);
 
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
 

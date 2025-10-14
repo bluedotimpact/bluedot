@@ -9,7 +9,7 @@ export default new PgAirtableDb({
     try {
       const err = warning instanceof Error ? warning : new Error(String(warning));
       await slackAlert(env, [
-        `Airtable validation warning: ${err.message}`,
+        `Airtable validation warning encountered, attempting to proceed by setting the affected fields to undefined. Warning message: ${err.message}`,
         ...(err.stack ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
       ]);
     } catch (slackError) {
