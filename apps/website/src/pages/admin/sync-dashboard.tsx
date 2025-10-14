@@ -1,8 +1,12 @@
-import { useEffect, useState, useCallback } from 'react';
-import useAxios from 'axios-hooks';
+import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
+import { useCallback, useEffect, useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
-import type { SyncRequest, SyncStatus } from '@bluedot/db';
+import type { AppRouter } from '../../server/routers/_app';
+import { trpc } from '../../utils/trpc';
+
+type SyncHistory = inferRouterOutputs<AppRouter>['syncDashboard']['history'];
 
 // Time formatter for 24-hour data
 function formatTimeAgo(date: Date): string {
@@ -23,7 +27,7 @@ function formatTimeAgo(date: Date): string {
 }
 
 const SyncDashboard = () => {
-  const [requests, setRequests] = useState<SyncRequest[]>([]);
+  const [requests, setRequests] = useState<SyncHistory>([]);
   const [isSyncRequesting, setIsSyncRequesting] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
@@ -31,29 +35,9 @@ const SyncDashboard = () => {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
-  // Set up useAxios for fetching sync history
-  const [{ data: syncData, error: syncError }, fetchHistory] = useAxios<{ requests: SyncRequest[] }>(
-    {
-      method: 'get',
-      url: '/api/admin/sync-history',
-      headers: auth?.token ? {
-        Authorization: `Bearer ${auth.token}`,
-      } : undefined,
-    },
-    { manual: true },
-  );
+  const { data: syncData, error: syncError, refetch: fetchHistory } = trpc.syncDashboard.history.useQuery(undefined, { enabled: false });
 
-  // Set up useAxios for requesting sync
-  const [, requestSyncAxios] = useAxios(
-    {
-      method: 'post',
-      url: '/api/admin/request-sync',
-      headers: auth?.token ? {
-        Authorization: `Bearer ${auth.token}`,
-      } : undefined,
-    },
-    { manual: true },
-  );
+  const requestTrpcSync = trpc.syncDashboard.requestSync.useMutation();
 
   // Fetch data with proper refresh state management
   const fetchData = useCallback(async (isInitial = false) => {
@@ -85,8 +69,8 @@ const SyncDashboard = () => {
 
   // Handle successful data updates
   useEffect(() => {
-    if (syncData?.requests) {
-      setRequests(syncData.requests);
+    if (syncData) {
+      setRequests(syncData);
       setHasAccess(true);
       setGeneralError(null);
       setHasInitiallyLoaded(true);
@@ -96,7 +80,7 @@ const SyncDashboard = () => {
   // Handle errors (including 401/403 for access control)
   useEffect(() => {
     if (!syncError) return;
-    const status = syncError?.response?.status;
+    const status = syncError.data?.httpStatus;
     if (status === 401 || status === 403) {
       setHasAccess(false);
       setGeneralError(null);
@@ -110,11 +94,9 @@ const SyncDashboard = () => {
 
   // Request a new sync
   const requestSync = async () => {
-    if (!auth) return;
-
     setIsSyncRequesting(true);
     try {
-      await requestSyncAxios();
+      await requestTrpcSync.mutateAsync();
       await fetchData(false);
     } catch (error) {
       // eslint-disable-next-line no-console
