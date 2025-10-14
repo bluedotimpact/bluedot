@@ -1,11 +1,11 @@
 import {
   Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
 } from '@bluedot/ui';
+import { P } from '@bluedot/ui/src/Text';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import { P } from '../Text';
 
 export type BlogListSectionProps = {
   maxItems?: number | undefined;
