@@ -22,5 +22,4 @@ COPY --chown=node:node ./dist/ .
 
 EXPOSE 8080
 
-ENV PORT=8080
-CMD ["sh", "-c", "dumb-init node index.js"]
+CMD PORT="8080" dumb-init node index.js
