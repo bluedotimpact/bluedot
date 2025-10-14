@@ -9,7 +9,7 @@ import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 import { H3, P } from '../Text';
 
-type CmsProject = inferRouterOutputs<AppRouter>['projects']['getProjects'][number];
+type CmsProject = inferRouterOutputs<AppRouter>['projects']['getAll'][number];
 
 export type ProjectsListSectionProps = {
   maxItems?: number | undefined,
@@ -98,7 +98,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
 
 // Main component that handles data loading
 const ProjectsListSection = ({ maxItems }: ProjectsListSectionProps) => {
-  const { data: projects, isLoading: loading, error } = trpc.projects.getProjects.useQuery();
+  const { data: projects, isLoading: loading, error } = trpc.projects.getAll.useQuery();
   const title = 'Latest projects';
 
   if (error) {

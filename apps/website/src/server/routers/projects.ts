@@ -12,7 +12,7 @@ export const getAllPublishedProjects = async () => {
 };
 
 export const projectsRouter = router({
-  getProjects: publicProcedure.query(async () => {
+  getAll: publicProcedure.query(async () => {
     return getAllPublishedProjects();
   }),
 });
