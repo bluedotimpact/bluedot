@@ -449,7 +449,6 @@ export class PgAirtableDb {
         return deletedResult;
       }
 
-      // TODO adopt readValidation options here
       const data = fullData ?? await this.airtableClient.get(table.airtable, id);
 
       if (!data) {
