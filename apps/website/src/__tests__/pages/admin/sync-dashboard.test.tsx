@@ -49,21 +49,24 @@ describe('SyncDashboard - Main User Journeys', () => {
     vi.useFakeTimers();
 
     // Default auth store state
-    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: mockAuth } as never));
+    // @ts-expect-error - Mocking only the subset of properties needed for test
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: mockAuth }));
 
     // Setup default mutation mock
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.requestSync.useMutation.mockReturnValue({
       mutateAsync: vi.fn().mockResolvedValue(undefined),
-    } as never);
+    });
 
     // Default query mock (will be overridden in individual tests)
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
       data: undefined,
       error: null,
       refetch: vi.fn(),
       isLoading: true,
       isFetching: false,
-    } as never);
+    });
   });
 
   afterEach(() => {
@@ -79,13 +82,14 @@ describe('SyncDashboard - Main User Journeys', () => {
       writable: true,
     });
 
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
       data: undefined,
       error,
       refetch: vi.fn(),
       isLoading: true,
       isFetching: false,
-    } as never);
+    });
 
     render(<SyncDashboard />);
 
@@ -95,7 +99,8 @@ describe('SyncDashboard - Main User Journeys', () => {
 
   test('shows login required message when user is logged out', () => {
     // Mock no auth (user logged out)
-    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: null } as never));
+    // @ts-expect-error - Mocking only the subset of properties needed for test
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: null }));
 
     // Mock tRPC error (401)
     const error = new TRPCClientError('Unauthorized');
@@ -104,13 +109,14 @@ describe('SyncDashboard - Main User Journeys', () => {
       writable: true,
     });
 
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
       data: undefined,
       error,
       refetch: vi.fn(),
       isLoading: false,
       isFetching: false,
-    } as never);
+    });
 
     render(<SyncDashboard />);
 
@@ -128,17 +134,19 @@ describe('SyncDashboard - Main User Journeys', () => {
     const mockMutateAsync = vi.fn().mockResolvedValue(undefined);
 
     // Mock successful dashboard access with empty requests initially
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
       data: [],
       error: null,
       refetch: mockRefetch,
       isLoading: false,
       isFetching: false,
-    } as never);
+    });
 
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.requestSync.useMutation.mockReturnValue({
       mutateAsync: mockMutateAsync,
-    } as never);
+    });
 
     render(<SyncDashboard />);
 
@@ -195,13 +203,14 @@ describe('SyncDashboard - Main User Journeys', () => {
       },
     ];
 
+    // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
       data: requests,
       error: null,
       refetch: vi.fn(),
       isLoading: false,
       isFetching: false,
-    } as never);
+    });
 
     await act(async () => {
       render(<SyncDashboard />);
