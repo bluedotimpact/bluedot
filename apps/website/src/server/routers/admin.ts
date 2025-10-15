@@ -4,7 +4,7 @@ import db from '../../lib/api/db';
 import { adminProcedure, router } from '../trpc';
 
 export const adminRouter = router({
-  history: adminProcedure.query(async () => {
+  syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first
     const twentyFourHoursAgo = new Date();
     twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
