@@ -1,6 +1,6 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 
@@ -30,11 +30,25 @@ const SyncDashboard = () => {
     data: syncData,
     error: syncError,
     refetch: fetchHistory,
-    isPending,
+    isLoading,
     isFetching,
-  } = trpc.admin.syncHistory.useQuery(undefined, { refetchInterval: 5000 });
+  } = trpc.admin.syncHistory.useQuery(undefined);
 
   const requestTrpcSync = trpc.admin.requestSync.useMutation();
+
+  useEffect(() => {
+    // Don't refetch if there's an error
+    // Need `undefined` to satisfy eslint consistent return type
+    if (syncError) return undefined;
+
+    const interval = setInterval(() => {
+      fetchHistory();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [syncError, fetchHistory]);
 
   const hasAuthError = syncError?.data?.code === 'UNAUTHORIZED' || syncError?.data?.code === 'FORBIDDEN';
   const hasGeneralError = syncError && !hasAuthError;
@@ -124,7 +138,7 @@ const SyncDashboard = () => {
   }
 
   // Show loading until we have determined access (either success or error response from API)
-  if (isPending) {
+  if (isLoading) {
     return <div className="p-8">Loading...</div>;
   }
 
