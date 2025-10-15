@@ -498,6 +498,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldTEkxGZQxTqHhdX',
     },
+    groupsAsParticipant: {
+      pgColumn: text().array(),
+      airtableId: 'fldryDThWSl7SkkYB',
+    },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
