@@ -6,7 +6,7 @@ import { RiLoader4Line } from 'react-icons/ri';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 
-type SyncHistory = inferRouterOutputs<AppRouter>['syncDashboard']['history'];
+type SyncHistory = inferRouterOutputs<AppRouter>['admin']['history'];
 
 // Time formatter for 24-hour data
 function formatTimeAgo(date: Date): string {
@@ -35,9 +35,9 @@ const SyncDashboard = () => {
   const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
-  const { data: syncData, error: syncError, refetch: fetchHistory } = trpc.syncDashboard.history.useQuery(undefined, { enabled: false });
+  const { data: syncData, error: syncError, refetch: fetchHistory } = trpc.admin.history.useQuery(undefined, { enabled: false });
 
-  const requestTrpcSync = trpc.syncDashboard.requestSync.useMutation();
+  const requestTrpcSync = trpc.admin.requestSync.useMutation();
 
   // Fetch data with proper refresh state management
   const fetchData = useCallback(async (isInitial = false) => {

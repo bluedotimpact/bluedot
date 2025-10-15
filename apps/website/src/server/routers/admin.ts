@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
 import { adminProcedure, router } from '../trpc';
 
-export const syncDashboardRouter = router({
+export const adminRouter = router({
   history: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first
     const twentyFourHoursAgo = new Date();
