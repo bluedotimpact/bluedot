@@ -482,6 +482,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    buckets: {
+      pgColumn: text().array(),
+      airtableId: 'fldPOsY8Amd31Resf',
+    },
     round: {
       pgColumn: text(),
       airtableId: 'fld8KD3BUPbCHHHqE',
