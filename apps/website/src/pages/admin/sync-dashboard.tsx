@@ -1,7 +1,7 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
@@ -39,27 +39,9 @@ const SyncDashboard = () => {
     error: syncError,
     refetch: fetchHistory,
     isFetching,
-  } = trpc.admin.syncHistory.useQuery(undefined, { enabled: false });
+  } = trpc.admin.syncHistory.useQuery(undefined, { refetchInterval: 5000 });
 
   const requestTrpcSync = trpc.admin.requestSync.useMutation();
-
-  const fetchData = useCallback(async () => {
-    try {
-      await fetchHistory();
-    } catch (error) {
-      // Error handling done in useEffect below
-    }
-  }, [fetchHistory]);
-
-  // Initial load and auto-refresh setup
-  useEffect(() => {
-    // Always make the API call - let the API determine access, not client-side auth state
-    fetchData();
-    const interval = setInterval(() => {
-      fetchData();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [fetchData]);
 
   // Handle successful data updates
   useEffect(() => {
@@ -91,7 +73,7 @@ const SyncDashboard = () => {
     setIsSyncRequesting(true);
     try {
       await requestTrpcSync.mutateAsync();
-      await fetchData();
+      await fetchHistory();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to request sync:', error);
