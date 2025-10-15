@@ -143,8 +143,7 @@ const SyncDashboard = () => {
   }
 
   // Check if sync is currently running
-  const runningSyncs = (syncData || []).filter((r) => r.status === 'running');
-  const hasSyncRunning = runningSyncs.length > 0;
+  const hasSyncRunning = (syncData || []).some((r) => r.status === 'running');
 
   return (
     <div className="p-8 max-w-4xl">
