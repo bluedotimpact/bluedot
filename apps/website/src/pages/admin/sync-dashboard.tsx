@@ -1,6 +1,5 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
-import { useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 
@@ -23,7 +22,6 @@ function formatTimeAgo(date: Date): string {
 }
 
 const SyncDashboard = () => {
-  const [isSyncRequesting, setIsSyncRequesting] = useState(false);
   const auth = useAuthStore((s) => s.auth);
 
   const {
@@ -46,15 +44,12 @@ const SyncDashboard = () => {
 
   // Request a new sync
   const requestSync = async () => {
-    setIsSyncRequesting(true);
     try {
       await requestTrpcSync.mutateAsync();
       await fetchHistory();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to request sync:', error);
-    } finally {
-      setIsSyncRequesting(false);
     }
   };
 
@@ -145,14 +140,14 @@ const SyncDashboard = () => {
         <button
           type="button"
           onClick={requestSync}
-          disabled={isSyncRequesting}
+          disabled={requestTrpcSync.isPending}
           className={`px-6 py-3 rounded font-medium flex items-center gap-2 ${
-            isSyncRequesting
+            requestTrpcSync.isPending
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-blue-600 hover:bg-blue-700 text-white'
           }`}
         >
-          {isSyncRequesting && <RiLoader4Line className="animate-spin" size={16} />}
+          {requestTrpcSync.isPending && <RiLoader4Line className="animate-spin" size={16} />}
           Request Full Sync
         </button>
         {hasSyncRunning && (
