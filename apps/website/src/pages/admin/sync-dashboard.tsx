@@ -25,7 +25,6 @@ function formatTimeAgo(date: Date): string {
 const SyncDashboard = () => {
   const [isSyncRequesting, setIsSyncRequesting] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-  const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
@@ -43,7 +42,6 @@ const SyncDashboard = () => {
     if (syncData) {
       setHasAccess(true);
       setGeneralError(null);
-      setHasInitiallyLoaded(true);
     }
   }, [syncData]);
 
@@ -59,7 +57,6 @@ const SyncDashboard = () => {
       setHasAccess(null);
       setGeneralError('Unable to load sync dashboard. Please check your connection and try again.');
     }
-    setHasInitiallyLoaded(true);
   }, [syncError]);
 
   // Request a new sync
@@ -196,7 +193,7 @@ const SyncDashboard = () => {
       <div>
         <h2 className="text-size-xl font-semibold mb-4 flex items-center gap-2">
           Manual Sync Requests (Last 24 Hours)
-          {isFetching && hasInitiallyLoaded && (
+          {isFetching && (
             <RiLoader4Line className="animate-spin text-blue-600" size={16} />
           )}
         </h2>
