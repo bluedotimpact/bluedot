@@ -170,8 +170,7 @@ describe('SyncDashboard - Main User Journeys', () => {
       expect(mockRefetch).toHaveBeenCalled();
     });
 
-    // Restore fake timers for other tests
-    vi.useFakeTimers();
+    // Fake timers restored in `beforeEach`
   });
 
   test('displays different sync status states correctly', async () => {
