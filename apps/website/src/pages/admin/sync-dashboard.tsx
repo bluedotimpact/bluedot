@@ -1,12 +1,8 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
-import type { inferRouterOutputs } from '@trpc/server';
 import { useEffect, useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
-import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-
-type SyncHistory = inferRouterOutputs<AppRouter>['admin']['syncHistory'];
 
 // Time formatter for 24-hour data
 function formatTimeAgo(date: Date): string {
@@ -27,7 +23,6 @@ function formatTimeAgo(date: Date): string {
 }
 
 const SyncDashboard = () => {
-  const [requests, setRequests] = useState<SyncHistory>([]);
   const [isSyncRequesting, setIsSyncRequesting] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
@@ -46,7 +41,6 @@ const SyncDashboard = () => {
   // Handle successful data updates
   useEffect(() => {
     if (syncData) {
-      setRequests(syncData);
       setHasAccess(true);
       setGeneralError(null);
       setHasInitiallyLoaded(true);
@@ -158,7 +152,7 @@ const SyncDashboard = () => {
   }
 
   // Check if sync is currently running
-  const runningSyncs = requests.filter((r) => r.status === 'running');
+  const runningSyncs = (syncData || []).filter((r) => r.status === 'running');
   const hasSyncRunning = runningSyncs.length > 0;
 
   return (
@@ -207,7 +201,7 @@ const SyncDashboard = () => {
           )}
         </h2>
 
-        {requests.length === 0 ? (
+        {!syncData || syncData.length === 0 ? (
           <p className="text-gray-600">No manual sync requests in the last 24 hours</p>
         ) : (
           <table className="w-full border rounded">
@@ -220,7 +214,7 @@ const SyncDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {requests.map((req) => (
+              {syncData?.map((req) => (
                 <tr key={req.id} className="border-b hover:bg-gray-50">
                   <td className="p-3">
                     <StatusBadge status={req.status} />
