@@ -1,6 +1,6 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 
@@ -24,40 +24,20 @@ function formatTimeAgo(date: Date): string {
 
 const SyncDashboard = () => {
   const [isSyncRequesting, setIsSyncRequesting] = useState(false);
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-  const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
   const {
     data: syncData,
     error: syncError,
     refetch: fetchHistory,
+    isPending,
     isFetching,
   } = trpc.admin.syncHistory.useQuery(undefined, { refetchInterval: 5000 });
 
   const requestTrpcSync = trpc.admin.requestSync.useMutation();
 
-  // Handle successful data updates
-  useEffect(() => {
-    if (syncData) {
-      setHasAccess(true);
-      setGeneralError(null);
-    }
-  }, [syncData]);
-
-  // Handle errors (including 401/403 for access control)
-  useEffect(() => {
-    if (!syncError) return;
-    const status = syncError.data?.httpStatus;
-    if (status === 401 || status === 403) {
-      setHasAccess(false);
-      setGeneralError(null);
-    } else {
-      // Non-auth error (network, server error, etc.)
-      setHasAccess(null);
-      setGeneralError('Unable to load sync dashboard. Please check your connection and try again.');
-    }
-  }, [syncError]);
+  const hasAuthError = syncError?.data?.code === 'UNAUTHORIZED' || syncError?.data?.code === 'FORBIDDEN';
+  const hasGeneralError = syncError && !hasAuthError;
 
   // Request a new sync
   const requestSync = async () => {
@@ -74,7 +54,7 @@ const SyncDashboard = () => {
   };
 
   // Access denied
-  if (hasAccess === false) {
+  if (hasAuthError) {
     return (
       <div className="p-8 max-w-2xl">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
@@ -116,7 +96,7 @@ const SyncDashboard = () => {
   }
 
   // Show general error (network, server errors, etc.)
-  if (generalError) {
+  if (hasGeneralError) {
     return (
       <div className="p-8 max-w-2xl">
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
@@ -131,7 +111,7 @@ const SyncDashboard = () => {
             </div>
           </div>
           <div className="text-amber-700 space-y-4">
-            <p>{generalError}</p>
+            <p>Unable to load sync dashboard. Please check your connection and try again.</p>
             <div className="pt-2 border-t border-amber-200">
               <p className="text-size-sm">
                 If this problem persists, please check Slack to see if there was an ongoing issue
@@ -144,7 +124,7 @@ const SyncDashboard = () => {
   }
 
   // Show loading until we have determined access (either success or error response from API)
-  if (hasAccess === null && !generalError) {
+  if (isPending) {
     return <div className="p-8">Loading...</div>;
   }
 
