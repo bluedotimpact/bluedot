@@ -29,40 +29,34 @@ function formatTimeAgo(date: Date): string {
 const SyncDashboard = () => {
   const [requests, setRequests] = useState<SyncHistory>([]);
   const [isSyncRequesting, setIsSyncRequesting] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
   const [generalError, setGeneralError] = useState<string | null>(null);
   const auth = useAuthStore((s) => s.auth);
 
-  const { data: syncData, error: syncError, refetch: fetchHistory } = trpc.admin.syncHistory.useQuery(undefined, { enabled: false });
+  const {
+    data: syncData,
+    error: syncError,
+    refetch: fetchHistory,
+    isFetching,
+  } = trpc.admin.syncHistory.useQuery(undefined, { enabled: false });
 
   const requestTrpcSync = trpc.admin.requestSync.useMutation();
 
-  // Fetch data with proper refresh state management
-  const fetchData = useCallback(async (isInitial = false) => {
-    // Only show refresh indicator for subsequent loads when we have data
-    if (!isInitial && hasInitiallyLoaded) {
-      setIsRefreshing(true);
-    }
-
+  const fetchData = useCallback(async () => {
     try {
       await fetchHistory();
     } catch (error) {
       // Error handling done in useEffect below
-    } finally {
-      if (!isInitial && hasInitiallyLoaded) {
-        setIsRefreshing(false);
-      }
     }
-  }, [fetchHistory, hasInitiallyLoaded]);
+  }, [fetchHistory]);
 
   // Initial load and auto-refresh setup
   useEffect(() => {
     // Always make the API call - let the API determine access, not client-side auth state
-    fetchData(true);
+    fetchData();
     const interval = setInterval(() => {
-      fetchData(false);
+      fetchData();
     }, 5000);
     return () => clearInterval(interval);
   }, [fetchData]);
@@ -97,7 +91,7 @@ const SyncDashboard = () => {
     setIsSyncRequesting(true);
     try {
       await requestTrpcSync.mutateAsync();
-      await fetchData(false);
+      await fetchData();
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to request sync:', error);
@@ -226,7 +220,7 @@ const SyncDashboard = () => {
       <div>
         <h2 className="text-size-xl font-semibold mb-4 flex items-center gap-2">
           Manual Sync Requests (Last 24 Hours)
-          {isRefreshing && (
+          {isFetching && hasInitiallyLoaded && (
             <RiLoader4Line className="animate-spin text-blue-600" size={16} />
           )}
         </h2>
