@@ -87,7 +87,7 @@ describe('SyncDashboard - Main User Journeys', () => {
       data: undefined,
       error,
       refetch: vi.fn(),
-      isLoading: true,
+      isLoading: false,
       isFetching: false,
     });
 
