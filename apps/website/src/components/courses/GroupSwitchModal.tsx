@@ -98,14 +98,13 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   courseSlug,
   initialUnitNumber = '1',
   initialSwitchType = 'Switch group for one unit',
-  initialIsManual = false,
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
-  const [isManualRequest, setIsManualRequest] = useState(initialIsManual);
+  const [isManualRequest, setIsManualRequest] = useState(false);
   const [error, setError] = useState<unknown | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);

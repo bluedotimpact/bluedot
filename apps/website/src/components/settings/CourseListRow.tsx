@@ -136,12 +136,12 @@ const CourseListRow = ({
     ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
     : false;
 
-  // Check if participant has a group assigned
-  const hasNoGroup = !isCompleted && meetPersonData?.meetPerson
+  // Edge case: The user has been accepted but has no group assigned
+  const isNotInGroup = !isCompleted && meetPersonData?.meetPerson
     && (!meetPersonData.meetPerson.groupsAsParticipant || meetPersonData.meetPerson.groupsAsParticipant.length === 0);
 
   const getPrimaryCtaButton = () => {
-    if (hasNoGroup) {
+    if (isNotInGroup) {
       return (
         <CTALinkOrButton
           variant="primary"
@@ -402,7 +402,6 @@ const CourseListRow = ({
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialSwitchType="Switch group permanently"
-          initialIsManual
           courseSlug={course.slug}
         />
       )}
