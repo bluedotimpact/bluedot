@@ -1,24 +1,37 @@
 import {
-  render, screen, act, type RenderResult,
+  render, screen, act, waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import {
-  describe, expect, test, vi, beforeEach, afterEach, type Mock,
+  describe, expect, test, vi, beforeEach, afterEach,
 } from 'vitest';
-import useAxios from 'axios-hooks';
+import { TRPCClientError } from '@trpc/client';
 import { useAuthStore } from '@bluedot/ui';
 import type { SyncStatus } from '@bluedot/db';
 import SyncDashboard from '../../../pages/admin/sync-dashboard';
+import { trpc } from '../../../utils/trpc';
 
 // Mock dependencies
-vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', () => ({
   useAuthStore: vi.fn(),
 }));
 
-const mockedUseAxios = useAxios as unknown as Mock;
-const mockedUseAuthStore = useAuthStore as unknown as Mock;
+vi.mock('../../../utils/trpc', () => ({
+  trpc: {
+    admin: {
+      syncHistory: {
+        useQuery: vi.fn(),
+      },
+      requestSync: {
+        useMutation: vi.fn(),
+      },
+    },
+  },
+}));
+
+const mockedTrpc = vi.mocked(trpc, true);
+const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 
 // Mock RiLoader4Line icon
 vi.mock('react-icons/ri', () => ({
@@ -28,7 +41,7 @@ vi.mock('react-icons/ri', () => ({
 }));
 
 describe('SyncDashboard - Main User Journeys', () => {
-  const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
+  const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + 3600000 };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -36,16 +49,21 @@ describe('SyncDashboard - Main User Journeys', () => {
     vi.useFakeTimers();
 
     // Default auth store state
-    mockedUseAuthStore.mockImplementation((selector) => {
-      const state = { auth: mockAuth };
-      return selector(state);
-    });
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: mockAuth } as never));
 
-    // Default useAxios mock (will be overridden in individual tests)
-    mockedUseAxios.mockReturnValue([
-      { data: null, loading: false, error: null },
-      vi.fn(),
-    ]);
+    // Setup default mutation mock
+    mockedTrpc.admin.requestSync.useMutation.mockReturnValue({
+      mutateAsync: vi.fn().mockResolvedValue(undefined),
+    } as never);
+
+    // Default query mock (will be overridden in individual tests)
+    mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
+      data: undefined,
+      error: null,
+      refetch: vi.fn(),
+      isLoading: true,
+      isFetching: false,
+    } as never);
   });
 
   afterEach(() => {
@@ -54,18 +72,20 @@ describe('SyncDashboard - Main User Journeys', () => {
   });
 
   test('denies access to unauthorized users', () => {
-    // Mock API error (403) - component shows access denied when there's an error
-    const mockError = { response: { status: 403 } };
+    // Mock tRPC error (403)
+    const error = new TRPCClientError('Forbidden');
+    Object.defineProperty(error, 'data', {
+      value: { code: 'FORBIDDEN', httpStatus: 403 },
+      writable: true,
+    });
 
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: mockError },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
+    mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
+      data: undefined,
+      error,
+      refetch: vi.fn(),
+      isLoading: true,
+      isFetching: false,
+    } as never);
 
     render(<SyncDashboard />);
 
@@ -75,23 +95,22 @@ describe('SyncDashboard - Main User Journeys', () => {
 
   test('shows login required message when user is logged out', () => {
     // Mock no auth (user logged out)
-    mockedUseAuthStore.mockImplementation((selector) => {
-      const state = { auth: null };
-      return selector(state);
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: null } as never));
+
+    // Mock tRPC error (401)
+    const error = new TRPCClientError('Unauthorized');
+    Object.defineProperty(error, 'data', {
+      value: { code: 'UNAUTHORIZED', httpStatus: 401 },
+      writable: true,
     });
 
-    // Mock API error (401) - API call is made but returns unauthorized
-    const mockError = { response: { status: 401 } };
-
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: mockError },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
+    mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
+      data: undefined,
+      error,
+      refetch: vi.fn(),
+      isLoading: false,
+      isFetching: false,
+    } as never);
 
     render(<SyncDashboard />);
 
@@ -101,29 +120,27 @@ describe('SyncDashboard - Main User Journeys', () => {
   });
 
   test('authorized user can access dashboard and interact with sync button', async () => {
-    const user = userEvent.setup({ delay: null });
-    const mockFetchHistory = vi.fn().mockResolvedValue({ data: { requests: [] } });
-    const mockRequestSync = vi.fn().mockResolvedValue({ data: { success: true, requestId: 1 } });
+    // Use real timers for this test since it involves async mutations
+    vi.useRealTimers();
+
+    const user = userEvent.setup();
+    const mockRefetch = vi.fn().mockResolvedValue(undefined);
+    const mockMutateAsync = vi.fn().mockResolvedValue(undefined);
 
     // Mock successful dashboard access with empty requests initially
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests: [] },
-        loading: false,
-        error: null,
-      }, mockFetchHistory])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, mockRequestSync]);
+    mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
+      data: [],
+      error: null,
+      refetch: mockRefetch,
+      isLoading: false,
+      isFetching: false,
+    } as never);
 
-    let component: RenderResult;
-    await act(async () => {
-      component = render(<SyncDashboard />);
-      // Advance timers to handle any initial effects
-      vi.advanceTimersByTime(100);
-    });
+    mockedTrpc.admin.requestSync.useMutation.mockReturnValue({
+      mutateAsync: mockMutateAsync,
+    } as never);
+
+    render(<SyncDashboard />);
 
     expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
     expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
@@ -134,56 +151,22 @@ describe('SyncDashboard - Main User Journeys', () => {
     expect(syncButton).toBeEnabled();
     expect(syncButton).toHaveClass('bg-blue-600');
 
-    // Setup mock for after sync request - should return a new request
-    const newRequest = {
-      id: 1,
-      status: 'queued' as SyncStatus,
-      requestedBy: 'test@bluedot.org',
-      requestedAt: new Date('2023-01-01T10:00:00Z'),
-      startedAt: null,
-      completedAt: null,
-    };
-
-    // Mock the refetch to return new data after sync request
-    mockFetchHistory.mockResolvedValueOnce({ data: { requests: [newRequest] } });
-
     // Click the button
     await act(async () => {
       await user.click(syncButton);
-      vi.advanceTimersByTime(100);
     });
 
-    // Mock the component re-render with new data
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests: [newRequest] },
-        loading: false,
-        error: null,
-      }, mockFetchHistory])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, mockRequestSync]);
-
-    // Re-render to simulate the effect of fetchHistory updating the data
-    await act(async () => {
-      component.rerender(<SyncDashboard />);
-      vi.advanceTimersByTime(100);
+    // Wait for the mutation to complete
+    await waitFor(() => {
+      expect(mockMutateAsync).toHaveBeenCalled();
+      expect(mockRefetch).toHaveBeenCalled();
     });
 
-    // Verify the empty state is gone
-    expect(screen.queryByText('No manual sync requests in the last 24 hours')).not.toBeInTheDocument();
-
-    // Verify the actual request data is displayed
-    expect(screen.getByText('queued')).toBeInTheDocument();
-    expect(screen.getByText('test@bluedot.org')).toBeInTheDocument();
-    expect(screen.getByText('Waiting')).toBeInTheDocument(); // Run time column shows "Waiting" for queued status
+    // Restore fake timers for other tests
+    vi.useFakeTimers();
   });
 
   test('displays different sync status states correctly', async () => {
-    const mockRefetch = vi.fn();
-
     // Test queued, running, and completed states
     const requests = [
       {
@@ -212,17 +195,13 @@ describe('SyncDashboard - Main User Journeys', () => {
       },
     ];
 
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests },
-        loading: false,
-        error: null,
-      }, mockRefetch])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, vi.fn()]);
+    mockedTrpc.admin.syncHistory.useQuery.mockReturnValue({
+      data: requests,
+      error: null,
+      refetch: vi.fn(),
+      isLoading: false,
+      isFetching: false,
+    } as never);
 
     await act(async () => {
       render(<SyncDashboard />);
