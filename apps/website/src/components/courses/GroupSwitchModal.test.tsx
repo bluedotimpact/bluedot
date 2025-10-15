@@ -186,7 +186,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -250,7 +250,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -323,7 +323,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -412,7 +412,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit2}
+          initialUnitNumber={mockUnit2.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -487,7 +487,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -567,7 +567,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -621,7 +621,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -682,7 +682,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
       );
@@ -739,6 +739,222 @@ describe('GroupSwitchModal', () => {
             oldGroupId: undefined,
             newGroupId: undefined,
             oldDiscussionId: 'discussion-1', // User's current discussion
+            newDiscussionId: undefined,
+          } as GroupSwitchingRequest,
+        });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Participant without group', () => {
+    const mockSwitchingDataNoGroup: GetGroupSwitchingAvailableResponse = {
+      type: 'success',
+      groupsAvailable: [
+        {
+          group: {
+            id: 'group-1',
+            groupName: 'Morning Group A',
+            autoNumberId: null,
+            groupDiscussions: [],
+            round: 'round-1',
+            participants: [], // No participants - user not in this group
+            startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000),
+            whoCanSwitchIntoThisGroup: [],
+          },
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+          allDiscussionsHaveStarted: false,
+        },
+        {
+          group: {
+            id: 'group-2',
+            groupName: 'Evening Group B',
+            autoNumberId: null,
+            groupDiscussions: [],
+            round: 'round-1',
+            participants: [],
+            startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000),
+            whoCanSwitchIntoThisGroup: [],
+          },
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+          allDiscussionsHaveStarted: false,
+        },
+      ],
+      discussionsAvailable: {
+        1: [
+          {
+            discussion: {
+              id: 'discussion-1',
+              startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000),
+              unit: 'unit-1',
+              unitNumber: 1,
+              autoNumberId: null,
+              group: 'group-1',
+              round: null,
+              facilitators: [],
+              participantsExpected: [],
+              attendees: [],
+              endDateTime: 0,
+              zoomAccount: null,
+              courseSite: null,
+              zoomLink: null,
+              activityDoc: null,
+              slackChannelId: null,
+              courseBuilderUnitRecordId: null,
+            },
+            groupName: 'Morning Group A',
+            userIsParticipant: false,
+            spotsLeftIfKnown: 3,
+            hasStarted: false,
+          },
+          {
+            discussion: {
+              id: 'discussion-2',
+              startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
+              unit: 'unit-1',
+              unitNumber: 1,
+              autoNumberId: null,
+              group: 'group-2',
+              round: null,
+              facilitators: [],
+              participantsExpected: [],
+              attendees: [],
+              endDateTime: 0,
+              zoomAccount: null,
+              courseSite: null,
+              zoomLink: null,
+              activityDoc: null,
+              slackChannelId: null,
+              courseBuilderUnitRecordId: null,
+            },
+            groupName: 'Evening Group B',
+            userIsParticipant: false,
+            spotsLeftIfKnown: 3,
+            hasStarted: false,
+          },
+        ],
+      },
+    };
+
+    beforeEach(() => {
+      vi.clearAllMocks();
+      mockSubmitGroupSwitch = vi.fn();
+
+      mockedUseAuthStore.mockImplementation((selector) => {
+        const state = { auth: mockAuth };
+        return selector(state);
+      });
+
+      // Return mock data with no participant groups
+      mockedUseAxios.mockImplementation((config?: any) => {
+        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
+          return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
+        }
+        if (config?.url?.includes('group-switching/available')) {
+          return [{ data: mockSwitchingDataNoGroup, loading: false, error: null }, vi.fn()];
+        }
+        if (config?.url?.includes('group-switching') && config?.method === 'post') {
+          return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
+        }
+        return [{ data: null, loading: false, error: null }, vi.fn()];
+      });
+    });
+
+    test('Modal does not show current group section when participant has no group', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+        />,
+      );
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      // Change switch type to "Switch group permanently"
+      const actionButton = screen.getByLabelText('Select Action');
+      fireEvent.click(actionButton);
+      const listbox = await screen.findByRole('listbox', { name: /Action/i });
+      const permanentOption = within(listbox).getByText('Switch group permanently');
+      fireEvent.click(permanentOption);
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Verify "You are currently in this group" text does NOT appear
+      expect(screen.queryByText(/You are currently in this group/i)).not.toBeInTheDocument();
+
+      // Verify "You are switching out of this group" text does NOT appear
+      expect(screen.queryByText(/You are switching out of this group/i)).not.toBeInTheDocument();
+
+      // Verify both groups are shown as options (not as current group)
+      expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+    });
+
+    test('Participant with no group can request manual permanent switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          courseSlug="ai-safety"
+        />,
+      );
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      // Change switch type to "Switch group permanently"
+      const actionButton = screen.getByLabelText('Select Action');
+      fireEvent.click(actionButton);
+      const listbox = await screen.findByRole('listbox', { name: /Action/i });
+      const permanentOption = within(listbox).getByText('Switch group permanently');
+      fireEvent.click(permanentOption);
+
+      await waitFor(() => {
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      });
+
+      // Click "Request manual switch" button
+      const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
+      fireEvent.click(manualSwitchButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+      });
+
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'I need to join a group as I was accepted late' },
+      });
+
+      // Queue up mock for successful submit response
+      mockSubmitGroupSwitch.mockResolvedValueOnce({
+        data: { type: 'success' } as GroupSwitchingResponse,
+      });
+
+      const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
+      fireEvent.click(submitButton);
+
+      // Verify the API was called with correct data - no oldGroupId
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
+          data: {
+            switchType: 'Switch group permanently',
+            notesFromParticipant: 'I need to join a group as I was accepted late',
+            isManualRequest: true,
+            oldGroupId: undefined,
+            newGroupId: undefined,
+            oldDiscussionId: undefined,
             newDiscussionId: undefined,
           } as GroupSwitchingRequest,
         });
