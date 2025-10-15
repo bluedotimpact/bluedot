@@ -1,6 +1,6 @@
 import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
 
@@ -32,23 +32,14 @@ const SyncDashboard = () => {
     refetch: fetchHistory,
     isLoading,
     isFetching,
-  } = trpc.admin.syncHistory.useQuery(undefined);
+  } = trpc.admin.syncHistory.useQuery(undefined, {
+    // Don't refetch if unauthorized or forbidden
+    refetchInterval: (query) => (query?.state?.error?.data?.code === 'UNAUTHORIZED' || query?.state?.error?.data?.code === 'FORBIDDEN'
+      ? false
+      : 5000),
+  });
 
   const requestTrpcSync = trpc.admin.requestSync.useMutation();
-
-  useEffect(() => {
-    // Don't refetch if there's an error
-    // Need `undefined` to satisfy eslint consistent return type
-    if (syncError) return undefined;
-
-    const interval = setInterval(() => {
-      fetchHistory();
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [syncError, fetchHistory]);
 
   const hasAuthError = syncError?.data?.code === 'UNAUTHORIZED' || syncError?.data?.code === 'FORBIDDEN';
   const hasGeneralError = syncError && !hasAuthError;
