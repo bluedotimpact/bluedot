@@ -43,7 +43,6 @@ type ProjectsListViewProps = {
 export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListViewProps) => {
   // Group projects by course
   const groupedSortedProjects = React.useMemo(() => {
-    // Group projects by course
     const groups = projects.reduce<Record<string, CmsProject[]>>((acc, project) => {
       const course = project.course || 'Uncategorized';
       if (!acc[course]) {
