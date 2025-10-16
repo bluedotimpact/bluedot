@@ -22,7 +22,7 @@ export const ProjectListItem = ({ project }: { project: CmsProject }) => {
 
   return (
     <Card
-      className="project-list__card container-lined hover:container-elevated p-8"
+      className="container-lined hover:container-elevated p-8"
       ctaText="Read more"
       ctaUrl={url}
       isEntireCardClickable={!isMobile}
@@ -67,8 +67,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
   }, [projects]);
 
   return (
-    <Section className="project-list-section" title={title}>
-      <div id="project-articles-anchor" className="invisible relative bottom-48" />
+    <Section title={title}>
       {projects.length === 0 ? (
         <P>
           No projects available at the moment.
@@ -78,7 +77,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
           {groupedSortedProjects.map(([course, courseProjects]) => (
             <div key={course} className="mb-12">
               <H3>{course}</H3>
-              <div className="mt-4 project-list__container grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {courseProjects.slice(0, maxItems ? Math.min(maxItems, courseProjects.length) : undefined).map((project) => (
                   <ProjectListItem key={project.id} project={project} />
                 ))}
