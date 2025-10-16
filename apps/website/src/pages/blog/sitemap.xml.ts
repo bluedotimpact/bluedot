@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from 'next';
-import { getAllPublishedBlogs } from '../api/cms/blogs';
+import { getAllPublishedBlogs } from '../../server/routers/blogs';
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/blog`;
 
