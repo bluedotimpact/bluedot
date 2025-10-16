@@ -1,23 +1,18 @@
 import {
   Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
-import { blogTable, InferSelectModel } from '@bluedot/db';
-import { P } from '../Text';
-import { GetBlogsResponse } from '../../pages/api/cms/blogs';
+import { P } from '@bluedot/ui/src/Text';
+import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
-
-type CmsBlog = InferSelectModel<typeof blogTable.pg>;
+import type { AppRouter } from '../../server/routers/_app';
+import { trpc } from '../../utils/trpc';
 
 export type BlogListSectionProps = {
-  maxItems?: number | undefined,
+  maxItems?: number | undefined;
 };
 
 const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
-  const [{ data, loading, error }] = useAxios<GetBlogsResponse>({
-    method: 'get',
-    url: '/api/cms/blogs',
-  });
+  const { data: blogs, isLoading: loading, error } = trpc.blogs.getAll.useQuery();
 
   const title = 'Latest articles';
 
@@ -26,24 +21,25 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
   }
 
   if (loading) {
-    return <Section title={title}><ProgressDots /></Section>;
+    return (
+      <Section title={title}>
+        <ProgressDots />
+      </Section>
+    );
   }
 
   return (
-    <Section className="blog-list-section" title={title}>
-      <div id="blog-articles-anchor" className="invisible relative bottom-48" />
-      {data?.blogs.length === 0 ? (
-        <P>
-          No blog posts available at the moment.
-        </P>
+    <Section title={title}>
+      {blogs?.length === 0 ? (
+        <P>No blog posts available at the moment.</P>
       ) : (
-        <div className="blog-list__container flex flex-col gap-8">
-          {data?.blogs.slice(0, maxItems).map((blog) => (
+        <div className="flex flex-col gap-8">
+          {blogs?.slice(0, maxItems).map((blog) => (
             <BlogListItem key={blog.id} blog={blog} />
           ))}
         </div>
       )}
-      {maxItems && data && data.blogs.length > maxItems && (
+      {maxItems && blogs && blogs.length > maxItems && (
         <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withChevron className="mt-8">
           Read more
         </CTALinkOrButton>
@@ -52,9 +48,7 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
   );
 };
 
-export const BlogListItem = ({ blog }: {
-  blog: Omit<CmsBlog, 'body'>
-}) => {
+const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['getAll'][number] }) => {
   const url = `/blog/${blog.slug}`;
   const formattedDate = blog.publishedAt
     ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
@@ -65,18 +59,16 @@ export const BlogListItem = ({ blog }: {
     : 'Unknown date';
 
   return (
-    <div className="blog-list__listing">
-      <Card
-        className="blog-list__card container-lined hover:container-elevated p-8"
-        ctaText="Read"
-        ctaUrl={url}
-        isEntireCardClickable
-        isFullWidth
-        subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
-        title={blog.title || 'Untitled'}
-        subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
-      />
-    </div>
+    <Card
+      className="container-lined hover:container-elevated p-8"
+      ctaText="Read"
+      ctaUrl={url}
+      isEntireCardClickable
+      isFullWidth
+      subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
+      title={blog.title || 'Untitled'}
+      subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
+    />
   );
 };
 

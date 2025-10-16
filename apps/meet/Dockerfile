@@ -4,8 +4,8 @@ RUN apk update && apk add --no-cache dumb-init
 
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Set the correct permission for prerender cache
 RUN mkdir dist

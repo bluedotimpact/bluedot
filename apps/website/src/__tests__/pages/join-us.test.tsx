@@ -1,26 +1,20 @@
-import { render } from '@testing-library/react';
-import {
-  describe, expect, test, vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
+import { render, waitFor } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
 import JoinUsPage from '../../pages/join-us';
-
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    jobs: {
-      getAll: {
-        useQuery: vi.fn(() => ({
-          data: [],
-          isLoading: false,
-          error: null,
-        })),
-      },
-    },
-  },
-}));
+import { server, trpcMsw } from '../trpcMswSetup';
+import { TrpcProvider } from '../trpcProvider';
 
 describe('JoinUsPage', () => {
-  test('should render correctly', () => {
-    const { container } = render(<JoinUsPage />);
+  test('should render correctly', async () => {
+    server.use(trpcMsw.jobs.getAll.query(() => []));
+    const { container } = render(<JoinUsPage />, { wrapper: TrpcProvider });
+
+    // Wait for loading to finish - check that ProgressDots are gone
+    await waitFor(() => {
+      expect(container.querySelector('.progress-dots')).not.toBeInTheDocument();
+    }, { timeout: 5000 });
+
     expect(container).toMatchSnapshot();
   });
 });
