@@ -3,7 +3,6 @@ import {
 } from 'vitest';
 import CertificatePage from '../../pages/certification';
 import { renderWithHead } from '../testUtils';
-import { Certificate } from '../../pages/api/certificates/[certificateId]';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.
@@ -21,7 +20,7 @@ vi.mock('next/head', () => ({
   },
 }));
 
-const mockCertificate: Certificate = {
+const mockCertificate = {
   certificateId: 'cert123',
   certificateCreatedAt: 1609459200,
   recipientName: 'Jane Smith',

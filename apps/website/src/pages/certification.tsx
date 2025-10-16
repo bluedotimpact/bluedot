@@ -1,16 +1,44 @@
+import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import {
   CTALinkOrButton,
+  Footer,
   NewText,
   Section,
-  Footer,
   ShareButton,
 } from '@bluedot/ui';
-import Head from 'next/head';
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import { FaCircleCheck } from 'react-icons/fa6';
-import { Certificate, getCertificateData } from './api/certificates/[certificateId]';
-import { ROUTES } from '../lib/routes';
 import { P } from '../components/Text';
+import db from '../lib/api/db';
+import { ROUTES } from '../lib/routes';
+
+type Certificate = {
+  certificateId: string;
+  certificateCreatedAt: number;
+  recipientName: string;
+  courseName: string;
+  certificationDescription: string;
+  certificationBadgeImageSrc: string;
+  courseDetailsUrl: string;
+};
+
+async function getCertificateData(certificateId: string) {
+  const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+
+  const certificate: Certificate = {
+    certificateId,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
+    recipientName: courseRegistration.fullName,
+    courseName: course.title,
+    courseDetailsUrl: course.detailsUrl,
+    certificationDescription: course.certificationDescription || '',
+    certificationBadgeImageSrc: course.certificationBadgeImage || '',
+  };
+
+  return certificate;
+}
 
 type CertificatePageProps = {
   certificate: Certificate | null;
