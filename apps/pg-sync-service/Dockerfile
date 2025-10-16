@@ -4,7 +4,7 @@ RUN apk update && apk add --no-cache dumb-init
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 ARG APP_NAME
 ENV APP_NAME=${APP_NAME}

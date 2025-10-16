@@ -4,18 +4,32 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import { TrpcProvider } from '../../../../trpcProvider';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
+import type { ChunkWithContent } from '../../../../../pages/api/courses/[courseSlug]/[unitNumber]/index';
+import { renderWithHead } from '../../../../testUtils';
 
 // Mock next/router
 vi.mock('next/router', () => ({
   useRouter: vi.fn(() => ({
     query: { courseSlug: 'test-course', unitNumber: '3' },
   })),
+}));
+
+// Mock <Head>, which doesn't work in tests. See docstring of
+// `renderWithHead` for more details.
+vi.mock('next/head', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => {
+    if (children) {
+      return (
+        <head-proxy data-testid="head-proxy">
+          {children}
+        </head-proxy>
+      );
+    }
+    return null;
+  },
 }));
 
 // Mock axios-hooks
@@ -30,7 +44,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   courseTitle: 'Test Course',
   coursePath: '/courses/test-course',
   courseSlug: 'test-course',
-  courseUnit: '3',
+  courseUnit: null,
   path: `/courses/test-course/${unitNumber}`,
   title,
   content,
@@ -45,7 +59,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   autoNumberId: 1,
 });
 
-const createMockChunk = (unitId: string): Chunk => ({
+const createMockChunk = (unitId: string): ChunkWithContent => ({
   chunkId: 'recuC87TILbjW4eF4',
   unitId,
   chunkTitle: 'Test Chunk',
@@ -58,6 +72,8 @@ const createMockChunk = (unitId: string): Chunk => ({
   chunkResources: [],
   chunkExercises: [],
   status: 'Active',
+  resources: [],
+  exercises: [],
 });
 
 describe('CourseUnitPage', () => {
@@ -75,16 +91,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[0]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[0]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[0]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="0"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -104,16 +125,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[3]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[3]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[3]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -133,16 +159,21 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[2]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[2]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[2]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
@@ -161,18 +192,59 @@ describe('CourseUnitPage', () => {
 
     const mockChunks = [createMockChunk(mockUnits[1]!.id)];
 
+    // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
-      data: {
-        units: mockUnits,
-        unit: mockUnits[1]!,
-        chunks: mockChunks,
-      },
+      data: null,
       loading: false,
     }]);
 
-    const { getByRole, getByText } = render(<CourseUnitPage />, { wrapper: TrpcProvider });
+    const { getByRole, getByText } = render(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[1]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
     await waitFor(() => expect(getByText('Test chunk content')).toBeTruthy());
+  });
+
+  test('renders SEO meta tags during SSR without API calls', () => {
+    document.head.innerHTML = '';
+
+    vi.mocked(useRouter).mockReturnValueOnce({
+      query: { courseSlug: 'test-course', unitNumber: '3', chunkNumber: ['1'] },
+    } as unknown as NextRouter);
+
+    const mockUnits = [
+      createMockUnit('1', 'Unit 1', 'First unit content'),
+      createMockUnit('2', 'Unit 2', 'Second unit content'),
+      createMockUnit('3', 'Unit 3', 'Third unit content'),
+    ];
+
+    const mockChunks = [createMockChunk(mockUnits[2]!.id)];
+
+    mockUseAxios.mockReturnValue([{
+      data: null,
+      loading: false,
+    }]);
+
+    renderWithHead(
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[2]!}
+        chunks={mockChunks}
+        courseSlug="test-course"
+        unitNumber="3"
+      />,
+    );
+
+    expect(document.title).toBe('Test Course: Unit 3 | Test Chunk');
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    expect(metaDescription?.getAttribute('content')).toBe('Test chunk meta description');
   });
 });
