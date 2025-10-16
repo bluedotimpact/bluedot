@@ -12,7 +12,7 @@ import { H3, P } from '../Text';
 type CmsProject = inferRouterOutputs<AppRouter>['projects']['getAll'][number];
 
 export type ProjectsListSectionProps = {
-  maxItems?: number | undefined;
+  maxItems?: number;
 };
 
 // Component for rendering a single project item
