@@ -44,14 +44,14 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
   // Group projects by course
   const groupedSortedProjects = React.useMemo(() => {
     // Group projects by course
-    const groups = projects.reduce((acc, project) => {
+    const groups = projects.reduce<Record<string, CmsProject[]>>((acc, project) => {
       const course = project.course || 'Uncategorized';
       if (!acc[course]) {
         acc[course] = [];
       }
       acc[course].push(project);
       return acc;
-    }, {} as Record<string, CmsProject[]>);
+    }, {});
 
     // Convert to array of [course, projects] pairs
     const groupsArray = Object.entries(groups);
