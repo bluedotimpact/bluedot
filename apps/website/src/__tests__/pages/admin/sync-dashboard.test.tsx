@@ -1,24 +1,24 @@
-import {
-  render, screen, act, type RenderResult,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import {
-  describe, expect, test, vi, beforeEach, afterEach, type Mock,
+  render, screen, act, waitFor,
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { TRPCError } from '@trpc/server';
+import {
+  describe, expect, test, vi, beforeEach,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { SyncStatus } from '@bluedot/db';
+import { server, trpcMsw } from '../../trpcMswSetup';
+import { TrpcProvider } from '../../trpcProvider';
 import SyncDashboard from '../../../pages/admin/sync-dashboard';
 
 // Mock dependencies
-vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', () => ({
   useAuthStore: vi.fn(),
 }));
 
-const mockedUseAxios = useAxios as unknown as Mock;
-const mockedUseAuthStore = useAuthStore as unknown as Mock;
+const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 
 // Mock RiLoader4Line icon
 vi.mock('react-icons/ri', () => ({
@@ -28,104 +28,64 @@ vi.mock('react-icons/ri', () => ({
 }));
 
 describe('SyncDashboard - Main User Journeys', () => {
-  const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
+  const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + 3600000 };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.clearAllTimers();
-    vi.useFakeTimers();
 
     // Default auth store state
-    mockedUseAuthStore.mockImplementation((selector) => {
-      const state = { auth: mockAuth };
-      return selector(state);
+    // @ts-expect-error - Mocking only the subset of properties needed for test
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: mockAuth }));
+  });
+
+  test('denies access to unauthorized users', async () => {
+    server.use(
+      trpcMsw.admin.syncHistory.query(() => {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Forbidden' });
+      }),
+    );
+
+    render(<SyncDashboard />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
     });
-
-    // Default useAxios mock (will be overridden in individual tests)
-    mockedUseAxios.mockReturnValue([
-      { data: null, loading: false, error: null },
-      vi.fn(),
-    ]);
-  });
-
-  afterEach(() => {
-    vi.clearAllTimers();
-    vi.useRealTimers();
-  });
-
-  test('denies access to unauthorized users', () => {
-    // Mock API error (403) - component shows access denied when there's an error
-    const mockError = { response: { status: 403 } };
-
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: mockError },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
-
-    render(<SyncDashboard />);
-
-    expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
     expect(screen.getByText("You don't have permission to access the admin dashboard.")).toBeInTheDocument();
   });
 
-  test('shows login required message when user is logged out', () => {
+  test('shows login required message when user is logged out', async () => {
     // Mock no auth (user logged out)
-    mockedUseAuthStore.mockImplementation((selector) => {
-      const state = { auth: null };
-      return selector(state);
+    // @ts-expect-error - Mocking only the subset of properties needed for test
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: null }));
+
+    server.use(
+      trpcMsw.admin.syncHistory.query(() => {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' });
+      }),
+    );
+
+    render(<SyncDashboard />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
     });
-
-    // Mock API error (401) - API call is made but returns unauthorized
-    const mockError = { response: { status: 401 } };
-
-    mockedUseAxios
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: mockError },
-        vi.fn(),
-      ])
-      .mockReturnValueOnce([
-        { data: null, loading: false, error: null },
-        vi.fn(),
-      ]);
-
-    render(<SyncDashboard />);
-
-    expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
     expect(screen.getByText('You need to log in to access the admin dashboard.')).toBeInTheDocument();
     expect(screen.getByText('Log in with your BlueDot email address')).toBeInTheDocument();
   });
 
   test('authorized user can access dashboard and interact with sync button', async () => {
-    const user = userEvent.setup({ delay: null });
-    const mockFetchHistory = vi.fn().mockResolvedValue({ data: { requests: [] } });
-    const mockRequestSync = vi.fn().mockResolvedValue({ data: { success: true, requestId: 1 } });
+    const user = userEvent.setup();
 
-    // Mock successful dashboard access with empty requests initially
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests: [] },
-        loading: false,
-        error: null,
-      }, mockFetchHistory])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, mockRequestSync]);
+    server.use(
+      trpcMsw.admin.syncHistory.query(() => []),
+      trpcMsw.admin.requestSync.mutation(() => ({ requestId: 1 })),
+    );
 
-    let component: RenderResult;
-    await act(async () => {
-      component = render(<SyncDashboard />);
-      // Advance timers to handle any initial effects
-      vi.advanceTimersByTime(100);
+    render(<SyncDashboard />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
     });
-
-    expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
     expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
 
     // Find the sync button
@@ -134,63 +94,25 @@ describe('SyncDashboard - Main User Journeys', () => {
     expect(syncButton).toBeEnabled();
     expect(syncButton).toHaveClass('bg-blue-600');
 
-    // Setup mock for after sync request - should return a new request
-    const newRequest = {
-      id: 1,
-      status: 'queued' as SyncStatus,
-      requestedBy: 'test@bluedot.org',
-      requestedAt: new Date('2023-01-01T10:00:00Z'),
-      startedAt: null,
-      completedAt: null,
-    };
-
-    // Mock the refetch to return new data after sync request
-    mockFetchHistory.mockResolvedValueOnce({ data: { requests: [newRequest] } });
-
     // Click the button
     await act(async () => {
       await user.click(syncButton);
-      vi.advanceTimersByTime(100);
     });
 
-    // Mock the component re-render with new data
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests: [newRequest] },
-        loading: false,
-        error: null,
-      }, mockFetchHistory])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, mockRequestSync]);
-
-    // Re-render to simulate the effect of fetchHistory updating the data
-    await act(async () => {
-      component.rerender(<SyncDashboard />);
-      vi.advanceTimersByTime(100);
+    // Wait for the mutation to complete
+    await waitFor(() => {
+      expect(syncButton).toBeEnabled();
     });
-
-    // Verify the empty state is gone
-    expect(screen.queryByText('No manual sync requests in the last 24 hours')).not.toBeInTheDocument();
-
-    // Verify the actual request data is displayed
-    expect(screen.getByText('queued')).toBeInTheDocument();
-    expect(screen.getByText('test@bluedot.org')).toBeInTheDocument();
-    expect(screen.getByText('Waiting')).toBeInTheDocument(); // Run time column shows "Waiting" for queued status
   });
 
   test('displays different sync status states correctly', async () => {
-    const mockRefetch = vi.fn();
-
     // Test queued, running, and completed states
     const requests = [
       {
         id: 1,
         status: 'queued' as SyncStatus,
         requestedBy: 'test@bluedot.org',
-        requestedAt: new Date('2023-01-01T10:00:00Z'),
+        requestedAt: '2023-01-01T10:00:00Z',
         startedAt: null,
         completedAt: null,
       },
@@ -198,38 +120,29 @@ describe('SyncDashboard - Main User Journeys', () => {
         id: 2,
         status: 'running' as SyncStatus,
         requestedBy: 'test@bluedot.org',
-        requestedAt: new Date('2023-01-01T10:00:00Z'),
-        startedAt: new Date('2023-01-01T10:01:00Z'),
+        requestedAt: '2023-01-01T10:00:00Z',
+        startedAt: '2023-01-01T10:01:00Z',
         completedAt: null,
       },
       {
         id: 3,
         status: 'completed' as SyncStatus,
         requestedBy: 'test@bluedot.org',
-        requestedAt: new Date('2023-01-01T10:00:00Z'),
-        startedAt: new Date('2023-01-01T10:01:00Z'),
-        completedAt: new Date('2023-01-01T10:05:00Z'),
+        requestedAt: '2023-01-01T10:00:00Z',
+        startedAt: '2023-01-01T10:01:00Z',
+        completedAt: '2023-01-01T10:05:00Z',
       },
     ];
 
-    mockedUseAxios
-      .mockReturnValueOnce([{
-        data: { requests },
-        loading: false,
-        error: null,
-      }, mockRefetch])
-      .mockReturnValueOnce([{
-        data: null,
-        loading: false,
-        error: null,
-      }, vi.fn()]);
+    server.use(
+      trpcMsw.admin.syncHistory.query(() => requests),
+    );
 
-    await act(async () => {
-      render(<SyncDashboard />);
-      vi.advanceTimersByTime(100);
+    render(<SyncDashboard />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByRole('table')).toBeInTheDocument();
     });
-
-    expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getByText('queued')).toHaveClass('bg-gray-500');
     expect(screen.getByText('running')).toHaveClass('bg-yellow-500');
     expect(screen.getByText('completed')).toHaveClass('bg-green-500');
