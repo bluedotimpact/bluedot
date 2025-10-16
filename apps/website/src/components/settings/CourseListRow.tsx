@@ -24,7 +24,7 @@ const CourseListRow = ({
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isCompleted);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
@@ -41,15 +41,25 @@ const CourseListRow = ({
     autoCancel: false,
   });
 
+  // Edge case: The user has been accepted but has no group assigned
+  const isNotInGroup = meetPersonData?.meetPerson
+    && (!meetPersonData.meetPerson.groupsAsParticipant || meetPersonData.meetPerson.groupsAsParticipant.length === 0);
+
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
+    if (!meetPersonData) {
+      return;
+    }
+
+    if (isNotInGroup) {
+      setIsExpanded(false);
+    }
+
     const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson || isCompleted) {
+      if (!meetPersonData.meetPerson) {
         setLoading(false);
         return;
       }
-
-      setLoading(true);
 
       // Only fetch expected discussions for the list row
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
@@ -135,10 +145,6 @@ const CourseListRow = ({
   const isNextDiscussionStartingSoon = nextDiscussion
     ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
     : false;
-
-  // Edge case: The user has been accepted but has no group assigned
-  const isNotInGroup = !isCompleted && meetPersonData?.meetPerson
-    && (!meetPersonData.meetPerson.groupsAsParticipant || meetPersonData.meetPerson.groupsAsParticipant.length === 0);
 
   const getPrimaryCtaButton = () => {
     if (isNotInGroup) {
