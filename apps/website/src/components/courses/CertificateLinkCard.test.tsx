@@ -5,8 +5,8 @@ import {
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
-import { trpc } from '../../utils/trpc';
 import CertificateLinkCard from './CertificateLinkCard';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -21,19 +21,6 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-// Mock tRPC
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    certificates: {
-      request: {
-        useMutation: vi.fn(),
-      },
-    },
-  },
-}));
-
-const mockedTrpc = vi.mocked(trpc);
-
 // Type helpers
 type UseAxiosReturnType = ReturnType<typeof useAxios>;
 
@@ -45,14 +32,6 @@ describe('CertificateLinkCard', () => {
     } as ReturnType<typeof useRouter>);
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2024-01-01'));
-
-    // Default mock for tRPC mutation
-    (mockedTrpc.certificates.request.useMutation as ReturnType<typeof vi.fn>).mockReturnValue({
-      mutate: vi.fn(),
-      isPending: false,
-      isError: false,
-      error: null,
-    });
   });
 
   describe('Not authenticated', () => {
@@ -63,6 +42,7 @@ describe('CertificateLinkCard', () => {
     test('renders regular course', () => {
       render(
         <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify login prompt is shown
@@ -74,6 +54,7 @@ describe('CertificateLinkCard', () => {
     test('renders FoAI course with different content', () => {
       render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify FoAI-specific content
@@ -99,6 +80,7 @@ describe('CertificateLinkCard', () => {
 
       render(
         <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify loading indicator is shown
@@ -127,6 +109,7 @@ describe('CertificateLinkCard', () => {
 
       render(
         <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify not eligible message
@@ -155,6 +138,7 @@ describe('CertificateLinkCard', () => {
 
       render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify that download certificate button is shown for FoAI course
@@ -190,6 +174,7 @@ describe('CertificateLinkCard', () => {
 
       render(
         <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
       );
 
       // Verify specific content
