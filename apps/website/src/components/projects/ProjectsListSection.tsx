@@ -12,7 +12,7 @@ import { H3, P } from '../Text';
 type CmsProject = inferRouterOutputs<AppRouter>['projects']['getAll'][number];
 
 export type ProjectsListSectionProps = {
-  maxItems?: number | undefined,
+  maxItems?: number | undefined;
 };
 
 // Component for rendering a single project item
@@ -36,7 +36,7 @@ export const ProjectListItem = ({ project }: { project: CmsProject }) => {
 // Component for rendering the projects list view
 type ProjectsListViewProps = {
   title: string;
-  projects: CmsProject[]
+  projects: CmsProject[];
   maxItems?: number;
 };
 
@@ -69,18 +69,18 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
   return (
     <Section title={title}>
       {projects.length === 0 ? (
-        <P>
-          No projects available at the moment.
-        </P>
+        <P>No projects available at the moment.</P>
       ) : (
         <>
           {groupedSortedProjects.map(([course, courseProjects]) => (
             <div key={course} className="mb-12">
               <H3>{course}</H3>
-              <div className="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {courseProjects.slice(0, maxItems ? Math.min(maxItems, courseProjects.length) : undefined).map((project) => (
-                  <ProjectListItem key={project.id} project={project} />
-                ))}
+              <div className="mt-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {courseProjects
+                  .slice(0, maxItems ? Math.min(maxItems, courseProjects.length) : undefined)
+                  .map((project) => (
+                    <ProjectListItem key={project.id} project={project} />
+                  ))}
               </div>
             </div>
           ))}
@@ -105,16 +105,14 @@ const ProjectsListSection = ({ maxItems }: ProjectsListSectionProps) => {
   }
 
   if (loading) {
-    return <Section title={title}><ProgressDots /></Section>;
+    return (
+      <Section title={title}>
+        <ProgressDots />
+      </Section>
+    );
   }
 
-  return (
-    <ProjectsListView
-      title={title}
-      projects={projects || []}
-      maxItems={maxItems}
-    />
-  );
+  return <ProjectsListView title={title} projects={projects || []} maxItems={maxItems} />;
 };
 
 export default ProjectsListSection;
