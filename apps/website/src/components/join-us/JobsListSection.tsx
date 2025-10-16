@@ -13,11 +13,13 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
       {jobs.length === 0 ? (
         <P>We're not currently running any open hiring rounds at the moment.</P>
       ) : (
-        <div className="jobs-list__container flex flex-col gap-8">
+        <ul className="list-none flex flex-col gap-8">
           {jobs.map((job) => (
-            <JobListItem key={job.id} job={job} />
+            <li key={job.id}>
+              <JobListItem job={job} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </Section>
   );
@@ -27,17 +29,15 @@ const JobListItem = ({ job }: { job: JobsListSectionProps[number] }) => {
   const url = `${ROUTES.joinUs.url}/${job.slug}`;
 
   return (
-    <div className="jobs-list__listing">
-      <Card
-        className="jobs-list__card container-lined hover:container-elevated p-8"
-        ctaText="Learn more"
-        ctaUrl={url}
-        isEntireCardClickable
-        isFullWidth
-        subtitle={job.subtitle}
-        title={job.title}
-      />
-    </div>
+    <Card
+      className="container-lined hover:container-elevated p-8"
+      ctaText="Learn more"
+      ctaUrl={url}
+      isEntireCardClickable
+      isFullWidth
+      subtitle={job.subtitle}
+      title={job.title}
+    />
   );
 };
 
