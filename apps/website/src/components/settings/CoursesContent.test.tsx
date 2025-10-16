@@ -27,8 +27,9 @@ vi.mock('./CourseListRow', () => ({
 }));
 
 describe('CoursesContent', () => {
+  const courseId = 'course-1';
   const mockCourse = {
-    id: 'course-1',
+    id: courseId,
     title: 'Introduction to AI Safety',
     description: 'Learn the fundamentals of AI safety.',
     durationDescription: '8 weeks',
@@ -36,7 +37,7 @@ describe('CoursesContent', () => {
     path: '/courses/ai-safety',
   };
 
-  const mockCourseRegistration = createMockCourseRegistration();
+  const mockCourseRegistration = createMockCourseRegistration({ courseId });
 
   beforeEach(() => {
     vi.clearAllMocks();
