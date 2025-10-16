@@ -1,36 +1,12 @@
-import {
-  render,
-  fireEvent,
-  screen,
-  waitFor,
-  act,
-} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { TRPCClientError } from '@trpc/client';
 import {
-  describe,
-  expect,
-  test,
-  vi,
-  beforeEach,
-  afterEach,
-  type MockedFunction,
-} from 'vitest';
-import { trpc } from '../../utils/trpc';
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
+import { TRPCError } from '@trpc/server';
+import { describe, expect, test } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import PasswordSection from './PasswordSection';
-
-// Mock tRPC
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    users: {
-      changePassword: {
-        useMutation: vi.fn(),
-      },
-    },
-  },
-}));
-
-const mockedTrpc = vi.mocked(trpc, true);
 
 describe('PasswordSection - User Journeys', () => {
   // Test data
@@ -38,19 +14,6 @@ describe('PasswordSection - User Journeys', () => {
     current: 'MyCurrentPassword123!',
     new: 'MyNewSecurePassword456!',
   };
-
-  // Mock mutation object
-  let mockMutate: MockedFunction<(
-    args: { currentPassword: string; newPassword: string },
-    options?: {
-      onSuccess?: () => void;
-      onError?: (error: unknown) => void;
-      onSettled?: () => void;
-    }
-  ) => void>;
-
-  // Helper to flush all pending promises
-  const flushPromises = () => new Promise((resolve) => { setTimeout(resolve, 0); });
 
   // Helper functions
   const openPasswordModal = () => {
@@ -75,56 +38,19 @@ describe('PasswordSection - User Journeys', () => {
     fireEvent.click(updateButton);
   };
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    // Setup mock mutation
-    mockMutate = vi.fn();
-    mockedTrpc.users.changePassword.useMutation.mockReturnValue({
-      mutate: mockMutate,
-    } as unknown as ReturnType<typeof trpc.users.changePassword.useMutation>);
-  });
-
-  afterEach(() => {
-    vi.clearAllTimers();
-  });
-
   test('User can successfully change their password', async () => {
-    // Setup successful response
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onSuccess?.();
-      options?.onSettled?.();
-    });
+    server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User clicks "Change Password" button
     openPasswordModal();
 
     // User fills in the form correctly
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     // User submits the form
     submitForm();
-
-    // Wait for the API call and success flow
-    await waitFor(() => {
-      expect(mockMutate).toHaveBeenCalledWith(
-        {
-          currentPassword: validPasswords.current,
-          newPassword: validPasswords.new,
-        },
-        expect.objectContaining({
-          onSuccess: expect.any(Function),
-          onError: expect.any(Function),
-          onSettled: expect.any(Function),
-        }),
-      );
-    });
 
     // User sees success message
     const successMessage = await screen.findByRole('status');
@@ -134,35 +60,20 @@ describe('PasswordSection - User Journeys', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees error when current password is wrong', async () => {
-    // Setup UNAUTHORIZED error response
-    const error = new TRPCClientError('Unauthorized');
-    // Mock the data property that the component checks
-    Object.defineProperty(error, 'data', {
-      value: { code: 'UNAUTHORIZED' },
-      writable: true,
-    });
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onError?.(error);
-      options?.onSettled?.();
-    });
+    server.use(
+      trpcMsw.users.changePassword.mutation(() => {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Incorrect password' });
+      }),
+    );
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
-    fillPasswordForm(
-      'WrongPassword123!',
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm('WrongPassword123!', validPasswords.new, validPasswords.new);
 
     // User submits
     submitForm();
@@ -181,15 +92,10 @@ describe('PasswordSection - User Journeys', () => {
 
     // Error clears when user types
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees validation errors for invalid inputs', async () => {
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -203,15 +109,8 @@ describe('PasswordSection - User Journeys', () => {
     expect(errors[1]).toHaveTextContent('Password must be at least 8 characters');
     expect(errors[2]).toHaveTextContent('Please confirm your new password');
 
-    // No API call should be made
-    expect(mockMutate).not.toHaveBeenCalled();
-
     // User fills current password and short new password
-    fillPasswordForm(
-      validPasswords.current,
-      'short',
-      'short',
-    );
+    fillPasswordForm(validPasswords.current, 'short', 'short');
     submitForm();
 
     // User sees password length error
@@ -221,11 +120,7 @@ describe('PasswordSection - User Journeys', () => {
     expect(lengthError).toBeInTheDocument();
 
     // User fixes password but confirms don't match
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      'DifferentPassword123!',
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, 'DifferentPassword123!');
     submitForm();
 
     // User sees mismatch error
@@ -234,16 +129,12 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can cancel password change', async () => {
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
     // User fills in some data
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      'MismatchedPassword',
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, 'MismatchedPassword');
 
     // User decides to cancel
     const cancelButton = screen.getByRole('button', { name: /cancel/i });
@@ -260,29 +151,17 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User can submit form with Enter key', async () => {
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onSuccess?.();
-      options?.onSettled?.();
-    });
+    server.use(trpcMsw.users.changePassword.mutation(() => ({ message: 'Password updated successfully' })));
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     // User presses Enter in any field
     fireEvent.keyDown(screen.getByLabelText(/confirm new password/i), {
       key: 'Enter',
       code: 'Enter',
-    });
-
-    // Form is submitted
-    await waitFor(() => {
-      expect(mockMutate).toHaveBeenCalled();
     });
 
     // Success message appears
@@ -293,15 +172,10 @@ describe('PasswordSection - User Journeys', () => {
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees helpful password hint', () => {
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
@@ -313,22 +187,17 @@ describe('PasswordSection - User Journeys', () => {
 
   test('Form is properly disabled during submission', async () => {
     // Mock a slow API response
-    let callOnSuccess: (() => void) | undefined;
-    let callOnSettled: (() => void) | undefined;
-
-    mockMutate.mockImplementation((_args, options) => {
-      callOnSuccess = options?.onSuccess;
-      callOnSettled = options?.onSettled;
+    let resolvePromise: (value: { message: string }) => void;
+    const promise = new Promise<{ message: string }>((resolve) => {
+      resolvePromise = resolve;
     });
 
-    render(<PasswordSection />);
+    server.use(trpcMsw.users.changePassword.mutation(() => promise));
+
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     submitForm();
 
@@ -342,33 +211,20 @@ describe('PasswordSection - User Journeys', () => {
     // Loading state is shown
     expect(screen.getByText('Updating...')).toBeInTheDocument();
 
-    // Resolve the mutation by calling callbacks
-    act(() => {
-      callOnSuccess?.();
-      callOnSettled?.();
-    });
-
+    // Resolve the promise and wait for the component to update
+    resolvePromise!({ message: 'Password updated successfully' });
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    });
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
     });
   });
 
   test('User can close modal with Escape key', async () => {
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     openPasswordModal();
 
     // User fills in some data
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      'MismatchedPassword',
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, 'MismatchedPassword');
 
     // User presses Escape key in any field
     fireEvent.keyDown(screen.getByLabelText(/current password/i), {
@@ -387,102 +243,78 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees system error messages when backend has configuration issues', async () => {
-    // Setup error response with custom message
-    const error = new TRPCClientError('Authentication service not configured. Please contact support.');
-    Object.defineProperty(error, 'data', {
-      value: { code: 'INTERNAL_SERVER_ERROR' },
-      writable: true,
-    });
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onError?.(error);
-      options?.onSettled?.();
-    });
+    server.use(
+      trpcMsw.users.changePassword.mutation(() => {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Authentication service not configured. Please contact support.',
+        });
+      }),
+    );
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     // User submits
     submitForm();
 
     // User sees the configuration error message
     const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Failed to update password: Authentication service not configured. Please contact support.');
+    expect(errorMessage).toHaveTextContent(
+      'Failed to update password: Authentication service not configured. Please contact support.',
+    );
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees generic error message for unexpected backend errors', async () => {
-    // Setup error response
-    const error = new TRPCClientError('An unexpected error occurred during authentication.');
-    Object.defineProperty(error, 'data', {
-      value: { code: 'INTERNAL_SERVER_ERROR' },
-      writable: true,
-    });
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onError?.(error);
-      options?.onSettled?.();
-    });
+    server.use(
+      trpcMsw.users.changePassword.mutation(() => {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An unexpected error occurred during authentication.',
+        });
+      }),
+    );
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     // User submits
     submitForm();
 
     // User sees the error message
     const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent('Failed to update password: An unexpected error occurred during authentication.');
+    expect(errorMessage).toHaveTextContent(
+      'Failed to update password: An unexpected error occurred during authentication.',
+    );
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 
   test('User sees fallback error message when backend error has no details', async () => {
-    // Setup error response with no error message
-    const error = new TRPCClientError('');
-    Object.defineProperty(error, 'data', {
-      value: { code: 'INTERNAL_SERVER_ERROR' },
-      writable: true,
-    });
-    mockMutate.mockImplementation((_args, options) => {
-      options?.onError?.(error);
-      options?.onSettled?.();
-    });
+    server.use(
+      trpcMsw.users.changePassword.mutation(() => {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '',
+        });
+      }),
+    );
 
-    render(<PasswordSection />);
+    render(<PasswordSection />, { wrapper: TrpcProvider });
 
     // User opens modal and fills form
     openPasswordModal();
-    fillPasswordForm(
-      validPasswords.current,
-      validPasswords.new,
-      validPasswords.new,
-    );
+    fillPasswordForm(validPasswords.current, validPasswords.new, validPasswords.new);
 
     // User submits
     submitForm();
@@ -493,10 +325,5 @@ describe('PasswordSection - User Journeys', () => {
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-
-    // Ensure all promises including the finally block are resolved
-    await act(async () => {
-      await flushPromises();
-    });
   });
 });

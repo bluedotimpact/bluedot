@@ -9,12 +9,12 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Blog } from '@bluedot/db';
+import { Blog, blogTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
-import { getBlogIfPublished } from '../api/cms/blogs/[slug]';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import { A } from '../../components/Text';
+import db from '../../lib/api/db';
 
 type BlogPostPageProps = {
   slug: string;
@@ -116,7 +116,7 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
   }
 
   try {
-    const blog = await getBlogIfPublished(slug);
+    const blog = await db.get(blogTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
     return {
       props: {
