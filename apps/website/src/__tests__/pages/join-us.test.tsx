@@ -1,27 +1,15 @@
-import { render } from '@testing-library/react';
-import {
-  describe, expect, test, vi,
-} from 'vitest';
+import '@testing-library/jest-dom';
+import { render, waitFor } from '@testing-library/react';
+import { describe, expect, test } from 'vitest';
 import JoinUsPage from '../../pages/join-us';
+import { server, trpcMsw } from '../trpcMswSetup';
 import { TrpcProvider } from '../trpcProvider';
 
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    jobs: {
-      getAll: {
-        useQuery: vi.fn(() => ({
-          data: [],
-          isLoading: false,
-          error: null,
-        })),
-      },
-    },
-  },
-}));
-
 describe('JoinUsPage', () => {
-  test('should render correctly', () => {
+  test('should render correctly', async () => {
+    server.use(trpcMsw.jobs.getAll.query(() => []));
     const { container } = render(<JoinUsPage />, { wrapper: TrpcProvider });
+    await waitFor(() => expect(container.querySelector('section')).toBeInTheDocument());
     expect(container).toMatchSnapshot();
   });
 });
