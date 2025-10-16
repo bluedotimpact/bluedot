@@ -80,11 +80,13 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
           {groupedSortedProjects.map(([course, courseProjects]) => (
             <div key={course} className="mb-12">
               <H3>{course}</H3>
-              <div className="mt-4 project-list__container grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <ul className="list-none mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {courseProjects.slice(0, maxItems ? Math.min(maxItems, courseProjects.length) : undefined).map((project) => (
-                  <ProjectListItem key={project.id} project={project} />
+                  <li key={project.id}>
+                    <ProjectListItem project={project} />
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </>
