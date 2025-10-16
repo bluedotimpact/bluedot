@@ -57,16 +57,14 @@ export default makeApiRoute({
   if (typeof courseSlug !== 'string') {
     throw new createHttpError.BadRequest('Invalid course slug');
   }
-  if (!isManualRequest) {
-    if (isTemporarySwitch && !inputOldDiscussionId) {
-      throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit, unless requesting a manual switch');
-    }
-    if (isTemporarySwitch && !inputNewDiscussionId) {
-      throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
-    }
-    if (!isTemporarySwitch && !inputNewGroupId) {
-      throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently, unless requesting a manual switch');
-    }
+  if (isTemporarySwitch && !inputOldDiscussionId) {
+    throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit');
+  }
+  if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
+    throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
+  }
+  if (!isTemporarySwitch && !isManualRequest && !inputNewGroupId) {
+    throw new createHttpError.BadRequest('newGroupId is required when switching groups permanently, unless requesting a manual switch');
   }
 
   const course = await db.get(courseTable, { slug: courseSlug });

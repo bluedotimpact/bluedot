@@ -25,7 +25,6 @@ export type GroupSwitchModalProps = {
   handleClose: () => void;
   initialUnitNumber?: string;
   initialSwitchType?: SwitchType;
-  initialIsManual?: boolean;
   courseSlug: string;
 };
 
