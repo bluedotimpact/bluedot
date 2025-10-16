@@ -1,5 +1,5 @@
 import { render, RenderResult } from '@testing-library/react';
-import type { Course } from '@bluedot/db';
+import type { Course, CourseRegistration } from '@bluedot/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -63,5 +63,25 @@ export const mockCourse = (overrides: Partial<Course> = {}): Course => ({
   status: 'published',
   title: 'Course Title',
   units: [],
+  ...overrides,
+});
+
+export const createMockCourseRegistration = (overrides: Partial<CourseRegistration> = {}): CourseRegistration => ({
+  id: 'rec-test-id',
+  role: 'Participant',
+  email: 'user@example.com',
+  autoNumberId: 1,
+  firstName: 'Test',
+  lastName: 'User',
+  courseId: 'rec123456789',
+  userId: null,
+  fullName: 'Test User',
+  courseApplicationsBaseId: 'base123',
+  decision: 'Accept',
+  certificateId: null,
+  certificateCreatedAt: null,
+  roundStatus: null,
+  lastVisitedUnitNumber: null,
+  lastVisitedChunkIndex: null,
   ...overrides,
 });

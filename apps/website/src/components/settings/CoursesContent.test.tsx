@@ -7,6 +7,7 @@ import '@testing-library/jest-dom';
 import CoursesContent from './CoursesContent';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { createMockCourseRegistration } from '../../__tests__/testUtils';
 
 vi.mock('axios-hooks');
 
@@ -35,24 +36,7 @@ describe('CoursesContent', () => {
     path: '/courses/ai-safety',
   };
 
-  const mockCourseRegistration = {
-    id: 'reg-1',
-    email: 'test@example.com',
-    autoNumberId: 1,
-    userId: 'user-1',
-    firstName: 'Test',
-    lastName: 'User',
-    fullName: 'Test User',
-    courseApplicationsBaseId: 'app-base-1',
-    courseId: 'course-1',
-    decision: 'Accept',
-    role: 'Participant',
-    certificateCreatedAt: null,
-    certificateId: null,
-    lastVisitedUnitNumber: null,
-    lastVisitedChunkIndex: null,
-    roundStatus: 'Active',
-  };
+  const mockCourseRegistration = createMockCourseRegistration();
 
   beforeEach(() => {
     vi.clearAllMocks();

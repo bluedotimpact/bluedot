@@ -4,10 +4,10 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
-import { CourseRegistration } from '@bluedot/db';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
 import { trpc } from '../../utils/trpc';
+import { createMockCourseRegistration } from '../../__tests__/testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -36,26 +36,6 @@ vi.mock('../../utils/trpc', () => ({
 
 // Type helpers
 type UseAxiosReturnType = ReturnType<typeof useAxios>;
-
-const createMockCourseRegistration = (overrides: Partial<CourseRegistration> = {}): CourseRegistration => ({
-  id: 'rec-test-id',
-  role: 'Participant',
-  email: 'user@example.com',
-  autoNumberId: 1,
-  firstName: 'Test',
-  lastName: 'User',
-  courseId: 'rec123456789',
-  userId: null,
-  fullName: 'Test User',
-  courseApplicationsBaseId: 'base123',
-  decision: 'Accept',
-  certificateId: null,
-  certificateCreatedAt: null,
-  roundStatus: null,
-  lastVisitedUnitNumber: null,
-  lastVisitedChunkIndex: null,
-  ...overrides,
-});
 
 describe('CertificateLinkCard', () => {
   beforeEach(() => {
