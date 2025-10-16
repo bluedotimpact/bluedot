@@ -9,7 +9,12 @@ describe('JoinUsPage', () => {
   test('should render correctly', async () => {
     server.use(trpcMsw.jobs.getAll.query(() => []));
     const { container } = render(<JoinUsPage />, { wrapper: TrpcProvider });
-    await waitFor(() => expect(container.querySelector('section')).toBeInTheDocument());
+
+    // Wait for loading to finish - check that ProgressDots are gone
+    await waitFor(() => {
+      expect(container.querySelector('.progress-dots')).not.toBeInTheDocument();
+    }, { timeout: 5000 });
+
     expect(container).toMatchSnapshot();
   });
 });
