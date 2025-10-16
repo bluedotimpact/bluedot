@@ -751,93 +751,20 @@ describe('GroupSwitchModal', () => {
   });
 
   describe('Participant without group', () => {
+    // Derive mock data from base by setting userIsParticipant to false everywhere
     const mockSwitchingDataNoGroup: GetGroupSwitchingAvailableResponse = {
-      type: 'success',
-      groupsAvailable: [
-        {
-          group: {
-            id: 'group-1',
-            groupName: 'Morning Group A',
-            autoNumberId: null,
-            groupDiscussions: [],
-            round: 'round-1',
-            participants: [], // No participants - user not in this group
-            startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000),
-            whoCanSwitchIntoThisGroup: [],
-          },
-          userIsParticipant: false,
-          spotsLeftIfKnown: 3,
-          allDiscussionsHaveStarted: false,
-        },
-        {
-          group: {
-            id: 'group-2',
-            groupName: 'Evening Group B',
-            autoNumberId: null,
-            groupDiscussions: [],
-            round: 'round-1',
-            participants: [],
-            startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000),
-            whoCanSwitchIntoThisGroup: [],
-          },
-          userIsParticipant: false,
-          spotsLeftIfKnown: 3,
-          allDiscussionsHaveStarted: false,
-        },
-      ],
+      ...mockSwitchingData,
+      groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
+        ...g,
+        userIsParticipant: false,
+        spotsLeftIfKnown: 3,
+      })),
       discussionsAvailable: {
-        1: [
-          {
-            discussion: {
-              id: 'discussion-1',
-              startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000),
-              unit: 'unit-1',
-              unitNumber: 1,
-              autoNumberId: null,
-              group: 'group-1',
-              round: null,
-              facilitators: [],
-              participantsExpected: [],
-              attendees: [],
-              endDateTime: 0,
-              zoomAccount: null,
-              courseSite: null,
-              zoomLink: null,
-              activityDoc: null,
-              slackChannelId: null,
-              courseBuilderUnitRecordId: null,
-            },
-            groupName: 'Morning Group A',
-            userIsParticipant: false,
-            spotsLeftIfKnown: 3,
-            hasStarted: false,
-          },
-          {
-            discussion: {
-              id: 'discussion-2',
-              startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
-              unit: 'unit-1',
-              unitNumber: 1,
-              autoNumberId: null,
-              group: 'group-2',
-              round: null,
-              facilitators: [],
-              participantsExpected: [],
-              attendees: [],
-              endDateTime: 0,
-              zoomAccount: null,
-              courseSite: null,
-              zoomLink: null,
-              activityDoc: null,
-              slackChannelId: null,
-              courseBuilderUnitRecordId: null,
-            },
-            groupName: 'Evening Group B',
-            userIsParticipant: false,
-            spotsLeftIfKnown: 3,
-            hasStarted: false,
-          },
-        ],
+        1: mockSwitchingData.discussionsAvailable[1]!.map((d) => ({
+          ...d,
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+        })),
       },
     };
 
@@ -870,35 +797,76 @@ describe('GroupSwitchModal', () => {
         <GroupSwitchModal
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
       );
-      await waitFor(() => {
-        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
-      });
-
-      // Change switch type to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
-      fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
-      fireEvent.click(permanentOption);
 
       // Wait for UI to update
       await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
         expect(screen.getByText('Morning Group A')).toBeInTheDocument();
         expect(screen.getByText('Evening Group B')).toBeInTheDocument();
       });
 
-      // Verify "You are currently in this group" text does NOT appear
+      // Verify "You are currently in this group" or "You are switching out of this group" text does NOT appear
       expect(screen.queryByText(/You are currently in this group/i)).not.toBeInTheDocument();
-
-      // Verify "You are switching out of this group" text does NOT appear
       expect(screen.queryByText(/You are switching out of this group/i)).not.toBeInTheDocument();
 
-      // Verify both groups are shown as options (not as current group)
       expect(screen.getByText('Morning Group A')).toBeInTheDocument();
       expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+    });
+
+    test('Participant with no group can request non-manual switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Fill in form
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'This time works best for my schedule' },
+      });
+      const eveningGroupOption = screen.getByLabelText('Select Evening Group B');
+      fireEvent.click(eveningGroupOption);
+
+      // Queue up mock for successful submit response
+      mockSubmitGroupSwitch.mockResolvedValueOnce({
+        data: { type: 'success' } as GroupSwitchingResponse,
+      });
+
+      const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
+      fireEvent.click(confirmButton);
+
+      // Verify the API was called with correct data: newGroupId set, oldGroupId undefined
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
+          data: {
+            switchType: 'Switch group permanently',
+            notesFromParticipant: 'This time works best for my schedule',
+            isManualRequest: false,
+            oldGroupId: undefined,
+            newGroupId: 'group-2',
+            oldDiscussionId: undefined,
+            newDiscussionId: undefined,
+          } as GroupSwitchingRequest,
+        });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Success!')).toBeInTheDocument();
+      });
     });
 
     test('Participant with no group can request manual permanent switch', async () => {
@@ -906,21 +874,14 @@ describe('GroupSwitchModal', () => {
         <GroupSwitchModal
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
       );
+
+      // Wait for UI to update
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
-      });
-
-      // Change switch type to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
-      fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
-      fireEvent.click(permanentOption);
-
-      await waitFor(() => {
         expect(screen.getByText('Morning Group A')).toBeInTheDocument();
       });
 
@@ -932,6 +893,7 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
       });
 
+      // Fill in form
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'I need to join a group as I was accepted late' },
@@ -945,7 +907,7 @@ describe('GroupSwitchModal', () => {
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
 
-      // Verify the API was called with correct data - no oldGroupId
+      // Verify the API was called with correct data: no oldGroupId
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           data: {
