@@ -163,8 +163,11 @@ export default makeApiRoute({
     if (newGroup?.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already a member of new group');
     }
-    if (newGroup && oldGroup && (oldGroup.round !== newGroup.round || newGroup.round !== participant.round)) {
-      throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
+    if (oldGroup && oldGroup.round !== participant.round) {
+      throw new createHttpError.BadRequest('Old group does not match the course round the user is registered for');
+    }
+    if (newGroup && newGroup.round !== participant.round) {
+      throw new createHttpError.BadRequest('New group does not match the course round the user is registered for');
     }
 
     if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
