@@ -6,10 +6,10 @@ import {
   courseTable,
   groupDiscussionTable,
   groupTable,
+  inArray,
   InferSelectModel,
   meetPersonTable,
   roundTable,
-  arrayOverlaps,
 } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../../../../lib/api/db';
@@ -181,38 +181,28 @@ export default makeApiRoute({
   const round = await db.get(roundTable, { id: roundId });
 
   /**
-   * Get groups the user is allowed to switch to.
-   *
-   * KNOWN ISSUE: Ideally this would get the buckets that the participant is a member of,
-   * and then look up groups that allow that bucket. Currently the Buckets table in the
-   * course runner base only has the People in the bucket as a list of names like "John Doe | AI Alignment (2024 Mar)",
-   * so we can't reliably look up by participant id.
-   *
-   * WORKAROUND: Look up the group (should be one group, but support many) the user is currently in, then look up
-   * groups that share a bucket with that group. Assume that if the user is allowed in their current group, they
-   * will be allowed in these groups that share a bucket.
+   * Get groups the user is allowed to switch to: Look up the participant's assigned buckets,
+   * and return all groups that are associated with those buckets.
    */
   const getAllowedGroups = async () => {
     const allGroups = await db.scan(groupTable, { round: roundId });
+    const participantGroupIds = allGroups.filter((g) => g.participants.includes(participant.id)).map((g) => g.id);
 
-    const participantGroups = allGroups.filter((g) => g.participants.includes(participant.id));
+    // Explicitly allow groups the user is already in
+    const allowedGroupIds = new Set<string>(participantGroupIds);
 
-    const participantGroupIds = participantGroups.map((g) => g.id);
-    if (!participantGroupIds.length) {
-      return [];
-    }
+    if (participant.buckets && participant.buckets.length > 0) {
+      const buckets = await db.pg
+        .select()
+        .from(courseRunnerBucketTable.pg)
+        .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
-    const allowedBuckets = await db.pg
-      .select()
-      .from(courseRunnerBucketTable.pg)
-      .where(arrayOverlaps(courseRunnerBucketTable.pg.groups, participantGroupIds));
-
-    const allowedGroupIds = new Set<string>();
-    allowedBuckets.forEach((bucket) => {
-      bucket.groups.forEach((groupId) => {
-        allowedGroupIds.add(groupId);
+      buckets.forEach((bucket) => {
+        bucket.groups.forEach((groupId) => {
+          allowedGroupIds.add(groupId);
+        });
       });
-    });
+    }
 
     return allGroups.filter((group) => allowedGroupIds.has(group.id));
   };

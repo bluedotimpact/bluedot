@@ -23,7 +23,8 @@ import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } fro
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
-  currentUnit: Unit;
+  initialUnitNumber?: string;
+  initialSwitchType?: SwitchType;
   courseSlug: string;
 };
 
@@ -93,12 +94,12 @@ const getGroupSwitchDescription = ({
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
-  currentUnit,
   courseSlug,
+  initialUnitNumber = '1',
+  initialSwitchType = 'Switch group for one unit',
 }) => {
-  const [switchType, setSwitchType] = useState<SwitchType>('Switch group for one unit');
-  // Use the current unit's number as the default selected unit
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
+  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');

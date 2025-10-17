@@ -245,7 +245,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     handleClose: () => {},
-    currentUnit: unit1,
+    initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -268,7 +268,7 @@ export const Default: Story = {
 export const AlternativeUnit: Story = {
   args: {
     handleClose: () => {},
-    currentUnit: unit2,
+    initialUnitNumber: unit2.unitNumber,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -291,7 +291,7 @@ export const AlternativeUnit: Story = {
 export const NoAvailableGroups: Story = {
   args: {
     handleClose: () => {},
-    currentUnit: unit3,
+    initialUnitNumber: unit3.unitNumber,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -311,7 +311,7 @@ export const NoAvailableGroups: Story = {
 export const Loading: Story = {
   args: {
     handleClose: () => {},
-    currentUnit: unit1,
+    initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
   },
   parameters: {

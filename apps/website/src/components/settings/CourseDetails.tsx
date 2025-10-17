@@ -391,7 +391,7 @@ const CourseDetails = ({
             setGroupSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          currentUnit={selectedDiscussion.unitRecord}
+          initialUnitNumber={selectedDiscussion.unitRecord.unitNumber.toString()}
           courseSlug={course.slug}
         />
       )}
