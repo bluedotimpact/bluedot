@@ -1,9 +1,12 @@
+import {
+  adminUsersTable, AirtableTsError, eq, ErrorType,
+} from '@bluedot/db';
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
-import { AirtableTsError, ErrorType } from '@bluedot/db';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SpanStatusCode, trace } from '@opentelemetry/api';
+import db from '../lib/api/db';
 import { Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
@@ -69,6 +72,19 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
     throw finalError;
   }
 });
+
+export const checkAdminAccess = async (email: string) => {
+  try {
+    const admin = await db.pg.select()
+      .from(adminUsersTable)
+      .where(eq(adminUsersTable.email, email))
+      .limit(1);
+
+    return admin.length > 0;
+  } catch {
+    return false;
+  }
+};
 
 // Base router and procedure helpers
 export const { router } = t;
