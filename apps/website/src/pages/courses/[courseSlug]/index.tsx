@@ -1,4 +1,5 @@
 import {
+  addQueryParam,
   Breadcrumbs,
   CTALinkOrButton,
   HeroCTAContainer,
@@ -50,9 +51,11 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
   return <StandardCoursePage courseData={courseData} />;
 };
 
+const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
+
 const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
-  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
-  const registerInterestUrl = appendLatestUtmParamsToUrl('https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc');
+  const { latestUtmParams } = useLatestUtmParams();
+  const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
   return (
     <div>
@@ -72,7 +75,7 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
                 </HeroCTAContainer>
               )}
               <HeroCTAContainer>
-                <CTALinkOrButton url={registerInterestUrl}>Register interest</CTALinkOrButton>
+                <CTALinkOrButton url={registerInterestUrlWithUtm}>Register interest</CTALinkOrButton>
               </HeroCTAContainer>
             </div>
           </HeroSection>

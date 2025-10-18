@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { addQueryParam } from '../utils/addQueryParam';
 
 type LatestUtmParamsContextType = {
-  latestUtmParams: Record<string, string | string[]>;
+  latestUtmParams: Record<string, string>;
   appendLatestUtmParamsToUrl: (url: string) => string;
 };
 
@@ -29,7 +29,7 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const latestUtmParamsRef = useRef<Record<string, string | string[]>>({});
+  const latestUtmParamsRef = useRef<Record<string, string>>({});
 
   const latestUtmParams = useMemo(() => {
     if (!router.isReady) {
@@ -42,8 +42,12 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
     for (const param of PASSTHROUGH_PARAMS) {
       const value = router.query[param];
       if (value) {
-        currentParams[param] = value;
-        hasCurrentUtmParams = true;
+        // Normalize to string: for array values, use the first value
+        const normalizedValue = Array.isArray(value) ? value[0] : value;
+        if (normalizedValue) {
+          currentParams[param] = normalizedValue;
+          hasCurrentUtmParams = true;
+        }
       }
     }
 
@@ -61,11 +65,8 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
       let result = url;
 
       Object.entries(latestUtmParams).forEach(([key, value]) => {
-        // For array values, only use the first value (arrays are unlikely in practice for UTM params)
-        const valueToAdd = Array.isArray(value) ? value[0] : value;
-
-        if (valueToAdd) {
-          result = addQueryParam(result, key, valueToAdd);
+        if (value) {
+          result = addQueryParam(result, key, value);
         }
       });
 
