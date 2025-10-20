@@ -14,7 +14,7 @@ export const certificatesRouter = router({
     .mutation(async ({ input: { email, courseRegistrationId, token } }) => {
       // This is similar to the `request` procedure below, but it does not rely on authentication and allows a
       // certificate to be created even if not all exercises are complete.
-      if (token !== env.CERTIFICATE_CREATION_TOKEN) {
+      if (!env.CERTIFICATE_CREATION_TOKEN || token !== env.CERTIFICATE_CREATION_TOKEN) {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
       }
 
