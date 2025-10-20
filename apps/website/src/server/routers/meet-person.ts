@@ -6,7 +6,7 @@ import { protectedProcedure, router } from '../trpc';
 
 export const meetPersonRouter = router({
   getByCourseRegistrationId: protectedProcedure
-    .input(z.string().optional())
+    .input(z.string())
     .query(async ({ input: courseRegistrationId, ctx }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
