@@ -13,17 +13,23 @@ export type GetCourseRegistrationResponse = {
 
 export default makeApiRoute({
   requireAuth: true,
+  requestBody: z.object({
+    source: z.string().nullish(),
+  }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
     courseRegistration: z.any(),
   }),
 }, async (body, { auth, raw }) => {
   switch (raw.req.method) {
-    case 'GET': {
+    case 'GET':
+    case 'POST': {
       const { courseId } = raw.req.query;
       if (typeof courseId !== 'string' || !courseId) {
         throw new createHttpError.BadRequest('Invalid courseId parameter');
       }
+
+      const source = body?.source;
 
       let courseRegistration: CourseRegistration | null;
       try {
@@ -56,6 +62,7 @@ export default makeApiRoute({
         courseApplicationsBaseId: applicationsCourse.id,
         role: 'Participant',
         decision: 'Accept',
+        source: source ?? null,
       });
 
       return {
