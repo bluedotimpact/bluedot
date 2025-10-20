@@ -1,11 +1,12 @@
 import { courseRegistrationTable, exerciseResponseTable, exerciseTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
+import env from '../../lib/api/env';
 import {
   checkAdminAccess, protectedProcedure, publicProcedure, router,
 } from '../trpc';
-import env from '../../lib/api/env';
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
@@ -14,7 +15,11 @@ export const certificatesRouter = router({
     .mutation(async ({ input: { email, courseRegistrationId, token } }) => {
       // This is similar to the `request` procedure below, but it does not rely on authentication and allows a
       // certificate to be created even if not all exercises are complete.
-      if (!env.CERTIFICATE_CREATION_TOKEN || token !== env.CERTIFICATE_CREATION_TOKEN) {
+      if (!env.CERTIFICATE_CREATION_TOKEN) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
+      }
+
+      if (!timingSafeEqual(Buffer.from(token), Buffer.from(env.CERTIFICATE_CREATION_TOKEN))) {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
       }
 
