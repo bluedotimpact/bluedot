@@ -29,7 +29,7 @@ export const certificatesRouter = router({
       const allExercises = await db.scan(exerciseTable, { courseIdRead: courseId, status: 'Active' });
 
       if (allExercises.length === 0) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No exercises found for this course' });
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No exercises found for this course' });
       }
 
       // Get all exercise responses for this user
