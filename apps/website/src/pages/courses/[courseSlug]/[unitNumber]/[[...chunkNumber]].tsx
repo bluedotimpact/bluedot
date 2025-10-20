@@ -74,15 +74,14 @@ const CourseUnitChunkPage = ({
     headers: {
       Authorization: `Bearer ${auth?.token}`,
     },
-    data: { source: latestUtmParams.utm_source ?? null },
   }, { manual: true });
 
   useEffect(() => {
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration().catch(() => { /* no op, as we ignore errors */ });
+      fetchCourseRegistration({ data: { source: latestUtmParams.utm_source ?? null } }).catch(() => { /* no op, as we ignore errors */ });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration]);
+  }, [auth, unit.courseId, fetchCourseRegistration, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {

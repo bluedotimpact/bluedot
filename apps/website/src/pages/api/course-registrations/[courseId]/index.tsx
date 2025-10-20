@@ -14,7 +14,7 @@ export type GetCourseRegistrationResponse = {
 export default makeApiRoute({
   requireAuth: true,
   requestBody: z.object({
-    source: z.string().nullish(),
+    source: z.string().trim().max(255).nullish(),
   }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
