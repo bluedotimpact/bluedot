@@ -75,7 +75,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
             <div key={course} className="mb-12">
               <H3>{course}</H3>
               <ul className="list-none mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {courseProjects.slice(0, maxItems ? Math.min(maxItems, courseProjects.length) : undefined).map((project) => (
+                {courseProjects.slice(0, maxItems).map((project) => (
                   <li key={project.id}>
                     <ProjectListItem project={project} />
                   </li>
