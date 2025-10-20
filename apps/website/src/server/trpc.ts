@@ -15,6 +15,10 @@ const t = initTRPC.context<Context>().create({
       return {
         ...shape,
         message: 'An internal server error occurred',
+        data: {
+          ...shape.data,
+          stack: undefined,
+        },
       };
     }
     return shape;
