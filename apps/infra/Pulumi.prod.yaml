@@ -28,3 +28,5 @@ config:
     secure: v1:xFifyNHW/RrW9Nu2:El+89xjeyp8EiGmgtvyscw129C+CinAwLde1sd6k6xgiorWDbUEaCdvq5jY7xewv
   infra:prodOnlyWebhookDeletion:
     secure: v1:9v9u5E5OOc+3SDxJ:V7AxNmgk9GmkCYegen7P9IEIZyQ=
+  infra:certificateCreationToken:
+    secure: v1:nTg8AuHAwbbxtnVV:yLRuK91k3798+d3qdkA+AIcnOIWqvin4XNEYdZo5ObmwDGfwIsC6wHoyagXO3jtrxSgf2EXCejhEmUDb
