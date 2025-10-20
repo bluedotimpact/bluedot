@@ -62,7 +62,6 @@ const CoursesContent = ({ authToken }: CoursesContentProps) => {
                   key={courseRegistration.id}
                   course={course}
                   courseRegistration={courseRegistration}
-                  authToken={authToken}
                   isFirst={index === 0}
                   isLast={index === inProgressCourses.length - 1}
                 />
