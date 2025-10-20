@@ -29,4 +29,4 @@ config:
   infra:prodOnlyWebhookDeletion:
     secure: v1:9v9u5E5OOc+3SDxJ:V7AxNmgk9GmkCYegen7P9IEIZyQ=
   infra:certificateCreationToken:
-    secure: v1:nTg8AuHAwbbxtnVV:yLRuK91k3798+d3qdkA+AIcnOIWqvin4XNEYdZo5ObmwDGfwIsC6wHoyagXO3jtrxSgf2EXCejhEmUDb
+    secure: v1:/LmEHmIJhdM2YpOA:NF9rrScCurxLl+Q7KsHLDGaL5gQG0Cq/MXiSHQp7EFq48csaa9Ub3iQGE1hkw9ni
