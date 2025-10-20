@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import {
+  addQueryParam,
   CTALinkOrButton,
   useLatestUtmParams,
 } from '@bluedot/ui';
@@ -89,8 +90,8 @@ const communityMembers: CommunityMember[] = [
 ];
 
 const AgiStrategyLander = () => {
-  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
-  const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
+  const { latestUtmParams } = useLatestUtmParams();
+  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
 
   return (
     <div className="bg-white">

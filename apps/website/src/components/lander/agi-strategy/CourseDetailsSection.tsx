@@ -1,4 +1,9 @@
-import { NewText, CTALinkOrButton, useLatestUtmParams } from '@bluedot/ui';
+import {
+  NewText,
+  CTALinkOrButton,
+  useLatestUtmParams,
+  addQueryParam,
+} from '@bluedot/ui';
 import {
   PiGraduationCap,
   PiClockClockwise,
@@ -12,8 +17,8 @@ const { H2, P } = NewText;
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
 const CourseDetailsSection = () => {
-  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
-  const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
+  const { latestUtmParams } = useLatestUtmParams();
+  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
 
   const courseDetails = [
     {
