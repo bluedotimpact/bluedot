@@ -383,7 +383,6 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          authToken={authToken}
           isLast={isLast}
         />
       )}
