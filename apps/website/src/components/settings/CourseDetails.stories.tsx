@@ -123,6 +123,8 @@ const mockMeetPerson: MeetPerson = {
   expectedDiscussionsParticipant: ['discussion-1', 'discussion-2'],
   expectedDiscussionsFacilitator: [],
   attendedDiscussions: ['discussion-3'],
+  groupsAsParticipant: ['group-1'],
+  buckets: ['bucket-1'],
   autoNumberId: 1,
 };
 
@@ -134,6 +136,8 @@ const mockFacilitatorMeetPerson: MeetPerson = {
   expectedDiscussionsParticipant: [],
   expectedDiscussionsFacilitator: ['discussion-1', 'discussion-2'],
   attendedDiscussions: ['discussion-3'],
+  groupsAsParticipant: ['group-1'],
+  buckets: ['bucket-1'],
   autoNumberId: 2,
 };
 
