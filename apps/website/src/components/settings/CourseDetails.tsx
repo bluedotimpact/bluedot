@@ -32,7 +32,7 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
     const fetchDiscussions = async () => {
-      if (!meetPerson) {
+      if (loading || !meetPerson) {
         return;
       }
 
