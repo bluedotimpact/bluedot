@@ -987,6 +987,12 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld2W2olE7mRRALMC',
     },
+    // Note: This is intended to be the `utm_source` for the session they registered in, not the source
+    // given by the user (this is a separate field called '[a] Source' in Airtable)
+    source: {
+      pgColumn: text(),
+      airtableId: 'fldQ9PM3ejhilPFc6',
+    },
   },
 });
 
