@@ -6,6 +6,7 @@ import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import { trpcMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
@@ -142,9 +143,7 @@ const mockFacilitatorMeetPerson: MeetPerson = {
 };
 
 const createMswHandlers = (meetPerson: MeetPerson) => [
-  http.get('/api/meet-person', () => {
-    return HttpResponse.json({ type: 'success', meetPerson });
-  }),
+  trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
   http.get('/api/group-discussions/:id', ({ params }) => {
     const { id } = params;
     const discussion = mockDiscussions[id as string];

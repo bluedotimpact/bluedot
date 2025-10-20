@@ -4,7 +4,8 @@ import './globals.css'
 import React from 'react';
 import type { Preview, StoryFn } from '@storybook/react';
 import { initialize, mswLoader } from 'msw-storybook-addon';
- 
+import { TrpcProvider } from '../../website/src/__tests__/trpcProvider';
+
 /*
  * Initializes MSW
  * See https://github.com/mswjs/msw-storybook-addon#configuring-msw
@@ -17,6 +18,12 @@ const withBluedotBase = (Story: StoryFn) => (
   </main>
 );
 
+const withTrpc = (Story: StoryFn) => (
+  <TrpcProvider>
+    <Story />
+  </TrpcProvider>
+);
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -26,7 +33,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [withBluedotBase],
+  decorators: [withTrpc, withBluedotBase],
   loaders: [mswLoader],
 };
 
