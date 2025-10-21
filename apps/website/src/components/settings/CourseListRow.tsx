@@ -384,6 +384,7 @@ const CourseListRow = ({
           course={course}
           courseRegistration={courseRegistration}
           authToken={authToken}
+          isLast={isLast}
         />
       )}
     </div>
