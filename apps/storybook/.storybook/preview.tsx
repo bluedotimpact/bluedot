@@ -4,7 +4,7 @@ import './globals.css'
 import React from 'react';
 import type { Preview, StoryFn } from '@storybook/react';
 import { initialize, mswLoader } from 'msw-storybook-addon';
-import { TrpcProvider } from '../../website/src/__tests__/trpcProvider';
+import { TrpcProvider } from './trpcProvider';
 
 /*
  * Initializes MSW
