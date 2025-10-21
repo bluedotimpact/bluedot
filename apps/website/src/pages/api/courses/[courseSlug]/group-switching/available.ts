@@ -208,7 +208,7 @@ export default makeApiRoute({
   };
   const allowedGroups = await getAllowedGroups();
 
-  if (allowedGroups.length === 0) {
+  if (allowedGroups.filter((g) => !g.participants.includes(participant.id)).length === 0) {
     await slackAlert(env, [
       `[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
     ]);
