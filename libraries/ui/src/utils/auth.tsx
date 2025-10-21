@@ -58,6 +58,7 @@ export type Auth = {
 export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
+  refresh: () => Promise<void>,
   internal_clearTimer: NodeJS.Timeout | null,
   internal_refreshTimer: NodeJS.Timeout | null,
   internal_visibilityHandler: (() => void) | null,
@@ -95,18 +96,7 @@ export const useAuthStore = create<{
     let refreshTimer: NodeJS.Timeout | null = null;
     if (auth.refreshToken && auth.oidcSettings) {
       refreshTimer = setTimeout(async () => {
-        if (get().internal_isRefreshing) return;
-        try {
-          set({ internal_isRefreshing: true });
-          const newAuth = await oidcRefresh(auth);
-          get().setAuth(newAuth);
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error('Token refresh failed:', error);
-          get().setAuth(null);
-        } finally {
-          set({ internal_isRefreshing: false });
-        }
+        await get().refresh();
       }, refreshInMs);
     }
 
@@ -123,20 +113,9 @@ export const useAuthStore = create<{
     const visibilityHandler = async () => {
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
-        if (get().internal_isRefreshing) return;
         // If token expires within the next minute, refresh now
         if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
-          try {
-            set({ internal_isRefreshing: true });
-            const newAuth = await oidcRefresh(currentAuth);
-            get().setAuth(newAuth);
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Token refresh on visibility failed:', error);
-            get().setAuth(null);
-          } finally {
-            set({ internal_isRefreshing: false });
-          }
+          await get().refresh();
         }
       }
     };
@@ -149,6 +128,26 @@ export const useAuthStore = create<{
       internal_refreshTimer: refreshTimer,
       internal_visibilityHandler: visibilityHandler,
     });
+  },
+  refresh: async () => {
+    const currentAuth = get().auth;
+    if (!currentAuth?.refreshToken || !currentAuth.oidcSettings) {
+      return;
+    }
+
+    if (get().internal_isRefreshing) return;
+
+    try {
+      set({ internal_isRefreshing: true });
+      const newAuth = await oidcRefresh(currentAuth);
+      get().setAuth(newAuth);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Token refresh failed:', error);
+      get().setAuth(null);
+    } finally {
+      set({ internal_isRefreshing: false });
+    }
   },
   internal_clearTimer: null,
   internal_refreshTimer: null,
