@@ -42,6 +42,29 @@ vi.mock('./MarkdownExtendedRenderer', () => ({
   },
 }));
 
+// Mock tRPC
+vi.mock('../../utils/trpc', () => ({
+  trpc: {
+    resources: {
+      getResourceCompletion: {
+        useQuery: vi.fn(() => ({
+          data: undefined,
+          isLoading: false,
+          error: null,
+          refetch: vi.fn(),
+        })),
+      },
+      saveResourceCompletion: {
+        useMutation: vi.fn(() => ({
+          mutateAsync: vi.fn(),
+          isLoading: false,
+          error: null,
+        })),
+      },
+    },
+  },
+}));
+
 describe('ResourceListItem - Listen to Article Feature', () => {
   const baseResource = {
     id: 'test-resource-1',

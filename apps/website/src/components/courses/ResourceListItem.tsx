@@ -2,7 +2,6 @@ import {
   useCallback, useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
 import {
   addQueryParam,
   ProgressDots, useAuthStore,
@@ -13,7 +12,6 @@ import { unitResourceTable, InferSelectModel } from '@bluedot/db';
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
 import { RESOURCE_FEEDBACK, ResourceFeedbackValue } from '@bluedot/db/src/schema';
-import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
 import {
   A, P,
 } from '../Text';
@@ -21,6 +19,7 @@ import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
+import { trpc } from '../../utils/trpc';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
@@ -121,46 +120,34 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Fetch resource completion data
-  const [{
+  // Fetch resource completion data (only when authenticated)
+  const {
     data: completionData,
-    loading: completionLoading,
+    isLoading: completionLoading,
     error: completionError,
-  }, fetchResourceCompletion] = useAxios<GetResourceCompletionResponse>({
-    method: 'get',
-    url: `/api/courses/resource-completion/${resource.id}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
+    refetch: fetchResourceCompletion,
+  } = trpc.resources.getResourceCompletion.useQuery(
+    { unitResourceId: resource.id },
+    {
+      enabled: !!auth,
+      retry: false, // Don't retry on 404
     },
-  }, { manual: true });
-
-  // Fetch resource completion when auth is available
-  useEffect(() => {
-    if (auth) {
-      fetchResourceCompletion().catch(() => { /* no op, as we handle errors above */ });
-    }
-  }, [auth, fetchResourceCompletion]);
+  );
 
   // Update local state when completion data is fetched the first time
   useEffect(() => {
-    if (completionData?.resourceCompletion && !hasCompletionLoaded) {
+    if (completionData && !hasCompletionLoaded) {
       setHasCompletionLoaded(true);
-      setIsCompleted(completionData.resourceCompletion.isCompleted || false);
-      const feedback = completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
+      setIsCompleted(completionData.isCompleted || false);
+      const feedback = completionData.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
       setResourceFeedback(feedback);
 
       // Show feedback box only if resource is completed
-      setShowFeedback(completionData.resourceCompletion.isCompleted || false);
+      setShowFeedback(completionData.isCompleted || false);
     }
   }, [completionData, hasCompletionLoaded]);
 
-  const [, putResourceCompletion] = useAxios<GetResourceCompletionResponse, PutResourceCompletionRequest>({
-    method: 'put',
-    url: `/api/courses/resource-completion/${resource.id}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
+  const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation();
 
   // Handle saving resource completion
   const handleSaveCompletion = useCallback(async (
@@ -169,13 +156,15 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   ) => {
     if (!auth) return;
 
-    await putResourceCompletion({
-      data: {
-        isCompleted: updatedIsCompleted ?? isCompleted,
-        resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
-      },
+    await saveCompletionMutation.mutateAsync({
+      unitResourceId: resource.id,
+      isCompleted: updatedIsCompleted ?? isCompleted,
+      resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
     });
-  }, [auth, isCompleted, resourceFeedback, putResourceCompletion]);
+
+    // Refetch to get updated completion data
+    await fetchResourceCompletion();
+  }, [auth, isCompleted, resourceFeedback, resource.id, saveCompletionMutation, fetchResourceCompletion]);
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
@@ -199,8 +188,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     return <ProgressDots />;
   }
 
-  // We ignore 404s, as this just indicates the resource completion hasn't been created yet
-  if (completionError && completionError.status !== 404) {
+  // We ignore NOT_FOUND errors, as this just indicates the resource completion hasn't been created yet
+  if (completionError && completionError.data?.code !== 'NOT_FOUND') {
     return <ErrorView error={completionError} />;
   }
 
