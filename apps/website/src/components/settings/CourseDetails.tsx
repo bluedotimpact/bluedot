@@ -237,7 +237,7 @@ const CourseDetails = ({
                 size="small"
                 url={buttonUrl}
                 disabled={!discussion.zoomLink && isStartingSoon}
-                target="blank"
+                target="_blank"
               >
                 {buttonText}
               </CTALinkOrButton>
