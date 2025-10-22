@@ -1,14 +1,16 @@
-import {
-  describe, it, expect, vi,
-} from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import type { CourseRegistration } from '@bluedot/db';
 import '@testing-library/jest-dom';
-import useAxios from 'axios-hooks';
+import { render, screen, waitFor } from '@testing-library/react';
+import {
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import CourseDetails from './CourseDetails';
-
-// Mock axios-hooks
-vi.mock('axios-hooks');
 
 // Mock GroupSwitchModal to avoid testing it here
 vi.mock('../courses/GroupSwitchModal', () => ({
@@ -28,7 +30,7 @@ describe('CourseDetails', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration = {
+  const mockCourseRegistration: CourseRegistration = {
     autoNumberId: 1,
     id: 'reg-1',
     courseId: 'course-1',
@@ -43,25 +45,23 @@ describe('CourseDetails', () => {
     decision: null,
     role: null,
     lastVisitedUnitNumber: null,
-    lastVisitedCourseContentPath: null,
-    lastVisitAt: null,
     lastVisitedChunkIndex: null,
     roundStatus: 'Active',
+    source: null,
   };
 
   it('displays expanded course details region', async () => {
-    // Mock the API call for discussions
-    vi.mocked(useAxios).mockReturnValue([{
-      data: { discussions: [] },
-      loading: false,
-      error: null,
-    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
+    // Mock the tRPC call for meetPerson
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => (null)),
+    );
 
     render(
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Check for the expanded region
@@ -71,6 +71,10 @@ describe('CourseDetails', () => {
 
     // Check for the upcoming discussions section
     expect(screen.getByText('Upcoming discussions')).toBeInTheDocument();
-    expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
+
+    // Wait for loading to complete and content to be displayed
+    await waitFor(() => {
+      expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
+    });
   });
 });
