@@ -7,6 +7,7 @@ import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { createMockCourseRegistration } from '../../__tests__/testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
