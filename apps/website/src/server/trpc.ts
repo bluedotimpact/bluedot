@@ -10,11 +10,8 @@ import { Context } from './context';
 // For instance, the use of a t variable is common in i18n libraries.
 const t = initTRPC.context<Context>().create({
   errorFormatter({ shape, error }) {
-    // Return full error details in development
-    if (process.env.NODE_ENV !== 'production') return shape;
-
     // Hide internal server error details in production
-    if (error.code === 'INTERNAL_SERVER_ERROR') {
+    if (error.code === 'INTERNAL_SERVER_ERROR' && process.env.NODE_ENV === 'production') {
       return {
         ...shape,
         message: 'An internal server error occurred',
@@ -25,8 +22,8 @@ const t = initTRPC.context<Context>().create({
       };
     }
 
-    // Mask not found errors to hide any specific resource information
-    if (error.code === 'NOT_FOUND') {
+    // Mask not found errors to hide any specific resource information in production
+    if (error.code === 'NOT_FOUND' && process.env.NODE_ENV === 'production') {
       return {
         ...shape,
         message: 'Resource not found',
