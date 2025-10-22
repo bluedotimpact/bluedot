@@ -19,8 +19,7 @@ const trpcClient = trpcTest.createClient({
 /**
  * TrpcProvider - Test wrapper component that provides tRPC context
  *
- * Use this wrapper when rendering components that use tRPC hooks in tests or Storybook.
- * This is automatically applied as a decorator in Storybook via preview.tsx.
+ * Use this wrapper when rendering components that use tRPC hooks.
  *
  * @example
  * ```tsx
