@@ -21,6 +21,19 @@ const t = initTRPC.context<Context>().create({
         },
       };
     }
+
+    // Mask not found errors to hide any specific resource information
+    if (error.code === 'NOT_FOUND') {
+      return {
+        ...shape,
+        message: 'Resource not found',
+        data: {
+          ...shape.data,
+          stack: undefined,
+        },
+      };
+    }
+
     return shape;
   },
 });
