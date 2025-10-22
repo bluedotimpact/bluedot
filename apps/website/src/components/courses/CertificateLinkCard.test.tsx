@@ -6,8 +6,7 @@ import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
-import { trpc } from '../../utils/trpc';
-import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -53,7 +52,10 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders regular course', () => {
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      render(
+        <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify login prompt is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -62,7 +64,10 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders FoAI course with different content', () => {
-      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
+      render(
+        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
@@ -85,17 +90,10 @@ describe('CertificateLinkCard', () => {
       ] as UseAxiosReturnType);
     });
 
-    test('renders loading state', () => {
-      // Mock the tRPC query to return loading state
-      // @ts-expect-error - Mocking only essential properties for test
-      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
-        data: undefined,
-        isLoading: true,
-        error: null,
-        refetch: vi.fn(),
-      });
-
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      render(
+        <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify loading indicator is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -115,7 +113,10 @@ describe('CertificateLinkCard', () => {
         refetch: vi.fn(),
       });
 
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      render(
+        <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify not eligible message
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -124,18 +125,27 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
-      // @ts-expect-error - Mocking only essential properties for test
-      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: 'rec0Zgize0c4liMl5',
-          certificateId: null,
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
-      });
+      vi.mocked(useAxios).mockReturnValue([
+        {
+          data: {
+            courseRegistration: {
+              courseId: 'rec0Zgize0c4liMl5',
+              certificateId: null,
+              email: 'user@example.com',
+              fullName: 'Test User',
+            },
+          },
+          loading: false,
+          error: null,
+        },
+        vi.fn(),
+        vi.fn(),
+      ] as UseAxiosReturnType);
 
-      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
+      render(
+        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify that download certificate button is shown for FoAI course
       expect(screen.getByText('Download Certificate')).toBeTruthy();
@@ -162,7 +172,10 @@ describe('CertificateLinkCard', () => {
         refetch: vi.fn(),
       });
 
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      render(
+        <CertificateLinkCard courseId="rec123456789" />,
+        { wrapper: TrpcProvider },
+      );
 
       // Verify specific content
       expect(screen.getByText('Earned by Test User')).toBeTruthy();
