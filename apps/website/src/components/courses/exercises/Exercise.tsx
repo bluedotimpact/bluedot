@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 // eslint-disable-next-line import/no-cycle
@@ -17,6 +17,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const exerciseClassNames = 'exercise';
 
   const auth = useAuthStore((s) => s.auth);
+  const utils = trpc.useUtils();
 
   const { data: exerciseData, isLoading: exerciseLoading, error: exerciseError } = trpc.exercises.getExercise.useQuery({ exerciseId });
 
@@ -24,7 +25,6 @@ const Exercise: React.FC<ExerciseProps> = ({
   const {
     data: responseData,
     error: exerciseResponseError,
-    refetch: fetchExerciseResponse,
   } = trpc.exercises.getExerciseResponse.useQuery(
     { exerciseId },
     {
@@ -33,17 +33,19 @@ const Exercise: React.FC<ExerciseProps> = ({
     },
   );
 
-  const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation();
+  const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
+    onSuccess: () => {
+      utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+    },
+  });
 
-  const handleExerciseSubmit = useCallback(async (exerciseResponse: string, completed?: boolean) => {
+  const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     await saveResponseMutation.mutateAsync({
       exerciseId,
       response: exerciseResponse,
       completed: completed ?? true,
     });
-
-    await fetchExerciseResponse();
-  }, [exerciseId, saveResponseMutation, fetchExerciseResponse]);
+  };
 
   if (exerciseLoading) {
     return <ProgressDots />;
@@ -77,7 +79,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           title={exerciseData.title || ''}
           description={exerciseData.description || ''}
           options={exerciseData.options || ''}
-          exerciseResponse={responseData?.response || undefined}
+          exerciseResponse={responseData?.response}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
