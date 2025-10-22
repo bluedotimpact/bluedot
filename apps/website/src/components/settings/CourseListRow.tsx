@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
 import { Course, CourseRegistration } from '@bluedot/db';
+import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
@@ -24,9 +25,10 @@ const CourseListRow = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
-    courseRegistrationId: courseRegistration.id,
-  });
+  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // Don't run this query when the course is already completed
+    isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
+  );
 
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
