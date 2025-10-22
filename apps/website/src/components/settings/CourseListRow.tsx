@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
+import {
+  Course, CourseRegistration, MeetPerson,
+} from '@bluedot/db';
 import useAxios from 'axios-hooks';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 type CourseListRowProps = {
   course: Course;
@@ -21,8 +24,9 @@ const CourseListRow = ({
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isCompleted);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
+  const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
   // Fetch meetPerson data to get discussion IDs
   const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
@@ -37,15 +41,25 @@ const CourseListRow = ({
     autoCancel: false,
   });
 
+  // Edge case: The user has been accepted but has no group assigned
+  const isNotInGroup = meetPersonData?.meetPerson
+    && (!meetPersonData.meetPerson.groupsAsParticipant || meetPersonData.meetPerson.groupsAsParticipant.length === 0);
+
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
+    if (!meetPersonData) {
+      return;
+    }
+
+    if (isNotInGroup) {
+      setIsExpanded(false);
+    }
+
     const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson || isCompleted) {
+      if (!meetPersonData.meetPerson) {
         setLoading(false);
         return;
       }
-
-      setLoading(true);
 
       // Only fetch expected discussions for the list row
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
@@ -132,8 +146,20 @@ const CourseListRow = ({
     ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
     : false;
 
-  // Determine button text and URL for next discussion
-  const getDiscussionButtonInfo = () => {
+  const getPrimaryCtaButton = () => {
+    if (isNotInGroup) {
+      return (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          onClick={() => setGroupSwitchModalOpen(true)}
+          className="w-full sm:w-auto"
+        >
+          Join group
+        </CTALinkOrButton>
+      );
+    }
+
     if (!nextDiscussion) return null;
 
     const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
@@ -146,12 +172,21 @@ const CourseListRow = ({
     const openInNewTab = isNextDiscussionStartingSoon;
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
 
-    return {
-      buttonText, buttonUrl, openInNewTab, disabled,
-    };
+    return (
+      <CTALinkOrButton
+        variant="primary"
+        size="small"
+        url={buttonUrl}
+        disabled={disabled}
+        target={openInNewTab ? '_blank' : undefined}
+        className="w-full sm:w-auto"
+      >
+        {buttonText}
+      </CTALinkOrButton>
+    );
   };
 
-  const discussionButtonInfo = getDiscussionButtonInfo();
+  const primaryCtaButton = getPrimaryCtaButton();
 
   // Format completion date
   const metadataText = isCompleted && courseRegistration.certificateCreatedAt
@@ -259,24 +294,15 @@ const CourseListRow = ({
                 </CTALinkOrButton>
               </div>
             )}
-            {/* Show primary button for discussion when collapsed on mobile */}
-            {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
+            {/* Show primary button for discussion or join group when collapsed on mobile */}
+            {!isExpanded && !isCompleted && !loading && primaryCtaButton && (
               <div
                 className="flex"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 role="presentation"
               >
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={discussionButtonInfo.buttonUrl}
-                  disabled={discussionButtonInfo.disabled}
-                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
-                  className="w-full"
-                >
-                  {discussionButtonInfo.buttonText}
-                </CTALinkOrButton>
+                {primaryCtaButton}
               </div>
             )}
           </div>
@@ -330,18 +356,8 @@ const CourseListRow = ({
                 </CTALinkOrButton>
               )}
 
-              {/* Show primary button for discussion when collapsed on desktop */}
-              {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={discussionButtonInfo.buttonUrl}
-                  disabled={discussionButtonInfo.disabled}
-                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
-                >
-                  {discussionButtonInfo.buttonText}
-                </CTALinkOrButton>
-              )}
+              {/* Show primary button for discussion or join group when collapsed on desktop */}
+              {!isExpanded && !isCompleted && !loading && primaryCtaButton}
 
               {/* Expand/collapse button - only for in-progress courses */}
               {!isCompleted && (
@@ -385,6 +401,15 @@ const CourseListRow = ({
           courseRegistration={courseRegistration}
           authToken={authToken}
           isLast={isLast}
+        />
+      )}
+
+      {/* Group switching modal for participants without a group */}
+      {groupSwitchModalOpen && course.slug && (
+        <GroupSwitchModal
+          handleClose={() => setGroupSwitchModalOpen(false)}
+          initialSwitchType="Switch group permanently"
+          courseSlug={course.slug}
         />
       )}
     </div>
