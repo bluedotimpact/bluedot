@@ -1,9 +1,7 @@
 import {
   addQueryParam,
-  Auth,
   Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
 import React from 'react';
 import { FaAward } from 'react-icons/fa6';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
@@ -207,12 +205,11 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
     );
   }
 
-  return <CertificateLinkCardAuthed courseId={courseId} auth={auth} config={config} />;
+  return <CertificateLinkCardAuthed courseId={courseId} config={config} />;
 };
 
-const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Auth; config: CertificateConfig }> = ({
+const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: CertificateConfig }> = ({
   courseId,
-  auth,
   config,
 }) => {
   const {
