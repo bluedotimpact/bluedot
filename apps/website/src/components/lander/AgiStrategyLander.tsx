@@ -13,7 +13,7 @@ import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
 import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
-import CourseDetailsSection from './agi-strategy/CourseDetailsSection';
+import CourseInformationSection from './agi-strategy/CourseInformationSection';
 import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
 import FAQSection from './agi-strategy/FAQSection';
 
@@ -136,8 +136,8 @@ const AgiStrategyLander = () => {
       {/* Course Benefits Section */}
       <CourseBenefitsSection />
 
-      {/* Course Details Section */}
-      <CourseDetailsSection />
+      {/* Course Information Section */}
+      <CourseInformationSection />
 
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />
@@ -152,7 +152,7 @@ const AgiStrategyLander = () => {
       <FAQSection />
 
       {/* Banner */}
-      <section className="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20">
+      <section className="w-full bg-white pt-0 pb-12 min-[680px]:pb-16 lg:pb-20">
         <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
           <AgiStrategyBanner
             title="Start building towards a good future today"

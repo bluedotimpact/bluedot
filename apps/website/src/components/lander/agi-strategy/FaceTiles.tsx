@@ -24,7 +24,7 @@ export const FaceTiles: React.FC<FaceTilesProps> = ({
         {displayFaces.map((face) => (
           <div
             key={face.src}
-            className="face-tiles__avatar rounded-full border border-white overflow-hidden"
+            className="face-tiles__avatar rounded-full border-2 border-white overflow-hidden"
             style={{ width: size, height: size }}
           >
             <img

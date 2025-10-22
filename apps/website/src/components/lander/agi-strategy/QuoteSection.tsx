@@ -264,7 +264,7 @@ const QuoteSection = () => {
 
   return (
     <section
-      className="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-5 lg:p-12 overflow-x-hidden"
+      className="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-8 lg:p-12 overflow-x-hidden"
       style={{ backgroundColor: COLORS.background }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -303,7 +303,7 @@ const QuoteSection = () => {
                 </div>
 
                 {/* Tablet peek card (680px-1023px) */}
-                <div className="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none" style={{ left: 'calc(50% + (100vw - 64px) / 2 + 10px)' }}>
+                <div className="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none" style={{ left: 'calc(50% + (100vw - 64px) / 2 + 16px)' }}>
                   <div className="w-[calc(100vw-64px)] pointer-events-auto">
                     <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
                   </div>
