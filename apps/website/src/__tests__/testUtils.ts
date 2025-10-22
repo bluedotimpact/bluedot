@@ -83,5 +83,6 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   roundStatus: 'Active',
   lastVisitedUnitNumber: null,
   lastVisitedChunkIndex: null,
+  source: null,
   ...overrides,
 });
