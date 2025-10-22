@@ -51,7 +51,7 @@ describe('AgiStrategyLander', () => {
     // Check description
     expect(screen.getByText(/Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours./)).toBeInTheDocument();
 
-    // Check CTAs - "Apply now" appears in HeroSection, CourseDetailsSection, and banner (3 times total)
+    // Check CTAs - "Apply now" appears in HeroSection, CourseInformationSection, and banner (3 times total)
     const applyButtons = screen.getAllByRole('link', { name: /Apply now/i });
     expect(applyButtons).toHaveLength(3);
   });
