@@ -5,18 +5,18 @@ import { protectedProcedure, router } from '../trpc';
 
 export const courseRegistrationsRouter = router({
   getById: protectedProcedure
-    .input(z.string())
-    .query(async ({ ctx, input }) => {
+    .input(z.object({ courseId: z.string() }))
+    .query(async ({ ctx, input: { courseId } }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
-          courseId: input,
+          courseId,
           decision: 'Accept',
         },
       });
       if (courseRegistration) return courseRegistration;
 
-      const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: input });
+      const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });
       return db.insert(courseRegistrationTable, {
         email: ctx.auth.email,
         courseApplicationsBaseId: applicationsCourse.id,

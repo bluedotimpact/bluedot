@@ -217,8 +217,11 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   config,
 }) => {
   const {
-    data: courseRegistration, isLoading: loading, error, refetch,
-  } = trpc.courseRegistrations.getById.useQuery(courseId);
+    data: courseRegistration,
+    isLoading: loading,
+    error,
+    refetch,
+  } = trpc.courseRegistrations.getById.useQuery({ courseId });
 
   const [{ loading: certificateRequestLoading, error: certificateRequestError }, refetchCertificateRequest] = useAxios<RequestCertificateResponse, RequestCertificateRequest>({
     method: 'post',

@@ -66,7 +66,10 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   // If we're logged in, ensures a course registration is recorded for this course
-  const { refetch: fetchCourseRegistration } = trpc.courseRegistrations.getById.useQuery(unit.courseId, { enabled: false });
+  const { refetch: fetchCourseRegistration } = trpc.courseRegistrations.getById.useQuery(
+    { courseId: unit.courseId },
+    { enabled: false },
+  );
 
   useEffect(() => {
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
