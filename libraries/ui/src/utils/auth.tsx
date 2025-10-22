@@ -47,12 +47,23 @@ const ensureAuthRefreshed = async ({ auth, setAuth }: { auth: Auth | null; setAu
   const expiresInMs = auth.expiresAt - now;
   const sinceLastRefreshAttemptMs = now - lastRefreshAttemptMs;
 
-  if (expiresInMs > ONE_WEEK_MS || sinceLastRefreshAttemptMs < ONE_MIN_MS) return;
+  // eslint-disable-next-line no-console
+  console.log('[ensureAuthRefreshed] now=', now, 'expiresInMs=', expiresInMs, 'sinceLastRefreshAttemptMs=', sinceLastRefreshAttemptMs, 'lastRefreshAttemptMs=', lastRefreshAttemptMs);
+
+  if (expiresInMs > ONE_WEEK_MS || sinceLastRefreshAttemptMs < ONE_MIN_MS) {
+    // eslint-disable-next-line no-console
+    console.log('[ensureAuthRefreshed] Skipping refresh: expiresInMs > ONE_WEEK_MS?', expiresInMs > ONE_WEEK_MS, 'sinceLastRefreshAttemptMs < ONE_MIN_MS?', sinceLastRefreshAttemptMs < ONE_MIN_MS);
+    return;
+  }
 
   try {
+    // eslint-disable-next-line no-console
+    console.log('[ensureAuthRefreshed] Starting refresh...');
     lastRefreshAttemptMs = Date.now();
     const newAuth = await oidcRefresh(auth);
     setAuth(newAuth);
+    // eslint-disable-next-line no-console
+    console.log('[ensureAuthRefreshed] Refresh successful, new token=', newAuth.token);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('[auth.tsx] Token refresh failed:', error);

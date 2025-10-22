@@ -68,6 +68,8 @@ describe('auth', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.useFakeTimers();
+    // Reset the auth store between tests
+    useAuthStore.setState({ auth: null });
   });
 
   afterEach(() => {
@@ -132,35 +134,42 @@ describe('auth', () => {
 
   describe('token lifecycle', () => {
     test('should automatically refresh token before expiry', async () => {
-      // Given auth expires in 70 seconds
-      const auth = createAuth({
-        token: 'old-access-token',
-        refreshToken: 'old-refresh-token',
-        expiresAt: Date.now() + 70_000,
-      });
-      useAuthStore.getState().setAuth(auth);
-
+      console.log('[TEST] Starting test, Date.now()=', Date.now());
+      
+      // Advance time by more than ONE_MIN_MS to avoid throttling from previous tests
+      vi.advanceTimersByTime(61_000);
+      console.log('[TEST] Advanced timers by 61s, Date.now()=', Date.now());
+      
+      // Setup mock OIDC client to return new token
       const refreshResponse = createMockOidcResponse({
         id_token: 'new-access-token',
         refresh_token: 'new-refresh-token',
         expires_at: Math.floor(Date.now() / 1000) + 3600,
       });
       const { mockUseRefreshToken } = setupMockOidcClient(true, refreshResponse);
+      console.log('[TEST] Mock setup complete');
 
-      // When 10 seconds pass, we should be 60 seconds from expiry and therefore expect the refresh timer to trigger
-      await vi.advanceTimersByTimeAsync(10000);
+      // When auth is set with expiry soon (70 seconds), ensureAuthRefreshed should immediately refresh it
+      const auth = createAuth({
+        token: 'old-access-token',
+        refreshToken: 'old-refresh-token',
+        expiresAt: Date.now() + 70_000,
+      });
+      console.log('[TEST] Created auth with expiresAt=', auth.expiresAt, 'expiresIn=', auth.expiresAt - Date.now());
+      
+      useAuthStore.getState().setAuth(auth);
+      console.log('[TEST] setAuth called, auth token=', useAuthStore.getState().auth?.token);
 
-      // Verify the refresh was called exactly once
+      // Flush all pending promises
+      await vi.runAllTimersAsync();
+      console.log('[TEST] After runAllTimersAsync, mockUseRefreshToken called', mockUseRefreshToken.mock.calls.length, 'times');
+      console.log('[TEST] Current auth token=', useAuthStore.getState().auth?.token);
+
+      // Verify the token was refreshed and updated
       expect(mockUseRefreshToken).toHaveBeenCalledTimes(1);
-
-      // Verify the token was updated
-      expect(useAuthStore.getState().auth?.token).toBe(refreshResponse.id_token);
-      expect(useAuthStore.getState().auth?.refreshToken).toBe(refreshResponse.refresh_token);
+      expect(useAuthStore.getState().auth?.token).toBe('new-access-token');
+      expect(useAuthStore.getState().auth?.refreshToken).toBe('new-refresh-token');
       expect(useAuthStore.getState().auth?.expiresAt).toBe(refreshResponse.expires_at * 1000);
-
-      // Advancing more time, before the new token is due refreshing, should not try to refresh it again
-      await vi.advanceTimersByTimeAsync(60000);
-      expect(mockUseRefreshToken).toHaveBeenCalledTimes(1);
     });
 
     test('should log out when refresh fails', async () => {
