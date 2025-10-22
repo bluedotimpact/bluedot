@@ -19,7 +19,9 @@ export const certificatesRouter = router({
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
       }
 
-      if (!timingSafeEqual(Buffer.from(token), Buffer.from(env.CERTIFICATE_CREATION_TOKEN))) {
+      const tokenBuf = Buffer.from(token);
+      const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
+      if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
       }
 
