@@ -6,8 +6,8 @@ import { protectedProcedure, router } from '../trpc';
 
 export const certificatesRouter = router({
   request: protectedProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input: courseId }) => {
+    .input(z.object({ courseId: z.string() }))
+    .mutation(async ({ ctx, input: { courseId } }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
