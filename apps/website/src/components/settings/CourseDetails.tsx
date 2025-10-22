@@ -25,7 +25,9 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson, isLoading: loading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(courseRegistration.id);
+  const { data: meetPerson, isLoading: loading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
+    courseRegistrationId: courseRegistration.id,
+  });
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 

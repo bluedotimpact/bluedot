@@ -24,7 +24,9 @@ const CourseListRow = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery(courseRegistration.id);
+  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
+    courseRegistrationId: courseRegistration.id,
+  });
 
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
