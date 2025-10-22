@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
-import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
+import { trpc } from '../../utils/trpc';
 
 type CertificateConfig = {
   useCard: boolean;
@@ -224,20 +224,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     },
   });
 
-  const [{ loading: certificateRequestLoading, error: certificateRequestError }, refetchCertificateRequest] = useAxios<RequestCertificateResponse, RequestCertificateRequest>({
-    method: 'post',
-    url: '/api/certificates/request',
-    data: {
-      courseId,
-    },
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
-
-  const requestCertificate = async () => {
-    try {
-      await refetchCertificateRequest();
+  const requestCertificateMutation = trpc.certificates.request.useMutation({
+    onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
       if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
@@ -246,19 +234,21 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
           course_slug: 'future-of-ai',
         });
       }
-    } catch {
-      // Ignore, handled already by useAxios
-    }
+    },
+  });
+
+  const requestCertificate = () => {
+    requestCertificateMutation.mutate({ courseId });
   };
 
-  if (error || certificateRequestError) {
+  if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
-        <ErrorView error={error || certificateRequestError} />
+        <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"
-          onClick={() => (error ? refetch() : requestCertificate()).catch(() => { /* ignore */ })}
-          disabled={loading || certificateRequestLoading}
+          onClick={() => (error ? refetch() : requestCertificate())}
+          disabled={loading || requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
@@ -283,7 +273,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (loading || certificateRequestLoading) {
+  if (loading || requestCertificateMutation.isPending) {
     if (config.useCard) {
       return (
         <Card
@@ -375,7 +365,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
               <CTALinkOrButton
                 variant="primary"
                 onClick={requestCertificate}
-                disabled={certificateRequestLoading}
+                disabled={requestCertificateMutation.isPending}
                 className="w-full"
               >
                 {requestCertConfig.buttonLabel}
@@ -386,7 +376,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
           <CTALinkOrButton
             variant="primary"
             onClick={requestCertificate}
-            disabled={certificateRequestLoading}
+            disabled={requestCertificateMutation.isPending}
           >
             {requestCertConfig.buttonLabel}
           </CTALinkOrButton>
