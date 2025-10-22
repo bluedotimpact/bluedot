@@ -33,11 +33,13 @@ const BlogListSection = ({ maxItems }: BlogListSectionProps) => {
       {blogs?.length === 0 ? (
         <P>No blog posts available at the moment.</P>
       ) : (
-        <div className="flex flex-col gap-8">
+        <ul className="list-none flex flex-col gap-8">
           {blogs?.slice(0, maxItems).map((blog) => (
-            <BlogListItem key={blog.id} blog={blog} />
+            <li key={blog.id}>
+              <BlogListItem blog={blog} />
+            </li>
           ))}
-        </div>
+        </ul>
       )}
       {maxItems && blogs && blogs.length > maxItems && (
         <CTALinkOrButton url={ROUTES.blog.url} variant="secondary" withChevron className="mt-8">

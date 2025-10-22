@@ -12,7 +12,7 @@ import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]'
 /* Common Section Wrapper */
 const SectionWrapper = ({ children }: { children: React.ReactNode }) => (
   <section className="w-full bg-white">
-    <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+    <div className="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
       <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
         Curriculum Overview
       </H2>

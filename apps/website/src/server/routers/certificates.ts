@@ -60,8 +60,8 @@ export const certificatesRouter = router({
     }),
 
   request: protectedProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input: courseId }) => {
+    .input(z.object({ courseId: z.string() }))
+    .mutation(async ({ ctx, input: { courseId } }) => {
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
@@ -83,7 +83,7 @@ export const certificatesRouter = router({
       const allExercises = await db.scan(exerciseTable, { courseIdRead: courseId, status: 'Active' });
 
       if (allExercises.length === 0) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No exercises found for this course' });
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'No exercises found for this course' });
       }
 
       // Get all exercise responses for this user
