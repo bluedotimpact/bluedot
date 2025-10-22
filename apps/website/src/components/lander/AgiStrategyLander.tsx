@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import {
+  addQueryParam,
   CTALinkOrButton,
   useLatestUtmParams,
 } from '@bluedot/ui';
@@ -8,7 +9,7 @@ import { H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
 import PartnerSection from './agi-strategy/PartnerSection';
-import WhyTakeThisCourseSection from './agi-strategy/WhyTakeThisCourseSection';
+import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
 import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
 import QuoteSection from './agi-strategy/QuoteSection';
@@ -18,14 +19,14 @@ import FAQSection from './agi-strategy/FAQSection';
 
 const AgiStrategyBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
-    <div className="relative w-full mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]">
+    <div className="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]">
       {/* Noise layer */}
       <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
 
-      <div className="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center">
+      <div className="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center">
         <img src="/images/agi-strategy/bluedot-icon.svg" alt="BlueDot" className="w-8 h-[30px]" />
 
-        <H3 className="max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-semibold text-white">
+        <H3 className="max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]">
           {title}
         </H3>
 
@@ -89,8 +90,8 @@ const communityMembers: CommunityMember[] = [
 ];
 
 const AgiStrategyLander = () => {
-  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
-  const applicationUrlWithUtm = appendLatestUtmParamsToUrl(applicationUrl);
+  const { latestUtmParams } = useLatestUtmParams();
+  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
 
   return (
     <div className="bg-white">
@@ -132,8 +133,8 @@ const AgiStrategyLander = () => {
       {/* Course Curriculum Section */}
       <CourseCurriculumSection />
 
-      {/* Why take this course section */}
-      <WhyTakeThisCourseSection />
+      {/* Course Benefits Section */}
+      <CourseBenefitsSection />
 
       {/* Course Details Section */}
       <CourseDetailsSection />
@@ -152,7 +153,7 @@ const AgiStrategyLander = () => {
 
       {/* Banner */}
       <section className="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20">
-        <div className="max-w-max-width mx-auto px-4 min-[680px]:px-8 lg:px-spacing-x">
+        <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
           <AgiStrategyBanner
             title="Start building towards a good future today"
             ctaUrl={applicationUrlWithUtm}

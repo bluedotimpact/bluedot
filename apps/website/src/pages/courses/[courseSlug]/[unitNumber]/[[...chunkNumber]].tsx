@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
-import { ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
@@ -67,9 +67,9 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   // If we're logged in, ensures a course registration is recorded for this course
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
-    method: 'get',
+  const { latestUtmParams } = useLatestUtmParams();
+  const [, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
+    method: 'post',
     url: `/api/course-registrations/${unit.courseId}`,
     headers: {
       Authorization: `Bearer ${auth?.token}`,
@@ -79,9 +79,9 @@ const CourseUnitChunkPage = ({
   useEffect(() => {
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration().catch(() => { /* no op, as we ignore errors */ });
+      fetchCourseRegistration({ data: { source: latestUtmParams.utm_source ?? null } }).catch(() => { /* no op, as we ignore errors */ });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration]);
+  }, [auth, unit.courseId, fetchCourseRegistration, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {

@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
@@ -39,7 +39,7 @@ describe('JobsListSection', () => {
     expect(content).toContain('Learn more');
 
     // Check if there are two job listings
-    const jobListings = container.querySelectorAll('.jobs-list__listing');
+    const jobListings = screen.getAllByRole('listitem');
     expect(jobListings.length).toBe(2);
   });
 
@@ -56,7 +56,7 @@ describe('JobsListSection', () => {
     expect(content).toContain('Learn more');
 
     // Check if there are two job listings
-    const jobListings = container.querySelectorAll('.jobs-list__listing');
+    const jobListings = screen.getAllByRole('listitem');
     expect(jobListings.length).toBe(2);
 
     vi.restoreAllMocks();

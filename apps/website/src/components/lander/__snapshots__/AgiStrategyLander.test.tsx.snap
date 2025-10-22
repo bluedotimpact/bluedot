@@ -89,7 +89,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -208,7 +208,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -241,7 +241,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x pt-12 pb-16"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
@@ -366,7 +366,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
@@ -1161,7 +1161,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-12 md:py-20 lg:py-24"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:py-20 lg:py-24"
       >
         <h2
           class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
@@ -1169,7 +1169,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           Co-created with our network of leading AI industry partners
         </h2>
         <div
-          class="max-lg:block hidden -mx-spacing-x"
+          class="max-lg:block hidden -mx-5 min-[680px]:-mx-spacing-x"
         >
           <div
             class="w-full inline-flex flex-nowrap overflow-hidden group"
@@ -1702,7 +1702,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
         <div
           class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
@@ -1825,16 +1825,16 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20"
     >
       <div
-        class="max-w-max-width mx-auto px-4 min-[680px]:px-8 lg:px-spacing-x"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
       >
         <div
-          class="relative w-full mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]"
+          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]"
         >
           <div
             class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
           />
           <div
-            class="relative flex flex-col items-center justify-center px-14 py-16 gap-8 text-center"
+            class="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center"
           >
             <img
               alt="BlueDot"
@@ -1842,7 +1842,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-semibold text-white"
+              class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]"
             >
               Start building towards a good future today
             </h3>

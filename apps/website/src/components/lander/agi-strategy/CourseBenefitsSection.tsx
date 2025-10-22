@@ -21,10 +21,10 @@ const valueCards = [
   },
 ];
 
-const WhyTakeThisCourseSection = () => {
+const CourseBenefitsSection = () => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-spacing-x pt-12 pb-16">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12">
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]">
           How this course will benefit you
         </H2>
@@ -50,4 +50,4 @@ const WhyTakeThisCourseSection = () => {
   );
 };
 
-export default WhyTakeThisCourseSection;
+export default CourseBenefitsSection;
