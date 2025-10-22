@@ -14,7 +14,7 @@ const t = initTRPC.context<Context>().create({
     if (process.env.NODE_ENV !== 'production') return shape;
 
     // Hide internal server error details in production
-    if (error.code === 'INTERNAL_SERVER_ERROR' && process.env.NODE_ENV === 'production') {
+    if (error.code === 'INTERNAL_SERVER_ERROR') {
       return {
         ...shape,
         message: 'An internal server error occurred',
