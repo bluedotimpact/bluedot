@@ -41,8 +41,8 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
       // Fetch all expected discussions (will be filtered later to show only those not ended)
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
       const expectedDiscussionIds = isFacilitator
-        ? (meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPerson.expectedDiscussionsParticipant || []);
+        ? meetPerson.expectedDiscussionsFacilitator || []
+        : meetPerson.expectedDiscussionsParticipant || [];
 
       const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {

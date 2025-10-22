@@ -14,9 +14,7 @@ type CourseListRowProps = {
   isLast?: boolean;
 };
 
-const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false,
-}: CourseListRowProps) => {
+const CourseListRow = ({ course, courseRegistration, isFirst = false, isLast = false }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
   const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
@@ -42,8 +40,8 @@ const CourseListRow = ({
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
       const isFacilitator = courseRegistration.role === 'Facilitator';
       const expectedDiscussionIds = isFacilitator
-        ? (meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPerson.expectedDiscussionsParticipant || []);
+        ? meetPerson.expectedDiscussionsFacilitator || []
+        : meetPerson.expectedDiscussionsParticipant || [];
 
       const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {
