@@ -25,7 +25,7 @@ const logos = [
 
 const GraduateSection = () => {
   return (
-    <section className="graduate-section w-full max-w-max-width mx-auto px-spacing-x py-8 overflow-hidden flex flex-col">
+    <section className="graduate-section w-full max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-8 overflow-hidden flex flex-col">
       <div className="flex flex-col lg:flex-row gap-6 items-center">
         <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-2 shrink-0 items-center">
           <FaceTiles faces={faces} />
