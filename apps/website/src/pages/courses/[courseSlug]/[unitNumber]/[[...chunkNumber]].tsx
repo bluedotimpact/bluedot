@@ -66,18 +66,15 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   const { latestUtmParams } = useLatestUtmParams();
-  // If we're logged in, ensures a course registration is recorded for this course
-  const { refetch: fetchCourseRegistration } = trpc.courseRegistrations.getById.useQuery(
-    { courseId: unit.courseId },
-    { enabled: false },
-  );
+  const courseRegistrationMutation = trpc.courseRegistrations.update.useMutation();
 
   useEffect(() => {
+    // If we're logged in, ensures a course registration is recorded for this course
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration({ data: { source: latestUtmParams.utm_source ?? null } }).catch(() => { /* no op, as we ignore errors */ });
+      courseRegistrationMutation.mutate({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration, latestUtmParams.utm_source]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
