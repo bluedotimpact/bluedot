@@ -134,6 +134,11 @@ export function calculateGroupAvailability({
 /**
  * Return all the groups (for permanent switches) and discussions (for temporary switches to another group)
  * that are available for a user to switch into.
+ *
+ * Users are allowed to switch into groups that are in the same *round* of the course (i.e. the start and
+ * end date of the course wil be the same), and in the same *bucket*. A bucket is a manually configured set
+ * of groups specifically for the purpose of keeping compatible participants together. E.g. there may be one
+ * bucket for recent graduates, and one for more experienced professionals within the same round of a course.
  */
 export default makeApiRoute({
   requireAuth: true,
