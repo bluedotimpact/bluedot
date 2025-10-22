@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import WhyTakeThisCourseSection from './WhyTakeThisCourseSection';
+import CourseBenefitsSection from './CourseBenefitsSection';
 
-describe('WhyTakeThisCourseSection', () => {
+describe('CourseBenefitsSection', () => {
   it('renders correctly', () => {
-    const { container } = render(<WhyTakeThisCourseSection />);
+    const { container } = render(<CourseBenefitsSection />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders all three value cards', () => {
-    const { getByText } = render(<WhyTakeThisCourseSection />);
+    const { getByText } = render(<CourseBenefitsSection />);
 
     // Check all card titles are rendered
     expect(getByText('Join a network of builders')).toBeDefined();
@@ -18,7 +18,7 @@ describe('WhyTakeThisCourseSection', () => {
   });
 
   it('renders value card descriptions', () => {
-    const { getByText } = render(<WhyTakeThisCourseSection />);
+    const { getByText } = render(<CourseBenefitsSection />);
 
     // Check first card description
     expect(getByText(/This course isn.t for everyone/)).toBeDefined();

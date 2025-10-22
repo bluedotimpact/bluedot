@@ -62,7 +62,7 @@ const CourseDetailsSection = () => {
 
   return (
     <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
           Course information
