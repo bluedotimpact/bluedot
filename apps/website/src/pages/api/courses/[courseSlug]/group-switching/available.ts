@@ -131,6 +131,10 @@ export function calculateGroupAvailability({
   };
 }
 
+/**
+ * Return all the groups (for permanent switches) and discussions (for temporary switches to another group)
+ * that are available for a user to switch into.
+ */
 export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
@@ -178,13 +182,21 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('No course round found');
   }
 
-  const round = await db.get(roundTable, { id: roundId });
+  const courseRound = await db.get(roundTable, { id: roundId });
 
   /**
-   * Get groups the user is allowed to switch to: Look up the participant's assigned buckets,
-   * and return all groups that are associated with those buckets.
+   * Get groups the user is allowed to switch to:
+   * 1. Get all the groups in this round of the course. Context: Groups in the same
+   * round are on a synchronised schedule (e.g. unit 1 of the course will be discussed
+   * by all groups at some point during the same week). A participant could switch to
+   * any group in the same round and still complete the course in the right order.
+   * 2. Look up the participant's assigned buckets. A bucket defines a set of groups the
+   * participant is *allowed* to automatically switch between. This is desirable to have
+   * e.g. one bucket for recent graduates, and one for more experienced professionals within
+   * the same round of a course.
+   * 3. Return all groups that are associated with those buckets
    */
-  const getAllowedGroups = async () => {
+  const getGroupsAllowedToSwitchInto = async () => {
     const allGroups = await db.scan(groupTable, { round: roundId });
     const participantGroupIds = allGroups.filter((g) => g.participants.includes(participant.id)).map((g) => g.id);
 
@@ -192,12 +204,12 @@ export default makeApiRoute({
     const allowedGroupIds = new Set<string>(participantGroupIds);
 
     if (participant.buckets && participant.buckets.length > 0) {
-      const buckets = await db.pg
+      const bucketsOfAllowedGroups = await db.pg
         .select()
         .from(courseRunnerBucketTable.pg)
         .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
-      buckets.forEach((bucket) => {
+      bucketsOfAllowedGroups.forEach((bucket) => {
         bucket.groups.forEach((groupId) => {
           allowedGroupIds.add(groupId);
         });
@@ -206,7 +218,7 @@ export default makeApiRoute({
 
     return allGroups.filter((group) => allowedGroupIds.has(group.id));
   };
-  const allowedGroups = await getAllowedGroups();
+  const allowedGroups = await getGroupsAllowedToSwitchInto();
 
   if (allowedGroups.filter((g) => !g.participants.includes(participant.id)).length === 0) {
     await slackAlert(env, [
@@ -214,17 +226,17 @@ export default makeApiRoute({
     ]);
   }
 
-  const groupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
+  const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
     OR: allowedGroups.map((g) => ({ group: g.id })),
   }) : [];
 
-  const maxParticipants = round.maxParticipantsPerGroup;
+  const maxParticipants = courseRound.maxParticipantsPerGroup;
 
   const {
     discussionsAvailable,
     groupsAvailable,
   } = calculateGroupAvailability({
-    groupDiscussions,
+    groupDiscussions: allowedGroupDiscussions,
     groups: allowedGroups,
     maxParticipants,
     participantId: participant.id,
