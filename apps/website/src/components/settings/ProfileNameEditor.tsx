@@ -21,6 +21,10 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   const trimmedName = tempName.trim();
 
   const updateNameMutation = trpc.users.updateName.useMutation({
+    onMutate: () => {
+      setIsSaving(true);
+      setNameError('');
+    },
     onSuccess: (result) => {
       setCurrentSavedName(result.name);
       setTempName(result.name);
@@ -53,9 +57,6 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
       setNameError(firstError?.message || 'Failed to update name. Please try again.');
       return;
     }
-
-    setIsSaving(true);
-    setNameError('');
 
     updateNameMutation.mutate({ name: trimmedName });
   };
