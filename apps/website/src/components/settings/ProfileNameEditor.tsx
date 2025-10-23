@@ -1,24 +1,45 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Input,
   CTALinkOrButton,
 } from '@bluedot/ui';
 import { P } from '../Text';
 import { meRequestBodySchema } from '../../lib/schemas/user/me.schema';
-import { parseZodValidationError } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 type ProfileNameEditorProps = {
   initialName: string;
-  authToken: string;
   onSave?: () => void;
 };
 
-const ProfileNameEditor = ({ initialName, authToken, onSave }: ProfileNameEditorProps) => {
+const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   const [tempName, setTempName] = useState(initialName);
   const [isSaving, setIsSaving] = useState(false);
   const [nameError, setNameError] = useState('');
   const [currentSavedName, setCurrentSavedName] = useState(initialName);
+
+  const trimmedName = tempName.trim();
+
+  const updateNameMutation = trpc.users.updateName.useMutation({
+    onSuccess: () => {
+      setCurrentSavedName(trimmedName);
+      setTempName(trimmedName);
+      // Call onSave callback if provided
+      onSave?.();
+    },
+    onError: (error) => {
+      if (error.data?.httpStatus === 401) {
+        setNameError('Session expired. Please refresh the page and try again.');
+      } else if (error.data?.httpStatus === 400) {
+        setNameError((error.message, 'Invalid name format'));
+      } else {
+        setNameError('Failed to update name. Please try again.');
+      }
+    },
+    onSettled: () => {
+      setIsSaving(false);
+    },
+  });
 
   // Update when initial name changes
   useEffect(() => {
@@ -27,7 +48,6 @@ const ProfileNameEditor = ({ initialName, authToken, onSave }: ProfileNameEditor
   }, [initialName]);
 
   const handleSave = async () => {
-    const trimmedName = tempName.trim();
     const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
@@ -38,41 +58,7 @@ const ProfileNameEditor = ({ initialName, authToken, onSave }: ProfileNameEditor
     setIsSaving(true);
     setNameError('');
 
-    try {
-      await axios.patch(
-        '/api/users/me',
-        { name: trimmedName },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        },
-      );
-
-      setCurrentSavedName(trimmedName);
-      setTempName(trimmedName);
-      // Call onSave callback if provided
-      onSave?.();
-    } catch (err) {
-      if (!axios.isAxiosError(err)) {
-        setNameError('Failed to update name. Please try again.');
-        return;
-      }
-
-      if (err.response?.status === 401) {
-        setNameError('Session expired. Please refresh the page and try again.');
-        return;
-      }
-
-      if (err.response?.status === 400) {
-        setNameError(parseZodValidationError(err, 'Invalid name format'));
-        return;
-      }
-
-      setNameError('Failed to update name. Please try again.');
-    } finally {
-      setIsSaving(false);
-    }
+    updateNameMutation.mutate({ name: trimmedName });
   };
 
   const handleCancel = () => {
@@ -84,7 +70,7 @@ const ProfileNameEditor = ({ initialName, authToken, onSave }: ProfileNameEditor
     setNameError('');
   };
 
-  const showButtons = tempName.trim() !== currentSavedName.trim();
+  const showButtons = trimmedName !== currentSavedName.trim();
 
   return (
     <div className="mb-6">
