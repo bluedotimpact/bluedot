@@ -3,7 +3,7 @@ import { CTALinkOrButton, NewText } from '@bluedot/ui';
 
 const { H1, P } = NewText;
 
-type HeroSectionProps = {
+export type HeroSectionProps = {
   categoryLabel?: string; // Optional course category label
   title: string;
   description: string;

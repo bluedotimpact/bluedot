@@ -16,11 +16,11 @@ import {
 
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
-import PartnerSection from './agi-strategy/PartnerSection';
+import PartnerSection, { Partner } from './agi-strategy/PartnerSection';
 import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
 import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
 import HeroSection from './agi-strategy/HeroSection';
-import QuoteSection from './agi-strategy/QuoteSection';
+import QuoteSection, { QuoteWithUrl } from './agi-strategy/QuoteSection';
 import CourseInformationSection from './agi-strategy/CourseInformationSection';
 import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
 import FAQSection from './agi-strategy/FAQSection';
@@ -186,6 +186,126 @@ const AgiStrategyLander = () => {
   };
 
   // ============================================================================
+  // QUOTES CONTENT
+  // ============================================================================
+  const quotesContent: { quotes: QuoteWithUrl[] } = {
+    quotes: [
+      {
+        quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."',
+        name: 'Ursula von der Leyen',
+        role: 'President, European Commission',
+        imageSrc: '/images/agi-strategy/ursula.png',
+        url: 'https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en',
+      },
+      {
+        quote: '"I\'ve always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we\'ve done in the past… The downside is, at some point, that humanity loses control of the technology it\'s developing."',
+        name: 'Sundar Pichai',
+        role: 'CEO, Google',
+        imageSrc: '/images/agi-strategy/sundar.jpg',
+        url: 'https://garrisonlovely.substack.com/p/a-compilation-of-tech-executives',
+      },
+      {
+        quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
+        name: 'Dario Amodei',
+        role: 'CEO, Anthropic',
+        imageSrc: '/images/lander/foai/dario.jpeg',
+        url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
+      },
+      {
+        quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
+        name: 'David Sacks',
+        role: 'White House AI and Crypto Czar',
+        imageSrc: '/images/agi-strategy/david-sacks.jpg',
+        url: 'https://x.com/HumanHarlan/status/1864858286065111298',
+      },
+    ],
+  };
+
+  // ============================================================================
+  // PARTNERS CONTENT
+  // ============================================================================
+  const partnersContent: { title: string; partners: Partner[] } = {
+    title: "Co-created with our network of leading AI industry partners",
+    partners: [
+      {
+        name: 'Entrepreneur First',
+        url: 'https://www.joinef.com/',
+        logo: '/images/agi-strategy/ef.svg',
+        descriptionShort: (
+          <>
+            We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
+          </>
+        ),
+        descriptionFull: (
+          <>
+            A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>. See <a href="https://luma.com/bluedotevents" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">here</a> for future events.
+          </>
+        ),
+      },
+      {
+        name: 'Institute for Progress',
+        url: 'https://ifp.org/',
+        logo: '/images/agi-strategy/ifp.svg',
+        descriptionShort: (
+          <>
+            We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
+          </>
+        ),
+        descriptionFull: (
+          <>
+            IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
+          </>
+        ),
+      },
+      {
+        name: '50 Years',
+        url: 'https://www.fiftyyears.com/',
+        logo: '/images/agi-strategy/fifty-years.svg',
+        descriptionShort: (
+          <>
+            We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
+          </>
+        ),
+        descriptionFull: (
+          <>
+            A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
+          </>
+        ),
+      },
+      {
+        name: 'Seldon Lab',
+        url: 'https://seldonlab.com/',
+        logo: '/images/agi-strategy/seldon-lab.svg',
+        descriptionShort: (
+          <>
+            We help our most entrepreneurial community members get ready to join future Seldon batches.
+          </>
+        ),
+        descriptionFull: (
+          <>
+            Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
+          </>
+        ),
+      },
+      {
+        name: 'Halcyon Futures',
+        url: 'https://halcyonfutures.org/',
+        logo: '/images/agi-strategy/halcyon-futures.svg',
+        descriptionShort: (
+          <>
+            We introduce our most promising leaders to Halcyon.
+          </>
+        ),
+        descriptionFull: (
+          <>
+            Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
+          </>
+        ),
+      },
+    ],
+  };
+
+  // ============================================================================
   // BANNER CONTENT
   // ============================================================================
   const bannerContent = {
@@ -241,13 +361,16 @@ const AgiStrategyLander = () => {
       />
 
       {/* Quote Section - What global leaders say about AGI */}
-      <QuoteSection />
+      <QuoteSection quotes={quotesContent.quotes} />
 
       {/* Community Members Section - What learners are saying */}
       <CommunityMembersSubSection members={communityMembers} />
 
       {/* Partner Module */}
-      <PartnerSection />
+      <PartnerSection
+        title={partnersContent.title}
+        partners={partnersContent.partners}
+      />
 
       {/* FAQ Section */}
       <FAQSection />
