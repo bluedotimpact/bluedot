@@ -1,7 +1,7 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import { H3 } from '../../Text';
 
-interface AgiStrategyBannerProps {
+export interface AgiStrategyBannerProps {
   title: string;
   ctaText: string;
   ctaUrl: string;

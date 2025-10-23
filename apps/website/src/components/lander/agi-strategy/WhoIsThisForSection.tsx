@@ -4,13 +4,13 @@ import { IconType } from 'react-icons';
 
 const { H2, P } = NewText;
 
-type TargetAudience = {
+export type TargetAudience = {
   icon: IconType;
   boldText: string;
   description: string;
 };
 
-type WhoIsThisForSectionProps = {
+export type WhoIsThisForSectionProps = {
   title?: string;
   targetAudiences: TargetAudience[];
 };

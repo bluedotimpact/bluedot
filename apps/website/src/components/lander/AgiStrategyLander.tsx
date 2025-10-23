@@ -18,13 +18,13 @@ import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/Comm
 import GraduateSection from './agi-strategy/GraduateSection';
 import PartnerSection, { Partner } from './agi-strategy/PartnerSection';
 import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
-import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
-import HeroSection from './agi-strategy/HeroSection';
+import WhoIsThisForSection, { WhoIsThisForSectionProps } from './agi-strategy/WhoIsThisForSection';
+import HeroSection, { HeroSectionProps } from './agi-strategy/HeroSection';
 import QuoteSection, { QuoteWithUrl } from './agi-strategy/QuoteSection';
-import CourseInformationSection from './agi-strategy/CourseInformationSection';
-import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
+import CourseInformationSection, { CourseInformationSectionProps } from './agi-strategy/CourseInformationSection';
+import CourseCurriculumSection, { CourseCurriculumSectionProps } from './agi-strategy/CourseCurriculumSection';
 import FAQSection from './agi-strategy/FAQSection';
-import AgiStrategyBanner from './agi-strategy/AgiStrategyBanner';
+import AgiStrategyBanner, { AgiStrategyBannerProps } from './agi-strategy/AgiStrategyBanner';
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
@@ -80,7 +80,7 @@ const AgiStrategyLander = () => {
   // ============================================================================
   // HERO SECTION CONTENT
   // ============================================================================
-  const heroContent = {
+  const heroContent: HeroSectionProps = {
     categoryLabel: "AGI STRATEGY",
     title: "Start building the defences that protect humanity",
     description: "Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.",
@@ -99,7 +99,7 @@ const AgiStrategyLander = () => {
   // ============================================================================
   // TARGET AUDIENCE CONTENT
   // ============================================================================
-  const whoIsThisForContent = {
+  const whoIsThisForContent: WhoIsThisForSectionProps = {
     title: "Who this course is for",
     targetAudiences: [
       {
@@ -123,7 +123,7 @@ const AgiStrategyLander = () => {
   // ============================================================================
   // COURSE CURRICULUM CONTENT
   // ============================================================================
-  const curriculumContent = {
+  const curriculumContent: CourseCurriculumSectionProps = {
     title: "Curriculum Overview",
     /** API endpoint slug - must match the course slug in the database */
     courseSlug: "agi-strategy",
@@ -132,7 +132,7 @@ const AgiStrategyLander = () => {
   // ============================================================================
   // COURSE INFORMATION CONTENT
   // ============================================================================
-  const courseInformationContent = {
+  const courseInformationContent: CourseInformationSectionProps = {
     title: "Course information",
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: "Apply now",
@@ -308,7 +308,7 @@ const AgiStrategyLander = () => {
   // ============================================================================
   // BANNER CONTENT
   // ============================================================================
-  const bannerContent = {
+  const bannerContent: AgiStrategyBannerProps = {
     title: "Start building towards a good future today",
     ctaText: "Apply now",
     ctaUrl: applicationUrlWithUtm,

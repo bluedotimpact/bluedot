@@ -6,7 +6,7 @@ import type { IconType } from 'react-icons';
 
 const { H2, P } = NewText;
 
-interface CourseDetail {
+export interface CourseDetail {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */
   icon: IconType;
   /** Label/heading for this detail (e.g., "Options", "Commitment") */
@@ -19,7 +19,7 @@ interface CourseDetail {
   scheduleDescription?: React.ReactNode;
 }
 
-interface CourseInformationSectionProps {
+export interface CourseInformationSectionProps {
   /** Section heading displayed at the top */
   title: string;
   /** Application URL (should include UTM parameters if applicable) */

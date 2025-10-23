@@ -9,7 +9,7 @@ import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
 import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
 
-interface CourseCurriculumSectionProps {
+export interface CourseCurriculumSectionProps {
   /** The section heading displayed at the top */
   title: string;
   /**
