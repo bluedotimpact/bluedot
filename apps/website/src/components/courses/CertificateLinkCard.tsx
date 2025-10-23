@@ -218,7 +218,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
-      refetch();
+      await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
       if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
         window.dataLayer.push({
