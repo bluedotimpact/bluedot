@@ -31,9 +31,9 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
       onSave?.();
     },
     onError: (error) => {
-      if (error.data?.httpStatus === 401) {
+      if (error.data?.code === 'UNAUTHORIZED') {
         setNameError('Session expired. Please refresh the page and try again.');
-      } else if (error.data?.httpStatus === 400) {
+      } else if (error.data?.code === 'BAD_REQUEST') {
         setNameError(`${error.message}. Invalid name format.`);
       } else {
         setNameError('Failed to update name. Please try again.');
