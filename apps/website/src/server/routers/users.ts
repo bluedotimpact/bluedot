@@ -34,9 +34,9 @@ export const usersRouter = router({
         name: z
           .string()
           .trim()
+          .min(1, 'Name is required')
           // 50 characters for a name seemed reasonable
-          .max(50, 'Name must be under 50 characters')
-          .optional(),
+          .max(50, 'Name must be under 50 characters'),
       }),
     )
     .mutation(async ({ ctx, input }) => {
