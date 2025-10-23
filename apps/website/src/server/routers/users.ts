@@ -1,7 +1,10 @@
+import { userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import z from 'zod';
+import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
-import { protectedProcedure, router } from '../trpc';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
+import { protectedProcedure, router } from '../trpc';
 
 export const usersRouter = router({
   changePassword: protectedProcedure
@@ -23,5 +26,31 @@ export const usersRouter = router({
       return {
         message: 'Password updated successfully',
       };
+    }),
+
+  updateName: protectedProcedure
+    .input(
+      z.object({
+        name: z
+          .string()
+          .trim()
+          // 50 characters for a name seemed reasonable
+          .max(50, 'Name must be under 50 characters')
+          .optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const existingUser = await db.getFirst(userTable, {
+        filter: { email: ctx.auth.email },
+      });
+
+      if (!existingUser) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      return db.update(userTable, {
+        id: existingUser.id,
+        name: input.name,
+      });
     }),
 });
