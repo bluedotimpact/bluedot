@@ -212,11 +212,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   courseId,
   config,
 }) => {
-  const courseRegistrationMutation = trpc.courseRegistrations.update.useMutation();
+  const {
+    data: courseRegistration, isLoading: loading, error, refetch,
+  } = trpc.courseRegistrations.getById.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
-      updateCourseRegistration();
+      refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
       if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
         window.dataLayer.push({
@@ -227,22 +229,18 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     },
   });
 
-  const updateCourseRegistration = () => {
-    courseRegistrationMutation.mutate({ courseId });
-  };
-
   const requestCertificate = () => {
     requestCertificateMutation.mutate({ courseId });
   };
 
-  if (courseRegistrationMutation.isError || requestCertificateMutation.isError) {
+  if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
-        <ErrorView error={courseRegistrationMutation.error || requestCertificateMutation.error} />
+        <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"
-          onClick={() => (courseRegistrationMutation.error ? updateCourseRegistration() : requestCertificate())}
-          disabled={courseRegistrationMutation.isPending || requestCertificateMutation.isPending}
+          onClick={() => (error ? refetch() : requestCertificate())}
+          disabled={loading || requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
@@ -267,7 +265,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  if (courseRegistrationMutation.isPending || requestCertificateMutation.isPending) {
+  if (loading || requestCertificateMutation.isPending) {
     if (config.useCard) {
       return (
         <Card
@@ -286,8 +284,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  if (courseRegistrationMutation.data?.certificateId) {
-    const formattedCertificateDate = new Date(courseRegistrationMutation.data?.certificateCreatedAt ? courseRegistrationMutation.data.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
+  if (courseRegistration?.certificateId) {
+    const formattedCertificateDate = new Date(courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior
@@ -304,12 +302,12 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-bluedot-black">Earned by {courseRegistrationMutation.data.fullName || courseRegistrationMutation.data.email}</p>
+                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName || courseRegistration.email}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
             </div>
             <CTALinkOrButton
-              url={addQueryParam(ROUTES.certification.url, 'id', courseRegistrationMutation.data.certificateId)}
+              url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)}
               variant="primary"
               target="_blank"
               className="lg:ml-auto"
@@ -325,7 +323,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (courseRegistrationMutation.data?.courseId !== 'rec0Zgize0c4liMl5') {
+  if (courseRegistration?.courseId !== 'rec0Zgize0c4liMl5') {
     const { notEligible } = config.texts;
     return (
       <Card
