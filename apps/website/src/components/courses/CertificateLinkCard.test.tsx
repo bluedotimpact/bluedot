@@ -7,6 +7,10 @@ import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
 import { createMockCourseRegistration } from '../../__tests__/testUtils';
 
+// I tried pretty hard to use tRPC MSW but kept running into issues where the component would be permanently stuck in
+// loading state for authenticated tests. I spent a couple hours trying to fight it, have decided to give up and mock
+// tRPC directly.
+
 // Hoist the mock functions so they can be used in vi.mock
 const { mockUseQuery, mockUseMutation } = vi.hoisted(() => ({
   mockUseQuery: vi.fn(),
