@@ -66,7 +66,7 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   const { latestUtmParams } = useLatestUtmParams();
-  const courseRegistrationMutation = trpc.courseRegistrations.update.useMutation();
+  const courseRegistrationMutation = trpc.courseRegistrations.getOrCreate.useMutation();
 
   useEffect(() => {
     // If we're logged in, ensures a course registration is recorded for this course
