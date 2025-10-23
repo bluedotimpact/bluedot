@@ -2,18 +2,16 @@ import { render, screen } from '@testing-library/react';
 import {
   describe, test, expect, beforeEach, vi,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
-
-vi.mock('axios-hooks');
 
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
@@ -22,20 +20,6 @@ vi.mock('@bluedot/ui', async () => {
     useAuthStore: vi.fn(),
   };
 });
-
-// I tried to use the existing MSW setup but it wasn't working, so just mocking tRPC directly
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    courseRegistrations: {
-      getById: {
-        useQuery: vi.fn(),
-      },
-    },
-  },
-}));
-
-// Type helpers
-type UseAxiosReturnType = ReturnType<typeof useAxios>;
 
 describe('CertificateLinkCard', () => {
   beforeEach(() => {
@@ -82,15 +66,9 @@ describe('CertificateLinkCard', () => {
 
     beforeEach(() => {
       vi.mocked(useAuthStore).mockReturnValue(mockAuth as ReturnType<typeof useAuthStore>);
-
-      // Mock axios-hooks for certificate requests (not loading by default)
-      vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: false, error: null },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
     });
 
+    test('renders loading state', () => {
       render(
         <CertificateLinkCard courseId="rec123456789" />,
         { wrapper: TrpcProvider },
@@ -102,17 +80,12 @@ describe('CertificateLinkCard', () => {
       expect(document.querySelector('.progress-dots')).toBeTruthy();
     });
 
-    test('renders course without certificate - non-FoAI shows not eligible', () => {
-      // @ts-expect-error - Mocking only essential properties for test
-      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: 'rec123456789',
-          certificateId: null,
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
-      });
+    test('renders course without certificate - non-FoAI shows not eligible', async () => {
+      server.use(trpcMsw.courseRegistrations.getById.query(({ input }) => {
+        return createMockCourseRegistration(
+          { courseId: input.courseId, certificateId: null },
+        );
+      }));
 
       render(
         <CertificateLinkCard courseId="rec123456789" />,
@@ -120,28 +93,22 @@ describe('CertificateLinkCard', () => {
       );
 
       // Verify not eligible message
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      expect(await screen.findByText('Your Certificate')).toBeTruthy();
       expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
       expect(screen.getByText('Join the Community')).toBeTruthy();
     });
 
-    test('renders course without certificate - FoAI shows request button', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        {
-          data: {
-            courseRegistration: {
-              courseId: 'rec0Zgize0c4liMl5',
-              certificateId: null,
-              email: 'user@example.com',
-              fullName: 'Test User',
-            },
+    test('renders course without certificate - FoAI shows request button', async () => {
+      server.use(trpcMsw.courseRegistrations.getById.query(({ input }) => {
+        return createMockCourseRegistration(
+          {
+            courseId: input.courseId,
+            certificateId: null,
+            email: 'user@example.com',
+            fullName: 'Test User',
           },
-          loading: false,
-          error: null,
-        },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+        );
+      }));
 
       render(
         <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
@@ -149,7 +116,7 @@ describe('CertificateLinkCard', () => {
       );
 
       // Verify that download certificate button is shown for FoAI course
-      expect(screen.getByText('Download Certificate')).toBeTruthy();
+      expect(await screen.findByText('Download Certificate')).toBeTruthy();
 
       // Verify the button is actually a button element using React Testing Library best practices
       const downloadButton = screen.getByRole('button', { name: 'Download Certificate' });
@@ -160,18 +127,14 @@ describe('CertificateLinkCard', () => {
       expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
     });
 
-    test('renders course with certificate (works for both regular and FoAI)', () => {
-      // @ts-expect-error - Mocking only essential properties for test
-      vi.mocked(trpc.courseRegistrations.getById.useQuery).mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: 'rec123456789',
+    test('renders course with certificate (works for both regular and FoAI)', async () => {
+      server.use(trpcMsw.courseRegistrations.getById.query(({ input }) => {
+        return createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
-      });
+        });
+      }));
 
       render(
         <CertificateLinkCard courseId="rec123456789" />,
@@ -179,7 +142,7 @@ describe('CertificateLinkCard', () => {
       );
 
       // Verify specific content
-      expect(screen.getByText('Earned by Test User')).toBeTruthy();
+      expect(await screen.findByText('Earned by Test User')).toBeTruthy();
       // Use a flexible date check to tolerate locale-specific ordering
       expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeTruthy();
       expect(screen.getByText('View Certificate')).toBeTruthy();
