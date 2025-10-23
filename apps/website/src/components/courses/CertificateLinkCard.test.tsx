@@ -94,7 +94,6 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders loading state', () => {
-      // Mock loading state
       mockUseQuery.mockReturnValue({
         data: undefined,
         isLoading: true,
@@ -131,7 +130,6 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
-      // Mock query response with no certificate for FoAI course
       mockUseQuery.mockReturnValue({
         data: createMockCourseRegistration({
           courseId: 'rec0Zgize0c4liMl5',
@@ -159,7 +157,6 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course with certificate (works for both regular and FoAI)', () => {
-      // Mock query response with certificate
       mockUseQuery.mockReturnValue({
         data: createMockCourseRegistration({
           courseId: 'rec123456789',
