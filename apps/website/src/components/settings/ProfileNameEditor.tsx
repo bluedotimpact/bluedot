@@ -21,9 +21,9 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   const trimmedName = tempName.trim();
 
   const updateNameMutation = trpc.users.updateName.useMutation({
-    onSuccess: () => {
-      setCurrentSavedName(trimmedName);
-      setTempName(trimmedName);
+    onSuccess: (result) => {
+      setCurrentSavedName(result.name);
+      setTempName(result.name);
       // Call onSave callback if provided
       onSave?.();
     },
