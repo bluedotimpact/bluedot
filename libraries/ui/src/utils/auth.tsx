@@ -6,8 +6,8 @@ import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
 const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-const FIVE_MIN_MS = 20 * 1000;
 const ONE_MIN_MS = 60 * 1000;
+const REFRESH_POLLING_INTERVAL = 5 * ONE_MIN_MS;
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -40,6 +40,10 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
 };
 
 let lastRefreshAttemptMs = -Infinity;
+export const resetLastRefreshAttempt = () => {
+  lastRefreshAttemptMs = -Infinity;
+};
+
 const ensureAuthRefreshed = async ({ auth, setAuth }: { auth: Auth | null; setAuth: (auth: Auth | null) => void; }) => {
   if (!auth) return;
 
@@ -47,27 +51,16 @@ const ensureAuthRefreshed = async ({ auth, setAuth }: { auth: Auth | null; setAu
   const expiresInMs = auth.expiresAt - now;
   const sinceLastRefreshAttemptMs = now - lastRefreshAttemptMs;
 
-  // eslint-disable-next-line no-console
-  console.log('[ensureAuthRefreshed] now=', now, 'expiresInMs=', expiresInMs, 'sinceLastRefreshAttemptMs=', sinceLastRefreshAttemptMs, 'lastRefreshAttemptMs=', lastRefreshAttemptMs);
-
-  if (expiresInMs > ONE_WEEK_MS || sinceLastRefreshAttemptMs < ONE_MIN_MS) {
-    // eslint-disable-next-line no-console
-    console.log('[ensureAuthRefreshed] Skipping refresh: expiresInMs > ONE_WEEK_MS?', expiresInMs > ONE_WEEK_MS, 'sinceLastRefreshAttemptMs < ONE_MIN_MS?', sinceLastRefreshAttemptMs < ONE_MIN_MS);
-    return;
-  }
+  if (expiresInMs > ONE_WEEK_MS || sinceLastRefreshAttemptMs < ONE_MIN_MS) return;
 
   try {
-    // eslint-disable-next-line no-console
-    console.log('[ensureAuthRefreshed] Starting refresh...');
     lastRefreshAttemptMs = Date.now();
     const newAuth = await oidcRefresh(auth);
     setAuth(newAuth);
-    // eslint-disable-next-line no-console
-    console.log('[ensureAuthRefreshed] Refresh successful, new token=', newAuth.token);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('[auth.tsx] Token refresh failed:', error);
-    if (expiresInMs < ONE_MIN_MS) {
+    if (expiresInMs < REFRESH_POLLING_INTERVAL) {
       setAuth(null);
     }
   }
@@ -98,6 +91,7 @@ export const useAuthStore = create<{
   setAuth: (auth) => {
     if (!auth) {
       set({ auth: null });
+      resetLastRefreshAttempt();
       posthog.reset();
       return;
     }
@@ -134,7 +128,7 @@ if (typeof window !== 'undefined') {
   refreshIntervalId = setInterval(async () => {
     const { auth, setAuth } = useAuthStore.getState();
     await ensureAuthRefreshed({ auth, setAuth });
-  }, FIVE_MIN_MS);
+  }, REFRESH_POLLING_INTERVAL);
 }
 
 export const withAuth = (Component: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }>, loginRoute = '/login'): React.FC => {
