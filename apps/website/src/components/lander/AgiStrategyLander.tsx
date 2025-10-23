@@ -3,7 +3,16 @@ import {
   addQueryParam,
   useLatestUtmParams,
 } from '@bluedot/ui';
-import { PiBriefcase, PiCompass, PiFlask } from 'react-icons/pi';
+import {
+  PiBriefcase,
+  PiCompass,
+  PiFlask,
+  PiGraduationCap,
+  PiClockClockwise,
+  PiChats,
+  PiHandHeart,
+  PiCalendarDots,
+} from 'react-icons/pi';
 
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
@@ -112,6 +121,71 @@ const AgiStrategyLander = () => {
   };
 
   // ============================================================================
+  // COURSE CURRICULUM CONTENT
+  // ============================================================================
+  const curriculumContent = {
+    title: "Curriculum Overview",
+    /** API endpoint slug - must match the course slug in the database */
+    courseSlug: "agi-strategy",
+  };
+
+  // ============================================================================
+  // COURSE INFORMATION CONTENT
+  // ============================================================================
+  const courseInformationContent = {
+    title: "Course information",
+    applicationUrl: applicationUrlWithUtm,
+    scheduleCtaText: "Apply now",
+    details: [
+      {
+        icon: PiGraduationCap,
+        label: 'Options',
+        description: (
+          <>
+            <span className="font-semibold">Intensive</span>: 6-day course (5h/day)
+            <br />
+            <span className="font-semibold">Part-time</span>: 6-week course (5h/week)
+          </>
+        ),
+      },
+      {
+        icon: PiClockClockwise,
+        label: 'Commitment',
+        description: (
+          <>
+            Each day or week, you will:
+            <br />
+            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
+          </>
+        ),
+      },
+      {
+        icon: PiChats,
+        label: 'Facilitator',
+        description: 'All discussions will be facilitated by an AI safety expert.',
+      },
+      {
+        icon: PiHandHeart,
+        label: 'Price',
+        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+      },
+      {
+        icon: PiCalendarDots,
+        label: 'Schedule',
+        description: null,
+        isSchedule: true,
+        scheduleDescription: (
+          <>
+            New cohorts start every month:
+            <br />
+            Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
+          </>
+        ),
+      },
+    ],
+  };
+
+  // ============================================================================
   // BANNER CONTENT
   // ============================================================================
   const bannerContent = {
@@ -150,13 +224,21 @@ const AgiStrategyLander = () => {
       />
 
       {/* Course Curriculum Section */}
-      <CourseCurriculumSection />
+      <CourseCurriculumSection
+        title={curriculumContent.title}
+        courseSlug={curriculumContent.courseSlug}
+      />
 
       {/* Course Benefits Section */}
       <CourseBenefitsSection />
 
       {/* Course Information Section */}
-      <CourseInformationSection />
+      <CourseInformationSection
+        title={courseInformationContent.title}
+        applicationUrl={courseInformationContent.applicationUrl}
+        details={courseInformationContent.details}
+        scheduleCtaText={courseInformationContent.scheduleCtaText}
+      />
 
       {/* Quote Section - What global leaders say about AGI */}
       <QuoteSection />

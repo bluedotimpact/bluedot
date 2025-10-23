@@ -9,22 +9,36 @@ import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
 import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
 
+interface CourseCurriculumSectionProps {
+  /** The section heading displayed at the top */
+  title: string;
+  /**
+   * The course slug used to fetch curriculum data from the API.
+   * This should match the course slug in the database/API endpoint.
+   * Example: "agi-strategy", "ai-alignment", "ai-governance"
+   */
+  courseSlug: string;
+}
+
 /* Common Section Wrapper */
-const SectionWrapper = ({ children }: { children: React.ReactNode }) => (
+const SectionWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => (
   <section className="w-full bg-white">
     <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
       <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
-        Curriculum Overview
+        {title}
       </H2>
       {children}
     </div>
   </section>
 );
 
-const CourseCurriculumSection = () => {
+const CourseCurriculumSection = ({
+  title,
+  courseSlug,
+}: CourseCurriculumSectionProps) => {
   const [{ data, loading, error }] = useAxios<GetCourseResponse>({
     method: 'get',
-    url: '/api/courses/agi-strategy',
+    url: `/api/courses/${courseSlug}`,
   });
 
   if (error) {
@@ -33,7 +47,7 @@ const CourseCurriculumSection = () => {
 
   if (loading) {
     return (
-      <SectionWrapper>
+      <SectionWrapper title={title}>
         <div className="flex justify-center">
           <ProgressDots />
         </div>
@@ -43,14 +57,14 @@ const CourseCurriculumSection = () => {
 
   if (!data?.units || data.units.length === 0) {
     return (
-      <SectionWrapper>
+      <SectionWrapper title={title}>
         <P className="text-center">Curriculum information will be available soon.</P>
       </SectionWrapper>
     );
   }
 
   return (
-    <SectionWrapper>
+    <SectionWrapper title={title}>
       <div className="max-w-[928px] mx-auto">
         <div>
           {[...data.units]
@@ -60,7 +74,11 @@ const CourseCurriculumSection = () => {
               return aNum - bNum;
             })
             .map((unit, index) => (
-              <CurriculumUnit key={unit.id} unit={unit} defaultExpanded={index === 0} />
+              <CurriculumUnit
+                key={unit.id}
+                unit={unit}
+                defaultExpanded={index === 0}
+              />
             ))}
         </div>
       </div>
@@ -69,12 +87,18 @@ const CourseCurriculumSection = () => {
 };
 
 /* Curriculum Unit Component */
-const CurriculumUnit = ({ unit, defaultExpanded = false }: { unit: Unit; defaultExpanded?: boolean }) => {
+const CurriculumUnit = ({
+  unit,
+  defaultExpanded = false,
+}: {
+  unit: Unit;
+  defaultExpanded?: boolean;
+}) => {
   const [isOpen, setIsOpen] = useState(defaultExpanded);
 
-  const unitTitle = (unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`)
-    .replace(/^AGI Strategy\s*-\s*/i, '')
-    .trim();
+  // Remove common course prefixes from unit titles (e.g., "AGI Strategy - Unit 1" → "Unit 1")
+  const rawTitle = unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`;
+  const unitTitle = rawTitle.replace(/^(AGI Strategy|AI Alignment|AI Governance)\s*-\s*/i, '').trim();
   const description = unit.menuText || unit.description;
 
   const handleToggle = () => {
