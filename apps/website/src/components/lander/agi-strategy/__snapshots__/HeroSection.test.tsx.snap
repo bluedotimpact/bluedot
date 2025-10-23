@@ -1,5 +1,71 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`HeroSection > renders correctly (snapshot) 1`] = `
+<div>
+  <section
+    class="w-full bg-white"
+  >
+    <div
+      class="flex flex-col sm:pt-8 sm:gap-12 lg:pt-0 lg:gap-0 lg:grid lg:grid-cols-2 lg:h-[600px]"
+    >
+      <div
+        class="px-5 py-8 sm:px-8 sm:py-0 lg:flex lg:items-center lg:px-12 xl:pl-[max(48px,calc((100vw-1436px)/2+48px))] xl:pr-8"
+      >
+        <div
+          class="w-full lg:max-w-[512px] space-y-8 sm:space-y-8"
+        >
+          <div
+            class="space-y-5 sm:space-y-4"
+          >
+            <h1
+              class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold text-[#13132E] tracking-[-0.5px]"
+            >
+              AGI Strategy – Learn how to navigate humanity's most critical decade
+            </h1>
+            <p
+              class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80"
+            >
+              Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
+            </p>
+          </div>
+          <div
+            class="flex gap-3"
+          >
+            <a
+              class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
+              href="https://example.com/apply"
+              tabindex="0"
+            >
+              Apply now
+            </a>
+            <a
+              class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
+              href="/courses/agi-strategy/1"
+              tabindex="0"
+            >
+              Browse curriculum
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="h-80 sm:h-[430px] lg:h-full relative overflow-hidden"
+      >
+        <img
+          alt="AGI Strategy visualization"
+          class="size-full object-cover lg:object-left"
+          src="/images/agi-strategy/hero-banner.png"
+        />
+        <div
+          class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+          style="background-image: url("/images/agi-strategy/noise.png");"
+        />
+      </div>
+    </div>
+  </section>
+</div>
+`;
+
 exports[`HeroSection > renders correctly with visual component (snapshot) 1`] = `
 <div>
   <section
@@ -57,7 +123,8 @@ exports[`HeroSection > renders correctly with visual component (snapshot) 1`] = 
           src="/images/agi-strategy/hero-banner.png"
         />
         <div
-          class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+          class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+          style="background-image: url("/images/agi-strategy/noise.png");"
         />
       </div>
     </div>

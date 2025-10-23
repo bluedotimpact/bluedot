@@ -68,11 +68,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <img
             alt="AGI Strategy visualization"
-            class="size-full object-cover"
+            class="size-full object-cover lg:object-left"
             src="/images/agi-strategy/hero-banner-split.png"
           />
           <div
-            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+            class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style="background-image: url("/images/agi-strategy/noise.png");"
           />
         </div>
       </div>
@@ -129,7 +130,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For entrepreneurs and operators
               </span>
               <span>
-                 who want to build solutions that protect humanity.
+                 
+                who want to build solutions that protect humanity.
               </span>
             </p>
           </div>
@@ -163,7 +165,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For leaders
               </span>
               <span>
-                 who want to steer AI's trajectory towards beneficial outcomes for humanity.
+                 
+                who want to steer AI's trajectory towards beneficial outcomes for humanity.
               </span>
             </p>
           </div>
@@ -197,7 +200,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For researchers
               </span>
               <span>
-                 who want to take big bets on the most impactful research ideas.
+                 
+                who want to take big bets on the most impactful research ideas.
               </span>
             </p>
           </div>

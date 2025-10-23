@@ -4,6 +4,7 @@ import {
   CTALinkOrButton,
   useLatestUtmParams,
 } from '@bluedot/ui';
+import { PiBriefcase, PiCompass, PiFlask } from 'react-icons/pi';
 
 import { H3 } from '../Text';
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
@@ -93,6 +94,49 @@ const AgiStrategyLander = () => {
   const { latestUtmParams } = useLatestUtmParams();
   const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
 
+  // ============================================================================
+  // HERO SECTION CONTENT
+  // ============================================================================
+  const heroContent = {
+    categoryLabel: "AGI STRATEGY",
+    title: "Start building the defences that protect humanity",
+    description: "Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.",
+    primaryCta: {
+      text: 'Apply now',
+      url: applicationUrlWithUtm,
+    },
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: '/courses/agi-strategy/1',
+    },
+    imageSrc: "/images/agi-strategy/hero-banner-split.png",
+    imageAlt: "AGI Strategy visualization",
+  };
+
+  // ============================================================================
+  // TARGET AUDIENCE CONTENT
+  // ============================================================================
+  const whoIsThisForContent = {
+    title: "Who this course is for",
+    targetAudiences: [
+      {
+        icon: PiBriefcase,
+        boldText: 'For entrepreneurs and operators',
+        description: 'who want to build solutions that protect humanity.',
+      },
+      {
+        icon: PiCompass,
+        boldText: 'For leaders',
+        description: 'who want to steer AI\'s trajectory towards beneficial outcomes for humanity.',
+      },
+      {
+        icon: PiFlask,
+        boldText: 'For researchers',
+        description: 'who want to take big bets on the most impactful research ideas.',
+      },
+    ],
+  };
+
   return (
     <div className="bg-white">
       <Head>
@@ -101,24 +145,13 @@ const AgiStrategyLander = () => {
       </Head>
 
       <HeroSection
-        categoryLabel="AGI STRATEGY"
-        title="Start building the defences that protect humanity"
-        description="Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours."
-        primaryCta={{
-          text: 'Apply now',
-          url: applicationUrlWithUtm,
-        }}
-        secondaryCta={{
-          text: 'Browse curriculum',
-          url: '/courses/agi-strategy/1',
-        }}
-        visualComponent={(
-          <img
-            src="/images/agi-strategy/hero-banner-split.png"
-            alt="AGI Strategy visualization"
-            className="size-full object-cover"
-          />
-        )}
+        categoryLabel={heroContent.categoryLabel}
+        title={heroContent.title}
+        description={heroContent.description}
+        primaryCta={heroContent.primaryCta}
+        secondaryCta={heroContent.secondaryCta}
+        imageSrc={heroContent.imageSrc}
+        imageAlt={heroContent.imageAlt}
       />
 
       {/* Divider */}
@@ -128,7 +161,10 @@ const AgiStrategyLander = () => {
       <GraduateSection />
 
       {/* Who is this course for section */}
-      <WhoIsThisForSection />
+      <WhoIsThisForSection 
+        title={whoIsThisForContent.title}
+        targetAudiences={whoIsThisForContent.targetAudiences}
+      />
 
       {/* Course Curriculum Section */}
       <CourseCurriculumSection />

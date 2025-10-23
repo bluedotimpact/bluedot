@@ -15,25 +15,12 @@ describe('HeroSection', () => {
       text: 'Browse curriculum',
       url: '/courses/agi-strategy/1',
     },
+    imageSrc: '/images/agi-strategy/hero-banner.png',
+    imageAlt: 'AGI Strategy visualization',
   };
 
-  it('renders correctly without visual component (snapshot)', () => {
+  it('renders correctly (snapshot)', () => {
     const { container } = render(<HeroSection {...defaultProps} />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it('renders correctly with visual component (snapshot)', () => {
-    const visualComponent = (
-      <img
-        src="/images/agi-strategy/hero-banner.png"
-        alt="AGI Strategy visualization"
-        className="size-full object-cover"
-      />
-    );
-
-    const { container } = render(
-      <HeroSection {...defaultProps} visualComponent={visualComponent} />,
-    );
     expect(container).toMatchSnapshot();
   });
 
@@ -52,5 +39,13 @@ describe('HeroSection', () => {
 
     expect(applyButton).toHaveAttribute('href', 'https://example.com/apply');
     expect(curriculumButton).toHaveAttribute('href', '/courses/agi-strategy/1');
+  });
+
+  it('renders image with correct src and alt attributes', () => {
+    render(<HeroSection {...defaultProps} />);
+
+    const image = screen.getByRole('img');
+    expect(image).toHaveAttribute('src', '/images/agi-strategy/hero-banner.png');
+    expect(image).toHaveAttribute('alt', 'AGI Strategy visualization');
   });
 });
