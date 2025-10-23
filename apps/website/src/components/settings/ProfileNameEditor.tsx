@@ -46,7 +46,7 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
     setCurrentSavedName(initialName);
   }, [initialName]);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
