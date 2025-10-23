@@ -11,14 +11,15 @@ export const usersRouter = router({
       const existingUser = await db.getFirst(userTable, {
         filter: { email: ctx.auth.email },
       });
-      if (existingUser) {
-        // Update lastSeenAt timestamp
-        return db.update(userTable, {
-          id: existingUser.id,
-          lastSeenAt: new Date().toISOString(),
-        });
+      if (!existingUser) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
       }
-      return existingUser;
+
+      // Update lastSeenAt timestamp
+      return db.update(userTable, {
+        id: existingUser.id,
+        lastSeenAt: new Date().toISOString(),
+      });
     }),
 
   changePassword: protectedProcedure
