@@ -4,6 +4,18 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const courseRegistrationsRouter = router({
+  getById: protectedProcedure
+    .input(z.object({ courseId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { courseId } = input;
+      return db.getFirst(courseRegistrationTable, {
+        filter: {
+          email: ctx.auth.email,
+          courseId,
+          decision: 'Accept',
+        },
+      });
+    }),
   update: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
     .mutation(async ({ ctx, input }) => {
