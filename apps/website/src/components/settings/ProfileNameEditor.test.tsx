@@ -11,7 +11,7 @@ import ProfileNameEditor from './ProfileNameEditor';
 const mockUser = {
   id: 'test-user-id',
   email: 'test@example.com',
-  name: 'John Doe',
+  name: 'Jane Doe',
   createdAt: null,
   lastSeenAt: null,
   utmSource: null,
