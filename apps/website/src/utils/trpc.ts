@@ -3,7 +3,7 @@ import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
 
-const FIFTY_SEC_MS = 50 * 1000;
+const ONE_MIN_MS = 60 * 1000;
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -28,8 +28,8 @@ async function getHeadersWithValidToken() {
   const now = Date.now();
   const timeUntilExpiry = auth.expiresAt - now;
 
-  // If token expires within 50 seconds or is already expired, refresh it
-  if (timeUntilExpiry < FIFTY_SEC_MS && auth.refreshToken && auth.oidcSettings) {
+  // If token expires within 1 minute or is already expired, refresh it
+  if (timeUntilExpiry < ONE_MIN_MS && auth.refreshToken && auth.oidcSettings) {
     await refresh();
     // Get the updated auth after refresh
     const { auth: refreshedAuth } = useAuthStore.getState();
