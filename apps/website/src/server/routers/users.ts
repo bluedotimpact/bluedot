@@ -1,9 +1,9 @@
 import { userTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import z from 'zod';
 import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
+import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { protectedProcedure, router } from '../trpc';
 
 export const usersRouter = router({
@@ -29,16 +29,7 @@ export const usersRouter = router({
     }),
 
   updateName: protectedProcedure
-    .input(
-      z.object({
-        name: z
-          .string()
-          .trim()
-          .min(1, 'Name is required')
-          // 50 characters for a name seemed reasonable
-          .max(50, 'Name must be under 50 characters'),
-      }),
-    )
+    .input(updateNameSchema)
     .mutation(async ({ ctx, input }) => {
       const existingUser = await db.getFirst(userTable, {
         filter: { email: ctx.auth.email },

@@ -4,7 +4,7 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import { P } from '../Text';
-import { meRequestBodySchema } from '../../lib/schemas/user/me.schema';
+import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { trpc } from '../../utils/trpc';
 
 type ProfileNameEditorProps = {
@@ -51,7 +51,7 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   }, [initialName]);
 
   const handleSave = () => {
-    const validationResult = meRequestBodySchema.safeParse({ name: trimmedName });
+    const validationResult = updateNameSchema.safeParse({ name: trimmedName });
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
       setNameError(firstError?.message || 'Failed to update name. Please try again.');
