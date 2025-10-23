@@ -16,7 +16,7 @@ const { H2, P } = NewText;
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
-const CourseDetailsSection = () => {
+const CourseInformationSection = () => {
   const { latestUtmParams } = useLatestUtmParams();
   const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
 
@@ -62,7 +62,7 @@ const CourseDetailsSection = () => {
 
   return (
     <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
           Course information
@@ -143,4 +143,4 @@ const CourseDetailsSection = () => {
   );
 };
 
-export default CourseDetailsSection;
+export default CourseInformationSection;

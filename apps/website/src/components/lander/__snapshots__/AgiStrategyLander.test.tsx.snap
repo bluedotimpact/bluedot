@@ -89,7 +89,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:pt-20 md:pb-16 min-[1024px]:px-spacing-x lg:pt-24 lg:pb-20"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -97,13 +97,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           Who this course is for
         </h2>
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
             >
               <svg
                 class="text-white"
@@ -121,7 +121,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
             >
               <span
                 class="font-semibold"
@@ -134,10 +134,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
             >
               <svg
                 class="text-white"
@@ -155,7 +155,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
             >
               <span
                 class="font-semibold"
@@ -168,10 +168,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
             >
               <svg
                 class="text-white"
@@ -189,7 +189,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
             >
               <span
                 class="font-semibold"
@@ -208,7 +208,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -241,7 +241,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 md:px-spacing-x"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
@@ -366,7 +366,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
@@ -646,7 +646,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       aria-atomic="true"
       aria-label="Quote carousel"
       aria-live="polite"
-      class="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-5 lg:p-12 overflow-x-hidden"
+      class="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-8 lg:p-12 overflow-x-hidden"
       style="background-color: #FAFAF7;"
     >
       <div
@@ -1161,7 +1161,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-[#FAFAF7]"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:py-20 lg:py-24"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24"
       >
         <h2
           class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
@@ -1169,7 +1169,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           Co-created with our network of leading AI industry partners
         </h2>
         <div
-          class="max-lg:block hidden -mx-5 min-[680px]:-mx-spacing-x"
+          class="max-lg:block hidden -mx-5 min-[680px]:-mx-8 lg:-mx-spacing-x"
         >
           <div
             class="w-full inline-flex flex-nowrap overflow-hidden group"
@@ -1702,7 +1702,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20"
       >
         <div
           class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
@@ -1822,7 +1822,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <section
-      class="w-full bg-white pt-0 pb-12 md:pb-16 lg:pb-20"
+      class="w-full bg-white pt-0 pb-12 min-[680px]:pb-16 lg:pb-20"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"

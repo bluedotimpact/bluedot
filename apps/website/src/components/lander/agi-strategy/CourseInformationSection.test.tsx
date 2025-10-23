@@ -1,20 +1,20 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import CourseDetailsSection from './CourseDetailsSection';
+import CourseInformationSection from './CourseInformationSection';
 
-describe('CourseDetailsSection', () => {
+describe('CourseInformationSection', () => {
   it('renders correctly', () => {
-    const { container } = render(<CourseDetailsSection />);
+    const { container } = render(<CourseInformationSection />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   it('renders the section title', () => {
-    const { getByText } = render(<CourseDetailsSection />);
+    const { getByText } = render(<CourseInformationSection />);
     expect(getByText('Course information')).toBeDefined();
   });
 
   it('renders all course detail cards', () => {
-    const { getByText } = render(<CourseDetailsSection />);
+    const { getByText } = render(<CourseInformationSection />);
 
     // Check that all expected card titles are present
     expect(getByText('Options')).toBeDefined();
@@ -25,12 +25,12 @@ describe('CourseDetailsSection', () => {
   });
 
   it('renders the apply now button', () => {
-    const { getByText } = render(<CourseDetailsSection />);
+    const { getByText } = render(<CourseInformationSection />);
     expect(getByText('Apply now')).toBeDefined();
   });
 
   it('displays course detail descriptions', () => {
-    const { getByText } = render(<CourseDetailsSection />);
+    const { getByText } = render(<CourseInformationSection />);
 
     expect(getByText('Intensive')).toBeDefined();
     expect(getByText('Part-time')).toBeDefined();

@@ -319,6 +319,10 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldcEa25oCDAmgDqm',
     },
+    /**
+     * Array of buckets, i.e. records in the `courseRunnerBucketTable`. A bucket defines a set of groups,
+     * where participants are allowed to switch between the groups if requested.
+     */
     whoCanSwitchIntoThisGroup: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldVQihgKyx6nJIR5',
@@ -453,6 +457,11 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
   },
 });
 
+/**
+ * A bucket defines a set of groups, where participants are allowed to switch between the
+ * groups if requested. This is desirable to have e.g. one bucket for recent graduates, and
+ * one for more experienced professionals within the same round of a course.
+ */
 export const courseRunnerBucketTable = pgAirtable('course_runner_bucket', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tbl7Pevw79fDA7EmX',
@@ -482,6 +491,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    /**
+     * A bucket defines a set of groups, where participants are allowed to switch between the
+     * groups if requested. This field is an array of all the buckets the person is a member of.
+     */
     buckets: {
       pgColumn: text().array(),
       airtableId: 'fldPOsY8Amd31Resf',

@@ -162,7 +162,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
-          currentUnit={discussionUnit || unit}
+          initialUnitNumber={(discussionUnit || unit).unitNumber.toString()}
           courseSlug={unit.courseSlug}
         />
       )}
