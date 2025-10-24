@@ -3,16 +3,16 @@ import { IconType } from 'react-icons';
 
 const { H2, H3, P } = NewText;
 
-export interface BenefitCard {
+export type BenefitCard = {
   icon: IconType;
   title: string;
   description: string;
-}
+};
 
-export interface CourseBenefitsSectionProps {
+export type CourseBenefitsSectionProps = {
   title: string;
   benefits: BenefitCard[];
-}
+};
 
 const CourseBenefitsSection = ({ title, benefits }: CourseBenefitsSectionProps) => {
   return (
@@ -22,14 +22,14 @@ const CourseBenefitsSection = ({ title, benefits }: CourseBenefitsSectionProps) 
           {title}
         </H2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {benefits.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="flex flex-col gap-6">
+          {benefits.map(({ icon: Icon, title: benefitTitle, description }) => (
+            <div key={benefitTitle} className="flex flex-col gap-6">
               <div className="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0">
                 <Icon className="text-black" size={28} />
               </div>
               <div className="space-y-2">
                 <H3 className="text-[18px] font-semibold leading-tight text-[#13132E]">
-                  {title}
+                  {benefitTitle}
                 </H3>
                 <P className="text-size-sm leading-[1.6] text-[#13132E] opacity-80">
                   {description}

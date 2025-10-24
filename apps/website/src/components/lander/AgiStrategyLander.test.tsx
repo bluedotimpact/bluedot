@@ -23,11 +23,11 @@ vi.mock('@bluedot/ui', async () => {
 });
 
 // Mock child components that might have complex dependencies
-vi.mock('./agi-strategy/GraduateSection', () => ({
+vi.mock('./components/GraduateSection', () => ({
   default: () => <div data-testid="graduate-section">Graduate Section</div>,
 }));
 
-vi.mock('./agi-strategy/TestimonialSubSection', () => ({
+vi.mock('./components/TestimonialSubSection', () => ({
   default: ({ testimonials, title }: { testimonials?: unknown[]; title: string }) => (
     <div data-testid="testimonial-section">
       <h2>{title}</h2>
@@ -37,7 +37,7 @@ vi.mock('./agi-strategy/TestimonialSubSection', () => ({
   Testimonial: {},
 }));
 
-vi.mock('./agi-strategy/CommunityMembersSubSection', () => ({
+vi.mock('./components/CommunityMembersSubSection', () => ({
   default: ({ members, title }: { members?: unknown[]; title?: string }) => (
     <div data-testid="community-members-section">
       {title && <h2>{title}</h2>}
@@ -49,12 +49,12 @@ vi.mock('./agi-strategy/CommunityMembersSubSection', () => ({
 
 describe('AgiStrategyLander', () => {
   it('renders the complete page correctly (snapshot)', () => {
-    const { container } = render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    const { container } = render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
     expect(container).toMatchSnapshot();
   });
 
   it('renders HeroSection with correct props', () => {
-    render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
 
     // Check title - appears in HeroSection title and page title
     const titleText = 'Start building the defences that protect humanity';
@@ -69,26 +69,26 @@ describe('AgiStrategyLander', () => {
   });
 
   it('renders Graduate section', () => {
-    render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
   });
 
   it('renders community members section', () => {
-    render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
 
     const communityMembersSection = screen.getByTestId('community-members-section');
     expect(communityMembersSection).toBeInTheDocument();
   });
 
   it('renders AGI Strategy banner with CTA', () => {
-    render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
 
     // Check that the banner section exists and contains the expected text
     expect(screen.getByText('Start building towards a good future today')).toBeInTheDocument();
   });
 
   it('has correct meta tags in Head', () => {
-    const { container } = render(<CourseLander courseSlug='agi-strategy' contentFactory={createAgiStrategyContent} />);
+    const { container } = render(<CourseLander courseSlug="agi-strategy" createContentFor={createAgiStrategyContent} />);
 
     // Since Head is mocked, we can at least verify the component renders
     // In a real test environment with Next.js testing utils, we could check actual meta tags

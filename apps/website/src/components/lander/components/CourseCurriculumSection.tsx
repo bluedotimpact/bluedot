@@ -9,7 +9,7 @@ import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
 import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
 
-export interface CourseCurriculumSectionProps {
+export type CourseCurriculumSectionProps = {
   /** The section heading displayed at the top */
   title: string;
   /**
@@ -18,7 +18,7 @@ export interface CourseCurriculumSectionProps {
    * Example: "agi-strategy", "ai-alignment", "ai-governance"
    */
   courseSlug: string;
-}
+};
 
 /* Common Section Wrapper */
 const SectionWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => (

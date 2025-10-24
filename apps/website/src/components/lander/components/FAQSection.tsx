@@ -3,24 +3,24 @@ import { useState } from 'react';
 /**
  * Represents a single FAQ item with question and answer
  */
-export interface FAQItem {
+export type FAQItem = {
   /** Unique identifier for this FAQ item (used for accordion state management) */
   id: string;
   /** The question text */
   question: string;
   /** The answer text or React element */
   answer: React.ReactNode;
-}
+};
 
 /**
  * Props for the FAQSection component
  */
-export interface FAQSectionProps {
+export type FAQSectionProps = {
   /** Section heading displayed at the top */
   title: string;
   /** Array of FAQ items to display */
   items: FAQItem[];
-}
+};
 
 const FAQSection = ({ title, items }: FAQSectionProps) => {
   const [openQuestions, setOpenQuestions] = useState<string[]>([]);

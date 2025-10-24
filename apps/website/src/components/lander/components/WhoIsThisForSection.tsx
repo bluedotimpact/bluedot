@@ -1,4 +1,3 @@
-import React from 'react';
 import { NewText } from '@bluedot/ui';
 import { IconType } from 'react-icons';
 
@@ -15,9 +14,9 @@ export type WhoIsThisForSectionProps = {
   targetAudiences: TargetAudience[];
 };
 
-const WhoIsThisForSection = ({ 
+const WhoIsThisForSection = ({
   title = 'Who this course is for',
-  targetAudiences 
+  targetAudiences,
 }: WhoIsThisForSectionProps) => {
   return (
     <section className="w-full bg-[#FAFAF7]">

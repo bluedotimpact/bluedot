@@ -6,7 +6,7 @@ import type { IconType } from 'react-icons';
 
 const { H2, P } = NewText;
 
-export interface CourseDetail {
+export type CourseDetail = {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */
   icon: IconType;
   /** Label/heading for this detail (e.g., "Options", "Commitment") */
@@ -17,9 +17,9 @@ export interface CourseDetail {
   isSchedule?: boolean;
   /** Schedule-specific description (only used when isSchedule is true) */
   scheduleDescription?: React.ReactNode;
-}
+};
 
-export interface CourseInformationSectionProps {
+export type CourseInformationSectionProps = {
   /** Section heading displayed at the top */
   title: string;
   /** Application URL (should include UTM parameters if applicable) */
@@ -28,15 +28,14 @@ export interface CourseInformationSectionProps {
   details: CourseDetail[];
   /** Text for the CTA button in the schedule section */
   scheduleCtaText: string;
-}
+};
 
 const CourseInformationSection = ({
   title,
   applicationUrl,
   details,
-  scheduleCtaText
+  scheduleCtaText,
 }: CourseInformationSectionProps) => {
-
   return (
     <section className="w-full bg-[#FAFAF7]">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">

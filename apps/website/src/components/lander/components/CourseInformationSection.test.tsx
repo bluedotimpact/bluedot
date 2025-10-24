@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import CourseInformationSection from './CourseInformationSection';
 import {
   PiGraduationCap,
   PiClockClockwise,
@@ -8,6 +7,7 @@ import {
   PiHandHeart,
   PiCalendarDots,
 } from 'react-icons/pi';
+import CourseInformationSection from './CourseInformationSection';
 
 const mockProps = {
   title: 'Course information',

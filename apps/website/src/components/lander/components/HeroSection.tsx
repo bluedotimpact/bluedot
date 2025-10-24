@@ -1,4 +1,3 @@
-import React from 'react';
 import { CTALinkOrButton, NewText } from '@bluedot/ui';
 
 const { H1, P } = NewText;
@@ -76,9 +75,9 @@ const HeroSection = ({
         <div className="h-80 sm:h-[430px] lg:h-full relative overflow-hidden">
           <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-left" />
           {/* Noise layer */}
-          <div 
-            className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light" 
-            style={{ backgroundImage: `url('/images/agi-strategy/noise.png')` }}
+          <div
+            className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style={{ backgroundImage: 'url(\'/images/agi-strategy/noise.png\')' }}
           />
         </div>
 

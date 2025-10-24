@@ -62,7 +62,7 @@ export const Default: Story = {
       text: 'Browse curriculum',
       url: '/courses/agi-strategy/1',
     },
-    imageSrc: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-    imageAlt: "AI visualization",
+    imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
+    imageAlt: 'AI visualization',
   },
 };

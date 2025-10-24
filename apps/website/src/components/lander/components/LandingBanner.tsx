@@ -1,13 +1,13 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import { H3 } from '../../Text';
 
-export interface AgiStrategyBannerProps {
+export type LandingBannerProps = {
   title: string;
   ctaText: string;
   ctaUrl: string;
-}
+};
 
-const AgiStrategyBanner = ({ title, ctaText, ctaUrl }: AgiStrategyBannerProps) => {
+const LandingBanner = ({ title, ctaText, ctaUrl }: LandingBannerProps) => {
   return (
     <section className="w-full bg-white pt-0 pb-12 min-[680px]:pb-16 lg:pb-20">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
@@ -35,4 +35,4 @@ const AgiStrategyBanner = ({ title, ctaText, ctaUrl }: AgiStrategyBannerProps) =
   );
 };
 
-export default AgiStrategyBanner;
+export default LandingBanner;

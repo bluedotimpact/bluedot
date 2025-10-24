@@ -1,33 +1,23 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
-import CommunityMembersSubSection from './agi-strategy/CommunityMembersSubSection';
-import GraduateSection from './agi-strategy/GraduateSection';
-import PartnerSection from './agi-strategy/PartnerSection';
-import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
-import WhoIsThisForSection from './agi-strategy/WhoIsThisForSection';
-import HeroSection from './agi-strategy/HeroSection';
-import QuoteSection from './agi-strategy/QuoteSection';
-import CourseInformationSection from './agi-strategy/CourseInformationSection';
-import CourseCurriculumSection from './agi-strategy/CourseCurriculumSection';
-import FAQSection from './agi-strategy/FAQSection';
-import AgiStrategyBanner from './agi-strategy/AgiStrategyBanner';
-import { HeroSectionProps } from './agi-strategy/HeroSection';
-import { WhoIsThisForSectionProps } from './agi-strategy/WhoIsThisForSection';
-import { CourseCurriculumSectionProps } from './agi-strategy/CourseCurriculumSection';
-import { CourseBenefitsSectionProps } from './agi-strategy/CourseBenefitsSection';
-import { CourseInformationSectionProps } from './agi-strategy/CourseInformationSection';
-import { QuoteSectionProps } from './agi-strategy/QuoteSection';
-import { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
-import { PartnerSectionProps } from './agi-strategy/PartnerSection';
-import { FAQSectionProps } from './agi-strategy/FAQSection';
-import { AgiStrategyBannerProps } from './agi-strategy/AgiStrategyBanner';
+import CommunityMembersSubSection, { CommunityMember } from './components/CommunityMembersSubSection';
+import GraduateSection from './components/GraduateSection';
+import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
+import CourseBenefitsSection, { CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
+import WhoIsThisForSection, { WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
+import HeroSection, { HeroSectionProps } from './components/HeroSection';
+import QuoteSection, { QuoteSectionProps } from './components/QuoteSection';
+import CourseInformationSection, { CourseInformationSectionProps } from './components/CourseInformationSection';
+import CourseCurriculumSection, { CourseCurriculumSectionProps } from './components/CourseCurriculumSection';
+import FAQSection, { FAQSectionProps } from './components/FAQSection';
+import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 
-export interface CourseLanderMeta {
+export type CourseLanderMeta = {
   title: string;
   description: string;
-}
+};
 
-export interface CourseLanderContent {
+export type CourseLanderContent = {
   applicationUrl: string;
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
@@ -39,13 +29,13 @@ export interface CourseLanderContent {
   communityMembers: CommunityMember[];
   partners: PartnerSectionProps;
   faq: FAQSectionProps;
-  banner: AgiStrategyBannerProps;
-}
+  banner: LandingBannerProps;
+};
 
-interface CourseLanderProps {
+type CourseLanderProps = {
   courseSlug: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
-}
+};
 
 const CourseLander = ({ courseSlug, createContentFor }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
@@ -89,7 +79,7 @@ const CourseLander = ({ courseSlug, createContentFor }: CourseLanderProps) => {
 
       <FAQSection {...content.faq} />
 
-      <AgiStrategyBanner {...content.banner} />
+      <LandingBanner {...content.banner} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const createBioSecurityContent = (
   applicationUrlWithUtm: string,
-  courseSlug: string
+  courseSlug: string,
 ): CourseLanderContent => ({
   applicationUrl: 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX',
   meta: {
@@ -24,9 +24,9 @@ export const createBioSecurityContent = (
   },
 
   hero: {
-    categoryLabel: "AGI STRATEGY",
-    title: "Start building the defences that protect humanity",
-    description: "Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.",
+    categoryLabel: 'AGI STRATEGY',
+    title: 'Start building the defences that protect humanity',
+    description: 'Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -35,12 +35,12 @@ export const createBioSecurityContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: "/images/agi-strategy/hero-banner-split.png",
-    imageAlt: "AGI Strategy visualization",
+    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageAlt: 'AGI Strategy visualization',
   },
 
   whoIsThisFor: {
-    title: "Who this course is for",
+    title: 'Who this course is for',
     targetAudiences: [
       {
         icon: PiBriefcase,
@@ -61,8 +61,8 @@ export const createBioSecurityContent = (
   },
 
   curriculum: {
-    title: "Curriculum Overview",
-    courseSlug: courseSlug,
+    title: 'Curriculum Overview',
+    courseSlug,
   },
 
   courseBenefits: {
@@ -87,9 +87,9 @@ export const createBioSecurityContent = (
   },
 
   courseInformation: {
-    title: "Course information",
+    title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: "Apply now",
+    scheduleCtaText: 'Apply now',
     details: [
       {
         icon: PiGraduationCap,
@@ -218,7 +218,7 @@ export const createBioSecurityContent = (
   ],
 
   partners: {
-    title: "Co-created with our network of leading AI industry partners",
+    title: 'Co-created with our network of leading AI industry partners',
     partners: [
       {
         name: 'Entrepreneur First',
@@ -299,7 +299,7 @@ export const createBioSecurityContent = (
   },
 
   faq: {
-    title: "Frequently Asked Questions",
+    title: 'Frequently Asked Questions',
     items: [
       {
         id: 'funding',
@@ -323,8 +323,8 @@ export const createBioSecurityContent = (
   },
 
   banner: {
-    title: "Start building towards a good future today",
-    ctaText: "Apply now",
+    title: 'Start building towards a good future today',
+    ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
   },
 });

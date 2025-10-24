@@ -8,12 +8,12 @@ export type Partner = {
   descriptionFull: React.ReactNode;
 };
 
-export interface PartnerSectionProps {
+export type PartnerSectionProps = {
   /** Section heading displayed at the top */
   title: string;
   /** Array of partners to display */
   partners: Partner[];
-}
+};
 
 // Reusable Partner Card Component
 const PartnerCard = ({

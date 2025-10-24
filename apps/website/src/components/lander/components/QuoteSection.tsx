@@ -11,10 +11,10 @@ export type QuoteWithUrl = Quote & {
   role: string;
 };
 
-export interface QuoteSectionProps {
+export type QuoteSectionProps = {
   /** Array of quotes to display in the carousel */
   quotes: QuoteWithUrl[];
-}
+};
 
 // Design constants - these stay consistent across all courses
 const COLORS = {
