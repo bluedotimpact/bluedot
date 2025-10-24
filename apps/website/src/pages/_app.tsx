@@ -17,7 +17,8 @@ import { trpc } from '../utils/trpc';
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
-  const fromSiteParam = useRouter().query.from_site as string;
+  const router = useRouter();
+  const fromSiteParam = router.query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
@@ -42,12 +43,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
                   </AnnouncementBanner>
                 )}
-                <AnnouncementBanner ctaText="Reserve your free spot" ctaUrl="https://lu.ma/sa52ofdf?utm_source=website&utm_campaign=banner" hideAfter={new Date('2025-04-25T18:30:00+01:00')}>
-                  <b>Don't miss this Friday: </b>Planning a career in the age of A(G)I - an online panel with Luke Drago, Josh Landes & Ben Todd
-                </AnnouncementBanner>
-                <AnnouncementBanner ctaText="Apply by Sept 21" ctaUrl="https://bluedot.org/courses/agi-strategy" hideAfter={new Date('2025-09-19T18:30:00+01:00')}>
-                  <b>$1M available: </b>Applications are open for our AGI Strategy Course. Navigate the decade ahead and turn uncertainty into fundable action plans.
-                </AnnouncementBanner>
+                {router.pathname === '/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]'
+                  && router.query.courseSlug === 'technical-ai-safety' && (
+                  <AnnouncementBanner hideAfter={new Date('2025-10-31T23:59:59+01:00')}>
+                    <b>🛠 Under construction</b>: Check back after Oct 31 for updated version!
+                  </AnnouncementBanner>
+                )}
                 <main className="bluedot-base">
                   <Component {...pageProps} />
                 </main>
