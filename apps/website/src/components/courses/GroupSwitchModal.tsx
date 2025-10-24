@@ -105,7 +105,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [error, setError] = useState<unknown | undefined>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
@@ -130,9 +129,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   });
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
     onSuccess: () => {
       setShowSuccess(true);
       setError(undefined);
@@ -140,10 +136,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     onError: (err) => {
       setError(err);
     },
-    onSettled: () => {
-      setIsSubmitting(false);
-    },
   });
+
+  const isSubmitting = submitGroupSwitchMutation.isPending;
 
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
