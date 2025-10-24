@@ -16,7 +16,7 @@ export const courseRegistrationsRouter = router({
         },
       });
     }),
-  getOrCreate: protectedProcedure
+  create: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
     .mutation(async ({ ctx, input }) => {
       const { courseId, source } = input;
@@ -27,6 +27,8 @@ export const courseRegistrationsRouter = router({
           decision: 'Accept',
         },
       });
+
+      // If the course registration already exists, return it
       if (courseRegistration) return courseRegistration;
 
       const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });

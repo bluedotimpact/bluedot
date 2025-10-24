@@ -66,15 +66,15 @@ const CourseUnitChunkPage = ({
   }, [courseSlug, unitNumber]);
 
   const { latestUtmParams } = useLatestUtmParams();
-  const courseRegistrationMutation = trpc.courseRegistrations.getOrCreate.useMutation();
+  const createCourseRegistrationMutation = trpc.courseRegistrations.create.useMutation();
 
   useEffect(() => {
     // If we're logged in, ensures a course registration is recorded for this course
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
-      courseRegistrationMutation.mutate({ courseId: unit.courseId, source: latestUtmParams.utm_source });
+      createCourseRegistrationMutation.mutate({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, latestUtmParams.utm_source, courseRegistrationMutation]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
