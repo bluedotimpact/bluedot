@@ -32,8 +32,8 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
       <ul className="flex flex-col gap-[15px] list-none p-0">
         {links.map((link) => (
           <li key={link.url}>
-            <A 
-              href={link.url} 
+            <A
+              href={link.url}
               target={link.target}
               rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
               className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
