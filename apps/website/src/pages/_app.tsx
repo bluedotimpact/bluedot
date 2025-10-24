@@ -46,7 +46,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                 {router.pathname === '/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]'
                   && router.query.courseSlug === 'technical-ai-safety' && (
                   <AnnouncementBanner hideAfter={new Date('2025-10-31T23:59:59+01:00')}>
-                    <b>🛠 Under construction</b>: Check back after Oct 31 for updated version!
+                    <b>🛠 Under construction</b>: Check back after Oct 31 for the updated version!
                   </AnnouncementBanner>
                 )}
                 <main className="bluedot-base">
