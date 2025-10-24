@@ -18,8 +18,8 @@ import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
 import { Course, Unit } from '@bluedot/db';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
-import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
@@ -105,7 +105,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [error, setError] = useState<unknown | undefined>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
@@ -129,13 +128,17 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     method: 'get',
   });
 
-  const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
-    url: `/api/courses/${courseSlug}/group-switching`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'post',
-  }, { manual: true });
+  const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
+    onSuccess: () => {
+      setShowSuccess(true);
+      setError(undefined);
+    },
+    onError: (err) => {
+      setError(err);
+    },
+  });
+
+  const isSubmitting = submitGroupSwitchMutation.isPending;
 
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
@@ -215,36 +218,21 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const handleSubmit = async () => {
     if (isSubmitDisabled) return;
 
-    setIsSubmitting(true);
-
     const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
     const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
     const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
     const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
-    try {
-      const payload: GroupSwitchingRequest = {
-        switchType,
-        notesFromParticipant: reason,
-        isManualRequest,
-        oldGroupId,
-        newGroupId,
-        oldDiscussionId,
-        newDiscussionId,
-      };
 
-      const response = await submitGroupSwitch({ data: payload });
-
-      if (response.data?.type === 'success') {
-        setShowSuccess(true);
-        setError(undefined);
-      } else {
-        throw new Error('Failed to submit request');
-      }
-    } catch (e) {
-      setError(e);
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitGroupSwitchMutation.mutate({
+      switchType,
+      notesFromParticipant: reason,
+      isManualRequest,
+      oldGroupId,
+      newGroupId,
+      oldDiscussionId,
+      newDiscussionId,
+      courseSlug,
+    });
   };
 
   const getModalTitle = () => {
