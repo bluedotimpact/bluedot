@@ -15,7 +15,10 @@ import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
-import AgiStrategyLander from '../../../components/lander/AgiStrategyLander';
+import CourseLander from '../../../components/lander/CourseLander';
+import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
+import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
+import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 
@@ -44,7 +47,33 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
   }
 
   if (slug === 'agi-strategy') {
-    return <AgiStrategyLander />;
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />
+    );
+  }
+
+  if (slug === 'biosecurity') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={BIOSECURITY_APPLICATION_URL}
+        createContentFor={createBioSecurityContent}
+      />
+    );
+  }
+
+  if (slug === 'technical-ai-safety') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />
+    );
   }
 
   // Default case

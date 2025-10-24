@@ -45,7 +45,8 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For entrepreneurs and operators
           </span>
           <span>
-             who want to build solutions that protect humanity.
+             
+            who want to build solutions that protect humanity.
           </span>
         </p>
       </div>
@@ -79,7 +80,8 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For leaders
           </span>
           <span>
-             who want to steer AI's trajectory towards beneficial outcomes for humanity.
+             
+            who want to steer AI's trajectory towards beneficial outcomes for humanity.
           </span>
         </p>
       </div>
@@ -113,7 +115,8 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For researchers
           </span>
           <span>
-             who want to take big bets on the most impactful research ideas.
+             
+            who want to take big bets on the most impactful research ideas.
           </span>
         </p>
       </div>
