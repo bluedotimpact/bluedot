@@ -4,7 +4,7 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const courseRegistrationsRouter = router({
-  getById: protectedProcedure
+  getByCourseId: protectedProcedure
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { courseId } = input;

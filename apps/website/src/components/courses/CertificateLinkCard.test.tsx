@@ -32,7 +32,7 @@ vi.mock('@bluedot/ui', async () => {
 vi.mock('../../utils/trpc', () => ({
   trpc: {
     courseRegistrations: {
-      getById: {
+      getByCourseId: {
         useQuery: mockUseQuery,
       },
     },

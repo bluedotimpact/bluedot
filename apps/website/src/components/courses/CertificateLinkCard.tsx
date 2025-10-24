@@ -214,7 +214,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
 }) => {
   const {
     data: courseRegistration, isLoading: loading, error, refetch,
-  } = trpc.courseRegistrations.getById.useQuery({ courseId });
+  } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
