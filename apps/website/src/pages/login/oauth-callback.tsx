@@ -1,6 +1,5 @@
 import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
-import axios from 'axios';
-import { GetUserResponse } from '../api/users/me';
+import { trpc } from '../../utils/trpc';
 
 export default () => (
   <LoginOauthCallbackPage
@@ -21,26 +20,22 @@ export default () => (
         console.warn('Failed to parse UTM params from redirectTo:', error);
       }
 
-      const response = await axios.post<GetUserResponse>(
-        '/api/users/me',
-        {
-          initialUtmSource,
-          initialUtmCampaign,
-          initialUtmContent,
+      const createUserMutation = trpc.users.create.useMutation({
+        onSuccess: (response) => {
+          if (typeof window !== 'undefined' && window.dataLayer) {
+            window.dataLayer.push({
+              event: 'CompletedSignup',
+              new_customer: response.isNewUser,
+            });
+          }
         },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        },
-      );
+      });
 
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'CompletedSignup',
-          new_customer: response.data.isNewUser,
-        });
-      }
+      createUserMutation.mutate({
+        initialUtmSource,
+        initialUtmCampaign,
+        initialUtmContent,
+      });
     }}
   />
 );
