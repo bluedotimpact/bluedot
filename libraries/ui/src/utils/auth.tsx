@@ -5,8 +5,9 @@ import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
-const FIVE_SEC_MS = 5 * 1000;
+const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 const ONE_MIN_MS = 60 * 1000;
+const REFRESH_POLLING_INTERVAL = 5 * ONE_MIN_MS;
 
 const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -38,6 +39,33 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
   };
 };
 
+let lastRefreshAttemptMs = -Infinity;
+export const resetLastRefreshAttempt = () => {
+  lastRefreshAttemptMs = -Infinity;
+};
+
+const ensureAuthRefreshed = async ({ auth, setAuth }: { auth: Auth | null; setAuth: (auth: Auth | null) => void; }) => {
+  if (!auth) return;
+
+  const now = Date.now();
+  const expiresInMs = auth.expiresAt - now;
+  const sinceLastRefreshAttemptMs = now - lastRefreshAttemptMs;
+
+  if (expiresInMs > ONE_WEEK_MS || sinceLastRefreshAttemptMs < ONE_MIN_MS) return;
+
+  try {
+    lastRefreshAttemptMs = Date.now();
+    const newAuth = await oidcRefresh(auth);
+    setAuth(newAuth);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn('[auth.tsx] Token refresh failed:', error);
+    if (expiresInMs < REFRESH_POLLING_INTERVAL) {
+      setAuth(null);
+    }
+  }
+};
+
 export type Auth = {
   token: string,
   /** ms unix timestamp */
@@ -58,25 +86,12 @@ export type Auth = {
 export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
-  internal_clearTimer: NodeJS.Timeout | null,
-  internal_refreshTimer: NodeJS.Timeout | null,
-  internal_visibilityHandler: (() => void) | null,
-  internal_isRefreshing: boolean,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
-    // Clear existing timers
-    const existingTimer = get().internal_clearTimer;
-    const existingRefreshTimer = get().internal_refreshTimer;
-    const existingVisibilityHandler = get().internal_visibilityHandler;
-    if (existingTimer) clearTimeout(existingTimer);
-    if (existingRefreshTimer) clearTimeout(existingRefreshTimer);
-    if (existingVisibilityHandler) document.removeEventListener('visibilitychange', existingVisibilityHandler);
-
     if (!auth) {
-      set({
-        auth: null, internal_clearTimer: null, internal_refreshTimer: null, internal_visibilityHandler: null,
-      });
+      set({ auth: null });
+      resetLastRefreshAttempt();
       posthog.reset();
       return;
     }
@@ -86,88 +101,35 @@ export const useAuthStore = create<{
       ...(auth.attribution || {}),
     });
 
-    const now = Date.now();
-    const expiresInMs = auth.expiresAt - now;
-    const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
-    const refreshInMs = expiresInMs - ONE_MIN_MS; // Refresh 1 minute before expiry
+    set({ auth });
 
-    // Set up refresh timer if we have refresh capability
-    let refreshTimer: NodeJS.Timeout | null = null;
-    if (auth.refreshToken && auth.oidcSettings) {
-      refreshTimer = setTimeout(async () => {
-        if (get().internal_isRefreshing) return;
-        try {
-          set({ internal_isRefreshing: true });
-          const newAuth = await oidcRefresh(auth);
-          get().setAuth(newAuth);
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error('Token refresh failed:', error);
-          get().setAuth(null);
-        } finally {
-          set({ internal_isRefreshing: false });
-        }
-      }, refreshInMs);
-    }
-
-    // Set up clear timer as fallback
-    const clearTimer = setTimeout(
-      () => {
-        // eslint-disable-next-line no-console
-        console.warn('Auth token expired, logging out user...');
-        set({ auth: null, internal_clearTimer: null });
-      },
-      clearInMs,
-    );
-
-    const visibilityHandler = async () => {
-      if (document.visibilityState === 'visible') {
-        const currentAuth = get().auth;
-        if (get().internal_isRefreshing) return;
-        // If token expires within the next minute, refresh now
-        if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
-          try {
-            set({ internal_isRefreshing: true });
-            const newAuth = await oidcRefresh(currentAuth);
-            get().setAuth(newAuth);
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Token refresh on visibility failed:', error);
-            get().setAuth(null);
-          } finally {
-            set({ internal_isRefreshing: false });
-          }
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', visibilityHandler, { passive: true });
-
-    set({
-      auth,
-      internal_clearTimer: clearTimer,
-      internal_refreshTimer: refreshTimer,
-      internal_visibilityHandler: visibilityHandler,
-    });
+    // Attempt to refresh the token as soon as auth is set. This is mainly to cover the case of rehydration
+    ensureAuthRefreshed({ auth, setAuth: get().setAuth });
   },
-  internal_clearTimer: null,
-  internal_refreshTimer: null,
-  internal_visibilityHandler: null,
-  internal_isRefreshing: false,
 }), {
   name: 'bluedot_auth',
-  version: 20250513,
-  // Only persist the auth object to localStorage, not the timers or event handlers
+  version: 20251022,
+  // Only persist the auth object to localStorage, not the setAuth function
   partialize: (state) => ({ auth: state.auth }),
-
-  // On rehydration, set the state again
-  // This starts the refresh and expiry logic
   onRehydrateStorage: () => (state) => {
     if (state?.auth) {
       state.setAuth(state.auth);
     }
   },
 }));
+
+let refreshIntervalId: NodeJS.Timeout | null = null;
+if (typeof window !== 'undefined') {
+  // For HMR: Clear any existing interval
+  if (refreshIntervalId) {
+    clearInterval(refreshIntervalId);
+  }
+
+  refreshIntervalId = setInterval(async () => {
+    const { auth, setAuth } = useAuthStore.getState();
+    await ensureAuthRefreshed({ auth, setAuth });
+  }, REFRESH_POLLING_INTERVAL);
+}
 
 export const withAuth = (Component: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }>, loginRoute = '/login'): React.FC => {
   return () => {
