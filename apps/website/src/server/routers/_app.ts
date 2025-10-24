@@ -8,8 +8,8 @@ import { usersRouter } from './users';
 
 export const appRouter = router({
   admin: adminRouter,
-  certificates: certificatesRouter,
   blogs: blogsRouter,
+  certificates: certificatesRouter,
   jobs: jobsRouter,
   projects: projectsRouter,
   users: usersRouter,
