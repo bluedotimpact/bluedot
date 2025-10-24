@@ -11,6 +11,10 @@ export default () => {
         });
       }
     },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.error('Error ensuring user exists:', error);
+    },
   });
 
   return (
