@@ -110,6 +110,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   if (!courseSlug) {
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 
@@ -127,6 +128,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
     // Error fetching course data (likely not found)
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };
