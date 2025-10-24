@@ -58,7 +58,14 @@ export default makeApiRoute({
 
       // Get-or-create if this is the future-of-ai course. Users are allowed to complete the course independently
       if (courseId === FOAI_COURSE_ID) {
-        const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });
+        const applicationsCourse = await db.getFirst(applicationsCourseTable, {
+          sortBy: 'id',
+          filter: { courseBuilderId: courseId },
+        });
+
+        if (!applicationsCourse) {
+          throw new createHttpError.InternalServerError(`Course configuration not found for course: ${courseId}`);
+        }
 
         const newCourseRegistration = await db.insert(courseRegistrationTable, {
           email: auth.email,
