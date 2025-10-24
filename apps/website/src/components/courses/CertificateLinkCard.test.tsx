@@ -7,6 +7,7 @@ import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import CertificateLinkCard from './CertificateLinkCard';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -53,7 +54,7 @@ describe('CertificateLinkCard', () => {
 
     test('renders FoAI course with different content', () => {
       render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        <CertificateLinkCard courseId={FOAI_COURSE_ID} />,
         { wrapper: TrpcProvider },
       );
 
@@ -123,7 +124,7 @@ describe('CertificateLinkCard', () => {
         {
           data: {
             courseRegistration: {
-              courseId: 'rec0Zgize0c4liMl5',
+              courseId: FOAI_COURSE_ID,
               certificateId: null,
               email: 'user@example.com',
               fullName: 'Test User',
@@ -137,7 +138,7 @@ describe('CertificateLinkCard', () => {
       ] as UseAxiosReturnType);
 
       render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
+        <CertificateLinkCard courseId={FOAI_COURSE_ID} />,
         { wrapper: TrpcProvider },
       );
 
