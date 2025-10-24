@@ -11,7 +11,35 @@ import { Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
 // For instance, the use of a t variable is common in i18n libraries.
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+  errorFormatter({ shape, error }) {
+    // Hide internal server error details in production
+    if (error.code === 'INTERNAL_SERVER_ERROR' && process.env.NODE_ENV === 'production') {
+      return {
+        ...shape,
+        message: 'An internal server error occurred',
+        data: {
+          ...shape.data,
+          stack: undefined,
+        },
+      };
+    }
+
+    // Mask not found errors to hide any specific resource information in production
+    if (error.code === 'NOT_FOUND' && process.env.NODE_ENV === 'production') {
+      return {
+        ...shape,
+        message: 'Resource not found',
+        data: {
+          ...shape.data,
+          stack: undefined,
+        },
+      };
+    }
+
+    return shape;
+  },
+});
 
 const openTelemetryMiddleware = t.middleware(async (opts) => {
   const { type, path, ctx } = opts;
