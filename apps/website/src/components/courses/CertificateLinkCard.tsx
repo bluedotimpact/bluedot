@@ -1,15 +1,12 @@
 import {
   addQueryParam,
-  Auth,
   Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
 import React from 'react';
 import { FaAward } from 'react-icons/fa6';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../utils/getLoginUrl';
-import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 
@@ -208,21 +205,16 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
     );
   }
 
-  return <CertificateLinkCardAuthed courseId={courseId} auth={auth} config={config} />;
+  return <CertificateLinkCardAuthed courseId={courseId} config={config} />;
 };
 
-const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Auth; config: CertificateConfig }> = ({
+const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: CertificateConfig }> = ({
   courseId,
-  auth,
   config,
 }) => {
-  const [{ data, loading, error }, refetch] = useAxios<GetCourseRegistrationResponse>({
-    method: 'get',
-    url: `/api/course-registrations/${courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  });
+  const {
+    data: courseRegistration, isLoading: loading, error, refetch,
+  } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
@@ -292,8 +284,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (data?.courseRegistration.certificateId) {
-    const formattedCertificateDate = new Date(data.courseRegistration.certificateCreatedAt ? data.courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
+  if (courseRegistration?.certificateId) {
+    const formattedCertificateDate = new Date(courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior
@@ -310,12 +302,12 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
+                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName || courseRegistration.email}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
             </div>
             <CTALinkOrButton
-              url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
+              url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)}
               variant="primary"
               target="_blank"
               className="lg:ml-auto"
@@ -331,7 +323,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (data?.courseRegistration.courseId !== 'rec0Zgize0c4liMl5') {
+  if (courseRegistration?.courseId !== 'rec0Zgize0c4liMl5') {
     const { notEligible } = config.texts;
     return (
       <Card

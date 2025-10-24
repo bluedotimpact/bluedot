@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { isHttpError } from 'http-errors';
 import UnitLayout from '../../../../components/courses/UnitLayout';
+import { trpc } from '../../../../utils/trpc';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
-import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
 
 type CourseUnitChunkPageProps = UnitWithContent & {
   courseSlug: string;
@@ -66,22 +65,16 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // If we're logged in, ensures a course registration is recorded for this course
   const { latestUtmParams } = useLatestUtmParams();
-  const [, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
-    method: 'post',
-    url: `/api/course-registrations/${unit.courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
+  const createCourseRegistrationMutation = trpc.courseRegistrations.ensureExists.useMutation();
 
   useEffect(() => {
+    // If we're logged in, ensures a course registration is recorded for this course
     const shouldRecordCourseRegistration = !!(auth && unit.courseId);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration({ data: { source: latestUtmParams.utm_source ?? null } }).catch(() => { /* no op, as we ignore errors */ });
+      createCourseRegistrationMutation.mutate({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration, latestUtmParams.utm_source]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
