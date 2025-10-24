@@ -5,10 +5,11 @@ import {
 } from '@bluedot/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 import db from '../../../../lib/api/db';
+import { FOAI_COURSE_ID } from '../../../../lib/constants';
 
 export type GetCourseRegistrationResponse = {
   type: 'success';
-  courseRegistration: CourseRegistration;
+  courseRegistration: CourseRegistration | null;
 };
 
 export default makeApiRoute({
@@ -18,7 +19,7 @@ export default makeApiRoute({
   }).optional(),
   responseBody: z.object({
     type: z.literal('success'),
-    courseRegistration: z.any(),
+    courseRegistration: z.any().nullable(),
   }),
 }, async (body, { auth, raw }) => {
   switch (raw.req.method) {
@@ -55,19 +56,27 @@ export default makeApiRoute({
         };
       }
 
-      const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });
+      // Get-or-create if this is the future-of-ai course. Users are allowed to complete the course independently
+      if (courseId === FOAI_COURSE_ID) {
+        const applicationsCourse = await db.get(applicationsCourseTable, { courseBuilderId: courseId });
 
-      const newCourseRegistration = await db.insert(courseRegistrationTable, {
-        email: auth.email,
-        courseApplicationsBaseId: applicationsCourse.id,
-        role: 'Participant',
-        decision: 'Accept',
-        source: source ?? null,
-      });
+        const newCourseRegistration = await db.insert(courseRegistrationTable, {
+          email: auth.email,
+          courseApplicationsBaseId: applicationsCourse.id,
+          role: 'Participant',
+          decision: 'Accept',
+          source: source ?? null,
+        });
+
+        return {
+          type: 'success' as const,
+          courseRegistration: newCourseRegistration,
+        };
+      }
 
       return {
         type: 'success' as const,
-        courseRegistration: newCourseRegistration,
+        courseRegistration: null,
       };
     }
 

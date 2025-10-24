@@ -12,6 +12,7 @@ import { getLoginUrl } from '../../utils/getLoginUrl';
 import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 type CertificateConfig = {
   useCard: boolean;
@@ -48,8 +49,6 @@ type CertificateConfig = {
     };
   };
 };
-
-const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 
 const regularCourseConfig: CertificateConfig = {
   useCard: true,
@@ -228,7 +227,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
         window.dataLayer.push({
           event: 'completers',
           course_slug: 'future-of-ai',
@@ -292,7 +291,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (data?.courseRegistration.certificateId) {
+  if (data?.courseRegistration?.certificateId) {
     const formattedCertificateDate = new Date(data.courseRegistration.certificateCreatedAt ? data.courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
@@ -331,7 +330,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (data?.courseRegistration.courseId !== 'rec0Zgize0c4liMl5') {
+  if (data?.courseRegistration === null || data?.courseRegistration.courseId !== FOAI_COURSE_ID) {
     const { notEligible } = config.texts;
     return (
       <Card
