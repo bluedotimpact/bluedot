@@ -16,6 +16,14 @@ export const courseRegistrationsRouter = router({
         },
       });
     }),
+
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return db.scan(courseRegistrationTable, {
+      email: ctx.auth.email,
+      decision: 'Accept',
+    });
+  }),
+
   create: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
     .mutation(async ({ ctx, input }) => {
@@ -40,10 +48,4 @@ export const courseRegistrationsRouter = router({
         source,
       });
     }),
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    return db.scan(courseRegistrationTable, {
-      email: ctx.auth.email,
-      decision: 'Accept',
-    });
-  }),
 });
