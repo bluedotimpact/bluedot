@@ -24,7 +24,7 @@ export const courseRegistrationsRouter = router({
     });
   }),
 
-  create: protectedProcedure
+  ensureExists: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
     .mutation(async ({ ctx, input }) => {
       const { courseId, source } = input;
