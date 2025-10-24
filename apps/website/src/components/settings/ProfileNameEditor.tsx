@@ -14,7 +14,6 @@ type ProfileNameEditorProps = {
 
 const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   const [tempName, setTempName] = useState(initialName);
-  const [isSaving, setIsSaving] = useState(false);
   const [nameError, setNameError] = useState('');
   const [currentSavedName, setCurrentSavedName] = useState(initialName);
 
@@ -22,7 +21,6 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
 
   const updateNameMutation = trpc.users.updateName.useMutation({
     onMutate: () => {
-      setIsSaving(true);
       setNameError('');
     },
     onSuccess: (result) => {
@@ -39,10 +37,9 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
         setNameError('Failed to update name. Please try again.');
       }
     },
-    onSettled: () => {
-      setIsSaving(false);
-    },
   });
+
+  const isSaving = updateNameMutation.isPending;
 
   // Update when initial name changes
   useEffect(() => {
