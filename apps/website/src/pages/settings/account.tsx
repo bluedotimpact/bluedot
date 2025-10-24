@@ -2,35 +2,30 @@ import {
   ProgressDots, withAuth, ErrorSection, Modal,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
 import { useState, useEffect } from 'react';
-import { GetUserResponse } from '../api/users/me';
 import { ROUTES } from '../../lib/routes';
 import { P } from '../../components/Text';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import ProfileNameEditor from '../../components/settings/ProfileNameEditor';
 import PasswordSection from '../../components/settings/PasswordSection';
+import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
 const AccountSettingsPage = withAuth(({ auth }) => {
-  const [{ data: userData, loading: userLoading, error: userError }, refetch] = useAxios<GetUserResponse>({
-    method: 'get',
-    url: '/api/users/me',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-    },
-  });
+  const {
+    data: user, isLoading: userLoading, error: userError, refetch,
+  } = trpc.users.getUser.useQuery();
 
   // Add state for the welcome modal
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   // Check if name is empty when user data loads
   useEffect(() => {
-    if (userData?.user && (!userData.user.name || userData.user.name.trim() === '')) {
+    if (user && (!user.name || user.name.trim() === '')) {
       setShowWelcomeModal(true);
     }
-  }, [userData]);
+  }, [user]);
 
   return (
     <div>
@@ -39,13 +34,13 @@ const AccountSettingsPage = withAuth(({ auth }) => {
       </Head>
       {userLoading && <ProgressDots />}
       {userError && <ErrorSection error={userError} />}
-      {userData?.user && (
+      {user && (
         <>
           <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
             <div className="p-8">
               {/* Profile Name Editor */}
               <ProfileNameEditor
-                initialName={userData.user.name}
+                initialName={user.name}
                 authToken={auth.token}
                 onSave={() => refetch()}
               />
@@ -56,7 +51,7 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               {/* Email Section */}
               <div className="mb-6">
                 <P className="font-semibold mb-2">Email*</P>
-                <P className="text-gray-600">{userData.user.email}</P>
+                <P className="text-gray-600">{user.email}</P>
               </div>
 
               {/* Divider */}
@@ -79,7 +74,7 @@ const AccountSettingsPage = withAuth(({ auth }) => {
                 This name will be used across our platform and in your course interactions.
               </P>
               <ProfileNameEditor
-                initialName={userData.user.name}
+                initialName={user.name}
                 authToken={auth.token}
                 onSave={() => {
                   setShowWelcomeModal(false);
