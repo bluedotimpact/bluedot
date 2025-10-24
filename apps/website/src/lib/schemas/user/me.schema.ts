@@ -1,5 +1,6 @@
 import z from 'zod';
 
+// TODO: rename to `createUserSchema` to match usage, remove `name` field
 export const meRequestBodySchema = z.object({
   name: z.string()
     .trim()
