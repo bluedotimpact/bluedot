@@ -1,8 +1,3 @@
-import Head from 'next/head';
-import {
-  addQueryParam,
-  useLatestUtmParams,
-} from '@bluedot/ui';
 import {
   PiBriefcase,
   PiCompass,
@@ -12,28 +7,22 @@ import {
   PiChats,
   PiHandHeart,
   PiCalendarDots,
+  PiRocketLaunch,
+  PiUsersThree,
+  PiHandCoins,
 } from 'react-icons/pi';
+import { CourseLanderContent } from '../CourseLander';
 
-import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
-import GraduateSection from './agi-strategy/GraduateSection';
-import PartnerSection, { PartnerSectionProps } from './agi-strategy/PartnerSection';
-import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
-import WhoIsThisForSection, { WhoIsThisForSectionProps } from './agi-strategy/WhoIsThisForSection';
-import HeroSection, { HeroSectionProps } from './agi-strategy/HeroSection';
-import QuoteSection, { QuoteSectionProps } from './agi-strategy/QuoteSection';
-import CourseInformationSection, { CourseInformationSectionProps } from './agi-strategy/CourseInformationSection';
-import CourseCurriculumSection, { CourseCurriculumSectionProps } from './agi-strategy/CourseCurriculumSection';
-import FAQSection, { FAQSectionProps } from './agi-strategy/FAQSection';
-import AgiStrategyBanner, { AgiStrategyBannerProps } from './agi-strategy/AgiStrategyBanner';
+export const createAgiStrategyContent = (
+  applicationUrlWithUtm: string,
+  courseSlug: string
+): CourseLanderContent => ({
+  applicationUrl: 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX',
+  meta: {
+    title: 'AGI Strategy Course | BlueDot Impact',
+    description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',
+  },
 
-const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
-
-interface AgiStrategyLanderProps {
-  /** The course slug used for navigation and curriculum fetching */
-  courseSlug: string;
-}
-
-const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: string) => ({
   hero: {
     categoryLabel: "AGI STRATEGY",
     title: "Start building the defences that protect humanity",
@@ -48,7 +37,7 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
     },
     imageSrc: "/images/agi-strategy/hero-banner-split.png",
     imageAlt: "AGI Strategy visualization",
-  } satisfies HeroSectionProps,
+  },
 
   whoIsThisFor: {
     title: "Who this course is for",
@@ -69,12 +58,33 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
         description: 'who want to take big bets on the most impactful research ideas.',
       },
     ],
-  } satisfies WhoIsThisForSectionProps,
+  },
 
   curriculum: {
     title: "Curriculum Overview",
     courseSlug: courseSlug,
-  } satisfies CourseCurriculumSectionProps,
+  },
+
+  courseBenefits: {
+    title: 'How this course will benefit you',
+    benefits: [
+      {
+        icon: PiRocketLaunch,
+        title: 'Take action in less than 30 hours',
+        description: "You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.",
+      },
+      {
+        icon: PiUsersThree,
+        title: 'Join a network of builders',
+        description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.",
+      },
+      {
+        icon: PiHandCoins,
+        title: 'Get funded to accelerate your impact',
+        description: "If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.",
+      },
+    ],
+  },
 
   courseInformation: {
     title: "Course information",
@@ -127,7 +137,7 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
         ),
       },
     ],
-  } satisfies CourseInformationSectionProps,
+  },
 
   quotes: {
     quotes: [
@@ -160,7 +170,7 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
         url: 'https://x.com/HumanHarlan/status/1864858286065111298',
       },
     ],
-  } satisfies QuoteSectionProps,
+  },
 
   communityMembers: [
     {
@@ -205,7 +215,7 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
       imageSrc: '/images/graduates/catherine.jpeg',
       url: 'https://www.linkedin.com/in/catherine-fist/',
     },
-  ] satisfies CommunityMember[],
+  ],
 
   partners: {
     title: "Co-created with our network of leading AI industry partners",
@@ -286,7 +296,7 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
         ),
       },
     ],
-  } satisfies PartnerSectionProps,
+  },
 
   faq: {
     title: "Frequently Asked Questions",
@@ -310,54 +320,11 @@ const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: str
         ),
       },
     ],
-  } satisfies FAQSectionProps,
+  },
 
   banner: {
     title: "Start building towards a good future today",
     ctaText: "Apply now",
     ctaUrl: applicationUrlWithUtm,
-  } satisfies AgiStrategyBannerProps,
+  },
 });
-
-const AgiStrategyLander = ({ courseSlug }: AgiStrategyLanderProps) => {
-  const { latestUtmParams } = useLatestUtmParams();
-  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
-
-  const content = createAgiStrategyContent(applicationUrlWithUtm, courseSlug);
-
-  return (
-    <div className="bg-white">
-      <Head>
-        <title>AGI Strategy Course | BlueDot Impact</title>
-        <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
-      </Head>
-
-      <HeroSection {...content.hero} />
-
-      <div className="border-t-hairline border-color-divider" />
-
-      <GraduateSection />
-
-      <WhoIsThisForSection {...content.whoIsThisFor} />
-
-      <CourseCurriculumSection {...content.curriculum} />
-
-      <CourseBenefitsSection />
-
-      <CourseInformationSection {...content.courseInformation} />
-
-      <QuoteSection {...content.quotes} />
-
-      <CommunityMembersSubSection members={content.communityMembers} />
-
-      <PartnerSection {...content.partners} />
-
-      <FAQSection {...content.faq} />
-
-      <AgiStrategyBanner {...content.banner} />
-
-    </div>
-  );
-};
-
-export default AgiStrategyLander;
