@@ -26,7 +26,7 @@ export type CourseLanderContent = {
   courseInformation: CourseInformationSectionProps;
   quotes: QuoteSectionProps;
   communityMembers: CommunityMember[];
-  partners: PartnerSectionProps;
+  partners?: PartnerSectionProps;
   faq: FAQSectionProps;
   banner: LandingBannerProps;
 };
@@ -71,7 +71,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
 
       <CommunityMembersSubSection members={content.communityMembers} />
 
-      <PartnerSection {...content.partners} />
+      {content.partners && <PartnerSection {...content.partners} />}
 
       <FAQSection {...content.faq} />
 

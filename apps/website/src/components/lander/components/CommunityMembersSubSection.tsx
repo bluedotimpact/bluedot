@@ -241,7 +241,7 @@ const CommunityMembersSubSection = ({
           {/* Header Content */}
           <div className="flex flex-col gap-6">
             <NewText.H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
-              {title || 'Meet our Alumni Shaping AI\'s Future'}
+              {title || 'Meet our alumni shaping AI\'s future'}
             </NewText.H2>
             <NewText.P className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full lg:max-w-[610px] xl:max-w-[639px]">
               Our students and graduates work at some of the most respectable AI organizations in the world. Here are a few of the people who graduated from Blue Dot:
