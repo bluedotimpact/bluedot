@@ -157,6 +157,8 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
 };
 
 describe('GroupSwitchModal', () => {
+  let mockMutation: Mock;
+
   beforeEach(() => {
     vi.clearAllMocks();
 
@@ -175,19 +177,19 @@ describe('GroupSwitchModal', () => {
       }
       return [{ data: null, loading: false, error: null }, vi.fn()];
     });
+
+    // Set up default tRPC MSW mock for successful mutations
+    mockMutation = vi.fn();
+    server.use(
+      trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
+        mockMutation(input);
+        return undefined;
+      }),
+    );
   });
 
   describe('Happy paths', () => {
     test('Switch group for one unit: Submitting the form sends the expected API request', async () => {
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          // tRPC MSW wraps input in an object with numeric keys
-          mockMutation(input);
-          return undefined;
-        }),
-      );
-
       render(
         <GroupSwitchModal
           handleClose={() => {}}
@@ -247,14 +249,6 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Switch group permanently: Submitting the form sends the expected API request', async () => {
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          mockMutation(input);
-          return undefined;
-        }),
-      );
-
       render(
         <GroupSwitchModal
           handleClose={() => {}}
@@ -323,14 +317,6 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switch request: Navigating to manual form and submitting sends the expected API request', async () => {
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          mockMutation(input);
-          return undefined;
-        }),
-      );
-
       render(
         <GroupSwitchModal
           handleClose={() => {}}
@@ -562,14 +548,6 @@ describe('GroupSwitchModal', () => {
         }
         return [{ data: null, loading: false, error: null }, vi.fn()];
       });
-
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          mockMutation(input);
-          return undefined;
-        }),
-      );
 
       render(
         <GroupSwitchModal
@@ -808,14 +786,6 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Participant with no group can request non-manual switch', async () => {
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          mockMutation(input);
-          return undefined;
-        }),
-      );
-
       render(
         <GroupSwitchModal
           handleClose={() => {}}
@@ -863,14 +833,6 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Participant with no group can request manual permanent switch', async () => {
-      const mockMutation = vi.fn();
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-          mockMutation(input);
-          return undefined;
-        }),
-      );
-
       render(
         <GroupSwitchModal
           handleClose={() => {}}
