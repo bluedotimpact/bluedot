@@ -19,7 +19,6 @@ export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
 ): CourseLanderContent => ({
-  applicationUrlWithoutUTM: TECHNICAL_AI_SAFETY_APPLICATION_URL,
   meta: {
     title: 'AGI Strategy Course | BlueDot Impact',
     description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',
