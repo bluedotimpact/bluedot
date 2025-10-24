@@ -2,7 +2,7 @@ import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 export default () => {
-  const createUserMutation = trpc.users.create.useMutation({
+  const createUserMutation = trpc.users.ensureExists.useMutation({
     onSuccess: (response) => {
       if (typeof window !== 'undefined' && window.dataLayer) {
         window.dataLayer.push({

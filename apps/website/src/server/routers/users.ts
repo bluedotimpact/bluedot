@@ -28,7 +28,7 @@ export const usersRouter = router({
       };
     }),
 
-  create: protectedProcedure
+  ensureExists: protectedProcedure
     .input(meRequestBodySchema)
     .mutation(async ({ input, ctx }) => {
       const existingUser = await db.getFirst(userTable, {
