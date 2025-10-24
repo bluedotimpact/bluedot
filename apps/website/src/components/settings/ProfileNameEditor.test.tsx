@@ -1,30 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  render, fireEvent, waitFor,
-} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  describe,
-  expect,
-  test,
-  vi,
-  beforeEach,
-  type Mock,
-} from 'vitest';
-import axios, { AxiosError } from 'axios';
+  fireEvent, render, waitFor,
+} from '@testing-library/react';
+import { TRPCError } from '@trpc/server';
+import { describe, expect, test } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import ProfileNameEditor from './ProfileNameEditor';
 
-// Mock axios for API calls
-vi.mock('axios');
-const mockedAxios = axios as typeof axios & {
-  patch: Mock;
-  isAxiosError: Mock;
+const mockUser = {
+  id: 'test-user-id',
+  email: 'test@example.com',
+  name: 'Jane Doe',
+  createdAt: null,
+  lastSeenAt: null,
+  utmSource: null,
+  utmCampaign: null,
+  utmContent: null,
+  autoNumberId: null,
 };
-
-// Setup axios.isAxiosError to return true for our mock errors
-vi.spyOn(axios, 'isAxiosError').mockImplementation(
-  (error: any): error is AxiosError => error?.isAxiosError === true,
-);
 
 // Test helper function for selecting elements
 const getNameInput = (container: HTMLElement): HTMLInputElement => {
@@ -48,13 +42,10 @@ const getErrorMessage = (container: HTMLElement): HTMLElement | null => {
 };
 
 describe('ProfileNameEditor', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   test('should render with initial name correctly', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const nameInput = getNameInput(container);
@@ -66,10 +57,11 @@ describe('ProfileNameEditor', () => {
   });
 
   test('should allow user to successfully change their name', async () => {
-    mockedAxios.patch.mockResolvedValueOnce({ data: { success: true } });
+    server.use(trpcMsw.users.updateName.mutation(() => mockUser));
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const input = getNameInput(container);
@@ -87,15 +79,6 @@ describe('ProfileNameEditor', () => {
     const saveButton = getNameSaveButton(container);
     fireEvent.click(saveButton!);
 
-    // Verify the API was called correctly
-    await waitFor(() => {
-      expect(mockedAxios.patch).toHaveBeenCalledWith(
-        '/api/users/me',
-        { name: 'Jane Doe' },
-        { headers: { Authorization: 'Bearer test-token' } },
-      );
-    });
-
     // Verify buttons disappear after successful save
     await waitFor(() => {
       expect(getNameSaveButton(container)).not.toBeInTheDocument();
@@ -108,7 +91,8 @@ describe('ProfileNameEditor', () => {
 
   test('should show validation error for names exceeding maximum length', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const input = getNameInput(container);
@@ -126,14 +110,12 @@ describe('ProfileNameEditor', () => {
       expect(errorMessage).toBeInTheDocument();
       expect(errorMessage?.textContent).toContain('Name must be under 50 characters');
     });
-
-    // Verify that no API call was made due to client-side validation
-    expect(mockedAxios.patch).not.toHaveBeenCalled();
   });
 
   test('should not show buttons when name matches original', async () => {
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const input = getNameInput(container);
@@ -157,36 +139,23 @@ describe('ProfileNameEditor', () => {
   });
 
   test('should handle API errors gracefully', async () => {
+    // Test session expired error (401)
+    server.use(
+      trpcMsw.users.updateName.mutation(() => {
+        throw new TRPCError({ code: 'UNAUTHORIZED' });
+      }),
+    );
+
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const input = getNameInput(container);
 
-    // Test session expired error (401)
-    const axiosError401 = {
-      message: 'Request failed with status code 401',
-      name: 'AxiosError',
-      isAxiosError: true,
-      response: {
-        status: 401,
-        statusText: 'Unauthorized',
-        data: {},
-        headers: {},
-        config: {},
-      },
-      config: {},
-      toJSON: () => ({}),
-    };
-    mockedAxios.patch.mockRejectedValueOnce(axiosError401);
-
     fireEvent.change(input, { target: { value: 'Jane Doe' } });
     const saveButton = getNameSaveButton(container);
     fireEvent.click(saveButton!);
-
-    await waitFor(() => {
-      expect(mockedAxios.patch).toHaveBeenCalled();
-    });
 
     await waitFor(() => {
       const errorMessage = getErrorMessage(container);
@@ -200,9 +169,12 @@ describe('ProfileNameEditor', () => {
       expect(getErrorMessage(container)).not.toBeInTheDocument();
     });
 
-    // Test generic network error
-    mockedAxios.patch.mockClear();
-    mockedAxios.patch.mockRejectedValueOnce(new Error('Network error'));
+    // Test generic error
+    server.use(
+      trpcMsw.users.updateName.mutation(() => {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      }),
+    );
 
     fireEvent.change(input, { target: { value: 'Jane Smith' } });
     const saveButton2 = getNameSaveButton(container);
@@ -217,12 +189,16 @@ describe('ProfileNameEditor', () => {
 
   test('should show loading state while saving', async () => {
     // Mock a delayed response
-    mockedAxios.patch.mockImplementation(() => new Promise((resolve) => {
-      setTimeout(() => resolve({ data: { success: true } }), 100);
-    }));
+    let resolvePromise: (value: typeof mockUser) => void;
+    const promise = new Promise<typeof mockUser>((resolve) => {
+      resolvePromise = resolve;
+    });
+
+    server.use(trpcMsw.users.updateName.mutation(() => promise));
 
     const { container } = render(
-      <ProfileNameEditor initialName="John Doe" authToken="test-token" />,
+      <ProfileNameEditor initialName="John Doe" />,
+      { wrapper: TrpcProvider },
     );
 
     const input = getNameInput(container);
@@ -240,7 +216,8 @@ describe('ProfileNameEditor', () => {
     expect(saveButton).toBeDisabled();
     expect(getNameCancelButton(container)).toBeDisabled();
 
-    // Wait for save to complete
+    // Resolve the promise and wait for the component to update
+    resolvePromise!(mockUser);
     await waitFor(() => {
       expect(getNameSaveButton(container)).not.toBeInTheDocument();
     });

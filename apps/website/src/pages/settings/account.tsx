@@ -46,7 +46,6 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               {/* Profile Name Editor */}
               <ProfileNameEditor
                 initialName={userData.user.name}
-                authToken={auth.token}
                 onSave={() => refetch()}
               />
 
@@ -80,7 +79,6 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               </P>
               <ProfileNameEditor
                 initialName={userData.user.name}
-                authToken={auth.token}
                 onSave={() => {
                   setShowWelcomeModal(false);
                   refetch();
