@@ -17,7 +17,7 @@ export type FooterProps = React.PropsWithChildren<{
 
 type FooterSectionProps = {
   title?: string;
-  links?: { url: string; label: string }[];
+  links?: { url: string; label: string; target?: string }[];
   className?: string;
 };
 
@@ -32,7 +32,12 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
       <ul className="flex flex-col gap-[15px] list-none p-0">
         {links.map((link) => (
           <li key={link.url}>
-            <A href={link.url} className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal">
+            <A 
+              href={link.url} 
+              target={link.target}
+              rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+            >
               {link.label}
             </A>
           </li>
@@ -71,9 +76,8 @@ export const Footer: React.FC<FooterProps> = ({
   ];
 
   const resourceLinks = [
-    { url: '/announcements', label: 'Announcements and stories' },
-    { url: '/useful-links', label: 'Useful links' },
-    { url: '/community-projects', label: 'Community projects' },
+    { url: '/blog', label: 'Blog' },
+    { url: 'https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer', label: 'Events', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
   ];
 
