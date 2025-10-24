@@ -327,5 +327,10 @@ export const createBioSecurityContent = (
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
+    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageAlt: 'AGI Strategy banner',
+    iconSrc: '/images/agi-strategy/bluedot-icon.svg',
+    iconAlt: 'BlueDot',
+    noiseImageSrc: '/images/agi-strategy/noise.png',
   },
 });
