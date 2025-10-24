@@ -16,71 +16,25 @@ import {
 
 import CommunityMembersSubSection, { CommunityMember } from './agi-strategy/CommunityMembersSubSection';
 import GraduateSection from './agi-strategy/GraduateSection';
-import PartnerSection, { Partner } from './agi-strategy/PartnerSection';
+import PartnerSection, { PartnerSectionProps } from './agi-strategy/PartnerSection';
 import CourseBenefitsSection from './agi-strategy/CourseBenefitsSection';
 import WhoIsThisForSection, { WhoIsThisForSectionProps } from './agi-strategy/WhoIsThisForSection';
 import HeroSection, { HeroSectionProps } from './agi-strategy/HeroSection';
-import QuoteSection, { QuoteWithUrl } from './agi-strategy/QuoteSection';
+import QuoteSection, { QuoteSectionProps } from './agi-strategy/QuoteSection';
 import CourseInformationSection, { CourseInformationSectionProps } from './agi-strategy/CourseInformationSection';
 import CourseCurriculumSection, { CourseCurriculumSectionProps } from './agi-strategy/CourseCurriculumSection';
-import FAQSection from './agi-strategy/FAQSection';
+import FAQSection, { FAQSectionProps } from './agi-strategy/FAQSection';
 import AgiStrategyBanner, { AgiStrategyBannerProps } from './agi-strategy/AgiStrategyBanner';
 
 const applicationUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
-const communityMembers: CommunityMember[] = [
-  {
-    name: 'Neel Nanda',
-    jobTitle: 'Mech Interp Lead at Google DeepMind',
-    course: 'Former participant and facilitator',
-    imageSrc: '/images/graduates/neel.jpeg',
-    url: 'https://www.neelnanda.io/about',
-  },
-  {
-    name: 'Marius Hobbhahn',
-    jobTitle: 'CEO at Apollo Research',
-    course: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/marius.jpeg',
-    url: 'https://www.mariushobbhahn.com/aboutme/',
-  },
-  {
-    name: 'Chiara Gerosa',
-    jobTitle: 'Executive Director at Talos',
-    course: 'AI Governance Course Facilitator',
-    imageSrc: '/images/graduates/chiara.jpeg',
-    url: 'https://www.linkedin.com/in/chiaragerosa/',
-  },
-  {
-    name: 'Richard Ngo',
-    jobTitle: 'Former OpenAI and DeepMind',
-    course: 'AI Alignment Course Designer',
-    imageSrc: '/images/graduates/richard.jpg',
-    url: 'https://www.richardcngo.com/',
-  },
-  {
-    name: 'Adam Jones',
-    jobTitle: 'Member of Technical Staff at Anthropic',
-    course: 'Former AI safety lead at BlueDot',
-    imageSrc: '/images/graduates/adam.jpg',
-    url: 'https://adamjones.me/',
-  },
-  {
-    name: 'Catherine Fist',
-    jobTitle: 'Head of Delivery at UK AISI',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/catherine.jpeg',
-    url: 'https://www.linkedin.com/in/catherine-fist/',
-  },
-];
+interface AgiStrategyLanderProps {
+  /** The course slug used for navigation and curriculum fetching */
+  courseSlug: string;
+}
 
-const AgiStrategyLander = () => {
-  const { latestUtmParams } = useLatestUtmParams();
-  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
-
-  // ============================================================================
-  // HERO SECTION CONTENT
-  // ============================================================================
-  const heroContent: HeroSectionProps = {
+const createAgiStrategyContent = (applicationUrlWithUtm: string, courseSlug: string) => ({
+  hero: {
     categoryLabel: "AGI STRATEGY",
     title: "Start building the defences that protect humanity",
     description: "Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.",
@@ -90,16 +44,13 @@ const AgiStrategyLander = () => {
     },
     secondaryCta: {
       text: 'Browse curriculum',
-      url: '/courses/agi-strategy/1',
+      url: `/courses/${courseSlug}/1`,
     },
     imageSrc: "/images/agi-strategy/hero-banner-split.png",
     imageAlt: "AGI Strategy visualization",
-  };
+  } satisfies HeroSectionProps,
 
-  // ============================================================================
-  // TARGET AUDIENCE CONTENT
-  // ============================================================================
-  const whoIsThisForContent: WhoIsThisForSectionProps = {
+  whoIsThisFor: {
     title: "Who this course is for",
     targetAudiences: [
       {
@@ -118,21 +69,14 @@ const AgiStrategyLander = () => {
         description: 'who want to take big bets on the most impactful research ideas.',
       },
     ],
-  };
+  } satisfies WhoIsThisForSectionProps,
 
-  // ============================================================================
-  // COURSE CURRICULUM CONTENT
-  // ============================================================================
-  const curriculumContent: CourseCurriculumSectionProps = {
+  curriculum: {
     title: "Curriculum Overview",
-    /** API endpoint slug - must match the course slug in the database */
-    courseSlug: "agi-strategy",
-  };
+    courseSlug: courseSlug,
+  } satisfies CourseCurriculumSectionProps,
 
-  // ============================================================================
-  // COURSE INFORMATION CONTENT
-  // ============================================================================
-  const courseInformationContent: CourseInformationSectionProps = {
+  courseInformation: {
     title: "Course information",
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: "Apply now",
@@ -183,12 +127,9 @@ const AgiStrategyLander = () => {
         ),
       },
     ],
-  };
+  } satisfies CourseInformationSectionProps,
 
-  // ============================================================================
-  // QUOTES CONTENT
-  // ============================================================================
-  const quotesContent: { quotes: QuoteWithUrl[] } = {
+  quotes: {
     quotes: [
       {
         quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."',
@@ -219,12 +160,54 @@ const AgiStrategyLander = () => {
         url: 'https://x.com/HumanHarlan/status/1864858286065111298',
       },
     ],
-  };
+  } satisfies QuoteSectionProps,
 
-  // ============================================================================
-  // PARTNERS CONTENT
-  // ============================================================================
-  const partnersContent: { title: string; partners: Partner[] } = {
+  communityMembers: [
+    {
+      name: 'Neel Nanda',
+      jobTitle: 'Mech Interp Lead at Google DeepMind',
+      course: 'Former participant and facilitator',
+      imageSrc: '/images/graduates/neel.jpeg',
+      url: 'https://www.neelnanda.io/about',
+    },
+    {
+      name: 'Marius Hobbhahn',
+      jobTitle: 'CEO at Apollo Research',
+      course: 'AI Alignment Course Graduate',
+      imageSrc: '/images/graduates/marius.jpeg',
+      url: 'https://www.mariushobbhahn.com/aboutme/',
+    },
+    {
+      name: 'Chiara Gerosa',
+      jobTitle: 'Executive Director at Talos',
+      course: 'AI Governance Course Facilitator',
+      imageSrc: '/images/graduates/chiara.jpeg',
+      url: 'https://www.linkedin.com/in/chiaragerosa/',
+    },
+    {
+      name: 'Richard Ngo',
+      jobTitle: 'Former OpenAI and DeepMind',
+      course: 'AI Alignment Course Designer',
+      imageSrc: '/images/graduates/richard.jpg',
+      url: 'https://www.richardcngo.com/',
+    },
+    {
+      name: 'Adam Jones',
+      jobTitle: 'Member of Technical Staff at Anthropic',
+      course: 'Former AI safety lead at BlueDot',
+      imageSrc: '/images/graduates/adam.jpg',
+      url: 'https://adamjones.me/',
+    },
+    {
+      name: 'Catherine Fist',
+      jobTitle: 'Head of Delivery at UK AISI',
+      course: 'AI Governance Course Graduate',
+      imageSrc: '/images/graduates/catherine.jpeg',
+      url: 'https://www.linkedin.com/in/catherine-fist/',
+    },
+  ] satisfies CommunityMember[],
+
+  partners: {
     title: "Co-created with our network of leading AI industry partners",
     partners: [
       {
@@ -303,16 +286,44 @@ const AgiStrategyLander = () => {
         ),
       },
     ],
-  };
+  } satisfies PartnerSectionProps,
 
-  // ============================================================================
-  // BANNER CONTENT
-  // ============================================================================
-  const bannerContent: AgiStrategyBannerProps = {
+  faq: {
+    title: "Frequently Asked Questions",
+    items: [
+      {
+        id: 'funding',
+        question: 'Can I just apply for funding?',
+        answer: 'Funding is only available for graduates of the course.',
+      },
+      {
+        id: 'bluedot',
+        question: 'Who is BlueDot Impact?',
+        answer: (
+          <>
+            We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
+            <br /><br />
+            Our courses are the main entry point into the AI safety field.
+            <br /><br />
+            We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+          </>
+        ),
+      },
+    ],
+  } satisfies FAQSectionProps,
+
+  banner: {
     title: "Start building towards a good future today",
     ctaText: "Apply now",
     ctaUrl: applicationUrlWithUtm,
-  };
+  } satisfies AgiStrategyBannerProps,
+});
+
+const AgiStrategyLander = ({ courseSlug }: AgiStrategyLanderProps) => {
+  const { latestUtmParams } = useLatestUtmParams();
+  const applicationUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source) : applicationUrl;
+
+  const content = createAgiStrategyContent(applicationUrlWithUtm, courseSlug);
 
   return (
     <div className="bg-white">
@@ -321,70 +332,29 @@ const AgiStrategyLander = () => {
         <meta name="description" content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence." />
       </Head>
 
-      <HeroSection
-        categoryLabel={heroContent.categoryLabel}
-        title={heroContent.title}
-        description={heroContent.description}
-        primaryCta={heroContent.primaryCta}
-        secondaryCta={heroContent.secondaryCta}
-        imageSrc={heroContent.imageSrc}
-        imageAlt={heroContent.imageAlt}
-      />
+      <HeroSection {...content.hero} />
 
-      {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
 
-      {/* Graduate section */}
       <GraduateSection />
 
-      {/* Who is this course for section */}
-      <WhoIsThisForSection 
-        title={whoIsThisForContent.title}
-        targetAudiences={whoIsThisForContent.targetAudiences}
-      />
+      <WhoIsThisForSection {...content.whoIsThisFor} />
 
-      {/* Course Curriculum Section */}
-      <CourseCurriculumSection
-        title={curriculumContent.title}
-        courseSlug={curriculumContent.courseSlug}
-      />
+      <CourseCurriculumSection {...content.curriculum} />
 
-      {/* Course Benefits Section */}
       <CourseBenefitsSection />
 
-      {/* Course Information Section */}
-      <CourseInformationSection
-        title={courseInformationContent.title}
-        applicationUrl={courseInformationContent.applicationUrl}
-        details={courseInformationContent.details}
-        scheduleCtaText={courseInformationContent.scheduleCtaText}
-      />
+      <CourseInformationSection {...content.courseInformation} />
 
-      {/* Quote Section - What global leaders say about AGI */}
-      <QuoteSection quotes={quotesContent.quotes} />
+      <QuoteSection {...content.quotes} />
 
-      {/* Community Members Section - What learners are saying */}
-      <CommunityMembersSubSection members={communityMembers} />
+      <CommunityMembersSubSection members={content.communityMembers} />
 
-      {/* Partner Module */}
-      <PartnerSection
-        title={partnersContent.title}
-        partners={partnersContent.partners}
-      />
+      <PartnerSection {...content.partners} />
 
-      {/* FAQ Section */}
-      <FAQSection />
+      <FAQSection {...content.faq} />
 
-      {/* Banner */}
-      <section className="w-full bg-white pt-0 pb-12 min-[680px]:pb-16 lg:pb-20">
-        <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
-          <AgiStrategyBanner
-            title={bannerContent.title}
-            ctaText={bannerContent.ctaText}
-            ctaUrl={bannerContent.ctaUrl}
-          />
-        </div>
-      </section>
+      <AgiStrategyBanner {...content.banner} />
 
     </div>
   );

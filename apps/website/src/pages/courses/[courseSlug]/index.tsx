@@ -44,7 +44,7 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
   }
 
   if (slug === 'agi-strategy') {
-    return <AgiStrategyLander />;
+    return <AgiStrategyLander courseSlug={slug} />;
   }
 
   // Default case

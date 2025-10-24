@@ -11,7 +11,7 @@ export type QuoteWithUrl = Quote & {
   role: string;
 };
 
-interface QuoteSectionProps {
+export interface QuoteSectionProps {
   /** Array of quotes to display in the carousel */
   quotes: QuoteWithUrl[];
 }

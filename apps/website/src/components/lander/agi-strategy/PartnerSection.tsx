@@ -8,7 +8,7 @@ export type Partner = {
   descriptionFull: React.ReactNode;
 };
 
-interface PartnerSectionProps {
+export interface PartnerSectionProps {
   /** Section heading displayed at the top */
   title: string;
   /** Array of partners to display */
