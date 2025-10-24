@@ -1,23 +1,20 @@
-import useAxios from 'axios-hooks';
 import { useState, useEffect } from 'react';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
+import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  authToken?: string;
   isLast?: boolean;
 };
 
-const CourseDetails = ({
-  course, courseRegistration, authToken, isLast = false,
-}: CourseDetailsProps) => {
+const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
@@ -28,12 +25,8 @@ const CourseDetails = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData, loading }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
-    method: 'get',
-    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
-    headers: authToken ? {
-      Authorization: `Bearer ${authToken}`,
-    } : undefined,
+  const { data: meetPerson, isLoading: loading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
+    courseRegistrationId: courseRegistration.id,
   });
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
@@ -41,15 +34,15 @@ const CourseDetails = ({
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
     const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson) {
+      if (loading || !meetPerson) {
         return;
       }
 
       // Fetch all expected discussions (will be filtered later to show only those not ended)
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
       const expectedDiscussionIds = isFacilitator
-        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
+        ? meetPerson.expectedDiscussionsFacilitator || []
+        : meetPerson.expectedDiscussionsParticipant || [];
 
       const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {
@@ -65,7 +58,7 @@ const CourseDetails = ({
       });
 
       // Fetch all attended discussions (all will be shown, no filtering)
-      const attendedPromises = (meetPersonData.meetPerson.attendedDiscussions || []).map(async (id) => {
+      const attendedPromises = (meetPerson.attendedDiscussions || []).map(async (id) => {
         try {
           const response = await fetch(`/api/group-discussions/${id}`);
           const data: GetGroupDiscussionResponse = await response.json();
@@ -95,7 +88,7 @@ const CourseDetails = ({
     };
 
     fetchDiscussions();
-  }, [meetPersonData, isFacilitator]);
+  }, [meetPerson, isFacilitator]);
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
