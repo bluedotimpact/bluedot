@@ -48,7 +48,7 @@ export const usersRouter = router({
           lastSeenAt: new Date().toISOString(),
           ...(input?.initialUtmSource && { utmSource: input.initialUtmSource }),
           ...(input?.initialUtmCampaign && { utmCampaign: input.initialUtmCampaign }),
-          ...(input?.initialUtmContent && { utmContent: input.initialUtmCampaign }),
+          ...(input?.initialUtmContent && { utmContent: input.initialUtmContent }),
         });
       }
       return {
