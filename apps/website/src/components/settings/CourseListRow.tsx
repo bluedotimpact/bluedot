@@ -6,6 +6,7 @@ import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 
 type CourseListRowProps = {
