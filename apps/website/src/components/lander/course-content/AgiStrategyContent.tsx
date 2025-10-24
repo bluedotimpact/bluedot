@@ -13,11 +13,12 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
+export const AGI_STRATEGY_APPLICATION_URL = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
+
 export const createAgiStrategyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
 ): CourseLanderContent => ({
-  applicationUrl: 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX',
   meta: {
     title: 'AGI Strategy Course | BlueDot Impact',
     description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',
@@ -326,5 +327,10 @@ export const createAgiStrategyContent = (
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
+    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageAlt: 'AGI Strategy banner',
+    iconSrc: '/images/agi-strategy/bluedot-icon.svg',
+    iconAlt: 'BlueDot',
+    noiseImageSrc: '/images/agi-strategy/noise.png',
   },
 });

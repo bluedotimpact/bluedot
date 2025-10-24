@@ -13,11 +13,12 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
+export const BIOSECURITY_APPLICATION_URL = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
+
 export const createBioSecurityContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
 ): CourseLanderContent => ({
-  applicationUrl: 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX',
   meta: {
     title: 'AGI Strategy Course | BlueDot Impact',
     description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',

@@ -77,6 +77,7 @@ const CourseCurriculumSection = ({
               <CurriculumUnit
                 key={unit.id}
                 unit={unit}
+                courseSlug={courseSlug}
                 defaultExpanded={index === 0}
               />
             ))}
@@ -89,16 +90,32 @@ const CourseCurriculumSection = ({
 /* Curriculum Unit Component */
 const CurriculumUnit = ({
   unit,
+  courseSlug,
   defaultExpanded = false,
 }: {
   unit: Unit;
+  courseSlug: string;
   defaultExpanded?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(defaultExpanded);
 
-  // Remove common course prefixes from unit titles (e.g., "AGI Strategy - Unit 1" → "Unit 1")
+  // Convert slug to readable course name (e.g., "agi-strategy" → "AGI Strategy")
+  const courseName = courseSlug
+    .split('-')
+    .map((word) => word.toUpperCase())
+    .join(' ');
+
+  // Remove course prefix from unit titles dynamically
   const rawTitle = unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`;
-  const unitTitle = rawTitle.replace(/^(AGI Strategy|AI Alignment|AI Governance)\s*-\s*/i, '').trim();
+
+  // Create regex pattern to match the course name with optional hyphens or spaces
+  // This handles both "AGI Strategy - Unit 1" and "AGI-Strategy - Unit 1" formats
+  const coursePattern = courseName
+    .split(' ')
+    .join('[\\s-]'); // Allow either space or hyphen between words
+
+  const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
+  const unitTitle = rawTitle.replace(regex, '').trim();
   const description = unit.menuText || unit.description;
 
   const handleToggle = () => {

@@ -18,7 +18,6 @@ export type CourseLanderMeta = {
 };
 
 export type CourseLanderContent = {
-  applicationUrl: string;
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
   whoIsThisFor: WhoIsThisForSectionProps;
@@ -34,20 +33,17 @@ export type CourseLanderContent = {
 
 type CourseLanderProps = {
   courseSlug: string;
+  baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
 };
 
-const CourseLander = ({ courseSlug, createContentFor }: CourseLanderProps) => {
+const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
-  // First get content without UTM to access the base applicationUrl
-  const baseContent = createContentFor('', courseSlug);
-
   const applicationUrlWithUtm = latestUtmParams.utm_source
-    ? addQueryParam(baseContent.applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : baseContent.applicationUrl;
+    ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+    : baseApplicationUrl;
 
-  // Then get final content with UTM-enhanced URL
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
 
   return (

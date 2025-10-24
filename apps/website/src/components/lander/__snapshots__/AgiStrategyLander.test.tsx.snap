@@ -1832,10 +1832,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
       >
         <div
-          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]"
+          aria-label="AGI Strategy banner"
+          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
+          role="img"
+          style="background-image: url("/images/agi-strategy/hero-banner-split.png");"
         >
           <div
-            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+            class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style="background-image: url("/images/agi-strategy/noise.png");"
           />
           <div
             class="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center"
