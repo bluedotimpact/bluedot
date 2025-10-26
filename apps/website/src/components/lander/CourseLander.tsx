@@ -51,7 +51,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
       <Head>
         <title>{content.meta.title}</title>
         <meta name="description" content={content.meta.description} />
-        
+
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
@@ -61,7 +61,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
         <meta property="og:image:alt" content={content.meta.title} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
-        
+
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
