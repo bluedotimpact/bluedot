@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import SocialShare from './SocialShare';
 import { H3, P } from '../Text';
 import FoAICongratulations from './FoAICongratulations';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 type CongratulationsProps = {
   courseTitle: string;
@@ -20,7 +21,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   className,
 }) => {
   // Use dedicated FoAI component for Future of AI course
-  if (courseId === 'rec0Zgize0c4liMl5') {
+  if (courseId === FOAI_COURSE_ID) {
     return <FoAICongratulations className={className} />;
   }
 

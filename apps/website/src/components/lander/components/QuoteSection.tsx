@@ -4,47 +4,25 @@ import {
 import { Quote } from '@bluedot/ui';
 import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
 
-type QuoteWithUrl = Quote & {
+export type QuoteWithUrl = Quote & {
+  /** Source URL for the quote */
   url: string;
+  /** Role/title of the person being quoted - required for lander quotes */
+  role: string;
 };
 
+export type QuoteSectionProps = {
+  /** Array of quotes to display in the carousel */
+  quotes: QuoteWithUrl[];
+};
+
+// Design constants - these stay consistent across all courses
 const COLORS = {
   background: '#FAFAF7',
   cardBg: '#ECF0FF',
   text: '#13132E',
   accent: '#2244BB',
 };
-
-const testimonialQuotes: QuoteWithUrl[] = [
-  {
-    quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."', // 156 chars
-    name: 'Ursula von der Leyen',
-    role: 'President, European Commission',
-    imageSrc: '/images/agi-strategy/ursula.png',
-    url: 'https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en',
-  },
-  {
-    quote: '"I\'ve always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we\'ve done in the past… The downside is, at some point, that humanity loses control of the technology it\'s developing."',
-    name: 'Sundar Pichai',
-    role: 'CEO, Google',
-    imageSrc: '/images/agi-strategy/sundar.jpg',
-    url: 'https://garrisonlovely.substack.com/p/a-compilation-of-tech-executives',
-  },
-  {
-    quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
-    name: 'Dario Amodei',
-    role: 'CEO, Anthropic',
-    imageSrc: '/images/lander/foai/dario.jpeg',
-    url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
-  },
-  {
-    quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
-    name: 'David Sacks',
-    role: 'White House AI and Crypto Czar',
-    imageSrc: '/images/agi-strategy/david-sacks.jpg',
-    url: 'https://x.com/HumanHarlan/status/1864858286065111298',
-  },
-];
 
 // Font sizing configuration
 const FONT_SIZE_THRESHOLDS = {
@@ -168,18 +146,18 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
   );
 };
 
-const QuoteSection = () => {
+const QuoteSection = ({ quotes }: QuoteSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const autorotateTiming = 11000;
+  const autorotateTiming = 11000; // Design constant
   const isDesktop = useAboveBreakpoint(680); // 680px is the design breakpoint specified
 
   // Single effect that handles all timer logic
   useEffect(() => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
+        setActiveIndex((prevIndex) => (prevIndex + 1) % quotes.length);
       }, autorotateTiming);
     }
 
@@ -189,7 +167,7 @@ const QuoteSection = () => {
         intervalRef.current = null;
       }
     };
-  }, [activeIndex, isPaused]);
+  }, [activeIndex, isPaused, quotes.length]);
 
   const handleIndicatorClick = (index: number) => {
     if (index !== activeIndex) {
@@ -219,12 +197,12 @@ const QuoteSection = () => {
   };
 
   const handlePrevious = useCallback(() => {
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? testimonialQuotes.length - 1 : prevIndex - 1));
-  }, []);
+    setActiveIndex((prevIndex) => (prevIndex === 0 ? quotes.length - 1 : prevIndex - 1));
+  }, [quotes.length]);
 
   const handleNext = useCallback(() => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialQuotes.length);
-  }, []);
+    setActiveIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+  }, [quotes.length]);
 
   // Touch/swipe handling for mobile
   const touchStartX = useRef<number | null>(null);
@@ -255,8 +233,8 @@ const QuoteSection = () => {
     touchEndX.current = null;
   };
 
-  const activeQuote = testimonialQuotes[activeIndex];
-  const nextQuote = testimonialQuotes[(activeIndex + 1) % testimonialQuotes.length];
+  const activeQuote = quotes[activeIndex];
+  const nextQuote = quotes[(activeIndex + 1) % quotes.length];
 
   if (!activeQuote) {
     return null;
@@ -375,7 +353,7 @@ const QuoteSection = () => {
 
           {/* Selector container - Mobile: 280px width, 64px indicators | Desktop: 408px width, 96px indicators */}
           <div className="flex gap-2 w-[280px] h-[38px] min-[680px]:w-[408px] min-[680px]:h-[38px] lg:w-[408px] lg:h-[38px]">
-            {testimonialQuotes.map((quote, index) => (
+            {quotes.map((quote, index) => (
               <button
                 type="button"
                 key={`indicator-${quote.name}`}

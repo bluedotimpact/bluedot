@@ -1,28 +1,29 @@
 import { useState } from 'react';
 
-const FAQSection = () => {
-  const [openQuestions, setOpenQuestions] = useState<string[]>([]);
+/**
+ * Represents a single FAQ item with question and answer
+ */
+export type FAQItem = {
+  /** Unique identifier for this FAQ item (used for accordion state management) */
+  id: string;
+  /** The question text */
+  question: string;
+  /** The answer text or React element */
+  answer: React.ReactNode;
+};
 
-  const faqData = [
-    {
-      id: 'funding',
-      question: 'Can I just apply for funding?',
-      answer: 'Funding is only available for graduates of the course.',
-    },
-    {
-      id: 'bluedot',
-      question: 'Who is BlueDot Impact?',
-      answer: (
-        <>
-          We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-          <br /><br />
-          Our courses are the main entry point into the AI safety field.
-          <br /><br />
-          We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
-        </>
-      ),
-    },
-  ];
+/**
+ * Props for the FAQSection component
+ */
+export type FAQSectionProps = {
+  /** Section heading displayed at the top */
+  title: string;
+  /** Array of FAQ items to display */
+  items: FAQItem[];
+};
+
+const FAQSection = ({ title, items }: FAQSectionProps) => {
+  const [openQuestions, setOpenQuestions] = useState<string[]>([]);
 
   const handleToggle = (id: string) => {
     setOpenQuestions((prev) => {
@@ -37,11 +38,11 @@ const FAQSection = () => {
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20">
         <div className="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16">
           <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center">
-            Frequently Asked Questions
+            {title}
           </h2>
 
           <div className="flex flex-col gap-6">
-            {faqData.map((item) => {
+            {items.map((item) => {
               const isOpen = openQuestions.includes(item.id);
 
               return (
