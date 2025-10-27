@@ -1,6 +1,4 @@
-import {
-  ProgressDots, withAuth, ErrorSection, Modal,
-} from '@bluedot/ui';
+import { ProgressDots, ErrorSection, Modal } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { ROUTES } from '../../lib/routes';
@@ -12,7 +10,7 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
-const AccountSettingsPage = withAuth(({ auth }) => {
+const AccountSettingsPage = () => {
   const {
     data: user, isLoading: userLoading, error: userError, refetch,
   } = trpc.users.getUser.useQuery();
@@ -85,6 +83,6 @@ const AccountSettingsPage = withAuth(({ auth }) => {
       )}
     </div>
   );
-});
+};
 
 export default AccountSettingsPage;
