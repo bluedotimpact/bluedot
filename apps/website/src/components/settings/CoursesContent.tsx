@@ -7,7 +7,11 @@ import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 
 const CoursesContent = () => {
-  const { data: courseRegistrations, isLoading: courseRegistrationsLoading, error: courseRegistrationsError } = trpc.courseRegistrations.getAll.useQuery();
+  const {
+    data: courseRegistrations,
+    isLoading: courseRegistrationsLoading,
+    error: courseRegistrationsError,
+  } = trpc.courseRegistrations.getAll.useQuery();
 
   const [{ data: coursesData, loading: coursesLoading, error: coursesError }] = useAxios<GetCoursesResponse>({
     method: 'get',
