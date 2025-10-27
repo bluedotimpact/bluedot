@@ -470,14 +470,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   >
                     Intensive
                   </span>
-                  : 6-day course (5h/day)
+                  : 5-day course (5h/day)
                   <br />
                   <span
                     class="font-semibold"
                   >
                     Part-time
                   </span>
-                  : 6-week course (5h/week)
+                  : 5-week course (5h/week)
                 </p>
               </div>
               <div
@@ -660,19 +660,54 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                     >
-                      New cohorts start every month:
+                      New cohorts start regularly:
                       <br />
-                      Next round 
                       <span
                         class="font-semibold"
                       >
-                        27th Oct
+                        Round 3
                       </span>
-                      , application deadline 
+                      : Application deadline 
                       <span
                         class="font-semibold"
                       >
-                        19th Oct
+                        Nov 13th
+                      </span>
+                      , Start 
+                      <span
+                        class="font-semibold"
+                      >
+                        Nov 10th
+                      </span>
+                      , End 
+                      <span
+                        class="font-semibold"
+                      >
+                        Dec 21st
+                      </span>
+                      <br />
+                      <span
+                        class="font-semibold"
+                      >
+                        Round 4
+                      </span>
+                      : Application deadline 
+                      <span
+                        class="font-semibold"
+                      >
+                        Jan 2nd
+                      </span>
+                      , Start 
+                      <span
+                        class="font-semibold"
+                      >
+                        Jan 5th
+                      </span>
+                      , End 
+                      <span
+                        class="font-semibold"
+                      >
+                        Feb 1st
                       </span>
                     </div>
                   </div>
