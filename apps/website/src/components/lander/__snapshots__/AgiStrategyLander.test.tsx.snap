@@ -660,55 +660,67 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                     >
-                      New cohorts start regularly:
+                      <span
+                        class="font-semibold"
+                      >
+                        Round 3 (next round)
+                      </span>
                       <br />
+                      Deadline: 
                       <span
                         class="font-semibold"
                       >
-                        Round 3
+                        Nov 13th
                       </span>
-                      : Application deadline 
-                      <span
-                        class="font-semibold"
-                      >
-                        Nov 10th
-                      </span>
-                      , Start 
+                      <br />
+                      Start: 
                       <span
                         class="font-semibold"
                       >
                         Nov 17th
                       </span>
-                      , End 
+                      <br />
+                      End: 
                       <span
                         class="font-semibold"
                       >
                         Dec 21st
                       </span>
                       <br />
+                      + multiple 5-day cohorts each week!
+                      <br />
+                      <br />
+                      We will also be running a number of 5-day cohorts during the holiday weeks!
+                      <br />
+                      <br />
                       <span
                         class="font-semibold"
                       >
                         Round 4
                       </span>
-                      : Application deadline 
+                      <br />
+                      Deadline: 
                       <span
                         class="font-semibold"
                       >
                         Jan 2nd
                       </span>
-                      , Start 
+                      <br />
+                      Start: 
                       <span
                         class="font-semibold"
                       >
                         Jan 5th
                       </span>
-                      , End 
+                      <br />
+                      End: 
                       <span
                         class="font-semibold"
                       >
                         Feb 1st
                       </span>
+                      <br />
+                      + multiple 5-day cohorts each week!
                     </div>
                   </div>
                 </div>
