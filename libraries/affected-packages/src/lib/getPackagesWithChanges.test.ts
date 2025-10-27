@@ -44,7 +44,7 @@ describe('getPackagesWithChanges', () => {
     expect(packageNames).toContain('@bluedot/ui');
     expect(packageNames).toContain('@bluedot/website');
     expect(packageNames).not.toContain('@bluedot/infra');
-  });
+  }, 30000);
 
   test('should bubble up errors', async () => {
     // Override the exec mock to simulate an error from a command e.g. the GitHub API

@@ -17,5 +17,8 @@
     "@types/node": "^22.13.2",
     "typescript": "^5.8.3",
     "vitest": "^3.2.3"
+  },
+  "dependencies": {
+    "minimatch": "^10.0.3"
   }
 }

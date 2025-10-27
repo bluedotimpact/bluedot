@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable turbo/no-undeclared-env-vars */
-import { matchesGlob } from 'node:path';
+import { minimatch } from 'minimatch';
 import { execAsync } from './execAsync';
 
 const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => {
@@ -128,7 +128,7 @@ export const getPackagesWithChanges = async (): Promise<PackageInfo[]> => {
 
   const packagesWithChanges = internalPackages.filter((p) => {
     const filesChangedAffectingPackage = p.fileGlobs.map((glob) => {
-      return [glob, changedFiles.filter((f) => matchesGlob(f, glob))];
+      return [glob, changedFiles.filter((f) => minimatch(f, glob))];
     });
 
     const totalFilesChanged = filesChangedAffectingPackage
