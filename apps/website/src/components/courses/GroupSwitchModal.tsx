@@ -104,7 +104,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
-  const [error, setError] = useState<unknown | undefined>();
   const [showSuccess, setShowSuccess] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
@@ -131,10 +130,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess: () => {
       setShowSuccess(true);
-      setError(undefined);
-    },
-    onError: (err) => {
-      setError(err);
     },
   });
 
@@ -330,7 +325,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
-        {!!error && <ErrorSection error={error} />}
+        {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
