@@ -284,7 +284,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   }
 
   if (courseRegistration?.certificateId) {
-    const formattedCertificateDate = new Date(courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
+    const formattedCertificateDate = new Date(
+      courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
+    ).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior
@@ -322,7 +324,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   }
 
   // Only future-of-ai certificates can be earned independently
-  // Note: the check `data?.courseRegistration.courseId !== FOAI_COURSE_ID` is required because we
+  // Note: the check `courseRegistration?.courseId !== FOAI_COURSE_ID` is required because we
   // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
   if (courseRegistration === null || courseRegistration?.courseId !== FOAI_COURSE_ID) {
     const { notEligible } = config.texts;
