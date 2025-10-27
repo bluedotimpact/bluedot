@@ -83,13 +83,13 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
 
       <CourseInformationSection {...content.courseInformation} />
 
-      <QuoteSection {...content.quotes} />
+      {content.quotes.quotes.length > 0 && <QuoteSection {...content.quotes} />}
 
-      <CommunityMembersSubSection members={content.communityMembers} />
+      {content.communityMembers.length > 0 && <CommunityMembersSubSection members={content.communityMembers} />}
 
       {content.partners && <PartnerSection {...content.partners} />}
 
-      <FAQSection {...content.faq} />
+      {content.faq.items.length > 0 && <FAQSection {...content.faq} />}
 
       <LandingBanner {...content.banner} />
     </div>
