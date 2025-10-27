@@ -36,7 +36,7 @@ export const createBioSecurityContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: '/images/lander/biosecurity/hero-banner-split.png',
+    imageSrc: '/images/agi-strategy/hero-banner-split.png',
     imageAlt: 'Biosecurity visualization',
   },
 
@@ -131,9 +131,9 @@ export const createBioSecurityContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            New cohorts start every month:
+            Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
             <br />
-            Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
+            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
           </>
         ),
       },
@@ -160,6 +160,11 @@ export const createBioSecurityContent = (
             We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
+      },
+      {
+        id: 'biology-expertise',
+        question: 'How much biology expertise do I need?',
+        answer: 'None! We will help you understand the basics.',
       },
     ],
   },
