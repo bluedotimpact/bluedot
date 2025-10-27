@@ -97,9 +97,9 @@ export const createAgiStrategyContent = (
         label: 'Options',
         description: (
           <>
-            <span className="font-semibold">Intensive</span>: 6-day course (5h/day)
+            <span className="font-semibold">Intensive</span>: 5-day course (5h/day)
             <br />
-            <span className="font-semibold">Part-time</span>: 6-week course (5h/week)
+            <span className="font-semibold">Part-time</span>: 5-week course (5h/week)
           </>
         ),
       },
@@ -131,9 +131,29 @@ export const createAgiStrategyContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            New cohorts start every month:
+            <span className="font-semibold">Round 3 (next round)</span>
             <br />
-            Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
+            Deadline: <span className="font-semibold">Nov 13th</span>
+            <br />
+            Start: <span className="font-semibold">Nov 17th</span>
+            <br />
+            End: <span className="font-semibold">Dec 21st</span>
+            <br />
+            + multiple 5-day cohorts each week!
+            <br />
+            <br />
+            We will also be running a number of 5-day cohorts during the holiday weeks!
+            <br />
+            <br />
+            <span className="font-semibold">Round 4</span>
+            <br />
+            Deadline: <span className="font-semibold">Jan 2nd</span>
+            <br />
+            Start: <span className="font-semibold">Jan 5th</span>
+            <br />
+            End: <span className="font-semibold">Feb 1st</span>
+            <br />
+            + multiple 5-day cohorts each week!
           </>
         ),
       },
