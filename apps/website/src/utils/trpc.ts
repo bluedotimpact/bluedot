@@ -1,9 +1,9 @@
-import { useAuthStore } from '@bluedot/ui';
+import { REFRESH_BEFORE_EXPIRY_MS, useAuthStore } from '@bluedot/ui';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
 
-const ONE_MIN_MS = 60 * 1000;
+const TEN_SECONDS_MS = 10 * 1000;
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -28,13 +28,18 @@ async function getHeadersWithValidToken() {
   const now = Date.now();
   const timeUntilExpiry = auth.expiresAt - now;
 
-  // If token expires within 1 minute or is already expired, refresh it
-  if (timeUntilExpiry < ONE_MIN_MS && auth.refreshToken && auth.oidcSettings) {
+  // If it is past the time the token should have been refreshed, attempt to refresh it before making the request
+  if (
+    timeUntilExpiry < REFRESH_BEFORE_EXPIRY_MS - TEN_SECONDS_MS
+    && auth.refreshToken
+    && auth.oidcSettings
+  ) {
     await refresh();
-    // Get the updated auth after refresh
     const { auth: refreshedAuth } = useAuthStore.getState();
     return {
-      authorization: refreshedAuth?.token ? `Bearer ${refreshedAuth.token}` : '',
+      authorization: refreshedAuth?.token
+        ? `Bearer ${refreshedAuth.token}`
+        : '',
     };
   }
 

@@ -88,7 +88,9 @@ export { addQueryParam } from './utils/addQueryParam';
 export { maybePlural } from './utils';
 export { cn } from './utils';
 export { asError } from './utils/asError';
-export { useAuthStore, withAuth, type Auth } from './utils/auth';
+export {
+  useAuthStore, withAuth, type Auth, REFRESH_BEFORE_EXPIRY_MS,
+} from './utils/auth';
 export * as constants from './constants';
 
 export { loggedOutStory, loggedInStory } from './utils/storybook';
