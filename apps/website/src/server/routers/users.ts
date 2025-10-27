@@ -7,6 +7,22 @@ import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { protectedProcedure, router } from '../trpc';
 
 export const usersRouter = router({
+  getUser: protectedProcedure
+    .query(async ({ ctx }) => {
+      const existingUser = await db.getFirst(userTable, {
+        filter: { email: ctx.auth.email },
+      });
+      if (!existingUser) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      // Update lastSeenAt timestamp
+      return db.update(userTable, {
+        id: existingUser.id,
+        lastSeenAt: new Date().toISOString(),
+      });
+    }),
+
   changePassword: protectedProcedure
     .input(changePasswordSchema)
     .mutation(async ({ ctx, input }) => {

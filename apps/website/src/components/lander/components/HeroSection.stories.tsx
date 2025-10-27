@@ -34,9 +34,13 @@ const meta = {
       description: 'Secondary call-to-action button configuration',
       control: 'object',
     },
-    visualComponent: {
-      description: 'Visual component (typically an image) displayed on the right/top',
-      control: false,
+    imageSrc: {
+      description: 'URL path to the image displayed on the right/top',
+      control: 'text',
+    },
+    imageAlt: {
+      description: 'Alt text for the image',
+      control: 'text',
     },
   },
 } satisfies Meta<typeof HeroSection>;
@@ -58,12 +62,7 @@ export const Default: Story = {
       text: 'Browse curriculum',
       url: '/courses/agi-strategy/1',
     },
-    visualComponent: (
-      <img
-        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop"
-        alt="AI visualization"
-        className="size-full object-cover"
-      />
-    ),
+    imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
+    imageAlt: 'AI visualization',
   },
 };

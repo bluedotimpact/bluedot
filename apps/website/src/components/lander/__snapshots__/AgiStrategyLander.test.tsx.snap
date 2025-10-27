@@ -12,6 +12,54 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
       name="description"
     />
+    <meta
+      content="AGI Strategy Course | BlueDot Impact"
+      property="og:title"
+    />
+    <meta
+      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      property="og:description"
+    />
+    <meta
+      content="/images/agi-strategy/hero-banner-split.png"
+      property="og:image"
+    />
+    <meta
+      content="1200"
+      property="og:image:width"
+    />
+    <meta
+      content="630"
+      property="og:image:height"
+    />
+    <meta
+      content="AGI Strategy Course | BlueDot Impact"
+      property="og:image:alt"
+    />
+    <meta
+      content="website"
+      property="og:type"
+    />
+    <meta
+      content="BlueDot Impact"
+      property="og:site_name"
+    />
+    <meta
+      content="summary_large_image"
+      name="twitter:card"
+    />
+    <meta
+      content="AGI Strategy Course | BlueDot Impact"
+      name="twitter:title"
+    />
+    <meta
+      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      name="twitter:description"
+    />
+    <meta
+      content="/images/agi-strategy/hero-banner-split.png"
+      name="twitter:image"
+    />
     <section
       class="w-full bg-white"
     >
@@ -68,11 +116,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <img
             alt="AGI Strategy visualization"
-            class="size-full object-cover"
+            class="size-full object-cover lg:object-center"
             src="/images/agi-strategy/hero-banner-split.png"
           />
           <div
-            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+            class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style="background-image: url("/images/agi-strategy/noise.png");"
           />
         </div>
       </div>
@@ -100,7 +149,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
@@ -129,12 +178,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For entrepreneurs and operators
               </span>
               <span>
-                 who want to build solutions that protect humanity.
+                 
+                who want to build solutions that protect humanity.
               </span>
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
@@ -163,12 +213,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For leaders
               </span>
               <span>
-                 who want to steer AI's trajectory towards beneficial outcomes for humanity.
+                 
+                who want to steer AI's trajectory towards beneficial outcomes for humanity.
               </span>
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-between min-[768px]:justify-start min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
@@ -197,7 +248,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 For researchers
               </span>
               <span>
-                 who want to take big bets on the most impactful research ideas.
+                 
+                who want to take big bets on the most impactful research ideas.
               </span>
             </p>
           </div>
@@ -1828,10 +1880,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
       >
         <div
-          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-[url('/images/agi-strategy/hero-banner-split.png')] bg-cover bg-center xl:max-w-[1118px]"
+          aria-label="AGI Strategy banner"
+          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
+          role="img"
+          style="background-image: url("/images/agi-strategy/hero-banner-split.png");"
         >
           <div
-            class="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light"
+            class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style="background-image: url("/images/agi-strategy/noise.png");"
           />
           <div
             class="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center"

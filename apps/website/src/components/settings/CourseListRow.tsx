@@ -1,25 +1,23 @@
 import { useState, useEffect } from 'react';
 import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import {
-  Course, CourseRegistration, MeetPerson,
-} from '@bluedot/db';
-import useAxios from 'axios-hooks';
+import { Course, CourseRegistration } from '@bluedot/db';
+import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { trpc } from '../../utils/trpc';
 
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  authToken?: string;
   isFirst?: boolean;
   isLast?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, authToken, isFirst = false, isLast = false,
+  course, courseRegistration, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
@@ -29,25 +27,18 @@ const CourseListRow = ({
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
-    method: 'get',
-    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
-    headers: authToken ? {
-      Authorization: `Bearer ${authToken}`,
-    } : undefined,
-  }, {
-    // Only fetch when not completed
-    useCache: false,
-    autoCancel: false,
-  });
+  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // Don't run this query when the course is already completed
+    isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
+  );
 
   // Edge case: The user has been accepted but has no group assigned
-  const isNotInGroup = meetPersonData?.meetPerson
-    && (!meetPersonData.meetPerson.groupsAsParticipant || meetPersonData.meetPerson.groupsAsParticipant.length === 0);
+  const isNotInGroup = meetPerson
+    && (!meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
   // Fetch individual discussions when we have the meetPerson data
   useEffect(() => {
-    if (!meetPersonData) {
+    if (!meetPerson) {
       return;
     }
 
@@ -56,7 +47,7 @@ const CourseListRow = ({
     }
 
     const fetchDiscussions = async () => {
-      if (!meetPersonData.meetPerson) {
+      if (!meetPerson) {
         setLoading(false);
         return;
       }
@@ -65,8 +56,8 @@ const CourseListRow = ({
       // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
       const isFacilitator = courseRegistration.role === 'Facilitator';
       const expectedDiscussionIds = isFacilitator
-        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
+        ? meetPerson.expectedDiscussionsFacilitator || []
+        : meetPerson.expectedDiscussionsParticipant || [];
 
       const expectedPromises = expectedDiscussionIds.map(async (id) => {
         try {
@@ -93,7 +84,7 @@ const CourseListRow = ({
     };
 
     fetchDiscussions();
-  }, [meetPersonData, isCompleted, courseRegistration.role]);
+  }, [meetPerson, isCompleted, courseRegistration.role]);
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
@@ -399,7 +390,6 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          authToken={authToken}
           isLast={isLast}
         />
       )}
