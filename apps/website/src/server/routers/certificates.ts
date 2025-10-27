@@ -13,8 +13,8 @@ export const certificatesRouter = router({
   create: publicProcedure
     .input(z.object({ adminEmail: z.string().email(), courseRegistrationId: z.string(), publicToken: z.string() }))
     .mutation(async ({ input: { adminEmail, courseRegistrationId, publicToken } }) => {
-      // This is similar to the `request` procedure below, but it does not rely on authentication and allows a
-      // certificate to be created even if not all exercises are complete.
+      // This is similar to the `request` procedure below, but it relies on a shared secret for authentication and
+      // allows a certificate to be created even if not all exercises are complete.
       if (!env.CERTIFICATE_CREATION_TOKEN) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
       }
