@@ -2,6 +2,7 @@ import { useAuthStore } from '@bluedot/ui';
 import { render, screen } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -65,6 +66,10 @@ describe('CertificateLinkCard', () => {
       isError: false,
       error: null,
     });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe('Not authenticated', () => {
