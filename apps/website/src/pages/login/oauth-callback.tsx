@@ -2,20 +2,7 @@ import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 export default () => {
-  const createUserMutation = trpc.users.ensureExists.useMutation({
-    onSuccess: (response) => {
-      if (typeof window !== 'undefined' && window.dataLayer) {
-        window.dataLayer.push({
-          event: 'CompletedSignup',
-          new_customer: response.isNewUser,
-        });
-      }
-    },
-    onError: (error) => {
-      // eslint-disable-next-line no-console
-      console.error('Error ensuring user exists:', error);
-    },
-  });
+  const createUserMutation = trpc.users.ensureExists.useMutation();
 
   return (
     <LoginOauthCallbackPage
@@ -36,11 +23,22 @@ export default () => {
           console.warn('Failed to parse UTM params from redirectTo:', error);
         }
 
-        createUserMutation.mutate({
-          initialUtmSource,
-          initialUtmCampaign,
-          initialUtmContent,
-        });
+        try {
+          const response = await createUserMutation.mutateAsync({
+            initialUtmSource,
+            initialUtmCampaign,
+            initialUtmContent,
+          });
+          if (typeof window !== 'undefined' && window.dataLayer) {
+            window.dataLayer.push({
+              event: 'CompletedSignup',
+              new_customer: response.isNewUser,
+            });
+          }
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error('Error ensuring user exists:', error);
+        }
       }}
     />
   );
