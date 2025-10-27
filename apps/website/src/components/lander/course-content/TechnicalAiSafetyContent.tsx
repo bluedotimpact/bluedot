@@ -243,9 +243,7 @@ export const createTechnicalAiSafetyContent = (
         question: 'Do I need to take the AGI strategy course first?',
         answer: (
           <>
-            It is not a prerequisite, but we recommend it!
-            <br /><br />
-            The AGI Strategy course shows how technical safety fits into the broader strategy for making AI go well. Technical safety is one component among many.
+            It's not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you'll get more value if you understand how technical safety fits into the broader landscape of making AI go well.
           </>
         ),
       },
