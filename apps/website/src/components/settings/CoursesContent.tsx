@@ -6,11 +6,7 @@ import { P } from '../Text';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 
-type CoursesContentProps = {
-  authToken: string;
-};
-
-const CoursesContent = ({ authToken }: CoursesContentProps) => {
+const CoursesContent = () => {
   const { data: courseRegistrations, isLoading: courseRegistrationsLoading, error: courseRegistrationsError } = trpc.courseRegistrations.getAll.useQuery();
 
   const [{ data: coursesData, loading: coursesLoading, error: coursesError }] = useAxios<GetCoursesResponse>({
