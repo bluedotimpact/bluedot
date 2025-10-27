@@ -11,21 +11,21 @@ import {
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
   create: publicProcedure
-    .input(z.object({ email: z.string().email(), courseRegistrationId: z.string(), token: z.string() }))
-    .mutation(async ({ input: { email, courseRegistrationId, token } }) => {
+    .input(z.object({ adminEmail: z.string().email(), courseRegistrationId: z.string(), publicToken: z.string() }))
+    .mutation(async ({ input: { adminEmail, courseRegistrationId, publicToken } }) => {
       // This is similar to the `request` procedure below, but it does not rely on authentication and allows a
       // certificate to be created even if not all exercises are complete.
       if (!env.CERTIFICATE_CREATION_TOKEN) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
       }
 
-      const tokenBuf = Buffer.from(token);
+      const tokenBuf = Buffer.from(publicToken);
       const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
       if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
       }
 
-      const hasAdminAccess = await checkAdminAccess(email);
+      const hasAdminAccess = await checkAdminAccess(adminEmail);
       if (!hasAdminAccess) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Forbidden' });
       }
