@@ -52,7 +52,7 @@ describe('CoursesContent', () => {
       error: null,
     }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
 
-    render(<CoursesContent authToken="test-token" />, { wrapper: TrpcProvider });
+    render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByLabelText('In Progress courses')).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('CoursesContent', () => {
       error: null,
     }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
 
-    render(<CoursesContent authToken="test-token" />, { wrapper: TrpcProvider });
+    render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
