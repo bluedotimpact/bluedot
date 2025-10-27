@@ -133,7 +133,7 @@ export const createAgiStrategyContent = (
           <>
             New cohorts start regularly:
             <br />
-            <span className="font-semibold">Round 3</span>: Application deadline <span className="font-semibold">Nov 13th</span>, Start <span className="font-semibold">Nov 10th</span>, End <span className="font-semibold">Dec 21st</span>
+            <span className="font-semibold">Round 3</span>: Application deadline <span className="font-semibold">Nov 10th</span>, Start <span className="font-semibold">Nov 17th</span>, End <span className="font-semibold">Dec 21st</span>
             <br />
             <span className="font-semibold">Round 4</span>: Application deadline <span className="font-semibold">Jan 2nd</span>, Start <span className="font-semibold">Jan 5th</span>, End <span className="font-semibold">Feb 1st</span>
           </>
