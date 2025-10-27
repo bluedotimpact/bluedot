@@ -147,7 +147,7 @@ describe('CertificateLinkCard', () => {
         refetch: vi.fn(),
       });
 
-      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
 
       // Verify that download certificate button is shown for FoAI course
       expect(screen.getByText('Download Certificate')).toBeTruthy();
