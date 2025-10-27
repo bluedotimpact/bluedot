@@ -1,10 +1,66 @@
 import { courseRegistrationTable, exerciseResponseTable, exerciseTable } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
+import env from '../../lib/api/env';
+import {
+  checkAdminAccess, protectedProcedure, publicProcedure, router,
+} from '../trpc';
 
 export const certificatesRouter = router({
+  // This is a public procedure because it's called from an Airtable script, not from within the app
+  create: publicProcedure
+    .input(z.object({ adminEmail: z.string().email(), courseRegistrationId: z.string(), publicToken: z.string() }))
+    .mutation(async ({ input: { adminEmail, courseRegistrationId, publicToken } }) => {
+      // This is similar to the `request` procedure below, but it relies on a shared secret for authentication and
+      // allows a certificate to be created even if not all exercises are complete.
+      if (!env.CERTIFICATE_CREATION_TOKEN) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
+      }
+
+      const tokenBuf = Buffer.from(publicToken);
+      const secretBuf = Buffer.from(env.CERTIFICATE_CREATION_TOKEN);
+      if (tokenBuf.length !== secretBuf.length || !timingSafeEqual(tokenBuf, secretBuf)) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid token' });
+      }
+
+      const hasAdminAccess = await checkAdminAccess(adminEmail);
+      if (!hasAdminAccess) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Forbidden' });
+      }
+
+      const courseRegistration = await db.get(courseRegistrationTable, {
+        id: courseRegistrationId,
+      });
+
+      if (!courseRegistration) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
+      }
+
+      const now = Math.floor(Date.now() / 1000);
+
+      if (courseRegistration.certificateId) {
+        // Already created, nothing to do
+        return {
+          certificateId: courseRegistration.certificateId,
+          certificateCreatedAt: courseRegistration.certificateCreatedAt ?? now,
+        };
+      }
+
+      // Create certificate
+      const updatedCourseRegistration = await db.update(courseRegistrationTable, {
+        id: courseRegistrationId,
+        certificateId: courseRegistrationId,
+        certificateCreatedAt: now,
+      });
+
+      return {
+        certificateId: updatedCourseRegistration.certificateId!,
+        certificateCreatedAt: updatedCourseRegistration.certificateCreatedAt ?? now,
+      };
+    }),
+
   request: protectedProcedure
     .input(z.object({ courseId: z.string() }))
     .mutation(async ({ ctx, input: { courseId } }) => {

@@ -4,6 +4,7 @@ import { blogsRouter } from './blogs';
 import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
 import { jobsRouter } from './jobs';
+import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
 import { usersRouter } from './users';
 
@@ -13,6 +14,7 @@ export const appRouter = router({
   certificates: certificatesRouter,
   courseRegistrations: courseRegistrationsRouter,
   jobs: jobsRouter,
+  meetPerson: meetPersonRouter,
   projects: projectsRouter,
   users: usersRouter,
 });

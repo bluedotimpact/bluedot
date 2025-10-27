@@ -1,11 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import {
-  describe, test, expect, beforeEach, vi,
-} from 'vitest';
 import { useAuthStore } from '@bluedot/ui';
+import { render, screen } from '@testing-library/react';
 import { useRouter } from 'next/router';
-import CertificateLinkCard from './CertificateLinkCard';
+import {
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { FOAI_COURSE_ID } from '../../lib/constants';
+import CertificateLinkCard from './CertificateLinkCard';
 
 // I tried pretty hard to use tRPC MSW but kept running into issues where the component would be permanently stuck in
 // loading state for authenticated tests. I spent a couple hours trying to fight it, have decided to give up and mock
@@ -77,7 +82,7 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders FoAI course with different content', () => {
-      render(<CertificateLinkCard courseId="rec0Zgize0c4liMl5" />);
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
@@ -132,7 +137,7 @@ describe('CertificateLinkCard', () => {
     test('renders course without certificate - FoAI shows request button', () => {
       mockUseQuery.mockReturnValue({
         data: createMockCourseRegistration({
-          courseId: 'rec0Zgize0c4liMl5',
+          courseId: FOAI_COURSE_ID,
           certificateId: null,
           email: 'user@example.com',
           fullName: 'Test User',

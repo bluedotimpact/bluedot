@@ -6,10 +6,10 @@ import {
   courseTable,
   groupDiscussionTable,
   groupTable,
+  inArray,
   InferSelectModel,
   meetPersonTable,
   roundTable,
-  arrayOverlaps,
 } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import db from '../../../../../lib/api/db';
@@ -131,6 +131,15 @@ export function calculateGroupAvailability({
   };
 }
 
+/**
+ * Return all the groups (for permanent switches) and discussions (for temporary switches to another group)
+ * that are available for a user to switch into.
+ *
+ * Users are allowed to switch into groups that are in the same *round* of the course (i.e. the start and
+ * end date of the course wil be the same), and in the same *bucket*. A bucket is a manually configured set
+ * of groups specifically for the purpose of keeping compatible participants together. E.g. there may be one
+ * bucket for recent graduates, and one for more experienced professionals within the same round of a course.
+ */
 export default makeApiRoute({
   requireAuth: true,
   responseBody: z.object({
@@ -178,63 +187,61 @@ export default makeApiRoute({
     throw new createHttpError.NotFound('No course round found');
   }
 
-  const round = await db.get(roundTable, { id: roundId });
+  const courseRound = await db.get(roundTable, { id: roundId });
 
   /**
-   * Get groups the user is allowed to switch to.
-   *
-   * KNOWN ISSUE: Ideally this would get the buckets that the participant is a member of,
-   * and then look up groups that allow that bucket. Currently the Buckets table in the
-   * course runner base only has the People in the bucket as a list of names like "John Doe | AI Alignment (2024 Mar)",
-   * so we can't reliably look up by participant id.
-   *
-   * WORKAROUND: Look up the group (should be one group, but support many) the user is currently in, then look up
-   * groups that share a bucket with that group. Assume that if the user is allowed in their current group, they
-   * will be allowed in these groups that share a bucket.
+   * Get groups the user is allowed to switch to:
+   * 1. Get all the groups in this round of the course. Context: Groups in the same
+   * round are on a synchronised schedule (e.g. unit 1 of the course will be discussed
+   * by all groups at some point during the same week). A participant could switch to
+   * any group in the same round and still complete the course in the right order.
+   * 2. Look up the participant's assigned buckets. A bucket defines a set of groups the
+   * participant is *allowed* to automatically switch between. This is desirable to have
+   * e.g. one bucket for recent graduates, and one for more experienced professionals within
+   * the same round of a course.
+   * 3. Return all groups that are associated with those buckets
    */
-  const getAllowedGroups = async () => {
+  const getGroupsAllowedToSwitchInto = async () => {
     const allGroups = await db.scan(groupTable, { round: roundId });
+    const participantGroupIds = allGroups.filter((g) => g.participants.includes(participant.id)).map((g) => g.id);
 
-    const participantGroups = allGroups.filter((g) => g.participants.includes(participant.id));
+    // Explicitly allow groups the user is already in
+    const allowedGroupIds = new Set<string>(participantGroupIds);
 
-    const participantGroupIds = participantGroups.map((g) => g.id);
-    if (!participantGroupIds.length) {
-      return [];
-    }
+    if (participant.buckets && participant.buckets.length > 0) {
+      const bucketsOfAllowedGroups = await db.pg
+        .select()
+        .from(courseRunnerBucketTable.pg)
+        .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
-    const allowedBuckets = await db.pg
-      .select()
-      .from(courseRunnerBucketTable.pg)
-      .where(arrayOverlaps(courseRunnerBucketTable.pg.groups, participantGroupIds));
-
-    const allowedGroupIds = new Set<string>();
-    allowedBuckets.forEach((bucket) => {
-      bucket.groups.forEach((groupId) => {
-        allowedGroupIds.add(groupId);
+      bucketsOfAllowedGroups.forEach((bucket) => {
+        bucket.groups.forEach((groupId) => {
+          allowedGroupIds.add(groupId);
+        });
       });
-    });
+    }
 
     return allGroups.filter((group) => allowedGroupIds.has(group.id));
   };
-  const allowedGroups = await getAllowedGroups();
+  const allowedGroups = await getGroupsAllowedToSwitchInto();
 
-  if (allowedGroups.length === 0) {
+  if (allowedGroups.filter((g) => !g.participants.includes(participant.id)).length === 0) {
     await slackAlert(env, [
       `[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
     ]);
   }
 
-  const groupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
+  const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
     OR: allowedGroups.map((g) => ({ group: g.id })),
   }) : [];
 
-  const maxParticipants = round.maxParticipantsPerGroup;
+  const maxParticipants = courseRound.maxParticipantsPerGroup;
 
   const {
     discussionsAvailable,
     groupsAvailable,
   } = calculateGroupAvailability({
-    groupDiscussions,
+    groupDiscussions: allowedGroupDiscussions,
     groups: allowedGroups,
     maxParticipants,
     participantId: participant.id,

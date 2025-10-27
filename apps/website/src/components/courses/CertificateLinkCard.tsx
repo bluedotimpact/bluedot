@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 type CertificateConfig = {
   useCard: boolean;
@@ -45,8 +46,6 @@ type CertificateConfig = {
     };
   };
 };
-
-const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 
 const regularCourseConfig: CertificateConfig = {
   useCard: true,
@@ -220,7 +219,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
         window.dataLayer.push({
           event: 'completers',
           course_slug: 'future-of-ai',
@@ -323,7 +322,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (courseRegistration?.courseId !== 'rec0Zgize0c4liMl5') {
+  // Note: the check `data?.courseRegistration.courseId !== FOAI_COURSE_ID` is required because we
+  // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
+  if (courseRegistration === null || courseRegistration?.courseId !== FOAI_COURSE_ID) {
     const { notEligible } = config.texts;
     return (
       <Card

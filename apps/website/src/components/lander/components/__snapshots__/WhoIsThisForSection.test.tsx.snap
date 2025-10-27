@@ -5,7 +5,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
   class="w-full bg-[#FAFAF7]"
 >
   <div
-    class="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20"
+    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:pt-20 md:pb-16 min-[1024px]:px-spacing-x lg:pt-24 lg:pb-20"
   >
     <h2
       class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -13,13 +13,13 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
       Who this course is for
     </h2>
     <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+      class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
     >
       <div
-        class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+        class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
         >
           <svg
             class="text-white"
@@ -37,7 +37,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
         >
           <span
             class="font-semibold"
@@ -45,15 +45,16 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For entrepreneurs and operators
           </span>
           <span>
-             who want to build solutions that protect humanity.
+             
+            who want to build solutions that protect humanity.
           </span>
         </p>
       </div>
       <div
-        class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+        class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
         >
           <svg
             class="text-white"
@@ -71,7 +72,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
         >
           <span
             class="font-semibold"
@@ -79,15 +80,16 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For leaders
           </span>
           <span>
-             who want to steer AI's trajectory towards beneficial outcomes for humanity.
+             
+            who want to steer AI's trajectory towards beneficial outcomes for humanity.
           </span>
         </p>
       </div>
       <div
-        class="flex flex-col items-start gap-6 min-[1200px]:gap-0 min-[1200px]:justify-between bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 mx-auto md:mx-0 max-w-[350px] md:max-w-none min-[1200px]:h-[264px]"
+        class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0"
         >
           <svg
             class="text-white"
@@ -105,7 +107,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
         >
           <span
             class="font-semibold"
@@ -113,7 +115,8 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
             For researchers
           </span>
           <span>
-             who want to take big bets on the most impactful research ideas.
+             
+            who want to take big bets on the most impactful research ideas.
           </span>
         </p>
       </div>

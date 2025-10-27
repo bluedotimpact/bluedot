@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Partner = {
+export type Partner = {
   name: string;
   url: string;
   logo: string | null;
@@ -8,83 +8,12 @@ type Partner = {
   descriptionFull: React.ReactNode;
 };
 
-const partners: Partner[] = [
-  {
-    name: 'Entrepreneur First',
-    url: 'https://www.joinef.com/',
-    logo: '/images/agi-strategy/ef.svg',
-    descriptionShort: (
-      <>
-        We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
-      </>
-    ),
-    descriptionFull: (
-      <>
-        A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>. See <a href="https://luma.com/bluedotevents" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">here</a> for future events.
-      </>
-    ),
-  },
-  {
-    name: 'Institute for Progress',
-    url: 'https://ifp.org/',
-    logo: '/images/agi-strategy/ifp.svg',
-    descriptionShort: (
-      <>
-        We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-      </>
-    ),
-    descriptionFull: (
-      <>
-        IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-      </>
-    ),
-  },
-  {
-    name: '50 Years',
-    url: 'https://www.fiftyyears.com/',
-    logo: '/images/agi-strategy/fifty-years.svg',
-    descriptionShort: (
-      <>
-        We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-      </>
-    ),
-    descriptionFull: (
-      <>
-        A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-      </>
-    ),
-  },
-  {
-    name: 'Seldon Lab',
-    url: 'https://seldonlab.com/',
-    logo: '/images/agi-strategy/seldon-lab.svg',
-    descriptionShort: (
-      <>
-        We help our most entrepreneurial community members get ready to join future Seldon batches.
-      </>
-    ),
-    descriptionFull: (
-      <>
-        Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
-      </>
-    ),
-  },
-  {
-    name: 'Halcyon Futures',
-    url: 'https://halcyonfutures.org/',
-    logo: '/images/agi-strategy/halcyon-futures.svg',
-    descriptionShort: (
-      <>
-        We introduce our most promising leaders to Halcyon.
-      </>
-    ),
-    descriptionFull: (
-      <>
-        Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
-      </>
-    ),
-  },
-];
+export type PartnerSectionProps = {
+  /** Section heading displayed at the top */
+  title: string;
+  /** Array of partners to display */
+  partners: Partner[];
+};
 
 // Reusable Partner Card Component
 const PartnerCard = ({
@@ -132,18 +61,18 @@ const PartnerCard = ({
   );
 };
 
-const PartnerSection = () => {
+const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
   return (
     <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-spacing-x py-12 md:py-20 lg:py-24">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24">
 
         {/* Section Header */}
         <h2 className="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
-          Co-created with our network of leading AI industry partners
+          {title}
         </h2>
 
         {/* Mobile Infinite Scroll Carousel (1024px and below) */}
-        <div className="max-lg:block hidden -mx-5 min-[680px]:-mx-spacing-x">
+        <div className="max-lg:block hidden -mx-5 min-[680px]:-mx-8 lg:-mx-spacing-x">
           <div className="w-full inline-flex flex-nowrap overflow-hidden group">
             {/* Duplicate the partners array for infinite scroll */}
             {[1, 2].map((setIndex) => (

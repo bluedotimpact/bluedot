@@ -60,9 +60,6 @@ export default makeApiRoute({
   if (isTemporarySwitch && !inputOldDiscussionId) {
     throw new createHttpError.BadRequest('oldDiscussionId is required when switching for one unit');
   }
-  if (!isTemporarySwitch && !inputOldGroupId) {
-    throw new createHttpError.BadRequest('oldGroupId is required when switching groups permanently');
-  }
   if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
     throw new createHttpError.BadRequest('newDiscussionId is required when switching for one unit, unless requesting a manual switch');
   }
@@ -137,7 +134,7 @@ export default makeApiRoute({
   } else {
     // Error will be thrown here if oldGroup is not found
     const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
-      db.get(groupTable, { id: inputOldGroupId }),
+      inputOldGroupId ? db.get(groupTable, { id: inputOldGroupId }) : null,
       !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
       db.pg
         .select()
@@ -160,14 +157,17 @@ export default makeApiRoute({
     if (discussionsFacilitatedByParticipant.length) {
       throw new createHttpError.BadRequest('Facilitators cannot switch groups by this method');
     }
-    if (!oldGroup.participants.includes(participantId)) {
+    if (oldGroup && !oldGroup.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is not a member of old group');
     }
     if (newGroup?.participants.includes(participantId)) {
       throw new createHttpError.BadRequest('User is already a member of new group');
     }
-    if (newGroup && (oldGroup.round !== newGroup.round || newGroup.round !== participant.round)) {
-      throw new createHttpError.BadRequest('Old or new group does not match the course round the user is registered for');
+    if (oldGroup && oldGroup.round !== participant.round) {
+      throw new createHttpError.BadRequest('Old group does not match the course round the user is registered for');
+    }
+    if (newGroup && newGroup.round !== participant.round) {
+      throw new createHttpError.BadRequest('New group does not match the course round the user is registered for');
     }
 
     if (newGroup && !isManualRequest && typeof maxParticipants === 'number') {
@@ -184,7 +184,7 @@ export default makeApiRoute({
       }
     }
 
-    oldGroupId = oldGroup.id;
+    oldGroupId = oldGroup?.id ?? null;
     newGroupId = newGroup?.id ?? null;
   }
 

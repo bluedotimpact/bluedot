@@ -1,13 +1,11 @@
-import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import {
-  describe, expect, test, vi, beforeEach, type Mock,
+  describe, expect, test, vi, beforeEach,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import AccountSettingsPage from '../../../pages/settings/account';
 import { TrpcProvider } from '../../trpcProvider';
-
-// Mock dependencies
-vi.mock('axios-hooks');
+import { server, trpcMsw } from '../../trpcMswSetup';
 
 // Only mock withAuth from @bluedot/ui since it wraps the component with auth logic
 // withAuth is a HOC that normally provides auth props from a zustand store
@@ -19,8 +17,6 @@ vi.mock('@bluedot/ui', async () => {
     withAuth: (Component: React.ComponentType<{ auth: { token: string } }>) => Component,
   };
 });
-
-const mockedUseAxios = useAxios as unknown as Mock;
 
 // Mock Next.js router
 vi.mock('next/router', () => ({
@@ -37,24 +33,18 @@ vi.mock('next/head', () => ({
 
 describe('AccountSettingsPage', () => {
   const mockUserData = {
-    user: {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    },
+    name: 'John Doe',
+    email: 'john.doe@example.com',
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Default mock for useAxios to return user data
-    mockedUseAxios.mockReturnValue([{
-      data: mockUserData,
-      loading: false,
-      error: null,
-    }]);
+    // @ts-expect-error Only mocking data needed for `AccountSettingsPage`
+    server.use(trpcMsw.users.getUser.query(() => mockUserData));
   });
 
-  test('should render account settings page correctly', () => {
+  test('should render account settings page correctly', async () => {
     // The component expects an auth prop
     const mockAuth = { token: 'test-token' };
 
@@ -62,6 +52,11 @@ describe('AccountSettingsPage', () => {
     const AccountSettingsPageWithAuth = AccountSettingsPage as React.ComponentType<{ auth: { token: string } }>;
 
     const { container } = render(<AccountSettingsPageWithAuth auth={mockAuth} />, { wrapper: TrpcProvider });
+
+    // Wait for the user data to load and the content to render
+    await waitFor(() => {
+      expect(screen.getByDisplayValue(mockUserData.name)).toBeInTheDocument();
+    });
 
     expect(container).toMatchSnapshot();
   });

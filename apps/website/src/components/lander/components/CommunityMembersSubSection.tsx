@@ -233,15 +233,15 @@ const CommunityMembersSubSection = ({
   }, [scroll]);
 
   return (
-    <section className="community-members-section w-full bg-[#FAFAF7] py-12 md:py-20 lg:py-24" data-testid="community-members-section">
+    <section className="community-members-section w-full bg-[#FAFAF7] py-12 min-[680px]:py-16 lg:py-24" data-testid="community-members-section">
       {/* Header Container - constrained to content width */}
-      <div className="mx-auto px-5 md:px-12 lg:px-40 max-w-[1440px] mb-16">
+      <div className="mx-auto px-5 min-[680px]:px-8 lg:px-40 max-w-[1440px] mb-16">
         {/* Custom Header Section */}
-        <div className="flex flex-col items-center text-center lg:flex-row lg:items-end lg:justify-between lg:text-left gap-8 lg:gap-16">
+        <div className="flex flex-col items-center text-center min-[680px]:items-start min-[680px]:text-left lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-6">
             <NewText.H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
-              {title || 'Meet our Alumni Shaping AI\'s Future'}
+              {title || 'Meet our alumni shaping AI\'s future'}
             </NewText.H2>
             <NewText.P className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full lg:max-w-[610px] xl:max-w-[639px]">
               Our students and graduates work at some of the most respectable AI organizations in the world. Here are a few of the people who graduated from Blue Dot:
@@ -274,7 +274,7 @@ const CommunityMembersSubSection = ({
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
-          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 md:px-12 lg:px-40 xl:pl-[max(160px,_calc((100vw-1120px)/2))] xl:pr-8"
+          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-40 xl:pl-[max(160px,_calc((100vw-1120px)/2))] xl:pr-8"
           style={{
             gap: `${CARD_CONFIG.GAP}px`,
             scrollSnapType: 'none', // Disable snap to prevent interference with smooth scroll
