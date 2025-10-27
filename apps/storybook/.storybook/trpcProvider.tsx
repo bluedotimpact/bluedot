@@ -29,7 +29,6 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({ children
       links: [
         httpBatchLink({
           url: 'http://localhost:8000/api/trpc',
-          // MSW will intercept these requests based on the handlers in your stories
         }),
       ],
     }),
