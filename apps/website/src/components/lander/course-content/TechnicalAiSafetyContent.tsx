@@ -37,7 +37,7 @@ export const createTechnicalAiSafetyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: '/images/technical-ai-safety/hero-banner-split.png',
+    imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
     imageAlt: 'Technical AI Safety visualization',
   },
 
