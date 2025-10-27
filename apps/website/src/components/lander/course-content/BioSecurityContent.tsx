@@ -37,7 +37,7 @@ export const createBioSecurityContent = (
       url: `/courses/${courseSlug}/1`,
     },
     imageSrc: '/images/lander/biosecurity/hero-banner-split.png',
-    imageAlt: 'AGI Strategy visualization',
+    imageAlt: 'Biosecurity visualization',
   },
 
   whoIsThisFor: {
@@ -169,7 +169,7 @@ export const createBioSecurityContent = (
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/agi-strategy/hero-banner-split.png',
-    imageAlt: 'AGI Strategy banner',
+    imageAlt: 'Biosecurity banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
     noiseImageSrc: '/images/agi-strategy/noise.png',
