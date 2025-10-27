@@ -2,7 +2,7 @@ import { LoginOauthCallbackPage, loginPresets } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 export default () => {
-  const createUserMutation = trpc.users.ensureExists.useMutation();
+  const ensureUserExistsMutation = trpc.users.ensureExists.useMutation();
 
   return (
     <LoginOauthCallbackPage
@@ -24,7 +24,7 @@ export default () => {
         }
 
         try {
-          const response = await createUserMutation.mutateAsync({
+          const response = await ensureUserExistsMutation.mutateAsync({
             initialUtmSource,
             initialUtmCampaign,
             initialUtmContent,
