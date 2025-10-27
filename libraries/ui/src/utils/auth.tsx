@@ -45,7 +45,6 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
 
-      // Don't wait after the last attempt
       if (attempt < maxAttempts - 1) {
         // Exponential backoff: 0s, 1s, 2s
         const backoffMs = 1000 * (2 ** attempt);
