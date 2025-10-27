@@ -122,7 +122,7 @@ export const createBioSecurityContent = (
       {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+        description: 'This course is freely available and operates on a \'pay-what-you-want\' model.',
       },
       {
         icon: PiCalendarDots,
