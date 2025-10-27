@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import Congratulations from './Congratulations';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 describe('Congratulations', () => {
   test('renders default as expected', () => {
@@ -29,7 +30,7 @@ describe('Congratulations', () => {
       <Congratulations
         courseTitle="Future of AI"
         coursePath="/courses/future-of-ai"
-        courseId="rec0Zgize0c4liMl5"
+        courseId={FOAI_COURSE_ID}
       />,
     );
     expect(container).toMatchSnapshot();

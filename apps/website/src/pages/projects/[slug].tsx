@@ -76,6 +76,7 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
   if (!slug) {
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 
@@ -93,6 +94,7 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
     // Error fetching project data (likely not found)
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

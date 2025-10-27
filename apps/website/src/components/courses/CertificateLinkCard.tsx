@@ -11,7 +11,8 @@ import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
-import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
+import { trpc } from '../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 type CertificateConfig = {
   useCard: boolean;
@@ -48,8 +49,6 @@ type CertificateConfig = {
     };
   };
 };
-
-const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 
 const regularCourseConfig: CertificateConfig = {
   useCard: true,
@@ -224,41 +223,31 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     },
   });
 
-  const [{ loading: certificateRequestLoading, error: certificateRequestError }, refetchCertificateRequest] = useAxios<RequestCertificateResponse, RequestCertificateRequest>({
-    method: 'post',
-    url: '/api/certificates/request',
-    data: {
-      courseId,
-    },
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
-
-  const requestCertificate = async () => {
-    try {
-      await refetchCertificateRequest();
+  const requestCertificateMutation = trpc.certificates.request.useMutation({
+    onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
         window.dataLayer.push({
           event: 'completers',
           course_slug: 'future-of-ai',
         });
       }
-    } catch {
-      // Ignore, handled already by useAxios
-    }
+    },
+  });
+
+  const requestCertificate = () => {
+    requestCertificateMutation.mutate({ courseId });
   };
 
-  if (error || certificateRequestError) {
+  if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
-        <ErrorView error={error || certificateRequestError} />
+        <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"
-          onClick={() => (error ? refetch() : requestCertificate()).catch(() => { /* ignore */ })}
-          disabled={loading || certificateRequestLoading}
+          onClick={() => (error ? refetch() : requestCertificate())}
+          disabled={loading || requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
@@ -283,7 +272,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (loading || certificateRequestLoading) {
+  if (loading || requestCertificateMutation.isPending) {
     if (config.useCard) {
       return (
         <Card
@@ -302,7 +291,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (data?.courseRegistration.certificateId) {
+  if (data?.courseRegistration?.certificateId) {
     const formattedCertificateDate = new Date(data.courseRegistration.certificateCreatedAt ? data.courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
@@ -341,7 +330,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (data?.courseRegistration.courseId !== 'rec0Zgize0c4liMl5') {
+  // Note: the check `data?.courseRegistration.courseId !== FOAI_COURSE_ID` is required because we
+  // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
+  if (data?.courseRegistration === null || data?.courseRegistration.courseId !== FOAI_COURSE_ID) {
     const { notEligible } = config.texts;
     return (
       <Card
@@ -375,7 +366,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
               <CTALinkOrButton
                 variant="primary"
                 onClick={requestCertificate}
-                disabled={certificateRequestLoading}
+                disabled={requestCertificateMutation.isPending}
                 className="w-full"
               >
                 {requestCertConfig.buttonLabel}
@@ -386,7 +377,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
           <CTALinkOrButton
             variant="primary"
             onClick={requestCertificate}
-            disabled={certificateRequestLoading}
+            disabled={requestCertificateMutation.isPending}
           >
             {requestCertConfig.buttonLabel}
           </CTALinkOrButton>

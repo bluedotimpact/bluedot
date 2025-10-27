@@ -1,16 +1,15 @@
-import React from 'react';
 import { CTALinkOrButton, NewText } from '@bluedot/ui';
 
 const { H1, P } = NewText;
 
-type HeroSectionProps = {
+export type HeroSectionProps = {
   categoryLabel?: string; // Optional course category label
   title: string;
   description: string;
   primaryCta: { text: string; url: string };
   secondaryCta: { text: string; url: string };
-  visualComponent?: React.ReactNode;
-  imageUrl?: string; // Alternative: pass image URL directly for background
+  imageSrc: string;
+  imageAlt: string;
 };
 
 // Main exported component
@@ -20,8 +19,8 @@ const HeroSection = ({
   description,
   primaryCta,
   secondaryCta,
-  visualComponent,
-  imageUrl,
+  imageSrc,
+  imageAlt,
 }: HeroSectionProps) => {
   return (
     <section className="w-full bg-white">
@@ -72,18 +71,15 @@ const HeroSection = ({
           </div>
         </div>
 
-        {/* Image - Automatically ordered by flex-col-reverse */}
-        {(visualComponent || imageUrl) && (
-          <div className="h-80 sm:h-[430px] lg:h-full relative overflow-hidden">
-            {imageUrl ? (
-              <img src={imageUrl} alt="" className="size-full object-cover lg:object-left" />
-            ) : (
-              visualComponent
-            )}
-            {/* Noise layer */}
-            <div className="absolute inset-0 pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-contain bg-repeat mix-blend-soft-light" />
-          </div>
-        )}
+        {/* Image */}
+        <div className="h-80 sm:h-[430px] lg:h-full relative overflow-hidden">
+          <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" />
+          {/* Noise layer */}
+          <div
+            className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+            style={{ backgroundImage: 'url(\'/images/agi-strategy/noise.png\')' }}
+          />
+        </div>
 
       </div>
     </section>

@@ -66,7 +66,7 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // If we're logged in, ensures a course registration is recorded for this course
+  // FoAI course only: If we're logged in, ensures a course registration is recorded
   const { latestUtmParams } = useLatestUtmParams();
   const [, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
     method: 'post',
