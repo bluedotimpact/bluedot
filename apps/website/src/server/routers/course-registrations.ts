@@ -29,7 +29,6 @@ export const courseRegistrationsRouter = router({
   ensureExists: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
     // This mutation will create a course registration if one doesn't already exist for FOAI course.
-    // eslint-disable-next-line consistent-return
     .mutation(async ({ ctx, input }) => {
       const { courseId, source } = input;
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
@@ -61,5 +60,7 @@ export const courseRegistrationsRouter = router({
           source: source ?? null,
         });
       }
+
+      return null;
     }),
 });
