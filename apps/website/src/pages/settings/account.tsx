@@ -12,8 +12,9 @@ const CURRENT_ROUTE = ROUTES.settingsAccount;
 
 const AccountSettingsPage = () => {
   const {
-    data: user, isLoading: userLoading, error: userError, refetch,
+    data: user, isLoading: userLoading, error: userError,
   } = trpc.users.getUser.useQuery();
+  const utils = trpc.useUtils();
 
   // Add state for the welcome modal
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -39,7 +40,7 @@ const AccountSettingsPage = () => {
               {/* Profile Name Editor */}
               <ProfileNameEditor
                 initialName={user.name}
-                onSave={() => refetch()}
+                onSave={() => utils.users.getUser.invalidate()}
               />
 
               {/* Divider */}
@@ -74,7 +75,7 @@ const AccountSettingsPage = () => {
                 initialName={user.name}
                 onSave={() => {
                   setShowWelcomeModal(false);
-                  refetch();
+                  utils.users.getUser.invalidate();
                 }}
               />
             </div>
