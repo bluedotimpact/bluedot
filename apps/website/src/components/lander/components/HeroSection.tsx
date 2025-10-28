@@ -73,7 +73,7 @@ const HeroSection = ({
 
         {/* Image */}
         <div className="h-80 sm:h-[430px] lg:h-full relative overflow-hidden">
-          <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-left" />
+          <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" />
           {/* Noise layer */}
           <div
             className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"

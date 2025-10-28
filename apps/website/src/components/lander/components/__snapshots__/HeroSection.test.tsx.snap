@@ -53,7 +53,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
       >
         <img
           alt="AGI Strategy visualization"
-          class="size-full object-cover lg:object-left"
+          class="size-full object-cover lg:object-center"
           src="/images/agi-strategy/hero-banner.png"
         />
         <div

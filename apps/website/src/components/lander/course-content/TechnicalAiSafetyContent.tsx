@@ -11,23 +11,24 @@ import {
   PiUsersThree,
   PiHandCoins,
 } from 'react-icons/pi';
+import Link from 'next/link';
 import { CourseLanderContent } from '../CourseLander';
 
-export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
+export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
 
 export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
-    title: 'AGI Strategy Course | BlueDot Impact',
-    description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',
+    title: 'Technical AI Safety Course | BlueDot Impact',
+    description: 'Start building safer AI. Join our intensive course for builders shaping the future of artificial general intelligence.',
   },
 
   hero: {
-    categoryLabel: 'AGI STRATEGY',
-    title: 'Start building the defences that protect humanity',
-    description: 'Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
+    categoryLabel: 'TECHNICAL AI SAFETY',
+    title: 'Start building safer AI',
+    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. Get funded to start shipping. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -36,27 +37,27 @@ export const createTechnicalAiSafetyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
-    imageAlt: 'AGI Strategy visualization',
+    imageSrc: '/images/technical-ai-safety/hero-banner-split.png',
+    imageAlt: 'Technical AI Safety visualization',
   },
 
   whoIsThisFor: {
     title: 'Who this course is for',
     targetAudiences: [
       {
+        icon: PiFlask,
+        boldText: 'For ML researchers',
+        description: 'who want to take big bets on the most impactful research ideas.',
+      },
+      {
         icon: PiBriefcase,
-        boldText: 'For entrepreneurs and operators',
-        description: 'who want to build solutions that protect humanity.',
+        boldText: 'For policy professionals',
+        description: 'who need deep technical understanding to build governance solutions.',
       },
       {
         icon: PiCompass,
         boldText: 'For leaders',
-        description: 'who want to steer AI\'s trajectory towards beneficial outcomes for humanity.',
-      },
-      {
-        icon: PiFlask,
-        boldText: 'For researchers',
-        description: 'who want to take big bets on the most impactful research ideas.',
+        description: 'who want to drive high-impact safety work.',
       },
     ],
   },
@@ -72,7 +73,7 @@ export const createTechnicalAiSafetyContent = (
       {
         icon: PiRocketLaunch,
         title: 'Take action in less than 30 hours',
-        description: "You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.",
+        description: "Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You'll finish with a fundable plan.",
       },
       {
         icon: PiUsersThree,
@@ -131,9 +132,9 @@ export const createTechnicalAiSafetyContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            New cohorts start every month:
+            Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
             <br />
-            Next round <span className="font-semibold">27th Oct</span>, application deadline <span className="font-semibold">19th Oct</span>
+            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
           </>
         ),
       },
@@ -164,7 +165,7 @@ export const createTechnicalAiSafetyContent = (
         url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
       },
       {
-        quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
+        quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. [...] To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
         name: 'David Sacks',
         role: 'White House AI and Crypto Czar',
         imageSrc: '/images/agi-strategy/david-sacks.jpg',
@@ -218,87 +219,6 @@ export const createTechnicalAiSafetyContent = (
     },
   ],
 
-  partners: {
-    title: 'Co-created with our network of leading AI industry partners',
-    partners: [
-      {
-        name: 'Entrepreneur First',
-        url: 'https://www.joinef.com/',
-        logo: '/images/agi-strategy/ef.svg',
-        descriptionShort: (
-          <>
-            We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>. See <a href="https://luma.com/bluedotevents" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">here</a> for future events.
-          </>
-        ),
-      },
-      {
-        name: 'Institute for Progress',
-        url: 'https://ifp.org/',
-        logo: '/images/agi-strategy/ifp.svg',
-        descriptionShort: (
-          <>
-            We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-          </>
-        ),
-      },
-      {
-        name: '50 Years',
-        url: 'https://www.fiftyyears.com/',
-        logo: '/images/agi-strategy/fifty-years.svg',
-        descriptionShort: (
-          <>
-            We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-          </>
-        ),
-      },
-      {
-        name: 'Seldon Lab',
-        url: 'https://seldonlab.com/',
-        logo: '/images/agi-strategy/seldon-lab.svg',
-        descriptionShort: (
-          <>
-            We help our most entrepreneurial community members get ready to join future Seldon batches.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
-          </>
-        ),
-      },
-      {
-        name: 'Halcyon Futures',
-        url: 'https://halcyonfutures.org/',
-        logo: '/images/agi-strategy/halcyon-futures.svg',
-        descriptionShort: (
-          <>
-            We introduce our most promising leaders to Halcyon.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
-          </>
-        ),
-      },
-    ],
-  },
-
   faq: {
     title: 'Frequently Asked Questions',
     items: [
@@ -306,6 +226,28 @@ export const createTechnicalAiSafetyContent = (
         id: 'funding',
         question: 'Can I just apply for funding?',
         answer: 'Funding is only available for graduates of the course.',
+      },
+      {
+        id: 'technical',
+        question: 'How much technical background do I need?',
+        answer: (
+          <>
+            You should understand the basics of how LLMs are trained/fine-tuned, that AI development is driven by data, algorithms and compute, and that the reward function for neural networks is optimised through gradient descent.
+            <br /> <br />
+            Our 2-hour, self-paced <span className="underline"><Link href="https://bluedot-impact.notion.site/AI-Foundations-293f8e69035380f29863c4c92c41fac7" target="_blank">AI Foundations course</Link></span> will give you enough background.
+          </>
+        ),
+      },
+      {
+        id: 'agi-strategy',
+        question: 'Do I need to take the AGI strategy course first?',
+        answer: (
+          <>
+            It is not a prerequisite, but we recommend it!
+            <br /><br />
+            The AGI Strategy course shows how technical safety fits into the broader strategy for making AI go well. Technical safety is one component among many.
+          </>
+        ),
       },
       {
         id: 'bluedot',
@@ -328,7 +270,7 @@ export const createTechnicalAiSafetyContent = (
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/agi-strategy/hero-banner-split.png',
-    imageAlt: 'AGI Strategy banner',
+    imageAlt: 'Technical AI Safety banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
     noiseImageSrc: '/images/agi-strategy/noise.png',
