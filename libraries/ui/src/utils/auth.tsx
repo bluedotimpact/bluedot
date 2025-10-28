@@ -9,7 +9,7 @@ const FIVE_SEC_MS = 5 * 1000;
 /** Time before expiry at which we will attempt to refresh the access token */
 export const REFRESH_BEFORE_EXPIRY_MS = 60 * 1000;
 /** Maximum time between refresh attempts */
-export const MAX_REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+export const MAX_REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 mins
 
 const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
