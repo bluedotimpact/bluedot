@@ -36,7 +36,7 @@ export const createBioSecurityContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/biosecurity/hero-banner-split.png',
     imageAlt: 'Biosecurity visualization',
   },
 
