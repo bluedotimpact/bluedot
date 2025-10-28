@@ -22,17 +22,18 @@ export const groupDiscussionsRouter = router({
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Discussion is missing unit reference' });
       }
 
-      const group = await db.getFirst(groupTable, {
-        filter: { id: discussion.group },
-      });
+      const [group, unit] = await Promise.all([
+        db.getFirst(groupTable, {
+          filter: { id: discussion.group },
+        }),
+        db.getFirst(unitTable, {
+          filter: { id: discussion.courseBuilderUnitRecordId },
+        }),
+      ]);
 
       if (!group) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Related group not found' });
       }
-
-      const unit = await db.getFirst(unitTable, {
-        filter: { id: discussion.courseBuilderUnitRecordId },
-      });
 
       if (!unit) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Associated unit not found' });
