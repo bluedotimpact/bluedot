@@ -18,8 +18,6 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
-  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
@@ -31,46 +29,32 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  // Fetch individual discussions when we have the meetPerson data
-  useEffect(() => {
-    const fetchDiscussions = async () => {
-      if (loading || !meetPerson) {
-        return;
-      }
+  // Fetch all expected discussions (will be filtered later to show only those not ended)
+  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+  const expectedDiscussionIds = isFacilitator
+    ? meetPerson?.expectedDiscussionsFacilitator || []
+    : meetPerson?.expectedDiscussionsParticipant || [];
 
-      // Fetch all expected discussions (will be filtered later to show only those not ended)
-      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const expectedDiscussionIds = isFacilitator
-        ? meetPerson.expectedDiscussionsFacilitator || []
-        : meetPerson.expectedDiscussionsParticipant || [];
+  const expectedResults = trpc.useQueries((t) => {
+    return expectedDiscussionIds.map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
+  });
 
-      const expectedResults = trpc.useQueries((t) => {
-        return expectedDiscussionIds.map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
-      });
+  const attendedResults = trpc.useQueries((t) => {
+    return (meetPerson?.attendedDiscussions || []).map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
+  });
 
-      const attendedResults = trpc.useQueries((t) => {
-        return (meetPerson.attendedDiscussions || []).map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
-      });
+  // Filter out undefined and sort by startDateTime
+  const expectedDiscussions = isLoading ? []
+    : expectedResults
+      .filter((d) => d.data !== undefined)
+      .map((d) => d.data.discussion)
+      .sort((a, b) => a.startDateTime - b.startDateTime);
 
-      // Filter out undefined and sort by startDateTime
-      const validExpected = expectedResults
-        .filter((d) => d.data !== undefined)
-        .map((d) => d.data.discussion)
-        .sort((a, b) => a.startDateTime - b.startDateTime);
-      const validAttended = attendedResults
-        .filter((d) => d.data !== undefined)
-        .map((d) => d.data.discussion)
-        .sort((a, b) => a.startDateTime - b.startDateTime);
-
-      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
-      validAttended.sort((a, b) => a.startDateTime - b.startDateTime);
-
-      setExpectedDiscussions(validExpected);
-      setAttendedDiscussions(validAttended);
-    };
-
-    fetchDiscussions();
-  }, [meetPerson, isFacilitator]);
+  const attendedDiscussions = isLoading ? []
+    : attendedResults
+      .filter((d) => d.data !== undefined)
+      .map((d) => d.data.discussion)
+      .sort((a, b) => a.startDateTime - b.startDateTime);
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
