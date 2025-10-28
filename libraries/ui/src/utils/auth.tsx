@@ -5,8 +5,11 @@ import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
+const FIVE_SEC_MS = 5 * 1000;
 /** Time before expiry at which we will attempt to refresh the access token */
 export const REFRESH_BEFORE_EXPIRY_MS = 60 * 1000;
+/** Maximum time between refresh attempts */
+export const MAX_REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
 
 const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -81,7 +84,7 @@ export const useAuthStore = create<{
   internal_clearTimer: NodeJS.Timeout | null,
   internal_refreshTimer: NodeJS.Timeout | null,
   internal_visibilityHandler: (() => void) | null,
-  internal_isRefreshing: boolean,
+  internal_refreshPromise: Promise<void> | null,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
@@ -101,6 +104,8 @@ export const useAuthStore = create<{
       return;
     }
 
+    set({ auth });
+
     posthog.identify(auth.email, {
       email: auth.email,
       ...(auth.attribution || {}),
@@ -108,8 +113,8 @@ export const useAuthStore = create<{
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
-    const clearInMs = expiresInMs; // Clear/logout at expiry. This only happens if refresh fails
-    const refreshInMs = expiresInMs - REFRESH_BEFORE_EXPIRY_MS;
+    const clearInMs = Math.max(expiresInMs - FIVE_SEC_MS, FIVE_SEC_MS); // Allow at least 5 seconds for the refresh to complete if we're restoring a stale token
+    const refreshInMs = Math.min(expiresInMs - REFRESH_BEFORE_EXPIRY_MS, MAX_REFRESH_INTERVAL_MS);
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
@@ -142,36 +147,56 @@ export const useAuthStore = create<{
     document.addEventListener('visibilitychange', visibilityHandler, { passive: true });
 
     set({
-      auth,
       internal_clearTimer: clearTimer,
       internal_refreshTimer: refreshTimer,
       internal_visibilityHandler: visibilityHandler,
     });
   },
   refresh: async () => {
-    const currentAuth = get().auth;
-    if (!currentAuth?.refreshToken || !currentAuth.oidcSettings) {
+    // Wait for any in-progress refresh to complete (with 10-second timeout)
+    const existingPromise = get().internal_refreshPromise;
+    if (existingPromise) {
+      await Promise.race([
+        existingPromise,
+        new Promise<void>((resolve) => { setTimeout(resolve, 10000); }),
+      ]);
       return;
     }
 
-    if (get().internal_isRefreshing) return;
+    const refreshPromise = (async () => {
+      const currentAuth = get().auth;
+      if (!currentAuth?.refreshToken || !currentAuth.oidcSettings) {
+        return;
+      }
 
-    try {
-      set({ internal_isRefreshing: true });
-      const newAuth = await oidcRefreshWithRetries(currentAuth);
-      get().setAuth(newAuth);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.warn('Token refresh failed:', error);
-      get().setAuth(null);
-    } finally {
-      set({ internal_isRefreshing: false });
-    }
+      try {
+        const newAuth = await oidcRefreshWithRetries(currentAuth);
+        get().setAuth(newAuth);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Token refresh failed:', error);
+
+        const { auth: currentAuthAfterError, setAuth } = get();
+
+        // The error could just be due to a temporary loss of network. If there is still life
+        // in the old token, call `setAuth` to reset the refresh timer and try again, otherwise log out.
+        if (currentAuthAfterError && (currentAuthAfterError.expiresAt - Date.now()) > FIVE_SEC_MS) {
+          setAuth(currentAuthAfterError);
+        } else {
+          setAuth(null);
+        }
+      } finally {
+        set({ internal_refreshPromise: null });
+      }
+    })();
+
+    set({ internal_refreshPromise: refreshPromise });
+    await refreshPromise;
   },
   internal_clearTimer: null,
   internal_refreshTimer: null,
   internal_visibilityHandler: null,
-  internal_isRefreshing: false,
+  internal_refreshPromise: null,
 }), {
   name: 'bluedot_auth',
   version: 20250513,
