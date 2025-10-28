@@ -46,7 +46,7 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
       lastError = error instanceof Error ? error : new Error(String(error));
 
       if (attempt < maxAttempts - 1) {
-        // Exponential backoff: 0s, 1s, 2s
+        // Exponential backoff: 1s, 2s
         const backoffMs = 1000 * (2 ** attempt);
         // eslint-disable-next-line no-await-in-loop
         await new Promise<void>((resolve) => { setTimeout(resolve, backoffMs); });
