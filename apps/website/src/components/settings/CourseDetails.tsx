@@ -43,6 +43,10 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
     return (meetPerson?.attendedDiscussions || []).map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
   });
 
+  const isLoadingExpected = expectedResults.some((result) => result.isLoading);
+  const isLoadingAttended = attendedResults.some((result) => result.isLoading);
+  const isLoading = loading || isLoadingExpected || isLoadingAttended;
+
   // Filter out undefined and sort by startDateTime
   const expectedDiscussions = isLoading ? []
     : expectedResults
@@ -258,7 +262,7 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
 
           <div className="p-4 sm:px-8 sm:py-4">
             {/* Content */}
-            {loading ? (
+            {isLoading ? (
               <div className="flex justify-center py-8">
                 <ProgressDots />
               </div>
