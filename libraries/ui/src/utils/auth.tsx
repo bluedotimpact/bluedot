@@ -9,7 +9,7 @@ const FIVE_SEC_MS = 5 * 1000;
 /** Time before expiry at which we will attempt to refresh the access token */
 export const REFRESH_BEFORE_EXPIRY_MS = 60 * 1000;
 /** Maximum time between refresh attempts */
-export const MAX_REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
+export const MAX_REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
 const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
@@ -113,7 +113,7 @@ export const useAuthStore = create<{
 
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
-    const clearInMs = Math.max(expiresInMs - FIVE_SEC_MS, FIVE_SEC_MS); // Allow at least 5 seconds for the refresh to complete if we're restoring a stale token
+    const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
     const refreshInMs = Math.min(expiresInMs - REFRESH_BEFORE_EXPIRY_MS, MAX_REFRESH_INTERVAL_MS);
 
     // Set up refresh timer if we have refresh capability
@@ -176,15 +176,9 @@ export const useAuthStore = create<{
         // eslint-disable-next-line no-console
         console.warn('Token refresh failed:', error);
 
-        const { auth: currentAuthAfterError, setAuth } = get();
-
-        // The error could just be due to a temporary loss of network. If there is still life
-        // in the old token, call `setAuth` to reset the refresh timer and try again, otherwise log out.
-        if (currentAuthAfterError && (currentAuthAfterError.expiresAt - Date.now()) > FIVE_SEC_MS) {
-          setAuth(currentAuthAfterError);
-        } else {
-          setAuth(null);
-        }
+        // Force logout. Note: This isn't ideal because the error could just be due to a temporary
+        // loss of network, we could improve on this in future.
+        get().setAuth(null);
       } finally {
         set({ internal_refreshPromise: null });
       }
