@@ -1,6 +1,4 @@
-import {
-  ProgressDots, withAuth, ErrorSection, Modal,
-} from '@bluedot/ui';
+import { ProgressDots, ErrorSection, Modal } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { ROUTES } from '../../lib/routes';
@@ -12,10 +10,11 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsAccount;
 
-const AccountSettingsPage = withAuth(({ auth }) => {
+const AccountSettingsPage = () => {
   const {
-    data: user, isLoading: userLoading, error: userError, refetch,
+    data: user, isLoading: userLoading, error: userError,
   } = trpc.users.getUser.useQuery();
+  const utils = trpc.useUtils();
 
   // Add state for the welcome modal
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -41,8 +40,7 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               {/* Profile Name Editor */}
               <ProfileNameEditor
                 initialName={user.name}
-                authToken={auth.token}
-                onSave={() => refetch()}
+                onSave={() => utils.users.getUser.invalidate()}
               />
 
               {/* Divider */}
@@ -75,10 +73,9 @@ const AccountSettingsPage = withAuth(({ auth }) => {
               </P>
               <ProfileNameEditor
                 initialName={user.name}
-                authToken={auth.token}
                 onSave={() => {
                   setShowWelcomeModal(false);
-                  refetch();
+                  utils.users.getUser.invalidate();
                 }}
               />
             </div>
@@ -87,6 +84,6 @@ const AccountSettingsPage = withAuth(({ auth }) => {
       )}
     </div>
   );
-});
+};
 
 export default AccountSettingsPage;
