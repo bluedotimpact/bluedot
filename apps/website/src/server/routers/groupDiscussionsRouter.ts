@@ -3,9 +3,8 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
-import type { AppRouter } from './_app';
 
-export type GroupDiscussion = inferRouterOutputs<AppRouter>['groupDiscussions']['getByDiscussionId']['discussion'];
+export type GroupDiscussion = inferRouterOutputs<typeof groupDiscussionsRouter>['getByDiscussionId']['discussion'];
 
 export const groupDiscussionsRouter = router({
   getByDiscussionId: publicProcedure
