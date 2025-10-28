@@ -23,7 +23,7 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson, isLoading: loading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
     courseRegistrationId: courseRegistration.id,
   });
 
@@ -45,7 +45,7 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
 
   const isLoadingExpected = expectedResults.some((result) => result.isLoading);
   const isLoadingAttended = attendedResults.some((result) => result.isLoading);
-  const isLoading = loading || isLoadingExpected || isLoadingAttended;
+  const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
 
   // Filter out undefined and sort by startDateTime
   const expectedDiscussions = isLoading ? []
