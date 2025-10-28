@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse } from 'msw';
 import type { MeetPerson } from '@bluedot/db';
 import CourseListRow from './CourseListRow';
-import { trpcMsw } from '../../__tests__/trpcMswSetup.browser';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseListRow> = {
   title: 'Settings/CourseListRow',
@@ -126,7 +126,7 @@ const mockDiscussion = {
 
 // MSW handlers for tRPC and API calls
 const createMswHandlers = (meetPerson: MeetPerson | null) => [
-  trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
+  trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
   http.get('/api/group-discussions/:id', () => {
     return HttpResponse.json({
       type: 'success',

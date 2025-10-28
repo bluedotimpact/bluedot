@@ -7,7 +7,7 @@ import type { AppRouter } from '../server/routers/_app';
  *
  * For Node.js test environments (Vitest), use trpcMswSetup.ts instead
  */
-export const trpcMsw = createTRPCMsw<AppRouter>({
+export const trpcStorybookMsw = createTRPCMsw<AppRouter>({
   links: [
     httpLink({
       url: 'http://localhost:8000/api/trpc',
