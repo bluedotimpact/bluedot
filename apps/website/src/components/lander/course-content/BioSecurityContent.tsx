@@ -133,7 +133,7 @@ export const createBioSecurityContent = (
           <>
             Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
             <br />
-            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
+            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">13 Nov</span>
           </>
         ),
       },
