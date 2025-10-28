@@ -130,6 +130,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 key={option}
                 {...register('answer')}
                 labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
+                inputClassName="flex-shrink-0"
                 type="radio"
                 value={option}
                 onChange={() => handleOptionSelect(option)}
