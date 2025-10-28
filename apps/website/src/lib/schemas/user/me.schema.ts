@@ -1,6 +1,6 @@
 import z from 'zod';
 
-// TODO: rename to `userCreateSchema`, only use in user creation endpoints
+// TODO: rename to `createUserSchema`, only use in user creation endpoints
 export const meRequestBodySchema = z.object({
   initialUtmSource: z.string().trim().max(255).nullish(),
   initialUtmCampaign: z.string().trim().max(255).nullish(),
