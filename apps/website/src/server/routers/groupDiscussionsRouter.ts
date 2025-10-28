@@ -5,7 +5,7 @@ import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
 
 export const groupDiscussionsRouter = router({
-  getAll: publicProcedure
+  getByDiscussionId: publicProcedure
     .input(z.object({ discussionId: z.string() }))
     .query(async ({ input: { discussionId } }) => {
       const discussion = await db.getFirst(groupDiscussionTable, {
