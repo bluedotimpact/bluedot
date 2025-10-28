@@ -29,7 +29,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             disabled=""
             name="answer"
             type="radio"
@@ -45,7 +45,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             disabled=""
             name="answer"
             type="radio"
@@ -61,7 +61,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             disabled=""
             name="answer"
             type="radio"
@@ -77,7 +77,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             disabled=""
             name="answer"
             type="radio"
@@ -149,7 +149,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             name="answer"
             type="radio"
             value="The community's preference for low-tech fishing traditions"
@@ -164,7 +164,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             name="answer"
             type="radio"
             value="Rising consumer demand for fish with more Omega-3s"
@@ -179,7 +179,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             name="answer"
             type="radio"
             value="Environmental regulations and declining cod stocks"
@@ -194,7 +194,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
           class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
         >
           <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
             name="answer"
             type="radio"
             value="A cultural shift toward vegetarianism in the region"
@@ -220,7 +220,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
 
 exports[`MultipleChoice > updates styles for correct option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
   disabled=""
   name="answer"
   type="radio"
@@ -230,7 +230,7 @@ exports[`MultipleChoice > updates styles for correct option 1`] = `
 
 exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
   name="answer"
   type="radio"
   value="Rising consumer demand for fish with more Omega-3s"
@@ -266,7 +266,7 @@ exports[`MultipleChoice > updates styles for incorrect option 2`] = `
 
 exports[`MultipleChoice > updates styles for selected option 1`] = `
 <input
-  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed"
+  class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
   name="answer"
   type="radio"
   value="The community's preference for low-tech fishing traditions"
