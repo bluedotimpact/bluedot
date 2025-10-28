@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { http, HttpResponse } from 'msw';
 import type { MeetPerson } from '@bluedot/db';
 import CourseListRow from './CourseListRow';
+import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseListRow> = {
@@ -100,8 +99,8 @@ const mockFacilitatorMeetPerson: MeetPerson = {
   expectedDiscussionsFacilitator: ['discussion-1'],
 };
 
-// Mock discussion data for the group-discussions API
-const mockDiscussion = {
+// Mock discussion data for the group-discussions tRPC endpoint
+const mockDiscussion: GroupDiscussion = {
   id: 'discussion-1',
   facilitators: ['facilitator-1'],
   participantsExpected: ['participant-1'],
@@ -120,18 +119,26 @@ const mockDiscussion = {
   round: null,
   courseBuilderUnitRecordId: 'unit-1',
   autoNumberId: null,
-  unitRecord: { unitNumber: '1', title: 'Introduction' },
-  groupDetails: { groupName: 'Group A' },
+  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
+  groupDetails: {
+    id: 'group-1',
+    round: 'Round 1',
+    autoNumberId: 1,
+    groupName: 'Group A',
+    groupDiscussions: ['discussion-1'],
+    participants: ['participant-1'],
+    whoCanSwitchIntoThisGroup: ['participant-1'],
+    startTimeUtc: now,
+  } as GroupDiscussion['groupDetails'],
 };
 
-// MSW handlers for tRPC and API calls
+// MSW handlers for tRPC calls
 const createMswHandlers = (meetPerson: MeetPerson | null) => [
   trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  http.get('/api/group-discussions/:id', () => {
-    return HttpResponse.json({
-      type: 'success',
+  trpcStorybookMsw.groupDiscussions.getByDiscussionId.query(() => {
+    return {
       discussion: mockDiscussion,
-    });
+    };
   }),
 ];
 

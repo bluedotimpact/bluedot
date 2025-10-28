@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { http, HttpResponse } from 'msw';
 import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
-import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseDetails> = {
@@ -140,14 +138,14 @@ const mockFacilitatorMeetPerson: MeetPerson = {
 
 const createMswHandlers = (meetPerson: MeetPerson) => [
   trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  http.get('/api/group-discussions/:id', ({ params }) => {
-    const { id } = params;
-    const discussion = mockDiscussions[id as string];
-
-    return HttpResponse.json({
-      type: 'success',
+  trpcStorybookMsw.groupDiscussions.getByDiscussionId.query(({ input }) => {
+    const discussion = mockDiscussions[input.discussionId];
+    if (!discussion) {
+      throw new Error(`Discussion not found: ${input.discussionId}`);
+    }
+    return {
       discussion,
-    });
+    };
   }),
 ];
 
