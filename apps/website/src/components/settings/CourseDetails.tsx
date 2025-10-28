@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { useEffect, useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
+import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
 import { trpc } from '../../utils/trpc';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 
@@ -44,41 +44,23 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
         ? meetPerson.expectedDiscussionsFacilitator || []
         : meetPerson.expectedDiscussionsParticipant || [];
 
-      const expectedPromises = expectedDiscussionIds.map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
+      const expectedResults = trpc.useQueries((t) => {
+        return expectedDiscussionIds.map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
       });
 
-      // Fetch all attended discussions (all will be shown, no filtering)
-      const attendedPromises = (meetPerson.attendedDiscussions || []).map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
+      const attendedResults = trpc.useQueries((t) => {
+        return (meetPerson.attendedDiscussions || []).map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
       });
 
-      const [expectedResults, attendedResults] = await Promise.all([
-        Promise.all(expectedPromises),
-        Promise.all(attendedPromises),
-      ]);
-
-      // Filter out nulls and sort by startDateTime
-      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      const validAttended = attendedResults.filter((d): d is GroupDiscussion => d !== null);
+      // Filter out undefined and sort by startDateTime
+      const validExpected = expectedResults
+        .filter((d) => d.data !== undefined)
+        .map((d) => d.data.discussion)
+        .sort((a, b) => a.startDateTime - b.startDateTime);
+      const validAttended = attendedResults
+        .filter((d) => d.data !== undefined)
+        .map((d) => d.data.discussion)
+        .sort((a, b) => a.startDateTime - b.startDateTime);
 
       validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
       validAttended.sort((a, b) => a.startDateTime - b.startDateTime);
