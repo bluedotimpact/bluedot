@@ -131,7 +131,7 @@ const CourseListRow = ({
     let buttonUrl = '#';
     if (isNextDiscussionStartingSoon) {
       buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber) {
+    } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
     const openInNewTab = isNextDiscussionStartingSoon;

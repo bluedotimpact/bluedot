@@ -84,7 +84,7 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
     let buttonUrl = '#';
     if (isStartingSoon) {
       buttonUrl = discussion.zoomLink || '#';
-    } else if (course.slug && discussion.unitNumber) {
+    } else if (course.slug && discussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
     }
 
