@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
-import { meRequestBodySchema } from '../../lib/schemas/user/me.schema';
+import { meRequestBodySchema, updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { protectedProcedure, router } from '../trpc';
 
 export const usersRouter = router({
@@ -70,5 +70,22 @@ export const usersRouter = router({
       return {
         isNewUser: !existingUser,
       };
+    }),
+
+  updateName: protectedProcedure
+    .input(updateNameSchema)
+    .mutation(async ({ ctx, input }) => {
+      const existingUser = await db.getFirst(userTable, {
+        filter: { email: ctx.auth.email },
+      });
+
+      if (!existingUser) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+      }
+
+      return db.update(userTable, {
+        id: existingUser.id,
+        name: input.name,
+      });
     }),
 });

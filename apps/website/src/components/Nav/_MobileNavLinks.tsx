@@ -6,7 +6,10 @@ import { HamburgerIcon } from '@bluedot/ui/src/IconButton';
 import { useRouter } from 'next/router';
 
 import { NavLinks } from './_NavLinks';
-import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
+import {
+  DRAWER_CLASSES,
+  ExpandedSectionsState,
+} from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 
 export const MobileNavLinks: React.FC<{
@@ -14,15 +17,24 @@ export const MobileNavLinks: React.FC<{
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   isScrolled: boolean;
   isLoggedIn: boolean;
+  isHomepage?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   isScrolled,
   isLoggedIn,
+  isHomepage = false,
 }) => {
   const router = useRouter();
-  const loginUrl = getLoginUrl(router.asPath);
   const joinUrl = getLoginUrl(router.asPath, true);
+  const getPrimaryButtonClasses = () => {
+    const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
+
+    return clsx(
+      baseClasses,
+      'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
+    );
+  };
 
   const onToggleMobileNav = () => {
     updateExpandedSections({
@@ -38,9 +50,12 @@ export const MobileNavLinks: React.FC<{
         open={expandedSections.mobileNav}
         Icon={<HamburgerIcon />}
         setOpen={onToggleMobileNav}
-        className="mobile-nav-links__btn"
+        className={clsx(
+          'mobile-nav-links__btn',
+          (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
+        )}
       />
-      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.mobileNav))}>
+      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.mobileNav))}>
         <div
           className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
           onClick={(e) => {
@@ -72,28 +87,19 @@ export const MobileNavLinks: React.FC<{
             expandedSections={expandedSections}
             updateExpandedSections={updateExpandedSections}
             isScrolled={isScrolled}
+            isHomepage={isHomepage}
           />
 
           {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}
           {!isLoggedIn && (
             <div className="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider">
-              {/* Login button: Show when screen < 640px (since navbar login is hidden below 640px) */}
+              {/* Start for free button: Show when screen < 680px */}
               <CTALinkOrButton
-                className={`mobile-nav-cta__login max-[639px]:flex hidden ${
-                  isScrolled ? 'border-white text-white hover:bg-white/10' : ''
-                }`}
-                variant="secondary"
-                url={loginUrl}
-              >
-                Login
-              </CTALinkOrButton>
-              {/* Join button: Show when screen < 640px (same as Login for unified breakpoint) */}
-              <CTALinkOrButton
-                className="mobile-nav-cta__join max-[639px]:flex hidden"
+                className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}
                 variant="primary"
                 url={joinUrl}
               >
-                Join for free
+                Start for free
               </CTALinkOrButton>
             </div>
           )}

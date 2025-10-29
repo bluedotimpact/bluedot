@@ -1,3 +1,4 @@
+import type { CourseRegistration } from '@bluedot/db';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,6 +12,7 @@ import {
 } from 'vitest';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 type MockCourseDetailsProps = {
   course: { title: string };
@@ -36,7 +38,7 @@ describe('CourseListRow', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration = {
+  const mockCourseRegistration: CourseRegistration = {
     autoNumberId: 1,
     id: 'reg-1',
     courseId: 'course-1',
@@ -51,10 +53,9 @@ describe('CourseListRow', () => {
     decision: null,
     role: null,
     lastVisitedUnitNumber: null,
-    lastVisitedCourseContentPath: null,
-    lastVisitAt: null,
     lastVisitedChunkIndex: null,
     roundStatus: 'Active',
+    source: null,
   };
 
   beforeEach(() => {
@@ -71,6 +72,7 @@ describe('CourseListRow', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
   });
@@ -87,6 +89,7 @@ describe('CourseListRow', () => {
         course={mockCourse}
         courseRegistration={completedRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
   });
@@ -97,6 +100,7 @@ describe('CourseListRow', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Check for collapse button since in-progress courses are expanded by default
@@ -124,6 +128,7 @@ describe('CourseListRow', () => {
         course={mockCourse}
         courseRegistration={completedRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
 
     const certificateLinks = screen.getAllByRole('link', { name: 'View your certificate' });
@@ -146,6 +151,7 @@ describe('CourseListRow', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // In-progress courses are expanded by default
