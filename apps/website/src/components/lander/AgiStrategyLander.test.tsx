@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseLander from './CourseLander';
 import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from './course-content/AgiStrategyContent';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 // Mock Next.js Head component
 vi.mock('next/head', () => ({
@@ -49,12 +50,26 @@ vi.mock('./components/CommunityMembersSubSection', () => ({
 
 describe('AgiStrategyLander', () => {
   it('renders the complete page correctly (snapshot)', () => {
-    const { container } = render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    const { container } = render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
     expect(container).toMatchSnapshot();
   });
 
   it('renders HeroSection with correct props', () => {
-    render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
 
     // Check title - appears in HeroSection title and page title
     const titleText = 'Start building the defences that protect humanity';
@@ -69,26 +84,54 @@ describe('AgiStrategyLander', () => {
   });
 
   it('renders Graduate section', () => {
-    render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
   });
 
   it('renders community members section', () => {
-    render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
 
     const communityMembersSection = screen.getByTestId('community-members-section');
     expect(communityMembersSection).toBeInTheDocument();
   });
 
   it('renders AGI Strategy banner with CTA', () => {
-    render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
 
     // Check that the banner section exists and contains the expected text
     expect(screen.getByText('Start building towards a good future today')).toBeInTheDocument();
   });
 
   it('has correct meta tags in Head', () => {
-    const { container } = render(<CourseLander courseSlug="agi-strategy" baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL} createContentFor={createAgiStrategyContent} />);
+    const { container } = render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
 
     // Since Head is mocked, we can at least verify the component renders
     // In a real test environment with Next.js testing utils, we could check actual meta tags
