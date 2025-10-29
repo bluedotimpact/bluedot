@@ -1,5 +1,6 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { skipToken } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
@@ -35,30 +36,25 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
 
-  const expectedResults = trpc.useQueries((t) => {
-    return expectedDiscussionIds.map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
-  });
+  const { data: expectedResults, isLoading: isLoadingExpected } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
+  const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (meetPerson?.attendedDiscussions || []).length > 0
+      ? { discussionIds: meetPerson?.attendedDiscussions || [] }
+      : skipToken,
+  );
 
-  const attendedResults = trpc.useQueries((t) => {
-    return (meetPerson?.attendedDiscussions || []).map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
-  });
-
-  const isLoadingExpected = expectedResults.some((result) => result.isLoading);
-  const isLoadingAttended = attendedResults.some((result) => result.isLoading);
   const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
 
-  // Filter out undefined and sort by startDateTime
-  const expectedDiscussions = isLoading ? []
-    : expectedResults
-      .filter((d) => d.data !== undefined)
-      .map((d) => d.data.discussion)
-      .sort((a, b) => a.startDateTime - b.startDateTime);
+  // Sort discussions by startDateTime
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
-  const attendedDiscussions = isLoading ? []
-    : attendedResults
-      .filter((d) => d.data !== undefined)
-      .map((d) => d.data.discussion)
-      .sort((a, b) => a.startDateTime - b.startDateTime);
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
