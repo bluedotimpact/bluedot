@@ -337,7 +337,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {!!error && <ErrorSection error={error} />}
-        {!!courseError && <ErrorSection error={courseError} />}
+        {courseError && <ErrorSection error={courseError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
