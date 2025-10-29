@@ -24,9 +24,11 @@ export async function getCourseData(courseSlug: string) {
 
 export const coursesRouter = router({
   getBySlug: publicProcedure
-    .input(z.object({
-      courseSlug: z.string(),
-    }))
+    .input(
+      z.object({
+        courseSlug: z.string(),
+      }),
+    )
     .query(async ({ input: { courseSlug } }) => {
       return getCourseData(courseSlug);
     }),
