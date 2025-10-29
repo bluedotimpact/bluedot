@@ -162,8 +162,8 @@ const NavDropdown: React.FC<{
       </button>
       <div
         className={clsx(
-          'nav-dropdown__content-wrapper overflow-hidden transition-all duration-300 ease-in-out',
-          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+          'nav-dropdown__content-wrapper overflow-hidden',
+          isExpanded ? 'z-40' : 'pointer-events-none',
           getDropdownContentClasses(),
           className,
         )}

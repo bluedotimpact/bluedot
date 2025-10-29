@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
 import { IconButton, BugReportModal } from '@bluedot/ui';
 
-import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
+import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
 
@@ -49,7 +49,12 @@ export const ProfileLinks: React.FC<{
         Icon={<FaCircleUser className="size-6 opacity-75" />}
         setOpen={onToggleProfile}
       />
-      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile))}>
+      <div
+        className={clsx(
+          'profile-links__drawer',
+          DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile, DRAWER_Z_PROFILE),
+        )}
+      >
         <div className="profile-links__links flex flex-col gap-4 items-end section-base">
           <A
             href={ROUTES.settingsAccount.url}
