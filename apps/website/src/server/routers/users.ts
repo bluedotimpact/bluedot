@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
 import { updateKeycloakPassword, verifyKeycloakPassword } from '../../lib/api/keycloak';
 import { changePasswordSchema } from '../../lib/schemas/user/changePassword.schema';
-import { meRequestBodySchema, updateNameSchema } from '../../lib/schemas/user/me.schema';
+import { createUserSchema, updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { protectedProcedure, router } from '../trpc';
 
 export const usersRouter = router({
@@ -45,7 +45,7 @@ export const usersRouter = router({
     }),
 
   ensureExists: protectedProcedure
-    .input(meRequestBodySchema)
+    .input(createUserSchema)
     .mutation(async ({ input, ctx }) => {
       const existingUser = await db.getFirst(userTable, {
         filter: { email: ctx.auth.email },

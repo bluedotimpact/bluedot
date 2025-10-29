@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 import { userTable, User } from '@bluedot/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
-import { meRequestBodySchema } from '../../../lib/schemas/user/me.schema';
+import { createUserSchema } from '../../../lib/schemas/user/me.schema';
 
 export type GetUserResponse = {
   type: 'success';
@@ -23,7 +23,7 @@ export type PostUserBody = {
 
 export default makeApiRoute({
   requireAuth: true,
-  requestBody: meRequestBodySchema,
+  requestBody: createUserSchema,
   responseBody: z.object({
     type: z.literal('success'),
     user: z.any(),

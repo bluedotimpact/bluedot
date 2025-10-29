@@ -1,7 +1,6 @@
 import z from 'zod';
 
-// TODO: rename to `createUserSchema` to match usage, remove `name` field
-export const meRequestBodySchema = z.object({
+export const createUserSchema = z.object({
   initialUtmSource: z.string().trim().max(255).nullish(),
   initialUtmCampaign: z.string().trim().max(255).nullish(),
   initialUtmContent: z.string().trim().max(255).nullish(),
