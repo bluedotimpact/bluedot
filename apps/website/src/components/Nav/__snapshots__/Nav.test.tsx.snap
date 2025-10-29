@@ -285,7 +285,7 @@ exports[`Nav > renders with courses 1`] = `
               Sign in
             </a>
             <a
-              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm [--ghost-gray:#13132E] hover:text-(--ghost-gray) nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-[#2244BB] hover:bg-[#1a3599] text-white"
+              class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm [--ghost-gray:#13132E] nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white"
               href="/login?register=true&redirect_to=%2Ftest-page"
               tabindex="0"
             >

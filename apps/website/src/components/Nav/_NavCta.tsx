@@ -42,7 +42,7 @@ export const NavCta: React.FC<{
         baseClasses,
         isDark
           ? 'bg-white hover:bg-white/90 text-[#02034B]'
-          : 'bg-[#2244BB] hover:bg-[#1a3599] text-white',
+          : 'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
       );
     }
 
