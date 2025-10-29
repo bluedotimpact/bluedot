@@ -127,7 +127,7 @@ const NavDropdown: React.FC<{
 
   const getDropdownContentClasses = () => {
     if (!expandedSections.mobileNav) {
-      return DRAWER_CLASSES(isScrolled, isExpanded);
+      return DRAWER_CLASSES(isHomepage || isScrolled, isExpanded);
     }
     return isExpanded ? 'pt-4' : '';
   };
@@ -169,26 +169,35 @@ const NavDropdown: React.FC<{
               <ProgressDots />
             </div>
           ) : (
-            links?.map((link) => (
-              <A
-                key={link.url}
-                href={link.url}
-                className={clsx(
-                  'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-                  'pt-1 text-[#02034B]',
-                )}
-                onClick={() => {
-                  onToggle();
-                }}
-              >
-                {link.title}
-                {link.isNew && (
-                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                    New
-                  </Tag>
-                )}
-              </A>
-            ))
+            links?.map((link) => {
+              const isDark = isHomepage || isScrolled;
+              let linkTextColor = 'text-[#02034B]';
+              if (!expandedSections.mobileNav && isDark) {
+                linkTextColor = 'text-white';
+              }
+
+              return (
+                <A
+                  key={link.url}
+                  href={link.url}
+                  className={clsx(
+                    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+                    'pt-1',
+                    linkTextColor,
+                  )}
+                  onClick={() => {
+                    onToggle();
+                  }}
+                >
+                  {link.title}
+                  {link.isNew && (
+                    <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                      New
+                    </Tag>
+                  )}
+                </A>
+              );
+            })
           )}
         </div>
       </div>

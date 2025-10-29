@@ -58,7 +58,7 @@ export const MobileNavLinks: React.FC<{
           (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
         )}
       />
-      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.mobileNav))}>
+      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(isHomepage || isScrolled, expandedSections.mobileNav))}>
         <div
           className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
           onClick={(e) => {

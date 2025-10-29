@@ -11,10 +11,12 @@ export const ProfileLinks: React.FC<{
   isScrolled: boolean;
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+  isHomepage?: boolean;
 }> = ({
   isScrolled,
   expandedSections,
   updateExpandedSections,
+  isHomepage = false,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,7 +29,7 @@ export const ProfileLinks: React.FC<{
 
   const getNavLinkClasses = () => clsx(
     'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-    isScrolled ? 'text-white hover:text-white nav-link-animation-dark' : 'text-color-text hover:text-color-text',
+    (isHomepage || isScrolled) ? 'text-white hover:text-white nav-link-animation-dark' : 'text-color-text hover:text-color-text',
   );
 
   return (
@@ -38,7 +40,7 @@ export const ProfileLinks: React.FC<{
         Icon={<FaCircleUser className="size-6 opacity-75" />}
         setOpen={onToggleProfile}
       />
-      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.profile))}>
+      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(isHomepage || isScrolled, expandedSections.profile))}>
         <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
           <A
             href={ROUTES.settingsAccount.url}

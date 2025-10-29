@@ -61,6 +61,7 @@ export const NavCta: React.FC<{
           isScrolled={isScrolled}
           expandedSections={expandedSections}
           updateExpandedSections={updateExpandedSections}
+          isHomepage={isHomepage}
         />
       ) : (
         <>
