@@ -3,7 +3,7 @@
 exports[`CourseSection > renders as expected 1`] = `
 <div>
   <section
-    class="section section-body course-section"
+    class="section section-body"
   >
     <div
       class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
@@ -22,11 +22,11 @@ exports[`CourseSection > renders as expected 1`] = `
       class="section__body"
     >
       <div
-        class="course-section__content flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch"
+        class="flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch"
       >
         <span>
           <a
-            class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated course-section__featured"
+            class="course-card course-card--featured card flex flex-col items-start justify-between m-[3px] container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
             href="/courses/future-of-ai"
             tabindex="0"
           >
@@ -66,7 +66,7 @@ exports[`CourseSection > renders as expected 1`] = `
           </a>
         </span>
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 course-section__carousel"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"

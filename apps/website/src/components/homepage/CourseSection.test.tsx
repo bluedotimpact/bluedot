@@ -1,6 +1,6 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import '@testing-library/jest-dom';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
@@ -59,7 +59,7 @@ describe('CourseSection', () => {
 
     // Wait for the courses to load
     await waitFor(() => {
-      expect(container.querySelector('.course-section__featured')).toBeInTheDocument();
+      expect(screen.getByText('Featured Course')).toBeInTheDocument();
     });
 
     expect(container).toMatchSnapshot();
@@ -72,7 +72,7 @@ describe('CourseSection', () => {
 
     // Wait for the courses to load
     await waitFor(() => {
-      expect(container.querySelector('.course-card--featured')).toBeInTheDocument();
+      expect(screen.getByText('Featured Course')).toBeInTheDocument();
     });
 
     // Click the featured course card using BEM class selector
