@@ -28,14 +28,11 @@ export const MobileNavLinks: React.FC<{
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
   const getPrimaryButtonClasses = () => {
-    const isDark = isHomepage || isScrolled;
     const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
 
     return clsx(
       baseClasses,
-      isDark
-        ? 'bg-white hover:bg-white/90 text-[#02034B]'
-        : 'bg-[#2244BB] hover:bg-[#1a3599] text-white',
+      'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
     );
   };
 
@@ -99,7 +96,7 @@ export const MobileNavLinks: React.FC<{
               {/* Start for free button: Show when screen < 680px */}
               <CTALinkOrButton
                 className={clsx('mobile-nav-cta__join hidden max-[679px]:flex', getPrimaryButtonClasses())}
-                variant="ghost"
+                variant="primary"
                 url={joinUrl}
               >
                 Start for free

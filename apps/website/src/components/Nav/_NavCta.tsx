@@ -41,7 +41,7 @@ export const NavCta: React.FC<{
       return clsx(
         baseClasses,
         isDark
-          ? 'bg-white hover:bg-white/90 text-[#02034B]'
+          ? 'bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]'
           : 'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
       );
     }
@@ -67,14 +67,14 @@ export const NavCta: React.FC<{
         <>
           <CTALinkOrButton
             className={clsx('nav-cta__secondary-cta flex', getButtonClasses('secondary'))}
-            variant="ghost"
+            variant="secondary"
             url={loginUrl}
           >
             Sign in
           </CTALinkOrButton>
           <CTALinkOrButton
             className={clsx('nav-cta__primary-cta hidden min-[680px]:flex', getButtonClasses('primary'))}
-            variant="ghost"
+            variant="primary"
             url={joinUrl}
           >
             Start for free
