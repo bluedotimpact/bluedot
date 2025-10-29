@@ -18,11 +18,11 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
   loading,
 }) => {
   return (
-    <Section className="course-directory">
-      <div className="course-directory__content flex flex-col gap-spacing-x">
-        <div className="course-directory__results-section flex flex-col gap-4 mt-2">
+    <Section>
+      <div className="flex flex-col gap-spacing-x">
+        <div className="flex flex-col gap-4 mt-2">
           {loading && <ProgressDots />}
-          <div className="course-directory__results grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
             {courses
               && courses.length > 0
               && courses.map((course) => (
