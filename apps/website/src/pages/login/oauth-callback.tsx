@@ -8,7 +8,7 @@ export default () => {
     <LoginOauthCallbackPage
       loginPreset={loginPresets.keycloak}
       onLoginComplete={async (auth, redirectTo) => {
-        // Extract UTM params from the redirectTo URL and send them to `api/users/me` to track them in the database
+        // Extract UTM params from the redirectTo URL and send them to `users.ensureExists` to track them in the database
         let initialUtmSource: string | null = null;
         let initialUtmCampaign: string | null = null;
         let initialUtmContent: string | null = null;
