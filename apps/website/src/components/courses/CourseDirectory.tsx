@@ -1,15 +1,15 @@
+import type { Course } from '@bluedot/db';
+import {
+  ProgressDots,
+  Section,
+} from '@bluedot/ui';
 import {
   FC,
 } from 'react';
-import {
-  Section,
-  ProgressDots,
-} from '@bluedot/ui';
-import type { GetCoursesResponse } from '../../pages/api/courses';
 import { CourseSearchCard } from './CourseSearchCard';
 
 export type CourseDirectoryProps = {
-  courses: GetCoursesResponse['courses'] | undefined;
+  courses?: Course[];
   loading: boolean;
 };
 
