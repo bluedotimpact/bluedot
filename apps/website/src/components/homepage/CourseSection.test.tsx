@@ -1,6 +1,8 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
