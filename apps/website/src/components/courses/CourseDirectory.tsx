@@ -30,8 +30,6 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
                   key={course.id}
                   title={course.title}
                   description={course.shortDescription}
-                  cadence={course.cadence}
-                  courseLength={course.durationDescription}
                   imageSrc={course.image || undefined}
                   url={course.path}
                 />

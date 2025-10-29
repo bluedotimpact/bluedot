@@ -12,8 +12,6 @@ export type CourseSearchCardProps = React.PropsWithChildren<{
   // Optional
   className?: string,
   description?: string,
-  cadence?: string,
-  courseLength?: string,
   averageRating?: number | null;
   imageSrc?: string,
 }>;
@@ -24,10 +22,6 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   children,
   className,
   description,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  cadence,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  courseLength,
   averageRating,
   imageSrc,
   title,
