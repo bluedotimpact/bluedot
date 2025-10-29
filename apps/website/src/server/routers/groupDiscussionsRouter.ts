@@ -32,11 +32,11 @@ export const groupDiscussionsRouter = router({
       ]);
 
       if (!group) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Related group not found' });
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Related group not found' });
       }
 
       if (!unit) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Associated unit not found' });
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Associated unit not found' });
       }
 
       return {
