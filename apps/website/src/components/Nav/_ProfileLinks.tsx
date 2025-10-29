@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
 import { IconButton, BugReportModal } from '@bluedot/ui';
-import { useState } from 'react';
 
-import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from './utils';
+import { DRAWER_CLASSES, ExpandedSectionsState } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
 
@@ -25,6 +25,11 @@ export const ProfileLinks: React.FC<{
     profile: !expandedSections.profile,
   });
 
+  const getNavLinkClasses = () => clsx(
+    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+    isScrolled ? 'text-white hover:text-white nav-link-animation-dark' : 'text-color-text hover:text-color-text',
+  );
+
   return (
     <div className="profile-links">
       <IconButton
@@ -37,19 +42,19 @@ export const ProfileLinks: React.FC<{
         <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
           <A
             href={ROUTES.settingsAccount.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Account
           </A>
           <A
             href={ROUTES.settingsCourses.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Courses
           </A>
           <A
             href={ROUTES.contact.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Help
           </A>
@@ -59,13 +64,13 @@ export const ProfileLinks: React.FC<{
               setIsModalOpen(true);
               updateExpandedSections({ profile: false });
             }}
-            className={clsx('bluedot-a', NAV_LINK_CLASSES(isScrolled))}
+            className={clsx('bluedot-a', getNavLinkClasses())}
           >
             Submit Feedback
           </button>
           <A
             href={ROUTES.logout.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Log out
           </A>
