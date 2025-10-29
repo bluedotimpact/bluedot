@@ -8,8 +8,8 @@ export const DRAWER_CLASSES = (isDark: boolean, isOpen: boolean) => clsx(
   'px-spacing-x transition-all duration-300 ease-in-out',
   isDark ? 'bg-color-canvas-dark' : 'bg-white',
   isOpen
-    ? 'max-h-[700px] opacity-100 pt-4 pb-10 border-b border-color-border'
-    : 'max-h-0 opacity-0 pb-0',
+    ? 'max-h-[700px] opacity-100 pt-4 pb-10 border-b border-color-border z-40'
+    : 'max-h-0 opacity-0 pb-0 pointer-events-none',
 );
 
 export type ExpandedSectionsState = {
