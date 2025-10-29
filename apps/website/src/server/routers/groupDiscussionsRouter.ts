@@ -10,8 +10,12 @@ export type GroupDiscussion = inferRouterOutputs<
 
 export const groupDiscussionsRouter = router({
   getByDiscussionIds: publicProcedure
-    .input(z.object({ discussionIds: z.array(z.string()).min(1) }))
+    .input(z.object({ discussionIds: z.array(z.string()) }))
     .query(async ({ input: { discussionIds } }) => {
+      if (discussionIds.length === 0) {
+        return { discussions: [] };
+      }
+
       const discussions = await db.scan(groupDiscussionTable, {
         OR: discussionIds.map((id) => ({ id })),
       });
