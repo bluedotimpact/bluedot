@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ClickTarget, Tag } from '@bluedot/ui';
+import { ClickTarget } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
 import { H3, P } from '../Text';
 
