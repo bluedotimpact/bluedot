@@ -7,7 +7,6 @@ import {
   HeroSection,
   useLatestUtmParams,
 } from '@bluedot/ui';
-import type { inferRouterOutputs } from '@trpc/server';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
 
@@ -21,12 +20,11 @@ import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
-import type { AppRouter } from '../../../server/routers/_app';
-import { getCourseData } from '../../../server/routers/courses';
+import { getCourseData, type CoursesAndUnits } from '../../../server/routers/courses';
 
-export type CoursePageProps = {
+type CoursePageProps = {
   courseSlug: string;
-  courseData: inferRouterOutputs<AppRouter>['courses']['getBySlug'];
+  courseData: CoursesAndUnits
 };
 
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {

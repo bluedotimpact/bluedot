@@ -23,7 +23,7 @@ import { useEffect } from 'react';
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
-import type { CoursePageProps } from '../../pages/courses/[courseSlug]';
+import type { CoursesAndUnits } from '../../server/routers/courses';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -115,7 +115,7 @@ const features = [
 
 const FutureOfAiLander = ({
   courseData,
-}: { courseData: CoursePageProps['courseData'] }) => {
+}: { courseData: CoursesAndUnits }) => {
   // Track landing page views
   useEffect(() => {
     if (typeof window !== 'undefined' && window.dataLayer) {

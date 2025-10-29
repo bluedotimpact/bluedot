@@ -1,8 +1,11 @@
 import { courseTable, unitTable } from '@bluedot/db';
+import type { inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { unitFilterActiveChunks } from '../../lib/api/utils';
 import { publicProcedure, router } from '../trpc';
+
+export type CoursesAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 
 /**
  * Fetches course data and its associated units by course slug.
