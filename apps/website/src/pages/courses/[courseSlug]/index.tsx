@@ -7,9 +7,9 @@ import {
   HeroSection,
   useLatestUtmParams,
 } from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { CourseAndUnits, getCourseData } from '../../api/courses/[courseSlug]';
 
 import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
@@ -21,22 +21,24 @@ import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
+import type { AppRouter } from '../../../server/routers/_app';
+import { getCourseData } from '../../../server/routers/courses';
 
-type CoursePageProps = {
+export type CoursePageProps = {
   courseSlug: string;
-  courseData: CourseAndUnits;
+  courseData: inferRouterOutputs<AppRouter>['courses']['getBySlug'];
 };
 
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
   return (
     <div>
-      {renderCoursePage({ slug: courseSlug, courseData })}
+      {renderCoursePage({ courseSlug, courseData })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: CourseAndUnits; }) => {
+const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
     return <FutureOfAiLander courseData={courseData} />;
@@ -82,7 +84,7 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
+const StandardCoursePage = ({ courseData }: { courseData: CoursePageProps['courseData'] }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
