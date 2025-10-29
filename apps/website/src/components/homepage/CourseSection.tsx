@@ -16,7 +16,7 @@ const CourseSection = () => {
 
   if (loading) {
     return (
-      <Section className="course-section">
+      <Section>
         <ProgressDots />
       </Section>
     );
@@ -34,11 +34,8 @@ const CourseSection = () => {
   }
 
   return (
-    <Section
-      className="course-section"
-      title="Courses"
-    >
-      <div className="course-section__content flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch">
+    <Section title="Courses">
+      <div className="flex flex-col lg:flex-row lg:[&>*]:[flex-basis:50%] gap-space-between items-stretch">
         <CourseCardWithTracking
           trackingEventParams={{
             course_title: featuredCourse.title,
@@ -51,13 +48,11 @@ const CourseSection = () => {
           imageSrc={featuredCourse.image || undefined}
           url={featuredCourse.path}
           cardType="Featured"
-          className="course-section__featured"
         />
         <SlideList
           maxItemsPerSlide={4}
           maxRows={1}
           minItemWidth={300}
-          className="course-section__carousel"
         >
           {courses.filter(
             (course) => course.id !== featuredCourse.id,
