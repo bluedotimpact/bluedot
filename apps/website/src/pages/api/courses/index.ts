@@ -32,7 +32,7 @@ export const buildFormula = ({ cadence, level }: { cadence?: string[], level?: s
     : formulaParts[0];
 };
 
-export const getAllActiveCourses = async () => {
+const getAllActiveCourses = async () => {
   const courses = await db.scan(courseTable, { status: 'Active' });
   return courses;
 };
