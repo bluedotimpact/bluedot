@@ -50,48 +50,41 @@ export const ProfileLinks: React.FC<{
         setOpen={onToggleProfile}
       />
       <div className={clsx('profile-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile))}>
-        <div
-          className={clsx(
-            'profile-links__content-wrapper overflow-hidden transition-all duration-300 ease-in-out',
-            expandedSections.profile ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
-          )}
-        >
-          <div className="profile-links__links flex flex-col gap-4 items-end section-base">
-            <A
-              href={ROUTES.settingsAccount.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Account
-            </A>
-            <A
-              href={ROUTES.settingsCourses.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Courses
-            </A>
-            <A
-              href={ROUTES.contact.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Help
-            </A>
-            <button
-              type="button"
-              onClick={() => {
-                setIsModalOpen(true);
-                updateExpandedSections({ profile: false });
-              }}
-              className={clsx('bluedot-a', getNavLinkClasses())}
-            >
-              Submit Feedback
-            </button>
-            <A
-              href={ROUTES.logout.url}
-              className={getNavLinkClasses()}
-              onClick={onToggleProfile}
-            >Log out
-            </A>
-          </div>
+        <div className="profile-links__links flex flex-col gap-4 items-end section-base">
+          <A
+            href={ROUTES.settingsAccount.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >Account
+          </A>
+          <A
+            href={ROUTES.settingsCourses.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >Courses
+          </A>
+          <A
+            href={ROUTES.contact.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >Help
+          </A>
+          <button
+            type="button"
+            onClick={() => {
+              setIsModalOpen(true);
+              updateExpandedSections({ profile: false });
+            }}
+            className={clsx('bluedot-a', getNavLinkClasses())}
+          >
+            Submit Feedback
+          </button>
+          <A
+            href={ROUTES.logout.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >Log out
+          </A>
         </div>
       </div>
       <BugReportModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
