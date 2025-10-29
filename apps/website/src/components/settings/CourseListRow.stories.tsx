@@ -108,7 +108,6 @@ const mockDiscussion: GroupDiscussion = {
   startDateTime: now + 2 * hour,
   endDateTime: now + 3 * hour,
   group: 'group-1',
-  groupId: 'group-1',
   zoomAccount: null,
   courseSite: null,
   unitNumber: 1,
@@ -135,9 +134,9 @@ const mockDiscussion: GroupDiscussion = {
 // MSW handlers for tRPC calls
 const createMswHandlers = (meetPerson: MeetPerson | null) => [
   trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  trpcStorybookMsw.groupDiscussions.getByDiscussionId.query(() => {
+  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => {
     return {
-      discussion: mockDiscussion,
+      discussions: [mockDiscussion],
     };
   }),
 ];

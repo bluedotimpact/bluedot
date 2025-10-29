@@ -50,7 +50,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now + 2 * hour,
     endDateTime: now + 3 * hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 1,
@@ -72,7 +71,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now + 7 * 24 * hour,
     endDateTime: now + 7 * 24 * hour + hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 2,
@@ -94,7 +92,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now - 7 * 24 * hour,
     endDateTime: now - 7 * 24 * hour + hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 0,
@@ -138,13 +135,13 @@ const mockFacilitatorMeetPerson: MeetPerson = {
 
 const createMswHandlers = (meetPerson: MeetPerson) => [
   trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  trpcStorybookMsw.groupDiscussions.getByDiscussionId.query(({ input }) => {
-    const discussion = mockDiscussions[input.discussionId];
-    if (!discussion) {
-      throw new Error(`Discussion not found: ${input.discussionId}`);
-    }
+  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(({ input }) => {
+    const discussions = input.discussionIds
+      .map((id) => mockDiscussions[id])
+      .filter((d) => d !== undefined);
+
     return {
-      discussion,
+      discussions,
     };
   }),
 ];
