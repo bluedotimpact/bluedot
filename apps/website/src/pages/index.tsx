@@ -1,7 +1,5 @@
-import { HeroSection } from '@bluedot/ui';
 import Head from 'next/head';
 import CourseSection from '../components/homepage/CourseSection';
-import GraduateSection from '../components/homepage/GraduateSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import BlogListSection from '../components/blog/BlogListSection';
@@ -36,10 +34,7 @@ const HomePage = () => {
           }}
         />
       </Head>
-      <HeroSection>
-        <HomeHeroContent />
-      </HeroSection>
-      <GraduateSection />
+      <HomeHeroContent />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />

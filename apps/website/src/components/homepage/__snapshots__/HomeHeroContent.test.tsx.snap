@@ -3,25 +3,244 @@
 exports[`HomeHeroContent > renders as expected 1`] = `
 <div>
   <div
-    class="home-hero-content pb-5 bg-bluedot-darker"
+    class="relative w-full"
   >
     <div
-      class="home-hero-content__animation-container w-[350px] max-w-[80vw] aspect-4/3 mx-auto"
+      class="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100"
+      style="background-size: cover; background-position: center center; background-blend-mode: color-burn, normal, normal;"
     >
       <div
-        class=""
-        style="width: 100%; height: 100%;"
+        class="absolute inset-0 opacity-50 mix-blend-soft-light pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-[length:100px_100px] bg-repeat"
+      />
+      <div
+        class="min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100"
+      />
+      <div
+        class="flex-1 flex flex-col justify-end px-5 py-12 min-[680px]:max-[1023px]:justify-center min-[680px]:max-[1023px]:px-8 min-[680px]:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100"
       >
-        <canvas
-          style="vertical-align: top; width: 0px; height: 0px;"
-        />
+        <div
+          class="w-full max-w-[1488px] mx-auto min-[1440px]:px-6"
+        >
+          <div
+            class="w-full max-w-[280px] min-[680px]:max-[1023px]:max-w-[616px] min-[680px]:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white"
+          >
+            <h1
+              class="bluedot-h1 not-prose w-full text-[40px] min-[680px]:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
+            >
+              We help you have a positive impact on the trajectory of AI
+            </h1>
+            <p
+              class="text-size-sm min-[680px]:max-[1023px]:text-[20px] min-[1024px]:text-[20px] leading-[155%] font-normal w-full max-w-[280px] min-[680px]:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+              style="font-feature-settings: "ss02" on;"
+            >
+              BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="-scale-x-100"
+      >
+        <section
+          class="w-full h-[106px] min-[680px]:h-[91px] bg-white border-b-hairline border-color-divider flex items-center"
+        >
+          <div
+            class="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-[48px]"
+          >
+            <div
+              class="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none"
+            >
+              <p
+                class="bluedot-p not-prose text-[#13132E] text-[16px] leading-[26px] whitespace-nowrap flex-shrink-0"
+              >
+                Our 5,000+ alumni work at
+              </p>
+              <div
+                class="w-full sm:flex-1 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(90deg,transparent_0,_black_12.63%,_black_80.26%,transparent_100%)]"
+              >
+                <ul
+                  class="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+                >
+                  <li>
+                    <img
+                      alt="OpenAI"
+                      class="h-6"
+                      src="/images/third-party-logos/openai.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Anthropic"
+                      class="h-6 !h-3"
+                      src="/images/third-party-logos/anthropic.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Google DeepMind"
+                      class="h-6"
+                      src="/images/third-party-logos/deepmind.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="AI Security Institute"
+                      class="h-6"
+                      src="/images/third-party-logos/aisi.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="United Nations"
+                      class="h-6"
+                      src="/images/third-party-logos/un.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Amnesty International"
+                      class="h-6"
+                      src="/images/third-party-logos/amnesty.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Time"
+                      class="h-6"
+                      src="/images/third-party-logos/time.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="NATO"
+                      class="h-6"
+                      src="/images/third-party-logos/nato.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="OECD"
+                      class="h-6"
+                      src="/images/third-party-logos/oecd.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Stanford HAI"
+                      class="h-6"
+                      src="/images/third-party-logos/hai.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Apple"
+                      class="h-6"
+                      src="/images/third-party-logos/apple.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Harvard Kennedy School"
+                      class="h-6"
+                      src="/images/third-party-logos/harvard.png"
+                    />
+                  </li>
+                </ul>
+                <ul
+                  aria-hidden="true"
+                  class="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+                >
+                  <li>
+                    <img
+                      alt="OpenAI"
+                      class="h-6"
+                      src="/images/third-party-logos/openai.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Anthropic"
+                      class="h-6 !h-3"
+                      src="/images/third-party-logos/anthropic.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Google DeepMind"
+                      class="h-6"
+                      src="/images/third-party-logos/deepmind.svg"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="AI Security Institute"
+                      class="h-6"
+                      src="/images/third-party-logos/aisi.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="United Nations"
+                      class="h-6"
+                      src="/images/third-party-logos/un.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Amnesty International"
+                      class="h-6"
+                      src="/images/third-party-logos/amnesty.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Time"
+                      class="h-6"
+                      src="/images/third-party-logos/time.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="NATO"
+                      class="h-6"
+                      src="/images/third-party-logos/nato.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="OECD"
+                      class="h-6"
+                      src="/images/third-party-logos/oecd.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Stanford HAI"
+                      class="h-6"
+                      src="/images/third-party-logos/hai.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Apple"
+                      class="h-6"
+                      src="/images/third-party-logos/apple.png"
+                    />
+                  </li>
+                  <li>
+                    <img
+                      alt="Harvard Kennedy School"
+                      class="h-6"
+                      src="/images/third-party-logos/harvard.png"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
-    <h1
-      class="hero-section__title text-color-text-on-dark text-center bluedot-h1 home-hero-content__heading slide-up-fade-in"
-    >
-      The leading talent accelerator for beneficial AI and societal resilience
-    </h1>
   </div>
 </div>
 `;

@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { FaChevronUp, FaChevronDown } from 'react-icons/fa6';
 import { Tag, ProgressDots } from '@bluedot/ui';
 
 import { ROUTES } from '../../lib/routes';
@@ -8,15 +7,7 @@ import { useCourses } from '../../lib/hooks/useCourses';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
-  NAV_LINK_CLASSES,
-  TRANSITION_DURATION_CLASS,
 } from './utils';
-
-const ABOUT = [
-  { title: 'Our story', url: ROUTES.about.url },
-  { title: 'Careers', url: ROUTES.joinUs.url },
-  { title: 'Contact', url: ROUTES.contact.url },
-];
 
 const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') return false;
@@ -29,11 +20,13 @@ export const NavLinks: React.FC<{
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   className?: string;
   isScrolled: boolean;
+  isHomepage?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   className,
   isScrolled,
+  isHomepage = false,
 }) => {
   const { courses, loading } = useCourses();
 
@@ -45,6 +38,22 @@ export const NavLinks: React.FC<{
     })),
     { title: 'Browse all', url: ROUTES.courses.url },
   ];
+  const getLinkClasses = (isCurrentPathValue?: boolean) => {
+    if (expandedSections.mobileNav) {
+      // Mobile drawer: On homepage always white bg, on other pages dark bg when scrolled
+      const isDarkDrawer = !isHomepage && isScrolled;
+      return clsx(
+        'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+        isDarkDrawer ? 'text-white hover:text-white nav-link-animation-dark' : 'text-[#02034B] hover:text-[#02034B]',
+        isCurrentPathValue && 'font-bold',
+      );
+    }
+    return clsx(
+      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+      (isHomepage || isScrolled) ? 'text-white hover:text-white nav-link-animation-dark' : 'text-color-text hover:text-color-text',
+      isCurrentPathValue && 'font-bold',
+    );
+  };
 
   return (
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
@@ -52,6 +61,7 @@ export const NavLinks: React.FC<{
         expandedSections={expandedSections}
         isExpanded={expandedSections.explore}
         isScrolled={isScrolled}
+        isHomepage={isHomepage}
         links={navCourses}
         onToggle={() => updateExpandedSections({
           about: false,
@@ -62,40 +72,24 @@ export const NavLinks: React.FC<{
         title="Courses"
         loading={loading}
       />
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.about}
-        isScrolled={isScrolled}
-        links={ABOUT}
-        onToggle={() => updateExpandedSections({
-          about: !expandedSections.about,
-          explore: false,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        title="About"
-        loading={false}
-      />
-      <A href={ROUTES.blog.url} className={NAV_LINK_CLASSES(isScrolled, isCurrentPath(ROUTES.blog.url))}>Blog</A>
       <A
         href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
         target="_blank"
         rel="noopener noreferrer"
-        className={NAV_LINK_CLASSES(isScrolled)}
+        className={getLinkClasses()}
         aria-label="Events (opens in new tab)"
       >
         Events
       </A>
-      <A
-        href="https://shop.bluedot.org/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={NAV_LINK_CLASSES(isScrolled)}
-        aria-label="Shop (opens in new tab)"
-      >
-        Shop
+      <A href={ROUTES.blog.url} className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}>
+        Blog
       </A>
-      <A href={ROUTES.joinUs.url} className={clsx(NAV_LINK_CLASSES(isScrolled), 'text-bluedot-primary font-medium')}>We're hiring!</A>
+      <A href={ROUTES.about.url} className={getLinkClasses(isCurrentPath(ROUTES.about.url))}>
+        About
+      </A>
+      <A href={ROUTES.joinUs.url} className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}>
+        Jobs
+      </A>
     </div>
   );
 };
@@ -105,6 +99,7 @@ const NavDropdown: React.FC<{
   expandedSections: ExpandedSectionsState;
   isExpanded: boolean;
   isScrolled: boolean;
+  isHomepage: boolean;
   links: { title: string; url: string; isNew?: boolean | null }[];
   onToggle: () => void;
   title: string;
@@ -115,53 +110,101 @@ const NavDropdown: React.FC<{
   expandedSections,
   isExpanded,
   isScrolled,
+  isHomepage,
   links,
   onToggle,
   title,
   className,
   loading,
 }) => {
+  const getDropdownButtonClasses = () => {
+    if (expandedSections.mobileNav) {
+      // Mobile drawer: On homepage always white bg, on other pages dark bg when scrolled
+      const isDarkDrawer = !isHomepage && isScrolled;
+      return isDarkDrawer ? 'text-white hover:text-white nav-link-animation-dark' : 'text-[#02034B] hover:text-[#02034B]';
+    }
+    if (isHomepage || isScrolled) {
+      return 'text-white hover:text-white nav-link-animation-dark';
+    }
+    return 'text-color-text hover:text-color-text';
+  };
+
+  const getDropdownContentClasses = () => {
+    if (!expandedSections.mobileNav) {
+      // Desktop dropdowns: dark when scrolled on non-homepage pages
+      return DRAWER_CLASSES(!isHomepage && isScrolled, isExpanded);
+    }
+    return isExpanded ? 'pt-4' : '';
+  };
+
   return (
     <div className="nav-dropdown">
       <button
         type="button"
         onClick={onToggle}
-        className={clsx('nav-dropdown__btn flex items-center gap-2 cursor-pointer', NAV_LINK_CLASSES(isScrolled))}
+        className={clsx(
+          'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
+          'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+          getDropdownButtonClasses(),
+        )}
       >
         {title}
-        {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={clsx('flex-shrink-0 transition-transform duration-300 ease', isExpanded && 'rotate-45')}
+        >
+          <path d="M10.0003 4.1665V15.8332M4.16699 9.99984H15.8337" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="16" />
+        </svg>
       </button>
       <div
         className={clsx(
-          `nav-dropdown__content-wrapper overflow-hidden transition-[max-height,opacity] ${TRANSITION_DURATION_CLASS}`,
-          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 hidden',
-          !expandedSections.mobileNav ? DRAWER_CLASSES(isScrolled, isExpanded) : 'pt-4',
+          'nav-dropdown__content-wrapper overflow-hidden transition-all duration-300 ease-in-out',
+          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+          getDropdownContentClasses(),
           className,
         )}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty', !isExpanded && 'hidden')}>
+        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty')}>
           {loading ? (
             <div className="py-2">
               <ProgressDots />
             </div>
           ) : (
-            links?.map((link) => (
-              <A
-                key={link.url}
-                href={link.url}
-                className={clsx(NAV_LINK_CLASSES(isScrolled), 'pt-1')}
-                onClick={() => {
-                  onToggle();
-                }}
-              >
-                {link.title}
-                {link.isNew && (
-                  <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                    New
-                  </Tag>
-                )}
-              </A>
-            ))
+            links?.map((link) => {
+              // Dropdown links: white text when dropdown has dark bg, dark text otherwise
+              let linkTextColor = 'text-[#02034B]';
+              const isDarkDrawer = !isHomepage && isScrolled;
+              // Both mobile and desktop dropdowns can be dark when scrolled on non-homepage
+              if (isDarkDrawer) {
+                linkTextColor = 'text-white hover:text-white';
+              }
+
+              return (
+                <A
+                  key={link.url}
+                  href={link.url}
+                  className={clsx(
+                    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+                    'pt-1',
+                    linkTextColor,
+                  )}
+                  onClick={() => {
+                    onToggle();
+                  }}
+                >
+                  {link.title}
+                  {link.isNew && (
+                    <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                      New
+                    </Tag>
+                  )}
+                </A>
+              );
+            })
           )}
         </div>
       </div>
