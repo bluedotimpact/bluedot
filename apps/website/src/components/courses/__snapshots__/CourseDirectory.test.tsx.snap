@@ -3,19 +3,19 @@
 exports[`CourseDirectory > renders default as expected 1`] = `
 <div>
   <section
-    class="section section-body course-directory"
+    class="section section-body"
   >
     <div
       class="section__body"
     >
       <div
-        class="course-directory__content flex flex-col gap-spacing-x"
+        class="flex flex-col gap-spacing-x"
       >
         <div
-          class="course-directory__results-section flex flex-col gap-4 mt-2"
+          class="flex flex-col gap-4 mt-2"
         >
           <div
-            class="course-directory__results grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"
+            class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"
           >
             <a
               class="course-search-card flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
