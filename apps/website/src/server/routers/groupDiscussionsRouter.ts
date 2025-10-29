@@ -42,7 +42,6 @@ export const groupDiscussionsRouter = router({
       return {
         discussion: {
           ...discussion,
-          groupId: discussion.group,
           groupDetails: group,
           unitRecord: unit,
         },
