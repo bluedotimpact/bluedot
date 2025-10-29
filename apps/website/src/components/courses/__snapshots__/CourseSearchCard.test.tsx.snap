@@ -70,10 +70,10 @@ exports[`CourseSearchCard > renders with optional args 1`] = `
         class="flex justify-end mt-4"
       >
         <div
-          class="course-card__footer-left text-size-xs text-bluedot-black gap-1 flex flex-col items-end"
+          class="text-size-xs text-bluedot-black gap-1 flex flex-col items-end"
         >
           <span
-            class="course-card__rating flex gap-[3px] items-start font-bold"
+            class="flex gap-[3px] items-start font-bold"
           >
             4.7
              
