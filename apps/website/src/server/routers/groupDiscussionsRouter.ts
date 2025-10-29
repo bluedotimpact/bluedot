@@ -33,7 +33,7 @@ export const groupDiscussionsRouter = router({
       }
 
       const groupIds = [...new Set(discussions.map((d) => d.group))];
-      const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
+      const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId!))];
 
       // Fetch all groups and units in parallel with only one DB call each
       const [groups, units] = await Promise.all([
