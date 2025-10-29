@@ -40,17 +40,14 @@ const CourseListRow = ({
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
 
-  const expectedResults = trpc.useQueries((t) => {
-    return expectedDiscussionIds.map((id) => t.groupDiscussions.getByDiscussionId({ discussionId: id }));
-  });
-  const isLoadingDiscussions = expectedResults.some((result) => result.isLoading);
+  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
 
-  // Filter out undefined and sort by startDateTime
-  const expectedDiscussions = isLoadingDiscussions ? []
-    : expectedResults
-      .filter((d) => d.data !== undefined)
-      .map((d) => d.data.discussion)
-      .sort((a, b) => a.startDateTime - b.startDateTime);
+  // Sort discussions by startDateTime
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
   const loading = !isCompleted && isLoadingDiscussions;
 
