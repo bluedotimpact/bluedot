@@ -44,6 +44,11 @@ const mockCourses = [
     cadence: 'MOOC',
     displayOnCourseHubIndex: true,
   }),
+  mockCourse({
+    id: '4',
+    title: 'Hidden Course',
+    displayOnCourseHubIndex: false,
+  }),
 ];
 
 // Mock GA event tracking
@@ -62,6 +67,7 @@ describe('CourseSection', () => {
       expect(container.querySelector('.course-section__featured')).toBeInTheDocument();
     });
 
+    expect(container.textContent).not.toContain('Hidden Course');
     expect(container).toMatchSnapshot();
   });
 
