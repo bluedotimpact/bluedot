@@ -27,21 +27,30 @@ export const ProfileLinks: React.FC<{
     profile: !expandedSections.profile,
   });
 
-  const getNavLinkClasses = () => clsx(
-    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-    (isHomepage || isScrolled) ? 'text-white hover:text-white nav-link-animation-dark' : 'text-color-text hover:text-color-text',
-  );
+  const getNavLinkClasses = () => {
+    // Profile dropdown links: white text when dropdown has dark bg, dark text otherwise
+    const isDarkDrawer = !isHomepage && isScrolled;
+    const textColor = isDarkDrawer ? 'text-white hover:text-white' : 'text-[#02034B] hover:text-[#02034B]';
+
+    return clsx(
+      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+      textColor,
+    );
+  };
 
   return (
     <div className="profile-links">
       <IconButton
-        className="profile-links__btn"
+        className={clsx(
+          'profile-links__btn',
+          (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
+        )}
         open={expandedSections.profile}
         Icon={<FaCircleUser className="size-6 opacity-75" />}
         setOpen={onToggleProfile}
       />
       <div className={clsx('profile-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile))}>
-        <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
+        <div className="profile-links__links flex flex-col gap-4 items-end section-base">
           <A
             href={ROUTES.settingsAccount.url}
             className={getNavLinkClasses()}
