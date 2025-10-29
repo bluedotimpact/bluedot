@@ -21,10 +21,7 @@ export const groupDiscussionsRouter = router({
       });
 
       if (discussions.length === 0) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'No group discussions found for the provided IDs',
-        });
+        return { discussions: [] };
       }
 
       const invalidDiscussions = discussions.filter((d) => !d.courseBuilderUnitRecordId);
