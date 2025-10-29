@@ -60,15 +60,8 @@ export const Nav: React.FC = () => {
     if (isHomepage) {
       return clsx(
         'nav absolute top-0 inset-x-0 z-50 transition-all duration-300',
-        !isScrolled && [
-          'bg-transparent',
-          'border-b border-white/15',
-        ],
-        isScrolled && [
-          'bg-[#13132E]/95',
-          'backdrop-blur-[10px]',
-          'border-b border-white/15',
-        ],
+        'bg-transparent',
+        'border-b border-white/15',
       );
     }
     return clsx(

@@ -40,9 +40,11 @@ export const NavLinks: React.FC<{
   ];
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     if (expandedSections.mobileNav) {
+      // Mobile drawer: On homepage always white bg, on other pages dark bg when scrolled
+      const isDarkDrawer = !isHomepage && isScrolled;
       return clsx(
         'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-        'text-[#02034B]',
+        isDarkDrawer ? 'text-white hover:text-white nav-link-animation-dark' : 'text-[#02034B] hover:text-[#02034B]',
         isCurrentPathValue && 'font-bold',
       );
     }
@@ -117,7 +119,9 @@ const NavDropdown: React.FC<{
 }) => {
   const getDropdownButtonClasses = () => {
     if (expandedSections.mobileNav) {
-      return 'text-[#02034B]';
+      // Mobile drawer: On homepage always white bg, on other pages dark bg when scrolled
+      const isDarkDrawer = !isHomepage && isScrolled;
+      return isDarkDrawer ? 'text-white hover:text-white nav-link-animation-dark' : 'text-[#02034B] hover:text-[#02034B]';
     }
     if (isHomepage || isScrolled) {
       return 'text-white hover:text-white nav-link-animation-dark';
@@ -127,7 +131,8 @@ const NavDropdown: React.FC<{
 
   const getDropdownContentClasses = () => {
     if (!expandedSections.mobileNav) {
-      return DRAWER_CLASSES(isHomepage || isScrolled, isExpanded);
+      // Desktop dropdowns: dark when scrolled on non-homepage pages
+      return DRAWER_CLASSES(!isHomepage && isScrolled, isExpanded);
     }
     return isExpanded ? 'pt-4' : '';
   };
@@ -170,10 +175,12 @@ const NavDropdown: React.FC<{
             </div>
           ) : (
             links?.map((link) => {
-              const isDark = isHomepage || isScrolled;
+              // Dropdown links: white text when dropdown has dark bg, dark text otherwise
               let linkTextColor = 'text-[#02034B]';
-              if (!expandedSections.mobileNav && isDark) {
-                linkTextColor = 'text-white';
+              const isDarkDrawer = !isHomepage && isScrolled;
+              // Both mobile and desktop dropdowns can be dark when scrolled on non-homepage
+              if (isDarkDrawer) {
+                linkTextColor = 'text-white hover:text-white';
               }
 
               return (

@@ -40,7 +40,7 @@ export const ProfileLinks: React.FC<{
         Icon={<FaCircleUser className="size-6 opacity-75" />}
         setOpen={onToggleProfile}
       />
-      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(isHomepage || isScrolled, expandedSections.profile))}>
+      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile))}>
         <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
           <A
             href={ROUTES.settingsAccount.url}
