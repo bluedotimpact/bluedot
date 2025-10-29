@@ -2,8 +2,8 @@ import {
   CourseCard,
   Section,
   ProgressDots,
+  SlideList,
 } from '@bluedot/ui';
-import { SlideList } from '@bluedot/ui/src/SlideList';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { useCourses } from '../../lib/hooks/useCourses';
 
