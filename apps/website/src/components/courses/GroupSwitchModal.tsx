@@ -113,7 +113,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const auth = useAuthStore((s) => s.auth);
 
   // Fetch course and its units
-  const { data: courseData, isLoading: courseLoading } = trpc.courses.getBySlug.useQuery({ courseSlug });
+  const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
@@ -337,6 +337,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {!!error && <ErrorSection error={error} />}
+        {!!courseError && <ErrorSection error={courseError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
