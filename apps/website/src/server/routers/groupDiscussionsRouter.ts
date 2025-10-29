@@ -4,47 +4,75 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
 
-export type GroupDiscussion = inferRouterOutputs<typeof groupDiscussionsRouter>['getByDiscussionId']['discussion'];
+export type GroupDiscussion = inferRouterOutputs<
+  typeof groupDiscussionsRouter
+>['getByDiscussionIds']['discussions'][number];
 
 export const groupDiscussionsRouter = router({
-  getByDiscussionId: publicProcedure
-    .input(z.object({ discussionId: z.string() }))
-    .query(async ({ input: { discussionId } }) => {
-      const discussion = await db.getFirst(groupDiscussionTable, {
-        filter: { id: discussionId },
+  getByDiscussionIds: publicProcedure
+    .input(z.object({ discussionIds: z.array(z.string()).min(1) }))
+    .query(async ({ input: { discussionIds } }) => {
+      const discussions = await db.scan(groupDiscussionTable, {
+        OR: discussionIds.map((id) => ({ id })),
       });
 
-      if (!discussion) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Discussion not found' });
+      if (discussions.length === 0) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'No group discussions found for the provided IDs',
+        });
       }
 
-      if (!discussion.courseBuilderUnitRecordId) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Discussion is missing unit reference' });
+      const invalidDiscussions = discussions.filter((d) => !d.courseBuilderUnitRecordId);
+      if (invalidDiscussions.length > 0) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: `Discussions missing unit reference: ${invalidDiscussions.map((d) => d.id).join(', ')}`,
+        });
       }
 
-      const [group, unit] = await Promise.all([
-        db.getFirst(groupTable, {
-          filter: { id: discussion.group },
+      const groupIds = [...new Set(discussions.map((d) => d.group))];
+      const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
+
+      // Fetch all groups and units in parallel with only one DB call each
+      const [groups, units] = await Promise.all([
+        db.scan(groupTable, {
+          OR: groupIds.map((id) => ({ id })),
         }),
-        db.getFirst(unitTable, {
-          filter: { id: discussion.courseBuilderUnitRecordId },
+        db.scan(unitTable, {
+          OR: unitIds.map((id) => ({ id })),
         }),
       ]);
 
-      if (!group) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Related group not found' });
-      }
+      // Lookup maps
+      const groupMap = new Map(groups.map((g) => [g.id, g]));
+      const unitMap = new Map(units.map((u) => [u.id, u]));
 
-      if (!unit) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Associated unit not found' });
-      }
+      const discussionsWithDetails = discussions.map((discussion) => {
+        const group = groupMap.get(discussion.group);
+        const unit = unitMap.get(discussion.courseBuilderUnitRecordId!);
 
-      return {
-        discussion: {
+        if (!group) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: `Related group not found for discussion ${discussion.id}`,
+          });
+        }
+
+        if (!unit) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: `Associated unit not found for discussion ${discussion.id}`,
+          });
+        }
+
+        return {
           ...discussion,
           groupDetails: group,
           unitRecord: unit,
-        },
-      };
+        };
+      });
+
+      return { discussions: discussionsWithDetails };
     }),
 });
