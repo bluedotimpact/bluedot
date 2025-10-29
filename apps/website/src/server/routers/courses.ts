@@ -1,5 +1,5 @@
 import { courseTable, unitTable } from '@bluedot/db';
-import type { inferRouterOutputs } from '@trpc/server';
+import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { unitFilterActiveChunks } from '../../lib/api/utils';
@@ -13,6 +13,10 @@ export type CoursesAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlu
  */
 export async function getCourseData(courseSlug: string) {
   const course = await db.get(courseTable, { slug: courseSlug });
+
+  if (!course) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: `Course with slug "${courseSlug}" not found.` });
+  }
 
   // Get units for this course with active status, then sort by unit number
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
