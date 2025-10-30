@@ -57,6 +57,17 @@ See the [main README for details on creating a new app entirely](../../README.md
 
 If you just want to add an existing container, add it to [serviceDefinitions.ts](./src/k8s/serviceDefinitions.ts)
 
+### Managing environment variables
+
+For a guide on adding environment variables to website and pg-sync-service, see [ADDING_ENV_GUIDE.md](./ADDING_ENV_GUIDE.md). Other services are likely to have a similar setup.
+
+Quick reference covering:
+- Decision tree: which workflow to use
+- Add secrets (API keys, DB URLs)
+- Add NEXT_PUBLIC_ variables (browser-accessible)
+- Required vs optional variables
+- Common patterns and troubleshooting
+
 ### Adding a secret
 
 We manage secrets with [Pulumi secrets](https://www.pulumi.com/learn/building-with-pulumi/secrets/). In general, we pass in secrets via Pulumi as environment variables to containers.
@@ -75,6 +86,8 @@ To generate a random password, consider: `openssl rand -hex 20`
 If you want to use your secret as an environment variable, add it to the `toK8s` array in [secrets.ts](./src/k8s/secrets.ts). You can then use it as `envVarSources.key` in other files.
 
 If you want to use your secret 'raw', import config from [config.ts](./src/config.ts) and then call `config.requireSecret('key')`.
+
+For complete workflows including validation and deployment steps, see [ADDING_ENV_GUIDE.md](./ADDING_ENV_GUIDE.md).
 
 ### Connect to the cluster with kubectl
 

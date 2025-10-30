@@ -1,28 +1,20 @@
 import { ProgressDots, ErrorSection, CTALinkOrButton } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
-import { GetCourseRegistrationsResponse } from '../../pages/api/course-registrations';
 import { ROUTES } from '../../lib/routes';
 import { P } from '../Text';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 
-type CoursesContentProps = {
-  authToken: string;
-};
-
-const CoursesContent = ({ authToken }: CoursesContentProps) => {
-  const [{ data: courseRegistrationsData, loading: courseRegistrationsLoading, error: courseRegistrationsError }] = useAxios<GetCourseRegistrationsResponse>({
-    method: 'get',
-    url: '/api/course-registrations',
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  });
+const CoursesContent = () => {
+  const {
+    data: courseRegistrations,
+    isLoading: courseRegistrationsLoading,
+    error: courseRegistrationsError,
+  } = trpc.courseRegistrations.getAll.useQuery();
 
   const { data: courses, isLoading: coursesLoading, error: coursesError } = trpc.courses.getAll.useQuery();
 
   // Combine courses and enrollments
-  const enrolledCourses = (courseRegistrationsData?.courseRegistrations || [])
+  const enrolledCourses = (courseRegistrations || [])
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];

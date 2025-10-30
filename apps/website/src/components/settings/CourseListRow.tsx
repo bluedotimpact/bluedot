@@ -5,7 +5,6 @@ import { Course, CourseRegistration } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
-import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 
@@ -21,8 +20,6 @@ const CourseListRow = ({
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
-  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [loading, setLoading] = useState(!isCompleted);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
@@ -36,55 +33,29 @@ const CourseListRow = ({
   const isNotInGroup = meetPerson
     && (!meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
-  // Fetch individual discussions when we have the meetPerson data
-  useEffect(() => {
-    if (!meetPerson) {
-      return;
-    }
+  // Only fetch expected discussions for the list row
+  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const expectedDiscussionIds = isFacilitator
+    ? meetPerson?.expectedDiscussionsFacilitator || []
+    : meetPerson?.expectedDiscussionsParticipant || [];
 
+  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
+
+  // Sort discussions by startDateTime
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const loading = !isCompleted && isLoadingDiscussions;
+
+  useEffect(() => {
     if (isNotInGroup) {
       setIsExpanded(false);
     }
-
-    const fetchDiscussions = async () => {
-      if (!meetPerson) {
-        setLoading(false);
-        return;
-      }
-
-      // Only fetch expected discussions for the list row
-      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const isFacilitator = courseRegistration.role === 'Facilitator';
-      const expectedDiscussionIds = isFacilitator
-        ? meetPerson.expectedDiscussionsFacilitator || []
-        : meetPerson.expectedDiscussionsParticipant || [];
-
-      const expectedPromises = expectedDiscussionIds.map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          // Check if the response is successful before accessing discussion
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch (error) {
-          return null;
-        }
-      });
-
-      const expectedResults = await Promise.all(expectedPromises);
-
-      // Filter out nulls and sort by startDateTime
-      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      validExpected.sort((a: GroupDiscussion, b: GroupDiscussion) => a.startDateTime - b.startDateTime);
-
-      setExpectedDiscussions(validExpected);
-      setLoading(false);
-    };
-
-    fetchDiscussions();
-  }, [meetPerson, isCompleted, courseRegistration.role]);
+  }, [isNotInGroup]);
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
@@ -157,7 +128,7 @@ const CourseListRow = ({
     let buttonUrl = '#';
     if (isNextDiscussionStartingSoon) {
       buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber) {
+    } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
     const openInNewTab = isNextDiscussionStartingSoon;

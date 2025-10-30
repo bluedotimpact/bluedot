@@ -1,8 +1,4 @@
-import {
-  ProgressDots,
-  withAuth,
-  ErrorSection,
-} from '@bluedot/ui';
+import { ProgressDots, ErrorSection } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import SettingsLayout from '../../components/settings/SettingsLayout';
@@ -11,7 +7,7 @@ import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsCourses;
 
-const CoursesSettingsPage = withAuth(({ auth }) => {
+const CoursesSettingsPage = () => {
   const { data: user, isLoading: userLoading, error: userError } = trpc.users.getUser.useQuery();
 
   return (
@@ -23,11 +19,11 @@ const CoursesSettingsPage = withAuth(({ auth }) => {
       {userError && <ErrorSection error={userError} />}
       {user && (
         <SettingsLayout activeTab="courses" route={CURRENT_ROUTE}>
-          <CoursesContent authToken={auth.token} />
+          <CoursesContent />
         </SettingsLayout>
       )}
     </div>
   );
-});
+};
 
 export default CoursesSettingsPage;
