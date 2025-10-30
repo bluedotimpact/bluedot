@@ -20,11 +20,11 @@ import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
-import { getCourseData, type CoursesAndUnits } from '../../../server/routers/courses';
+import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
 
 type CoursePageProps = {
   courseSlug: string;
-  courseData: CoursesAndUnits
+  courseData: CourseAndUnits
 };
 
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {

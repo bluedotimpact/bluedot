@@ -5,7 +5,7 @@ import db from '../../lib/api/db';
 import { unitFilterActiveChunks } from '../../lib/api/utils';
 import { publicProcedure, router } from '../trpc';
 
-export type CoursesAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
+export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 
 /**
  * Fetches course data and its associated units by course slug.
