@@ -1,4 +1,5 @@
 import { groupDiscussionTable, groupTable, unitTable } from '@bluedot/db';
+import { logger } from '@bluedot/ui/src/api';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
@@ -23,6 +24,7 @@ export const groupDiscussionsRouter = router({
       if (discussions.length !== discussionIds.length) {
         const foundIds = new Set(discussions.map((d) => d.id));
         const missingIds = discussionIds.filter((id) => !foundIds.has(id));
+        logger.error(`Some group discussions not found for the provided IDs: ${missingIds.join(', ')}`);
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: `Some group discussions not found for the provided IDs: ${missingIds.join(', ')}`,
