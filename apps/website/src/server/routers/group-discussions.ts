@@ -20,10 +20,12 @@ export const groupDiscussionsRouter = router({
         OR: discussionIds.map((id) => ({ id })),
       });
 
-      if (discussions.length === 0) {
+      if (discussions.length !== discussionIds.length) {
+        const foundIds = new Set(discussions.map((d) => d.id));
+        const missingIds = discussionIds.filter((id) => !foundIds.has(id));
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message: `No group discussions found for the provided ID: ${discussionIds.join(', ')}`,
+          message: `Some group discussions not found for the provided IDs: ${missingIds.join(', ')}`,
         });
       }
 
