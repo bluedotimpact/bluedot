@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
 import CourseListRow from './CourseListRow';
-import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseListRow> = {

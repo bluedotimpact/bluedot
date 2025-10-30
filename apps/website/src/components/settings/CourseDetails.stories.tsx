@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
-import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseDetails> = {

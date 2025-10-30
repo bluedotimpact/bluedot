@@ -3,7 +3,7 @@ import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
-import type { GroupDiscussion } from '../../server/routers/groupDiscussionsRouter';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 

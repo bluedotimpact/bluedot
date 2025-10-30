@@ -2,7 +2,7 @@ import { router } from '../trpc';
 import { adminRouter } from './admin';
 import { blogsRouter } from './blogs';
 import { certificatesRouter } from './certificates';
-import { groupDiscussionsRouter } from './groupDiscussionsRouter';
+import { groupDiscussionsRouter } from './group-discussions';
 import { jobsRouter } from './jobs';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
