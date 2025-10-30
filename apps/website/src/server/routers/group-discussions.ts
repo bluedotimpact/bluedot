@@ -40,7 +40,6 @@ export const groupDiscussionsRouter = router({
       const groupIds = [...new Set(discussions.map((d) => d.group))];
       const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId!))];
 
-      // Fetch all groups and units in parallel with only one DB call each
       const [groups, units] = await Promise.all([
         db.scan(groupTable, {
           OR: groupIds.map((id) => ({ id })),
@@ -50,7 +49,7 @@ export const groupDiscussionsRouter = router({
         }),
       ]);
 
-      // Lookup maps
+      // Lookup maps from ID to record
       const groupMap = new Map(groups.map((g) => [g.id, g]));
       const unitMap = new Map(units.map((u) => [u.id, u]));
 
