@@ -139,7 +139,7 @@ This triggers the service deployment which automatically restarts pods.
 Check that pods started successfully:
 
 ```bash
-# Get pod name (note that these haven't been tested)
+# Get pod name (note that these commands haven't been tested when adding a new service)
 kubectl get pods | grep bluedot-website-production
 
 # Check logs for errors

@@ -59,7 +59,7 @@ If you just want to add an existing container, add it to [serviceDefinitions.ts]
 
 ### Managing environment variables
 
-For a production-focused guide on adding environment variables to website and pg-sync-service, see [ADDING_ENV_GUIDE.md](./ADDING_ENV_GUIDE.md). Other services are likely to have a similar setup.
+For a guide on adding environment variables to website and pg-sync-service, see [ADDING_ENV_GUIDE.md](./ADDING_ENV_GUIDE.md). Other services are likely to have a similar setup.
 
 Quick reference covering:
 - Decision tree: which workflow to use
