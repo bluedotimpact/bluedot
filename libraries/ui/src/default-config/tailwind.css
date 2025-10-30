@@ -228,6 +228,7 @@
   
     --max-width: 1436px;
   
+    --spacing-x-xl: 5rem; /* 80px */
     --spacing-x-lg: 3rem; /* 48px */
     --spacing-x-md: 3rem; /* 48px */
     --spacing-x-sm: 1.5rem; /* 24px */
@@ -266,6 +267,13 @@
         --spacing-x: var(--spacing-x-lg); /* For horizontal section padding */
         --spacing-y: var(--spacing-y-lg); /* For vertical section padding */
         --space-between: var(--space-between-lg); /* For space between items */
+    }
+}
+
+/* Maps to Tailwind "xl" breakpoint */
+@media (width >= 80rem) {
+    :root {
+        --spacing-x: var(--spacing-x-xl); /* For horizontal section padding */
     }
 }
 

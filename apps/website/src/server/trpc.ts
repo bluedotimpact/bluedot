@@ -101,7 +101,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-export const checkAdminAccess = async (email: string) => {
+const checkAdminAccess = async (email: string) => {
   try {
     const admin = await db.pg.select()
       .from(adminUsersTable)

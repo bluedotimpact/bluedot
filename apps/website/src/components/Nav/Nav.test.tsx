@@ -233,7 +233,7 @@ describe('Nav', () => {
     render(<Nav />);
 
     // Check that the href includes the redirect_to parameter on all login buttons
-    const loginButtons = screen.getAllByText('Login')
+    const loginButtons = screen.getAllByText('Sign in')
       .map((button) => button.closest('a'))
       .filter((Boolean)) as HTMLAnchorElement[];
     expect(loginButtons.length).toBeGreaterThanOrEqual(1);
