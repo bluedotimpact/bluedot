@@ -1,6 +1,5 @@
 import {
   Section,
-  ProgressDots,
 } from '@bluedot/ui';
 import {
   H1, H3, H4, P,
@@ -257,7 +256,6 @@ const CourseCardsGrid = ({
   );
 };
 
-/* Course Card Redesigned */
 const CourseCardRedesigned = ({
   course,
   gradientRotation,
@@ -355,7 +353,6 @@ const CourseCardRedesignedWithTracking = withClickTracking(CourseCardRedesigned,
   eventName: 'course_card_click',
 });
 
-/* Course Tags */
 const CourseTags = ({ course }: { course: Course }) => {
   const regularTags = [
     course.durationDescription,
@@ -383,17 +380,7 @@ const CourseTags = ({ course }: { course: Course }) => {
 };
 
 const CourseSection = () => {
-  // Use hardcoded data instead of API
   const courses = HARDCODED_COURSES;
-  const loading = false;
-
-  if (loading) {
-    return (
-      <Section className="py-24">
-        <ProgressDots />
-      </Section>
-    );
-  }
 
   if (courses.length === 0) {
     return null;
