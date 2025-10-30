@@ -7,9 +7,6 @@ const meta: Meta<typeof CoursesContent> = {
   parameters: {
     layout: 'padded',
   },
-  args: {
-    authToken: 'mock-auth-token',
-  },
 };
 
 export default meta;
@@ -18,17 +15,11 @@ type Story = StoryObj<typeof meta>;
 // Basic story showing the component structure
 // In a real environment, this would fetch data from the API endpoints
 export const Default: Story = {
-  args: {
-    authToken: 'test-auth-token',
-  },
 };
 
 // To see different states, you would need to mock the API responses
 // Consider adding MSW to your Storybook setup for interactive stories
 export const WithMockDescription: Story = {
-  args: {
-    authToken: 'test-auth-token',
-  },
   parameters: {
     docs: {
       description: {
