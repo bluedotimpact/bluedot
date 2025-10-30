@@ -318,6 +318,9 @@ const CourseCardRedesigned = ({
         }}
       />
 
+      {/* Layer 5: Hover dark overlay */}
+      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+
       {/* Content Container */}
       <div className="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10">
         {/* Icon at top */}
