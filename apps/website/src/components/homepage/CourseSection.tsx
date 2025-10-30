@@ -6,6 +6,7 @@ import {
   H1, H3, H4, P,
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
 
@@ -154,16 +155,13 @@ const CourseCarousel = ({
 
   return (
     <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">
-      <div
+      <motion.div
         className="flex gap-5 md:gap-6 lg:gap-8 pl-5"
-        style={{
-          animation: 'scroll 40s linear infinite',
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.animationPlayState = 'paused';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.animationPlayState = 'running';
+        animate={{ x: [0, '-50%'] }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: 'linear',
         }}
       >
         {allCourses.map((course, index) => {
@@ -184,14 +182,7 @@ const CourseCarousel = ({
             />
           );
         })}
-      </div>
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}
-      </style>
+      </motion.div>
     </div>
   );
 };
@@ -379,14 +370,10 @@ const CourseSection = () => {
   }
 
   // Component determines featured course logic internally
-  const featuredCourse = courses.find((course) => course.isFeatured) || courses[0];
+  const featuredCourse = courses.find((course) => course.isFeatured) || courses[0]!;
   const otherCourses = courses
-    .filter((course) => course.id !== featuredCourse?.id)
+    .filter((course) => course.id !== featuredCourse.id)
     .slice(0, 4);
-
-  if (!featuredCourse) {
-    return null;
-  }
 
   return (
     <Section className="py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">

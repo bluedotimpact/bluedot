@@ -591,7 +591,6 @@ exports[`CourseSection > renders as expected 1`] = `
         >
           <div
             class="flex gap-5 md:gap-6 lg:gap-8 pl-5"
-            style="animation: scroll 40s linear infinite;"
           >
             <span>
               <a
@@ -1448,14 +1447,6 @@ exports[`CourseSection > renders as expected 1`] = `
               </a>
             </span>
           </div>
-          <style>
-            
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      
-          </style>
         </div>
       </div>
     </div>
