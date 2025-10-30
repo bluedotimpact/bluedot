@@ -75,7 +75,7 @@ const CourseUnitChunkPage = ({
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
