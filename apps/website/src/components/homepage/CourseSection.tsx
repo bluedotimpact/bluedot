@@ -71,7 +71,7 @@ const HARDCODED_COURSES: Course[] = [
     id: 'ai-governance',
     title: 'AI Governance',
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
-    path: '/courses/ai-governance',
+    path: '/courses/governance',
     durationDescription: '25h',
     cadence: 'Cohort-based',
     additionalTag: 'Coming Jan 2026',
