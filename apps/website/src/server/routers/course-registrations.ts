@@ -49,7 +49,7 @@ export const courseRegistrationsRouter = router({
         });
 
         if (!applicationsCourse) {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `Course configuration not found for course: ${courseId}` });
+          throw new TRPCError({ code: 'NOT_FOUND', message: `Course configuration not found for course: ${courseId}` });
         }
 
         return db.insert(courseRegistrationTable, {
