@@ -16,17 +16,9 @@ export type ChunkWithContent = Chunk & {
   exercises: Exercise[];
 };
 
-export type UnitWithContent = {
-  units: Unit[],
-  unit: Unit,
-  chunks: ChunkWithContent[],
-};
+export type UnitWithContent = Awaited<ReturnType<typeof getUnitWithContent>>;
 
-export type GetUnitResponse = {
-  type: 'success',
-} & UnitWithContent;
-
-export async function getUnitWithContent(courseSlug: string, unitNumber: string): Promise<UnitWithContent> {
+export async function getUnitWithContent(courseSlug: string, unitNumber: string) {
   // Get all active units for this course, filter the chunks field to only include the ids of active chunks
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
   const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
