@@ -1,11 +1,7 @@
 import React, {
   useState, useMemo, useEffect,
 } from 'react';
-import {
-  InferSelectModel,
-  groupDiscussionTable,
-  unitTable,
-} from '@bluedot/db';
+import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
 } from '@bluedot/ui';
@@ -13,9 +9,6 @@ import { skipToken } from '@tanstack/react-query';
 import GroupSwitchModal from './GroupSwitchModal';
 import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Unit = InferSelectModel<typeof unitTable.pg>;
 
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
