@@ -295,7 +295,7 @@ const CourseCardRedesigned = ({
         {/* Icon at top */}
         <div className="flex-grow">
           <div className="size-16 md:size-20 lg:size-24">
-            <img src={iconSrc} alt="" className="block size-full" />
+            <img src={iconSrc} alt={`${course.title} icon`} className="block size-full" />
           </div>
         </div>
 

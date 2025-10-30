@@ -185,7 +185,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="The Future of AI icon"
                         class="block size-full"
                         src="/images/courses/future-of-ai-icon.svg"
                       />
@@ -271,7 +271,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AGI Strategy icon"
                         class="block size-full"
                         src="/images/courses/agi-strategy-icon.svg"
                       />
@@ -361,7 +361,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Biosecurity icon"
                         class="block size-full"
                         src="/images/courses/biosecurity-icon.svg"
                       />
@@ -447,7 +447,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Technical AI Safety icon"
                         class="block size-full"
                         src="/images/courses/technical-ai-safety-icon.svg"
                       />
@@ -533,7 +533,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AI Governance icon"
                         class="block size-full"
                         src="/images/courses/ai-governance-icon.svg"
                       />
@@ -624,7 +624,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="The Future of AI icon"
                         class="block size-full"
                         src="/images/courses/future-of-ai-icon.svg"
                       />
@@ -710,7 +710,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AGI Strategy icon"
                         class="block size-full"
                         src="/images/courses/agi-strategy-icon.svg"
                       />
@@ -796,7 +796,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Biosecurity icon"
                         class="block size-full"
                         src="/images/courses/biosecurity-icon.svg"
                       />
@@ -882,7 +882,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Technical AI Safety icon"
                         class="block size-full"
                         src="/images/courses/technical-ai-safety-icon.svg"
                       />
@@ -968,7 +968,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AI Governance icon"
                         class="block size-full"
                         src="/images/courses/ai-governance-icon.svg"
                       />
@@ -1051,7 +1051,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="The Future of AI icon"
                         class="block size-full"
                         src="/images/courses/future-of-ai-icon.svg"
                       />
@@ -1137,7 +1137,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AGI Strategy icon"
                         class="block size-full"
                         src="/images/courses/agi-strategy-icon.svg"
                       />
@@ -1223,7 +1223,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Biosecurity icon"
                         class="block size-full"
                         src="/images/courses/biosecurity-icon.svg"
                       />
@@ -1309,7 +1309,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="Technical AI Safety icon"
                         class="block size-full"
                         src="/images/courses/technical-ai-safety-icon.svg"
                       />
@@ -1395,7 +1395,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 lg:size-24"
                     >
                       <img
-                        alt=""
+                        alt="AI Governance icon"
                         class="block size-full"
                         src="/images/courses/ai-governance-icon.svg"
                       />
