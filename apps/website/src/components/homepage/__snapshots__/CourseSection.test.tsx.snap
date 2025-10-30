@@ -176,6 +176,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -260,6 +263,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
@@ -352,6 +358,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -438,6 +447,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -522,6 +534,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
@@ -616,6 +631,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -700,6 +718,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
@@ -788,6 +809,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -874,6 +898,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -958,6 +985,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
@@ -1043,6 +1073,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -1127,6 +1160,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
@@ -1215,6 +1251,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -1301,6 +1340,9 @@ exports[`CourseSection > renders as expected 1`] = `
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+                />
+                <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
@@ -1385,6 +1427,9 @@ exports[`CourseSection > renders as expected 1`] = `
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
                   style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                />
+                <div
+                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
                   class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
