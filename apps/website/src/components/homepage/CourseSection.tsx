@@ -5,8 +5,8 @@ import {
   H1, H3, H4, P,
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
-import { motion, useAnimationControls } from 'framer-motion';
-import { useEffect } from 'react';
+import { motion, useMotionValue, animate, AnimationPlaybackControls } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
 
@@ -150,42 +150,51 @@ const CourseCarousel = ({
 }: {
   courses: Course[]
 }) => {
-  const controls = useAnimationControls();
+  const x = useMotionValue(0);
+  const animationRef = useRef<AnimationPlaybackControls | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   // Duplicate array for seamless loop
   const allCourses = [...courses, ...courses];
 
   useEffect(() => {
-    controls.start({
-      x: [0, '-50%'],
-      transition: {
-        duration: 40,
-        repeat: Infinity,
-        ease: 'linear',
-      },
+    const container = containerRef.current;
+    if (!container) return;
+
+    const containerWidth = container.scrollWidth;
+
+    // Only start animation if we have valid dimensions
+    if (containerWidth === 0) return;
+
+    const targetX = -(containerWidth / 2);
+
+    // Start infinite scroll animation with keyframes [from, to]
+    // Using repeatType 'loop' ensures seamless infinite scrolling
+    animationRef.current = animate(x, [0, targetX], {
+      duration: 40,
+      repeat: Infinity,
+      repeatType: 'loop',
+      ease: 'linear',
     });
-  }, [controls]);
+
+    return () => {
+      animationRef.current?.stop();
+    };
+  }, [x]);
 
   const pauseAnimation = () => {
-    controls.stop();
+    animationRef.current?.pause();
   };
 
   const resumeAnimation = () => {
-    controls.start({
-      x: [0, '-50%'],
-      transition: {
-        duration: 40,
-        repeat: Infinity,
-        ease: 'linear',
-      },
-    });
+    animationRef.current?.play();
   };
 
   return (
     <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">
       <motion.div
+        ref={containerRef}
         className="flex gap-5 md:gap-6 lg:gap-8 pl-5"
-        animate={controls}
-        initial={{ x: 0 }}
+        style={{ x }}
         onMouseEnter={pauseAnimation}
         onMouseLeave={resumeAnimation}
         onFocus={pauseAnimation}
