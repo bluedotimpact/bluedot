@@ -1,17 +1,14 @@
-import { z } from 'zod';
 import createHttpError from 'http-errors';
 import {
   chunkTable,
   unitTable,
   unitResourceTable,
   exerciseTable,
-  Unit,
   Chunk,
   UnitResource,
   Exercise,
 } from '@bluedot/db';
 import db from '../../../../../lib/api/db';
-import { makeApiRoute } from '../../../../../lib/api/makeApiRoute';
 import { unitFilterActiveChunks } from '../../../../../lib/api/utils';
 
 export type ChunkWithContent = Chunk & {
@@ -104,28 +101,3 @@ export async function getUnitWithContent(courseSlug: string, unitNumber: string)
     chunks: chunksWithContent,
   };
 }
-
-export default makeApiRoute({
-  requireAuth: false,
-  responseBody: z.object({
-    type: z.literal('success'),
-    units: z.array(z.any()),
-    unit: z.any(),
-    chunks: z.array(z.any()),
-  }),
-}, async (body, { raw }) => {
-  const { courseSlug, unitNumber } = raw.req.query;
-  if (typeof courseSlug !== 'string') {
-    throw new createHttpError.BadRequest('Invalid course slug');
-  }
-  if (typeof unitNumber !== 'string') {
-    throw new createHttpError.BadRequest('Invalid unit number');
-  }
-
-  const data = await getUnitWithContent(courseSlug, unitNumber);
-
-  return {
-    type: 'success' as const,
-    ...data,
-  };
-});
