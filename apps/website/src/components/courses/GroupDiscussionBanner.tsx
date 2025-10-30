@@ -37,7 +37,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const [discussionUnit, setDiscussionUnit] = useState<Unit | null>(null);
 
   // Update current time every 30 seconds for smoother countdown
   useEffect(() => {
@@ -48,21 +47,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  const { data: fetchedUnit } = trpc.courses.getByUnitId.useQuery(
+  const { data: discussionUnit } = trpc.courses.getByUnitId.useQuery(
     groupDiscussion.courseBuilderUnitRecordId
       ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
       : skipToken,
   );
-
-  useEffect(() => {
-    if (fetchedUnit) {
-      // Always use the fetched unit when available
-      setDiscussionUnit(fetchedUnit);
-    } else {
-      // No fetched unit yet
-      setDiscussionUnit(null);
-    }
-  }, [fetchedUnit]);
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
