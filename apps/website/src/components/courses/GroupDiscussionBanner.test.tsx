@@ -1,16 +1,19 @@
-import {
-  render, screen, fireEvent,
-} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  describe, expect, test, vi, beforeEach, Mock,
+  fireEvent,
+  render, screen,
+} from '@testing-library/react';
+import { TRPCError } from '@trpc/server';
+import {
   afterEach,
+  beforeEach,
+  describe, expect, test, vi,
 } from 'vitest';
-import useAxios from 'axios-hooks';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 
 // Mock dependencies
-vi.mock('axios-hooks');
 vi.mock('./GroupSwitchModal', () => ({
   default: () => <div data-testid="group-switch-modal">Group Switch Modal</div>,
 }));
@@ -74,10 +77,10 @@ describe('GroupDiscussionBanner', () => {
     const fixedTime = new Date(BASE_TIME * 1000); // Convert back from seconds to milliseconds
     vi.setSystemTime(fixedTime);
 
-    // Mock successful axios response for unit fetch
-    (useAxios as unknown as Mock).mockReturnValue([
-      { data: { unit: mockUnit }, loading: false, error: null },
-    ]);
+    // Mock successful tRPC response for unit fetch
+    server.use(
+      trpcMsw.courses.getByUnitId.query(() => mockUnit),
+    );
   });
 
   afterEach(() => {
@@ -86,7 +89,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('Happy Path Tests', () => {
-    test('renders correctly for participant when discussion starts soon', () => {
+    test('renders correctly for participant when discussion starts soon', async () => {
       const { container } = render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -94,6 +97,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText(/Your discussion on/)).toBeInTheDocument();
@@ -113,6 +117,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion (Host key: 123456)')).toBeInTheDocument();
@@ -133,6 +138,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Open discussion doc')).toBeInTheDocument();
@@ -153,6 +159,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Prepare for discussion')).toBeInTheDocument();
@@ -170,6 +177,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const joinButton = screen.getByText('Join discussion');
@@ -186,6 +194,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const joinButton = screen.getByText('Join discussion (Host key: 123456)');
@@ -207,6 +216,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const prepareButton = screen.getByText('Prepare for discussion');
@@ -223,6 +233,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const cantMakeItButton = screen.getByText("Can't make it?");
@@ -239,6 +250,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const docButton = screen.getByText('Open discussion doc');
@@ -259,6 +271,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
@@ -272,6 +285,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
@@ -286,6 +300,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="facilitator"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
@@ -295,17 +310,19 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      (useAxios as unknown as Mock).mockReturnValue([
-        { data: null, loading: true, error: null },
-      ]);
+      const discussionWithoutUnit = {
+        ...mockGroupDiscussion,
+        courseBuilderUnitRecordId: null,
+      };
 
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
-          groupDiscussion={mockGroupDiscussion}
+          groupDiscussion={discussionWithoutUnit}
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Should use fallback unit title
@@ -313,9 +330,11 @@ describe('GroupDiscussionBanner', () => {
     });
 
     test('handles unit fetch error state', () => {
-      (useAxios as unknown as Mock).mockReturnValue([
-        { data: null, loading: false, error: new Error('Fetch failed') },
-      ]);
+      server.use(
+        trpcMsw.courses.getByUnitId.query(() => {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
+        }),
+      );
 
       render(
         <GroupDiscussionBanner
@@ -324,9 +343,10 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
-      // Should still render with fallback unit title
+      // Should use fallback unit title while loading
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
   });
