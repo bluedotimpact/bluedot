@@ -31,7 +31,7 @@ export const NavLinks: React.FC<{
   const { courses, loading } = useCourses();
 
   const navCourses = loading ? [] : [
-    ...(courses.slice(0, 2) || []).map((course) => ({
+    ...(courses.slice(0, 3) || []).map((course) => ({
       title: course.title,
       url: course.path,
       isNew: course.isNew || false,
