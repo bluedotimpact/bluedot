@@ -3,6 +3,7 @@ import { adminRouter } from './admin';
 import { blogsRouter } from './blogs';
 import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
+import { coursesRouter } from './courses';
 import { groupDiscussionsRouter } from './group-discussions';
 import { jobsRouter } from './jobs';
 import { meetPersonRouter } from './meet-person';
@@ -14,6 +15,7 @@ export const appRouter = router({
   blogs: blogsRouter,
   certificates: certificatesRouter,
   courseRegistrations: courseRegistrationsRouter,
+  courses: coursesRouter,
   groupDiscussions: groupDiscussionsRouter,
   jobs: jobsRouter,
   meetPerson: meetPersonRouter,
