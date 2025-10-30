@@ -5,7 +5,9 @@ import {
   H1, H3, H4, P,
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
-import { motion, useMotionValue, animate, AnimationPlaybackControls } from 'framer-motion';
+import {
+  motion, useMotionValue, animate, AnimationPlaybackControls,
+} from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
@@ -158,12 +160,12 @@ const CourseCarousel = ({
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) return undefined;
 
     const containerWidth = container.scrollWidth;
 
     // Only start animation if we have valid dimensions
-    if (containerWidth === 0) return;
+    if (containerWidth === 0) return undefined;
 
     const targetX = -(containerWidth / 2);
 
