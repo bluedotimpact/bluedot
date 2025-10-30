@@ -6,7 +6,8 @@ import {
   H1, H3, H4, P,
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
+import { useEffect } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
 
@@ -150,19 +151,48 @@ const CourseCarousel = ({
 }: {
   courses: Course[]
 }) => {
+  const controls = useAnimationControls();
   // Duplicate array for seamless loop
   const allCourses = [...courses, ...courses];
+
+  useEffect(() => {
+    controls.start({
+      x: [0, '-50%'],
+      transition: {
+        duration: 40,
+        repeat: Infinity,
+        ease: 'linear',
+      },
+    });
+  }, [controls]);
+
+  const pauseAnimation = () => {
+    controls.stop();
+  };
+
+  const resumeAnimation = () => {
+    controls.start({
+      x: [0, '-50%'],
+      transition: {
+        duration: 40,
+        repeat: Infinity,
+        ease: 'linear',
+      },
+    });
+  };
 
   return (
     <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">
       <motion.div
         className="flex gap-5 md:gap-6 lg:gap-8 pl-5"
-        animate={{ x: [0, '-50%'] }}
-        transition={{
-          duration: 40,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
+        animate={controls}
+        initial={{ x: 0 }}
+        onMouseEnter={pauseAnimation}
+        onMouseLeave={resumeAnimation}
+        onFocus={pauseAnimation}
+        onBlur={resumeAnimation}
+        onTouchStart={pauseAnimation}
+        onTouchEnd={resumeAnimation}
       >
         {allCourses.map((course, index) => {
           const originalIndex = index % courses.length;

@@ -591,6 +591,7 @@ exports[`CourseSection > renders as expected 1`] = `
         >
           <div
             class="flex gap-5 md:gap-6 lg:gap-8 pl-5"
+            style="transform: none;"
           >
             <span>
               <a
