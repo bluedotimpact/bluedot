@@ -7,6 +7,7 @@ import { groupDiscussionsRouter } from './group-discussions';
 import { jobsRouter } from './jobs';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
+import { resourcesRouter } from './resources';
 import { usersRouter } from './users';
 
 export const appRouter = router({
@@ -18,6 +19,7 @@ export const appRouter = router({
   jobs: jobsRouter,
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
+  resources: resourcesRouter,
   users: usersRouter,
 });
 

@@ -1,16 +1,19 @@
 import { useRouter } from 'next/router';
 import useAxios from 'axios-hooks';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
-import { GetUnitResourcesResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/resources';
 import { GetUnitResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]';
 import { ResourceDisplay } from './ResourceDisplay';
+import { trpc } from '../../utils/trpc';
 
 const ResourceListCourseContent: React.FC = () => {
   const { query: { courseSlug, unitNumber } } = useRouter();
 
-  const [{ data: resourcesData, loading: resourcesLoading, error: resourcesError }] = useAxios<GetUnitResourcesResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}/resources`,
+  // Fetch unit resources and exercises (auto-fetches, no auth required)
+  const { data: resourcesData, isLoading: resourcesLoading, error: resourcesError } = trpc.resources.getUnitResources.useQuery({
+    courseSlug: courseSlug as string,
+    unitNumber: unitNumber as string,
+  }, {
+    enabled: !!courseSlug && !!unitNumber,
   });
 
   // This will almost always hit useAxios's built-in cache, because we render this on the unit page
@@ -24,7 +27,7 @@ const ResourceListCourseContent: React.FC = () => {
   }
 
   if (resourcesError || !resourcesData || unitError || !unitData) {
-    return <ErrorSection error={resourcesError ?? new Error('Missing data from API')} />;
+    return <ErrorSection error={resourcesError ?? unitError ?? new Error('Missing data from API')} />;
   }
 
   return (
