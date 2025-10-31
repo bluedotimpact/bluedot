@@ -71,7 +71,7 @@ const CourseUnitChunkPage = ({
 
   useEffect(() => {
     // If we're logged in, ensures a course registration is recorded for this course
-    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
+    const shouldRecordCourseRegistration = auth && unit.courseId && courseSlug === 'future-of-ai';
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
