@@ -7,52 +7,40 @@ import {
   render, screen, waitFor, fireEvent,
 } from '@testing-library/react';
 import { useAuthStore } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import type { GetCoursesResponse } from '../../pages/api/courses';
 import { Nav } from './Nav';
 import { mockCourse } from '../../__tests__/testUtils';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
-type UseAxiosResult = ReturnType<typeof useAxios<GetCoursesResponse>>;
+const mockCourses = [
+  mockCourse({
+    id: '1',
+    title: 'Featured Course',
+    description: 'Featured course description',
+    path: '/courses/future-of-ai',
+    image: '/images/courses/featured.jpg',
+    durationDescription: '4 weeks',
+    cadence: 'Weekly',
+    isFeatured: true,
+    isNew: false,
+  }),
+  mockCourse({
+    id: '2',
+    title: 'New Course',
+    description: 'New course description',
+    path: '/courses/ops',
+    image: '/images/courses/new.jpg',
+    durationDescription: '2 weeks',
+    cadence: 'Daily',
+    isFeatured: false,
+    isNew: true,
+  }),
+];
 
 // Mock next/router
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
-}));
-
-// Mock axios-hooks
-vi.mock('axios-hooks', () => ({
-  default: () => [{
-    data: {
-      type: 'success',
-      courses: [
-        mockCourse({
-          id: '1',
-          title: 'Featured Course',
-          description: 'Featured course description',
-          path: '/courses/future-of-ai',
-          image: '/images/courses/featured.jpg',
-          durationDescription: '4 weeks',
-          cadence: 'Weekly',
-          isFeatured: true,
-          isNew: false,
-        }),
-        mockCourse({
-          id: '2',
-          title: 'New Course',
-          description: 'New course description',
-          path: '/courses/ops',
-          image: '/images/courses/new.jpg',
-          durationDescription: '2 weeks',
-          cadence: 'Daily',
-          isFeatured: false,
-          isNew: true,
-        }),
-      ],
-    },
-    loading: false,
-    error: null,
-  }, null!, null!] as UseAxiosResult,
 }));
 
 const mockRouter = {
@@ -60,9 +48,10 @@ const mockRouter = {
   pathname: '/test-page',
 };
 
-// Setup router mock before each test
+// Setup router mock and tRPC mock before each test
 beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
+  server.use(trpcMsw.courses.getAll.query(() => mockCourses));
 });
 
 const withLoggedInUser = () => {
@@ -120,20 +109,29 @@ describe('Nav', () => {
     });
   };
 
-  test('renders with courses', () => {
+  test('renders with courses', async () => {
     const { container } = render(
-      <Nav logo="logo.png" />,
+      <Nav />,
+      { wrapper: TrpcProvider },
     );
+
+    // Wait for courses to load
+    await waitFor(() => {
+      // Check that we don't have any progress dots
+      const progressDots = container.querySelectorAll('.progress-dots');
+      expect(progressDots.length).toBe(0);
+    });
+
     expect(container).toMatchSnapshot();
   });
 
   test('renders course links in mobile dropdown', async () => {
-    const { container } = render(<Nav />);
+    const { container } = render(<Nav />, { wrapper: TrpcProvider });
     await testDropdownLinks(container, 'mobile');
   });
 
   test('renders course links in desktop dropdown', async () => {
-    const { container } = render(<Nav />);
+    const { container } = render(<Nav />, { wrapper: TrpcProvider });
     await testDropdownLinks(container, 'desktop');
   });
 
@@ -142,6 +140,7 @@ describe('Nav', () => {
 
     const { container } = render(
       <Nav />,
+      { wrapper: TrpcProvider },
     );
 
     const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
@@ -170,6 +169,7 @@ describe('Nav', () => {
 
     const { container } = render(
       <Nav />,
+      { wrapper: TrpcProvider },
     );
 
     const profileButton = container.querySelector('.profile-links__btn');
@@ -198,6 +198,7 @@ describe('Nav', () => {
   test('clicking outside the nav closes the drawer', async () => {
     const { container } = render(
       <Nav />,
+      { wrapper: TrpcProvider },
     );
 
     const hamburgerButton = container.querySelector('.mobile-nav-links__btn');
@@ -230,7 +231,7 @@ describe('Nav', () => {
       pathname: mockPathname,
     });
 
-    render(<Nav />);
+    render(<Nav />, { wrapper: TrpcProvider });
 
     // Check that the href includes the redirect_to parameter on all login buttons
     const loginButtons = screen.getAllByText('Sign in')

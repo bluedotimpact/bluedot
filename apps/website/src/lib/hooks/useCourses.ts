@@ -1,14 +1,10 @@
-import useAxios from 'axios-hooks';
-import type { GetCoursesResponse } from '../../pages/api/courses';
+import { trpc } from '../../utils/trpc';
 
 export const useCourses = () => {
-  const [{ data, loading, error }] = useAxios<GetCoursesResponse>({
-    url: '/api/courses',
-    method: 'POST',
-  });
+  const { data: courses, isLoading: loading, error } = trpc.courses.getAll.useQuery();
 
   // Filter for courses that should be displayed on the course hub index
-  const filteredCourses = (data?.courses ?? []).filter((course) => course.displayOnCourseHubIndex);
+  const filteredCourses = (courses ?? []).filter((course) => course.displayOnCourseHubIndex);
 
   // Sort courses: featured first, then new, then alphabetically by title
   const sortedCourses = [...filteredCourses].sort((a, b) => {
