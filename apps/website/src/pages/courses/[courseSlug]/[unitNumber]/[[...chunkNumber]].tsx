@@ -7,6 +7,7 @@ import { isHttpError } from 'http-errors';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { trpc } from '../../../../utils/trpc';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
+import { FOAI_COURSE_ID } from '../../../../lib/constants';
 
 type CourseUnitChunkPageProps = UnitWithContent & {
   courseSlug: string;
@@ -71,11 +72,11 @@ const CourseUnitChunkPage = ({
 
   useEffect(() => {
     // If we're logged in, ensures a course registration is recorded for this course
-    const shouldRecordCourseRegistration = auth && unit.courseId && courseSlug === 'future-of-ai';
+    const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, latestUtmParams.utm_source, courseSlug]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
