@@ -1,12 +1,12 @@
-import { useRouter } from 'next/router';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
-import { useEffect } from 'react';
+import { TRPCError } from '@trpc/server';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { isHttpError } from 'http-errors';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
+import { getUnitWithContent, type UnitWithContent } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
-import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
 
 type CourseUnitChunkPageProps = UnitWithContent & {
   courseSlug: string;
@@ -135,7 +135,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
       },
     };
   } catch (error) {
-    if (isHttpError(error) && error.statusCode === 404) {
+    if (error instanceof TRPCError && error.code === 'NOT_FOUND') {
       return { notFound: true };
     }
     throw error;
