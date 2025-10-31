@@ -1,6 +1,8 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import '@testing-library/jest-dom';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import {
   describe, expect, test, vi,
 } from 'vitest';
@@ -64,7 +66,7 @@ describe('CourseSection', () => {
 
     // Wait for the courses to load
     await waitFor(() => {
-      expect(container.querySelector('.course-section__featured')).toBeInTheDocument();
+      expect(screen.getByText('Featured Course')).toBeInTheDocument();
     });
 
     expect(container.textContent).not.toContain('Hidden Course');
@@ -74,16 +76,15 @@ describe('CourseSection', () => {
   test('tracks clicks on course cards', async () => {
     server.use(trpcMsw.courses.getAll.query(() => mockCourses));
 
-    const { container } = render(<CourseSection />, { wrapper: TrpcProvider });
+    render(<CourseSection />, { wrapper: TrpcProvider });
 
     // Wait for the courses to load
     await waitFor(() => {
-      expect(container.querySelector('.course-card--featured')).toBeInTheDocument();
+      expect(screen.getByText('Featured Course')).toBeInTheDocument();
     });
 
-    // Click the featured course card using BEM class selector
-    const featuredCard = container.querySelector('.course-card--featured') as HTMLElement;
-    if (!featuredCard) throw new Error('Featured course card not found');
+    // Click the featured course card by finding the link
+    const featuredCard = screen.getByRole('link', { name: /Featured Course/i });
     fireEvent.click(featuredCard);
 
     // Verify GA event was sent with correct parameters
@@ -92,10 +93,9 @@ describe('CourseSection', () => {
       course_url: '/courses/future-of-ai',
     });
 
-    // Click another course card (first regular course card)
-    const regularCards = container.querySelectorAll('.course-card--regular');
-    if (!regularCards.length) throw new Error('Regular course cards not found');
-    fireEvent.click(regularCards[0] as HTMLElement);
+    // Click another course card (first non-featured course card)
+    const newCourseCard = screen.getByRole('link', { name: /New Course/i });
+    fireEvent.click(newCourseCard);
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
