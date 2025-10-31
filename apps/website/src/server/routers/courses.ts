@@ -1,4 +1,5 @@
 import { courseTable, unitTable } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
@@ -19,11 +20,17 @@ export const coursesRouter = router({
     .query(async ({ input }) => {
       const { courseSlug, unitId } = input;
 
-      return db.get(unitTable, {
+      const unit = await db.get(unitTable, {
         id: unitId,
         courseSlug,
         unitStatus: 'Active',
       });
+
+      if (!unit) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
+      }
+
+      return unit;
     }),
 
   getAll: publicProcedure
