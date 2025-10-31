@@ -13,8 +13,8 @@ export const coursesRouter = router({
   getByUnitId: publicProcedure
     .input(
       z.object({
-        courseSlug: z.string(),
-        unitId: z.string(),
+        courseSlug: z.string().trim().min(1, 'courseSlug is required'),
+        unitId: z.string().trim().min(1, 'unitId is required'),
       }),
     )
     .query(async ({ input }) => {
