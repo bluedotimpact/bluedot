@@ -48,7 +48,7 @@ exports[`Congratulations > renders default as expected 1`] = `
     class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
   >
     <h3
-      class="bluedot-h3 not-prose congratulations__title text-center"
+      class="bluedot-h3 not-prose congratulations__title text-center pt-2"
     >
       Congratulations on completing 
       Test Course
@@ -139,7 +139,7 @@ exports[`Congratulations > renders with custom args 1`] = `
     class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
   >
     <h3
-      class="bluedot-h3 not-prose congratulations__title text-center"
+      class="bluedot-h3 not-prose congratulations__title text-center pt-2"
     >
       Congratulations on completing 
       Test Course

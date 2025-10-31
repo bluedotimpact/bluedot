@@ -1,7 +1,12 @@
-import { unitTable } from '@bluedot/db';
+import { courseTable, unitTable } from '@bluedot/db';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
+
+export const getAllActiveCourses = async () => {
+  const courses = await db.scan(courseTable, { status: 'Active' });
+  return courses;
+};
 
 export const coursesRouter = router({
   getByUnitId: publicProcedure
@@ -19,5 +24,10 @@ export const coursesRouter = router({
         courseSlug,
         unitStatus: 'Active',
       });
+    }),
+
+  getAll: publicProcedure
+    .query(async () => {
+      return getAllActiveCourses();
     }),
 });
