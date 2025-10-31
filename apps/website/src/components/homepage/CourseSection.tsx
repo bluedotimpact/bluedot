@@ -162,24 +162,31 @@ const CourseCarousel = ({
     const container = containerRef.current;
     if (!container) return undefined;
 
-    const containerWidth = container.scrollWidth;
+    const setupAnimation = () => {
+      const containerWidth = container.scrollWidth;
 
-    // Only start animation if we have valid dimensions
-    if (containerWidth === 0) return undefined;
+      if (containerWidth === 0) return;
 
-    const targetX = -(containerWidth / 2);
+      const targetX = -(containerWidth / 2);
 
-    // Start infinite scroll animation with keyframes [from, to]
-    // Using repeatType 'loop' ensures seamless infinite scrolling
-    animationRef.current = animate(x, [0, targetX], {
-      duration: 40,
-      repeat: Infinity,
-      repeatType: 'loop',
-      ease: 'linear',
-    });
+      animationRef.current?.stop();
+      x.set(0);
+
+      animationRef.current = animate(x, [0, targetX], {
+        duration: 40,
+        repeat: Infinity,
+        repeatType: 'loop',
+        ease: 'linear',
+      });
+    };
+
+    setupAnimation();
+
+    window.addEventListener('resize', setupAnimation);
 
     return () => {
       animationRef.current?.stop();
+      window.removeEventListener('resize', setupAnimation);
     };
   }, [x]);
 
