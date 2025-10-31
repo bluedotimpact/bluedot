@@ -1,6 +1,4 @@
 import { ProgressDots, ErrorSection, CTALinkOrButton } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
-import { GetCoursesResponse } from '../../pages/api/courses';
 import { ROUTES } from '../../lib/routes';
 import { P } from '../Text';
 import CourseListRow from './CourseListRow';
@@ -13,15 +11,12 @@ const CoursesContent = () => {
     error: courseRegistrationsError,
   } = trpc.courseRegistrations.getAll.useQuery();
 
-  const [{ data: coursesData, loading: coursesLoading, error: coursesError }] = useAxios<GetCoursesResponse>({
-    method: 'get',
-    url: '/api/courses',
-  });
+  const { data: courses, isLoading: coursesLoading, error: coursesError } = trpc.courses.getAll.useQuery();
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
     .map((courseRegistration) => {
-      const course = coursesData?.courses.find((c) => c.id === courseRegistration.courseId);
+      const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
     })
     .flat();

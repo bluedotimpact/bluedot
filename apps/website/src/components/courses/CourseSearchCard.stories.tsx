@@ -19,8 +19,6 @@ export const Default: Story = {
     title: 'Advanced TypeScript',
     url: '/courses/advanced-typescript',
     description: 'Deep dive into advanced TypeScript features like generics, decorators, and conditional types.',
-    courseLength: 'Self-paced',
-    cadence: 'Daily',
     averageRating: 4.8,
     imageSrc: '/images/courses/default.jpg',
   },
