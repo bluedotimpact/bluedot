@@ -66,12 +66,11 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // FoAI course only: If we're logged in, ensures a course registration is recorded
   const { latestUtmParams } = useLatestUtmParams();
   const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
 
   useEffect(() => {
-    // If we're logged in, ensures a course registration is recorded for this course
+    // FoAI course only: If we're logged in, ensures a course registration is recorded
     const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
