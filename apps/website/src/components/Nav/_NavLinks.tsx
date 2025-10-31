@@ -135,7 +135,13 @@ const NavDropdown: React.FC<{
       // Desktop dropdowns: dark when scrolled on non-homepage pages
       return DRAWER_CLASSES(!isHomepage && isScrolled, isExpanded);
     }
-    return isExpanded ? 'pt-4' : '';
+    // Mobile dropdowns: apply collapse/expand classes
+    return clsx(
+      'transition-all duration-300 ease-in-out',
+      isExpanded
+        ? 'max-h-[500px] opacity-100 pt-4'
+        : 'max-h-0 opacity-0 pt-0',
+    );
   };
 
   return (
