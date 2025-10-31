@@ -26,7 +26,7 @@ type Unit = InferSelectModel<typeof unitTable.pg>;
  */
 export async function unitFilterActiveChunks({
   units,
-  db,
+  db: dbInstance,
 }: {
   units: Unit[];
   db: DB;
@@ -34,7 +34,7 @@ export async function unitFilterActiveChunks({
   const allChunkIds = units.map((unit) => unit.chunks ?? []).flat();
   const allActiveChunkIds = new Set(
     (
-      await db.pg
+      await dbInstance.pg
         .select({ id: chunkTable.pg.id })
         .from(chunkTable.pg)
         .where(
