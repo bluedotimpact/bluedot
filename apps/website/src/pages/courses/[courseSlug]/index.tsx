@@ -24,7 +24,7 @@ import { getCourseData, type CourseAndUnits } from '../../../server/routers/cour
 
 type CoursePageProps = {
   courseSlug: string;
-  courseData: CourseAndUnits
+  courseData: CourseAndUnits;
 };
 
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
