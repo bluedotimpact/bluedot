@@ -18,7 +18,7 @@ function getBaseUrl() {
  * Custom headers function that ensures the access token is valid before making a request.
  * If the token is close to expiry (< 50s remaining) or expired, it will refresh the token first.
  */
-async function getHeadersWithValidToken() {
+export async function getHeadersWithValidToken() {
   const { auth, refresh } = useAuthStore.getState();
 
   if (!auth) {

@@ -153,14 +153,20 @@ export const useAuthStore = create<{
     });
   },
   refresh: async () => {
-    // Wait for any in-progress refresh to complete (with 10-second timeout)
+    // Wait for any in-progress refresh to complete (with 5-second timeout)
     const existingPromise = get().internal_refreshPromise;
     if (existingPromise) {
-      await Promise.race([
-        existingPromise,
-        new Promise<void>((resolve) => { setTimeout(resolve, 10000); }),
+      const result = await Promise.race([
+        existingPromise.then(() => ({ timedOut: false })),
+        new Promise<{ timedOut: boolean }>((resolve) => {
+          setTimeout(() => resolve({ timedOut: true }), 5000);
+        }),
       ]);
-      return;
+      // If the existing refresh completed successfully, we're done
+      if (!result.timedOut) {
+        return;
+      }
+      // If it timed out, try again
     }
 
     const refreshPromise = (async () => {
