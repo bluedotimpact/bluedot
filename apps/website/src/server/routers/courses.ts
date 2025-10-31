@@ -29,6 +29,11 @@ export async function getCourseData(courseSlug: string) {
   };
 }
 
+export const getAllActiveCourses = async () => {
+  const courses = await db.scan(courseTable, { status: 'Active' });
+  return courses;
+};
+
 export const coursesRouter = router({
   getBySlug: publicProcedure
     .input(
@@ -38,5 +43,10 @@ export const coursesRouter = router({
     )
     .query(async ({ input: { courseSlug } }) => {
       return getCourseData(courseSlug);
+    }),
+
+  getAll: publicProcedure
+    .query(async () => {
+      return getAllActiveCourses();
     }),
 });

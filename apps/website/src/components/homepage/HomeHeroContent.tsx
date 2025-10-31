@@ -18,13 +18,13 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
         }}
       >
         {/* Noise Overlay */}
-        <div className="absolute inset-0 opacity-50 mix-blend-soft-light pointer-events-none bg-[url('/images/agi-strategy/noise.png')] bg-[length:100px_100px] bg-repeat" />
+        <div className="absolute inset-0 z-10 opacity-50 mix-blend-overlay pointer-events-none bg-[url('/images/homepage/noise.svg')] bg-repeat" />
 
         {/* Nav spacer */}
-        <div className="min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100" />
+        <div className="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100" />
 
         {/* Content Container */}
-        <div className="flex-1 flex flex-col justify-end px-5 py-12 min-[680px]:max-[1023px]:justify-center min-[680px]:max-[1023px]:px-8 min-[680px]:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
+        <div className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 min-[680px]:max-[1023px]:justify-center min-[680px]:max-[1023px]:px-8 min-[680px]:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
           <div className="w-full max-w-[1488px] mx-auto min-[1440px]:px-6">
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] min-[680px]:max-[1023px]:max-w-[616px] min-[680px]:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
@@ -47,7 +47,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
         </div>
 
         {/* Alumni Section - at bottom of hero */}
-        <div className="-scale-x-100">
+        <div className="relative z-20 -scale-x-100">
           <HomeGraduateSection />
         </div>
       </div>
