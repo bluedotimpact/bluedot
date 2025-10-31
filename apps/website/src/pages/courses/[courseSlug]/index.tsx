@@ -82,7 +82,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => 
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData }: { courseData: CoursePageProps['courseData'] }) => {
+const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
