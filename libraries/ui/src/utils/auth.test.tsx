@@ -178,6 +178,79 @@ describe('auth', () => {
       expect(useAuthStore.getState().auth).toBeNull();
     });
 
+    test('should retry refresh up to 3 times with backoff before giving up', async () => {
+      let attemptCount = 0;
+      const mockUseRefreshToken = vi.fn().mockImplementation(() => {
+        attemptCount += 1;
+        if (attemptCount < 3) {
+          throw new Error('Refresh failed temporarily');
+        }
+        // Succeed on third attempt
+        return createMockOidcResponse({
+          id_token: 'new-access-token',
+          refresh_token: 'new-refresh-token',
+        });
+      });
+
+      (OidcClient as unknown as ReturnType<typeof vi.fn>).mockImplementation(() => ({
+        useRefreshToken: mockUseRefreshToken,
+      }));
+
+      const auth = createAuth({
+        expiresAt: Date.now() + 70_000,
+        token: 'old-access-token',
+      });
+
+      useAuthStore.getState().setAuth(auth);
+
+      // Wait for refresh timer to trigger
+      vi.advanceTimersByTime(10000);
+      // Run the initial refresh attempt
+      await vi.runOnlyPendingTimersAsync();
+      // Advance time for first backoff (1000ms)
+      await vi.advanceTimersByTimeAsync(1000);
+      // Advance time for second backoff (2000ms)
+      await vi.advanceTimersByTimeAsync(2000);
+
+      // Verify the refresh was called 3 times
+      expect(mockUseRefreshToken).toHaveBeenCalledTimes(3);
+
+      // Verify the token was successfully updated on the third attempt
+      const currentAuth = useAuthStore.getState().auth;
+      expect(currentAuth?.token).toBe('new-access-token');
+      expect(currentAuth?.refreshToken).toBe('new-refresh-token');
+    });
+
+    test('should log out when all 3 refresh retries fail', async () => {
+      const mockUseRefreshToken = vi.fn().mockImplementation(() => {
+        throw new Error('Refresh failed');
+      });
+
+      (OidcClient as unknown as ReturnType<typeof vi.fn>).mockImplementation(() => ({
+        useRefreshToken: mockUseRefreshToken,
+      }));
+
+      const auth = createAuth({
+        expiresAt: Date.now() + 70_000,
+      });
+
+      useAuthStore.getState().setAuth(auth);
+
+      // Wait for refresh timer to trigger
+      vi.advanceTimersByTime(10000);
+      await vi.runOnlyPendingTimersAsync();
+
+      // Advance through all backoff periods
+      await vi.advanceTimersByTimeAsync(1000); // First backoff
+      await vi.advanceTimersByTimeAsync(2000); // Second backoff
+
+      // Verify the refresh was attempted 3 times
+      expect(mockUseRefreshToken).toHaveBeenCalledTimes(3);
+
+      // Should be logged out after all retries fail
+      expect(useAuthStore.getState().auth).toBeNull();
+    });
+
     test('should log out when token expires without refresh token', () => {
       const auth = createAuth({
         expiresAt: Date.now() + 5_000,
