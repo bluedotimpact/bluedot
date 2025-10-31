@@ -1,15 +1,16 @@
-import type { Course } from '@bluedot/db';
 import {
   ProgressDots,
   Section,
 } from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
 import {
   FC,
 } from 'react';
+import type { AppRouter } from '../../server/routers/_app';
 import { CourseSearchCard } from './CourseSearchCard';
 
 export type CourseDirectoryProps = {
-  courses?: Course[];
+  courses?: inferRouterOutputs<AppRouter>['courses']['getAll'];
   loading: boolean;
 };
 
