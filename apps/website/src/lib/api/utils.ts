@@ -67,9 +67,6 @@ export async function getUnitWithContent(courseSlug: string, unitNumber: string)
 
   // Get chunks for this unit, filter for active status, and sort by chunk order
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  if (!allChunks) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'Failed to find chunks' });
-  }
   const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
   const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
 
