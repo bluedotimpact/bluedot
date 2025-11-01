@@ -70,10 +70,9 @@ const StorySection = () => {
             </P>
 
             <CTALinkOrButton
-              variant="primary"
               size="small"
               url={ROUTES.joinUs.url}
-              className="h-11 text-[14px] font-normal tracking-[0.42px] text-white !bg-[#0033CC]"
+              className="h-11 px-3 py-2.5 text-[14px] font-normal tracking-[0.42px] text-white bg-[#0033CC] rounded-md hover:bg-[#0029A3] transition-all duration-200"
             >
               We're hiring
             </CTALinkOrButton>

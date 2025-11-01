@@ -80,7 +80,7 @@ exports[`StorySection > renders default as expected 1`] = `
             Since 2022, we've trained over 5,000 professionals worldwide – from technical staff at frontier AI companies to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M.
           </p>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none px-3 py-2.5 rounded-md cta-button--primary bg-bluedot-normal link-on-dark h-11 text-[14px] font-normal tracking-[0.42px] text-white !bg-[#0033CC]"
+            class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-11 px-3 py-2.5 text-[14px] font-normal tracking-[0.42px] text-white bg-[#0033CC] rounded-md hover:bg-[#0029A3] transition-all duration-200"
             href="/join-us"
             tabindex="0"
           >
