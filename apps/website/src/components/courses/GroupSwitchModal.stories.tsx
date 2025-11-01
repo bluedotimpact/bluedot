@@ -4,6 +4,7 @@ import { http, HttpResponse, delay } from 'msw';
 import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const unit1: Unit = {
   id: 'unit-1',
@@ -251,8 +252,8 @@ export const Default: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get('/api/courses/ai-safety', () => {
-          return HttpResponse.json(mockCourseData);
+        trpcStorybookMsw.courses.getBySlug.query(async () => {
+          return mockCourseData;
         }),
         http.get('/api/courses/ai-safety/group-switching/available', () => {
           return HttpResponse.json(mockSwitchingData);
@@ -274,8 +275,8 @@ export const AlternativeUnit: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get('/api/courses/ai-safety', () => {
-          return HttpResponse.json(mockCourseData);
+        trpcStorybookMsw.courses.getBySlug.query(async () => {
+          return mockCourseData;
         }),
         http.get('/api/courses/ai-safety/group-switching/available', () => {
           return HttpResponse.json(mockSwitchingData);
@@ -297,8 +298,8 @@ export const NoAvailableGroups: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get('/api/courses/ai-safety', () => {
-          return HttpResponse.json(mockCourseData);
+        trpcStorybookMsw.courses.getBySlug.query(async () => {
+          return mockCourseData;
         }),
         http.get('/api/courses/ai-safety/group-switching/available', () => {
           return HttpResponse.json(mockSwitchingData);
@@ -317,10 +318,10 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        http.get('/api/courses/ai-safety', async () => {
+        trpcStorybookMsw.courses.getBySlug.query(async () => {
           // You may need to reload the page to force this delay and see the loading state.
           await delay(2000);
-          return HttpResponse.json(mockCourseData);
+          return mockCourseData;
         }),
         http.get('/api/courses/ai-safety/group-switching/available', async () => {
           await delay(2000);

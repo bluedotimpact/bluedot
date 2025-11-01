@@ -3,11 +3,10 @@ import {
   ErrorSection,
   ProgressDots,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
 import { CgChevronDown } from 'react-icons/cg';
 import type { Unit } from '@bluedot/db';
 import { H2, P } from '../../Text';
-import type { GetCourseResponse } from '../../../pages/api/courses/[courseSlug]';
+import { trpc } from '../../../utils/trpc';
 
 export type CourseCurriculumSectionProps = {
   /** The section heading displayed at the top */
@@ -36,10 +35,7 @@ const CourseCurriculumSection = ({
   title,
   courseSlug,
 }: CourseCurriculumSectionProps) => {
-  const [{ data, loading, error }] = useAxios<GetCourseResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}`,
-  });
+  const { data, isLoading: loading, error } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
   if (error) {
     return <ErrorSection error={error} />;

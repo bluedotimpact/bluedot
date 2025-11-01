@@ -20,10 +20,10 @@ import {
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
 
-import { CourseAndUnits } from '../../pages/api/courses/[courseSlug]';
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from '../homepage/GraduateSection';
+import type { CourseAndUnits } from '../../server/routers/courses';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
