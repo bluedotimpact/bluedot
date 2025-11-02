@@ -277,9 +277,9 @@ const OurCommunitySection = () => {
         <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-8 min-[680px]:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-8">
-            <NewText.H2 className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px]" style={{ fontFeatureSettings: "'ss04' on" }}>
+            <h2 className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px]" style={{ fontFeatureSettings: "'ss04' on" }}>
               Our community
-            </NewText.H2>
+            </h2>
             <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
               Learn more about the incredible work our community is doing.
             </NewText.P>
