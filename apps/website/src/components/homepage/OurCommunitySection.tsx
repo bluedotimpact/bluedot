@@ -70,7 +70,7 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
     href={member.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] h-auto"
+    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
   >
     {/* Image Section */}
     <div className="community-member__image-container flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
@@ -152,8 +152,9 @@ const OurCommunitySection = () => {
   const infiniteMembers = createInfiniteScrollData();
 
   const getCardWidth = useCallback(() => {
-    if (typeof window === 'undefined') return 288;
+    if (typeof window === 'undefined') return 320;
     const width = window.innerWidth;
+    if (width >= 1280) return 320;
     if (width >= 680) return 288;
     return 276;
   }, []);
