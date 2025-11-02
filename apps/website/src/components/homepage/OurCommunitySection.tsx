@@ -143,6 +143,7 @@ const OurCommunitySection = () => {
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const isResettingRef = useRef(false);
+  const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
     if (COMMUNITY_MEMBERS.length === 0) return [];
@@ -168,6 +169,7 @@ const OurCommunitySection = () => {
   }, []);
 
   const startAutoScroll = useCallback(() => {
+    if (prefersReducedMotionRef.current) return;
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -196,7 +198,7 @@ const OurCommunitySection = () => {
   }, []);
 
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && !prefersReducedMotionRef.current) {
       startAutoScroll();
     } else {
       stopAutoScroll();
@@ -206,11 +208,32 @@ const OurCommunitySection = () => {
     };
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotionRef.current = e.matches;
+      if (e.matches) stopAutoScroll();
+      else if (!isHovered) startAutoScroll();
+    };
+    prefersReducedMotionRef.current = mql.matches;
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, [isHovered, startAutoScroll, stopAutoScroll]);
+
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
   }, []);
 
   const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  const handleFocus = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
     setIsHovered(false);
   }, []);
 
@@ -319,6 +342,8 @@ const OurCommunitySection = () => {
           onScroll={handleScroll}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
