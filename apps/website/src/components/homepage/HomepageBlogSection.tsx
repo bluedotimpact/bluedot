@@ -132,7 +132,7 @@ const BlogDivider = () => {
   return (
     <div className="relative h-0 w-full min-[1025px]:h-auto min-[1025px]:w-0 my-8 min-[680px]:my-12 min-[1025px]:my-0 min-[1025px]:mx-6">
       <svg
-        className="absolute -inset-y-px inset-x-0 min-[1025px]:inset-y-0 min-[1025px]:-inset-x-px w-full min-[1025px]:w-auto min-[1025px]:h-full"
+        className="absolute -inset-y-px inset-x-0 min-[1025px]:inset-y-0 min-[1025px]:-inset-x-px w-full min-[1025px]:w-auto min-[1025px]:h-full pointer-events-none"
         preserveAspectRatio="none"
       >
         <line
