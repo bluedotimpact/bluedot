@@ -1,5 +1,5 @@
 import { CTALinkOrButton, ErrorSection, ProgressDots } from '@bluedot/ui';
-import { H2, P } from '@bluedot/ui/src/Text';
+import { P } from '@bluedot/ui/src/Text';
 import Link from 'next/link';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
@@ -23,12 +23,12 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         <div className="relative z-10 max-w-screen-xl mx-auto">
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             {/* Tailwind doesn't support font-feature-settings */}
-            <H2
-              className="text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
+            <h2
+              className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
               style={{ fontFeatureSettings: "'ss02' on" }}
             >
               What we&apos;re thinking
-            </H2>
+            </h2>
           </div>
           <ProgressDots />
         </div>
@@ -49,12 +49,12 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         {/* Header Section */}
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
           {/* Tailwind doesn't support font-feature-settings */}
-          <H2
-            className="text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
+          <h2
+            className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
             style={{ fontFeatureSettings: "'ss02' on" }}
           >
             What we&apos;re thinking
-          </H2>
+          </h2>
 
           <CTALinkOrButton
             url={ROUTES.blog.url}
