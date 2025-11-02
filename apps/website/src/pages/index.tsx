@@ -2,7 +2,7 @@ import Head from 'next/head';
 import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
-import BlogListSection from '../components/blog/BlogListSection';
+import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 
 const HomePage = () => {
   return (
@@ -38,7 +38,9 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
-      <BlogListSection maxItems={3} />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <HomepageBlogSection maxItems={3} />
       <StorySection />
     </div>
   );
