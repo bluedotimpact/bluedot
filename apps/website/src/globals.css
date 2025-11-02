@@ -38,7 +38,8 @@
 }
 
 /* Headers use Inter Display */
-.bluedot-h1 {
+.bluedot-h1,
+.bluedot-h2 {
   font-family: var(--font-inter-display), var(--font-inter), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
