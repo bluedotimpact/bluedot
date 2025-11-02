@@ -3,7 +3,7 @@
 exports[`StorySection > renders default as expected 1`] = `
 <div>
   <section
-    class="bg-white border-y border-[rgba(19,19,46,0.1)] overflow-hidden"
+    class="bg-white border-b border-[rgba(19,19,46,0.1)] overflow-hidden"
   >
     <style>
       
