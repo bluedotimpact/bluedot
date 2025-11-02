@@ -97,15 +97,28 @@ type BlogCardProps = {
   blog: inferRouterOutputs<AppRouter>['blogs']['getAll'][number];
 };
 
+const getOrdinalSuffix = (day: number): string => {
+  if (day >= 11 && day <= 13) return 'TH';
+  switch (day % 10) {
+    case 1: return 'ST';
+    case 2: return 'ND';
+    case 3: return 'RD';
+    default: return 'TH';
+  }
+};
+
 const BlogCard = ({ blog }: BlogCardProps) => {
   const url = `/blog/${blog.slug}`;
-  const formattedDate = blog.publishedAt
-    ? new Date(blog.publishedAt * 1000).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    }).toUpperCase().replace(',', 'TH,')
-    : 'UNKNOWN DATE';
+
+  let formattedDate = 'UNKNOWN DATE';
+  if (blog.publishedAt) {
+    const date = new Date(blog.publishedAt * 1000);
+    const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const ordinal = getOrdinalSuffix(day);
+    formattedDate = `${month} ${day}${ordinal}, ${year}`;
+  }
 
   const authorName = blog.authorName?.toUpperCase() || 'UNKNOWN AUTHOR';
 
