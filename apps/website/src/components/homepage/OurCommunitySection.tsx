@@ -211,12 +211,21 @@ const OurCommunitySection = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = (e: MediaQueryListEvent) => {
-      prefersReducedMotionRef.current = e.matches;
-      if (e.matches) stopAutoScroll();
-      else if (!isHovered) startAutoScroll();
+    const applyPreference = (matches: boolean) => {
+      prefersReducedMotionRef.current = matches;
+      if (matches) {
+        stopAutoScroll();
+      } else if (!isHovered) {
+        startAutoScroll();
+      }
     };
-    prefersReducedMotionRef.current = mql.matches;
+
+    applyPreference(mql.matches);
+
+    const onChange = (e: MediaQueryListEvent) => {
+      applyPreference(e.matches);
+    };
+
     mql.addEventListener('change', onChange);
     return () => mql.removeEventListener('change', onChange);
   }, [isHovered, startAutoScroll, stopAutoScroll]);
