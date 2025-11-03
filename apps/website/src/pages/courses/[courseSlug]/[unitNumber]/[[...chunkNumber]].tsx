@@ -26,8 +26,9 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   }
 
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
-  const chunks = activeChunks.sort((a, b) => parseInt(a.chunkOrder) - parseInt(b.chunkOrder));
+  const chunks = allChunks
+    .filter((chunk) => chunk.status === 'Active')
+    .sort((a, b) => parseInt(a.chunkOrder) - parseInt(b.chunkOrder));
 
   // Resolve chunk resources and exercises with proper ordering
   const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
