@@ -49,7 +49,7 @@ type CertificateConfig = {
 
 const regularCourseConfig: CertificateConfig = {
   useCard: true,
-  showCommunity: true,
+  showCommunity: false,
   texts: {
     notLoggedIn: {
       title: 'Your Certificate',
@@ -81,7 +81,7 @@ const regularCourseConfig: CertificateConfig = {
 
 const foaiCourseConfig: CertificateConfig = {
   useCard: false,
-  showCommunity: false,
+  showCommunity: true,
   texts: {
     notLoggedIn: {
       header: "Download your certificate, show you're taking AI seriously",
