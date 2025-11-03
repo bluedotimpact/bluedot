@@ -27,7 +27,7 @@
         "happy-dom": "18.0.1",
         "http-errors": "^2.0.0",
         "node-cron": "^4.0.7",
-        "zod": "^3.22.4"
+        "zod": "^4.1.12"
     },
     "devDependencies": {
         "@bluedot/docker-scripts": "*",

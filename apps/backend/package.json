@@ -27,7 +27,7 @@
         "http-errors": "^2.0.0",
         "kysely": "^0.26.3",
         "pg": "^8.11.3",
-        "zod": "^3.22.4"
+        "zod": "^4.1.12"
     },
     "devDependencies": {
         "@bluedot/docker-scripts": "*",
