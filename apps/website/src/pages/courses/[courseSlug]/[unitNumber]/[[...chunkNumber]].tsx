@@ -18,9 +18,9 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
 
   // Sort units numerically since database text sorting might not handle numbers correctly
-  const units = allUnits.sort((a, b) => parseInt(a.unitNumber) - parseInt(b.unitNumber));
+  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
-  const unit = units.find((u) => parseInt(u.unitNumber) === parseInt(unitNumber));
+  const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
   if (!unit) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
   }
@@ -28,7 +28,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
   const chunks = allChunks
     .filter((chunk) => chunk.status === 'Active')
-    .sort((a, b) => parseInt(a.chunkOrder) - parseInt(b.chunkOrder));
+    .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
 
   // Resolve chunk resources and exercises with proper ordering
   const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
@@ -42,8 +42,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       resources = resolvedResources
         .filter((r): r is UnitResource => r !== null)
         .sort((a, b) => {
-          const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
-          const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
+          const orderA = Number(a.readingOrder) ?? Infinity;
+          const orderB = Number(b.readingOrder) ?? Infinity;
           return orderA - orderB;
         });
     }
@@ -57,8 +57,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          const numA = a.exerciseOrder ? parseInt(a.exerciseOrder) : Infinity;
-          const numB = b.exerciseOrder ? parseInt(b.exerciseOrder) : Infinity;
+          const numA = Number(a.exerciseOrder) ?? Infinity;
+          const numB = Number(b.exerciseOrder) ?? Infinity;
           return numA - numB;
         });
     }
