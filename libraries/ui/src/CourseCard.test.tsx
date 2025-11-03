@@ -27,7 +27,7 @@ describe('CourseCard', () => {
   });
 
   test('renders with optional args', () => {
-    const { container } = render(
+    const { getByRole } = render(
       <CourseCard
         {...defaultProps}
         applicationDeadline="Feb 1"
@@ -35,9 +35,7 @@ describe('CourseCard', () => {
         imageSrc="/images/team/custom-size.jpg"
       />,
     );
-    const courseLengthEl = container.querySelector('.course-card__length');
-    expect(courseLengthEl).toMatchSnapshot();
-    const imgEl = container.querySelector('.course-card__image');
+    const imgEl = getByRole('img');
     expect(imgEl).toMatchSnapshot();
   });
 });

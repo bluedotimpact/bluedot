@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Tag, ProgressDots } from '@bluedot/ui';
+import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
@@ -31,7 +32,7 @@ export const NavLinks: React.FC<{
   const { courses, loading } = useCourses();
 
   const navCourses = loading ? [] : [
-    ...(courses.slice(0, 2) || []).map((course) => ({
+    ...(courses.slice(0, 3) || []).map((course) => ({
       title: course.title,
       url: course.path,
       isNew: course.isNew || false,
@@ -134,7 +135,13 @@ const NavDropdown: React.FC<{
       // Desktop dropdowns: dark when scrolled on non-homepage pages
       return DRAWER_CLASSES(!isHomepage && isScrolled, isExpanded);
     }
-    return isExpanded ? 'pt-4' : '';
+    // Mobile dropdowns: apply collapse/expand classes
+    return clsx(
+      'transition-all duration-300 ease-in-out',
+      isExpanded
+        ? 'max-h-[500px] opacity-100 pt-4'
+        : 'max-h-0 opacity-0 pt-0',
+    );
   };
 
   return (
@@ -149,16 +156,12 @@ const NavDropdown: React.FC<{
         )}
       >
         {title}
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className={clsx('flex-shrink-0 transition-transform duration-300 ease', isExpanded && 'rotate-45')}
-        >
-          <path d="M10.0003 4.1665V15.8332M4.16699 9.99984H15.8337" stroke="currentColor" strokeWidth="1.5" strokeMiterlimit="16" />
-        </svg>
+        <CgChevronDown
+          className={clsx(
+            'size-5 flex-shrink-0 transition-all duration-300 ease-in-out',
+            isExpanded ? 'rotate-180 opacity-70' : 'opacity-100',
+          )}
+        />
       </button>
       <div
         className={clsx(

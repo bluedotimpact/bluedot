@@ -2,11 +2,12 @@ import Head from 'next/head';
 import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
-import BlogListSection from '../components/blog/BlogListSection';
+import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
+import OurCommunitySection from '../components/homepage/OurCommunitySection';
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="bg-white">
       <Head>
         <title>BlueDot Impact | Industry-leading free AI courses and career support</title>
         <meta name="description" content="Learn for free about AI safety and how to ensure humanity safely navigates the transition to transformative AI. Join 4,000+ professionals building careers at organizations like Anthropic, OpenAI, and the UK’s AI Safety Institute." />
@@ -38,7 +39,12 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
-      <BlogListSection maxItems={3} />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <OurCommunitySection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <HomepageBlogSection maxItems={3} />
       <StorySection />
     </div>
   );

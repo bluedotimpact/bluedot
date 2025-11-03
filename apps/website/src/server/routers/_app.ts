@@ -2,6 +2,9 @@ import { router } from '../trpc';
 import { adminRouter } from './admin';
 import { blogsRouter } from './blogs';
 import { certificatesRouter } from './certificates';
+import { coursesRouter } from './courses';
+import { courseRegistrationsRouter } from './course-registrations';
+import { groupDiscussionsRouter } from './group-discussions';
 import { jobsRouter } from './jobs';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
@@ -11,6 +14,9 @@ export const appRouter = router({
   admin: adminRouter,
   blogs: blogsRouter,
   certificates: certificatesRouter,
+  courses: coursesRouter,
+  courseRegistrations: courseRegistrationsRouter,
+  groupDiscussions: groupDiscussionsRouter,
   jobs: jobsRouter,
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
