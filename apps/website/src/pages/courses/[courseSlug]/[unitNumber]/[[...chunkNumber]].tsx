@@ -12,8 +12,8 @@ import db from '../../../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
 
-type UnitWithContent = Awaited<ReturnType<typeof getUnitWithContent>>;
-async function getUnitWithContent(courseSlug: string, unitNumber: string) {
+type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
+async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
   const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
 
@@ -78,7 +78,7 @@ async function getUnitWithContent(courseSlug: string, unitNumber: string) {
   };
 }
 
-type CourseUnitChunkPageProps = UnitWithContent & {
+type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
   unitNumber: string;
 };
@@ -195,7 +195,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   }
 
   try {
-    const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
+    const unitWithContent = await getUnitWithChunks(courseSlug, unitNumber);
 
     return {
       props: {
