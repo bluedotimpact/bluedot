@@ -2,20 +2,10 @@ import {
   and,
   chunkTable,
   eq,
-  exerciseTable,
   inArray,
-  InferSelectModel,
-  unitResourceTable,
-  unitTable,
-  type Exercise,
-  type UnitResource,
+  type Unit,
+  type PgAirtableDb,
 } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
-import type dbAsType from './db';
-import db from './db';
-
-type DB = typeof dbAsType;
-type Unit = InferSelectModel<typeof unitTable.pg>;
 
 /**
  * Filter the `chunks` field on each element of `units` to only include the ids of active
@@ -29,7 +19,7 @@ export async function unitFilterActiveChunks({
   db: dbInstance,
 }: {
   units: Unit[];
-  db: DB;
+  db: PgAirtableDb;
 }): Promise<Unit[]> {
   const allChunkIds = units.map((unit) => unit.chunks ?? []).flat();
   const allActiveChunkIds = new Set(
