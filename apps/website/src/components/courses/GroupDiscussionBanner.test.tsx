@@ -317,6 +317,20 @@ describe('GroupDiscussionBanner', () => {
         error: null,
       });
 
+      render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={mockGroupDiscussion}
+          userRole="participant"
+          onClickPrepare={mockOnClickPrepare}
+        />,
+      );
+
+      // Should use fallback unit title while loading
+      expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+    });
+
+    test('shows fallback title when unit ID is missing', () => {
       const discussionWithoutUnit = {
         ...mockGroupDiscussion,
         courseBuilderUnitRecordId: null,
@@ -331,7 +345,7 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      // Should use fallback unit title while loading
+      // Should use fallback unit title when no unit ID is provided
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
 
