@@ -163,13 +163,13 @@ export const createBioSecurityContent = (
         imageSrc: '/images/lander/foai/dario.jpeg',
         url: 'https://www.congress.gov/event/118th-congress/senate-event/LC72507/text',
       },
-      {
-        quote: '"Five years ago, our country was caught unprepared by the Covid pandemic. It would be a tragedy if we failed to do enough to ensure we are sufficiently prepared for the next one. Biosecurity is now an essential aspect of national security and growth."',
-        name: 'Tony Blair and William Hague',
-        role: 'Former UK Prime Minister and Leader of the Opposition',
-        imageSrc: '/images/lander/biosecurity/blair-hague.jpg',
-        url: 'https://institute.global/insights/politics-and-governance/a-new-national-purpose-biosecurity-as-the-foundation-for-growth-and-global-leadership',
-      },
+      // {
+      //   quote: '"Five years ago, our country was caught unprepared by the Covid pandemic. It would be a tragedy if we failed to do enough to ensure we are sufficiently prepared for the next one. Biosecurity is now an essential aspect of national security and growth."',
+      //   name: 'Tony Blair and William Hague',
+      //   role: 'Former UK Prime Minister and Leader of the Opposition',
+      //   imageSrc: '/images/lander/biosecurity/blair-hague.jpg',
+      //   url: 'https://institute.global/insights/politics-and-governance/a-new-national-purpose-biosecurity-as-the-foundation-for-growth-and-global-leadership',
+      // },
       {
         quote: '"We\'re reaching an inflection point with biotechnology where, with the help of AI, we are starting to be able to program cells like we program computers. This inflection point will define our national and economic security in the decades to come."',
         name: 'Michelle Rozo',

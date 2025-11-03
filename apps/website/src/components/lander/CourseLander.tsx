@@ -87,8 +87,8 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
       {content.quotes && <QuoteSection {...content.quotes} />}
 
       {content.communityMembers && (
-        <CommunityMembersSubSection 
-          members={content.communityMembers} 
+        <CommunityMembersSubSection
+          members={content.communityMembers}
           title={content.communityMembersTitle}
         />
       )}
