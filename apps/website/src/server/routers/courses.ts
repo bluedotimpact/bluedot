@@ -21,7 +21,7 @@ export async function getCourseData(courseSlug: string) {
   // Get units for this course with active status, then sort by unit number
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
   const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
-  const units = allUnits.sort((a, b) => (a.unitNumber || '').localeCompare(b.unitNumber || ''));
+  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
   return {
     course,
