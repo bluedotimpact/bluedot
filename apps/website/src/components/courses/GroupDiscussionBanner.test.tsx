@@ -311,7 +311,7 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      mockUseQuery.mockReturnValue({
+      mockUseQuery.mockReturnValueOnce({
         data: undefined,
         isLoading: true,
         error: null,
