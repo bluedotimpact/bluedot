@@ -331,7 +331,7 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      // Should use fallback unit title
+      // Should use fallback unit title while loading
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
 
@@ -351,7 +351,7 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      // Should use fallback unit title while loading
+      // Should use fallback unit title when error
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
   });
