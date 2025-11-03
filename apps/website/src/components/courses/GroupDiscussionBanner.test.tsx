@@ -102,7 +102,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('Happy Path Tests', () => {
-    test('renders correctly for participant when discussion starts soon', async () => {
+    test('renders correctly for participant when discussion starts soon', () => {
       const { container } = render(
         <GroupDiscussionBanner
           unit={mockUnit}
