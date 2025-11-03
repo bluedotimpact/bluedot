@@ -14,7 +14,6 @@ import { trpc } from '../../../../utils/trpc';
 
 type UnitWithContent = Awaited<ReturnType<typeof getUnitWithContent>>;
 async function getUnitWithContent(courseSlug: string, unitNumber: string) {
-  // Get all active units for this course, filter the chunks field to only include the ids of active chunks
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
   const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
 
@@ -26,7 +25,6 @@ async function getUnitWithContent(courseSlug: string, unitNumber: string) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
   }
 
-  // Get chunks for this unit, filter for active status, and sort by chunk order
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
   const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
   const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
