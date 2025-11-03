@@ -11,7 +11,7 @@ const CourseCreationSchema = z.strictObject({
 
 const CourseSchema = z.strictObject({
   courseId: z.string(),
-}).merge(CourseCreationSchema.required());
+}).extend(CourseCreationSchema.required());
 
 const IterationCreationSchema = z.strictObject({
   name: z.string().optional(),
@@ -22,7 +22,7 @@ const IterationCreationSchema = z.strictObject({
 
 const IterationSchema = z.strictObject({
   iterationId: z.string(),
-}).merge(IterationCreationSchema.required());
+}).extend(IterationCreationSchema.required());
 
 const IdSchema = z.strictObject({
   id: z.string(),
