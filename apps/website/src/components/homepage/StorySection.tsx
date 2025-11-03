@@ -49,9 +49,9 @@ const StorySection = () => {
             className="absolute story-large rounded-xl border border-[rgba(19,19,46,0.1)] object-cover object-center"
           />
           <img
-            src="/images/homepage/small-photo.png"
-            alt="BlueDot community gathering"
-            className="absolute story-small rounded-xl border border-[rgba(19,19,46,0.1)] object-cover object-center"
+            src="/images/logo/BlueDot_Impact_Icon.svg"
+            alt="BlueDot Impact"
+            className="absolute story-small rounded-xl border border-[rgba(19,19,46,0.1)] object-contain object-center bg-white p-10"
           />
         </div>
 
