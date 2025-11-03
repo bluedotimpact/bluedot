@@ -9,14 +9,14 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
-import { unitFilterActiveChunks } from '../../../../lib/api/utils';
+import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
 
 type UnitWithContent = Awaited<ReturnType<typeof getUnitWithContent>>;
 async function getUnitWithContent(courseSlug: string, unitNumber: string) {
   // Get all active units for this course, filter the chunks field to only include the ids of active chunks
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
-  const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
+  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
 
   // Sort units numerically since database text sorting might not handle numbers correctly
   const units = allUnits.sort((a, b) => parseInt(a.unitNumber) - parseInt(b.unitNumber));

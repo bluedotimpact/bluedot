@@ -8,7 +8,7 @@ import {
 } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
-import { unitFilterActiveChunks } from '../../../../lib/api/utils';
+import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 
 export type CourseAndUnits = {
   course: Course,
@@ -28,7 +28,7 @@ export async function getCourseData(courseSlug: string): Promise<CourseAndUnits>
 
   // Get units for this course with active status, then sort by unit number
   const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
-  const allUnits = await unitFilterActiveChunks({ units: allUnitsWithAllChunks, db });
+  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
   const units = allUnits.sort((a, b) => (a.unitNumber || '').localeCompare(b.unitNumber || ''));
 
   return {

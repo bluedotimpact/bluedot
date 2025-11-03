@@ -14,7 +14,7 @@ import {
  *
  * Returns a new (shallow copied) array of units, with only the `chunks` field modified.
  */
-export async function unitFilterActiveChunks({
+export async function removeInactiveChunkIdsFromUnits({
   units,
   db: dbInstance,
 }: {
