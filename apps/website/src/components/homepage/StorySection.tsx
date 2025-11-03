@@ -4,7 +4,7 @@ import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
   return (
-    <section className="bg-white border-y border-[rgba(19,19,46,0.1)] overflow-hidden">
+    <section className="bg-white border-b border-[rgba(19,19,46,0.1)] overflow-hidden">
       <style>{`
         :root { --s: 1; }
         @media (min-width: 680px) { :root { --s: 1.41; } }
