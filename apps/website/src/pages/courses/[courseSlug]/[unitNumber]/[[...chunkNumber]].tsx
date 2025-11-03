@@ -53,12 +53,12 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
       const resolvedExercises = await Promise.all(exercisePromises);
 
-      // Filter for exercises that exist and are active, sort by exerciseNumber
+      // Filter for exercises that exist and are active, sort by exerciseOrder
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          const numA = a.exerciseNumber ? parseInt(a.exerciseNumber) : Infinity;
-          const numB = b.exerciseNumber ? parseInt(b.exerciseNumber) : Infinity;
+          const numA = a.exerciseOrder ? parseInt(a.exerciseOrder) : Infinity;
+          const numB = b.exerciseOrder ? parseInt(b.exerciseOrder) : Infinity;
           return numA - numB;
         });
     }

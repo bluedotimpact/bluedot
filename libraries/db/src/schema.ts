@@ -890,7 +890,7 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text().notNull(),
       airtableId: 'fldc9oyPwJSkeMiAW',
     },
-    exerciseNumber: {
+    exerciseOrder: {
       pgColumn: text(),
       airtableId: 'fldOoKVFSrToAicfT',
     },
