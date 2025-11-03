@@ -8,17 +8,11 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
     <div className={clsx('relative w-full', className)}>
       {/* Main Hero Container */}
       <div
-        className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100"
+        className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100 bg-cover bg-center"
         style={{
-          /* Tailwind can't handle multiple backgrounds with blend modes */
-          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%), url(\'/images/agi-strategy/hero-banner-split.png\'), #FFFFFF',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundBlendMode: 'color-burn, normal, normal',
+          backgroundImage: 'url(\'/images/homepage/hero.jpg\')',
         }}
       >
-        {/* Noise Overlay */}
-        <div className="absolute inset-0 z-10 opacity-50 mix-blend-overlay pointer-events-none bg-[url('/images/homepage/noise.svg')] bg-repeat" />
 
         {/* Nav spacer */}
         <div className="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100" />
