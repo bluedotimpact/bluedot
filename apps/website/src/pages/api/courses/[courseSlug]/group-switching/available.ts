@@ -150,7 +150,7 @@ export default makeApiRoute({
       userIsParticipant: z.boolean(),
       allDiscussionsHaveStarted: z.boolean(),
     })),
-    discussionsAvailable: z.record(z.array(z.object({
+    discussionsAvailable: z.record(z.string(), z.array(z.object({
       discussion: z.any(),
       spotsLeftIfKnown: z.number().nullable(),
       userIsParticipant: z.boolean(),
