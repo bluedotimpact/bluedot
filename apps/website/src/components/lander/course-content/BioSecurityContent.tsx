@@ -131,9 +131,22 @@ export const createBioSecurityContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
+            <span className="font-semibold">Next part-time round</span>
             <br />
-            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">13 Nov</span>
+            Application deadline: <span className="font-semibold">Nov 13th</span>
+            <br />
+            Course start: <span className="font-semibold">Nov 17th</span>
+            <br />
+            Course end: <span className="font-semibold">Dec 21st</span>
+            <br />
+            <br />
+            <span className="font-semibold">Next intensive round</span>
+            <br />
+            Application deadline: <span className="font-semibold">Nov 13th</span>
+            <br />
+            Course start: <span className="font-semibold">Nov 17th</span>
+            <br />
+            Course end: <span className="font-semibold">Nov 22nd</span>
           </>
         ),
       },
@@ -205,6 +218,13 @@ export const createBioSecurityContent = (
       url: 'https://www.linkedin.com/in/rachel-hovde-52b1b146/',
     },
     {
+      name: 'Peter Babigumira Ahabwe',
+      jobTitle: 'Epidemic Intelligence Analyst, Ugandan Ministry of Health',
+      course: 'Course Facilitator',
+      imageSrc: '/images/graduates/peter-ahabwe.jpeg',
+      url: 'https://www.linkedin.com/in/babigumira09/',
+    },
+    {
       name: 'Scott Olesen',
       jobTitle: 'Center for Forecasting & Outbreak Analytics, US CDC',
       course: 'Course Graduate',
@@ -217,6 +237,13 @@ export const createBioSecurityContent = (
       course: 'Course Facilitator',
       imageSrc: '/images/graduates/felix-moronta.jpeg',
       url: 'https://www.linkedin.com/in/morontafelix/',
+    },
+    {
+      name: 'Natalie Kiilu',
+      jobTitle: 'Oxford Biosecurity Group',
+      course: 'Course Participant',
+      imageSrc: '/images/graduates/natalie-kiilu.jpeg',
+      url: 'https://www.linkedin.com/in/natalie-kiilu-6a4a94169/',
     },
     {
       name: 'Sarah Koeller',
