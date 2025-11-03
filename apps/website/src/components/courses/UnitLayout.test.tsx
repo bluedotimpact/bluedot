@@ -8,6 +8,7 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import UnitLayout from './UnitLayout';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -151,6 +152,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -171,6 +173,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -191,6 +194,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -234,6 +238,7 @@ describe('UnitLayout', () => {
         chunkIndex={CHUNKS.length - 1}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -256,6 +261,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -279,6 +285,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
 
     // Wait for MarkdownExtendedRenderer to complete async rendering
@@ -312,6 +319,7 @@ describe('UnitLayout', () => {
         chunkIndex={1}
         setChunkIndex={mockSetChunkIndex}
       />,
+      { wrapper: TrpcProvider },
     );
 
     await waitFor(() => {
