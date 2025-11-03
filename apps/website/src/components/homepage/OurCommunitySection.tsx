@@ -70,10 +70,10 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
     href={member.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="community-member flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
+    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
   >
     {/* Image Section */}
-    <div className="community-member__image-container flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
       <img
         src={member.imageSrc}
         alt={`Profile of ${member.name}`}
@@ -82,22 +82,22 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
     </div>
 
     {/* Content Section */}
-    <div className="community-member__content flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
+    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
       {/* Name and Job Title Container */}
-      <div className="community-member__info flex flex-col items-start gap-1 w-full">
+      <div className="flex flex-col items-start gap-1 w-full">
         {/* Name */}
-        <NewText.P className="community-member__name text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
           {member.name}
         </NewText.P>
 
         {/* Job Title */}
-        <NewText.P className="community-member__job-title text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
+        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
           {member.jobTitle}
         </NewText.P>
       </div>
 
       {/* Course */}
-      <NewText.P className="community-member__course text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
         {member.course}
       </NewText.P>
     </div>
@@ -303,7 +303,7 @@ const OurCommunitySection = () => {
   }, [scroll]);
 
   return (
-    <section className="our-community-section w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20" data-testid="our-community-section">
+    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container - aligned with course cards */}
       <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
