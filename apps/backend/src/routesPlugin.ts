@@ -124,7 +124,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
   s.registerRouter(contract, router, instance, {
     responseValidation: true,
     requestValidationErrorHandler: (error) => {
-      const messages = [error.body, error.pathParams, error.headers].flatMap((zodError) => zodError?.issues.map((i) => `[${i.path.join('.')}] ${i.message}`) ?? []);
+      const messages = [error.body, error.pathParams, error.headers].flatMap((zodError) => zodError?.issues.map((i) => `[${i.path?.join('.') ?? ''}] ${i.message}`) ?? []);
       throw new createHttpError.BadRequest(`Request validation failed: ${messages.join(', ')}`);
     },
   });
