@@ -34,14 +34,13 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     let resources: UnitResource[] = [];
     let exercises: Exercise[] = [];
 
-    // Fetch chunk resources
+    // Fetch chunk resources, sort by readingOrder
     if (chunk.chunkResources && chunk.chunkResources.length > 0) {
       const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
       const resolvedResources = await Promise.all(resourcePromises);
       resources = resolvedResources
         .filter((r): r is UnitResource => r !== null)
         .sort((a, b) => {
-          // Sort by readingOrder
           const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
           const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
           return orderA - orderB;
@@ -53,11 +52,10 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
       const resolvedExercises = await Promise.all(exercisePromises);
 
-      // Filter for exercises that exist and are active
+      // Filter for exercises that exist and are active, sort by exerciseNumber
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          // Sort by exerciseNumber field
           const numA = parseInt(a.exerciseNumber || '0');
           const numB = parseInt(b.exerciseNumber || '0');
           return numA - numB;
