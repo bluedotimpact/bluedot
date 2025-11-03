@@ -35,7 +35,7 @@ export const getAllActiveCourses = async () => {
 };
 
 export const coursesRouter = router({
-  getByUnitId: publicProcedure
+  getUnit: publicProcedure
     .input(
       z.object({
         courseSlug: z.string().trim().min(1, 'courseSlug is required'),

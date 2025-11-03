@@ -40,7 +40,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  const { data: discussionUnit } = trpc.courses.getByUnitId.useQuery(
+  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(
     groupDiscussion.courseBuilderUnitRecordId
       ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
       : skipToken,

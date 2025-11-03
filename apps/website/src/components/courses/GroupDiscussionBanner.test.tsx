@@ -73,7 +73,7 @@ const { mockUseQuery } = vi.hoisted(() => ({
 vi.mock('../../utils/trpc', () => ({
   trpc: {
     courses: {
-      getByUnitId: {
+      getUnit: {
         useQuery: mockUseQuery,
       },
     },
