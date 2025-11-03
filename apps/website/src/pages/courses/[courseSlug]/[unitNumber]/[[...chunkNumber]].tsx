@@ -27,7 +27,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const allChunks = await db.scan(chunkTable, { unitId: unit.id });
   const activeChunks = allChunks.filter((chunk) => chunk.status === 'Active');
-  const chunks = activeChunks.sort((a, b) => (a.chunkOrder || '').localeCompare(b.chunkOrder || '', undefined, { numeric: true, sensitivity: 'base' }));
+  const chunks = activeChunks.sort((a, b) => parseInt(a.chunkOrder) - parseInt(b.chunkOrder));
 
   // Resolve chunk resources and exercises with proper ordering
   const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
@@ -58,9 +58,9 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
           // Sort by exerciseNumber field
-          const numA = a.exerciseNumber || '';
-          const numB = b.exerciseNumber || '';
-          return numA.localeCompare(numB, undefined, { numeric: true });
+          const numA = parseInt(a.exerciseNumber || '0');
+          const numB = parseInt(b.exerciseNumber || '0');
+          return numA - numB;
         });
     }
 
