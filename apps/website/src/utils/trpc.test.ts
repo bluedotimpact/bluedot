@@ -5,20 +5,11 @@ import { OidcClient } from 'oidc-client-ts';
 import { Auth, useAuthStore } from '@bluedot/ui';
 import { getHeadersWithValidToken } from './trpc';
 
-// Mock OIDC client
 vi.mock('oidc-client-ts', () => ({
   OidcClient: vi.fn(),
   OidcClientSettings: vi.fn(),
 }));
 
-vi.mock('posthog-js', () => ({
-  default: {
-    identify: vi.fn(),
-    reset: vi.fn(),
-  },
-}));
-
-// Helper to create auth object
 const createAuth = (overrides?: Partial<Auth>): Auth => ({
   token: `test-token-${Math.random()}`,
   expiresAt: Date.now() + 3600_000, // 1 hour from now
@@ -32,7 +23,6 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
   ...overrides,
 });
 
-// Helper to create mock OIDC response
 const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
   id_token: 'new-test-token',
   expires_at: Math.floor(Date.now() / 1000) + 3600,
@@ -41,7 +31,6 @@ const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
   ...overrides,
 });
 
-// Helper to setup mocked OIDC client
 const setupMockOidcClient = (success = true, response?: Record<string, unknown>) => {
   const mockUseRefreshToken = vi.fn().mockImplementation(() => {
     if (!success) throw new Error('Refresh failed');
@@ -103,21 +92,15 @@ describe('getHeadersWithValidToken', () => {
     const { mockUseRefreshToken } = setupMockOidcClient(true, refreshResponse);
 
     // When: we get headers (this should trigger refresh)
+    // The await here waits for the refresh to complete (which is synchronous with mocked OIDC)
     const result = await getHeadersWithValidToken();
-
-    // Need to advance timers to allow refresh to complete
-    await vi.runAllTimersAsync();
 
     // Then: should have called refresh
     expect(mockUseRefreshToken).toHaveBeenCalledTimes(1);
 
-    // Should return new token
     expect(result).toEqual({ authorization: 'Bearer new-access-token' });
-
-    // Auth store should contain the new token
     const currentAuth = useAuthStore.getState().auth;
     expect(currentAuth?.token).toBe('new-access-token');
     expect(currentAuth?.refreshToken).toBe('new-refresh-token');
   });
 });
-
