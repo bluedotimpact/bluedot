@@ -1,7 +1,9 @@
-import { useAuthStore } from '@bluedot/ui';
+import { REFRESH_BEFORE_EXPIRY_MS, useAuthStore } from '@bluedot/ui';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
+
+const TEN_SECONDS_MS = 10 * 1000;
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -10,6 +12,40 @@ function getBaseUrl() {
   }
 
   return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:8000';
+}
+
+/**
+ * Custom headers function that ensures the access token is valid before making a request.
+ * If the token is close to expiry (< 50s remaining) or expired, it will refresh the token first.
+ */
+export async function getHeadersWithValidToken() {
+  const { auth, refresh } = useAuthStore.getState();
+
+  if (!auth) {
+    return { authorization: '' };
+  }
+
+  const now = Date.now();
+  const timeUntilExpiry = auth.expiresAt - now;
+
+  // If it is past the time the token should have been refreshed, attempt to refresh it before making the request
+  if (
+    timeUntilExpiry < REFRESH_BEFORE_EXPIRY_MS - TEN_SECONDS_MS
+    && auth.refreshToken
+    && auth.oidcSettings
+  ) {
+    await refresh();
+    const { auth: refreshedAuth } = useAuthStore.getState();
+    return {
+      authorization: refreshedAuth?.token
+        ? `Bearer ${refreshedAuth.token}`
+        : '',
+    };
+  }
+
+  return {
+    authorization: auth.token ? `Bearer ${auth.token}` : '',
+  };
 }
 
 export const trpc = createTRPCNext<AppRouter>({
@@ -23,12 +59,7 @@ export const trpc = createTRPCNext<AppRouter>({
            * */
           url: `${getBaseUrl()}/api/trpc`,
           // You can pass any HTTP headers you wish here
-          async headers() {
-            const { auth } = useAuthStore.getState();
-            return {
-              authorization: auth?.token ? `Bearer ${auth.token}` : '',
-            };
-          },
+          headers: getHeadersWithValidToken,
         }),
       ],
     };
