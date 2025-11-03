@@ -156,6 +156,7 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
+// TODO: this isn't used by anything, consider removing
 export const unitFeedbackTable = pgAirtable('unit_feedback', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblBwjMjul1c6l7ea',
