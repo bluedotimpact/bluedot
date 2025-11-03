@@ -85,7 +85,17 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
   // Calculate time units
   const absMinutes = Math.abs(Math.floor(timeDiffMs / (1000 * 60)));
   const absHours = Math.floor(absMinutes / 60);
-  const absDays = Math.floor(absHours / 24);
+
+  // Calculate calendar days instead of just dividing hours by 24
+  // This ensures "in X days" reflects actual calendar days, not 24-hour periods
+  const startOfNow = new Date(now);
+  startOfNow.setHours(0, 0, 0, 0);
+
+  const startOfTarget = new Date(startDate);
+  startOfTarget.setHours(0, 0, 0, 0);
+
+  // Get absolute number of calendar days between dates
+  const absDays = Math.abs(Math.round((startOfTarget.getTime() - startOfNow.getTime()) / (1000 * 60 * 60 * 24)));
 
   // Determine relative time string
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
