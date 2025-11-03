@@ -16,7 +16,7 @@ import {
  */
 export async function removeInactiveChunkIdsFromUnits({
   units,
-  db: dbInstance,
+  db,
 }: {
   units: Unit[];
   db: PgAirtableDb;
@@ -24,7 +24,7 @@ export async function removeInactiveChunkIdsFromUnits({
   const allChunkIds = units.map((unit) => unit.chunks ?? []).flat();
   const allActiveChunkIds = new Set(
     (
-      await dbInstance.pg
+      await db.pg
         .select({ id: chunkTable.pg.id })
         .from(chunkTable.pg)
         .where(
