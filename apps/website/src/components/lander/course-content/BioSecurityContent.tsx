@@ -45,17 +45,17 @@ export const createBioSecurityContent = (
     targetAudiences: [
       {
         icon: PiFlask,
-        boldText: 'For engineers and bioscientists',
+        boldText: 'Engineers and scientists',
         description: 'who want to defend against pandemics.',
       },
       {
         icon: PiBriefcase,
-        boldText: 'For policy professionals',
+        boldText: 'Policy professionals',
         description: 'who want to contribute to biosecurity policy.',
       },
       {
         icon: PiCompass,
-        boldText: 'For entrepreneurs',
+        boldText: 'Entrepreneurs',
         description: 'who want to build new pandemic defences.',
       },
     ],
