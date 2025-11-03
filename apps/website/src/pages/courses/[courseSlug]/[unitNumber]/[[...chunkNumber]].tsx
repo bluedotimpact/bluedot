@@ -56,8 +56,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          const numA = parseInt(a.exerciseNumber || '0');
-          const numB = parseInt(b.exerciseNumber || '0');
+          const numA = a.exerciseNumber ? parseInt(a.exerciseNumber) : Infinity;
+          const numB = b.exerciseNumber ? parseInt(b.exerciseNumber) : Infinity;
           return numA - numB;
         });
     }
