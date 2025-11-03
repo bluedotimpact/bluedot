@@ -42,8 +42,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       resources = resolvedResources
         .filter((r): r is UnitResource => r !== null)
         .sort((a, b) => {
-          const orderA = Number(a.readingOrder) ?? Infinity;
-          const orderB = Number(b.readingOrder) ?? Infinity;
+          const orderA = Number(a.readingOrder) || Infinity;
+          const orderB = Number(b.readingOrder) || Infinity;
           return orderA - orderB;
         });
     }
@@ -57,8 +57,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          const numA = Number(a.exerciseOrder) ?? Infinity;
-          const numB = Number(b.exerciseOrder) ?? Infinity;
+          const numA = Number(a.exerciseOrder) || Infinity;
+          const numB = Number(b.exerciseOrder) || Infinity;
           return numA - numB;
         });
     }
