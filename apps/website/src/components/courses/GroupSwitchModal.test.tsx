@@ -157,7 +157,7 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
 };
 
 describe('GroupSwitchModal', () => {
-  let mockMutation: Mock;
+  let mockSubmitGroupSwitch: Mock;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -180,10 +180,10 @@ describe('GroupSwitchModal', () => {
     });
 
     // Set up default tRPC MSW mock for successful mutations
-    mockMutation = vi.fn();
+    mockSubmitGroupSwitch = vi.fn();
     server.use(
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
-        mockMutation(input);
+        mockSubmitGroupSwitch(input);
         return undefined;
       }),
     );
@@ -232,7 +232,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the API was called with correct data
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group for one unit',
           notesFromParticipant: 'I have a scheduling conflict',
           isManualRequest: false,
@@ -300,7 +300,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the API was called with correct data
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group permanently',
           notesFromParticipant: 'Permanent time conflict with work schedule',
           isManualRequest: false,
@@ -350,7 +350,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the API was called with correct data
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group for one unit',
           notesFromParticipant: 'None of the available times work for my schedule',
           isManualRequest: true,
@@ -584,7 +584,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the manual request payload when no options are available
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group for one unit',
           notesFromParticipant: 'No available options work for me',
           isManualRequest: true,
@@ -812,7 +812,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the API was called with correct data: newGroupId set, oldGroupId undefined
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group permanently',
           notesFromParticipant: 'This time works best for my schedule',
           isManualRequest: false,
@@ -865,7 +865,7 @@ describe('GroupSwitchModal', () => {
 
       // Verify the API was called with correct data: no oldGroupId
       await waitFor(() => {
-        expect(mockMutation).toHaveBeenCalledWith({
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
           switchType: 'Switch group permanently',
           notesFromParticipant: 'I need to join a group as I was accepted late',
           isManualRequest: true,
