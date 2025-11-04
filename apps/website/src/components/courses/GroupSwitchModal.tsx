@@ -114,7 +114,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Fetch course and its units
   const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const { data: switchingData, isLoading: loading } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
+  const { data: switchingData, isLoading: discussionsLoading } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
 
   const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
     url: `/api/courses/${courseSlug}/group-switching`,
@@ -328,7 +328,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
-        {(loading || courseLoading) && <ProgressDots />}
+        {(discussionsLoading || courseLoading) && <ProgressDots />}
         {!!error && <ErrorSection error={error} />}
         {courseError && <ErrorSection error={courseError} />}
         {showSuccess && (
@@ -343,7 +343,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!loading && !courseLoading && !showSuccess && (
+        {!discussionsLoading && !courseLoading && !showSuccess && (
         <form className="flex flex-col gap-5">
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80]">
