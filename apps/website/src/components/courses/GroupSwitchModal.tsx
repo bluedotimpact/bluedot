@@ -114,7 +114,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Fetch course and its units
   const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const { data: switchingData, isLoading: discussionsLoading } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
+  const { data: switchingData, isLoading: discussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
 
   const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
     url: `/api/courses/${courseSlug}/group-switching`,
@@ -331,6 +331,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         {(discussionsLoading || courseLoading) && <ProgressDots />}
         {!!error && <ErrorSection error={error} />}
         {courseError && <ErrorSection error={courseError} />}
+        {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
