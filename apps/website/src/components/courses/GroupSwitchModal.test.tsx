@@ -17,10 +17,9 @@ import {
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
-import type { inferRouterOutputs } from '@trpc/server';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
-import type { AppRouter } from '../../server/routers/_app';
+import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
@@ -65,10 +64,8 @@ const mockCourseDataWithTwoUnits = {
   units: [mockUnit1, mockUnit2],
 };
 
-type GetGroupSwitchingAvailableResponse = inferRouterOutputs<AppRouter>['groupSwitching']['discussionsAvailable'];
-
 // Match real API structure exactly
-const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
+const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: {
@@ -381,7 +378,7 @@ describe('GroupSwitchModal', () => {
   describe('Form state', () => {
     test('Form starts with the unit specified by `currentUnit` pre-selected', async () => {
       const baseDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithUnit2: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataWithUnit2: DiscussionsAvailable = {
         ...mockSwitchingData,
         discussionsAvailable: {
           1: mockSwitchingData.discussionsAvailable[1] || [],
@@ -441,7 +438,7 @@ describe('GroupSwitchModal', () => {
     test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
       const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithDisabled: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
           { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
@@ -540,7 +537,7 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switching is still available when there are no discussions available (in "Switch group for one unit" mode)', async () => {
-      const mockSwitchingDataEmpty: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataEmpty: DiscussionsAvailable = {
         ...mockSwitchingData,
         groupsAvailable: [],
         discussionsAvailable: { 1: [] },
@@ -745,7 +742,7 @@ describe('GroupSwitchModal', () => {
 
   describe('Participant without group', () => {
     // Derive mock data from base by setting userIsParticipant to false everywhere
-    const mockSwitchingDataNoGroup: GetGroupSwitchingAvailableResponse = {
+    const mockSwitchingDataNoGroup: DiscussionsAvailable = {
       ...mockSwitchingData,
       groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
         ...g,
