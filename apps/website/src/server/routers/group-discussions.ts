@@ -95,6 +95,10 @@ export const groupDiscussionsRouter = router({
     .input(z.object({ courseSlug: z.string() }))
     .query(async ({ ctx, input: { courseSlug } }) => {
       const course = await db.get(courseTable, { slug: courseSlug });
+      if (!course) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
+      }
+
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
           email: ctx.auth.email,
