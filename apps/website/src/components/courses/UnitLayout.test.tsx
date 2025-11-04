@@ -147,7 +147,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
-        unitNumber={1}
+        unitNumber="1"
         units={COURSE_UNITS}
         chunkIndex={0}
         setChunkIndex={vi.fn()}
@@ -168,7 +168,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[1]!}
-        unitNumber={2}
+        unitNumber="2"
         units={COURSE_UNITS}
         chunkIndex={0}
         setChunkIndex={vi.fn()}
@@ -189,7 +189,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[COURSE_UNITS.length - 1]!}
-        unitNumber={COURSE_UNITS.length}
+        unitNumber={String(COURSE_UNITS.length)}
         units={COURSE_UNITS}
         chunkIndex={0}
         setChunkIndex={vi.fn()}
@@ -256,7 +256,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[0]!}
-        unitNumber={1}
+        unitNumber="1"
         units={COURSE_UNITS}
         chunkIndex={0}
         setChunkIndex={vi.fn()}
@@ -280,7 +280,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={CHUNKS}
         unit={COURSE_UNITS[1]!}
-        unitNumber={2}
+        unitNumber="2"
         units={COURSE_UNITS}
         chunkIndex={0}
         setChunkIndex={vi.fn()}
@@ -314,7 +314,7 @@ describe('UnitLayout', () => {
       <UnitLayout
         chunks={testChunks}
         unit={COURSE_UNITS[1]!}
-        unitNumber={2}
+        unitNumber="2"
         units={COURSE_UNITS}
         chunkIndex={1}
         setChunkIndex={mockSetChunkIndex}
