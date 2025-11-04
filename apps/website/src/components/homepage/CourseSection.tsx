@@ -155,6 +155,7 @@ const CourseCarousel = ({
   const x = useMotionValue(0);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const widthRef = useRef<number>(0);
   // Duplicate array for seamless loop
   const allCourses = [...courses, ...courses];
 
@@ -163,17 +164,33 @@ const CourseCarousel = ({
     if (!container) return undefined;
 
     const setupAnimation = () => {
+      const currentWidth = window.innerWidth;
+
+      // Only respond to width changes, not height changes (mobile address bar)
+      if (widthRef.current !== 0 && currentWidth === widthRef.current) {
+        return;
+      }
+
+      widthRef.current = currentWidth;
+
       const containerWidth = container.scrollWidth;
 
       if (containerWidth === 0) return;
 
       const targetX = -(containerWidth / 2);
 
-      animationRef.current?.stop();
-      x.set(0);
+      // Preserve current position
+      const currentX = x.get();
+      const currentProgress = currentX / targetX;
 
-      animationRef.current = animate(x, [0, targetX], {
-        duration: 40,
+      animationRef.current?.stop();
+
+      // Resume from current position instead of resetting to 0
+      const newStartX = targetX * currentProgress;
+      x.set(newStartX);
+
+      animationRef.current = animate(x, [newStartX, targetX], {
+        duration: 40 * (1 - currentProgress),
         repeat: Infinity,
         repeatType: 'loop',
         ease: 'linear',
@@ -340,10 +357,10 @@ const CourseCardRedesigned = ({
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10">
+      <div className="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10">
         {/* Icon at top */}
         <div className="flex-grow">
-          <div className="size-16 md:size-20 lg:size-24">
+          <div className="size-16 md:size-20 xl:size-24">
             <img src={iconSrc} alt={`${course.title} icon`} className="block size-full" />
           </div>
         </div>
