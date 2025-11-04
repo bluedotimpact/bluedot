@@ -95,14 +95,14 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
   startOfTarget.setHours(0, 0, 0, 0);
 
   // Get absolute number of calendar days between dates
-  const absDays = Math.abs(Math.round((startOfTarget.getTime() - startOfNow.getTime()) / (1000 * 60 * 60 * 24)));
+  const absCalendarDays = Math.abs(Math.round((startOfTarget.getTime() - startOfNow.getTime()) / (1000 * 60 * 60 * 24)));
 
   // Determine relative time string
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     return 'starting now';
   }
   if (timeDiffMs > 0) {
-    return `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
+    return `in ${buildRelativeTimeString(absMinutes, absHours, absCalendarDays, '')}`;
   }
-  return buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
+  return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };
