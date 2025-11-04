@@ -4,11 +4,13 @@ import {
   type GroupDiscussion,
 } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
-import { TRPCError } from '@trpc/server';
+import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
 import { protectedProcedure, router } from '../trpc';
+
+export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
 type DiscussionsByUnit = Record<string, {
   discussion: GroupDiscussion;
