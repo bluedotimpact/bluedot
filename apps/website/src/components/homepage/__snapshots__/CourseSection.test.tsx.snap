@@ -179,13 +179,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="The Future of AI icon"
@@ -268,13 +268,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AGI Strategy icon"
@@ -361,13 +361,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Biosecurity icon"
@@ -450,13 +450,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Technical AI Safety icon"
@@ -539,13 +539,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AI Governance icon"
@@ -634,13 +634,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="The Future of AI icon"
@@ -723,13 +723,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AGI Strategy icon"
@@ -812,13 +812,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Biosecurity icon"
@@ -901,13 +901,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Technical AI Safety icon"
@@ -990,13 +990,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AI Governance icon"
@@ -1076,13 +1076,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="The Future of AI icon"
@@ -1165,13 +1165,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AGI Strategy icon"
@@ -1254,13 +1254,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Biosecurity icon"
@@ -1343,13 +1343,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="Technical AI Safety icon"
@@ -1432,13 +1432,13 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
                   >
                     <div
-                      class="size-16 md:size-20 lg:size-24"
+                      class="size-16 md:size-20 xl:size-24"
                     >
                       <img
                         alt="AI Governance icon"
