@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { http, HttpResponse, delay } from 'msw';
 import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
-import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
+import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const unit1: Unit = {
@@ -100,7 +100,7 @@ const mockCourseData: { course: Course, units: Unit[] } = {
   ],
 };
 
-const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
+const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: {
@@ -229,7 +229,6 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
       },
     ],
   },
-  type: 'success',
 };
 
 const meta = {
@@ -255,8 +254,8 @@ export const Default: Story = {
         trpcStorybookMsw.courses.getBySlug.query(async () => {
           return mockCourseData;
         }),
-        http.get('/api/courses/ai-safety/group-switching/available', () => {
-          return HttpResponse.json(mockSwitchingData);
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
+          return mockSwitchingData;
         }),
         http.post('/api/courses/ai-safety/group-switching', () => {
           return HttpResponse.json({ type: 'success' });
@@ -278,8 +277,8 @@ export const AlternativeUnit: Story = {
         trpcStorybookMsw.courses.getBySlug.query(async () => {
           return mockCourseData;
         }),
-        http.get('/api/courses/ai-safety/group-switching/available', () => {
-          return HttpResponse.json(mockSwitchingData);
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
+          return mockSwitchingData;
         }),
         http.post('/api/courses/ai-safety/group-switching', () => {
           return HttpResponse.json({ type: 'success' });
@@ -301,8 +300,8 @@ export const NoAvailableGroups: Story = {
         trpcStorybookMsw.courses.getBySlug.query(async () => {
           return mockCourseData;
         }),
-        http.get('/api/courses/ai-safety/group-switching/available', () => {
-          return HttpResponse.json(mockSwitchingData);
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => {
+          return mockSwitchingData;
         }),
       ],
     },
@@ -323,9 +322,9 @@ export const Loading: Story = {
           await delay(2000);
           return mockCourseData;
         }),
-        http.get('/api/courses/ai-safety/group-switching/available', async () => {
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           await delay(2000);
-          return HttpResponse.json(mockSwitchingData);
+          return mockSwitchingData;
         }),
         http.post('/api/courses/ai-safety/group-switching', () => {
           return HttpResponse.json({ type: 'success' });
