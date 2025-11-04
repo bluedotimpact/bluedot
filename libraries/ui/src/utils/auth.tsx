@@ -6,9 +6,12 @@ import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
 const FIVE_SEC_MS = 5 * 1000;
-const ONE_MIN_MS = 60 * 1000;
+/** Time before expiry at which we will attempt to refresh the access token */
+export const REFRESH_BEFORE_EXPIRY_MS = 60 * 1000;
+/** Maximum time between refresh attempts */
+export const MAX_REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 mins
 
-const oidcRefresh = async (auth: Auth): Promise<Auth> => {
+const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
     throw new Error('oidcRefresh: Missing refresh token');
   }
@@ -16,26 +19,45 @@ const oidcRefresh = async (auth: Auth): Promise<Auth> => {
     throw new Error('oidcRefresh: Missing OIDC configuration');
   }
 
-  const user = await new OidcClient(auth.oidcSettings).useRefreshToken({
-    state: {
-      refresh_token: auth.refreshToken,
-      session_state: null,
-      profile: {} as IdTokenClaims,
-    },
-  });
+  let lastError: Error | null = null;
+  const maxAttempts = 3;
 
-  if (!user || typeof user.expires_at !== 'number' || !user.id_token) {
-    throw new Error('Invalid refresh response');
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const user = await new OidcClient(auth.oidcSettings).useRefreshToken({
+        state: {
+          refresh_token: auth.refreshToken,
+          session_state: null,
+          profile: {} as IdTokenClaims,
+        },
+      });
+
+      if (!user || typeof user.expires_at !== 'number' || !user.id_token) {
+        throw new Error('Invalid refresh response');
+      }
+
+      return {
+        token: user.id_token,
+        expiresAt: user.expires_at * 1000,
+        refreshToken: user.refresh_token ?? auth.refreshToken,
+        oidcSettings: auth.oidcSettings,
+        email: user.profile.email ?? auth.email,
+        attribution: auth.attribution,
+      };
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt < maxAttempts - 1) {
+        // Exponential backoff: 1s, 2s
+        const backoffMs = 1000 * (2 ** attempt);
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise<void>((resolve) => { setTimeout(resolve, backoffMs); });
+      }
+    }
   }
 
-  return {
-    token: user.id_token,
-    expiresAt: user.expires_at * 1000,
-    refreshToken: user.refresh_token ?? auth.refreshToken,
-    oidcSettings: auth.oidcSettings,
-    email: user.profile.email ?? auth.email,
-    attribution: auth.attribution,
-  };
+  throw lastError || new Error('Refresh failed after all retry attempts');
 };
 
 export type Auth = {
@@ -58,10 +80,11 @@ export type Auth = {
 export const useAuthStore = create<{
   auth: Auth | null,
   setAuth:(auth: Auth | null) => void,
+  refresh: () => Promise<void>,
   internal_clearTimer: NodeJS.Timeout | null,
   internal_refreshTimer: NodeJS.Timeout | null,
   internal_visibilityHandler: (() => void) | null,
-  internal_isRefreshing: boolean,
+  internal_refreshPromise: Promise<void> | null,
 }>()(persist((set, get) => ({
   auth: null,
   setAuth: (auth) => {
@@ -81,6 +104,8 @@ export const useAuthStore = create<{
       return;
     }
 
+    set({ auth });
+
     posthog.identify(auth.email, {
       email: auth.email,
       ...(auth.attribution || {}),
@@ -89,24 +114,13 @@ export const useAuthStore = create<{
     const now = Date.now();
     const expiresInMs = auth.expiresAt - now;
     const clearInMs = expiresInMs - FIVE_SEC_MS; // Clear/logout 5 seconds before expiry. This only happens if refresh fails
-    const refreshInMs = expiresInMs - ONE_MIN_MS; // Refresh 1 minute before expiry
+    const refreshInMs = Math.min(expiresInMs - REFRESH_BEFORE_EXPIRY_MS, MAX_REFRESH_INTERVAL_MS);
 
     // Set up refresh timer if we have refresh capability
     let refreshTimer: NodeJS.Timeout | null = null;
     if (auth.refreshToken && auth.oidcSettings) {
       refreshTimer = setTimeout(async () => {
-        if (get().internal_isRefreshing) return;
-        try {
-          set({ internal_isRefreshing: true });
-          const newAuth = await oidcRefresh(auth);
-          get().setAuth(newAuth);
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error('Token refresh failed:', error);
-          get().setAuth(null);
-        } finally {
-          set({ internal_isRefreshing: false });
-        }
+        await get().refresh();
       }, refreshInMs);
     }
 
@@ -123,20 +137,9 @@ export const useAuthStore = create<{
     const visibilityHandler = async () => {
       if (document.visibilityState === 'visible') {
         const currentAuth = get().auth;
-        if (get().internal_isRefreshing) return;
         // If token expires within the next minute, refresh now
-        if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < ONE_MIN_MS)) {
-          try {
-            set({ internal_isRefreshing: true });
-            const newAuth = await oidcRefresh(currentAuth);
-            get().setAuth(newAuth);
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Token refresh on visibility failed:', error);
-            get().setAuth(null);
-          } finally {
-            set({ internal_isRefreshing: false });
-          }
+        if (currentAuth?.refreshToken && currentAuth.oidcSettings && (currentAuth.expiresAt - Date.now() < REFRESH_BEFORE_EXPIRY_MS)) {
+          await get().refresh();
         }
       }
     };
@@ -144,16 +147,56 @@ export const useAuthStore = create<{
     document.addEventListener('visibilitychange', visibilityHandler, { passive: true });
 
     set({
-      auth,
       internal_clearTimer: clearTimer,
       internal_refreshTimer: refreshTimer,
       internal_visibilityHandler: visibilityHandler,
     });
   },
+  refresh: async () => {
+    // Wait for any in-progress refresh to complete (with 5-second timeout)
+    const existingPromise = get().internal_refreshPromise;
+    if (existingPromise) {
+      const result = await Promise.race([
+        existingPromise.then(() => ({ timedOut: false })),
+        new Promise<{ timedOut: boolean }>((resolve) => {
+          setTimeout(() => resolve({ timedOut: true }), 5000);
+        }),
+      ]);
+      // If the existing refresh completed successfully, we're done
+      if (!result.timedOut) {
+        return;
+      }
+      // If it timed out, try again
+    }
+
+    const refreshPromise = (async () => {
+      const currentAuth = get().auth;
+      if (!currentAuth?.refreshToken || !currentAuth.oidcSettings) {
+        return;
+      }
+
+      try {
+        const newAuth = await oidcRefreshWithRetries(currentAuth);
+        get().setAuth(newAuth);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.warn('Token refresh failed:', error);
+
+        // Force logout. Note: This isn't ideal because the error could just be due to a temporary
+        // loss of network, we could improve on this in future.
+        get().setAuth(null);
+      } finally {
+        set({ internal_refreshPromise: null });
+      }
+    })();
+
+    set({ internal_refreshPromise: refreshPromise });
+    await refreshPromise;
+  },
   internal_clearTimer: null,
   internal_refreshTimer: null,
   internal_visibilityHandler: null,
-  internal_isRefreshing: false,
+  internal_refreshPromise: null,
 }), {
   name: 'bluedot_auth',
   version: 20250513,

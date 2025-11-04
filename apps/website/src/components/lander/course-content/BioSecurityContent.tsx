@@ -45,17 +45,17 @@ export const createBioSecurityContent = (
     targetAudiences: [
       {
         icon: PiFlask,
-        boldText: 'For engineers and bioscientists',
+        boldText: 'Engineers and scientists',
         description: 'who want to defend against pandemics.',
       },
       {
         icon: PiBriefcase,
-        boldText: 'For policy professionals',
+        boldText: 'Policy professionals',
         description: 'who want to contribute to biosecurity policy.',
       },
       {
         icon: PiCompass,
-        boldText: 'For entrepreneurs',
+        boldText: 'Entrepreneurs',
         description: 'who want to build new pandemic defences.',
       },
     ],
@@ -131,14 +131,135 @@ export const createBioSecurityContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
+            <span className="font-semibold">Next part-time round</span>
             <br />
-            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">13 Nov</span>
+            Application deadline: <span className="font-semibold">Nov 12th</span>
+            <br />
+            Course start: <span className="font-semibold">Nov 17th</span>
+            <br />
+            Course end: <span className="font-semibold">Dec 21st</span>
+            <br />
+            <br />
+            <span className="font-semibold">Next intensive round</span>
+            <br />
+            Application deadline: <span className="font-semibold">Nov 12th</span>
+            <br />
+            Course start: <span className="font-semibold">Nov 17th</span>
+            <br />
+            Course end: <span className="font-semibold">Nov 22nd</span>
           </>
         ),
       },
     ],
   },
+
+  quotes: {
+    quotes: [
+      {
+        quote: '"[COVID-19] has been very severe … it has affected every corner of this planet. But this is not necessarily the big one."',
+        name: 'Dr Michael Ryan',
+        role: 'Former Executive Director, WHO Health Emergencies Programme',
+        imageSrc: '/images/lander/biosecurity/michael-ryan.jpg',
+        url: 'https://www.theguardian.com/world/2020/dec/29/who-warns-covid-19-pandemic-is-not-necessarily-the-big-one',
+      },
+      {
+        quote: '"AI will unlock nearly limitless potential in biology. . . . At the same time, it could create new pathways for malicious actors to synthesize harmful pathogens and other biomolecules."',
+        name: 'America\'s AI Action Plan',
+        role: 'Trump Administration',
+        imageSrc: '/images/lander/biosecurity/white-house.jpg',
+        url: 'https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf',
+      },
+      {
+        quote: '"A straightforward extrapolation of today\'s systems to those we expect to see in 2 to 3 years suggests a substantial risk that AI systems will be able to fill in all the missing pieces, enabling many more actors to carry out large-scale biological attacks. We believe this represents a grave threat to U.S. national security."',
+        name: 'Dario Amodei',
+        role: 'CEO, Anthropic',
+        imageSrc: '/images/lander/foai/dario.jpeg',
+        url: 'https://www.congress.gov/event/118th-congress/senate-event/LC72507/text',
+      },
+      // {
+      //   quote: '"Five years ago, our country was caught unprepared by the Covid pandemic. It would be a tragedy if we failed to do enough to ensure we are sufficiently prepared for the next one. Biosecurity is now an essential aspect of national security and growth."',
+      //   name: 'Tony Blair and William Hague',
+      //   role: 'Former UK Prime Minister and Leader of the Opposition',
+      //   imageSrc: '/images/lander/biosecurity/blair-hague.jpg',
+      //   url: 'https://institute.global/insights/politics-and-governance/a-new-national-purpose-biosecurity-as-the-foundation-for-growth-and-global-leadership',
+      // },
+      {
+        quote: '"We\'re reaching an inflection point with biotechnology where, with the help of AI, we are starting to be able to program cells like we program computers. This inflection point will define our national and economic security in the decades to come."',
+        name: 'Michelle Rozo',
+        role: 'Vice-Chair, National Security Commission on Emerging Biotechnology',
+        imageSrc: '/images/lander/biosecurity/michelle-rozo.png',
+        url: 'https://www.biotech.senate.gov/press-releases/ai-action-plan-a-critical-step-for-aixbio-innovation-national-security-and-global-economic-competitiveness',
+      },
+    ],
+  },
+
+  communityMembersTitle: 'Meet our alumni working on biosecurity',
+
+  communityMembers: [
+    {
+      name: 'Dr Michael Friedman',
+      jobTitle: 'Asia Center for Health Security',
+      course: 'Course Facilitator',
+      imageSrc: '/images/graduates/michael-friedman.png',
+      url: 'https://asia-chs.org/team/visiting-associate-prof-michael-friedman/',
+    },
+    {
+      name: 'Janvi Ahuja',
+      jobTitle: 'Pandemic Sciences Institute, Oxford',
+      course: 'Course Designer',
+      imageSrc: '/images/graduates/janvi-ahuja.jpeg',
+      url: 'https://www.janvi.xyz/',
+    },
+    {
+      name: 'Rachel Hovde',
+      jobTitle: 'Policy Director, Americans for Responsible Innovation',
+      course: 'Course Graduate',
+      imageSrc: '/images/graduates/rachel-hovde.jpeg',
+      url: 'https://www.linkedin.com/in/rachel-hovde-52b1b146/',
+    },
+    {
+      name: 'Peter Babigumira Ahabwe',
+      jobTitle: 'Epidemic Intelligence Analyst, Ugandan Ministry of Health',
+      course: 'Course Facilitator',
+      imageSrc: '/images/graduates/peter-ahabwe.jpeg',
+      url: 'https://www.linkedin.com/in/babigumira09/',
+    },
+    {
+      name: 'Scott Olesen',
+      jobTitle: 'Center for Forecasting & Outbreak Analytics, US CDC',
+      course: 'Course Graduate',
+      imageSrc: '/images/graduates/scott-olesen.jpeg',
+      url: 'https://www.linkedin.com/in/scott-olesen/',
+    },
+    {
+      name: 'Felix Moronta',
+      jobTitle: 'International Centre for Genetic Engineering and Biotechnology',
+      course: 'Course Facilitator',
+      imageSrc: '/images/graduates/felix-moronta.jpeg',
+      url: 'https://www.linkedin.com/in/morontafelix/',
+    },
+    {
+      name: 'Natalie Kiilu',
+      jobTitle: 'Oxford Biosecurity Group',
+      course: 'Course Participant',
+      imageSrc: '/images/graduates/natalie-kiilu.jpeg',
+      url: 'https://www.linkedin.com/in/natalie-kiilu-6a4a94169/',
+    },
+    {
+      name: 'Sarah Koeller',
+      jobTitle: 'Center for Forecasting & Outbreak Analytics, US CDC',
+      course: 'Course Graduate',
+      imageSrc: '/images/graduates/sarah-koeller.jpeg',
+      url: 'https://www.linkedin.com/in/sarah-koeller/',
+    },
+    {
+      name: 'Raffael Luca Schumann',
+      jobTitle: 'Jason Chin Lab, Cambridge',
+      course: 'Course Graduate',
+      imageSrc: '/images/graduates/raffael-luca-schumann.jpeg',
+      url: 'https://www.linkedin.com/in/raffael-luca-schumann-139760194/',
+    },
+  ],
 
   faq: {
     title: 'Frequently Asked Questions',

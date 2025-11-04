@@ -21,6 +21,8 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -166,11 +168,12 @@ describe('GroupSwitchModal', () => {
       return selector(state);
     });
 
+    server.use(
+      trpcMsw.courses.getBySlug.query(() => mockCourseData),
+    );
+
     // Return mock data based on url to avoid handling the order of calls
     mockedUseAxios.mockImplementation((config?: any) => {
-      if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-        return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-      }
       if (config?.url?.includes('group-switching/available')) {
         return [{ data: mockSwitchingData, loading: false, error: null }, vi.fn()];
       }
@@ -189,6 +192,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         // This input only appears after api calls are complete, so verifies that the whole component has rendered
@@ -253,6 +257,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -326,6 +331,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -396,10 +402,11 @@ describe('GroupSwitchModal', () => {
         },
       };
 
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+      );
+
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataWithUnit2, loading: false, error: null }, vi.fn()];
         }
@@ -415,6 +422,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit2.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -471,10 +479,11 @@ describe('GroupSwitchModal', () => {
       };
 
       // Override mock for this test
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+      );
+
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataWithDisabled, loading: false, error: null }, vi.fn()];
         }
@@ -490,6 +499,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -552,9 +562,6 @@ describe('GroupSwitchModal', () => {
       };
 
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataEmpty, loading: false, error: null }, vi.fn()];
         }
@@ -570,6 +577,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -624,6 +632,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -685,6 +694,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -779,9 +789,6 @@ describe('GroupSwitchModal', () => {
 
       // Return mock data with no participant groups
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataNoGroup, loading: false, error: null }, vi.fn()];
         }
@@ -800,6 +807,7 @@ describe('GroupSwitchModal', () => {
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Wait for UI to update
@@ -825,6 +833,7 @@ describe('GroupSwitchModal', () => {
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Wait for UI to update
@@ -877,6 +886,7 @@ describe('GroupSwitchModal', () => {
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Wait for UI to update

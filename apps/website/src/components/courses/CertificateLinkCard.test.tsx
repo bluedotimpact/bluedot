@@ -136,7 +136,8 @@ describe('CertificateLinkCard', () => {
       // Verify not eligible message
       expect(screen.getByText('Your Certificate')).toBeTruthy();
       expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      // Community section should NOT appear for non-FoAI courses
+      expect(screen.queryByText('Join the Community')).toBeNull();
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
@@ -164,9 +165,12 @@ describe('CertificateLinkCard', () => {
       // Verify FoAI-specific content is shown
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
       expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+
+      // Verify community section DOES appear for FoAI course
+      expect(screen.getByText('Join the Community')).toBeTruthy();
     });
 
-    test('renders course with certificate (works for both regular and FoAI)', () => {
+    test('renders regular course with certificate - no community section', () => {
       mockUseQuery.mockReturnValue({
         data: createMockCourseRegistration({
           courseId: 'rec123456789',
@@ -189,6 +193,31 @@ describe('CertificateLinkCard', () => {
       // Verify the certificate link opens in a new tab
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
       expect(viewCertificateLink.getAttribute('target')).toBe('_blank');
+
+      // Community section should NOT appear for regular courses
+      expect(screen.queryByText('Join the Community')).toBeNull();
+    });
+
+    test('renders FoAI course with certificate - includes community section', () => {
+      mockUseQuery.mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: FOAI_COURSE_ID,
+          certificateId: 'cert123',
+          certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
+
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
+
+      // Verify certificate content
+      expect(screen.getByText('Earned by Test User')).toBeTruthy();
+      expect(screen.getByText('View Certificate')).toBeTruthy();
+
+      // Community section SHOULD appear for FoAI course
+      expect(screen.getByText('Join the Community')).toBeTruthy();
     });
   });
 });
