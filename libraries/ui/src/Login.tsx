@@ -157,9 +157,11 @@ export const loginPresets = {
  * Supported page params:
  * - redirect_to: The URL to redirect to after login
  * - register: Set to 'true' to prefer taking the user to a registration page instead of login
+ * - email: Email address to prefill in the login/registration form
  */
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => {
   const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
+  const prefilledEmail = typeof window !== 'undefined' ? getQueryParam(window.location.href, 'email') || undefined : undefined;
   const auth = useAuthStore((s) => s.auth);
   const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
 
@@ -188,7 +190,18 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
       // Append latest UTM params to redirectTo URL to ensure they persist through the OAuth flow
       const redirectToWithUtms = appendLatestUtmParamsToUrl(redirectTo);
 
-      new OidcClient(loginPreset.oidcSettings)
+      // Merge email into oidcSettings extraQueryParams if provided
+      const oidcSettings = prefilledEmail
+        ? {
+          ...loginPreset.oidcSettings,
+          extraQueryParams: {
+            ...loginPreset.oidcSettings.extraQueryParams,
+            login_hint: prefilledEmail,
+          },
+        }
+        : loginPreset.oidcSettings;
+
+      new OidcClient(oidcSettings)
         .createSigninRequest({
           request_type: 'si:r',
           state: { redirectTo: redirectToWithUtms, attribution },
