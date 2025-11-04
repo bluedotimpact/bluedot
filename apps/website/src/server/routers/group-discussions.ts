@@ -148,21 +148,19 @@ export const groupDiscussionsRouter = router({
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
 
-      if (groupDiscussion) {
-        if (groupDiscussion.facilitators.includes(participant.id)) {
-          userRole = 'facilitator';
+      if (groupDiscussion?.facilitators.includes(participant.id)) {
+        userRole = 'facilitator';
 
-          if (groupDiscussion.zoomAccount) {
-            try {
-              const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
-              hostKeyForFacilitators = zoomAccount.hostKey || undefined;
-            } catch (error) {
-              hostKeyForFacilitators = undefined;
-            }
+        if (groupDiscussion.zoomAccount) {
+          try {
+            const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
+            hostKeyForFacilitators = zoomAccount.hostKey || undefined;
+          } catch (error) {
+            hostKeyForFacilitators = undefined;
           }
-        } else if (groupDiscussion.participantsExpected.includes(participant.id)) {
-          userRole = 'participant';
         }
+      } else if (groupDiscussion?.participantsExpected.includes(participant.id)) {
+        userRole = 'participant';
       }
 
       return {
