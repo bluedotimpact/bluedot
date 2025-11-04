@@ -156,7 +156,7 @@ describe('formatDateTimeRelative', () => {
     const lateEvening = new Date('2025-10-30T20:00:00.000Z');
     vi.setSystemTime(lateEvening);
 
-    // Event is Nov 3, 2025 at 3:00 PM (in 91 hours away but 4 calendar days)
+    // Event is Nov 3, 2025 at 3:00 PM (in 91 hours (3.79 days) but 4 calendar days away)
     const eventDate = new Date('2025-11-03T15:00:00.000Z');
     const timestamp = Math.floor(eventDate.getTime() / 1000);
     const result = formatDateTimeRelative(timestamp);
