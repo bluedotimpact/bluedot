@@ -5,6 +5,7 @@ import {
   useCallback,
 } from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
+import { trpc } from '../../utils/trpc';
 
 type Event = {
   id: string;
@@ -23,46 +24,7 @@ type Photo = {
   width: number;
 };
 
-const PLACEHOLDER_EVENTS: Event[] = [
-  {
-    id: '1',
-    month: 'DEC',
-    day: '15',
-    location: 'REMOTE',
-    title: 'AI Safety Evals – Paper Reading Club',
-    time: '5:00 PM - 6:00 PM GMT',
-    url: 'https://lu.ma/bluedotevents',
-  },
-  {
-    id: '2',
-    month: 'DEC',
-    day: '18',
-    location: 'LONDON',
-    title: 'AI Safety Evals – Paper Reading Club',
-    time: '5:00 PM - 6:00 PM GMT',
-    url: 'https://lu.ma/bluedotevents',
-  },
-  {
-    id: '3',
-    month: 'DEC',
-    day: '22',
-    location: 'AMSTERDAM',
-    title: 'AI Safety Evals – Paper Reading Club',
-    time: '5:00 PM - 6:00 PM GMT',
-    url: 'https://lu.ma/bluedotevents',
-  },
-  {
-    id: '4',
-    month: 'DEC',
-    day: '25',
-    location: 'REMOTE',
-    title: 'AI Safety Evals – Paper Reading Club',
-    time: '5:00 PM - 6:00 PM GMT',
-    url: 'https://lu.ma/bluedotevents',
-  },
-];
-
-const PLACEHOLDER_PHOTOS: Photo[] = [
+const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
   { id: '1', src: '/images/homepage/events-1.png', alt: 'BlueDot event', width: 512 },
   { id: '2', src: '/images/homepage/events-2.png', alt: 'BlueDot event', width: 647 },
   { id: '3', src: '/images/homepage/events-3.png', alt: 'BlueDot event', width: 512 },
@@ -125,6 +87,7 @@ const EventCard = ({ event }: { event: Event }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-[#13132e] hover:text-[#271dcd] transition-colors"
+          aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
             {event.title}
@@ -286,6 +249,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
         {infinitePhotos.map((photo, index) => {
           const sectionNumber = Math.floor(index / photos.length);
           const uniqueKey = `${photo.id}-${index}-${sectionNumber}`;
+          const photoNumber = (index % photos.length) + 1;
           return (
             <a
               key={uniqueKey}
@@ -293,6 +257,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="flex-shrink-0"
+              aria-label={`View BlueDot event photo ${photoNumber} of ${photos.length} (opens in new tab)`}
             >
               <img
                 src={photo.src}
@@ -309,12 +274,19 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
 };
 
 const EventsSection = () => {
+  const { data: events } = trpc.luma.getUpcomingEvents.useQuery();
+  const displayEvents = (events || []).slice(0, 4);
+
   return (
-    <section className="w-full bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
-      {/* Heading Section - stays inside max-width container */}
+    <section
+      className="w-full bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20"
+      aria-labelledby="events-section-heading"
+    >
+      {/* Heading Section */}
       <div className="mx-auto max-w-screen-xl">
         <div className="flex flex-col items-center text-center gap-8 min-[680px]:gap-12 min-[1024px]:gap-12 min-[1280px]:gap-12 mb-12 min-[680px]:mb-12 min-[1024px]:mb-12 min-[1280px]:mb-16">
           <h2
+            id="events-section-heading"
             className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: "'ss04' on" }}
           >
@@ -323,38 +295,32 @@ const EventsSection = () => {
         </div>
       </div>
 
-      {/* Photo Carousel - OUTSIDE max-width container for full-bleed */}
+      {/* Photo Carousel with full-bleed */}
       <div className="mb-16 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-20">
-        <PhotoCarousel photos={PLACEHOLDER_PHOTOS} />
+        <PhotoCarousel photos={BLUEDOT_EVENTS_PHOTOS} />
       </div>
 
-      {/* Event Cards - back inside max-width container */}
+      {/* Event Cards */}
       <div className="mx-auto max-w-screen-xl">
         <div className="flex flex-col items-center gap-16 min-[1024px]:gap-20">
-          {/* Cards Container - responsive layout */}
           <div className="w-full">
             {/* Mobile: horizontal scroll carousel */}
             <div className="flex overflow-x-auto scrollbar-none gap-6 min-[680px]:hidden">
-              {PLACEHOLDER_EVENTS.map((event) => (
+              {displayEvents.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
 
-            {/* Tablet (680px-1279px): 2×2 grid */}
-            <div className="hidden min-[680px]:flex min-[1280px]:hidden flex-col gap-16">
-              <div className="flex gap-4">
-                <EventCard event={PLACEHOLDER_EVENTS[0]!} />
-                <EventCard event={PLACEHOLDER_EVENTS[1]!} />
-              </div>
-              <div className="flex gap-4">
-                <EventCard event={PLACEHOLDER_EVENTS[2]!} />
-                <EventCard event={PLACEHOLDER_EVENTS[3]!} />
-              </div>
+            {/* Tablet 2×2 grid */}
+            <div className="hidden min-[680px]:grid min-[1280px]:hidden grid-cols-2 gap-x-4 gap-y-16">
+              {displayEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
             </div>
 
-            {/* Desktop (1280px+): single row */}
+            {/* Desktop: single row */}
             <div className="hidden min-[1280px]:flex gap-4">
-              {PLACEHOLDER_EVENTS.map((event) => (
+              {displayEvents.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
             </div>
