@@ -16,7 +16,6 @@ import {
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -115,13 +114,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   // Fetch course and its units
   const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
-    url: `/api/courses/${courseSlug}/group-switching/available`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'get',
-  });
+  const { data: switchingData, isLoading: loading } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
 
   const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
     url: `/api/courses/${courseSlug}/group-switching`,
