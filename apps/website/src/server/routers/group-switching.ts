@@ -18,7 +18,7 @@ type DiscussionsByUnit = Record<string, {
   hasStarted: boolean;
 }[]>;
 
-function calculateGroupAvailability({
+export function calculateGroupAvailability({
   groupDiscussions,
   groups,
   maxParticipants,
