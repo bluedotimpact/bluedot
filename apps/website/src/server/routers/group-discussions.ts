@@ -140,15 +140,9 @@ export const groupDiscussionsRouter = router({
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
       // Priority: Show ongoing meeting (including 15 min after end), otherwise show next upcoming
-      let groupDiscussion = null;
-
       const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
-
-      if (ongoingDiscussion) {
-        groupDiscussion = ongoingDiscussion;
-      } else {
-        groupDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds) || null;
-      }
+      const upcomingDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds);
+      const groupDiscussion = ongoingDiscussion ?? upcomingDiscussion ?? null;
 
       // Determine user role and get host key if facilitator
       let userRole: 'participant' | 'facilitator' | undefined;
