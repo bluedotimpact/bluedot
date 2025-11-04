@@ -68,9 +68,9 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
   const pluralizeTimeUnit = (value: number, unit: string) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 
   // Helper to build human-readable time until/since
-  const buildRelativeTimeString = (minutes: number, hours: number, days: number, suffix: string) => {
-    if (days >= 1) {
-      return `${pluralizeTimeUnit(days, 'day')}${suffix}`;
+  const buildRelativeTimeString = (minutes: number, hours: number, calendarDays: number, suffix: string) => {
+    if (calendarDays >= 1) {
+      return `${pluralizeTimeUnit(calendarDays, 'day')}${suffix}`;
     }
     if (hours >= 1) {
       const remainingMinutes = minutes % 60;
