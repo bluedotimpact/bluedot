@@ -18,9 +18,10 @@ import {
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
+import type { inferRouterOutputs } from '@trpc/server';
 import GroupSwitchModal from './GroupSwitchModal';
-import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
+import type { AppRouter } from '../../server/routers/_app';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
@@ -65,9 +66,10 @@ const mockCourseDataWithTwoUnits = {
   units: [mockUnit1, mockUnit2],
 };
 
+type GetGroupSwitchingAvailableResponse = inferRouterOutputs<AppRouter>['groupSwitching']['discussionsAvailable'];
+
 // Match real API structure exactly
 const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
-  type: 'success',
   groupsAvailable: [
     {
       group: {
@@ -170,13 +172,11 @@ describe('GroupSwitchModal', () => {
 
     server.use(
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
+      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
     );
 
     // Return mock data based on url to avoid handling the order of calls
     mockedUseAxios.mockImplementation((config?: any) => {
-      if (config?.url?.includes('group-switching/available')) {
-        return [{ data: mockSwitchingData, loading: false, error: null }, vi.fn()];
-      }
       if (config?.url?.includes('group-switching') && config?.method === 'post') {
         return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
       }
@@ -404,12 +404,10 @@ describe('GroupSwitchModal', () => {
 
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithUnit2),
       );
 
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataWithUnit2, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching') && config?.method === 'post') {
           return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
         }
@@ -451,7 +449,6 @@ describe('GroupSwitchModal', () => {
       // Create mock data with disabled options
       const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
       const mockSwitchingDataWithDisabled: GetGroupSwitchingAvailableResponse = {
-        type: 'success',
         groupsAvailable: [
           { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
@@ -481,12 +478,10 @@ describe('GroupSwitchModal', () => {
       // Override mock for this test
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithDisabled),
       );
 
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataWithDisabled, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching') && config?.method === 'post') {
           return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
         }
@@ -561,10 +556,11 @@ describe('GroupSwitchModal', () => {
         discussionsAvailable: { 1: [] },
       };
 
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataEmpty),
+      );
+
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataEmpty, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching') && config?.method === 'post') {
           return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
         }
@@ -787,11 +783,12 @@ describe('GroupSwitchModal', () => {
         return selector(state);
       });
 
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataNoGroup),
+      );
+
       // Return mock data with no participant groups
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataNoGroup, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching') && config?.method === 'post') {
           return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
         }
