@@ -94,7 +94,7 @@ A "session" includes both:
 * **Preparation time** – reviewing materials, exercise responses and preparing activities
 * **Discussion time** – the actual facilitated group discussion with participants
 
-The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and Biosecurity courses runs for 6 sessions.
+The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and Biosecurity courses run for 6 sessions.
 
 ### Additional compensation
 
