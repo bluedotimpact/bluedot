@@ -155,6 +155,7 @@ const CourseCarousel = ({
   const x = useMotionValue(0);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // Track width separately to ignore mobile browser address bar height changes
   const widthRef = useRef<number>(0);
   // Duplicate array for seamless loop
   const allCourses = [...courses, ...courses];
@@ -179,16 +180,18 @@ const CourseCarousel = ({
 
       const targetX = -(containerWidth / 2);
 
-      // Preserve current position
+      // Calculate progress to avoid jarring resets when window resizes
       const currentX = x.get();
-      const currentProgress = currentX / targetX;
+      // Clamp to [0, 1] to prevent negative duration when viewport shrinks (e.g., device rotation)
+      const currentProgress = Math.min(Math.max(currentX / targetX, 0), 1);
 
       animationRef.current?.stop();
 
-      // Resume from current position instead of resetting to 0
+      // Resume from current position so carousel doesn't jump on resize
       const newStartX = targetX * currentProgress;
       x.set(newStartX);
 
+      // Scale duration by remaining distance - 40s for full loop
       animationRef.current = animate(x, [newStartX, targetX], {
         duration: 40 * (1 - currentProgress),
         repeat: Infinity,
@@ -316,6 +319,7 @@ const CourseCardRedesigned = ({
       {/* Background Layers - All in proper stacking order */}
       {/* Layer 1: Gradient image - only scale when rotating */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Tailwind doesn't support dynamic rotation angles - using inline style */}
         <img
           alt=""
           className="absolute inset-0 size-full object-cover"
@@ -333,6 +337,7 @@ const CourseCardRedesigned = ({
       <div className="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none" />
 
       {/* Layer 3: Bottom gradient - only for non-first cards */}
+      {/* Tailwind doesn't support precise gradient stop percentages - using inline style */}
       {!isFirstCard && (
         <div
           className="absolute inset-0 pointer-events-none"
