@@ -1,5 +1,5 @@
-import { publicProcedure, router } from '../trpc';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
+import { publicProcedure, router } from '../trpc';
 import env from '../../lib/api/env';
 
 type Event = {
@@ -17,6 +17,7 @@ export const lumaRouter = router({
     const apiKey = env.LUMA_API_KEY;
 
     if (!apiKey) {
+      // eslint-disable-next-line no-console
       console.warn('LUMA_API_KEY not configured - no events will be displayed');
       return [];
     }
@@ -31,7 +32,7 @@ export const lumaRouter = router({
 
       const response = await fetch(url.toString(), {
         headers: {
-          'accept': 'application/json',
+          accept: 'application/json',
           'x-luma-api-key': apiKey,
         },
       });
@@ -41,7 +42,7 @@ export const lumaRouter = router({
       }
 
       const data = await response.json() as {
-        entries: Array<{
+        entries: {
           api_id: string;
           event: {
             name: string;
@@ -52,7 +53,7 @@ export const lumaRouter = router({
             };
             url: string;
           };
-        }>;
+        }[];
         has_more: boolean;
         next_cursor?: string;
       };
@@ -66,9 +67,9 @@ export const lumaRouter = router({
         time: formatStartAndEndTime(event.start_at, event.end_at),
         url: event.url,
       }));
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
+      // eslint-disable-next-line no-console
       console.error('Failed to fetch Luma events:', error);
 
       await slackAlert(env, [

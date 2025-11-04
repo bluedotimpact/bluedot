@@ -25,15 +25,33 @@ type Photo = {
 };
 
 const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
-  { id: '1', src: '/images/homepage/events-1.png', alt: 'BlueDot event', width: 512 },
-  { id: '2', src: '/images/homepage/events-2.png', alt: 'BlueDot event', width: 647 },
-  { id: '3', src: '/images/homepage/events-3.png', alt: 'BlueDot event', width: 512 },
-  { id: '4', src: '/images/homepage/events-4.png', alt: 'BlueDot event', width: 499 },
-  { id: '5', src: '/images/homepage/events-5.png', alt: 'BlueDot event', width: 325 },
-  { id: '6', src: '/images/homepage/events-6.png', alt: 'BlueDot event', width: 512 },
-  { id: '7', src: '/images/homepage/events-7.png', alt: 'BlueDot event', width: 433 },
-  { id: '8', src: '/images/homepage/events-8.png', alt: 'BlueDot event', width: 325 },
-  { id: '9', src: '/images/homepage/events-9.png', alt: 'BlueDot event', width: 637 },
+  {
+    id: '1', src: '/images/homepage/events-1.png', alt: 'BlueDot event', width: 512,
+  },
+  {
+    id: '2', src: '/images/homepage/events-2.png', alt: 'BlueDot event', width: 647,
+  },
+  {
+    id: '3', src: '/images/homepage/events-3.png', alt: 'BlueDot event', width: 512,
+  },
+  {
+    id: '4', src: '/images/homepage/events-4.png', alt: 'BlueDot event', width: 499,
+  },
+  {
+    id: '5', src: '/images/homepage/events-5.png', alt: 'BlueDot event', width: 325,
+  },
+  {
+    id: '6', src: '/images/homepage/events-6.png', alt: 'BlueDot event', width: 512,
+  },
+  {
+    id: '7', src: '/images/homepage/events-7.png', alt: 'BlueDot event', width: 433,
+  },
+  {
+    id: '8', src: '/images/homepage/events-8.png', alt: 'BlueDot event', width: 325,
+  },
+  {
+    id: '9', src: '/images/homepage/events-9.png', alt: 'BlueDot event', width: 637,
+  },
 ];
 
 const CAROUSEL_CONFIG = {
@@ -43,11 +61,11 @@ const CAROUSEL_CONFIG = {
 
 const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
-    <div className="relative w-16 h-16 min-[1024px]:w-20 min-[1024px]:h-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
+    <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Noise Texture Overlay */}
       {/* Tailwind doesn't support blend modes - using inline style */}
       <div
-        className="absolute top-0 left-0 right-0 bottom-[43.2px] min-[1024px]:bottom-[54px] opacity-50 pointer-events-none"
+        className="absolute top-0 inset-x-0 bottom-[43.2px] min-[1024px]:bottom-[54px] opacity-50 pointer-events-none"
         style={{
           backgroundImage: 'url(/images/homepage/noise.svg)',
           backgroundSize: '371.712px 589.248px',
@@ -65,7 +83,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] min-[1024px]:h-[54px]">
-        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-[#13132e] tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-[1.25]">
+        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-[#13132e] tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
           {day}
         </span>
       </div>
@@ -242,6 +260,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         role="region"
         aria-label="Event photos carousel"
