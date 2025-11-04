@@ -1,20 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { http, HttpResponse } from 'msw';
-import { loggedOutStory } from '@bluedot/ui';
 import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
 import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
-import { GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
   component: CourseDetails,
   parameters: {
     layout: 'padded',
-  },
-  args: {
-    ...loggedOutStory,
   },
 };
 
@@ -55,7 +50,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now + 2 * hour,
     endDateTime: now + 3 * hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 1,
@@ -77,7 +71,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now + 7 * 24 * hour,
     endDateTime: now + 7 * 24 * hour + hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 2,
@@ -99,7 +92,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     startDateTime: now - 7 * 24 * hour,
     endDateTime: now - 7 * 24 * hour + hour,
     group: 'group-1',
-    groupId: 'group-1',
     zoomAccount: null,
     courseSite: null,
     unitNumber: 0,
@@ -142,26 +134,22 @@ const mockFacilitatorMeetPerson: MeetPerson = {
 };
 
 const createMswHandlers = (meetPerson: MeetPerson) => [
-  http.get('/api/meet-person', () => {
-    return HttpResponse.json({ type: 'success', meetPerson });
-  }),
-  http.get('/api/group-discussions/:id', ({ params }) => {
-    const { id } = params;
-    const discussion = mockDiscussions[id as string];
+  trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
+  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(({ input }) => {
+    const discussions = input.discussionIds
+      .map((id) => mockDiscussions[id])
+      .filter((d) => d !== undefined);
 
-    return HttpResponse.json({
-      type: 'success',
-      discussion,
-    });
+    return {
+      discussions,
+    };
   }),
-
 ];
 
 export const Default: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockCourseRegistration,
-    authToken: 'test-token',
   },
   parameters: {
     msw: {
@@ -174,7 +162,6 @@ export const Facilitator: Story = {
   args: {
     course: mockCourse,
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
-    authToken: 'test-token',
   },
   parameters: {
     docs: {

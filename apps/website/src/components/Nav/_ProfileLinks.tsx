@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
 import { IconButton, BugReportModal } from '@bluedot/ui';
-import { useState } from 'react';
 
-import { DRAWER_CLASSES, ExpandedSectionsState, NAV_LINK_CLASSES } from './utils';
+import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
 
@@ -11,10 +11,12 @@ export const ProfileLinks: React.FC<{
   isScrolled: boolean;
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
+  isHomepage?: boolean;
 }> = ({
   isScrolled,
   expandedSections,
   updateExpandedSections,
+  isHomepage = false,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,31 +27,50 @@ export const ProfileLinks: React.FC<{
     profile: !expandedSections.profile,
   });
 
+  const getNavLinkClasses = () => {
+    // Profile dropdown links: white text when dropdown has dark bg, dark text otherwise
+    const isDarkDrawer = !isHomepage && isScrolled;
+    const textColor = isDarkDrawer ? 'text-white hover:text-white' : 'text-[#02034B] hover:text-[#02034B]';
+
+    return clsx(
+      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+      textColor,
+    );
+  };
+
   return (
     <div className="profile-links">
       <IconButton
-        className="profile-links__btn"
+        className={clsx(
+          'profile-links__btn',
+          (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
+        )}
         open={expandedSections.profile}
         Icon={<FaCircleUser className="size-6 opacity-75" />}
         setOpen={onToggleProfile}
       />
-      <div className={clsx('profile-links__drawer', DRAWER_CLASSES(isScrolled, expandedSections.profile))}>
-        <div className={clsx('profile-links__links flex flex-col gap-4 items-end section-base', !expandedSections.profile && 'hidden')}>
+      <div
+        className={clsx(
+          'profile-links__drawer',
+          DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile, DRAWER_Z_PROFILE),
+        )}
+      >
+        <div className="profile-links__links flex flex-col gap-4 items-end section-base">
           <A
             href={ROUTES.settingsAccount.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Account
           </A>
           <A
             href={ROUTES.settingsCourses.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Courses
           </A>
           <A
             href={ROUTES.contact.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Help
           </A>
@@ -59,13 +80,13 @@ export const ProfileLinks: React.FC<{
               setIsModalOpen(true);
               updateExpandedSections({ profile: false });
             }}
-            className={clsx('bluedot-a', NAV_LINK_CLASSES(isScrolled))}
+            className={clsx('bluedot-a', getNavLinkClasses())}
           >
             Submit Feedback
           </button>
           <A
             href={ROUTES.logout.url}
-            className={NAV_LINK_CLASSES(isScrolled)}
+            className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Log out
           </A>

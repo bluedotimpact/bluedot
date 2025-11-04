@@ -49,3 +49,11 @@ export const SavedIncorrectResponse: Story = {
     isLoggedIn: true,
   },
 };
+
+export const LongOptions: Story = {
+  args: {
+    ...Default.args,
+    options: 'Option 1: Something short.\nOption 2: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nOption 3: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nOption 4: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n',
+    answer: 'Option 2: Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n',
+  },
+};

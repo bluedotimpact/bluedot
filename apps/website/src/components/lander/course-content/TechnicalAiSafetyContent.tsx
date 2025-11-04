@@ -37,7 +37,7 @@ export const createTechnicalAiSafetyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1`,
     },
-    imageSrc: '/images/technical-ai-safety/hero-banner-split.png',
+    imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
     imageAlt: 'Technical AI Safety visualization',
   },
 
@@ -132,7 +132,7 @@ export const createTechnicalAiSafetyContent = (
         isSchedule: true,
         scheduleDescription: (
           <>
-            Intensive round starts <span className="font-semibold">3 Nov</span>, application deadline <span className="font-semibold">30 Oct</span>
+            Intensive round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
             <br />
             Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
           </>
@@ -140,40 +140,6 @@ export const createTechnicalAiSafetyContent = (
       },
     ],
   },
-
-  quotes: {
-    quotes: [
-      {
-        quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."',
-        name: 'Ursula von der Leyen',
-        role: 'President, European Commission',
-        imageSrc: '/images/agi-strategy/ursula.png',
-        url: 'https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en',
-      },
-      {
-        quote: '"I\'ve always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we\'ve done in the past… The downside is, at some point, that humanity loses control of the technology it\'s developing."',
-        name: 'Sundar Pichai',
-        role: 'CEO, Google',
-        imageSrc: '/images/agi-strategy/sundar.jpg',
-        url: 'https://garrisonlovely.substack.com/p/a-compilation-of-tech-executives',
-      },
-      {
-        quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
-        name: 'Dario Amodei',
-        role: 'CEO, Anthropic',
-        imageSrc: '/images/lander/foai/dario.jpeg',
-        url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
-      },
-      {
-        quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. [...] To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
-        name: 'David Sacks',
-        role: 'White House AI and Crypto Czar',
-        imageSrc: '/images/agi-strategy/david-sacks.jpg',
-        url: 'https://x.com/HumanHarlan/status/1864858286065111298',
-      },
-    ],
-  },
-
   communityMembers: [
     {
       name: 'Neel Nanda',
@@ -190,13 +156,6 @@ export const createTechnicalAiSafetyContent = (
       url: 'https://www.mariushobbhahn.com/aboutme/',
     },
     {
-      name: 'Chiara Gerosa',
-      jobTitle: 'Executive Director at Talos',
-      course: 'AI Governance Course Facilitator',
-      imageSrc: '/images/graduates/chiara.jpeg',
-      url: 'https://www.linkedin.com/in/chiaragerosa/',
-    },
-    {
       name: 'Richard Ngo',
       jobTitle: 'Former OpenAI and DeepMind',
       course: 'AI Alignment Course Designer',
@@ -211,11 +170,39 @@ export const createTechnicalAiSafetyContent = (
       url: 'https://adamjones.me/',
     },
     {
-      name: 'Catherine Fist',
-      jobTitle: 'Head of Delivery at UK AISI',
-      course: 'AI Governance Course Graduate',
-      imageSrc: '/images/graduates/catherine.jpeg',
-      url: 'https://www.linkedin.com/in/catherine-fist/',
+      name: 'Juan Felipe Ceron Uribe',
+      jobTitle: 'AI Alignment Research Engineer at OpenAI',
+      course: 'Former participant and facilitator',
+      imageSrc: '/images/graduates/juan-felipe.jpeg',
+      url: 'https://www.linkedin.com/in/juan-felipe-ceron-uribe/',
+    },
+    {
+      name: 'Nikita Ostrovsky',
+      jobTitle: 'AI Reporter at TIME',
+      course: 'AI Alignment Course Graduate',
+      imageSrc: '/images/graduates/nikita.jpeg',
+      url: 'https://www.linkedin.com/in/nikostro/',
+    },
+    {
+      name: 'Ana Carvalho',
+      jobTitle: 'Contributor to AI Safety Engineering Taskforce',
+      course: 'AI Alignment Course Graduate',
+      imageSrc: '/images/graduates/ana.jpg',
+      url: 'https://www.linkedin.com/in/anapmc/',
+    },
+    {
+      name: 'Sabrina Shih',
+      jobTitle: 'AI Policy Manager at Responsible AI Institute',
+      course: 'AI Alignment Course Graduate',
+      imageSrc: '/images/graduates/sabrina.jpg',
+      url: 'https://www.linkedin.com/in/sabrinajadeshih/',
+    },
+    {
+      name: 'Cameron Holmes',
+      jobTitle: 'Senior Research Manager at MATS',
+      course: 'AI Alignment Course Graduate',
+      imageSrc: '/images/graduates/cameron.png',
+      url: 'https://www.linkedin.com/in/cameronholmes1/',
     },
   ],
 
@@ -243,9 +230,7 @@ export const createTechnicalAiSafetyContent = (
         question: 'Do I need to take the AGI strategy course first?',
         answer: (
           <>
-            It is not a prerequisite, but we recommend it!
-            <br /><br />
-            The AGI Strategy course shows how technical safety fits into the broader strategy for making AI go well. Technical safety is one component among many.
+            It's not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you'll get more value if you understand how technical safety fits into the broader landscape of making AI go well.
           </>
         ),
       },

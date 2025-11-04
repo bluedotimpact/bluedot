@@ -37,7 +37,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             ? <Component {...pageProps} />
             : (
               <>
-                <Nav logo="/images/logo/BlueDot_Impact_Logo.svg" />
+                <Nav />
                 {fromSite && (
                   <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
                     <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.

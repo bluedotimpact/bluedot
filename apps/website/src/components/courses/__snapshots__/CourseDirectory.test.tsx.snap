@@ -3,47 +3,47 @@
 exports[`CourseDirectory > renders default as expected 1`] = `
 <div>
   <section
-    class="section section-body course-directory"
+    class="section section-body"
   >
     <div
       class="section__body"
     >
       <div
-        class="course-directory__content flex flex-col gap-spacing-x"
+        class="flex flex-col gap-spacing-x"
       >
         <div
-          class="course-directory__results-section flex flex-col gap-4 mt-2"
+          class="flex flex-col gap-4 mt-2"
         >
           <div
-            class="course-directory__results grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"
+            class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"
           >
             <a
-              class="course-search-card flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+              class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
               href="/course1"
               tabindex="0"
             >
               <div
-                class="course-search-card__image-container h-[200px] w-full mb-4"
+                class="h-[200px] w-full mb-4"
               >
                 <img
                   alt="Test Course 1"
-                  class="course-search-card__image size-full object-cover rounded-lg"
+                  class="size-full object-cover rounded-lg"
                   src="img1.jpg"
                 />
               </div>
               <div
-                class="course-search-card__content flex flex-col flex-1"
+                class="flex flex-col flex-1"
               >
                 <div
-                  class="course-search-card__text flex-1"
+                  class="flex-1"
                 >
                   <h3
-                    class="bluedot-h3 not-prose course-search-card__title mb-3"
+                    class="bluedot-h3 not-prose mb-3"
                   >
                     Test Course 1
                   </h3>
                   <p
-                    class="bluedot-p not-prose course-search-card__description text-bluedot-black"
+                    class="bluedot-p not-prose text-bluedot-black"
                   >
                     Desc 1
                   </p>
@@ -51,32 +51,32 @@ exports[`CourseDirectory > renders default as expected 1`] = `
               </div>
             </a>
             <a
-              class="course-search-card flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+              class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
               href="/course2"
               tabindex="0"
             >
               <div
-                class="course-search-card__image-container h-[200px] w-full mb-4"
+                class="h-[200px] w-full mb-4"
               >
                 <img
                   alt="Test Course 2"
-                  class="course-search-card__image size-full object-cover rounded-lg"
+                  class="size-full object-cover rounded-lg"
                   src="img2.jpg"
                 />
               </div>
               <div
-                class="course-search-card__content flex flex-col flex-1"
+                class="flex flex-col flex-1"
               >
                 <div
-                  class="course-search-card__text flex-1"
+                  class="flex-1"
                 >
                   <h3
-                    class="bluedot-h3 not-prose course-search-card__title mb-3"
+                    class="bluedot-h3 not-prose mb-3"
                   >
                     Test Course 2
                   </h3>
                   <p
-                    class="bluedot-p not-prose course-search-card__description text-bluedot-black"
+                    class="bluedot-p not-prose text-bluedot-black"
                   >
                     Desc 2
                   </p>

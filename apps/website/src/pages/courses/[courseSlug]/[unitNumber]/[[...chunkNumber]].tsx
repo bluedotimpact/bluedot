@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { isHttpError } from 'http-errors';
 import UnitLayout from '../../../../components/courses/UnitLayout';
+import { trpc } from '../../../../utils/trpc';
 import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
-import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
+import { FOAI_COURSE_ID } from '../../../../lib/constants';
 
 type CourseUnitChunkPageProps = UnitWithContent & {
   courseSlug: string;
@@ -66,22 +66,16 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // FoAI course only: If we're logged in, ensures a course registration is recorded
   const { latestUtmParams } = useLatestUtmParams();
-  const [, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
-    method: 'post',
-    url: `/api/course-registrations/${unit.courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
+  const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
 
   useEffect(() => {
-    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
+    // FoAI course only: If we're logged in, ensures a course registration is recorded
+    const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration({ data: { source: latestUtmParams.utm_source ?? null } }).catch(() => { /* no op, as we ignore errors */ });
+      createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration, latestUtmParams.utm_source]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
