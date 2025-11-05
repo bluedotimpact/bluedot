@@ -7,8 +7,6 @@ import {
   vi,
 } from 'vitest';
 import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
-import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { TrpcProvider } from '../../__tests__/trpcProvider';
 import CourseDetails from './CourseDetails';
 
 // Mock GroupSwitchModal to avoid testing it here
@@ -34,10 +32,6 @@ describe('CourseDetails', () => {
   });
 
   it('displays expanded course details region', async () => {
-    server.use(
-      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => ({ discussions: [] })),
-    );
-
     render(
       <CourseDetails
         course={mockCourse}
@@ -47,7 +41,6 @@ describe('CourseDetails', () => {
         attendedDiscussions={[]}
         isLoading={false}
       />,
-      { wrapper: TrpcProvider },
     );
 
     // Check for the expanded region
