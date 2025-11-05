@@ -131,7 +131,8 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      expect(screen.getByText('Join discussion (Host key: 123456)')).toBeInTheDocument();
+      expect(screen.getByText('Join discussion')).toBeInTheDocument();
+      expect(screen.getByText('Host key: 123456')).toBeInTheDocument();
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
 
@@ -193,7 +194,7 @@ describe('GroupDiscussionBanner', () => {
       expect(joinButton.closest('a')).toHaveAttribute('target', '_blank');
     });
 
-    test('clicking join discussion as facilitator copies host key to clipboard', async () => {
+    test('clicking host key button copies host key to clipboard', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -204,8 +205,8 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      const joinButton = screen.getByText('Join discussion (Host key: 123456)');
-      fireEvent.click(joinButton);
+      const hostKeyButton = screen.getByText('Host key: 123456');
+      fireEvent.click(hostKeyButton);
 
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('123456');
     });
