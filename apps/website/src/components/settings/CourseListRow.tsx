@@ -43,12 +43,20 @@ const CourseListRow = ({
     expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
   );
 
+  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
+  );
+
   // Sort discussions by startDateTime
   const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const isLoading = isMeetPersonLoading || isLoadingDiscussions;
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
 
   useEffect(() => {
     if (isNotInGroup) {
@@ -361,7 +369,7 @@ const CourseListRow = ({
           courseRegistration={courseRegistration}
           currentTimeSeconds={currentTimeSeconds}
           isLast={isLast}
-          attendedDiscussionIds={meetPerson?.attendedDiscussions}
+          attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
         />
       )}
