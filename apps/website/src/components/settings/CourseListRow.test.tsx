@@ -1,4 +1,3 @@
-import type { CourseRegistration } from '@bluedot/db';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -10,7 +9,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
@@ -38,25 +37,9 @@ describe('CourseListRow', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration: CourseRegistration = {
-    autoNumberId: 1,
-    id: 'reg-1',
+  const mockCourseRegistration = createMockCourseRegistration({
     courseId: 'course-1',
-    certificateCreatedAt: null,
-    certificateId: null,
-    email: 'test@example.com',
-    userId: 'user-1',
-    firstName: 'Test',
-    lastName: 'User',
-    fullName: 'Test User',
-    courseApplicationsBaseId: null,
-    decision: null,
-    role: null,
-    lastVisitedUnitNumber: null,
-    lastVisitedChunkIndex: null,
-    roundStatus: 'Active',
-    source: null,
-  };
+  });
 
   beforeEach(() => {
     vi.stubEnv('TZ', 'UTC');
