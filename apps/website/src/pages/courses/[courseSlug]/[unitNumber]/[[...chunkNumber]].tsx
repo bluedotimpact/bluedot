@@ -12,71 +12,6 @@ import db from '../../../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
 
-type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
-async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
-  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
-  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
-
-  // Sort units numerically since database text sorting might not handle numbers correctly
-  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
-
-  const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
-  if (!unit) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
-  }
-
-  const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const chunks = allChunks
-    .filter((chunk) => chunk.status === 'Active')
-    .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
-
-  // Resolve chunk resources and exercises with proper ordering
-  const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
-    let resources: UnitResource[] = [];
-    let exercises: Exercise[] = [];
-
-    // Fetch chunk resources, sort by readingOrder
-    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
-      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
-      const resolvedResources = await Promise.all(resourcePromises);
-      resources = resolvedResources
-        .filter((r): r is UnitResource => r !== null)
-        .sort((a, b) => {
-          const orderA = Number(a.readingOrder) || Infinity;
-          const orderB = Number(b.readingOrder) || Infinity;
-          return orderA - orderB;
-        });
-    }
-
-    // Fetch chunk exercises
-    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
-      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
-      const resolvedExercises = await Promise.all(exercisePromises);
-
-      // Filter for exercises that exist and are active, sort by exerciseOrder
-      exercises = resolvedExercises
-        .filter((e): e is Exercise => e !== null && e.status === 'Active')
-        .sort((a, b) => {
-          const numA = Number(a.exerciseOrder) || Infinity;
-          const numB = Number(b.exerciseOrder) || Infinity;
-          return numA - numB;
-        });
-    }
-
-    return {
-      ...chunk,
-      resources,
-      exercises,
-    };
-  }));
-
-  return {
-    units,
-    unit,
-    chunks: chunksWithContent,
-  };
-}
-
 type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
   unitNumber: string;
@@ -210,6 +145,71 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     throw error;
   }
 };
+
+type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
+async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
+  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
+
+  // Sort units numerically since database text sorting might not handle numbers correctly
+  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+
+  const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
+  if (!unit) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
+  }
+
+  const allChunks = await db.scan(chunkTable, { unitId: unit.id });
+  const chunks = allChunks
+    .filter((chunk) => chunk.status === 'Active')
+    .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
+
+  // Resolve chunk resources and exercises with proper ordering
+  const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
+    let resources: UnitResource[] = [];
+    let exercises: Exercise[] = [];
+
+    // Fetch chunk resources, sort by readingOrder
+    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
+      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
+      const resolvedResources = await Promise.all(resourcePromises);
+      resources = resolvedResources
+        .filter((r): r is UnitResource => r !== null)
+        .sort((a, b) => {
+          const orderA = Number(a.readingOrder) || Infinity;
+          const orderB = Number(b.readingOrder) || Infinity;
+          return orderA - orderB;
+        });
+    }
+
+    // Fetch chunk exercises
+    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
+      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
+      const resolvedExercises = await Promise.all(exercisePromises);
+
+      // Filter for exercises that exist and are active, sort by exerciseOrder
+      exercises = resolvedExercises
+        .filter((e): e is Exercise => e !== null && e.status === 'Active')
+        .sort((a, b) => {
+          const numA = Number(a.exerciseOrder) || Infinity;
+          const numB = Number(b.exerciseOrder) || Infinity;
+          return numA - numB;
+        });
+    }
+
+    return {
+      ...chunk,
+      resources,
+      exercises,
+    };
+  }));
+
+  return {
+    units,
+    unit,
+    chunks: chunksWithContent,
+  };
+}
 
 CourseUnitChunkPage.hideFooter = true;
 
