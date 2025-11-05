@@ -42,6 +42,16 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (!hostKeyCopied) return undefined;
+
+    const timeoutId = setTimeout(() => {
+      setHostKeyCopied(false);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [hostKeyCopied]);
+
   const { data: discussionUnit } = trpc.courses.getUnit.useQuery(
     groupDiscussion.courseBuilderUnitRecordId
       ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
@@ -71,14 +81,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
     : '';
 
-  const copyHostKey = async () => {
+  const copyHostKeyIfFacilitator = async () => {
     if (hostKeyForFacilitators) {
       try {
         await navigator.clipboard.writeText(hostKeyForFacilitators);
         setHostKeyCopied(true);
-        setTimeout(() => {
-          setHostKeyCopied(false);
-        }, 2000);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.warn('Failed to copy host key to clipboard:', error);
@@ -116,7 +123,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             <CTALinkOrButton
               variant="secondary"
               className="w-full gap-2"
-              onClick={copyHostKey}
+              onClick={copyHostKeyIfFacilitator}
             >
               <span className="text-gray-600"><FaCopy size={14} /></span>
               {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
