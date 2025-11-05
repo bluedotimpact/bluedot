@@ -1,6 +1,6 @@
 import { type Group, type GroupDiscussion } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
-import { calculateGroupAvailability } from '../../../../../server/routers/group-switching';
+import { calculateGroupAvailability } from './group-switching';
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
