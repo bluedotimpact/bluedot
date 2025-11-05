@@ -23,7 +23,6 @@ const CourseListRow = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
-  // Fetch meetPerson data to get discussion IDs
   const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
     // Don't run this query when the course is already completed
     isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
