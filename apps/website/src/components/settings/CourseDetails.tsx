@@ -1,10 +1,8 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { skipToken } from '@tanstack/react-query';
 import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import { trpc } from '../../utils/trpc';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
@@ -13,12 +11,13 @@ type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   currentTimeSeconds: number;
+  attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
   isLast?: boolean;
 };
 
 const CourseDetails = ({
-  course, courseRegistration, currentTimeSeconds, upcomingDiscussions, isLast = false,
+  course, courseRegistration, currentTimeSeconds, attendedDiscussions, upcomingDiscussions, isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
@@ -26,24 +25,7 @@ const CourseDetails = ({
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
 
-  // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
-    courseRegistrationId: courseRegistration.id,
-  });
-
   const isFacilitator = courseRegistration.role === 'Facilitator';
-
-  const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    (meetPerson?.attendedDiscussions || []).length > 0
-      ? { discussionIds: meetPerson?.attendedDiscussions || [] }
-      : skipToken,
-  );
-
-  const isLoading = isMeetPersonLoading || isLoadingAttended;
-
-  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
