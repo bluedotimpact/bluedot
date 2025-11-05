@@ -371,6 +371,7 @@ const CourseListRow = ({
           isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
+          isLoading={isLoading}
         />
       )}
 

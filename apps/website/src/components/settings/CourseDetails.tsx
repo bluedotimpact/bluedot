@@ -13,6 +13,7 @@ type CourseDetailsProps = {
   currentTimeSeconds: number;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
+  isLoading: boolean;
   isLast?: boolean;
 };
 
@@ -22,6 +23,7 @@ const CourseDetails = ({
   currentTimeSeconds,
   attendedDiscussions,
   upcomingDiscussions,
+  isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
