@@ -44,7 +44,8 @@ describe('CourseDetails', () => {
         courseRegistration={mockCourseRegistration}
         currentTimeSeconds={Math.floor(Date.now() / 1000)}
         upcomingDiscussions={[]}
-        attendedDiscussionIds={[]}
+        attendedDiscussions={[]}
+        isLoading={false}
       />,
       { wrapper: TrpcProvider },
     );
