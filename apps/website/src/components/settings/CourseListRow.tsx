@@ -130,7 +130,6 @@ const CourseListRow = ({
     } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
-    const openInNewTab = isNextDiscussionStartingSoon;
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
 
     return (
@@ -139,7 +138,7 @@ const CourseListRow = ({
         size="small"
         url={buttonUrl}
         disabled={disabled}
-        target={openInNewTab ? '_blank' : undefined}
+        target="_blank"
         className="w-full sm:w-auto"
       >
         {buttonText}
