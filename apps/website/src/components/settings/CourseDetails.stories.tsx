@@ -5,17 +5,6 @@ import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
-const meta: Meta<typeof CourseDetails> = {
-  title: 'Settings/CourseDetails',
-  component: CourseDetails,
-  parameters: {
-    layout: 'padded',
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
 const courseId = 'course-1';
 const mockCourse = createMockCourse({ id: courseId });
 const mockCourseRegistration = createMockCourseRegistration({ courseId });
@@ -126,14 +115,27 @@ const createMswHandlers = (meetPerson: MeetPerson) => [
   }),
 ];
 
-export const Default: Story = {
+const meta: Meta<typeof CourseDetails> = {
+  title: 'Settings/CourseDetails',
+  component: CourseDetails,
+  parameters: {
+    layout: 'padded',
+  },
   args: {
     course: mockCourse,
-    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
     currentTimeSeconds: now,
-    attendedDiscussions: [mockDiscussions['discussion-3']],
-    upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
+    attendedDiscussions: [mockDiscussions['discussion-3']!],
+    upcomingDiscussions: [mockDiscussions['discussion-1']!, mockDiscussions['discussion-2']!],
     isLoading: false,
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
   },
   parameters: {
     msw: {
@@ -144,12 +146,7 @@ export const Default: Story = {
 
 export const Facilitator: Story = {
   args: {
-    course: mockCourse,
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
-    currentTimeSeconds: now,
-    attendedDiscussions: [mockDiscussions['discussion-3']],
-    upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
-    isLoading: false,
   },
   parameters: {
     docs: {
