@@ -4,7 +4,7 @@ import {
   useEffect,
   useCallback,
 } from 'react';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 type Event = {
@@ -51,6 +51,9 @@ const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
   },
   {
     id: '9', src: '/images/homepage/events-9.png', alt: 'BlueDot event', width: 637,
+  },
+  {
+    id: '10', src: '/images/homepage/events-10.png', alt: 'BlueDot event', width: 637,
   },
 ];
 
@@ -293,7 +296,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
 };
 
 const EventsSection = () => {
-  const { data: events } = trpc.luma.getUpcomingEvents.useQuery();
+  const { data: events, isLoading } = trpc.luma.getUpcomingEvents.useQuery();
   const displayEvents = (events || []).slice(0, 4);
 
   return (
@@ -322,36 +325,46 @@ const EventsSection = () => {
       {/* Event Cards */}
       <div className="mx-auto max-w-screen-xl">
         <div className="flex flex-col items-center gap-16 min-[1024px]:gap-20">
-          <div className="w-full">
-            {/* Mobile: horizontal scroll carousel */}
-            <div className="flex overflow-x-auto scrollbar-none gap-6 min-[680px]:hidden">
-              {displayEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+          {isLoading ? (
+            <ProgressDots />
+          ) : displayEvents.length > 0 ? (
+            <>
+              <div className="w-full">
+                {/* Mobile: horizontal scroll carousel */}
+                <div className="flex overflow-x-auto scrollbar-none gap-6 min-[680px]:hidden">
+                  {displayEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
 
-            {/* Tablet 2×2 grid */}
-            <div className="hidden min-[680px]:grid min-[1280px]:hidden grid-cols-2 gap-x-4 gap-y-16">
-              {displayEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+                {/* Tablet 2×2 grid */}
+                <div className="hidden min-[680px]:grid min-[1280px]:hidden grid-cols-2 gap-x-4 gap-y-16">
+                  {displayEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
 
-            {/* Desktop: single row */}
-            <div className="hidden min-[1280px]:flex gap-4">
-              {displayEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
-          </div>
+                {/* Desktop: single row */}
+                <div className="hidden min-[1280px]:flex gap-4">
+                  {displayEvents.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))}
+                </div>
+              </div>
 
-          {/* CTA Button - below cards for tablet/desktop */}
-          <CTALinkOrButton
-            url="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
-            className="hidden min-[680px]:block h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)] whitespace-nowrap"
-          >
-            See all events
-          </CTALinkOrButton>
+              {/* CTA Button - below cards for tablet/desktop */}
+              <CTALinkOrButton
+                url="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
+                className="hidden min-[680px]:block h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)] whitespace-nowrap"
+              >
+                See all events
+              </CTALinkOrButton>
+            </>
+          ) : (
+            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
+              No upcoming events at the moment. Check back soon!
+            </p>
+          )}
         </div>
       </div>
     </section>
