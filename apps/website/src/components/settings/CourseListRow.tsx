@@ -59,7 +59,7 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const loading = !isCompleted && (isMeetPersonLoading || isLoadingDiscussions || isLoadingAttended);
+  const isLoading = !isCompleted && (isMeetPersonLoading || isLoadingDiscussions || isLoadingAttended);
 
   useEffect(() => {
     if (isNotInGroup) {
@@ -208,7 +208,7 @@ const CourseListRow = ({
                   </div>
                 )}
                 {/* Show upcoming discussion info when collapsed */}
-                {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+                {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                   <p
                     className={`text-size-xs mt-1 ${
                       isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
@@ -267,7 +267,7 @@ const CourseListRow = ({
               </div>
             )}
             {/* Show primary button for discussion or join group when collapsed on mobile */}
-            {!isExpanded && !isCompleted && !loading && primaryCtaButton && (
+            {!isExpanded && !isCompleted && !isLoading && primaryCtaButton && (
               <div
                 className="flex"
                 onClick={(e) => e.stopPropagation()}
@@ -297,7 +297,7 @@ const CourseListRow = ({
                 </div>
               )}
               {/* Show upcoming discussion info when collapsed on desktop */}
-              {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+              {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                 <p
                   className={`text-size-xs mt-1 ${
                     isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
@@ -329,7 +329,7 @@ const CourseListRow = ({
               )}
 
               {/* Show primary button for discussion or join group when collapsed on desktop */}
-              {!isExpanded && !isCompleted && !loading && primaryCtaButton}
+              {!isExpanded && !isCompleted && !isLoading && primaryCtaButton}
 
               {/* Expand/collapse button - only for in-progress courses */}
               {!isCompleted && (
