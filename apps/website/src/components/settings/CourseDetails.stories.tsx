@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
 import CourseDetails from './CourseDetails';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
@@ -16,27 +16,16 @@ const meta: Meta<typeof CourseDetails> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const courseId = 'course-1';
+
 // Mock course data
-const mockCourse = createMockCourse();
+const mockCourse = createMockCourse({ id: courseId });
 
 // Mock course registration
-const mockCourseRegistration = {
-  id: 'reg-1',
-  courseId: 'course-1',
-  userId: 'user-1',
-  email: 'user@example.com',
-  firstName: 'John',
-  lastName: 'Doe',
-  fullName: 'John Doe',
-  role: 'Participant' as const,
-  roundStatus: 'Active',
-  certificateId: null,
-  certificateCreatedAt: null,
-  lastVisitedUnitNumber: null,
-  lastVisitedChunkIndex: null,
-  courseApplicationsBaseId: null,
-  decision: null,
-};
+const mockCourseRegistration = createMockCourseRegistration({
+  courseId,
+  role: 'Participant',
+});
 
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
