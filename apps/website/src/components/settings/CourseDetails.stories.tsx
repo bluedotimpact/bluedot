@@ -1,7 +1,5 @@
-import type { MeetPerson } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
-import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
@@ -78,43 +76,6 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
   },
 };
 
-const mockMeetPerson: MeetPerson = {
-  id: 'meet-person-1',
-  name: 'John Doe',
-  applicationsBaseRecordId: null,
-  round: 'Round 1',
-  expectedDiscussionsParticipant: ['discussion-1', 'discussion-2'],
-  expectedDiscussionsFacilitator: [],
-  attendedDiscussions: ['discussion-3'],
-  groupsAsParticipant: ['group-1'],
-  buckets: ['bucket-1'],
-  autoNumberId: 1,
-};
-
-const mockFacilitatorMeetPerson: MeetPerson = {
-  id: 'meet-person-2',
-  name: 'Jane Facilitator',
-  applicationsBaseRecordId: null,
-  round: 'Round 1',
-  expectedDiscussionsParticipant: [],
-  expectedDiscussionsFacilitator: ['discussion-1', 'discussion-2'],
-  attendedDiscussions: ['discussion-3'],
-  groupsAsParticipant: ['group-1'],
-  buckets: ['bucket-1'],
-  autoNumberId: 2,
-};
-
-const createMswHandlers = (meetPerson: MeetPerson) => [
-  trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(({ input }) => {
-    const discussions = input.discussionIds.map((id) => mockDiscussions[id]).filter((d) => d !== undefined);
-
-    return {
-      discussions,
-    };
-  }),
-];
-
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
   component: CourseDetails,
@@ -137,11 +98,6 @@ export const Default: Story = {
   args: {
     courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
   },
-  parameters: {
-    msw: {
-      handlers: createMswHandlers(mockMeetPerson),
-    },
-  },
 };
 
 export const Facilitator: Story = {
@@ -153,9 +109,6 @@ export const Facilitator: Story = {
       description: {
         story: 'Facilitators do not see the "Switch group" button for discussions.',
       },
-    },
-    msw: {
-      handlers: createMswHandlers(mockFacilitatorMeetPerson),
     },
   },
 };
