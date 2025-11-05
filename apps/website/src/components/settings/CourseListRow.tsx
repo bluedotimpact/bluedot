@@ -362,7 +362,7 @@ const CourseListRow = ({
           courseRegistration={courseRegistration}
           currentTimeSeconds={currentTimeSeconds}
           isLast={isLast}
-          attendedDiscussionIds={meetPerson?.attendedDiscussions || []}
+          attendedDiscussionIds={meetPerson?.attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
         />
       )}

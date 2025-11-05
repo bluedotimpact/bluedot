@@ -13,7 +13,7 @@ type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   currentTimeSeconds: number;
-  attendedDiscussionIds: string[];
+  attendedDiscussionIds?: string[] | null;
   upcomingDiscussions: GroupDiscussion[];
   isLast?: boolean;
 };
@@ -34,13 +34,15 @@ const CourseDetails = ({
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  const { data: attendedResults, isLoading } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    attendedDiscussionIds.length > 0 ? { discussionIds: attendedDiscussionIds } : skipToken,
+  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (attendedDiscussionIds || []).length > 0 ? { discussionIds: attendedDiscussionIds || [] } : skipToken,
   );
 
   const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
+
+  const isLoading = attendedDiscussionIds === undefined || isLoadingAttendees;
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
