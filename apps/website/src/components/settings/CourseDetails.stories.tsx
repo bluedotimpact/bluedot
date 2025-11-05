@@ -17,15 +17,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const courseId = 'course-1';
-
-// Mock course data
 const mockCourse = createMockCourse({ id: courseId });
-
-// Mock course registration
-const mockCourseRegistration = createMockCourseRegistration({
-  courseId,
-  role: 'Participant',
-});
+const mockCourseRegistration = createMockCourseRegistration({ courseId });
 
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
@@ -138,7 +131,7 @@ const createMswHandlers = (meetPerson: MeetPerson) => [
 export const Default: Story = {
   args: {
     course: mockCourse,
-    courseRegistration: mockCourseRegistration,
+    courseRegistration: {...mockCourseRegistration, role: 'Participant' },
     currentTimeSeconds: now,
     attendedDiscussions: [mockDiscussions['discussion-3']],
     upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
