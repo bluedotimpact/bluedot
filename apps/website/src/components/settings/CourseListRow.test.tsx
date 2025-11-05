@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   afterEach,
@@ -166,19 +166,21 @@ describe('CourseListRow', () => {
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
 
     // Click to collapse
-    await user.click(collapseButton);
-    waitFor(() => {
-      expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
-      expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
-      expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
+    await act(async () => {
+      await user.click(collapseButton);
     });
 
+    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
+    expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
+    expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
+
     // Click to expand again
-    await user.click(collapseButton);
-    waitFor(() => {
-      expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
-      expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
-      expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
+    await act(async () => {
+      await user.click(collapseButton);
     });
+
+    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
+    expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
+    expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
   });
 });
