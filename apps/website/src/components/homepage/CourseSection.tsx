@@ -155,6 +155,8 @@ const CourseCarousel = ({
   const x = useMotionValue(0);
   const animationRef = useRef<AnimationPlaybackControls | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // Track width separately to ignore mobile browser address bar height changes
+  const widthRef = useRef<number>(0);
   // Duplicate array for seamless loop
   const allCourses = [...courses, ...courses];
 
@@ -163,17 +165,35 @@ const CourseCarousel = ({
     if (!container) return undefined;
 
     const setupAnimation = () => {
+      const currentWidth = window.innerWidth;
+
+      // Only respond to width changes, not height changes (mobile address bar)
+      if (widthRef.current !== 0 && currentWidth === widthRef.current) {
+        return;
+      }
+
+      widthRef.current = currentWidth;
+
       const containerWidth = container.scrollWidth;
 
       if (containerWidth === 0) return;
 
       const targetX = -(containerWidth / 2);
 
-      animationRef.current?.stop();
-      x.set(0);
+      // Calculate progress to avoid jarring resets when window resizes
+      const currentX = x.get();
+      // Clamp to [0, 1] to prevent negative duration when viewport shrinks (e.g., device rotation)
+      const currentProgress = Math.min(Math.max(currentX / targetX, 0), 1);
 
-      animationRef.current = animate(x, [0, targetX], {
-        duration: 40,
+      animationRef.current?.stop();
+
+      // Resume from current position so carousel doesn't jump on resize
+      const newStartX = targetX * currentProgress;
+      x.set(newStartX);
+
+      // Scale duration by remaining distance - 40s for full loop
+      animationRef.current = animate(x, [newStartX, targetX], {
+        duration: 40 * (1 - currentProgress),
         repeat: Infinity,
         repeatType: 'loop',
         ease: 'linear',
@@ -299,6 +319,7 @@ const CourseCardRedesigned = ({
       {/* Background Layers - All in proper stacking order */}
       {/* Layer 1: Gradient image - only scale when rotating */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Tailwind doesn't support dynamic rotation angles - using inline style */}
         <img
           alt=""
           className="absolute inset-0 size-full object-cover"
@@ -316,6 +337,7 @@ const CourseCardRedesigned = ({
       <div className="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none" />
 
       {/* Layer 3: Bottom gradient - only for non-first cards */}
+      {/* Tailwind doesn't support precise gradient stop percentages - using inline style */}
       {!isFirstCard && (
         <div
           className="absolute inset-0 pointer-events-none"
@@ -340,10 +362,10 @@ const CourseCardRedesigned = ({
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-[464px] sm:h-[440px] xl:h-[480px] p-6 md:p-8 lg:p-10">
+      <div className="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10">
         {/* Icon at top */}
         <div className="flex-grow">
-          <div className="size-16 md:size-20 lg:size-24">
+          <div className="size-16 md:size-20 xl:size-24">
             <img src={iconSrc} alt={`${course.title} icon`} className="block size-full" />
           </div>
         </div>
