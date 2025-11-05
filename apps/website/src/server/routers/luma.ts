@@ -17,8 +17,6 @@ export const lumaRouter = router({
     const apiKey = env.LUMA_API_KEY;
 
     if (!apiKey) {
-      // eslint-disable-next-line no-console
-      console.warn('LUMA_API_KEY not configured - no events will be displayed');
       return [];
     }
 
