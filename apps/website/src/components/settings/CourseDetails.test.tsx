@@ -1,4 +1,3 @@
-import type { CourseRegistration } from '@bluedot/db';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import {
@@ -7,7 +6,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import CourseDetails from './CourseDetails';
@@ -30,25 +29,9 @@ describe('CourseDetails', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration: CourseRegistration = {
-    autoNumberId: 1,
-    id: 'reg-1',
+  const mockCourseRegistration = createMockCourseRegistration({
     courseId: 'course-1',
-    certificateCreatedAt: null,
-    certificateId: null,
-    email: 'test@example.com',
-    userId: 'user-1',
-    firstName: 'Test',
-    lastName: 'User',
-    fullName: 'Test User',
-    courseApplicationsBaseId: null,
-    decision: null,
-    role: null,
-    lastVisitedUnitNumber: null,
-    lastVisitedChunkIndex: null,
-    roundStatus: 'Active',
-    source: null,
-  };
+  });
 
   it('displays expanded course details region', async () => {
     // Mock the tRPC call for meetPerson
