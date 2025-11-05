@@ -186,12 +186,12 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
       const resolvedExercises = await Promise.all(exercisePromises);
 
-      // Filter for exercises that exist and are active, sort by exerciseOrder
+      // Filter for exercises that exist and are active, sort by exerciseNumber
       exercises = resolvedExercises
         .filter((e): e is Exercise => e !== null && e.status === 'Active')
         .sort((a, b) => {
-          const numA = Number(a.exerciseOrder) || Infinity;
-          const numB = Number(b.exerciseOrder) || Infinity;
+          const numA = Number(a.exerciseNumber) || Infinity;
+          const numB = Number(b.exerciseNumber) || Infinity;
           return numA - numB;
         });
     }
