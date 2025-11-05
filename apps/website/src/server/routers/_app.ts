@@ -6,6 +6,7 @@ import { courseRegistrationsRouter } from './course-registrations';
 import { coursesRouter } from './courses';
 import { groupDiscussionsRouter } from './group-discussions';
 import { jobsRouter } from './jobs';
+import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
 import { usersRouter } from './users';
@@ -18,6 +19,7 @@ export const appRouter = router({
   courses: coursesRouter,
   groupDiscussions: groupDiscussionsRouter,
   jobs: jobsRouter,
+  luma: lumaRouter,
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
   users: usersRouter,
