@@ -59,7 +59,7 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const isLoading = !isCompleted && (isMeetPersonLoading || isLoadingDiscussions || isLoadingAttended);
+  const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttended;
 
   useEffect(() => {
     if (isNotInGroup) {
