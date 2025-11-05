@@ -1,8 +1,10 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { skipToken } from '@tanstack/react-query';
 import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import { trpc } from '../../utils/trpc';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
@@ -11,13 +13,18 @@ type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   currentTimeSeconds: number;
-  attendedDiscussions: GroupDiscussion[];
+  attendedDiscussionIds: string[];
   upcomingDiscussions: GroupDiscussion[];
   isLast?: boolean;
 };
 
 const CourseDetails = ({
-  course, courseRegistration, currentTimeSeconds, attendedDiscussions, upcomingDiscussions, isLast = false,
+  course,
+  courseRegistration,
+  currentTimeSeconds,
+  attendedDiscussionIds,
+  upcomingDiscussions,
+  isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
@@ -26,6 +33,14 @@ const CourseDetails = ({
   const [showAllAttended, setShowAllAttended] = useState(false);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
+
+  const { data: attendedResults, isLoading } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    attendedDiscussionIds.length > 0 ? { discussionIds: attendedDiscussionIds } : skipToken,
+  );
+
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
