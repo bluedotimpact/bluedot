@@ -142,9 +142,8 @@ export const groupSwitchingRouter = router({
       }
 
       const roundId = participant.round;
-
       if (!roundId) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Participant does not have a round ID' });
       }
 
       const courseRound = await db.get(roundTable, { id: roundId });
