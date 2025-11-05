@@ -45,10 +45,12 @@ export const coursesRouter = router({
     .query(async ({ input }) => {
       const { courseSlug, unitId } = input;
 
-      const unit = await db.get(unitTable, {
-        id: unitId,
-        courseSlug,
-        unitStatus: 'Active',
+      const unit = await db.getFirst(unitTable, {
+        filter: {
+          id: unitId,
+          courseSlug,
+          unitStatus: 'Active',
+        },
       });
 
       if (!unit) {
