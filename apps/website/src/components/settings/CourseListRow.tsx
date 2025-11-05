@@ -361,8 +361,9 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          isLast={isLast}
           currentTimeSeconds={currentTimeSeconds}
+          isLast={isLast}
+          upcomingDiscussions={upcomingDiscussions}
         />
       )}
 

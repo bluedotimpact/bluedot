@@ -13,11 +13,12 @@ type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   currentTimeSeconds: number;
+  upcomingDiscussions: GroupDiscussion[];
   isLast?: boolean;
 };
 
 const CourseDetails = ({
-  course, courseRegistration, currentTimeSeconds, isLast = false,
+  course, courseRegistration, currentTimeSeconds, upcomingDiscussions, isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
@@ -32,35 +33,16 @@ const CourseDetails = ({
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  // Fetch all expected discussions (will be filtered later to show only those not ended)
-  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-  const expectedDiscussionIds = isFacilitator
-    ? meetPerson?.expectedDiscussionsFacilitator || []
-    : meetPerson?.expectedDiscussionsParticipant || [];
-
-  const { data: expectedResults, isLoading: isLoadingExpected } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
-  );
   const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
     (meetPerson?.attendedDiscussions || []).length > 0
       ? { discussionIds: meetPerson?.attendedDiscussions || [] }
       : skipToken,
   );
 
-  const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
-
-  // Sort discussions by startDateTime
-  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
+  const isLoading = isMeetPersonLoading || isLoadingAttended;
 
   const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
-  );
-
-  // Filter expected discussions to only show those where the end datetime hasn't passed yet
-  const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => discussion.endDateTime > currentTimeSeconds,
   );
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
