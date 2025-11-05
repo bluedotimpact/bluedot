@@ -46,6 +46,42 @@ const getGMTOffsetWithCity = () => {
   return `(GMT ${offsetFormatted}) ${cityName}`;
 };
 
+export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
+  return [...options].sort((a, b) => {
+    // Sort enabled before disabled
+    const disabledA = a.isDisabled ?? false;
+    const disabledB = b.isDisabled ?? false;
+    if (disabledA !== disabledB) {
+      return disabledA ? 1 : -1;
+    }
+
+    // Sort by time ascending
+    const timeAMs = (a.dateTime ?? 0) * 1000;
+    const timeBMs = (b.dateTime ?? 0) * 1000;
+
+    // For recurring times, consider only weekday and time of day in local timezone
+    if (a.isRecurringTime && b.isRecurringTime) {
+      const dateA = new Date(timeAMs);
+      const dateB = new Date(timeBMs);
+
+      // Convert to Monday-first week (Monday=0, Sunday=6)
+      const dayA = (dateA.getDay() + 6) % 7;
+      const dayB = (dateB.getDay() + 6) % 7;
+
+      if (dayA !== dayB) {
+        return dayA - dayB;
+      }
+
+      const timeOfDayA = dateA.getHours() * 3600 + dateA.getMinutes() * 60 + dateA.getSeconds();
+      const timeOfDayB = dateB.getHours() * 3600 + dateB.getMinutes() * 60 + dateB.getSeconds();
+      return timeOfDayA - timeOfDayB;
+    }
+
+    // For non-recurring times, sort by absolute timestamp
+    return timeAMs - timeBMs;
+  });
+};
+
 const getGroupSwitchDescription = ({
   userIsParticipant = false,
   isSelected,
@@ -322,7 +358,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     });
 
-  const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
+  const groupSwitchOptions = sortGroupSwitchOptions(isTemporarySwitch ? discussionOptions : groupOptions);
   const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
 
   const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
