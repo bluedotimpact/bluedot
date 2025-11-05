@@ -362,6 +362,7 @@ const CourseListRow = ({
           course={course}
           courseRegistration={courseRegistration}
           isLast={isLast}
+          currentTimeSeconds={currentTimeSeconds}
         />
       )}
 

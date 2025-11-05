@@ -1,7 +1,7 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
@@ -12,16 +12,18 @@ const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
+  currentTimeSeconds: number;
   isLast?: boolean;
 };
 
-const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDetailsProps) => {
+const CourseDetails = ({
+  course, courseRegistration, currentTimeSeconds, isLast = false,
+}: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
-  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
   const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
@@ -55,15 +57,6 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
   const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
-
-  // Update current time every 30 seconds for real-time countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Filter expected discussions to only show those where the end datetime hasn't passed yet
   const upcomingDiscussions = expectedDiscussions.filter(
