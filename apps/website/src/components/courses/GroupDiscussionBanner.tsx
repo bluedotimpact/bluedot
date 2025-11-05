@@ -1,20 +1,14 @@
 import React, {
   useState, useMemo, useEffect,
 } from 'react';
-import {
-  InferSelectModel,
-  groupDiscussionTable,
-  unitTable,
-} from '@bluedot/db';
+import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
+import { skipToken } from '@tanstack/react-query';
 import GroupSwitchModal from './GroupSwitchModal';
 import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
-
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Unit = InferSelectModel<typeof unitTable.pg>;
+import { trpc } from '../../utils/trpc';
 
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
@@ -36,7 +30,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const [discussionUnit, setDiscussionUnit] = useState<Unit | null>(null);
 
   // Update current time every 30 seconds for smoother countdown
   useEffect(() => {
@@ -47,25 +40,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Always fetch the unit based on courseBuilderUnitRecordId
-  const [{ data: fetchedUnit }] = useAxios<{ unit: Unit }>({
-    url: groupDiscussion.courseBuilderUnitRecordId
-      ? `/api/courses/${unit.courseSlug}/units/${groupDiscussion.courseBuilderUnitRecordId}`
-      : undefined,
-    method: 'get',
-  }, {
-    manual: !groupDiscussion.courseBuilderUnitRecordId,
-  });
-
-  useEffect(() => {
-    if (fetchedUnit?.unit) {
-      // Always use the fetched unit when available
-      setDiscussionUnit(fetchedUnit.unit);
-    } else {
-      // No fetched unit yet
-      setDiscussionUnit(null);
-    }
-  }, [fetchedUnit]);
+  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(
+    groupDiscussion.courseBuilderUnitRecordId
+      ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
+      : skipToken,
+  );
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
