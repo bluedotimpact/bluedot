@@ -325,9 +325,9 @@ const EventsSection = () => {
       {/* Event Cards */}
       <div className="mx-auto max-w-screen-xl">
         <div className="flex flex-col items-center gap-16 min-[1024px]:gap-20">
-          {isLoading ? (
-            <ProgressDots />
-          ) : displayEvents.length > 0 ? (
+          {isLoading && <ProgressDots />}
+
+          {!isLoading && displayEvents.length > 0 && (
             <>
               <div className="w-full">
                 {/* Mobile: horizontal scroll carousel */}
@@ -360,7 +360,9 @@ const EventsSection = () => {
                 See all events
               </CTALinkOrButton>
             </>
-          ) : (
+          )}
+
+          {!isLoading && displayEvents.length === 0 && (
             <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
               No upcoming events at the moment. Check back soon!
             </p>
