@@ -34,15 +34,17 @@ describe('CourseDetails', () => {
   });
 
   it('displays expanded course details region', async () => {
-    // Mock the tRPC call for meetPerson
     server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => (null)),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => ({ discussions: [] })),
     );
 
     render(
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
+        currentTimeSeconds={Math.floor(Date.now() / 1000)}
+        upcomingDiscussions={[]}
+        attendedDiscussionIds={[]}
       />,
       { wrapper: TrpcProvider },
     );
