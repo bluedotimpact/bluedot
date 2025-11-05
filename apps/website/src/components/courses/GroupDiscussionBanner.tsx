@@ -82,7 +82,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : '';
 
   const copyHostKeyIfFacilitator = async () => {
-    if (hostKeyForFacilitators) {
+    if (userRole === 'facilitator' && hostKeyForFacilitators) {
       try {
         await navigator.clipboard.writeText(hostKeyForFacilitators);
         setHostKeyCopied(true);
