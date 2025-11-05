@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   afterEach,
@@ -12,6 +12,7 @@ import {
 import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 type MockCourseDetailsProps = {
   course: { title: string };
@@ -41,8 +42,30 @@ describe('CourseListRow', () => {
     courseId: 'course-1',
   });
 
+  const mockMeetPerson = {
+    id: 'meet-person-1',
+    name: 'Test User',
+    applicationsBaseRecordId: null,
+    round: 'Round 1',
+    expectedDiscussionsParticipant: [],
+    expectedDiscussionsFacilitator: [],
+    attendedDiscussions: [],
+    groupsAsParticipant: [],
+    buckets: [],
+    autoNumberId: 1,
+  };
+
+  const mockDiscussions = {
+    discussions: [],
+  };
+
   beforeEach(() => {
     vi.stubEnv('TZ', 'UTC');
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockDiscussions),
+    );
   });
 
   afterEach(() => {
@@ -144,14 +167,18 @@ describe('CourseListRow', () => {
 
     // Click to collapse
     await user.click(collapseButton);
-    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
-    expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
-    expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
+    waitFor(() => {
+      expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
+      expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
+      expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
+    });
 
     // Click to expand again
     await user.click(collapseButton);
-    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
-    expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
-    expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
+    waitFor(() => {
+      expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
+      expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
+      expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
+    });
   });
 });
