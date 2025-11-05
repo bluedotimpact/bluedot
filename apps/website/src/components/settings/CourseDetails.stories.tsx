@@ -139,6 +139,9 @@ export const Default: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockCourseRegistration,
+    currentTimeSeconds: now,
+    attendedDiscussionIds: mockMeetPerson.attendedDiscussions,
+    upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
   },
   parameters: {
     msw: {
@@ -151,6 +154,9 @@ export const Facilitator: Story = {
   args: {
     course: mockCourse,
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
+    currentTimeSeconds: now,
+    attendedDiscussionIds: mockFacilitatorMeetPerson.attendedDiscussions,
+    upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
   },
   parameters: {
     docs: {
