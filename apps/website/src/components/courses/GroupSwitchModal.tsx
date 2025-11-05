@@ -48,7 +48,7 @@ const getGMTOffsetWithCity = () => {
 
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
   return [...options].sort((a, b) => {
-    // Sort non-disabled before disabled
+    // Sort enabled before disabled
     const disabledA = a.isDisabled ?? false;
     const disabledB = b.isDisabled ?? false;
     if (disabledA !== disabledB) {
