@@ -10,6 +10,7 @@ import UnitLayout from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../../../lib/constants';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
@@ -68,13 +69,12 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // FoAI course only: If we're logged in, ensures a course registration is recorded
   const { latestUtmParams } = useLatestUtmParams();
   const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
 
   useEffect(() => {
-    // If we're logged in, ensures a course registration is recorded for this course
-    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
+    // FoAI course only: If we're logged in, ensures a course registration is recorded
+    const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
