@@ -35,6 +35,31 @@ export const getAllActiveCourses = async () => {
 };
 
 export const coursesRouter = router({
+  getUnit: publicProcedure
+    .input(
+      z.object({
+        courseSlug: z.string().trim().min(1, 'courseSlug is required'),
+        unitId: z.string().trim().min(1, 'unitId is required'),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { courseSlug, unitId } = input;
+
+      const unit = await db.getFirst(unitTable, {
+        filter: {
+          id: unitId,
+          courseSlug,
+          unitStatus: 'Active',
+        },
+      });
+
+      if (!unit) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
+      }
+
+      return unit;
+    }),
+
   getBySlug: publicProcedure
     .input(
       z.object({
