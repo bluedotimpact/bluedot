@@ -24,7 +24,7 @@ const CourseListRow = ({
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
   // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
     // Don't run this query when the course is already completed
     isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
   );
@@ -55,11 +55,11 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const loading = !isCompleted && isLoadingDiscussions;
   const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
+  const loading = !isCompleted && (isMeetPersonLoading || isLoadingDiscussions || isLoadingAttended);
 
   useEffect(() => {
     if (isNotInGroup) {
