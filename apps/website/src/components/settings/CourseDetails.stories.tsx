@@ -131,7 +131,7 @@ const createMswHandlers = (meetPerson: MeetPerson) => [
 export const Default: Story = {
   args: {
     course: mockCourse,
-    courseRegistration: {...mockCourseRegistration, role: 'Participant' },
+    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
     currentTimeSeconds: now,
     attendedDiscussions: [mockDiscussions['discussion-3']],
     upcomingDiscussions: [mockDiscussions['discussion-1'], mockDiscussions['discussion-2']],
