@@ -137,6 +137,9 @@ export const groupSwitchingRouter = router({
       }
 
       const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+      if (!participant) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant found for this course registration' });
+      }
 
       const roundId = participant.round;
 
@@ -145,6 +148,9 @@ export const groupSwitchingRouter = router({
       }
 
       const courseRound = await db.get(roundTable, { id: roundId });
+      if (!courseRound) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
+      }
 
       /**
        * Get groups the user is allowed to switch to:
