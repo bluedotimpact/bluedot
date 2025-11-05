@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
-import CourseDetails from './CourseDetails';
+import type { Meta, StoryObj } from '@storybook/react';
 import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import CourseDetails from './CourseDetails';
 
 const meta: Meta<typeof CourseDetails> = {
   title: 'Settings/CourseDetails',
@@ -118,9 +118,7 @@ const mockFacilitatorMeetPerson: MeetPerson = {
 const createMswHandlers = (meetPerson: MeetPerson) => [
   trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
   trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(({ input }) => {
-    const discussions = input.discussionIds
-      .map((id) => mockDiscussions[id])
-      .filter((d) => d !== undefined);
+    const discussions = input.discussionIds.map((id) => mockDiscussions[id]).filter((d) => d !== undefined);
 
     return {
       discussions,
