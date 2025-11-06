@@ -243,7 +243,7 @@ describe('CourseUnitPage', () => {
     ];
 
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[2]!.id }),
+      ...createMockChunk({ unitId: mockUnits[2]!.id, metaDescription: 'Test chunk meta description' }),
       exercises: [],
       resources: [],
     }];
