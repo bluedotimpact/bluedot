@@ -5,69 +5,22 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import { createMockUnit } from '../../__tests__/testUtils';
 
-const unit1: Unit = {
-  id: 'unit-1',
-  duration: null,
-  description: 'Introduction to AI Safety concepts',
-  autoNumberId: 1,
-  path: '/courses/ai-safety/unit-1',
+const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '1',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
-const unit2: Unit = {
-  id: 'unit-2',
-  duration: null,
-  description: 'AI alignment concepts',
-  autoNumberId: 2,
-  path: '/courses/ai-safety/unit-2',
-  title: 'AI Alignment',
+const unit2 = createMockUnit({
+  title: 'AI Safety Course',
   unitNumber: '2',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '2',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
-const unit3: Unit = {
-  id: 'unit-3',
-  duration: null,
-  description: 'Technical safety approaches',
-  autoNumberId: 3,
-  path: '/courses/ai-safety/unit-3',
-  title: 'Technical Safety',
+const unit3 = createMockUnit({
+  title: 'Technical Safety Approaches',
   unitNumber: '3',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '3',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
 const mockCourseData: { course: Course, units: Unit[] } = {
   course: {
