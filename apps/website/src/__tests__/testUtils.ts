@@ -134,7 +134,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   id: 'group-1',
   participants: [],
   round: 'round-1',
-  startTimeUtc: Date.now(),
+  startTimeUtc: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
   whoCanSwitchIntoThisGroup: [],
   ...overrides,
 });
@@ -145,14 +145,14 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   autoNumberId: null,
   courseBuilderUnitRecordId: null,
   courseSite: null,
-  endDateTime: Date.now() + 60 * 60 * 1000, // 1 hour from now
+  endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
   facilitators: [],
   group: 'group-1',
   id: `discussion-${overrides.unitNumber || 1}`,
   participantsExpected: [],
   round: null,
   slackChannelId: null,
-  startDateTime: Date.now(),
+  startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
   unit: `unit-${overrides.unitNumber || 1}`,
   unitNumber: 1,
   zoomAccount: null,
