@@ -1,6 +1,6 @@
 import { render, RenderResult } from '@testing-library/react';
 import type {
-  Chunk, Course, CourseRegistration, GroupDiscussion, Unit,
+  Chunk, Course, CourseRegistration, Group, GroupDiscussion, Unit,
 } from '@bluedot/db';
 
 declare global {
@@ -124,6 +124,18 @@ export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
   metaDescription: null,
   status: 'Active',
   unitId: 'unit-id',
+  ...overrides,
+});
+
+export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
+  autoNumberId: null,
+  groupDiscussions: [],
+  groupName: 'Group 1',
+  id: 'group-1',
+  participants: [],
+  round: 'round-1',
+  startTimeUtc: Date.now(),
+  whoCanSwitchIntoThisGroup: [],
   ...overrides,
 });
 
