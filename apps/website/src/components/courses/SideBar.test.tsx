@@ -5,11 +5,8 @@ import {
   test,
   vi,
 } from 'vitest';
-import { chunkTable, InferSelectModel } from '@bluedot/db';
 import SideBar from './SideBar';
-import { createMockUnit } from '../../__tests__/testUtils';
-
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
+import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 
 const COURSE_UNITS = [
   createMockUnit({
@@ -39,16 +36,11 @@ const COURSE_UNITS = [
   }),
 ];
 
-const CHUNKS: Chunk[] = [
-  {
-    chunkId: 'recuC87TILbjW4eF4',
-    unitId: 'recySscaN1b0Cm1jn',
+const CHUNKS = [
+  createMockChunk({
     chunkTitle: 'What can AI do today?',
-    chunkOrder: '1',
-    chunkType: 'Reading',
     chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, >5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
-    id: 'recuC87TILbjW4eF4',
-  },
+  }),
 ];
 
 describe('SideBar', () => {
