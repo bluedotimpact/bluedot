@@ -1,9 +1,8 @@
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import { Course } from '@bluedot/db';
 import CoursePage from '../../../../pages/courses/[courseSlug]/index';
-import { createMockUnit, renderWithHead } from '../../../testUtils';
+import { createMockUnit, mockCourse as createMockCourse, renderWithHead } from '../../../testUtils';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.
@@ -21,29 +20,11 @@ vi.mock('next/head', () => ({
   },
 }));
 
-const mockCourse: Course = {
-  id: 'recCourse123',
-  title: 'AI Safety Fundamentals',
+const mockCourse = createMockCourse({
   slug: 'ai-safety-fundamentals',
+  title: 'AI Safety Fundamentals',
   description: 'Learn about AI safety and alignment',
-  path: '/courses/ai-safety-fundamentals',
-  status: 'published',
-  durationHours: 40,
-  durationDescription: '8 weeks',
-  level: 'Beginner',
-  cadence: 'Weekly',
-  shortDescription: 'Introduction to AI safety',
-  image: '/images/courses/ai-safety.jpg',
-  detailsUrl: 'https://example.com/details',
-  certificationDescription: 'Certificate description',
-  certificationBadgeImage: 'badge.png',
-  displayOnCourseHubIndex: true,
-  averageRating: 4.8,
-  isFeatured: true,
-  isNew: false,
-  publicLastUpdated: null,
-  units: [],
-};
+});
 
 const mockUnits = [
   createMockUnit(),
