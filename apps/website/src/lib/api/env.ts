@@ -10,4 +10,8 @@ export default validateEnv({
     'KEYCLOAK_CLIENT_ID',
     'KEYCLOAK_CLIENT_SECRET',
   ],
+  optional: [
+    'CERTIFICATE_CREATION_TOKEN',
+    'LUMA_API_KEY',
+  ],
 });

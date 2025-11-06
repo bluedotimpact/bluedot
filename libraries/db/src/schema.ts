@@ -156,6 +156,7 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
+// TODO: this isn't used by anything, consider removing
 export const unitFeedbackTable = pgAirtable('unit_feedback', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblBwjMjul1c6l7ea',
@@ -319,6 +320,10 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldcEa25oCDAmgDqm',
     },
+    /**
+     * Array of buckets, i.e. records in the `courseRunnerBucketTable`. A bucket defines a set of groups,
+     * where participants are allowed to switch between the groups if requested.
+     */
     whoCanSwitchIntoThisGroup: {
       pgColumn: text().array().notNull(),
       airtableId: 'fldVQihgKyx6nJIR5',
@@ -453,6 +458,11 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
   },
 });
 
+/**
+ * A bucket defines a set of groups, where participants are allowed to switch between the
+ * groups if requested. This is desirable to have e.g. one bucket for recent graduates, and
+ * one for more experienced professionals within the same round of a course.
+ */
 export const courseRunnerBucketTable = pgAirtable('course_runner_bucket', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tbl7Pevw79fDA7EmX',
@@ -482,6 +492,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    /**
+     * A bucket defines a set of groups, where participants are allowed to switch between the
+     * groups if requested. This field is an array of all the buckets the person is a member of.
+     */
     buckets: {
       pgColumn: text().array(),
       airtableId: 'fldPOsY8Amd31Resf',
@@ -986,6 +1000,12 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld2W2olE7mRRALMC',
+    },
+    // Note: This is intended to be the `utm_source` for the session they registered in, not the source
+    // given by the user (this is a separate field called '[a] Source' in Airtable)
+    source: {
+      pgColumn: text(),
+      airtableId: 'fldQ9PM3ejhilPFc6',
     },
   },
 });

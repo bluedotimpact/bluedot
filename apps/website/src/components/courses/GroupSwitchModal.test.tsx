@@ -18,9 +18,11 @@ import {
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
-import GroupSwitchModal from './GroupSwitchModal';
+import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
 import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -166,11 +168,12 @@ describe('GroupSwitchModal', () => {
       return selector(state);
     });
 
+    server.use(
+      trpcMsw.courses.getBySlug.query(() => mockCourseData),
+    );
+
     // Return mock data based on url to avoid handling the order of calls
     mockedUseAxios.mockImplementation((config?: any) => {
-      if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-        return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-      }
       if (config?.url?.includes('group-switching/available')) {
         return [{ data: mockSwitchingData, loading: false, error: null }, vi.fn()];
       }
@@ -186,9 +189,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         // This input only appears after api calls are complete, so verifies that the whole component has rendered
@@ -250,9 +254,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -323,9 +328,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -396,10 +402,11 @@ describe('GroupSwitchModal', () => {
         },
       };
 
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+      );
+
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataWithUnit2, loading: false, error: null }, vi.fn()];
         }
@@ -412,9 +419,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit2}
+          initialUnitNumber={mockUnit2.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -471,10 +479,11 @@ describe('GroupSwitchModal', () => {
       };
 
       // Override mock for this test
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+      );
+
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataWithDisabled, loading: false, error: null }, vi.fn()];
         }
@@ -487,9 +496,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -552,9 +562,6 @@ describe('GroupSwitchModal', () => {
       };
 
       mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-        }
         if (config?.url?.includes('group-switching/available')) {
           return [{ data: mockSwitchingDataEmpty, loading: false, error: null }, vi.fn()];
         }
@@ -567,9 +574,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -621,9 +629,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -682,9 +691,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -747,6 +757,250 @@ describe('GroupSwitchModal', () => {
       await waitFor(() => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('Participant without group', () => {
+    // Derive mock data from base by setting userIsParticipant to false everywhere
+    const mockSwitchingDataNoGroup: GetGroupSwitchingAvailableResponse = {
+      ...mockSwitchingData,
+      groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
+        ...g,
+        userIsParticipant: false,
+        spotsLeftIfKnown: 3,
+      })),
+      discussionsAvailable: {
+        1: mockSwitchingData.discussionsAvailable[1]!.map((d) => ({
+          ...d,
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+        })),
+      },
+    };
+
+    beforeEach(() => {
+      vi.clearAllMocks();
+      mockSubmitGroupSwitch = vi.fn();
+
+      mockedUseAuthStore.mockImplementation((selector) => {
+        const state = { auth: mockAuth };
+        return selector(state);
+      });
+
+      // Return mock data with no participant groups
+      mockedUseAxios.mockImplementation((config?: any) => {
+        if (config?.url?.includes('group-switching/available')) {
+          return [{ data: mockSwitchingDataNoGroup, loading: false, error: null }, vi.fn()];
+        }
+        if (config?.url?.includes('group-switching') && config?.method === 'post') {
+          return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
+        }
+        return [{ data: null, loading: false, error: null }, vi.fn()];
+      });
+    });
+
+    test('Modal does not show current group section when participant has no group', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Verify "You are currently in this group" or "You are switching out of this group" text does NOT appear
+      expect(screen.queryByText(/You are currently in this group/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/You are switching out of this group/i)).not.toBeInTheDocument();
+
+      expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+    });
+
+    test('Participant with no group can request non-manual switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Fill in form
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'This time works best for my schedule' },
+      });
+      const eveningGroupOption = screen.getByLabelText('Select Evening Group B');
+      fireEvent.click(eveningGroupOption);
+
+      // Queue up mock for successful submit response
+      mockSubmitGroupSwitch.mockResolvedValueOnce({
+        data: { type: 'success' } as GroupSwitchingResponse,
+      });
+
+      const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
+      fireEvent.click(confirmButton);
+
+      // Verify the API was called with correct data: newGroupId set, oldGroupId undefined
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
+          data: {
+            switchType: 'Switch group permanently',
+            notesFromParticipant: 'This time works best for my schedule',
+            isManualRequest: false,
+            oldGroupId: undefined,
+            newGroupId: 'group-2',
+            oldDiscussionId: undefined,
+            newDiscussionId: undefined,
+          } as GroupSwitchingRequest,
+        });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Success!')).toBeInTheDocument();
+      });
+    });
+
+    test('Participant with no group can request manual permanent switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      });
+
+      // Click "Request manual switch" button
+      const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
+      fireEvent.click(manualSwitchButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+      });
+
+      // Fill in form
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'I need to join a group as I was accepted late' },
+      });
+
+      // Queue up mock for successful submit response
+      mockSubmitGroupSwitch.mockResolvedValueOnce({
+        data: { type: 'success' } as GroupSwitchingResponse,
+      });
+
+      const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
+      fireEvent.click(submitButton);
+
+      // Verify the API was called with correct data: no oldGroupId
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
+          data: {
+            switchType: 'Switch group permanently',
+            notesFromParticipant: 'I need to join a group as I was accepted late',
+            isManualRequest: true,
+            oldGroupId: undefined,
+            newGroupId: undefined,
+            oldDiscussionId: undefined,
+            newDiscussionId: undefined,
+          } as GroupSwitchingRequest,
+        });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('sortGroupSwitchOptions', () => {
+    test('sorts non-disabled before disabled', () => {
+      const options = [
+        {
+          groupName: 'Group A', dateTime: 1000, isDisabled: true, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Group B', dateTime: 500, isDisabled: false, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Group B');
+      expect(sorted[1]?.groupName).toBe('Group A');
+    });
+
+    test('sorts recurring times by different weekday (Monday first)', () => {
+      // Monday 10am UTC vs Friday 9am UTC (from previous week)
+      const monday10am = new Date('2024-01-08T10:00:00Z').getTime() / 1000; // Monday
+      const friday9am = new Date('2024-01-05T09:00:00Z').getTime() / 1000; // Friday (earlier week)
+      const options = [
+        {
+          groupName: 'Friday Group', dateTime: friday9am, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Monday Group', dateTime: monday10am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Monday Group');
+      expect(sorted[1]?.groupName).toBe('Friday Group');
+    });
+
+    test('sorts recurring times by time of day on same weekday', () => {
+      // Monday 9am UTC vs Monday 5pm UTC
+      const monday9am = new Date('2024-01-08T09:00:00Z').getTime() / 1000;
+      const monday5pm = new Date('2024-01-01T17:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Evening Group', dateTime: monday5pm, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Morning Group', dateTime: monday9am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Morning Group');
+      expect(sorted[1]?.groupName).toBe('Evening Group');
+    });
+
+    test('sorts non-recurring times by absolute timestamp', () => {
+      const earlier = new Date('2024-01-15T10:00:00Z').getTime() / 1000;
+      const later = new Date('2024-01-20T09:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Later Discussion', dateTime: later, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Earlier Discussion', dateTime: earlier, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Earlier Discussion');
+      expect(sorted[1]?.groupName).toBe('Later Discussion');
     });
   });
 });

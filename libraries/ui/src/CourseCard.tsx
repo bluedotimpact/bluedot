@@ -36,7 +36,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
 }) => {
   const wrapperClassName = clsx(
     // m-[3px] is here to allow the card to expand on hover
-    'course-card course-card--featured card flex flex-col items-start justify-between m-[3px]',
+    'flex flex-col items-start justify-between m-[3px]',
     'container-lined p-6 max-w-[700px] transition-transform duration-200 hover:scale-[1.01] hover:container-elevated',
     className,
   );
@@ -46,27 +46,27 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
       url={url}
       className={wrapperClassName}
     >
-      <div className="course-card__content flex flex-col gap-4 md:flex-row md:gap-space-between w-full">
-        <div className="course-card__text flex flex-col">
-          <h3 className="course-card__title mb-6 bluedot-h3">
+      <div className="flex flex-col gap-4 md:flex-row md:gap-space-between w-full">
+        <div className="flex flex-col">
+          <h3 className="mb-6 bluedot-h3">
             {title}
           </h3>
           {description && (
-            <p className="course-card__subtitle overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p flex-grow">
+            <p className="overflow-hidden text-bluedot-black text-ellipsis mb-6 bluedot-p flex-grow">
               {description}
             </p>
           )}
           <CTALinkOrButton
-            className="course-card__cta px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
+            className="px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
             withChevron={false}
           >
             {applyByText(applicationDeadline)}
           </CTALinkOrButton>
         </div>
         {imageSrc && (
-        <div className={clsx('course-card__image-container shrink-0 md:max-w-[60%] w-fit flex items-stretch', imageClassName)}>
+        <div className={clsx('shrink-0 md:max-w-[60%] w-fit flex items-stretch', imageClassName)}>
           <img
-            className="course-card__image size-full object-cover"
+            className="size-full object-cover"
             src={imageSrc}
             alt=""
           />
@@ -113,11 +113,11 @@ export const CourseCard: React.FC<CourseCardProps> = ({
         ctaUrl={url}
         isEntireCardClickable
         className={clsx(
-          'course-card course-card--regular container-lined p-5',
+          'container-lined p-5',
           'flex flex-col max-w-full h-full hover:container-elevated',
           className,
         )}
-        imageClassName="course-card__image w-full h-[165px] object-cover rounded-none"
+        imageClassName="w-full h-[165px] object-cover rounded-none"
         subtitleClassName="grow overflow-hidden text-ellipsis line-clamp-4 max-h-[96px]"
       />
     </div>

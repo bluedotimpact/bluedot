@@ -1,100 +1,60 @@
-import useAxios from 'axios-hooks';
-import { useState, useEffect } from 'react';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
+import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { skipToken } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import { trpc } from '../../utils/trpc';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  authToken?: string;
+  isLast?: boolean;
 };
 
-const CourseDetails = ({
-  course, courseRegistration, authToken,
-}: CourseDetailsProps) => {
+const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
-  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
 
   // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData, loading }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
-    method: 'get',
-    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
-    headers: authToken ? {
-      Authorization: `Bearer ${authToken}`,
-    } : undefined,
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
+    courseRegistrationId: courseRegistration.id,
   });
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  // Fetch individual discussions when we have the meetPerson data
-  useEffect(() => {
-    const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson) {
-        return;
-      }
+  // Fetch all expected discussions (will be filtered later to show only those not ended)
+  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+  const expectedDiscussionIds = isFacilitator
+    ? meetPerson?.expectedDiscussionsFacilitator || []
+    : meetPerson?.expectedDiscussionsParticipant || [];
 
-      // Fetch all expected discussions (will be filtered later to show only those not ended)
-      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const expectedDiscussionIds = isFacilitator
-        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
+  const { data: expectedResults, isLoading: isLoadingExpected } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
+  const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (meetPerson?.attendedDiscussions || []).length > 0
+      ? { discussionIds: meetPerson?.attendedDiscussions || [] }
+      : skipToken,
+  );
 
-      const expectedPromises = expectedDiscussionIds.map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      });
+  const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
 
-      // Fetch all attended discussions (all will be shown, no filtering)
-      const attendedPromises = (meetPersonData.meetPerson.attendedDiscussions || []).map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      });
+  // Sort discussions by startDateTime
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
-      const [expectedResults, attendedResults] = await Promise.all([
-        Promise.all(expectedPromises),
-        Promise.all(attendedPromises),
-      ]);
-
-      // Filter out nulls and sort by startDateTime
-      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      const validAttended = attendedResults.filter((d): d is GroupDiscussion => d !== null);
-
-      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
-      validAttended.sort((a, b) => a.startDateTime - b.startDateTime);
-
-      setExpectedDiscussions(validExpected);
-      setAttendedDiscussions(validAttended);
-    };
-
-    fetchDiscussions();
-  }, [meetPersonData, isFacilitator]);
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
 
   // Update current time every 30 seconds for real-time countdown
   useEffect(() => {
@@ -120,7 +80,7 @@ const CourseDetails = ({
     let buttonUrl = '#';
     if (isStartingSoon) {
       buttonUrl = discussion.zoomLink || '#';
-    } else if (course.slug && discussion.unitNumber) {
+    } else if (course.slug && discussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
     }
 
@@ -237,7 +197,7 @@ const CourseDetails = ({
                 size="small"
                 url={buttonUrl}
                 disabled={!discussion.zoomLink && isStartingSoon}
-                target="blank"
+                target="_blank"
               >
                 {buttonText}
               </CTALinkOrButton>
@@ -266,7 +226,7 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className="bg-white border-x border-b border-gray-200 last:rounded-b-xl" role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-gray-200">
@@ -298,7 +258,7 @@ const CourseDetails = ({
 
           <div className="p-4 sm:px-8 sm:py-4">
             {/* Content */}
-            {loading ? (
+            {isLoading ? (
               <div className="flex justify-center py-8">
                 <ProgressDots />
               </div>
@@ -391,7 +351,7 @@ const CourseDetails = ({
             setGroupSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          currentUnit={selectedDiscussion.unitRecord}
+          initialUnitNumber={selectedDiscussion.unitRecord.unitNumber.toString()}
           courseSlug={course.slug}
         />
       )}

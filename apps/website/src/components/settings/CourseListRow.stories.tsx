@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { MeetPerson } from '@bluedot/db';
 import CourseListRow from './CourseListRow';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 
 const meta: Meta<typeof CourseListRow> = {
   title: 'Settings/CourseListRow',
@@ -72,13 +75,83 @@ const mockFacilitatorRegistration = {
   role: 'Facilitator' as const,
 };
 
+// Mock MeetPerson data
+const now = Math.floor(Date.now() / 1000);
+const hour = 60 * 60;
+
+const mockMeetPerson: MeetPerson = {
+  id: 'meet-person-1',
+  name: 'John Doe',
+  applicationsBaseRecordId: null,
+  round: 'Round 1',
+  expectedDiscussionsParticipant: ['discussion-1'],
+  expectedDiscussionsFacilitator: [],
+  attendedDiscussions: [],
+  groupsAsParticipant: ['group-1'],
+  buckets: ['bucket-1'],
+  autoNumberId: 1,
+};
+
+const mockFacilitatorMeetPerson: MeetPerson = {
+  ...mockMeetPerson,
+  id: 'meet-person-3',
+  expectedDiscussionsParticipant: [],
+  expectedDiscussionsFacilitator: ['discussion-1'],
+};
+
+// Mock discussion data for the group-discussions tRPC endpoint
+const mockDiscussion: GroupDiscussion = {
+  id: 'discussion-1',
+  facilitators: ['facilitator-1'],
+  participantsExpected: ['participant-1'],
+  attendees: [],
+  startDateTime: now + 2 * hour,
+  endDateTime: now + 3 * hour,
+  group: 'group-1',
+  zoomAccount: null,
+  courseSite: null,
+  unitNumber: 1,
+  unit: null,
+  zoomLink: 'https://zoom.us/j/123',
+  activityDoc: null,
+  slackChannelId: null,
+  round: null,
+  courseBuilderUnitRecordId: 'unit-1',
+  autoNumberId: null,
+  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
+  groupDetails: {
+    id: 'group-1',
+    round: 'Round 1',
+    autoNumberId: 1,
+    groupName: 'Group A',
+    groupDiscussions: ['discussion-1'],
+    participants: ['participant-1'],
+    whoCanSwitchIntoThisGroup: ['participant-1'],
+    startTimeUtc: now,
+  } as GroupDiscussion['groupDetails'],
+};
+
+// MSW handlers for tRPC calls
+const createMswHandlers = (meetPerson: MeetPerson | null) => [
+  trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
+  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => {
+    return {
+      discussions: [mockDiscussion],
+    };
+  }),
+];
+
 export const InProgress: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    authToken: 'test-token',
     isFirst: true,
     isLast: false,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };
 
@@ -86,9 +159,13 @@ export const Completed: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockCompletedRegistration,
-    authToken: 'test-token',
     isFirst: false,
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(null),
+    },
   },
 };
 
@@ -96,9 +173,13 @@ export const Facilitator: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockFacilitatorRegistration,
-    authToken: 'test-token',
     isFirst: true,
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockFacilitatorMeetPerson),
+    },
   },
 };
 
@@ -106,9 +187,13 @@ export const FirstInList: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    authToken: 'test-token',
     isFirst: true,
     isLast: false,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };
 
@@ -116,9 +201,13 @@ export const LastInList: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    authToken: 'test-token',
     isFirst: false,
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };
 
@@ -126,9 +215,13 @@ export const OnlyItemInList: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    authToken: 'test-token',
     isFirst: true,
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };
 
@@ -136,11 +229,16 @@ export const LongTitle: Story = {
   args: {
     course: {
       ...mockCourse,
-      title: 'Advanced Machine Learning and Deep Neural Networks: A Comprehensive Introduction to Modern AI Techniques and Applications',
+      title:
+        'Advanced Machine Learning and Deep Neural Networks: A Comprehensive Introduction to Modern AI Techniques and Applications',
     },
     courseRegistration: mockInProgressRegistration,
-    authToken: 'test-token',
     isFirst: true,
     isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(mockMeetPerson),
+    },
   },
 };

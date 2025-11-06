@@ -9,15 +9,18 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { CourseAndUnits, getCourseData } from '../../api/courses/[courseSlug]';
 
 import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
-import AgiStrategyLander from '../../../components/lander/AgiStrategyLander';
+import CourseLander from '../../../components/lander/CourseLander';
+import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
+import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
+import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
+import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
 
 type CoursePageProps = {
   courseSlug: string;
@@ -27,13 +30,13 @@ type CoursePageProps = {
 const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
   return (
     <div>
-      {renderCoursePage({ slug: courseSlug, courseData })}
+      {renderCoursePage({ courseSlug, courseData })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: CourseAndUnits; }) => {
+const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
     return <FutureOfAiLander courseData={courseData} />;
@@ -44,7 +47,33 @@ const renderCoursePage = ({ slug, courseData }: { slug: string; courseData: Cour
   }
 
   if (slug === 'agi-strategy') {
-    return <AgiStrategyLander />;
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        createContentFor={createAgiStrategyContent}
+      />
+    );
+  }
+
+  if (slug === 'biosecurity') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={BIOSECURITY_APPLICATION_URL}
+        createContentFor={createBioSecurityContent}
+      />
+    );
+  }
+
+  if (slug === 'technical-ai-safety') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />
+    );
   }
 
   // Default case
@@ -110,6 +139,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   if (!courseSlug) {
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 
@@ -127,6 +157,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
     // Error fetching course data (likely not found)
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

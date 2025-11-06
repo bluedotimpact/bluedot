@@ -17,6 +17,8 @@ const toK8s = [
   'keycloakClientId',
   'keycloakClientSecret',
   'prodOnlyWebhookDeletion',
+  'certificateCreationToken',
+  'lumaApiKey',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {

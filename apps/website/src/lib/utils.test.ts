@@ -151,6 +151,20 @@ describe('formatDateTimeRelative', () => {
     expect(result2).toBe('in 2 days');
   });
 
+  it('should calculate days based on calendar days, not 24-hour periods', () => {
+    // Set current time to Oct 30, 2025 at 8:00 PM
+    const lateEvening = new Date('2025-10-30T20:00:00.000Z');
+    vi.setSystemTime(lateEvening);
+
+    // Event is Nov 3, 2025 at 3:00 PM (in 91 hours (3.79 days) but 4 calendar days away)
+    const eventDate = new Date('2025-11-03T15:00:00.000Z');
+    const timestamp = Math.floor(eventDate.getTime() / 1000);
+    const result = formatDateTimeRelative(timestamp);
+
+    // Should show 4 days (Oct 31, Nov 1, Nov 2, Nov 3) not 3 days (91 hours / 24 = 3.79)
+    expect(result).toBe('in 4 days');
+  });
+
   it('should display past times with "ago" suffix', () => {
     // 5 minutes ago
     const timestamp5 = Math.floor(mockNow.getTime() / 1000) - 300;

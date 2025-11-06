@@ -16,14 +16,15 @@ import {
 import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { Course, Unit } from '@bluedot/db';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
-  currentUnit: Unit;
+  initialUnitNumber?: string;
+  initialSwitchType?: SwitchType;
   courseSlug: string;
 };
 
@@ -43,6 +44,42 @@ const getGMTOffsetWithCity = () => {
   const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
   const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
   return `(GMT ${offsetFormatted}) ${cityName}`;
+};
+
+export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
+  return [...options].sort((a, b) => {
+    // Sort enabled before disabled
+    const disabledA = a.isDisabled ?? false;
+    const disabledB = b.isDisabled ?? false;
+    if (disabledA !== disabledB) {
+      return disabledA ? 1 : -1;
+    }
+
+    // Sort by time ascending
+    const timeAMs = (a.dateTime ?? 0) * 1000;
+    const timeBMs = (b.dateTime ?? 0) * 1000;
+
+    // For recurring times, consider only weekday and time of day in local timezone
+    if (a.isRecurringTime && b.isRecurringTime) {
+      const dateA = new Date(timeAMs);
+      const dateB = new Date(timeBMs);
+
+      // Convert to Monday-first week (Monday=0, Sunday=6)
+      const dayA = (dateA.getDay() + 6) % 7;
+      const dayB = (dateB.getDay() + 6) % 7;
+
+      if (dayA !== dayB) {
+        return dayA - dayB;
+      }
+
+      const timeOfDayA = dateA.getHours() * 3600 + dateA.getMinutes() * 60 + dateA.getSeconds();
+      const timeOfDayB = dateB.getHours() * 3600 + dateB.getMinutes() * 60 + dateB.getSeconds();
+      return timeOfDayA - timeOfDayB;
+    }
+
+    // For non-recurring times, sort by absolute timestamp
+    return timeAMs - timeBMs;
+  });
 };
 
 const getGroupSwitchDescription = ({
@@ -93,12 +130,12 @@ const getGroupSwitchDescription = ({
 
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
-  currentUnit,
   courseSlug,
+  initialUnitNumber = '1',
+  initialSwitchType = 'Switch group for one unit',
 }) => {
-  const [switchType, setSwitchType] = useState<SwitchType>('Switch group for one unit');
-  // Use the current unit's number as the default selected unit
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(currentUnit.unitNumber.toString());
+  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -112,13 +149,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const auth = useAuthStore((s) => s.auth);
 
   // Fetch course and its units
-  const [{ data: courseData, loading: courseLoading }] = useAxios<{ course: Course; units: Unit[] }>({
-    url: `/api/courses/${courseSlug}`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'get',
-  });
+  const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
   const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
     url: `/api/courses/${courseSlug}/group-switching/available`,
@@ -327,7 +358,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       };
     });
 
-  const groupSwitchOptions = isTemporarySwitch ? discussionOptions : groupOptions;
+  const groupSwitchOptions = sortGroupSwitchOptions(isTemporarySwitch ? discussionOptions : groupOptions);
   const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
 
   const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
@@ -342,6 +373,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       <div className="w-full max-w-[600px]">
         {(loading || courseLoading) && <ProgressDots />}
         {!!error && <ErrorSection error={error} />}
+        {courseError && <ErrorSection error={courseError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
