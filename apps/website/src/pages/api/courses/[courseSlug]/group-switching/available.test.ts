@@ -1,9 +1,7 @@
-import { groupDiscussionTable, groupTable, InferSelectModel } from '@bluedot/db';
+import type { Group } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../../../../__tests__/testUtils';
 import { calculateGroupAvailability } from './available';
-
-type Group = InferSelectModel<typeof groupTable.pg>;
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
