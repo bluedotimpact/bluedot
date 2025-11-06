@@ -23,6 +23,7 @@ import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { createMockGroupDiscussion } from '../../__tests__/testUtils';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -103,50 +104,22 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
   discussionsAvailable: {
     1: [
       {
-        discussion: {
-          id: 'discussion-1',
-          startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000),
-          unit: 'unit-1',
-          unitNumber: 1,
-          autoNumberId: null,
+        discussion: createMockGroupDiscussion({
           group: 'group-1',
-          round: null,
-          facilitators: [],
           participantsExpected: ['participant-1'],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+          unitNumber: 1,
+        }),
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
         spotsLeftIfKnown: 0,
         hasStarted: false,
       },
       {
-        discussion: {
-          id: 'discussion-2',
-          startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
-          unit: 'unit-1',
-          unitNumber: 1,
-          autoNumberId: null,
+        discussion: createMockGroupDiscussion({
           group: 'group-2',
-          round: null,
-          facilitators: [],
           participantsExpected: ['other-participant-1', 'other-participant-2'],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+          unitNumber: 2,
+        }),
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
         spotsLeftIfKnown: 2,
