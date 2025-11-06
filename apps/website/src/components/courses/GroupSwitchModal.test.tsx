@@ -17,13 +17,12 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
-import type { Course } from '@bluedot/db';
 import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
 import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
+import { createMockGroupDiscussion, createMockUnit, mockCourse as createMockCourse } from '../../__tests__/testUtils';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -49,10 +48,10 @@ const mockUnit2 = createMockUnit({
   unitNumber: '2',
 });
 
-const mockCourse = {
+const mockCourse = createMockCourse({
   id: 'course-1',
   slug: 'ai-safety',
-} as Course;
+});
 
 const mockCourseData = {
   course: mockCourse,
