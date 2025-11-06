@@ -1,5 +1,5 @@
 import { render, RenderResult } from '@testing-library/react';
-import type { Course, CourseRegistration } from '@bluedot/db';
+import type { Course, CourseRegistration, Unit } from '@bluedot/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -84,5 +84,27 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   lastVisitedUnitNumber: null,
   lastVisitedChunkIndex: null,
   source: null,
+  ...overrides,
+});
+
+export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
+  autoNumberId: 1,
+  chunks: ['recuC87TILbjW4eF4'],
+  content: null,
+  courseId: 'rec8CeVOWU0mGu2Jf',
+  coursePath: '/courses/test-course',
+  courseSlug: 'test-course',
+  courseTitle: 'Test Course',
+  courseUnit: null,
+  description: 'Unit description',
+  duration: 30,
+  id: 'unit-id',
+  learningOutcomes: null,
+  menuText: null,
+  path: `/courses/test-course/${overrides.unitNumber || '1'}`,
+  title: 'Unit title',
+  unitNumber: '1',
+  unitPodcastUrl: '',
+  unitStatus: 'Active',
   ...overrides,
 });

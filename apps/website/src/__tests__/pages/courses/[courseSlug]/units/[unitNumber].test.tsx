@@ -4,9 +4,8 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
-import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import { renderWithHead } from '../../../../testUtils';
+import { createMockUnit, renderWithHead } from '../../../../testUtils';
 import { TrpcProvider } from '../../../../trpcProvider';
 
 // Mock next/router
@@ -38,27 +37,6 @@ vi.mock('axios-hooks', () => ({
   default: (...args: unknown[]) => mockUseAxios(...args),
 }));
 
-const createMockUnit = (unitNumber: string, title: string, content: string): Unit => ({
-  chunks: ['recuC87TILbjW4eF4'],
-  courseId: 'rec8CeVOWU0mGu2Jf',
-  courseTitle: 'Test Course',
-  coursePath: '/courses/test-course',
-  courseSlug: 'test-course',
-  courseUnit: null,
-  path: `/courses/test-course/${unitNumber}`,
-  title,
-  content,
-  duration: 30,
-  unitNumber,
-  menuText: title,
-  description: `${title} description`,
-  learningOutcomes: `Learning outcomes for ${title}`,
-  unitPodcastUrl: '',
-  id: `recUnit${unitNumber}`,
-  unitStatus: 'Active',
-  autoNumberId: 1,
-});
-
 const createMockChunk = (unitId: string) => ({
   chunkId: 'recuC87TILbjW4eF4',
   unitId,
@@ -83,10 +61,10 @@ describe('CourseUnitPage', () => {
     } as unknown as NextRouter);
 
     const mockUnits = [
-      createMockUnit('0', 'Icebreaker', 'Welcome to the course'),
-      createMockUnit('1', 'Unit 1', 'First unit content'),
-      createMockUnit('2', 'Unit 2', 'Second unit content'),
-      createMockUnit('3', 'Unit 3', 'Third unit content'),
+      createMockUnit({ unitNumber: '0', title: 'Icebreaker', content: 'Welcome to the course' }),
+      createMockUnit({ unitNumber: '1', title: 'Unit 1', content: 'First unit content' }),
+      createMockUnit({ unitNumber: '2', title: 'Unit 2', content: 'Second unit content' }),
+      createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
     const mockChunks = [createMockChunk(mockUnits[0]!.id)];
@@ -118,10 +96,10 @@ describe('CourseUnitPage', () => {
     } as unknown as NextRouter);
 
     const mockUnits = [
-      createMockUnit('0', 'Icebreaker', 'Welcome to the course'),
-      createMockUnit('1', 'Unit 1', 'First unit content'),
-      createMockUnit('2', 'Unit 2', 'Second unit content'),
-      createMockUnit('3', 'Unit 3', 'Third unit content'),
+      createMockUnit({ unitNumber: '0', title: 'Icebreaker', content: 'Welcome to the course' }),
+      createMockUnit({ unitNumber: '1', title: 'Unit 1', content: 'First unit content' }),
+      createMockUnit({ unitNumber: '2', title: 'Unit 2', content: 'Second unit content' }),
+      createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
     const mockChunks = [createMockChunk(mockUnits[3]!.id)];
@@ -153,10 +131,10 @@ describe('CourseUnitPage', () => {
     } as unknown as NextRouter);
 
     const mockUnits = [
-      createMockUnit('1', 'Unit 1', 'First unit content'),
-      createMockUnit('2', 'Unit 2', 'Second unit content'),
-      createMockUnit('3', 'Unit 3', 'Third unit content'),
-      createMockUnit('4', 'Unit 4', 'Fourth unit content'),
+      createMockUnit({ unitNumber: '1', title: 'Unit 1', content: 'First unit content' }),
+      createMockUnit({ unitNumber: '2', title: 'Unit 2', content: 'Second unit content' }),
+      createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
+      createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
     const mockChunks = [createMockChunk(mockUnits[2]!.id)];
@@ -188,9 +166,9 @@ describe('CourseUnitPage', () => {
     } as unknown as NextRouter);
 
     const mockUnits = [
-      createMockUnit('1', 'Unit 1', 'First unit content'),
-      createMockUnit('3', 'Unit 3', 'Third unit content'),
-      createMockUnit('4', 'Unit 4', 'Fourth unit content'),
+      createMockUnit({ unitNumber: '1', title: 'Unit 1', content: 'First unit content' }),
+      createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
+      createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
     const mockChunks = [createMockChunk(mockUnits[1]!.id)];
@@ -224,9 +202,9 @@ describe('CourseUnitPage', () => {
     } as unknown as NextRouter);
 
     const mockUnits = [
-      createMockUnit('1', 'Unit 1', 'First unit content'),
-      createMockUnit('2', 'Unit 2', 'Second unit content'),
-      createMockUnit('3', 'Unit 3', 'Third unit content'),
+      createMockUnit({ unitNumber: '1', title: 'Unit 1', content: 'First unit content' }),
+      createMockUnit({ unitNumber: '2', title: 'Unit 2', content: 'Second unit content' }),
+      createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
     const mockChunks = [createMockChunk(mockUnits[2]!.id)];
