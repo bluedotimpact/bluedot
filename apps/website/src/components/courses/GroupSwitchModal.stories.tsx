@@ -5,7 +5,7 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { createMockUnit, mockCourse } from '../../__tests__/testUtils';
+import { createMockGroupDiscussion, createMockUnit, mockCourse } from '../../__tests__/testUtils';
 
 const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -82,50 +82,18 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
   discussionsAvailable: {
     1: [
       {
-        discussion: {
-          id: 'discussion-1',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000), // 2 hours from now
-          unit: null,
-          unitNumber: null,
-          autoNumberId: null,
-          group: '',
-          round: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Morning Group A',
         userIsParticipant: true,
         spotsLeftIfKnown: 0,
         hasStarted: false,
       },
       {
-        discussion: {
-          id: 'discussion-2',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000), // 24 hours from now
-          group: '',
-          round: null,
-          autoNumberId: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          unitNumber: null,
-          unit: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Evening Group B',
         userIsParticipant: false,
         spotsLeftIfKnown: 2,
@@ -134,25 +102,9 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
     ],
     2: [
       {
-        discussion: {
-          id: 'discussion-3',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 48 * 60 * 60 * 1000) / 1000), // 48 hours from now
-          unit: null,
-          unitNumber: null,
-          autoNumberId: null,
-          group: '',
-          round: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Weekend Group C',
         userIsParticipant: false,
         spotsLeftIfKnown: 1,
