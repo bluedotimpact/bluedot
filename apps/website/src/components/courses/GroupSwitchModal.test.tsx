@@ -22,7 +22,9 @@ import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockGroupDiscussion, createMockUnit, mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import {
+  createMockGroupDiscussion, createMockUnit, mockCourse as createMockCourse, createMockGroup,
+} from '../../__tests__/testUtils';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -68,31 +70,21 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
   type: 'success',
   groupsAvailable: [
     {
-      group: {
+      group: createMockGroup({
         id: 'group-1',
         groupName: 'Morning Group A',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: 'round-1',
         participants: ['participant-1'], // Current user
-        startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000),
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
       allDiscussionsHaveStarted: false,
     },
     {
-      group: {
+      group: createMockGroup({
         id: 'group-2',
         groupName: 'Evening Group B',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: 'round-1',
         participants: [],
-        startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000),
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
       allDiscussionsHaveStarted: false,
