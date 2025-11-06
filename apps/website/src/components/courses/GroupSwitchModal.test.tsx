@@ -94,9 +94,9 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
     1: [
       {
         discussion: createMockGroupDiscussion({
+          id: 'discussion-1',
           group: 'group-1',
           participantsExpected: ['participant-1'],
-          unitNumber: 1,
         }),
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
@@ -105,9 +105,9 @@ const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
       },
       {
         discussion: createMockGroupDiscussion({
+          id: 'discussion-2',
           group: 'group-2',
           participantsExpected: ['other-participant-1', 'other-participant-2'],
-          unitNumber: 2,
         }),
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
