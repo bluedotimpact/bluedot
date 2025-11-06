@@ -4,10 +4,14 @@ import {
   Section,
   Breadcrumbs,
   BluedotRoute,
+  CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import { AGI_STRATEGY_APPLICATION_URL } from '../components/lander/course-content/AgiStrategyContent';
+import { BIOSECURITY_APPLICATION_URL } from '../components/lander/course-content/BioSecurityContent';
+import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../components/lander/course-content/TechnicalAiSafetyContent';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'Facilitating our courses',
@@ -20,32 +24,32 @@ const ContentPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="description" content="Join us as a facilitator to expand the field and support up-and-coming talent. Excellent facilitators are critical for us to deliver a high-quality experience to course participants." />
       </Head>
       <HeroSection>
         <HeroH1>{CURRENT_ROUTE.title}</HeroH1>
+        <p className="text-center text-size-lg md:text-xl opacity-80 mt-6 max-w-3xl mx-auto">
+          Join us as a facilitator to expand the field and support up-and-coming talent.
+        </p>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
-## Join us as a facilitator to expand the field and support up-and-coming talent.
-
-_Applications are open and can be accessed via designated course application pages._
-
 Excellent facilitators are critical for us to deliver a high-quality experience to course participants, and ultimately get more top talent working on the world's most pressing issues.
 
 ## What we look for in facilitators
 
-This isn't just facilitation — you're identifying and developing the talent that will determine whether humanity successfully navigates AGI. This requires a rare combination of deep expertise, pedagogical excellence, and commitment to the mission.
+As a facilitator you will be identifying and developing the talent that will determine whether humanity successfully navigates AGI. This requires a rare combination of deep expertise, pedagogical excellence, and commitment to the mission.
 
 ### Core Requirements
 
 **1. Deep Domain Expertise**
-* Knowledge in AI safety/governance that goes well beyond our curriculum
+* Knowledge in AI safety/governance, Biosecurity that goes well beyond our curriculum
 * Experience doing relevant things (research, fieldbuilding, governance)
 * The ambition and ability to challenge and guide participants who may themselves become leaders in the field
 
 **2. Discussion Leadership, Not Lecturing**
-* Masters of the Socratic method — you ask penetrating questions and inspire rather than deliver content
+* Masters of the Socratic method — you ask penetrating questions, uncover insights, and inspire rather than deliver content
 * Ability to foster productive debate and peer-to-peer learning
 * Real-time adaptability to participant needs
 * Creating intimate, high-engagement environments (6-10 person cohorts)
@@ -61,12 +65,12 @@ This isn't just facilitation — you're identifying and developing the talent th
 
 ### Strong Signals We Look For
 
-* Public writing on AI safety/governance
-* Experience at AI labs, policy organizations, AI safety institutes or fellowships
+* Public writing on AI safety/governance or Biosecurity
+* Experience at relevant organizations or fellowships
 * Track record of mentoring or teaching complex topics
-* Active in AI safety community with strong network
+* Active in the AI safety or Biosecurity community with strong network
 * Other people ask for your takes or recommendations
-* Growth mindset — you're excited to develop your skills with our support
+* Growth mindset — you're excited to further develop your skills with our support
 
 ### What Doesn't Work
 
@@ -74,7 +78,6 @@ This isn't just facilitation — you're identifying and developing the talent th
 * Prefers lecture-style teaching over discussion
 * No direct experience in AI safety/governance
 * Unable to challenge participants or push thinking forward
-* Treats this as low-stakes side gig rather than the high-impact role it is
 
 The right candidates see these positions as either:
 * A way to multiply their existing impact (adjuncts)
@@ -83,25 +86,67 @@ The right candidates see these positions as either:
 
 ## Compensation
 
-Facilitators are paid at a rate of $50/hour. For one cohort, we expect approximately 30 hours of commitment, totaling $1,500. This includes:
+We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session.
 
-* Pre-course facilitation training
-* Icebreaker unit
-* Weekly discussion sessions (units 1-8)
-* Project sprint check-ins
-* Preparation, admin, and follow-ups
+### What counts as a session?
 
-If you facilitate more than one group, we'll pay you at the same hourly rate for the additional time commitment.
+A "session" includes both:
+* **Preparation time** – reviewing materials, exercise responses and preparing activities
+* **Discussion time** – the actual facilitated group discussion with participants
+
+The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and Biosecurity courses run for 6 sessions.
+
+### Additional compensation
+
+We also pay for **1:1 mentoring and talent development activities** at the value of 1 session ($250). This recognizes the high-leverage impact of individualized support in helping participants launch careers in AI safety.
+
+If you facilitate more than one group, we'll pay you at the same rate for the additional time commitment.
 
 We sometimes disband or re-shuffle groups due to attendance. You may also volunteer to cover other facilitator's group discussions. In either of these cases, we will update your compensation accordingly.
 
+### Payment methods
+
 We can pay facilitators in countries supported by [Wise](https://wise.com/help/articles/2571942/what-countriesregions-can-i-send-to) or PayPal UK. This means we are unable to send payments to sanctioned countries.
+`}
+        </MarkdownExtendedRenderer>
+      </Section>
 
-## How to apply
+      <Section className="max-w-3xl bg-gray-50 rounded-lg">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-center">Apply to facilitate a course</h2>
+        <p className="text-center mb-8 text-size-lg opacity-80">
+          Choose the course you'd like to facilitate and apply through the application form:
+        </p>
+        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <CTALinkOrButton
+            url={AGI_STRATEGY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            AGI Strategy
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            url={BIOSECURITY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            Biosecurity
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            url={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            Technical AI Safety
+          </CTALinkOrButton>
+        </div>
+        <p className="text-center mt-6 text-size-sm opacity-70">
+          More courses coming soon. Check back regularly for updates.
+        </p>
+      </Section>
 
-_Applications are open and can be accessed via designated course application pages._
-
-#### Any other questions?
+      <Section className="max-w-3xl">
+        <MarkdownExtendedRenderer>{`
+## Any other questions?
 
 We're really keen to hear from people interested in facilitating our courses. If you have any questions please contact [joshua@bluedot.org](mailto:joshua@bluedot.org) or reach out via our [contact page](https://bluedot.org/contact)!
 `}

@@ -1,20 +1,15 @@
 import React, {
   useState, useMemo, useEffect,
 } from 'react';
-import {
-  InferSelectModel,
-  groupDiscussionTable,
-  unitTable,
-} from '@bluedot/db';
+import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
+import { skipToken } from '@tanstack/react-query';
+import { FaCopy } from 'react-icons/fa6';
 import GroupSwitchModal from './GroupSwitchModal';
 import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
-
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Unit = InferSelectModel<typeof unitTable.pg>;
+import { trpc } from '../../utils/trpc';
 
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
@@ -36,7 +31,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
-  const [discussionUnit, setDiscussionUnit] = useState<Unit | null>(null);
+  const [hostKeyCopied, setHostKeyCopied] = useState(false);
 
   // Update current time every 30 seconds for smoother countdown
   useEffect(() => {
@@ -47,25 +42,21 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Always fetch the unit based on courseBuilderUnitRecordId
-  const [{ data: fetchedUnit }] = useAxios<{ unit: Unit }>({
-    url: groupDiscussion.courseBuilderUnitRecordId
-      ? `/api/courses/${unit.courseSlug}/units/${groupDiscussion.courseBuilderUnitRecordId}`
-      : undefined,
-    method: 'get',
-  }, {
-    manual: !groupDiscussion.courseBuilderUnitRecordId,
-  });
-
   useEffect(() => {
-    if (fetchedUnit?.unit) {
-      // Always use the fetched unit when available
-      setDiscussionUnit(fetchedUnit.unit);
-    } else {
-      // No fetched unit yet
-      setDiscussionUnit(null);
-    }
-  }, [fetchedUnit]);
+    if (!hostKeyCopied) return undefined;
+
+    const timeoutId = setTimeout(() => {
+      setHostKeyCopied(false);
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  }, [hostKeyCopied]);
+
+  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(
+    groupDiscussion.courseBuilderUnitRecordId
+      ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
+      : skipToken,
+  );
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
@@ -94,14 +85,13 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     if (userRole === 'facilitator' && hostKeyForFacilitators) {
       try {
         await navigator.clipboard.writeText(hostKeyForFacilitators);
+        setHostKeyCopied(true);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.warn('Failed to copy host key to clipboard:', error);
       }
     }
   };
-
-  const joinButtonText = userRole === 'facilitator' && hostKeyForFacilitators ? `Join discussion (Host key: ${hostKeyForFacilitators})` : 'Join discussion';
 
   return (
     <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">
@@ -119,10 +109,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           <CTALinkOrButton
             target="_blank"
             url={discussionMeetLink}
-            onClick={copyHostKeyIfFacilitator}
             className="w-full"
           >
-            {joinButtonText}
+            Join discussion
           </CTALinkOrButton>
         ) : (
           <CTALinkOrButton onClick={onClickPrepare} className="w-full">
@@ -130,6 +119,16 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </CTALinkOrButton>
         )}
         <div className="grid grid-cols-[repeat(auto-fit,minmax(175px,1fr))] gap-2 w-full">
+          {discussionStartsSoon && userRole === 'facilitator' && hostKeyForFacilitators && (
+            <CTALinkOrButton
+              variant="secondary"
+              className="w-full gap-2"
+              onClick={copyHostKeyIfFacilitator}
+            >
+              <span className="text-gray-600"><FaCopy size={14} /></span>
+              {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
+            </CTALinkOrButton>
+          )}
           {(discussionStartsSoon || userRole === 'facilitator') && (
             <CTALinkOrButton
               variant="secondary"

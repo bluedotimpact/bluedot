@@ -30,3 +30,5 @@ config:
     secure: v1:9v9u5E5OOc+3SDxJ:V7AxNmgk9GmkCYegen7P9IEIZyQ=
   infra:certificateCreationToken:
     secure: v1:/LmEHmIJhdM2YpOA:NF9rrScCurxLl+Q7KsHLDGaL5gQG0Cq/MXiSHQp7EFq48csaa9Ub3iQGE1hkw9ni
+  infra:lumaApiKey:
+    secure: v1:Vm3B5jcIwUAYhL0b:+Q0iFfwl5wMPDpRDoRDOYY64MD+h0E6nL8NaQoA+iKiHC2JDH0CnGhZHwNtZBUie

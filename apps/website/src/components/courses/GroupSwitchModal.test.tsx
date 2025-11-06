@@ -18,7 +18,7 @@ import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import GroupSwitchModal from './GroupSwitchModal';
+import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
 import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
@@ -863,6 +863,72 @@ describe('GroupSwitchModal', () => {
       await waitFor(() => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('sortGroupSwitchOptions', () => {
+    test('sorts non-disabled before disabled', () => {
+      const options = [
+        {
+          groupName: 'Group A', dateTime: 1000, isDisabled: true, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Group B', dateTime: 500, isDisabled: false, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Group B');
+      expect(sorted[1]?.groupName).toBe('Group A');
+    });
+
+    test('sorts recurring times by different weekday (Monday first)', () => {
+      // Monday 10am UTC vs Friday 9am UTC (from previous week)
+      const monday10am = new Date('2024-01-08T10:00:00Z').getTime() / 1000; // Monday
+      const friday9am = new Date('2024-01-05T09:00:00Z').getTime() / 1000; // Friday (earlier week)
+      const options = [
+        {
+          groupName: 'Friday Group', dateTime: friday9am, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Monday Group', dateTime: monday10am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Monday Group');
+      expect(sorted[1]?.groupName).toBe('Friday Group');
+    });
+
+    test('sorts recurring times by time of day on same weekday', () => {
+      // Monday 9am UTC vs Monday 5pm UTC
+      const monday9am = new Date('2024-01-08T09:00:00Z').getTime() / 1000;
+      const monday5pm = new Date('2024-01-01T17:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Evening Group', dateTime: monday5pm, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Morning Group', dateTime: monday9am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Morning Group');
+      expect(sorted[1]?.groupName).toBe('Evening Group');
+    });
+
+    test('sorts non-recurring times by absolute timestamp', () => {
+      const earlier = new Date('2024-01-15T10:00:00Z').getTime() / 1000;
+      const later = new Date('2024-01-20T09:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Later Discussion', dateTime: later, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Earlier Discussion', dateTime: earlier, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Earlier Discussion');
+      expect(sorted[1]?.groupName).toBe('Later Discussion');
     });
   });
 });

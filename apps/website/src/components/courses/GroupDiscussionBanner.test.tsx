@@ -1,16 +1,17 @@
-import {
-  render, screen, fireEvent,
-} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  describe, expect, test, vi, beforeEach, Mock,
+  fireEvent,
+  render, screen,
+} from '@testing-library/react';
+import { TRPCError } from '@trpc/server';
+import {
   afterEach,
+  beforeEach,
+  describe, expect, test, vi,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 
 // Mock dependencies
-vi.mock('axios-hooks');
 vi.mock('./GroupSwitchModal', () => ({
   default: () => <div data-testid="group-switch-modal">Group Switch Modal</div>,
 }));
@@ -65,6 +66,20 @@ const mockGroupDiscussion = {
   autoNumberId: 1,
 };
 
+const { mockUseQuery } = vi.hoisted(() => ({
+  mockUseQuery: vi.fn(),
+}));
+
+vi.mock('../../utils/trpc', () => ({
+  trpc: {
+    courses: {
+      getUnit: {
+        useQuery: mockUseQuery,
+      },
+    },
+  },
+}));
+
 const mockOnClickPrepare = vi.fn();
 
 describe('GroupDiscussionBanner', () => {
@@ -74,10 +89,11 @@ describe('GroupDiscussionBanner', () => {
     const fixedTime = new Date(BASE_TIME * 1000); // Convert back from seconds to milliseconds
     vi.setSystemTime(fixedTime);
 
-    // Mock successful axios response for unit fetch
-    (useAxios as unknown as Mock).mockReturnValue([
-      { data: { unit: mockUnit }, loading: false, error: null },
-    ]);
+    mockUseQuery.mockReturnValue({
+      data: mockUnit,
+      isLoading: false,
+      error: null,
+    });
   });
 
   afterEach(() => {
@@ -115,7 +131,8 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      expect(screen.getByText('Join discussion (Host key: 123456)')).toBeInTheDocument();
+      expect(screen.getByText('Join discussion')).toBeInTheDocument();
+      expect(screen.getByText('Host key: 123456')).toBeInTheDocument();
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
 
@@ -177,7 +194,7 @@ describe('GroupDiscussionBanner', () => {
       expect(joinButton.closest('a')).toHaveAttribute('target', '_blank');
     });
 
-    test('clicking join discussion as facilitator copies host key to clipboard', async () => {
+    test('clicking host key button copies host key to clipboard', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -188,8 +205,8 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      const joinButton = screen.getByText('Join discussion (Host key: 123456)');
-      fireEvent.click(joinButton);
+      const hostKeyButton = screen.getByText('Host key: 123456');
+      fireEvent.click(hostKeyButton);
 
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('123456');
     });
@@ -295,9 +312,11 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      (useAxios as unknown as Mock).mockReturnValue([
-        { data: null, loading: true, error: null },
-      ]);
+      mockUseQuery.mockReturnValueOnce({
+        data: undefined,
+        isLoading: true,
+        error: null,
+      });
 
       render(
         <GroupDiscussionBanner
@@ -308,14 +327,35 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      // Should use fallback unit title
+      // Should use fallback unit title while loading
+      expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+    });
+
+    test('shows fallback title when unit ID is missing', () => {
+      const discussionWithoutUnit = {
+        ...mockGroupDiscussion,
+        courseBuilderUnitRecordId: null,
+      };
+
+      render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={discussionWithoutUnit}
+          userRole="participant"
+          onClickPrepare={mockOnClickPrepare}
+        />,
+      );
+
+      // Should use fallback unit title when no unit ID is provided
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
 
     test('handles unit fetch error state', () => {
-      (useAxios as unknown as Mock).mockReturnValue([
-        { data: null, loading: false, error: new Error('Fetch failed') },
-      ]);
+      mockUseQuery.mockReturnValueOnce({
+        data: undefined,
+        isLoading: false,
+        error: new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' }),
+      });
 
       render(
         <GroupDiscussionBanner
@@ -326,7 +366,7 @@ describe('GroupDiscussionBanner', () => {
         />,
       );
 
-      // Should still render with fallback unit title
+      // Should use fallback unit title when error
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
   });
