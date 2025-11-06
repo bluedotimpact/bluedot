@@ -120,7 +120,7 @@ export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
   chunkTitle: 'Test Chunk',
   chunkType: 'Reading',
   estimatedTime: null,
-  id: 'recuC87TILbjW4eF4',
+  id: 'chunk-id',
   metaDescription: null,
   status: 'Active',
   unitId: 'unit-id',
