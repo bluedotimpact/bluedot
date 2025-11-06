@@ -100,7 +100,7 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   courseUnit: null,
   description: 'Unit description',
   duration: 30,
-  id: 'unit-id',
+  id: `unit-${overrides.unitNumber || 1}`,
   learningOutcomes: null,
   menuText: null,
   path: `/courses/test-course/${overrides.unitNumber || '1'}`,
