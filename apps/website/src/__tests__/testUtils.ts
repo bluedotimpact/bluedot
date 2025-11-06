@@ -1,5 +1,7 @@
 import { render, RenderResult } from '@testing-library/react';
-import type { Chunk, Course, CourseRegistration, Unit } from '@bluedot/db';
+import type {
+  Chunk, Course, CourseRegistration, Unit,
+} from '@bluedot/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
