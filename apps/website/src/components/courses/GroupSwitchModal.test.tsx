@@ -17,13 +17,13 @@ import {
 } from 'vitest';
 import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
-import type { Course, Unit } from '@bluedot/db';
+import type { Course } from '@bluedot/db';
 import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
 import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockGroupDiscussion } from '../../__tests__/testUtils';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
 vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
@@ -39,17 +39,15 @@ const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
-const mockUnit1 = {
-  id: 'unit-1',
+const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
-} as Unit;
+});
 
-const mockUnit2 = {
-  id: 'unit-2',
+const mockUnit2 = createMockUnit({
   title: 'AI Alignment',
   unitNumber: '2',
-} as Unit;
+});
 
 const mockCourse = {
   id: 'course-1',
