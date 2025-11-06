@@ -10,6 +10,7 @@ import {
   describe, expect, test, vi,
 } from 'vitest';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
+import { createMockUnit } from '../../__tests__/testUtils';
 
 // Mock dependencies
 vi.mock('./GroupSwitchModal', () => ({
@@ -23,26 +24,7 @@ Object.defineProperty(navigator, 'clipboard', {
   writable: true,
 });
 
-const mockUnit = {
-  id: 'unit-123',
-  title: 'Introduction to AI Safety',
-  unitNumber: '1',
-  courseSlug: 'ai-safety-fundamentals',
-  path: '/courses/ai-safety-fundamentals/1',
-  content: 'Unit content',
-  description: 'Unit description',
-  duration: 60,
-  autoNumberId: 1,
-  chunks: ['chunk-1'],
-  courseId: 'course-123',
-  courseTitle: 'AI Safety Fundamentals',
-  coursePath: '/courses/ai-safety-fundamentals',
-  learningOutcomes: 'Learning outcomes',
-  menuText: 'Menu text',
-  unitPodcastUrl: null,
-  courseUnit: 'course-unit-123',
-  unitStatus: 'active',
-};
+const mockUnit = createMockUnit({ title: 'Introduction to AI Safety' });
 
 const BASE_TIME = Math.floor(new Date('2024-09-25T10:00:00.000Z').getTime() / 1000);
 
