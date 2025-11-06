@@ -1,8 +1,8 @@
 import { groupDiscussionTable, groupTable, InferSelectModel } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
+import { createMockGroup, createMockGroupDiscussion } from '../../../../../__tests__/testUtils';
 import { calculateGroupAvailability } from './available';
 
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 type Group = InferSelectModel<typeof groupTable.pg>;
 
 describe('calculateGroupAvailability', () => {
@@ -12,41 +12,9 @@ describe('calculateGroupAvailability', () => {
 
   const mockParticipantId = 'participant-123';
 
-  const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
-    id: 'group-1',
-    groupName: 'Test Group',
-    groupDiscussions: ['discussion-1'],
-    round: 'round-1',
-    participants: ['other-participant'],
-    whoCanSwitchIntoThisGroup: [],
-    autoNumberId: 1,
-    startTimeUtc: futureTimeSeconds,
-    ...overrides,
-  } as Group);
-
-  const createMockDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
-    id: 'discussion-1',
-    facilitators: ['facilitator-1'],
-    participantsExpected: ['other-participant'],
-    attendees: [],
-    startDateTime: futureTimeSeconds,
-    endDateTime: futureTimeSeconds + 2 * 60 * 60,
-    group: 'group-1',
-    zoomAccount: null,
-    courseSite: null,
-    unitNumber: 1,
-    unit: 'unit-1',
-    round: null,
-    autoNumberId: null,
-    zoomLink: null,
-    activityDoc: null,
-    courseBuilderUnitRecordId: null,
-    ...overrides,
-  } as GroupDiscussion);
-
   it('should calculate spots left correctly with maxParticipants', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion()];
+    const discussions = [createMockGroupDiscussion({ participantsExpected: ['other-participant'] })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -63,7 +31,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should handle null maxParticipants', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion()];
+    const discussions = [createMockGroupDiscussion()];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -78,7 +46,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should identify when user is a participant', () => {
     const groups = [createMockGroup({ participants: [mockParticipantId, 'other-participant'] })];
-    const discussions = [createMockDiscussion({ participantsExpected: [mockParticipantId, 'other-participant'] })];
+    const discussions = [createMockGroupDiscussion({ participantsExpected: [mockParticipantId, 'other-participant'] })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -93,7 +61,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should identify when user is not a participant', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion()];
+    const discussions = [createMockGroupDiscussion()];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -108,7 +76,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should detect when discussions have started', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({ startDateTime: pastTimeSeconds })];
+    const discussions = [createMockGroupDiscussion({ startDateTime: pastTimeSeconds })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -123,7 +91,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should detect when discussions have not started', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({ startDateTime: futureTimeSeconds })];
+    const discussions = [createMockGroupDiscussion({ startDateTime: futureTimeSeconds })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -139,12 +107,12 @@ describe('calculateGroupAvailability', () => {
   it('should handle multiple discussions per group correctly', () => {
     const groups = [createMockGroup()];
     const discussions = [
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-1',
         startDateTime: futureTimeSeconds,
         participantsExpected: ['participant-1', 'participant-2'],
       }),
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-2',
         startDateTime: pastTimeSeconds,
         participantsExpected: ['participant-3'],
@@ -167,11 +135,11 @@ describe('calculateGroupAvailability', () => {
   it('should handle groups with all discussions started', () => {
     const groups = [createMockGroup()];
     const discussions = [
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-1',
         startDateTime: pastTimeSeconds,
       }),
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-2',
         startDateTime: pastTimeSeconds - 1000,
       }),
@@ -190,7 +158,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should skip discussions without unit numbers', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({ unitNumber: null })];
+    const discussions = [createMockGroupDiscussion({ unitNumber: null })];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -205,7 +173,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should skip discussions without corresponding groups', () => {
     const groups: Group[] = [];
-    const discussions = [createMockDiscussion()];
+    const discussions = [createMockGroupDiscussion()];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -224,17 +192,17 @@ describe('calculateGroupAvailability', () => {
       createMockGroup({ id: 'group-2' }),
     ];
     const discussions = [
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-1',
         group: 'group-1',
         unitNumber: 1,
       }),
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-2',
         group: 'group-2',
         unitNumber: 1,
       }),
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-3',
         group: 'group-1',
         unitNumber: 2,
@@ -255,7 +223,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should handle groups with no name gracefully', () => {
     const groups = [createMockGroup({ groupName: null })];
-    const discussions = [createMockDiscussion()];
+    const discussions = [createMockGroupDiscussion()];
 
     const result = calculateGroupAvailability({
       groupDiscussions: discussions,
@@ -270,13 +238,13 @@ describe('calculateGroupAvailability', () => {
   it('should calculate minimum spots left across multiple discussions for a group', () => {
     const groups = [createMockGroup()];
     const discussions = [
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-1',
         unitNumber: 1,
         participantsExpected: ['p1', 'p2'], // 2 participants
         startDateTime: futureTimeSeconds,
       }),
-      createMockDiscussion({
+      createMockGroupDiscussion({
         id: 'discussion-2',
         unitNumber: 2,
         participantsExpected: ['p1', 'p2', 'p3'], // 3 participants
@@ -297,7 +265,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should enforce minimum spots left of 0', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({
+    const discussions = [createMockGroupDiscussion({
       participantsExpected: ['p1', 'p2', 'p3', 'p4', 'p5', 'p6'], // 6 participants, exceeds max
     })];
 
@@ -314,7 +282,7 @@ describe('calculateGroupAvailability', () => {
 
   it('should exclude participant from count when calculating spots', () => {
     const groups = [createMockGroup()];
-    const discussions = [createMockDiscussion({
+    const discussions = [createMockGroupDiscussion({
       participantsExpected: [mockParticipantId, 'p1', 'p2'], // 3 total, but participant should be excluded
     })];
 
