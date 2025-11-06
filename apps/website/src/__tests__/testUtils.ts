@@ -1,5 +1,5 @@
 import { render, RenderResult } from '@testing-library/react';
-import type { Course, CourseRegistration, Unit } from '@bluedot/db';
+import type { Chunk, Course, CourseRegistration, Unit } from '@bluedot/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -106,5 +106,21 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   unitNumber: '1',
   unitPodcastUrl: '',
   unitStatus: 'Active',
+  ...overrides,
+});
+
+export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
+  chunkContent: 'Test chunk content',
+  chunkExercises: [],
+  chunkId: 'recuC87TILbjW4eF4',
+  chunkOrder: '1',
+  chunkResources: [],
+  chunkTitle: 'Test Chunk',
+  chunkType: 'Reading',
+  estimatedTime: 10,
+  id: 'recuC87TILbjW4eF4',
+  metaDescription: 'Test chunk meta description',
+  status: 'Active',
+  unitId: 'unit-id',
   ...overrides,
 });

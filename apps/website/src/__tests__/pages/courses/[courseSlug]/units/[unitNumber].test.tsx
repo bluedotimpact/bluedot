@@ -5,7 +5,7 @@ import {
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import { createMockUnit, renderWithHead } from '../../../../testUtils';
+import { createMockChunk, createMockUnit, renderWithHead } from '../../../../testUtils';
 import { TrpcProvider } from '../../../../trpcProvider';
 
 // Mock next/router
@@ -37,23 +37,6 @@ vi.mock('axios-hooks', () => ({
   default: (...args: unknown[]) => mockUseAxios(...args),
 }));
 
-const createMockChunk = (unitId: string) => ({
-  chunkId: 'recuC87TILbjW4eF4',
-  unitId,
-  chunkTitle: 'Test Chunk',
-  chunkOrder: '1',
-  chunkType: 'Reading',
-  chunkContent: 'Test chunk content',
-  id: 'recuC87TILbjW4eF4',
-  metaDescription: 'Test chunk meta description',
-  estimatedTime: 10,
-  chunkResources: [],
-  chunkExercises: [],
-  status: 'Active',
-  resources: [],
-  exercises: [],
-});
-
 describe('CourseUnitPage', () => {
   test('renders unit 0 correctly with 0-indexed units', async () => {
     vi.mocked(useRouter).mockReturnValueOnce({
@@ -67,7 +50,11 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
-    const mockChunks = [createMockChunk(mockUnits[0]!.id)];
+    const mockChunksWithContent = [{
+      ...createMockChunk({ unitId: mockUnits[0]!.id }),
+      exercises: [],
+      resources: [],
+    }];
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -79,7 +66,7 @@ describe('CourseUnitPage', () => {
       <CourseUnitPage
         units={mockUnits}
         unit={mockUnits[0]!}
-        chunks={mockChunks}
+        chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="0"
       />,
@@ -102,7 +89,11 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
-    const mockChunks = [createMockChunk(mockUnits[3]!.id)];
+    const mockChunksWithContent = [{
+      ...createMockChunk({ unitId: mockUnits[3]!.id }),
+      exercises: [],
+      resources: [],
+    }];
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -114,7 +105,7 @@ describe('CourseUnitPage', () => {
       <CourseUnitPage
         units={mockUnits}
         unit={mockUnits[3]!}
-        chunks={mockChunks}
+        chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
       />,
@@ -137,7 +128,11 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
-    const mockChunks = [createMockChunk(mockUnits[2]!.id)];
+    const mockChunksWithContent = [{
+      ...createMockChunk({ unitId: mockUnits[2]!.id }),
+      exercises: [],
+      resources: [],
+    }];
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -149,7 +144,7 @@ describe('CourseUnitPage', () => {
       <CourseUnitPage
         units={mockUnits}
         unit={mockUnits[2]!}
-        chunks={mockChunks}
+        chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
       />,
@@ -171,7 +166,11 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
-    const mockChunks = [createMockChunk(mockUnits[1]!.id)];
+    const mockChunksWithContent = [{
+      ...createMockChunk({ unitId: mockUnits[1]!.id }),
+      exercises: [],
+      resources: [],
+    }];
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -183,7 +182,7 @@ describe('CourseUnitPage', () => {
       <CourseUnitPage
         units={mockUnits}
         unit={mockUnits[1]!}
-        chunks={mockChunks}
+        chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
       />,
@@ -207,7 +206,11 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
-    const mockChunks = [createMockChunk(mockUnits[2]!.id)];
+    const mockChunksWithContent = [{
+      ...createMockChunk({ unitId: mockUnits[2]!.id }),
+      exercises: [],
+      resources: [],
+    }];
 
     mockUseAxios.mockReturnValue([{
       data: null,
@@ -219,7 +222,7 @@ describe('CourseUnitPage', () => {
         <CourseUnitPage
           units={mockUnits}
           unit={mockUnits[2]!}
-          chunks={mockChunks}
+          chunks={mockChunksWithContent}
           courseSlug="test-course"
           unitNumber="3"
         />
