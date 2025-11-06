@@ -10,7 +10,7 @@ import {
   describe, expect, test, vi,
 } from 'vitest';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
-import { createMockUnit } from '../../__tests__/testUtils';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
 // Mock dependencies
 vi.mock('./GroupSwitchModal', () => ({
@@ -28,25 +28,16 @@ const mockUnit = createMockUnit({ title: 'Introduction to AI Safety' });
 
 const BASE_TIME = Math.floor(new Date('2024-09-25T10:00:00.000Z').getTime() / 1000);
 
-const mockGroupDiscussion = {
-  id: 'discussion-123',
+const mockGroupDiscussion = createMockGroupDiscussion({
   facilitators: ['facilitator-1'],
   participantsExpected: ['participant-1'],
-  attendees: [],
+  unitNumber: 1,
   startDateTime: BASE_TIME + 1800, // 30 minutes from base time
   endDateTime: BASE_TIME + 5400, // 90 minutes from base time
-  group: 'group-123',
-  zoomAccount: 'zoom-account-123',
-  courseSite: 'site-123',
-  unitNumber: 1,
-  unit: 'unit-123',
   zoomLink: 'https://zoom.us/j/123456789',
   activityDoc: 'https://docs.google.com/document/d/abc123',
   slackChannelId: 'C1234567890',
-  round: 'round-123',
-  courseBuilderUnitRecordId: 'unit-123',
-  autoNumberId: 1,
-};
+});
 
 const { mockUseQuery } = vi.hoisted(() => ({
   mockUseQuery: vi.fn(),
