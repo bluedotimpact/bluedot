@@ -8,6 +8,7 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import UnitLayout from './UnitLayout';
+import { createMockChunk } from '../../__tests__/testUtils';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -113,30 +114,20 @@ const COURSE_UNITS = [
 
 const CHUNKS = [
   {
-    chunkId: 'recuC87TILbjW4eF4',
-    unitId: 'reca9wvy33rEtzSBX',
-    chunkTitle: 'What can AI do today?',
-    chunkOrder: '1',
-    chunkType: 'Reading',
-    chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
-    estimatedTime: null,
-    chunkResources: null,
-    chunkExercises: null,
-    metaDescription: null,
-    id: 'recuC87TILbjW4eF4',
+    ...createMockChunk({
+      chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
+      chunkTitle: 'What can AI do today?',
+    }),
+    resources: [],
+    exercises: [],
   },
   {
-    chunkId: 'recuC87TILbjW4eF4',
-    unitId: 'reca9wvy33rEtzSBX',
-    chunkTitle: 'What can AI do today?',
-    chunkOrder: '1',
-    chunkType: 'Reading',
-    chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
-    estimatedTime: null,
-    chunkResources: null,
-    chunkExercises: null,
-    metaDescription: null,
-    id: 'recuC87TILbjW4eF4',
+    ...createMockChunk({
+      chunkContent: 'Five years ago, AI systems struggled to form coherent sentences. Today, \u003E5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks. \n\nThis unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.\n',
+      chunkTitle: 'What can AI do today?',
+    }),
+    resources: [],
+    exercises: [],
   },
 ];
 
