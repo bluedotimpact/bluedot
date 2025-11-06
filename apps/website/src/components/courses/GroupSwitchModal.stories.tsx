@@ -5,7 +5,7 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { createMockUnit } from '../../__tests__/testUtils';
+import { createMockUnit, mockCourse } from '../../__tests__/testUtils';
 
 const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -23,29 +23,7 @@ const unit3 = createMockUnit({
 });
 
 const mockCourseData: { course: Course, units: Unit[] } = {
-  course: {
-    id: 'course-1',
-    title: 'AI Safety Course',
-    slug: 'ai-safety',
-    description: 'Learn about AI safety',
-    path: '',
-    certificationBadgeImage: null,
-    certificationDescription: null,
-    detailsUrl: '',
-    displayOnCourseHubIndex: false,
-    durationDescription: '',
-    durationHours: null,
-    image: null,
-    shortDescription: '',
-    units: [],
-    cadence: '',
-    level: '',
-    averageRating: null,
-    publicLastUpdated: null,
-    isNew: false,
-    isFeatured: false,
-    status: null,
-  },
+  course: mockCourse(),
   units: [
     unit1,
     unit2,
