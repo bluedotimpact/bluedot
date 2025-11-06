@@ -12,5 +12,6 @@ export default validateEnv({
   ],
   optional: [
     'CERTIFICATE_CREATION_TOKEN',
+    'LUMA_API_KEY',
   ],
 });

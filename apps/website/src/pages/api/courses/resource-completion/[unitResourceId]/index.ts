@@ -60,17 +60,13 @@ export default makeApiRoute({
   switch (raw.req.method) {
     // Get resource completion
     case 'GET': {
-      if (!resourceCompletion) {
-        throw new createHttpError.NotFound('Resource completion not found');
-      }
-
       return {
         type: 'success' as const,
-        resourceCompletion: {
+        resourceCompletion: resourceCompletion ? {
           ...resourceCompletion,
           // For some reason Airtable often adds a newline to the end of the feedback
           feedback: resourceCompletion.feedback?.trimEnd(),
-        },
+        } : undefined,
       };
     }
 

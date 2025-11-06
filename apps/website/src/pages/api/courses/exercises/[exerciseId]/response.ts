@@ -51,17 +51,13 @@ export default makeApiRoute({
   switch (raw.req.method) {
     // Get exercise response
     case 'GET': {
-      if (!exerciseResponse) {
-        throw new createHttpError.NotFound('Exercise response not found');
-      }
-
       return {
         type: 'success' as const,
-        exerciseResponse: {
+        exerciseResponse: exerciseResponse ? {
           ...exerciseResponse,
           // Preserve trailing whitespace and line feeds as entered by the user
           response: exerciseResponse.response,
-        },
+        } : undefined,
       };
     }
 

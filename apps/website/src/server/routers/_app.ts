@@ -7,6 +7,7 @@ import { coursesRouter } from './courses';
 import { groupDiscussionsRouter } from './group-discussions';
 import { groupSwitchingRouter } from './group-switching';
 import { jobsRouter } from './jobs';
+import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
 import { usersRouter } from './users';
@@ -20,6 +21,7 @@ export const appRouter = router({
   groupDiscussions: groupDiscussionsRouter,
   groupSwitching: groupSwitchingRouter,
   jobs: jobsRouter,
+  luma: lumaRouter,
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
   users: usersRouter,
