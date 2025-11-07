@@ -25,7 +25,7 @@ const isValidAvailabilityExpression = (availability: string) => {
 export default makeApiRoute({
   requireAuth: false,
   requestBody: z.object({
-    email: z.string().email(),
+    email: z.email(),
     availability: z.string(),
     timezone: z.string(),
     comments: z.string(),

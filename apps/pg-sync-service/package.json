@@ -18,8 +18,8 @@
         "@bluedot/ui": "*",
         "@bluedot/utils": "*",
         "@fastify/cors": "^8.5.0",
-        "@ts-rest/core": "^3.41.1",
-        "@ts-rest/fastify": "^3.41.1",
+        "@ts-rest/core": "^3.53.0-rc.1",
+        "@ts-rest/fastify": "^3.53.0-rc.1",
         "axios": "^1.6.8",
         "drizzle-kit": "^0.31.1",
         "fastify": "^4.26.2",
@@ -27,7 +27,7 @@
         "happy-dom": "18.0.1",
         "http-errors": "^2.0.0",
         "node-cron": "^4.0.7",
-        "zod": "^3.22.4"
+        "zod": "^4.1.12"
     },
     "devDependencies": {
         "@bluedot/docker-scripts": "*",
