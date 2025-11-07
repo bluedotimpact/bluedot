@@ -1,9 +1,17 @@
-import { groupDiscussionTable, groupTable, unitTable } from '@bluedot/db';
+import {
+  and,
+  courseRegistrationTable, courseTable,
+  eq,
+  groupDiscussionTable, groupTable, meetPersonTable,
+  sql,
+  unitTable,
+  zoomAccountTable,
+} from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { publicProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export type GroupDiscussion = inferRouterOutputs<
   typeof groupDiscussionsRouter
@@ -82,4 +90,84 @@ export const groupDiscussionsRouter = router({
 
       return { discussions: discussionsWithDetails };
     }),
+
+  getByCourseSlug: protectedProcedure
+    .input(z.object({ courseSlug: z.string() }))
+    .query(async ({ ctx, input: { courseSlug } }) => {
+      const course = await db.get(courseTable, { slug: courseSlug });
+      if (!course) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
+      }
+
+      const courseRegistration = await db.getFirst(courseRegistrationTable, {
+        filter: {
+          email: ctx.auth.email,
+          decision: 'Accept',
+          courseId: course.id,
+        },
+      });
+
+      if (!courseRegistration) {
+        return null;
+      }
+
+      const participant = await db.getFirst(meetPersonTable, {
+        filter: { applicationsBaseRecordId: courseRegistration.id },
+      });
+
+      if (!participant) {
+        return null;
+      }
+
+      const roundId = participant.round;
+      if (!roundId) {
+        return null;
+      }
+
+      const currentTimeSeconds = Math.floor(Date.now() / 1000);
+      const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
+
+      // Get all discussions that haven't ended yet (including 15-minute grace period after end time)
+      const groupDiscussions = await db.pg.select()
+        .from(groupDiscussionTable.pg)
+        .where(
+          and(
+            eq(groupDiscussionTable.pg.round, roundId),
+            sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
+            sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
+          ),
+        )
+        .orderBy(groupDiscussionTable.pg.startDateTime);
+
+      // Priority: Show ongoing meeting (including 15 min after end), otherwise show next upcoming
+      const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
+      const upcomingDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds);
+      const groupDiscussion = ongoingDiscussion ?? upcomingDiscussion ?? null;
+
+      // Determine user role and get host key if facilitator
+      let userRole: 'participant' | 'facilitator' | undefined;
+      let hostKeyForFacilitators: string | undefined;
+
+      if (groupDiscussion?.facilitators.includes(participant.id)) {
+        userRole = 'facilitator';
+
+        if (groupDiscussion.zoomAccount) {
+          try {
+            const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
+            hostKeyForFacilitators = zoomAccount.hostKey || undefined;
+          } catch (error) {
+            hostKeyForFacilitators = undefined;
+          }
+        }
+      } else if (groupDiscussion?.participantsExpected.includes(participant.id)) {
+        userRole = 'participant';
+      }
+
+      return {
+        groupDiscussion,
+        userRole,
+        hostKeyForFacilitators,
+      };
+    }),
+
 });
