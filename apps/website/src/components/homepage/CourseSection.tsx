@@ -188,14 +188,14 @@ const CourseCarousel = ({
     autoScrollIntervalRef.current = setInterval(() => {
       if (scrollContainerRef.current && !isResettingRef.current) {
         const currentScrollLeft = scrollContainerRef.current.scrollLeft;
-        const newScrollLeft = currentScrollLeft + 0.5; // 0.5px per 20ms = 25px/sec
+        const newScrollLeft = currentScrollLeft + 0.5; // 0.5px per 50ms = 10px/sec
 
         scrollContainerRef.current.scrollTo({
           left: newScrollLeft,
           behavior: 'auto',
         });
       }
-    }, 20); // 20ms intervals
+    }, 50); // 50ms intervals
   }, []);
 
   const stopAutoScroll = useCallback(() => {
