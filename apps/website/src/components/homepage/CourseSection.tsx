@@ -291,6 +291,8 @@ const CourseCarousel = ({
           scrollBehavior: 'auto',
         }}
         onScroll={handleScroll}
+        onTouchStart={stopAutoScroll}
+        onTouchEnd={startAutoScroll}
         role="region"
         aria-label="Courses carousel"
       >
