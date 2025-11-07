@@ -298,8 +298,7 @@ const CourseCarousel = ({
       >
         {infiniteCourses.map((course, index) => {
           const originalIndex = index % courses.length;
-          const sectionNumber = Math.floor(index / courses.length);
-          const uniqueKey = `${course.id}-${index}-${sectionNumber}`;
+          const uniqueKey = `${course.id}-${index}`;
 
           return (
             <CourseCardRedesignedWithTracking
