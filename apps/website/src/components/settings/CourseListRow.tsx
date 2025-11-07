@@ -23,8 +23,7 @@ const CourseListRow = ({
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
-  // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
     // Don't run this query when the course is already completed
     isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
   );
@@ -44,12 +43,20 @@ const CourseListRow = ({
     expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
   );
 
+  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
+  );
+
   // Sort discussions by startDateTime
   const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const loading = !isCompleted && isLoadingDiscussions;
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
 
   useEffect(() => {
     if (isNotInGroup) {
@@ -131,7 +138,6 @@ const CourseListRow = ({
     } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
-    const openInNewTab = isNextDiscussionStartingSoon;
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
 
     return (
@@ -140,7 +146,7 @@ const CourseListRow = ({
         size="small"
         url={buttonUrl}
         disabled={disabled}
-        target={openInNewTab ? '_blank' : undefined}
+        target="_blank"
         className="w-full sm:w-auto"
       >
         {buttonText}
@@ -198,7 +204,7 @@ const CourseListRow = ({
                   </div>
                 )}
                 {/* Show upcoming discussion info when collapsed */}
-                {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+                {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                   <p
                     className={`text-size-xs mt-1 ${
                       isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
@@ -257,7 +263,7 @@ const CourseListRow = ({
               </div>
             )}
             {/* Show primary button for discussion or join group when collapsed on mobile */}
-            {!isExpanded && !isCompleted && !loading && primaryCtaButton && (
+            {!isExpanded && !isCompleted && !isLoading && primaryCtaButton && (
               <div
                 className="flex"
                 onClick={(e) => e.stopPropagation()}
@@ -287,7 +293,7 @@ const CourseListRow = ({
                 </div>
               )}
               {/* Show upcoming discussion info when collapsed on desktop */}
-              {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+              {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                 <p
                   className={`text-size-xs mt-1 ${
                     isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
@@ -319,7 +325,7 @@ const CourseListRow = ({
               )}
 
               {/* Show primary button for discussion or join group when collapsed on desktop */}
-              {!isExpanded && !isCompleted && !loading && primaryCtaButton}
+              {!isExpanded && !isCompleted && !isLoading && primaryCtaButton}
 
               {/* Expand/collapse button - only for in-progress courses */}
               {!isCompleted && (
@@ -361,7 +367,11 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
+          currentTimeSeconds={currentTimeSeconds}
           isLast={isLast}
+          attendedDiscussions={attendedDiscussions}
+          upcomingDiscussions={upcomingDiscussions}
+          isLoading={isLoading}
         />
       )}
 

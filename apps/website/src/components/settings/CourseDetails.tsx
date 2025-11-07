@@ -1,10 +1,8 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { skipToken } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import { trpc } from '../../utils/trpc';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
@@ -12,63 +10,29 @@ const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
+  currentTimeSeconds: number;
+  attendedDiscussions: GroupDiscussion[];
+  upcomingDiscussions: GroupDiscussion[];
+  isLoading: boolean;
   isLast?: boolean;
 };
 
-const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDetailsProps) => {
+const CourseDetails = ({
+  course,
+  courseRegistration,
+  currentTimeSeconds,
+  attendedDiscussions,
+  upcomingDiscussions,
+  isLoading,
+  isLast = false,
+}: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
-  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
-
-  // Fetch meetPerson data to get discussion IDs
-  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery({
-    courseRegistrationId: courseRegistration.id,
-  });
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
-
-  // Fetch all expected discussions (will be filtered later to show only those not ended)
-  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-  const expectedDiscussionIds = isFacilitator
-    ? meetPerson?.expectedDiscussionsFacilitator || []
-    : meetPerson?.expectedDiscussionsParticipant || [];
-
-  const { data: expectedResults, isLoading: isLoadingExpected } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
-  );
-  const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    (meetPerson?.attendedDiscussions || []).length > 0
-      ? { discussionIds: meetPerson?.attendedDiscussions || [] }
-      : skipToken,
-  );
-
-  const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
-
-  // Sort discussions by startDateTime
-  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
-
-  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
-
-  // Update current time every 30 seconds for real-time countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Filter expected discussions to only show those where the end datetime hasn't passed yet
-  const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => discussion.endDateTime > currentTimeSeconds,
-  );
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
@@ -272,28 +236,17 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
                       {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
                         .map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
 
-                      {/* Show "See all" button if there are more than 3 discussions */}
-                      {upcomingDiscussions.length > 3 && !showAllUpcoming && (
+                      {/* "See all"/"Show less" button when more than 3 upcoming discussions */}
+                      {upcomingDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllUpcoming(true)}
+                            onClick={() => setShowAllUpcoming(!showAllUpcoming)}
                             className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
                           >
-                            See all ({upcomingDiscussions.length} discussions)
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Show "Show less" button when expanded */}
-                      {upcomingDiscussions.length > 3 && showAllUpcoming && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllUpcoming(false)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            Show less
+                            {showAllUpcoming
+                              ? 'Show less'
+                              : `See all (${upcomingDiscussions.length}) discussions`}
                           </button>
                         </div>
                       )}
@@ -310,28 +263,15 @@ const CourseDetails = ({ course, courseRegistration, isLast = false }: CourseDet
                       {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
                         .map((discussion) => renderDiscussionItem(discussion, false, true))}
 
-                      {/* Show "See all" button if there are more than 3 discussions */}
-                      {attendedDiscussions.length > 3 && !showAllAttended && (
+                      {/* "See all"/"Show less" button when more than 3 attended discussions */}
+                      {attendedDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllAttended(true)}
+                            onClick={() => setShowAllAttended(!showAllAttended)}
                             className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
                           >
-                            See all ({attendedDiscussions.length} discussions)
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Show "Show less" button when expanded */}
-                      {attendedDiscussions.length > 3 && showAllAttended && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllAttended(false)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            Show less
+                            {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
                           </button>
                         </div>
                       )}
