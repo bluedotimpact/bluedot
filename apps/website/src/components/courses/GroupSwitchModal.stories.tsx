@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { http, HttpResponse, delay } from 'msw';
+import { delay } from 'msw';
 import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
@@ -257,8 +257,8 @@ export const Default: Story = {
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           return mockSwitchingData;
         }),
-        http.post('/api/courses/ai-safety/group-switching', () => {
-          return HttpResponse.json({ type: 'success' });
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
+          return undefined;
         }),
       ],
     },
@@ -280,8 +280,8 @@ export const AlternativeUnit: Story = {
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           return mockSwitchingData;
         }),
-        http.post('/api/courses/ai-safety/group-switching', () => {
-          return HttpResponse.json({ type: 'success' });
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
+          return undefined;
         }),
       ],
     },
@@ -326,8 +326,8 @@ export const Loading: Story = {
           await delay(2000);
           return mockSwitchingData;
         }),
-        http.post('/api/courses/ai-safety/group-switching', () => {
-          return HttpResponse.json({ type: 'success' });
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
+          return undefined;
         }),
       ],
     },
