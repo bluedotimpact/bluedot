@@ -162,14 +162,11 @@ describe('GroupSwitchModal', () => {
       return selector(state);
     });
 
+    mockSubmitGroupSwitch = vi.fn();
+
     server.use(
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
-    );
-
-    // Set up default tRPC MSW mock for successful mutations
-    mockSubmitGroupSwitch = vi.fn();
-    server.use(
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
         return undefined;
