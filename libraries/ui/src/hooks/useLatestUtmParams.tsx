@@ -5,7 +5,8 @@ import {
   useCallback,
   useContext,
   useMemo,
-  useRef,
+  useState,
+  useEffect,
 } from 'react';
 import { useRouter } from 'next/router';
 import { addQueryParam } from '../utils/addQueryParam';
@@ -29,14 +30,14 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const router = useRouter();
-  const latestUtmParamsRef = useRef<Record<string, string>>({});
+  const [latestUtmParams, setLatestUtmParams] = useState<Record<string, string>>({});
 
-  const latestUtmParams = useMemo(() => {
+  useEffect(() => {
     if (!router.isReady) {
-      return latestUtmParamsRef.current;
+      return;
     }
 
-    const currentParams: LatestUtmParamsContextType['latestUtmParams'] = {};
+    const currentParams: Record<string, string> = {};
     let hasCurrentUtmParams = false;
 
     for (const param of PASSTHROUGH_PARAMS) {
@@ -54,10 +55,8 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
     // If any new UTM param is found in the current URL,
     // replace the entire stored set (not merge) to avoid mismatched attribution
     if (hasCurrentUtmParams) {
-      latestUtmParamsRef.current = currentParams;
+      setLatestUtmParams(currentParams);
     }
-
-    return latestUtmParamsRef.current;
   }, [router.isReady, router.query]);
 
   const appendLatestUtmParamsToUrl = useCallback(

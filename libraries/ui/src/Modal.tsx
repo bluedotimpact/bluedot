@@ -84,19 +84,22 @@ const MobileDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   // Start from closed position, even if isOpen is initially true. animateInRef.current
   // will be called to transition from closedY -> halfOpenY
   const y = useMotionValue(closedY);
-  const animateInRef = useRef(() => {});
-  animateInRef.current = () => animate(y, halfOpenY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
 
   // Reset on modal state changes
+  const prevIsOpen = useRef<boolean | null>(null);
   useEffect(() => {
+    if (prevIsOpen.current === isOpen) return;
+
     if (isOpen) {
       setIsClosing(false);
-      animateInRef.current(); // Always animate in
+      animate(y, halfOpenY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
     } else {
       setIsDragging(false);
       setIsClosing(false);
     }
-  }, [isOpen]);
+
+    prevIsOpen.current = isOpen;
+  }, [halfOpenY, isOpen, y]);
 
   // Listen to y motion value changes to update isFullyExpanded (adds a drop shadow)
   useEffect(() => {
