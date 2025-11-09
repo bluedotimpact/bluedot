@@ -85,6 +85,9 @@ const rules = {
   // Custom rules
   '@bluedot/custom/no-default-tailwind-tokens': ['error'],
   '@bluedot/custom/no-overflow-scroll': ['error'],
+
+  // React hooks rules
+  'react-hooks/set-state-in-effect': ['off'],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */
@@ -132,6 +135,7 @@ module.exports = {
   extends: [
     'eslint-config-domdomegg',
     'eslint-config-turbo',
+    'plugin:react-hooks/recommended',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
