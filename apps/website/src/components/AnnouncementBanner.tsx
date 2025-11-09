@@ -1,6 +1,6 @@
 'use client';
 
-import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
+import { CTALinkOrButton, useCurrentTimeMs } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
@@ -57,15 +57,17 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
   // If this banner has been dismissed (now or in the past) don't show it
   const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
+  const currentTimeMs = useCurrentTimeMs();
+
   if (isDismissed) {
     return null;
   }
 
-  if (hideUntil && Date.now() < hideUntil.getTime()) {
+  if (hideUntil && currentTimeMs < hideUntil.getTime()) {
     return null;
   }
 
-  if (hideAfter && Date.now() > hideAfter.getTime()) {
+  if (hideAfter && currentTimeMs > hideAfter.getTime()) {
     return null;
   }
 

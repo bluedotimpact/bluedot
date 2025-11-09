@@ -97,57 +97,57 @@ describe('formatDateTimeRelative', () => {
   });
 
   it('should display "starting now" for times within 60 seconds', () => {
-    const timestamp = Math.floor(mockNow.getTime() / 1000) + 30;
-    const result = formatDateTimeRelative(timestamp);
+    const timestamp = mockNow.getTime() + 30_000;
+    const result = formatDateTimeRelative({ dateTimeMs: timestamp, currentTimeMs: mockNow.getTime() });
 
     expect(result).toBe('starting now');
   });
 
   it('should display singular vs plural minutes', () => {
     // 1 minute
-    const timestamp1 = Math.floor(mockNow.getTime() / 1000) + 60;
-    const result1 = formatDateTimeRelative(timestamp1);
+    const timestamp1 = mockNow.getTime() + 60_000;
+    const result1 = formatDateTimeRelative({ dateTimeMs: timestamp1, currentTimeMs: mockNow.getTime() });
     expect(result1).toBe('in 1 minute');
 
     // 5 minutes
-    const timestamp5 = Math.floor(mockNow.getTime() / 1000) + 300;
-    const result5 = formatDateTimeRelative(timestamp5);
+    const timestamp5 = mockNow.getTime() + 300_000;
+    const result5 = formatDateTimeRelative({ dateTimeMs: timestamp5, currentTimeMs: mockNow.getTime() });
     expect(result5).toBe('in 5 minutes');
   });
 
   it('should display singular vs plural hours', () => {
     // 1 hour
-    const timestamp1 = Math.floor(mockNow.getTime() / 1000) + 3600;
-    const result1 = formatDateTimeRelative(timestamp1);
+    const timestamp1 = mockNow.getTime() + 3_600_000;
+    const result1 = formatDateTimeRelative({ dateTimeMs: timestamp1, currentTimeMs: mockNow.getTime() });
     expect(result1).toBe('in 1 hour');
 
     // 2 hours
-    const timestamp2 = Math.floor(mockNow.getTime() / 1000) + 7200;
-    const result2 = formatDateTimeRelative(timestamp2);
+    const timestamp2 = mockNow.getTime() + 7_200_000;
+    const result2 = formatDateTimeRelative({ dateTimeMs: timestamp2, currentTimeMs: mockNow.getTime() });
     expect(result2).toBe('in 2 hours');
   });
 
   it('should display mixed hours and minutes correctly', () => {
     // 1 hour 1 minute
-    const timestamp1 = Math.floor(mockNow.getTime() / 1000) + 3660;
-    const result1 = formatDateTimeRelative(timestamp1);
+    const timestamp1 = mockNow.getTime() + 3_660_000;
+    const result1 = formatDateTimeRelative({ dateTimeMs: timestamp1, currentTimeMs: mockNow.getTime() });
     expect(result1).toBe('in 1 hour 1 minute');
 
     // 1 hour 30 minutes
-    const timestamp30 = Math.floor(mockNow.getTime() / 1000) + 5400;
-    const result30 = formatDateTimeRelative(timestamp30);
+    const timestamp30 = mockNow.getTime() + 5_400_000;
+    const result30 = formatDateTimeRelative({ dateTimeMs: timestamp30, currentTimeMs: mockNow.getTime() });
     expect(result30).toBe('in 1 hour 30 minutes');
   });
 
   it('should display days correctly', () => {
     // 1 day
-    const timestamp1 = Math.floor(mockNow.getTime() / 1000) + 86400;
-    const result1 = formatDateTimeRelative(timestamp1);
+    const timestamp1 = mockNow.getTime() + 86_400_000;
+    const result1 = formatDateTimeRelative({ dateTimeMs: timestamp1, currentTimeMs: mockNow.getTime() });
     expect(result1).toBe('in 1 day');
 
     // 2 days
-    const timestamp2 = Math.floor(mockNow.getTime() / 1000) + 172800;
-    const result2 = formatDateTimeRelative(timestamp2);
+    const timestamp2 = mockNow.getTime() + 172_800_000;
+    const result2 = formatDateTimeRelative({ dateTimeMs: timestamp2, currentTimeMs: mockNow.getTime() });
     expect(result2).toBe('in 2 days');
   });
 
@@ -158,8 +158,8 @@ describe('formatDateTimeRelative', () => {
 
     // Event is Nov 3, 2025 at 3:00 PM (in 91 hours (3.79 days) but 4 calendar days away)
     const eventDate = new Date('2025-11-03T15:00:00.000Z');
-    const timestamp = Math.floor(eventDate.getTime() / 1000);
-    const result = formatDateTimeRelative(timestamp);
+    const timestamp = eventDate.getTime();
+    const result = formatDateTimeRelative({ dateTimeMs: timestamp, currentTimeMs: lateEvening.getTime() });
 
     // Should show 4 days (Oct 31, Nov 1, Nov 2, Nov 3) not 3 days (91 hours / 24 = 3.79)
     expect(result).toBe('in 4 days');
@@ -167,18 +167,18 @@ describe('formatDateTimeRelative', () => {
 
   it('should display past times with "ago" suffix', () => {
     // 5 minutes ago
-    const timestamp5 = Math.floor(mockNow.getTime() / 1000) - 300;
-    const result5 = formatDateTimeRelative(timestamp5);
+    const timestamp5 = mockNow.getTime() - 300_000;
+    const result5 = formatDateTimeRelative({ dateTimeMs: timestamp5, currentTimeMs: mockNow.getTime() });
     expect(result5).toBe('5 minutes ago');
 
     // 2 hours ago
-    const timestamp2h = Math.floor(mockNow.getTime() / 1000) - 7200;
-    const result2h = formatDateTimeRelative(timestamp2h);
+    const timestamp2h = mockNow.getTime() - 7_200_000;
+    const result2h = formatDateTimeRelative({ dateTimeMs: timestamp2h, currentTimeMs: mockNow.getTime() });
     expect(result2h).toBe('2 hours ago');
 
     // 1 day ago
-    const timestamp1d = Math.floor(mockNow.getTime() / 1000) - 86400;
-    const result1d = formatDateTimeRelative(timestamp1d);
+    const timestamp1d = mockNow.getTime() - 86_400_000;
+    const result1d = formatDateTimeRelative({ dateTimeMs: timestamp1d, currentTimeMs: mockNow.getTime() });
     expect(result1d).toBe('1 day ago');
   });
 });

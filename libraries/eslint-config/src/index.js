@@ -159,5 +159,6 @@ module.exports = {
     'generated/',
     'storybook-static/',
     'node_modules/',
+    'next-env.d.ts',
   ],
 };

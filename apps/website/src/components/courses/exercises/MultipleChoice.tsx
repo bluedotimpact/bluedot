@@ -59,6 +59,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const currentAnswer = watch('answer');
 
   const handleOptionSelect = (option: string) => {
