@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback,
+  useState, useMemo,
   useEffect,
 } from 'react';
 import {
@@ -167,20 +167,16 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
-  const unitOptions = useMemo(() => {
-    if (!courseData?.units) return [];
+  const unitOptions = courseData?.units.map((u) => {
+    const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
+    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
 
-    return courseData.units.map((u) => {
-      const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
-      const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
-
-      return {
-        value: u.unitNumber.toString(),
-        label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
-        disabled: !isManualRequest && !hasAvailableDiscussions,
-      };
-    });
-  }, [courseData?.units, switchingData?.discussionsAvailable, isManualRequest]);
+    return {
+      value: u.unitNumber.toString(),
+      label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+      disabled: !isManualRequest && !hasAvailableDiscussions,
+    };
+  }) ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
@@ -189,7 +185,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const oldGroup = groups.find((g) => g.userIsParticipant);
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
-  const getCurrentDiscussionInfo = useCallback((): GroupSwitchOptionProps | null => {
+  const getCurrentDiscussionInfo = (): GroupSwitchOptionProps | null => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
         id: oldDiscussion.discussion.id,
@@ -224,7 +220,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
 
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedDiscussionId, selectedGroupId]);
+  };
 
   const currentInfo = getCurrentDiscussionInfo();
 

@@ -96,11 +96,11 @@ describe('formatDateTimeRelative', () => {
     vi.useRealTimers();
   });
 
-  it('should display "starting now" for times within 60 seconds', () => {
+  it('should display "now" for times within 60 seconds', () => {
     const timestamp = mockNow.getTime() + 30_000;
     const result = formatDateTimeRelative({ dateTimeMs: timestamp, currentTimeMs: mockNow.getTime() });
 
-    expect(result).toBe('starting now');
+    expect(result).toBe('now');
   });
 
   it('should display singular vs plural minutes', () => {
