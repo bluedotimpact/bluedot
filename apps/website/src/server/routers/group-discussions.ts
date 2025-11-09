@@ -41,6 +41,9 @@ export const groupDiscussionsRouter = router({
         });
       }
 
+      // There are cases where `courseBuilderUnitRecordId` is missing for unknown reasons,
+      // filter these out so we can proceed with as many valid discussions as we can.
+      // See https://github.com/bluedotimpact/bluedot/issues/1557 for discussion of the underlying issue.
       const validDiscussions = rawDiscussions.filter((d) => !!d.courseBuilderUnitRecordId);
 
       if (validDiscussions.length < rawDiscussions.length) {
