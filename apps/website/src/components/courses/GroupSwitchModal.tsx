@@ -13,10 +13,8 @@ import {
   ListBoxItem,
   Select as AriaSelect,
 } from 'react-aria-components';
-import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -145,16 +143,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const auth = useAuthStore((s) => s.auth);
 
-  // Fetch course and its units
-  const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
+  const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
-    url: `/api/courses/${courseSlug}/group-switching/available`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'get',
-  });
+  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess: () => {
@@ -353,9 +344,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
-        {(loading || courseLoading) && <ProgressDots />}
+        {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
+        {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
@@ -368,7 +360,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!loading && !courseLoading && !showSuccess && (
+        {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
         <form className="flex flex-col gap-5">
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80]">

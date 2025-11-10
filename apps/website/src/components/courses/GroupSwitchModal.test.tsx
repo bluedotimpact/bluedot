@@ -14,16 +14,14 @@ import {
   beforeEach,
   type Mock,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
-import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
+import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
-vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
   return {
@@ -32,7 +30,6 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-const mockedUseAxios = useAxios as unknown as Mock;
 const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
@@ -65,8 +62,7 @@ const mockCourseDataWithTwoUnits = {
 };
 
 // Match real API structure exactly
-const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
-  type: 'success',
+const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: {
@@ -166,17 +162,11 @@ describe('GroupSwitchModal', () => {
       return selector(state);
     });
 
+    mockSubmitGroupSwitch = vi.fn();
+
     server.use(
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
-    );
-
-    mockedUseAxios.mockImplementation(() => {
-      return [{ data: mockSwitchingData, loading: false, error: null }, vi.fn()];
-    });
-
-    // Set up default tRPC MSW mock for successful mutations
-    mockSubmitGroupSwitch = vi.fn();
-    server.use(
+      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
         return undefined;
@@ -367,7 +357,7 @@ describe('GroupSwitchModal', () => {
   describe('Form state', () => {
     test('Form starts with the unit specified by `currentUnit` pre-selected', async () => {
       const baseDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithUnit2: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataWithUnit2: DiscussionsAvailable = {
         ...mockSwitchingData,
         discussionsAvailable: {
           1: mockSwitchingData.discussionsAvailable[1] || [],
@@ -386,11 +376,8 @@ describe('GroupSwitchModal', () => {
 
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithUnit2),
       );
-
-      mockedUseAxios.mockImplementation(() => {
-        return [{ data: mockSwitchingDataWithUnit2, loading: false, error: null }, vi.fn()];
-      });
 
       render(
         <GroupSwitchModal
@@ -426,8 +413,7 @@ describe('GroupSwitchModal', () => {
     test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
       const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithDisabled: GetGroupSwitchingAvailableResponse = {
-        type: 'success',
+      const mockSwitchingDataWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
           { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
@@ -457,11 +443,8 @@ describe('GroupSwitchModal', () => {
       // Override mock for this test
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithDisabled),
       );
-
-      mockedUseAxios.mockImplementation(() => {
-        return [{ data: mockSwitchingDataWithDisabled, loading: false, error: null }, vi.fn()];
-      });
 
       render(
         <GroupSwitchModal
@@ -525,15 +508,15 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switching is still available when there are no discussions available (in "Switch group for one unit" mode)', async () => {
-      const mockSwitchingDataEmpty: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataEmpty: DiscussionsAvailable = {
         ...mockSwitchingData,
         groupsAvailable: [],
         discussionsAvailable: { 1: [] },
       };
 
-      mockedUseAxios.mockImplementation(() => {
-        return [{ data: mockSwitchingDataEmpty, loading: false, error: null }, vi.fn()];
-      });
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataEmpty),
+      );
 
       render(
         <GroupSwitchModal
@@ -709,7 +692,7 @@ describe('GroupSwitchModal', () => {
 
   describe('Participant without group', () => {
     // Derive mock data from base by setting userIsParticipant to false everywhere
-    const mockSwitchingDataNoGroup: GetGroupSwitchingAvailableResponse = {
+    const mockSwitchingDataNoGroup: DiscussionsAvailable = {
       ...mockSwitchingData,
       groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
         ...g,
@@ -733,10 +716,9 @@ describe('GroupSwitchModal', () => {
         return selector(state);
       });
 
-      // Return mock data with no participant groups
-      mockedUseAxios.mockImplementation(() => {
-        return [{ data: mockSwitchingDataNoGroup, loading: false, error: null }, vi.fn()];
-      });
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataNoGroup),
+      );
     });
 
     test('Modal does not show current group section when participant has no group', async () => {
