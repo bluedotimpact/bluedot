@@ -143,10 +143,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const auth = useAuthStore((s) => s.auth);
 
-  // Fetch course and its units
-  const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
+  const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const { data: switchingData, isLoading: discussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
+  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess: () => {
@@ -345,7 +344,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
-        {(discussionsLoading || courseLoading) && <ProgressDots />}
+        {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
@@ -361,7 +360,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!discussionsLoading && !courseLoading && !showSuccess && (
+        {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
         <form className="flex flex-col gap-5">
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80]">
