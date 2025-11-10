@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
+import { CTALinkOrButton, addQueryParam, useCurrentTimeMs } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
 import { Course, CourseRegistration } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
@@ -7,6 +7,7 @@ import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
+import { formatDateTimeRelative } from '../../lib/utils';
 
 type CourseListRowProps = {
   course: Course;
@@ -20,7 +21,7 @@ const CourseListRow = ({
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
-  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
+  const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
   const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
@@ -64,55 +65,15 @@ const CourseListRow = ({
     }
   }, [isNotInGroup]);
 
-  // Update current time every 30 seconds for real-time countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Helper function to format time until discussion
-  const formatTimeUntilDiscussion = (startDateTime: number): string => {
-    const timeUntilStart = startDateTime - currentTimeSeconds;
-
-    if (timeUntilStart <= 0) {
-      return 'Discussion has started';
-    }
-
-    const days = Math.floor(timeUntilStart / (24 * 60 * 60));
-    const hours = Math.floor((timeUntilStart % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((timeUntilStart % (60 * 60)) / 60);
-
-    if (days > 0) {
-      if (days === 1) {
-        return '1 day';
-      }
-      return `${days} days`;
-    }
-
-    if (hours > 0 && minutes > 0) {
-      return `${hours}hr ${minutes}min`;
-    }
-    if (hours > 0) {
-      return `${hours}hr`;
-    }
-    if (minutes > 0) {
-      return `${minutes}min`;
-    }
-    return 'Less than 1min';
-  };
-
   // Get the next upcoming discussion from expectedDiscussions
   const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => discussion.endDateTime > currentTimeSeconds,
+    (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
   );
   const nextDiscussion = upcomingDiscussions[0];
 
   // Check if next discussion is starting soon (within 1 hour)
   const isNextDiscussionStartingSoon = nextDiscussion
-    ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
+    ? (nextDiscussion.startDateTime * 1000 - currentTimeMs) < 3_600_000 && (nextDiscussion.startDateTime * 1000 - currentTimeMs) > 0
     : false;
 
   const getPrimaryCtaButton = () => {
@@ -210,7 +171,7 @@ const CourseListRow = ({
                       isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
                     }`}
                   >
-                    Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                    Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
                   </p>
                 )}
               </div>
@@ -299,7 +260,7 @@ const CourseListRow = ({
                     isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
                   }`}
                 >
-                  Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                  Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
                 </p>
               )}
             </div>
@@ -367,7 +328,6 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          currentTimeSeconds={currentTimeSeconds}
           isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}

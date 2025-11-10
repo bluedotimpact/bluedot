@@ -58,11 +58,15 @@ export const formatDateDayOfWeek = (dateTimeSeconds: number): string => {
   });
 };
 
-/** Examples: 'starting now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
-export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
-  const startDate = new Date(dateTimeSeconds * 1000);
-  const now = new Date();
-  const timeDiffMs = startDate.getTime() - now.getTime();
+/** Examples: 'now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
+export const formatDateTimeRelative = ({
+  dateTimeMs,
+  currentTimeMs,
+}: {
+  dateTimeMs: number;
+  currentTimeMs: number;
+}): string => {
+  const timeDiffMs = dateTimeMs - currentTimeMs;
 
   // Helper to pluralize units
   const pluralizeTimeUnit = (value: number, unit: string) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
@@ -88,10 +92,10 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
 
   // Calculate calendar days instead of just dividing hours by 24
   // This ensures "in X days" reflects actual calendar days, not 24-hour periods
-  const startOfNow = new Date(now);
+  const startOfNow = new Date(currentTimeMs);
   startOfNow.setHours(0, 0, 0, 0);
 
-  const startOfTarget = new Date(startDate);
+  const startOfTarget = new Date(dateTimeMs);
   startOfTarget.setHours(0, 0, 0, 0);
 
   // Get absolute number of calendar days between dates
@@ -99,7 +103,7 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
 
   // Determine relative time string
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
-    return 'starting now';
+    return 'now';
   }
   if (timeDiffMs > 0) {
     return `in ${buildRelativeTimeString(absMinutes, absHours, absCalendarDays, '')}`;

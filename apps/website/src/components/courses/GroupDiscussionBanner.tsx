@@ -4,6 +4,7 @@ import React, {
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
+  useCurrentTimeMs,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import { FaCopy } from 'react-icons/fa6';
@@ -30,17 +31,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   onClickPrepare,
 }) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
-  const [currentTime, setCurrentTime] = useState(Date.now());
+  const currentTimeMs = useCurrentTimeMs();
   const [hostKeyCopied, setHostKeyCopied] = useState(false);
-
-  // Update current time every 30 seconds for smoother countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(Date.now());
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (!hostKeyCopied) return undefined;
@@ -63,14 +55,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
-  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
+  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
   const startTimeDisplayDate = useMemo(() => formatDateMonthAndDay(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
   const startTimeDisplayTime = useMemo(() => formatTime12HourClock(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
 
   // Dynamic discussion starts soon check
   const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTime) <= ONE_HOUR_MS,
-    [groupDiscussion.startDateTime, currentTime],
+    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
+    [groupDiscussion.startDateTime, currentTimeMs],
   );
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';

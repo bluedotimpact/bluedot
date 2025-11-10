@@ -78,13 +78,13 @@ const CourseUnitChunkPage = ({
     if (shouldRecordCourseRegistration) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, latestUtmParams.utm_source]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
-  }, [chunkIndex, courseSlug, unitNumber, router]);
+  }, [chunkIndex, courseSlug, unitNumber, router, chunks]);
 
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
