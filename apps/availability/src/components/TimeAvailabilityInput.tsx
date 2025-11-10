@@ -50,6 +50,8 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
     if (i !== endUnit) {
       for (let d = 0; d < days.length; d++) {
         cellCoords.push({ day: d, minute: i * MINUTES_IN_UNIT });
+        // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+        // eslint-disable-next-line react-hooks/immutability
         cellRefs.push(null);
       }
     }
@@ -125,7 +127,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
       document.removeEventListener('pointermove', movePointerListener);
       document.removeEventListener('pointerup', pointerUpListener);
     };
-  }, [value, cellRefs, dragState, mainGrid]);
+  }, [value, cellRefs, dragState, mainGrid, onChange]);
 
   return (
     <div className="w-full touch-none text-size-xs text-stone-500">

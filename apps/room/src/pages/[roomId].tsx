@@ -26,6 +26,8 @@ const RoomControlPage = withAuth(({ auth }) => {
     return () => {
       clearInterval(interval);
     };
+    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId]);
 
   const [meetingInputValue, setMeetingInputValue] = useState('');
