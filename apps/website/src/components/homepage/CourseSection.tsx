@@ -164,11 +164,11 @@ const CourseCarousel = ({
   const infiniteCourses = createInfiniteScrollData();
 
   // Card width + gap
-  const getCardWidth = () => {
+  const getCardWidth = useCallback(() => {
     if (typeof window === 'undefined') return 276;
     // 768px is TW md breakpoint
     return window.innerWidth >= 768 ? 400 : 276;
-  };
+  }, []);
 
   const getGap = useCallback(() => {
     if (typeof window === 'undefined') return 20;
