@@ -6,9 +6,8 @@ import {
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
 import {
-  motion, useMotionValue, animate, AnimationPlaybackControls,
-} from 'framer-motion';
-import { useEffect, useRef } from 'react';
+  useEffect, useRef, useCallback,
+} from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
 
@@ -152,92 +151,158 @@ const CourseCarousel = ({
 }: {
   courses: Course[]
 }) => {
-  const x = useMotionValue(0);
-  const animationRef = useRef<AnimationPlaybackControls | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  // Track width separately to ignore mobile browser address bar height changes
-  const widthRef = useRef<number>(0);
-  // Duplicate array for seamless loop
-  const allCourses = [...courses, ...courses];
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isResettingRef = useRef(false);
+  const prefersReducedMotionRef = useRef(false);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return undefined;
+  const createInfiniteScrollData = () => {
+    if (courses.length === 0) return [];
+    return [...courses, ...courses, ...courses];
+  };
 
-    const setupAnimation = () => {
-      const currentWidth = window.innerWidth;
+  const infiniteCourses = createInfiniteScrollData();
 
-      // Only respond to width changes, not height changes (mobile address bar)
-      if (widthRef.current !== 0 && currentWidth === widthRef.current) {
-        return;
+  // Card width + gap
+  const getCardWidth = () => {
+    if (typeof window === 'undefined') return 276;
+    // 768px is TW md breakpoint
+    return window.innerWidth >= 768 ? 400 : 276;
+  };
+
+  const getGap = () => {
+    if (typeof window === 'undefined') return 20;
+    const width = window.innerWidth;
+    if (width >= 1024) return 32;
+    if (width >= 768) return 24;
+    return 20;
+  };
+
+  // Auto-scroll functionality
+  const startAutoScroll = useCallback(() => {
+    if (prefersReducedMotionRef.current) return;
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+
+    autoScrollIntervalRef.current = setInterval(() => {
+      if (scrollContainerRef.current && !isResettingRef.current) {
+        const currentScrollLeft = scrollContainerRef.current.scrollLeft;
+        const newScrollLeft = currentScrollLeft + 0.5; // 0.5px per 50ms = 10px/sec
+
+        scrollContainerRef.current.scrollTo({
+          left: newScrollLeft,
+          behavior: 'auto',
+        });
       }
+    }, 50); // 50ms intervals
+  }, []);
 
-      widthRef.current = currentWidth;
+  const stopAutoScroll = useCallback(() => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
+    }
+  }, []);
 
-      const containerWidth = container.scrollWidth;
-
-      if (containerWidth === 0) return;
-
-      const targetX = -(containerWidth / 2);
-
-      // Calculate progress to avoid jarring resets when window resizes
-      const currentX = x.get();
-      // Clamp to [0, 1] to prevent negative duration when viewport shrinks (e.g., device rotation)
-      const currentProgress = Math.min(Math.max(currentX / targetX, 0), 1);
-
-      animationRef.current?.stop();
-
-      // Resume from current position so carousel doesn't jump on resize
-      const newStartX = targetX * currentProgress;
-      x.set(newStartX);
-
-      // Scale duration by remaining distance - 40s for full loop
-      animationRef.current = animate(x, [newStartX, targetX], {
-        duration: 40 * (1 - currentProgress),
-        repeat: Infinity,
-        repeatType: 'loop',
-        ease: 'linear',
-      });
-    };
-
-    setupAnimation();
-
-    window.addEventListener('resize', setupAnimation);
-
+  // Start auto-scroll on mount and restart when hover state changes
+  useEffect(() => {
+    if (!prefersReducedMotionRef.current) {
+      startAutoScroll();
+    } else {
+      stopAutoScroll();
+    }
     return () => {
-      animationRef.current?.stop();
-      window.removeEventListener('resize', setupAnimation);
+      stopAutoScroll();
     };
-  }, [x]);
+  }, [startAutoScroll, stopAutoScroll]);
 
-  const pauseAnimation = () => {
-    animationRef.current?.pause();
-  };
+  // Handle prefers-reduced-motion
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const applyPreference = (matches: boolean) => {
+      prefersReducedMotionRef.current = matches;
+      if (matches) {
+        stopAutoScroll();
+      } else {
+        startAutoScroll();
+      }
+    };
 
-  const resumeAnimation = () => {
-    animationRef.current?.play();
-  };
+    applyPreference(mql.matches);
+
+    const onChange = (e: MediaQueryListEvent) => {
+      applyPreference(e.matches);
+    };
+
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, [startAutoScroll, stopAutoScroll]);
+
+  // Initialize scroll position to middle section
+  useEffect(() => {
+    if (scrollContainerRef.current && courses.length > 0) {
+      // Wait for next frame to ensure DOM is laid out
+      const rafId = requestAnimationFrame(() => {
+        if (scrollContainerRef.current) {
+          const cardWidth = getCardWidth();
+          const gap = getGap();
+          const sectionWidth = courses.length * (cardWidth + gap);
+          // Start at the beginning of the middle section
+          scrollContainerRef.current.scrollLeft = sectionWidth;
+        }
+      });
+
+      return () => cancelAnimationFrame(rafId);
+    }
+    return undefined;
+  }, [courses.length, getCardWidth, getGap]);
+
+  // Handle infinite scroll with seamless reset
+  const handleScroll = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (container && !isResettingRef.current && courses.length > 0) {
+      const { scrollLeft } = container;
+      const cardWidth = getCardWidth();
+      const gap = getGap();
+      const sectionWidth = courses.length * (cardWidth + gap);
+
+      // Reset when we've scrolled past a full section
+      if (scrollLeft >= sectionWidth * 2) {
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft - sectionWidth;
+        isResettingRef.current = false;
+      } else if (scrollLeft < sectionWidth) {
+        isResettingRef.current = true;
+        container.scrollLeft = scrollLeft + sectionWidth;
+        isResettingRef.current = false;
+      }
+    }
+  }, [courses.length, getCardWidth, getGap]);
 
   return (
     <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">
-      <motion.div
-        ref={containerRef}
-        className="flex gap-5 md:gap-6 lg:gap-8 pl-5"
-        style={{ x }}
-        onMouseEnter={pauseAnimation}
-        onMouseLeave={resumeAnimation}
-        onFocus={pauseAnimation}
-        onBlur={resumeAnimation}
-        onTouchStart={pauseAnimation}
-        onTouchEnd={resumeAnimation}
+      <div
+        ref={scrollContainerRef}
+        className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"
+        style={{
+          scrollSnapType: 'none',
+          scrollBehavior: 'auto',
+        }}
+        onScroll={handleScroll}
+        onTouchStart={stopAutoScroll}
+        onTouchEnd={startAutoScroll}
+        role="region"
+        aria-label="Courses carousel"
       >
-        {allCourses.map((course, index) => {
+        {infiniteCourses.map((course, index) => {
           const originalIndex = index % courses.length;
-          const copyNumber = Math.floor(index / courses.length);
+          const uniqueKey = `${course.id}-${index}`;
 
           return (
             <CourseCardRedesignedWithTracking
-              key={`${course.id}-copy-${copyNumber}`}
+              key={uniqueKey}
               trackingEventParams={{
                 course_title: course.title,
                 course_url: course.path,
@@ -249,7 +314,7 @@ const CourseCarousel = ({
             />
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 };
