@@ -136,10 +136,6 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
 
   const infinitePhotos = createInfiniteScrollData();
 
-  const getPhotoWidth = useCallback((photo: Photo) => {
-    return photo.width;
-  }, []);
-
   const getPhotoGap = useCallback(() => {
     if (typeof window === 'undefined') return 32;
     const width = window.innerWidth;
@@ -285,7 +281,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
                 src={photo.src}
                 alt={photo.alt}
                 className="h-[240px] min-[680px]:h-[300px] min-[1024px]:h-[385px] rounded-xl min-[1024px]:rounded-xl border border-[rgba(19,19,46,0.1)] object-cover object-center"
-                style={{ width: `${getPhotoWidth(photo)}px` }}
+                style={{ width: `${photo.width}px` }}
               />
             </a>
           );
