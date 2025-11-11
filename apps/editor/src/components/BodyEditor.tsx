@@ -23,7 +23,6 @@ export const BodyEditor: React.FC<BodyEditorProps> = ({ auth, children, onSave }
     if (body === null && children) {
       setBody(children);
     }
-    // TODO note that I haven't tested, test in prod once deployed
   }, [body, children]);
 
   // Add beforeunload event listener to warn about unsaved changes
