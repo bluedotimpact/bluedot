@@ -24,9 +24,7 @@ const DashboardPage = withAuth(({ auth }) => {
     return () => {
       clearInterval(interval);
     };
-    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [poll]);
 
   // If there's only one room, automatically select it
   useEffect(() => {
