@@ -53,7 +53,10 @@ const Exercise: React.FC<ExerciseProps> = ({
         },
       },
     );
-  }, [exerciseId, auth]);
+
+    // Refetch the exercise response to update the UI with the newly saved answer
+    await fetchExerciseResponse().catch(() => { /* no op, as we handle errors above */ });
+  }, [exerciseId, auth, fetchExerciseResponse]);
 
   if (exerciseLoading) {
     return <ProgressDots />;
