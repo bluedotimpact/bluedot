@@ -170,13 +170,13 @@ const CourseCarousel = ({
     return window.innerWidth >= 768 ? 400 : 276;
   };
 
-  const getGap = () => {
+  const getGap = useCallback(() => {
     if (typeof window === 'undefined') return 20;
     const width = window.innerWidth;
     if (width >= 1024) return 32;
     if (width >= 768) return 24;
     return 20;
-  };
+  }, []);
 
   // Auto-scroll functionality
   const startAutoScroll = useCallback(() => {
