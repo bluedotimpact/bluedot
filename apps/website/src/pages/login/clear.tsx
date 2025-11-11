@@ -6,8 +6,7 @@ const LogoutPage: React.FC = () => {
   const setAuth = useAuthStore((s) => s.setAuth);
   useEffect(() => {
     setAuth(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setAuth]);
 
   if (!auth) {
     return <Navigate url="/" />;
