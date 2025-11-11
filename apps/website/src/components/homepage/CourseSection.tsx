@@ -260,7 +260,7 @@ const CourseCarousel = ({
   }, [courses.length, getCardWidth, getGap]);
 
   // Handle infinite scroll with seamless reset
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     const container = scrollContainerRef.current;
     if (container && !isResettingRef.current && courses.length > 0) {
       const { scrollLeft } = container;
@@ -279,7 +279,7 @@ const CourseCarousel = ({
         isResettingRef.current = false;
       }
     }
-  }, [courses.length, getCardWidth, getGap]);
+  };
 
   return (
     <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">

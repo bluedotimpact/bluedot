@@ -207,21 +207,21 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
     return () => mql.removeEventListener('change', onChange);
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsHovered(true);
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     setIsHovered(false);
-  }, []);
+  };
 
-  const handleFocus = useCallback(() => {
+  const handleFocus = () => {
     setIsHovered(true);
-  }, []);
+  };
 
-  const handleBlur = useCallback(() => {
+  const handleBlur = () => {
     setIsHovered(false);
-  }, []);
+  };
 
   useEffect(() => {
     if (scrollContainerRef.current && photos.length > 0) {
@@ -230,7 +230,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
     }
   }, [photos, getPhotoGap]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     const container = scrollContainerRef.current;
     if (container && !isResettingRef.current && photos.length > 0) {
       const { scrollLeft } = container;
@@ -247,7 +247,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
         isResettingRef.current = false;
       }
     }
-  }, [photos, getPhotoGap]);
+  };
 
   return (
     <div className="relative -mx-5 min-[680px]:-mx-8 min-[1024px]:-mx-12 min-[1280px]:-mx-16 2xl:-mx-20">
