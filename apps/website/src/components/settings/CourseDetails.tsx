@@ -1,16 +1,15 @@
 import { Course, CourseRegistration } from '@bluedot/db';
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, ProgressDots, useCurrentTimeMs } from '@bluedot/ui';
 import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 
-const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
+const HOUR_IN_MS = 60 * 60 * 1000;
 
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  currentTimeSeconds: number;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
   isLoading: boolean;
@@ -20,7 +19,6 @@ type CourseDetailsProps = {
 const CourseDetails = ({
   course,
   courseRegistration,
-  currentTimeSeconds,
   attendedDiscussions,
   upcomingDiscussions,
   isLoading,
@@ -31,13 +29,14 @@ const CourseDetails = ({
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
+  const currentTimeMs = useCurrentTimeMs();
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
-    const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
-    const isStartingSoon = timeUntilStart < HOUR_IN_SECONDS && timeUntilStart > 0;
+    const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
+    const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
 
     // Determine button text and URL based on timing
     const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
@@ -73,7 +72,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (
@@ -142,7 +141,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (

@@ -23,6 +23,8 @@ const Dewi = () => {
   useEffect(() => {
     // Update the background color of the main element
     (document.getElementsByClassName('bluedot-base')[0] as HTMLElement).style.backgroundColor = getNextColor();
+    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]); // Dependency array to run effect when value changes
 
   return (

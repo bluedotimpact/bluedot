@@ -125,6 +125,8 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
       document.removeEventListener('pointermove', movePointerListener);
       document.removeEventListener('pointerup', pointerUpListener);
     };
+    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, cellRefs, dragState, mainGrid]);
 
   return (

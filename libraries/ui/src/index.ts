@@ -99,4 +99,5 @@ export * from './SocialShare';
 
 // Hooks
 
+export { useCurrentTimeMs } from './hooks/useCurrentTimeMs';
 export { useLatestUtmParams, LatestUtmParamsProvider } from './hooks/useLatestUtmParams';

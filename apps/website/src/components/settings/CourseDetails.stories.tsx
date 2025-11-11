@@ -84,7 +84,6 @@ const meta: Meta<typeof CourseDetails> = {
   },
   args: {
     course: mockCourse,
-    currentTimeSeconds: now,
     attendedDiscussions: [mockDiscussions['discussion-3']!],
     upcomingDiscussions: [mockDiscussions['discussion-1']!, mockDiscussions['discussion-2']!],
     isLoading: false,
