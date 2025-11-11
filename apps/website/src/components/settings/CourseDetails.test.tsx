@@ -36,7 +36,6 @@ describe('CourseDetails', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        currentTimeSeconds={Math.floor(Date.now() / 1000)}
         upcomingDiscussions={[]}
         attendedDiscussions={[]}
         isLoading={false}

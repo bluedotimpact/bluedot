@@ -1,7 +1,7 @@
 import { CTALinkOrButton, Input } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { FaUndo } from 'react-icons/fa';
 import { P } from '../../Text';
@@ -52,15 +52,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     handleSubmit,
     setValue,
     formState: { isSubmitting },
-    watch,
+    control,
   } = useForm<FormData>({
     defaultValues: {
       answer: formattedExerciseResponse,
     },
   });
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const currentAnswer = watch('answer');
+  const currentAnswer = useWatch({ control, name: 'answer' });
 
   const handleOptionSelect = (option: string) => {
     setValue('answer', option);

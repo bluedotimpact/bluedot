@@ -7,17 +7,17 @@ import { useEffect, useState } from 'react';
  * render to render
  * - Support live updating displays of time
  */
-export const useCurrentTimeMs = () => {
+export const useCurrentTimeMs = (refreshIntervalMs = 30_000) => {
   const [currentTimeMs, setCurrentTimeMs] = useState(() => Date.now());
 
   // Update current time every 30 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTimeMs(Date.now());
-    }, 30_000);
+    }, refreshIntervalMs);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshIntervalMs]);
 
   return currentTimeMs;
 };
