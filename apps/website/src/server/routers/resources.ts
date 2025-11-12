@@ -18,7 +18,7 @@ export const resourcesRouter = router({
       return resourceCompletion ? {
         ...resourceCompletion,
         // Trim feedback field (Airtable quirk)
-        feedback: resourceCompletion.feedback?.trim(),
+        feedback: resourceCompletion.feedback?.trimEnd(),
       } : undefined;
     }),
 

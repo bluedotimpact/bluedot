@@ -164,8 +164,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     return <ProgressDots />;
   }
 
-  // We ignore NOT_FOUND errors, as this just indicates the resource completion hasn't been created yet
-  if (completionError && completionError.data?.code !== 'NOT_FOUND') {
+  if (completionError) {
     return <ErrorView error={completionError} />;
   }
 
