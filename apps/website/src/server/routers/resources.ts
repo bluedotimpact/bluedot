@@ -23,17 +23,21 @@ export const resourcesRouter = router({
     }),
 
   saveResourceCompletion: protectedProcedure
-    .input(z.object({
-      unitResourceId: z.string().min(1),
-      rating: z.number().nullable().optional(),
-      isCompleted: z.boolean().optional(),
-      feedback: z.string().optional(),
-      resourceFeedback: z.union([
-        z.literal(RESOURCE_FEEDBACK.DISLIKE),
-        z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
-        z.literal(RESOURCE_FEEDBACK.LIKE),
-      ]).optional(),
-    }))
+    .input(
+      z.object({
+        unitResourceId: z.string().min(1),
+        rating: z.number().nullable().optional(),
+        isCompleted: z.boolean().optional(),
+        feedback: z.string().optional(),
+        resourceFeedback: z
+          .union([
+            z.literal(RESOURCE_FEEDBACK.DISLIKE),
+            z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
+            z.literal(RESOURCE_FEEDBACK.LIKE),
+          ])
+          .optional(),
+      }),
+    )
     .mutation(async ({ input, ctx }) => {
       const resourceCompletion = await db.getFirst(resourceCompletionTable, {
         filter: {
