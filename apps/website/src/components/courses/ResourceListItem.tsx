@@ -7,11 +7,10 @@ import {
   ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { unitResourceTable, InferSelectModel } from '@bluedot/db';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK, ResourceFeedbackValue } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
 import {
   A, P,
 } from '../Text';
@@ -20,8 +19,6 @@ import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import { trpc } from '../../utils/trpc';
-
-type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
 // Simplified SVG icon components
 const ThumbIcon: React.FC<{
