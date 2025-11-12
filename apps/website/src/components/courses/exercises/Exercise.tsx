@@ -32,10 +32,7 @@ const Exercise: React.FC<ExerciseProps> = ({
     error: exerciseResponseError,
   } = trpc.exercises.getExerciseResponse.useQuery(
     { exerciseId },
-    {
-      enabled: !!auth,
-      retry: false,
-    },
+    { enabled: !!auth },
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
