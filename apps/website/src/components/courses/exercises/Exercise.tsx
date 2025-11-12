@@ -19,10 +19,18 @@ const Exercise: React.FC<ExerciseProps> = ({
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
 
-  const { data: exerciseData, isLoading: exerciseLoading, error: exerciseError } = trpc.exercises.getExercise.useQuery({ exerciseId });
+  const {
+    data: exerciseData,
+    isLoading: exerciseLoading,
+    error: exerciseError,
+  } = trpc.exercises.getExercise.useQuery({ exerciseId });
 
   // Only fetch user response when authenticated
-  const { data: responseData, isLoading: exerciseResponseLoading, error: exerciseResponseError } = trpc.exercises.getExerciseResponse.useQuery(
+  const {
+    data: responseData,
+    isLoading: exerciseResponseLoading,
+    error: exerciseResponseError,
+  } = trpc.exercises.getExerciseResponse.useQuery(
     { exerciseId },
     {
       enabled: !!auth,
