@@ -116,7 +116,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
   const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -170,8 +169,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
     setIsCompleted(newIsCompleted);
-    // Show feedback only when resource is completed
-    setShowFeedback(newIsCompleted);
     handleSaveCompletion(newIsCompleted);
   }, [isCompleted, handleSaveCompletion]);
 
@@ -181,7 +178,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
     setResourceFeedback(newFeedback);
     setIsCompleted(true); // Mark as completed when feedback is given
-    setShowFeedback(true); // Ensure feedback section stays visible
     handleSaveCompletion(true, newFeedback);
   }, [resourceFeedback, handleSaveCompletion]);
 
@@ -347,8 +343,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                   </button>
                 )}
 
-                {/* Feedback buttons (show when completed or feedback given) */}
-                {showFeedback && (
+                {/* Feedback buttons (show when completed) */}
+                {isCompleted && (
                   <div>
                     <FeedbackSection
                       resourceFeedback={resourceFeedback}
@@ -363,7 +359,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         </div>
 
         {/* Desktop feedback section */}
-        {auth && showFeedback && (
+        {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
               className="hidden lg:flex items-center transition-all duration-200 px-6 pt-[17px] pb-[9px] gap-2 w-full h-14 bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
