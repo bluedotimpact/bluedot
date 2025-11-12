@@ -114,6 +114,7 @@ type ResourceListItemProps = {
 export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
+  const utils = trpc.useUtils();
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
@@ -125,7 +126,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     data: completionData,
     isLoading: completionLoading,
     error: completionError,
-    refetch: fetchResourceCompletion,
   } = trpc.resources.getResourceCompletion.useQuery(
     { unitResourceId: resource.id },
     {
@@ -147,7 +147,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     }
   }, [completionData, hasCompletionLoaded]);
 
-  const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation();
+  const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
+    onSuccess: () => {
+      utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
+    },
+  });
 
   // Handle saving resource completion
   const handleSaveCompletion = useCallback(async (
@@ -161,10 +165,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
       isCompleted: updatedIsCompleted ?? isCompleted,
       resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
     });
-
-    // Refetch to get updated completion data
-    await fetchResourceCompletion();
-  }, [auth, isCompleted, resourceFeedback, resource.id, saveCompletionMutation, fetchResourceCompletion]);
+  }, [auth, isCompleted, resourceFeedback, resource.id, saveCompletionMutation]);
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
