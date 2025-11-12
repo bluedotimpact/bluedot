@@ -115,8 +115,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
-  const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
   const [isHovered, setIsHovered] = useState(false);
 
   // Fetch resource completion data (only when authenticated)
@@ -129,17 +127,14 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     { enabled: !!auth },
   );
 
-  // Update local state when completion data is fetched the first time
-  useEffect(() => {
-    setIsCompleted(completionData?.isCompleted || false);
-    setResourceFeedback(completionData?.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE);
-  }, [completionData]);
-
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
       utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
     },
   });
+
+  const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
+  const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
 
   // Handle saving resource completion
   const handleSaveCompletion = useCallback((
@@ -157,7 +152,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
-    setIsCompleted(newIsCompleted);
     handleSaveCompletion(newIsCompleted);
   }, [isCompleted, handleSaveCompletion]);
 
@@ -165,8 +159,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    setResourceFeedback(newFeedback);
-    setIsCompleted(true); // Mark as completed when feedback is given
     handleSaveCompletion(true, newFeedback);
   }, [resourceFeedback, handleSaveCompletion]);
 
