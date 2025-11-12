@@ -1,6 +1,5 @@
 import { resourceCompletionTable } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
-import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
@@ -16,19 +15,11 @@ export const resourcesRouter = router({
         },
       });
 
-      // db.getFirst returns null when no record is found (not an error for this use case)
-      if (!resourceCompletion) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Resource completion not found',
-        });
-      }
-
-      // Trim feedback field (Airtable quirk)
-      return {
+      return resourceCompletion ? {
         ...resourceCompletion,
-        feedback: resourceCompletion.feedback?.trimEnd(),
-      };
+        // Trim feedback field (Airtable quirk)
+        feedback: resourceCompletion.feedback?.trim(),
+      } : undefined;
     }),
 
   saveResourceCompletion: protectedProcedure
