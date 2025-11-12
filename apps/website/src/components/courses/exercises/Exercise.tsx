@@ -47,6 +47,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   });
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
+    // Use mutateAsync to ensure the mutation completes and cache updates before UI re-renders with the new response
     await saveResponseMutation.mutateAsync({
       exerciseId,
       response: exerciseResponse,
