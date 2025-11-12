@@ -117,7 +117,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const utils = trpc.useUtils();
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
-  const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   // Fetch resource completion data (only when authenticated)
@@ -135,16 +134,9 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
   // Update local state when completion data is fetched the first time
   useEffect(() => {
-    if (completionData && !hasCompletionLoaded) {
-      setHasCompletionLoaded(true);
-      setIsCompleted(completionData.isCompleted || false);
-      const feedback = completionData.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
-      setResourceFeedback(feedback);
-
-      // Show feedback box only if resource is completed
-      setShowFeedback(completionData.isCompleted || false);
-    }
-  }, [completionData, hasCompletionLoaded]);
+    setIsCompleted(completionData?.isCompleted || false);
+    setResourceFeedback(completionData?.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE);
+  }, [completionData]);
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSuccess: () => {
