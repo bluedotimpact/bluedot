@@ -35,7 +35,7 @@ const mockArgs = {
     "Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?",
   options: mockOptions,
   answer: "The community's preference for low-tech fishing traditions\n",
-  onExerciseSubmit: () => {},
+  onExerciseSubmit: () => Promise.resolve(),
 };
 
 describe('MultipleChoice', () => {

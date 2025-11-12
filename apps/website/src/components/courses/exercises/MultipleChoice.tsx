@@ -14,7 +14,7 @@ type MultipleChoiceProps = {
   // Required
   answer: string;
   description: string;
-  onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => void;
+  onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => Promise<void>;
   options: string;
   title: string;
   // Optional
