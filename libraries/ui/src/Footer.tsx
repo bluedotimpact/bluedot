@@ -24,7 +24,7 @@ type FooterSectionProps = {
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('flex flex-col', className)}>
     {title && (
-      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold">
+      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-semibold">
         {title}
       </h3>
     )}
@@ -36,7 +36,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
               href={link.url}
               target={link.target}
               rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
             >
               {link.label}
             </A>
