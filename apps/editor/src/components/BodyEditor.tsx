@@ -23,9 +23,7 @@ export const BodyEditor: React.FC<BodyEditorProps> = ({ auth, children, onSave }
     if (body === null && children) {
       setBody(children);
     }
-    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children]);
+  }, [body, children]);
 
   // Add beforeunload event listener to warn about unsaved changes
   useEffect(() => {

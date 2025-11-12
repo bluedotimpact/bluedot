@@ -1,6 +1,6 @@
-import { NewText } from '@bluedot/ui';
+import { NewText, useCurrentTimeMs } from '@bluedot/ui';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const DisplayPage = () => {
   const { roomId } = useRouter().query;
@@ -39,25 +39,17 @@ const DisplayPage = () => {
   );
 };
 
+const REFRESH_INTERVAL_MS = 1000;
 const Clock = () => {
-  // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
-  // eslint-disable-next-line react-hooks/purity
-  const [, setTime] = useState(Date.now());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(Date.now());
-    }, 1000);
-    return () => clearInterval(interval);
-  });
+  const currentTimeMs = useCurrentTimeMs(REFRESH_INTERVAL_MS);
 
   return (
     <>
       <div className="text-7xl font-bold mb-2">
-        {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {new Date(currentTimeMs).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </div>
       <div className="text-3xl text-gray-600">
-        {new Date().toLocaleDateString()}
+        {new Date(currentTimeMs).toLocaleDateString()}
       </div>
     </>
   );

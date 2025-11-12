@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 export const useCurrentTimeMs = (refreshIntervalMs = 30_000) => {
   const [currentTimeMs, setCurrentTimeMs] = useState(() => Date.now());
 
-  // Update current time every 30 seconds
+  // Refresh periodically, this will cause consumers to re-render
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTimeMs(Date.now());
