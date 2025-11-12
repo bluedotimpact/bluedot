@@ -9,6 +9,7 @@
     "eslint-config-domdomegg": "^1.2.3",
     "eslint-config-turbo": "^2.2.3",
     "eslint-plugin-tailwindcss": "^3.18.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "typescript": "^5.8.3"
   }
 }

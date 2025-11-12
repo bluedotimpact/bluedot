@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
 import {
   Section,
   CTALinkOrButton,
@@ -18,7 +17,7 @@ import {
   type Exercise,
   type UnitResource,
 } from '@bluedot/db';
-import type { GetGroupDiscussionResponse } from '../../pages/api/courses/[courseSlug]/[unitNumber]/groupDiscussion';
+import { skipToken } from '@tanstack/react-query';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -31,6 +30,7 @@ import { ROUTES } from '../../lib/routes';
 import {
   A, H1, P,
 } from '../Text';
+import { trpc } from '../../utils/trpc';
 
 const CourseIcon: React.FC = () => (
   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,15 +150,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
-  const [{ data: groupDiscussionWithZoomInfo, error: groupDiscussionError }] = useAxios<GetGroupDiscussionResponse>({
-    method: 'get',
-    url: `/api/courses/${courseSlug}/${unitNumber}/groupDiscussion`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, {
-    manual: !auth,
-  });
+  const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
+    auth
+      ? { courseSlug } : skipToken,
+  );
 
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;

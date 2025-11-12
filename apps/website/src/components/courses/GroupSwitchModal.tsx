@@ -1,5 +1,5 @@
 import React, {
-  useState, useMemo, useCallback,
+  useState, useMemo,
   useEffect,
 } from 'react';
 import {
@@ -13,11 +13,8 @@ import {
   ListBoxItem,
   Select as AriaSelect,
 } from 'react-aria-components';
-import useAxios from 'axios-hooks';
 import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
-import { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
-import { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -140,50 +137,37 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
-  const [error, setError] = useState<unknown | undefined>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
   const auth = useAuthStore((s) => s.auth);
 
-  // Fetch course and its units
-  const { data: courseData, isLoading: courseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
+  const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const [{ data: switchingData, loading }] = useAxios<GetGroupSwitchingAvailableResponse>({
-    url: `/api/courses/${courseSlug}/group-switching/available`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'get',
+  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
+
+  const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
+    onSuccess: () => {
+      setShowSuccess(true);
+    },
   });
 
-  const [, submitGroupSwitch] = useAxios<GroupSwitchingResponse, GroupSwitchingRequest>({
-    url: `/api/courses/${courseSlug}/group-switching`,
-    headers: auth?.token ? {
-      Authorization: `Bearer ${auth.token}`,
-    } : undefined,
-    method: 'post',
-  }, { manual: true });
+  const isSubmitting = submitGroupSwitchMutation.isPending;
 
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
-  const unitOptions = useMemo(() => {
-    if (!courseData?.units) return [];
+  const unitOptions = courseData?.units.map((u) => {
+    const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
+    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
 
-    return courseData.units.map((u) => {
-      const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
-      const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
-
-      return {
-        value: u.unitNumber.toString(),
-        label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
-        disabled: !isManualRequest && !hasAvailableDiscussions,
-      };
-    });
-  }, [courseData?.units, switchingData?.discussionsAvailable, isManualRequest]);
+    return {
+      value: u.unitNumber.toString(),
+      label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+      disabled: !isManualRequest && !hasAvailableDiscussions,
+    };
+  }) ?? [];
 
   // Note: There are cases of people being in multiple discussions per unit, and there may be
   // people in multiple groups too. We're not explicitly supporting that case at the moment, but
@@ -192,7 +176,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const oldGroup = groups.find((g) => g.userIsParticipant);
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
-  const getCurrentDiscussionInfo = useCallback((): GroupSwitchOptionProps | null => {
+  const getCurrentDiscussionInfo = (): GroupSwitchOptionProps | null => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
         id: oldDiscussion.discussion.id,
@@ -227,7 +211,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     }
 
     return null;
-  }, [isTemporarySwitch, oldDiscussion, oldGroup, selectedDiscussionId, selectedGroupId]);
+  };
 
   const currentInfo = getCurrentDiscussionInfo();
 
@@ -245,36 +229,21 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const handleSubmit = async () => {
     if (isSubmitDisabled) return;
 
-    setIsSubmitting(true);
-
     const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
     const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
     const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
     const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
-    try {
-      const payload: GroupSwitchingRequest = {
-        switchType,
-        notesFromParticipant: reason,
-        isManualRequest,
-        oldGroupId,
-        newGroupId,
-        oldDiscussionId,
-        newDiscussionId,
-      };
 
-      const response = await submitGroupSwitch({ data: payload });
-
-      if (response.data?.type === 'success') {
-        setShowSuccess(true);
-        setError(undefined);
-      } else {
-        throw new Error('Failed to submit request');
-      }
-    } catch (e) {
-      setError(e);
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitGroupSwitchMutation.mutate({
+      switchType,
+      notesFromParticipant: reason,
+      isManualRequest,
+      oldGroupId,
+      newGroupId,
+      oldDiscussionId,
+      newDiscussionId,
+      courseSlug,
+    });
   };
 
   const getModalTitle = () => {
@@ -371,9 +340,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   return (
     <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
       <div className="w-full max-w-[600px]">
-        {(loading || courseLoading) && <ProgressDots />}
-        {!!error && <ErrorSection error={error} />}
+        {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
+        {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
+        {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
           <div className="flex flex-col gap-4">
             {!isManualRequest && selectedOption && (
@@ -386,7 +356,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!loading && !courseLoading && !showSuccess && (
+        {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
         <form className="flex flex-col gap-5">
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80]">

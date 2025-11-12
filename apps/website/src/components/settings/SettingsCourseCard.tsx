@@ -7,6 +7,7 @@ import {
   CTALinkOrButton,
   addQueryParam,
   ClickTarget,
+  useCurrentTimeMs,
 } from '@bluedot/ui';
 import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
@@ -20,9 +21,10 @@ type SettingsCourseCardProps = {
 };
 
 const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseRegistration }) => {
+  const currentTimeMs = useCurrentTimeMs();
   const isCompleted = !!courseRegistration.certificateId;
   const formattedCompletionDate = new Date(
-    courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
+    courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs,
   ).toLocaleDateString(undefined, { dateStyle: 'long' });
 
   return (

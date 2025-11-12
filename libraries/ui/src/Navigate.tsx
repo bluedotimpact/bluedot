@@ -14,6 +14,10 @@ export const Navigate: React.FC<NavigateProps> = ({ url }) => {
 
   useEffect(() => {
     router.push(url);
+  // Note: exhaustive-deps disabled because this was known to generally work
+  // before the lint rule was added, and this component could easily cause subtle
+  // bugs. It may actually be more correct to include exhaustive dependencies.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;

@@ -1,6 +1,5 @@
-import type { CourseRegistration } from '@bluedot/db';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   afterEach,
@@ -10,9 +9,10 @@ import {
   it,
   vi,
 } from 'vitest';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 type MockCourseDetailsProps = {
   course: { title: string };
@@ -38,28 +38,34 @@ describe('CourseListRow', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration: CourseRegistration = {
-    autoNumberId: 1,
-    id: 'reg-1',
+  const mockCourseRegistration = createMockCourseRegistration({
     courseId: 'course-1',
-    certificateCreatedAt: null,
-    certificateId: null,
-    email: 'test@example.com',
-    userId: 'user-1',
-    firstName: 'Test',
-    lastName: 'User',
-    fullName: 'Test User',
-    courseApplicationsBaseId: null,
-    decision: null,
-    role: null,
-    lastVisitedUnitNumber: null,
-    lastVisitedChunkIndex: null,
-    roundStatus: 'Active',
-    source: null,
+  });
+
+  const mockMeetPerson = {
+    id: 'meet-person-1',
+    name: 'Test User',
+    applicationsBaseRecordId: null,
+    round: 'Round 1',
+    expectedDiscussionsParticipant: [],
+    expectedDiscussionsFacilitator: [],
+    attendedDiscussions: [],
+    groupsAsParticipant: [],
+    buckets: [],
+    autoNumberId: 1,
+  };
+
+  const mockDiscussions = {
+    discussions: [],
   };
 
   beforeEach(() => {
     vi.stubEnv('TZ', 'UTC');
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockDiscussions),
+    );
   });
 
   afterEach(() => {
@@ -160,13 +166,19 @@ describe('CourseListRow', () => {
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
 
     // Click to collapse
-    await user.click(collapseButton);
+    await act(async () => {
+      await user.click(collapseButton);
+    });
+
     expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
     expect(collapseButton).toHaveAttribute('aria-expanded', 'false');
     expect(collapseButton).toHaveAttribute('aria-label', 'Expand Introduction to AI Safety details');
 
     // Click to expand again
-    await user.click(collapseButton);
+    await act(async () => {
+      await user.click(collapseButton);
+    });
+
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
     expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
     expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');

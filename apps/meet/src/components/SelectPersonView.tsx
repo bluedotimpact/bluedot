@@ -39,6 +39,8 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
   }
 
   if (data.type === 'redirect') {
+    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+    // eslint-disable-next-line react-hooks/immutability
     window.location.href = data.to;
     return (
       <Page>
@@ -50,6 +52,8 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
   return (
     <Page>
       <NewText.H1 className="mb-4">Hey there! Who are you?</NewText.H1>
+      {/* TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488 */}
+      {/* eslint-disable-next-line react-hooks/purity */}
       {(data.meetingStartTime > (Date.now() / 1000) + 10 * 60)
           && (
             <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
@@ -57,6 +61,8 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
               <p>Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
             </div>
           )}
+      {/* TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488 */}
+      {/* eslint-disable-next-line react-hooks/purity */}
       {(data.meetingEndTime + 10 * 60 < (Date.now() / 1000))
           && (
             <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
