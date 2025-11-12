@@ -136,7 +136,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   }, [completionData]);
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
-    onSuccess: () => {
+    onSettled: () => {
       utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
     },
   });
