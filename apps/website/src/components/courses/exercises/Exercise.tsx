@@ -22,7 +22,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const { data: exerciseData, isLoading: exerciseLoading, error: exerciseError } = trpc.exercises.getExercise.useQuery({ exerciseId });
 
   // Only fetch user response when authenticated
-  const { data: responseData } = trpc.exercises.getExerciseResponse.useQuery(
+  const { data: responseData, isLoading: exerciseResponseLoading } = trpc.exercises.getExerciseResponse.useQuery(
     { exerciseId },
     {
       enabled: !!auth,
@@ -46,7 +46,7 @@ const Exercise: React.FC<ExerciseProps> = ({
     });
   };
 
-  if (exerciseLoading) {
+  if (exerciseLoading || exerciseResponseLoading) {
     return <ProgressDots />;
   }
 
