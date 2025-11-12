@@ -1,61 +1,11 @@
-import { z } from 'zod';
-import {
-  exerciseTable,
-  unitResourceTable,
-  unitTable,
-  resourceCompletionTable,
-} from '@bluedot/db';
+import { resourceCompletionTable } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { publicProcedure, protectedProcedure, router } from '../trpc';
+import { protectedProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
-  getUnitResources: publicProcedure
-    .input(z.object({
-      courseSlug: z.string().min(1),
-      unitNumber: z.string().min(1),
-    }))
-    .query(async ({ input }) => {
-      const { courseSlug, unitNumber } = input;
-
-      // Get the active unit
-      const unit = await db.get(unitTable, {
-        courseSlug,
-        unitNumber,
-        unitStatus: 'Active',
-      });
-
-      // Get unit resources and filter for Core/Further, then sort
-      const allUnitResources = await db.scan(unitResourceTable, { unitId: unit.id });
-      const unitResources = allUnitResources
-        .filter((resource) => resource.coreFurtherMaybe === 'Core' || resource.coreFurtherMaybe === 'Further')
-        .sort((a, b) => {
-          // Sort Core before Further
-          const isCoreA = a.coreFurtherMaybe === 'Core' ? 1 : 0;
-          const isCoreB = b.coreFurtherMaybe === 'Core' ? 1 : 0;
-          if (isCoreA !== isCoreB) {
-            return isCoreB - isCoreA;
-          }
-          // Then sort by readingOrder
-          const orderA = a.readingOrder ? parseInt(a.readingOrder) : Infinity;
-          const orderB = b.readingOrder ? parseInt(b.readingOrder) : Infinity;
-          return orderA - orderB;
-        });
-
-      // Get unit exercises with active status and sort by exercise number
-      const allUnitExercises = await db.scan(exerciseTable, {
-        unitId: unit.id,
-        status: 'Active',
-      });
-      const unitExercises = allUnitExercises.sort((a, b) => (a.exerciseNumber || '').localeCompare(b.exerciseNumber || ''));
-
-      return {
-        unitResources,
-        unitExercises,
-      };
-    }),
-
   getResourceCompletion: protectedProcedure
     .input(z.object({ unitResourceId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
