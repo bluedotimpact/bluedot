@@ -126,10 +126,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     error: completionError,
   } = trpc.resources.getResourceCompletion.useQuery(
     { unitResourceId: resource.id },
-    {
-      enabled: !!auth,
-      retry: false, // Don't retry on 404
-    },
+    { enabled: !!auth },
   );
 
   // Update local state when completion data is fetched the first time
