@@ -168,21 +168,21 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   }, [auth, isCompleted, resourceFeedback, resource.id, saveCompletionMutation]);
 
   // Handle marking resource as complete
-  const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
+  const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
     setIsCompleted(newIsCompleted);
     // Show feedback only when resource is completed
     setShowFeedback(newIsCompleted);
-    await handleSaveCompletion(newIsCompleted);
+    handleSaveCompletion(newIsCompleted);
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
-  const handleFeedback = useCallback(async (feedbackValue: ResourceFeedbackValue) => {
+  const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
     setResourceFeedback(newFeedback);
     setIsCompleted(true); // Mark as completed when feedback is given
     setShowFeedback(true); // Ensure feedback section stays visible
-    await handleSaveCompletion(true, newFeedback);
+    handleSaveCompletion(true, newFeedback);
   }, [resourceFeedback, handleSaveCompletion]);
 
   if (completionLoading) {
