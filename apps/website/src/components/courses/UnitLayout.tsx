@@ -31,6 +31,7 @@ import {
   A, H1, P,
 } from '../Text';
 import { trpc } from '../../utils/trpc';
+import GroupDiscussionBannerV2 from './GroupDiscussionBannerV2';
 
 const CourseIcon: React.FC = () => (
   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -378,6 +379,34 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </button>
           </div>
         </div>
+      </div>
+      <div className={clsx('block md:top-16 bg-color-canvas', isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]')}>
+        {groupDiscussionWithZoomInfo?.groupDiscussion && (
+          <div className="mb-8 md:mb-6">
+            <GroupDiscussionBannerV2
+              unit={unit}
+              groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+              userRole={groupDiscussionWithZoomInfo.userRole}
+              hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
+              // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
+              onClickPrepare={() => {
+                if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
+                  handleChunkSelect(0);
+                } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
+                  // Otherwise, try to navigate to the discussion's unit number
+                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
+                  if (discussionUnit) {
+                    router.push(discussionUnit.path);
+                  } else {
+                    handleChunkSelect(0); // fallback to current unit
+                  }
+                } else {
+                  handleChunkSelect(0); // fallback to current unit
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Main content section - positioned below breadcrumbs */}

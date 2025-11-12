@@ -175,7 +175,7 @@ export const groupDiscussionsRouter = router({
 
       return {
         groupDiscussion,
-        userRole,
+        userRole: 'facilitator', // TODO revert
         hostKeyForFacilitators,
       };
     }),
