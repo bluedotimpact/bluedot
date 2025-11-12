@@ -99,7 +99,7 @@ describe('LoginRedirectPage', () => {
 
   test('should navigate to the redirect_to value when auth is present', () => {
     vi.mocked(useAuthStore).mockReturnValue({ auth: { token: 'test-token' } });
-    vi.mocked(getQueryParam).mockReturnValue(CUSTOM_REDIRECT_PATH);
+    vi.mocked(getQueryParam).mockReturnValueOnce(CUSTOM_REDIRECT_PATH);
 
     render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
 
@@ -111,7 +111,7 @@ describe('LoginRedirectPage', () => {
   });
 
   test('if not authed, should createSigninRequest with redirect_to query param', async () => {
-    vi.mocked(getQueryParam).mockReturnValue(CUSTOM_REDIRECT_PATH);
+    vi.mocked(getQueryParam).mockReturnValueOnce(CUSTOM_REDIRECT_PATH);
 
     render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
 
@@ -155,6 +155,29 @@ describe('LoginRedirectPage', () => {
       },
     });
 
+    expect(window.location.href).toBe(OIDC_PROVIDER_URL);
+  });
+
+  test('should prefill email in login_hint when email query param is provided', async () => {
+    const testEmail = 'test@example.com';
+
+    vi.mocked(getQueryParam).mockReturnValueOnce(null); // redirect_to
+    vi.mocked(getQueryParam).mockReturnValueOnce(testEmail); // email
+
+    render(<LoginRedirectPage loginPreset={mockLoginPreset} />);
+
+    await waitFor(() => {
+      expect(OidcClient).toHaveBeenCalledTimes(1);
+    });
+
+    expect(OidcClient).toHaveBeenCalledWith({
+      ...mockLoginPreset.oidcSettings,
+      extraQueryParams: {
+        login_hint: testEmail,
+      },
+    });
+
+    expect(mockCreateSigninRequest).toHaveBeenCalledTimes(1);
     expect(window.location.href).toBe(OIDC_PROVIDER_URL);
   });
 });

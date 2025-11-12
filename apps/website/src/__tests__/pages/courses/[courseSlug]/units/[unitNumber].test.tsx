@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { ChunkWithContent } from '../../../../../pages/api/courses/[courseSlug]/[unitNumber]/index';
 import { renderWithHead } from '../../../../testUtils';
+import { TrpcProvider } from '../../../../trpcProvider';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -59,7 +59,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   autoNumberId: 1,
 });
 
-const createMockChunk = (unitId: string): ChunkWithContent => ({
+const createMockChunk = (unitId: string) => ({
   chunkId: 'recuC87TILbjW4eF4',
   unitId,
   chunkTitle: 'Test Chunk',
@@ -105,6 +105,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="0"
       />,
+      { wrapper: TrpcProvider },
     );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
@@ -139,6 +140,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
       />,
+      { wrapper: TrpcProvider },
     );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
@@ -173,6 +175,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
       />,
+      { wrapper: TrpcProvider },
     );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
@@ -206,6 +209,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
       />,
+      { wrapper: TrpcProvider },
     );
 
     expect(getByRole('heading', { level: 1 }).textContent).toBe('Test Chunk');
@@ -233,13 +237,15 @@ describe('CourseUnitPage', () => {
     }]);
 
     renderWithHead(
-      <CourseUnitPage
-        units={mockUnits}
-        unit={mockUnits[2]!}
-        chunks={mockChunks}
-        courseSlug="test-course"
-        unitNumber="3"
-      />,
+      <TrpcProvider>
+        <CourseUnitPage
+          units={mockUnits}
+          unit={mockUnits[2]!}
+          chunks={mockChunks}
+          courseSlug="test-course"
+          unitNumber="3"
+        />
+      </TrpcProvider>,
     );
 
     expect(document.title).toBe('Test Course: Unit 3 | Test Chunk');

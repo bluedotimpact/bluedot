@@ -1,7 +1,7 @@
 import { CTALinkOrButton, Input } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { FaUndo } from 'react-icons/fa';
 import { P } from '../../Text';
@@ -52,14 +52,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     handleSubmit,
     setValue,
     formState: { isSubmitting },
-    watch,
+    control,
   } = useForm<FormData>({
     defaultValues: {
       answer: formattedExerciseResponse,
     },
   });
 
-  const currentAnswer = watch('answer');
+  const currentAnswer = useWatch({ control, name: 'answer' });
 
   const handleOptionSelect = (option: string) => {
     setValue('answer', option);
@@ -130,6 +130,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
                 key={option}
                 {...register('answer')}
                 labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
+                inputClassName="flex-shrink-0"
                 type="radio"
                 value={option}
                 onChange={() => handleOptionSelect(option)}

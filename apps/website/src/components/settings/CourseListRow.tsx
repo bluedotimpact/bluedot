@@ -1,157 +1,121 @@
 import { useState, useEffect } from 'react';
-import { CTALinkOrButton, addQueryParam } from '@bluedot/ui';
+import { CTALinkOrButton, addQueryParam, useCurrentTimeMs } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
-import useAxios from 'axios-hooks';
+import { Course, CourseRegistration } from '@bluedot/db';
+import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
-import { GetGroupDiscussionResponse, GroupDiscussion } from '../../pages/api/group-discussions/[id]';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { trpc } from '../../utils/trpc';
+import { formatDateTimeRelative } from '../../lib/utils';
 
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  authToken?: string;
   isFirst?: boolean;
   isLast?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, authToken, isFirst = false, isLast = false,
+  course, courseRegistration, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
   const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
-  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
+  const currentTimeMs = useCurrentTimeMs();
+  const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
-  // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
-    method: 'get',
-    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
-    headers: authToken ? {
-      Authorization: `Bearer ${authToken}`,
-    } : undefined,
-  }, {
-    // Only fetch when not completed
-    useCache: false,
-    autoCancel: false,
-  });
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // Don't run this query when the course is already completed
+    isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
+  );
 
-  // Fetch individual discussions when we have the meetPerson data
+  // Edge case: The user has been accepted but has no group assigned
+  const isNotInGroup = meetPerson
+    && (!meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
+
+  // Only fetch expected discussions for the list row
+  // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
+  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const expectedDiscussionIds = isFacilitator
+    ? meetPerson?.expectedDiscussionsFacilitator || []
+    : meetPerson?.expectedDiscussionsParticipant || [];
+
+  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
+
+  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
+  );
+
+  // Sort discussions by startDateTime
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
+
   useEffect(() => {
-    const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson || isCompleted) {
-        setLoading(false);
-        return;
-      }
-
-      setLoading(true);
-
-      // Only fetch expected discussions for the list row
-      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const isFacilitator = courseRegistration.role === 'Facilitator';
-      const expectedDiscussionIds = isFacilitator
-        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
-
-      const expectedPromises = expectedDiscussionIds.map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          // Check if the response is successful before accessing discussion
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch (error) {
-          return null;
-        }
-      });
-
-      const expectedResults = await Promise.all(expectedPromises);
-
-      // Filter out nulls and sort by startDateTime
-      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      validExpected.sort((a: GroupDiscussion, b: GroupDiscussion) => a.startDateTime - b.startDateTime);
-
-      setExpectedDiscussions(validExpected);
-      setLoading(false);
-    };
-
-    fetchDiscussions();
-  }, [meetPersonData, isCompleted, courseRegistration.role]);
-
-  // Update current time every 30 seconds for real-time countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Helper function to format time until discussion
-  const formatTimeUntilDiscussion = (startDateTime: number): string => {
-    const timeUntilStart = startDateTime - currentTimeSeconds;
-
-    if (timeUntilStart <= 0) {
-      return 'Discussion has started';
+    if (isNotInGroup) {
+      setIsExpanded(false);
     }
-
-    const days = Math.floor(timeUntilStart / (24 * 60 * 60));
-    const hours = Math.floor((timeUntilStart % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((timeUntilStart % (60 * 60)) / 60);
-
-    if (days > 0) {
-      if (days === 1) {
-        return '1 day';
-      }
-      return `${days} days`;
-    }
-
-    if (hours > 0 && minutes > 0) {
-      return `${hours}hr ${minutes}min`;
-    }
-    if (hours > 0) {
-      return `${hours}hr`;
-    }
-    if (minutes > 0) {
-      return `${minutes}min`;
-    }
-    return 'Less than 1min';
-  };
+  }, [isNotInGroup]);
 
   // Get the next upcoming discussion from expectedDiscussions
   const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => discussion.endDateTime > currentTimeSeconds,
+    (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
   );
   const nextDiscussion = upcomingDiscussions[0];
 
   // Check if next discussion is starting soon (within 1 hour)
   const isNextDiscussionStartingSoon = nextDiscussion
-    ? (nextDiscussion.startDateTime - currentTimeSeconds) < 3600 && (nextDiscussion.startDateTime - currentTimeSeconds) > 0
+    ? (nextDiscussion.startDateTime * 1000 - currentTimeMs) < 3_600_000 && (nextDiscussion.startDateTime * 1000 - currentTimeMs) > 0
     : false;
 
-  // Determine button text and URL for next discussion
-  const getDiscussionButtonInfo = () => {
+  const getPrimaryCtaButton = () => {
+    if (isNotInGroup) {
+      return (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          onClick={() => setGroupSwitchModalOpen(true)}
+          className="w-full sm:w-auto"
+        >
+          Join group
+        </CTALinkOrButton>
+      );
+    }
+
     if (!nextDiscussion) return null;
 
     const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
     if (isNextDiscussionStartingSoon) {
       buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber) {
+    } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
-    const openInNewTab = isNextDiscussionStartingSoon;
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
 
-    return {
-      buttonText, buttonUrl, openInNewTab, disabled,
-    };
+    return (
+      <CTALinkOrButton
+        variant="primary"
+        size="small"
+        url={buttonUrl}
+        disabled={disabled}
+        target="_blank"
+        className="w-full sm:w-auto"
+      >
+        {buttonText}
+      </CTALinkOrButton>
+    );
   };
 
-  const discussionButtonInfo = getDiscussionButtonInfo();
+  const primaryCtaButton = getPrimaryCtaButton();
 
   // Format completion date
   const metadataText = isCompleted && courseRegistration.certificateCreatedAt
@@ -201,13 +165,13 @@ const CourseListRow = ({
                   </div>
                 )}
                 {/* Show upcoming discussion info when collapsed */}
-                {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+                {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                   <p
                     className={`text-size-xs mt-1 ${
                       isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
                     }`}
                   >
-                    Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                    Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
                   </p>
                 )}
               </div>
@@ -259,24 +223,15 @@ const CourseListRow = ({
                 </CTALinkOrButton>
               </div>
             )}
-            {/* Show primary button for discussion when collapsed on mobile */}
-            {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
+            {/* Show primary button for discussion or join group when collapsed on mobile */}
+            {!isExpanded && !isCompleted && !isLoading && primaryCtaButton && (
               <div
                 className="flex"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 role="presentation"
               >
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={discussionButtonInfo.buttonUrl}
-                  disabled={discussionButtonInfo.disabled}
-                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
-                  className="w-full"
-                >
-                  {discussionButtonInfo.buttonText}
-                </CTALinkOrButton>
+                {primaryCtaButton}
               </div>
             )}
           </div>
@@ -299,13 +254,13 @@ const CourseListRow = ({
                 </div>
               )}
               {/* Show upcoming discussion info when collapsed on desktop */}
-              {!isExpanded && !isCompleted && nextDiscussion && !loading && (
+              {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
                 <p
                   className={`text-size-xs mt-1 ${
                     isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
                   }`}
                 >
-                  Unit {nextDiscussion.unitNumber} starts in {formatTimeUntilDiscussion(nextDiscussion.startDateTime)}
+                  Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
                 </p>
               )}
             </div>
@@ -330,18 +285,8 @@ const CourseListRow = ({
                 </CTALinkOrButton>
               )}
 
-              {/* Show primary button for discussion when collapsed on desktop */}
-              {!isExpanded && !isCompleted && discussionButtonInfo && !loading && (
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={discussionButtonInfo.buttonUrl}
-                  disabled={discussionButtonInfo.disabled}
-                  target={discussionButtonInfo.openInNewTab ? '_blank' : undefined}
-                >
-                  {discussionButtonInfo.buttonText}
-                </CTALinkOrButton>
-              )}
+              {/* Show primary button for discussion or join group when collapsed on desktop */}
+              {!isExpanded && !isCompleted && !isLoading && primaryCtaButton}
 
               {/* Expand/collapse button - only for in-progress courses */}
               {!isCompleted && (
@@ -383,7 +328,19 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          authToken={authToken}
+          isLast={isLast}
+          attendedDiscussions={attendedDiscussions}
+          upcomingDiscussions={upcomingDiscussions}
+          isLoading={isLoading}
+        />
+      )}
+
+      {/* Group switching modal for participants without a group */}
+      {groupSwitchModalOpen && course.slug && (
+        <GroupSwitchModal
+          handleClose={() => setGroupSwitchModalOpen(false)}
+          initialSwitchType="Switch group permanently"
+          courseSlug={course.slug}
         />
       )}
     </div>

@@ -40,6 +40,8 @@ const DisplayPage = () => {
 };
 
 const Clock = () => {
+  // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+  // eslint-disable-next-line react-hooks/purity
   const [, setTime] = useState(Date.now());
 
   useEffect(() => {

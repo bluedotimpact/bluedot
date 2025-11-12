@@ -1,14 +1,13 @@
-import {
-  describe, it, expect, vi,
-} from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import useAxios from 'axios-hooks';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { render, screen, waitFor } from '@testing-library/react';
+import {
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseDetails from './CourseDetails';
-
-// Mock axios-hooks
-vi.mock('axios-hooks');
 
 // Mock GroupSwitchModal to avoid testing it here
 vi.mock('../courses/GroupSwitchModal', () => ({
@@ -28,39 +27,18 @@ describe('CourseDetails', () => {
     level: 'Beginner',
   });
 
-  const mockCourseRegistration = {
-    autoNumberId: 1,
-    id: 'reg-1',
+  const mockCourseRegistration = createMockCourseRegistration({
     courseId: 'course-1',
-    certificateCreatedAt: null,
-    certificateId: null,
-    email: 'test@example.com',
-    userId: 'user-1',
-    firstName: 'Test',
-    lastName: 'User',
-    fullName: 'Test User',
-    courseApplicationsBaseId: null,
-    decision: null,
-    role: null,
-    lastVisitedUnitNumber: null,
-    lastVisitedCourseContentPath: null,
-    lastVisitAt: null,
-    lastVisitedChunkIndex: null,
-    roundStatus: 'Active',
-  };
+  });
 
   it('displays expanded course details region', async () => {
-    // Mock the API call for discussions
-    vi.mocked(useAxios).mockReturnValue([{
-      data: { discussions: [] },
-      loading: false,
-      error: null,
-    }, () => {}, () => {}] as unknown as ReturnType<typeof useAxios>);
-
     render(
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        isLoading={false}
       />,
     );
 
@@ -71,6 +49,10 @@ describe('CourseDetails', () => {
 
     // Check for the upcoming discussions section
     expect(screen.getByText('Upcoming discussions')).toBeInTheDocument();
-    expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
+
+    // Wait for loading to complete and content to be displayed
+    await waitFor(() => {
+      expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
+    });
   });
 });

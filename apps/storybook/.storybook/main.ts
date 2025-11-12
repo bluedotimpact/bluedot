@@ -33,6 +33,22 @@ const config: StorybookConfig = {
 
   // Prevent indexing our storybook on search engines
   managerHead: (head) => `${head}<meta name="robots" content="noindex" />`,
+
+  webpackFinal: async (config) => {
+    // Replace the production tRPC client with Storybook-specific one
+    // This ensures components using trpc hooks get the right instance
+    if (config.resolve) {
+      const trpcAliasPath = join(__dirname, 'trpcAlias.ts');
+      const utilsTrpcPath = join(__dirname, '../../website/src/utils/trpc');
+
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        // Use absolute path to target the actual utils/trpc file
+        [utilsTrpcPath]: trpcAliasPath,
+      };
+    }
+    return config;
+  },
 };
 
 export default config;

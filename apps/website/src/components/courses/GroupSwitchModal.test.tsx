@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   render,
   screen,
@@ -15,14 +14,14 @@ import {
   beforeEach,
   type Mock,
 } from 'vitest';
-import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
 import type { Course, Unit } from '@bluedot/db';
-import GroupSwitchModal from './GroupSwitchModal';
-import type { GetGroupSwitchingAvailableResponse } from '../../pages/api/courses/[courseSlug]/group-switching/available';
-import type { GroupSwitchingRequest, GroupSwitchingResponse } from '../../pages/api/courses/[courseSlug]/group-switching';
+import { TRPCError } from '@trpc/server';
+import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
+import type { DiscussionsAvailable } from '../../server/routers/group-switching';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
-vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
   return {
@@ -31,7 +30,6 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-const mockedUseAxios = useAxios as unknown as Mock;
 const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
@@ -64,8 +62,7 @@ const mockCourseDataWithTwoUnits = {
 };
 
 // Match real API structure exactly
-const mockSwitchingData: GetGroupSwitchingAvailableResponse = {
-  type: 'success',
+const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: {
@@ -159,26 +156,22 @@ describe('GroupSwitchModal', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSubmitGroupSwitch = vi.fn();
 
     mockedUseAuthStore.mockImplementation((selector) => {
       const state = { auth: mockAuth };
       return selector(state);
     });
 
-    // Return mock data based on url to avoid handling the order of calls
-    mockedUseAxios.mockImplementation((config?: any) => {
-      if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-        return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-      }
-      if (config?.url?.includes('group-switching/available')) {
-        return [{ data: mockSwitchingData, loading: false, error: null }, vi.fn()];
-      }
-      if (config?.url?.includes('group-switching') && config?.method === 'post') {
-        return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
-      }
-      return [{ data: null, loading: false, error: null }, vi.fn()];
-    });
+    mockSubmitGroupSwitch = vi.fn();
+
+    server.use(
+      trpcMsw.courses.getBySlug.query(() => mockCourseData),
+      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
+      trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
+        mockSubmitGroupSwitch(input);
+        return undefined;
+      }),
+    );
   });
 
   describe('Happy paths', () => {
@@ -186,9 +179,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         // This input only appears after api calls are complete, so verifies that the whole component has rendered
@@ -218,26 +212,20 @@ describe('GroupSwitchModal', () => {
         expect(confirmButton).not.toBeDisabled();
       });
 
-      // Queue up mock for successful submit response
-      mockSubmitGroupSwitch.mockResolvedValueOnce({
-        data: { type: 'success' } as GroupSwitchingResponse,
-      });
-
       const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
       fireEvent.click(confirmButton);
 
       // Verify the API was called with correct data
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
-          data: {
-            switchType: 'Switch group for one unit',
-            notesFromParticipant: 'I have a scheduling conflict',
-            isManualRequest: false,
-            oldGroupId: undefined,
-            newGroupId: undefined,
-            oldDiscussionId: 'discussion-1',
-            newDiscussionId: 'discussion-2',
-          } as GroupSwitchingRequest,
+          switchType: 'Switch group for one unit',
+          notesFromParticipant: 'I have a scheduling conflict',
+          isManualRequest: false,
+          oldGroupId: undefined,
+          newGroupId: undefined,
+          oldDiscussionId: 'discussion-1',
+          newDiscussionId: 'discussion-2',
+          courseSlug: 'ai-safety',
         });
       });
 
@@ -250,9 +238,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -291,26 +280,20 @@ describe('GroupSwitchModal', () => {
         expect(confirmButton).not.toBeDisabled();
       });
 
-      // Queue up mock for successful submit response
-      mockSubmitGroupSwitch.mockResolvedValueOnce({
-        data: { type: 'success' } as GroupSwitchingResponse,
-      });
-
       const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
       fireEvent.click(confirmButton);
 
       // Verify the API was called with correct data
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
-          data: {
-            switchType: 'Switch group permanently',
-            notesFromParticipant: 'Permanent time conflict with work schedule',
-            isManualRequest: false,
-            oldGroupId: 'group-1',
-            newGroupId: 'group-2',
-            oldDiscussionId: undefined,
-            newDiscussionId: undefined,
-          } as GroupSwitchingRequest,
+          switchType: 'Switch group permanently',
+          notesFromParticipant: 'Permanent time conflict with work schedule',
+          isManualRequest: false,
+          oldGroupId: 'group-1',
+          newGroupId: 'group-2',
+          oldDiscussionId: undefined,
+          newDiscussionId: undefined,
+          courseSlug: 'ai-safety',
         });
       });
 
@@ -323,9 +306,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -345,11 +329,6 @@ describe('GroupSwitchModal', () => {
         target: { value: 'None of the available times work for my schedule' },
       });
 
-      // Queue up mock for successful submit response
-      mockSubmitGroupSwitch.mockResolvedValueOnce({
-        data: { type: 'success' } as GroupSwitchingResponse,
-      });
-
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       expect(submitButton).not.toBeDisabled();
       fireEvent.click(submitButton);
@@ -357,15 +336,14 @@ describe('GroupSwitchModal', () => {
       // Verify the API was called with correct data
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
-          data: {
-            switchType: 'Switch group for one unit',
-            notesFromParticipant: 'None of the available times work for my schedule',
-            isManualRequest: true,
-            oldGroupId: undefined,
-            newGroupId: undefined,
-            oldDiscussionId: 'discussion-1',
-            newDiscussionId: undefined,
-          } as GroupSwitchingRequest,
+          switchType: 'Switch group for one unit',
+          notesFromParticipant: 'None of the available times work for my schedule',
+          isManualRequest: true,
+          oldGroupId: undefined,
+          newGroupId: undefined,
+          oldDiscussionId: 'discussion-1',
+          newDiscussionId: undefined,
+          courseSlug: 'ai-safety',
         });
       });
 
@@ -379,7 +357,7 @@ describe('GroupSwitchModal', () => {
   describe('Form state', () => {
     test('Form starts with the unit specified by `currentUnit` pre-selected', async () => {
       const baseDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithUnit2: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataWithUnit2: DiscussionsAvailable = {
         ...mockSwitchingData,
         discussionsAvailable: {
           1: mockSwitchingData.discussionsAvailable[1] || [],
@@ -396,25 +374,18 @@ describe('GroupSwitchModal', () => {
         },
       };
 
-      mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataWithUnit2, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching') && config?.method === 'post') {
-          return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
-        }
-        return [{ data: null, loading: false, error: null }, vi.fn()];
-      });
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithUnit2),
+      );
 
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit2}
+          initialUnitNumber={mockUnit2.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -442,8 +413,7 @@ describe('GroupSwitchModal', () => {
     test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
       const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithDisabled: GetGroupSwitchingAvailableResponse = {
-        type: 'success',
+      const mockSwitchingDataWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
           { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
@@ -471,25 +441,18 @@ describe('GroupSwitchModal', () => {
       };
 
       // Override mock for this test
-      mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseDataWithTwoUnits, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataWithDisabled, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching') && config?.method === 'post') {
-          return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
-        }
-        return [{ data: null, loading: false, error: null }, vi.fn()];
-      });
+      server.use(
+        trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithDisabled),
+      );
 
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -545,31 +508,23 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switching is still available when there are no discussions available (in "Switch group for one unit" mode)', async () => {
-      const mockSwitchingDataEmpty: GetGroupSwitchingAvailableResponse = {
+      const mockSwitchingDataEmpty: DiscussionsAvailable = {
         ...mockSwitchingData,
         groupsAvailable: [],
         discussionsAvailable: { 1: [] },
       };
 
-      mockedUseAxios.mockImplementation((config?: any) => {
-        if (config?.url?.includes('/api/courses/') && !config?.url?.includes('group-switching')) {
-          return [{ data: mockCourseData, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching/available')) {
-          return [{ data: mockSwitchingDataEmpty, loading: false, error: null }, vi.fn()];
-        }
-        if (config?.url?.includes('group-switching') && config?.method === 'post') {
-          return [{ data: null, loading: false, error: null }, mockSubmitGroupSwitch];
-        }
-        return [{ data: null, loading: false, error: null }, vi.fn()];
-      });
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataEmpty),
+      );
 
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -593,26 +548,20 @@ describe('GroupSwitchModal', () => {
         target: { value: 'No available options work for me' },
       });
 
-      // Queue up mock for successful submit response
-      mockSubmitGroupSwitch.mockResolvedValueOnce({
-        data: { type: 'success' } as GroupSwitchingResponse,
-      });
-
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
 
       // Verify the manual request payload when no options are available
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
-          data: {
-            switchType: 'Switch group for one unit',
-            notesFromParticipant: 'No available options work for me',
-            isManualRequest: true,
-            oldGroupId: undefined,
-            newGroupId: undefined,
-            oldDiscussionId: undefined, // No discussions available
-            newDiscussionId: undefined,
-          } as GroupSwitchingRequest,
+          switchType: 'Switch group for one unit',
+          notesFromParticipant: 'No available options work for me',
+          isManualRequest: true,
+          oldGroupId: undefined,
+          newGroupId: undefined,
+          oldDiscussionId: undefined, // No discussions available
+          newDiscussionId: undefined,
+          courseSlug: 'ai-safety',
         });
       });
     });
@@ -621,9 +570,10 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -679,12 +629,24 @@ describe('GroupSwitchModal', () => {
 
   describe('Error handling', () => {
     test('API error during submission', async () => {
+      let callCount = 0;
+      server.use(
+        trpcMsw.groupSwitching.switchGroup.mutation(() => {
+          callCount += 1;
+          if (callCount === 1) {
+            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
+          }
+          return undefined;
+        }),
+      );
+
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          currentUnit={mockUnit1}
+          initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
         />,
+        { wrapper: TrpcProvider },
       );
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -701,9 +663,6 @@ describe('GroupSwitchModal', () => {
       await waitFor(() => {
         expect(screen.getByRole('button', { name: /Confirm selection of Evening Group B/i })).toBeInTheDocument();
       });
-
-      // Mock error response
-      mockSubmitGroupSwitch.mockRejectedValueOnce(new Error('Network error'));
 
       const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
       fireEvent.click(confirmButton);
@@ -722,31 +681,236 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
       });
 
-      // Queue up mock for successful submit response
-      mockSubmitGroupSwitch.mockResolvedValueOnce({
-        data: { type: 'success' } as GroupSwitchingResponse,
+      const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Participant without group', () => {
+    // Derive mock data from base by setting userIsParticipant to false everywhere
+    const mockSwitchingDataNoGroup: DiscussionsAvailable = {
+      ...mockSwitchingData,
+      groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
+        ...g,
+        userIsParticipant: false,
+        spotsLeftIfKnown: 3,
+      })),
+      discussionsAvailable: {
+        1: mockSwitchingData.discussionsAvailable[1]!.map((d) => ({
+          ...d,
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+        })),
+      },
+    };
+
+    beforeEach(() => {
+      vi.clearAllMocks();
+
+      mockedUseAuthStore.mockImplementation((selector) => {
+        const state = { auth: mockAuth };
+        return selector(state);
+      });
+
+      server.use(
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataNoGroup),
+      );
+    });
+
+    test('Modal does not show current group section when participant has no group', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Verify "You are currently in this group" or "You are switching out of this group" text does NOT appear
+      expect(screen.queryByText(/You are currently in this group/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/You are switching out of this group/i)).not.toBeInTheDocument();
+
+      expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+    });
+
+    test('Participant with no group can request non-manual switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Evening Group B')).toBeInTheDocument();
+      });
+
+      // Fill in form
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'This time works best for my schedule' },
+      });
+      const eveningGroupOption = screen.getByLabelText('Select Evening Group B');
+      fireEvent.click(eveningGroupOption);
+
+      const confirmButton = screen.getByRole('button', { name: /Confirm selection of Evening Group B/i });
+      fireEvent.click(confirmButton);
+
+      // Verify the API was called with correct data: newGroupId set, oldGroupId undefined
+      await waitFor(() => {
+        expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
+          switchType: 'Switch group permanently',
+          notesFromParticipant: 'This time works best for my schedule',
+          isManualRequest: false,
+          oldGroupId: undefined,
+          newGroupId: 'group-2',
+          oldDiscussionId: undefined,
+          newDiscussionId: undefined,
+          courseSlug: 'ai-safety',
+        });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Success!')).toBeInTheDocument();
+      });
+    });
+
+    test('Participant with no group can request manual permanent switch', async () => {
+      render(
+        <GroupSwitchModal
+          handleClose={() => {}}
+          initialUnitNumber={mockUnit1.unitNumber}
+          initialSwitchType="Switch group permanently"
+          courseSlug="ai-safety"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Wait for UI to update
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+        expect(screen.getByText('Morning Group A')).toBeInTheDocument();
+      });
+
+      // Click "Request manual switch" button
+      const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
+      fireEvent.click(manualSwitchButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+      });
+
+      // Fill in form
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
+      fireEvent.change(reasonTextarea, {
+        target: { value: 'I need to join a group as I was accepted late' },
       });
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
 
+      // Verify the API was called with correct data: no oldGroupId
       await waitFor(() => {
         expect(mockSubmitGroupSwitch).toHaveBeenCalledWith({
-          data: {
-            switchType: 'Switch group for one unit',
-            notesFromParticipant: 'Testing error handling',
-            isManualRequest: true,
-            oldGroupId: undefined,
-            newGroupId: undefined,
-            oldDiscussionId: 'discussion-1', // User's current discussion
-            newDiscussionId: undefined,
-          } as GroupSwitchingRequest,
+          switchType: 'Switch group permanently',
+          notesFromParticipant: 'I need to join a group as I was accepted late',
+          isManualRequest: true,
+          oldGroupId: undefined,
+          newGroupId: undefined,
+          oldDiscussionId: undefined,
+          newDiscussionId: undefined,
+          courseSlug: 'ai-safety',
         });
       });
 
       await waitFor(() => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('sortGroupSwitchOptions', () => {
+    test('sorts non-disabled before disabled', () => {
+      const options = [
+        {
+          groupName: 'Group A', dateTime: 1000, isDisabled: true, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Group B', dateTime: 500, isDisabled: false, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Group B');
+      expect(sorted[1]?.groupName).toBe('Group A');
+    });
+
+    test('sorts recurring times by different weekday (Monday first)', () => {
+      // Monday 10am UTC vs Friday 9am UTC (from previous week)
+      const monday10am = new Date('2024-01-08T10:00:00Z').getTime() / 1000; // Monday
+      const friday9am = new Date('2024-01-05T09:00:00Z').getTime() / 1000; // Friday (earlier week)
+      const options = [
+        {
+          groupName: 'Friday Group', dateTime: friday9am, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Monday Group', dateTime: monday10am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Monday Group');
+      expect(sorted[1]?.groupName).toBe('Friday Group');
+    });
+
+    test('sorts recurring times by time of day on same weekday', () => {
+      // Monday 9am UTC vs Monday 5pm UTC
+      const monday9am = new Date('2024-01-08T09:00:00Z').getTime() / 1000;
+      const monday5pm = new Date('2024-01-01T17:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Evening Group', dateTime: monday5pm, description: '', isRecurringTime: true,
+        },
+        {
+          groupName: 'Morning Group', dateTime: monday9am, description: '', isRecurringTime: true,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Morning Group');
+      expect(sorted[1]?.groupName).toBe('Evening Group');
+    });
+
+    test('sorts non-recurring times by absolute timestamp', () => {
+      const earlier = new Date('2024-01-15T10:00:00Z').getTime() / 1000;
+      const later = new Date('2024-01-20T09:00:00Z').getTime() / 1000;
+      const options = [
+        {
+          groupName: 'Later Discussion', dateTime: later, description: '', isRecurringTime: false,
+        },
+        {
+          groupName: 'Earlier Discussion', dateTime: earlier, description: '', isRecurringTime: false,
+        },
+      ];
+      const sorted = sortGroupSwitchOptions(options);
+      expect(sorted[0]?.groupName).toBe('Earlier Discussion');
+      expect(sorted[1]?.groupName).toBe('Later Discussion');
     });
   });
 });

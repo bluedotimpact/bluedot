@@ -1,25 +1,14 @@
-import {
-  ProgressDots,
-  withAuth,
-  ErrorSection,
-} from '@bluedot/ui';
+import { ProgressDots, ErrorSection } from '@bluedot/ui';
 import Head from 'next/head';
-import useAxios from 'axios-hooks';
-import { GetUserResponse } from '../api/users/me';
 import { ROUTES } from '../../lib/routes';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import CoursesContent from '../../components/settings/CoursesContent';
+import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsCourses;
 
-const CoursesSettingsPage = withAuth(({ auth }) => {
-  const [{ data: userData, loading: userLoading, error: userError }] = useAxios<GetUserResponse>({
-    method: 'get',
-    url: '/api/users/me',
-    headers: {
-      Authorization: `Bearer ${auth.token}`,
-    },
-  });
+const CoursesSettingsPage = () => {
+  const { data: user, isLoading: userLoading, error: userError } = trpc.users.getUser.useQuery();
 
   return (
     <div>
@@ -28,13 +17,13 @@ const CoursesSettingsPage = withAuth(({ auth }) => {
       </Head>
       {userLoading && <ProgressDots />}
       {userError && <ErrorSection error={userError} />}
-      {userData?.user && (
+      {user && (
         <SettingsLayout activeTab="courses" route={CURRENT_ROUTE}>
-          <CoursesContent authToken={auth.token} />
+          <CoursesContent />
         </SettingsLayout>
       )}
     </div>
   );
-});
+};
 
 export default CoursesSettingsPage;

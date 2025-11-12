@@ -122,6 +122,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     // Error fetching job data (likely not found)
     return {
       notFound: true,
+      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

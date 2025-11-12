@@ -4,11 +4,14 @@ import {
   Section,
   Breadcrumbs,
   BluedotRoute,
+  CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
-import TestimonialSubSection from '../components/homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import { AGI_STRATEGY_APPLICATION_URL } from '../components/lander/course-content/AgiStrategyContent';
+import { BIOSECURITY_APPLICATION_URL } from '../components/lander/course-content/BioSecurityContent';
+import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../components/lander/course-content/TechnicalAiSafetyContent';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'Facilitating our courses',
@@ -21,142 +24,131 @@ const ContentPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="description" content="Join us as a facilitator to expand the field and support up-and-coming talent. Excellent facilitators are critical for us to deliver a high-quality experience to course participants." />
       </Head>
       <HeroSection>
         <HeroH1>{CURRENT_ROUTE.title}</HeroH1>
+        <p className="text-center text-size-lg md:text-xl opacity-80 mt-6 max-w-3xl mx-auto">
+          Join us as a facilitator to expand the field and support up-and-coming talent.
+        </p>
       </HeroSection>
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
-## Join us as a facilitator to expand the field and support up and coming talent.
-
-_Applications are not currently open for facilitators._
-
 Excellent facilitators are critical for us to deliver a high-quality experience to course participants, and ultimately get more top talent working on the world's most pressing issues.
-
-## What participants had to say about their facilitators`}
-        </MarkdownExtendedRenderer>
-        <br />
-        <TestimonialSubSection testimonials={[
-          {
-            quote: 'Vojta provided useful insights into how AI systems worked when we were confused-- he was particularly helpful in sharing his technical understanding. I also feel like he had an apt firmness in implementing the structure of the session; he moved us on promptly but naturally if we were pushing on time, which allowed us to get through all the material.',
-            name: 'Janvi Ahuja',
-            role: 'PhD student at the University of Oxford',
-            imageSrc: '/images/facilitate/janvi.jpg',
-          },
-          {
-            quote: 'What James did really well was to add value to the reading materials rather than just repeat them. Our discussions would tease out the complexity of some of the topics really well, and really force us to think and challenge our assumptions.',
-            name: "Denis O'Sullivan",
-            role: 'Senior Consultant',
-            imageSrc: '/images/facilitate/denis.jpg',
-          },
-          {
-            quote: "Dewi was really fantastic and I'm grateful to them for taking the time to facilitate this course. I really learned a lot and I think this will help me do my job more effectively going forward.",
-            name: 'Paige Henchen',
-            role: 'Chief of Staff at GiveWell',
-            imageSrc: '/images/facilitate/paige.jpg',
-          },
-          {
-            quote: 'David was a phenomenal facilitator, he was always on time and well versed in the resources, enriched discussion with important extracurricular insights, moderated and led the activities to *only* productive spaces, and made everyone feel heard. I think he has this natural aptitude for a confident and competence-based leadership/teaching role. I was super impressed with both his intellect, knowledge of the subject and social skills.',
-            name: 'Marta Bienkiewicz',
-            role: 'Research Fellow at EuroMov',
-            imageSrc: '/images/facilitate/marta.jpg',
-          },
-        ]}
-        />
-        <MarkdownExtendedRenderer>{`## Why facilitate?
-
-<Collapsible title="Support participants">
-You'll be doing hugely valuable and important work. Participants tell us again and again that they really appreciate what facilitators add to our courses, and that facilitation supports them with their learning.
-
-As well as helping people develop the knowledge and skills they need to contribute to the field, you'll also be giving them the confidence that they are at the level where they can start exploring impactful opportunities.
-
-You'll also help participants become much more well rounded learners by encouraging them to think through concepts deeply, debate with others, and consider more points of view.
-</Collapsible>
-
-<Collapsible title="Better understand the subject area yourself">
-Despite facilitators already being knowledgeable in the subject area, most still end up learning a lot by helping us run the course!
-
-You'll find that participants often bring in new ideas to debates, ask insightful questions that require deep thought, and perform novel research during the project sprint. Facilitators have also often gained new insights by researching questions asked by participants that they couldn't answer immediately.
-</Collapsible>
-
-<Collapsible title="Developing leadership, teaching and social skills">
-You'll be the voice of the discussion. We'll provide you with resources to prepare for this, including providing facilitator training units before the course starts, and structured guides for running each week's activities (you're not expected to come up with unit plans yourself, although you're welcome to adapt ours to better suit your group!).
-
-Additionally, you'll be engaging with many people who are new to the field. This is a good opportunity to pick up on newcomers' understandings and what people are currently interested in.
-
-Finally, you'll also get lots of experience explaining complex topics. This is great practice for people considering going into policy, where you'll often need to explain things in simple language to non-experts.
-</Collapsible>
-
-<Collapsible title="Meet great people">
-We'll introduce you to other facilitators, who you might collaborate with or get feedback on your ideas from. We also do work to match participants with appropriate facilitators, so that you are likely to be paired with participants you might consider as future collaborators or colleagues. You'll gain a lot of context on each participant's potential and knowledge, to help inform if you'd like to continue working with them.
-</Collapsible>
 
 ## What we look for in facilitators
 
-To apply for this role, you must:
-* Be familiar with the materials in our curriculum.
-* Have previously worked in an area relevant to the course material. You don't need to be currently working in the field.
-* Be fluent in English, and have reliable equipment that works well for video calls.
+As a facilitator you will be identifying and developing the talent that will determine whether humanity successfully navigates AGI. This requires a rare combination of deep expertise, pedagogical excellence, and commitment to the mission.
 
-You might be particularly good for this role if you:
-* Understand the field beyond our curriculum.
-* Have contacts in the field to help participants make further connections.
-* Can ask people good questions, explain technical concepts to learners, and moderate productive discussions.
-* Have experience using active learning techniques.
-* Have previously conducted research in the field.
+### Core Requirements
 
-## What facilitation looks like
+**1. Deep Domain Expertise**
+* Knowledge in AI safety/governance, Biosecurity that goes well beyond our curriculum
+* Experience doing relevant things (research, fieldbuilding, governance)
+* The ambition and ability to challenge and guide participants who may themselves become leaders in the field
 
-Facilitation lasts 14 weeks in total, and the time commitment is about 5 hours per week. It can be done alongside other full-time work or study. Your experience is important to us, and we value your time very highly.
+**2. Discussion Leadership, Not Lecturing**
+* Masters of the Socratic method — you ask penetrating questions, uncover insights, and inspire rather than deliver content
+* Ability to foster productive debate and peer-to-peer learning
+* Real-time adaptability to participant needs
+* Creating intimate, high-engagement environments (6-10 person cohorts)
 
-Before the course, you'll have two weeks of pre-course facilitation training. This focuses on facilitation skill, rather than subject knowledge. Each week, this involves 2 hours of independent learning and a 2 hour facilitated group discussion (hosted by the BlueDot team).
+**3. Mission-Driven, Impact First**
+* Understanding that this is about building and directing talent for a better future
+* Seeing this as a high-leverage way to shape AI's trajectory
+* Motivated by the fact that participants will go on to shape AI policy, lead safety research, or found new organizations
 
-The course begins with an icebreaker unit to get to know your group.
+**4. Career Catalyst, Talent Scout**
+* Ability to accelerate participants into opportunities beyond the course
+* 1:1 mentorship, scouting for top talent, good taste
 
-During weeks 1 to 8 of the course, you'll be facilitating online group discussion based on the curriculum. We'll give you a step-by-step guide to follow for each unit, to facilitate a fun and engaging experience for you and your participants. You can adapt those plans if you have particular things you want to try with your group. We expect each week will include 2 hours to refresh your knowledge of the curriculum, a 2 hour facilitated group discussion, and 1 hour for other prep, admin or follow-ups.
+### Strong Signals We Look For
 
-For the project sprint in weeks 8 to 12, you'll host online check-ins. This is generally more relaxed, with each week including a 1-2 hour facilitated group discussion, and 1 hour for other prep, admin or follow-ups.
+* Public writing on AI safety/governance or Biosecurity
+* Experience at relevant organizations or fellowships
+* Track record of mentoring or teaching complex topics
+* Active in the AI safety or Biosecurity community with strong network
+* Other people ask for your takes or recommendations
+* Growth mindset — you're excited to further develop your skills with our support
 
-At all times we'll be here to support you, and ensure things are going smoothly. We'll invite you to optional facilitator check-ins, have a shared Slack channel for facilitators, and at all times are just a Slack message away!
+### What Doesn't Work
+
+* Sees this as "just facilitation" or low-effort passive income
+* Prefers lecture-style teaching over discussion
+* No direct experience in AI safety/governance
+* Unable to challenge participants or push thinking forward
+
+The right candidates see these positions as either:
+* A way to multiply their existing impact (adjuncts)
+* A complementary path to their research (fellow-researchers)
+* A high-leverage, high-impact career move (dedicated educators)
 
 ## Compensation
 
-After the course we will pay you for your support with the course.
+We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session.
 
-Current rates for facilitators are £80 per learning unit of the course and facilitator training, and £60 for icebreaker and project sprint units (due to the lower time requirement). If you facilitate one group, this comes to £1,180:
+### What counts as a session?
 
-* 3 facilitator training units (£240)
-* 1 icebreaker unit (£60)
-* 8 discussion units (£640)
-* 4 project sprint units (£240)
+A "session" includes both:
+* **Preparation time** – reviewing materials, exercise responses and preparing activities
+* **Discussion time** – the actual facilitated group discussion with participants
 
-If you facilitate more than one group, we'll pay you in line with these rates. This works out as:
+The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and Biosecurity courses run for 6 sessions.
 
-* 1 group: £1,180
-* 2 groups: £2,120
-* 3 groups: £3,060
-* 4 groups: £4,000
-* 5 groups: £4,940
-* 6 groups: £5,880
-* 7 groups: £6,820
-* 8 groups: £7,760
-* 9 groups: £8,700
-* 10 groups: £9,640
+### Additional compensation
 
-Based on data from previous facilitators about how much preparation and other work is required, this corresponds to a rate of £27-40/hour (note this is indicative, and all pay will only be via the rates above). The range depends on how familiar you already are with the material, and how many groups you take.
+We also pay for **1:1 mentoring and talent development activities** at the value of 1 session ($250). This recognizes the high-leverage impact of individualized support in helping participants launch careers in AI safety.
 
-We sometimes disband or re-shuffle groups due to attendance. You may also volunteer to cover other facilitator's group discussions. In either of these cases, we will update your compensation in line with our rates above.
+If you facilitate more than one group, we'll pay you at the same rate for the additional time commitment.
+
+We sometimes disband or re-shuffle groups due to attendance. You may also volunteer to cover other facilitator's group discussions. In either of these cases, we will update your compensation accordingly.
+
+### Payment methods
 
 We can pay facilitators in countries supported by [Wise](https://wise.com/help/articles/2571942/what-countriesregions-can-i-send-to) or PayPal UK. This means we are unable to send payments to sanctioned countries.
+`}
+        </MarkdownExtendedRenderer>
+      </Section>
 
-## How to apply
+      <Section className="max-w-3xl bg-gray-50 rounded-lg">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-center">Apply to facilitate a course</h2>
+        <p className="text-center mb-8 text-size-lg opacity-80">
+          Choose the course you'd like to facilitate and apply through the application form:
+        </p>
+        <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+          <CTALinkOrButton
+            url={AGI_STRATEGY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            AGI Strategy
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            url={BIOSECURITY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            Biosecurity
+          </CTALinkOrButton>
+          <CTALinkOrButton
+            url={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+            variant="primary"
+            className="w-full text-center"
+          >
+            Technical AI Safety
+          </CTALinkOrButton>
+        </div>
+        <p className="text-center mt-6 text-size-sm opacity-70">
+          More courses coming soon. Check back regularly for updates.
+        </p>
+      </Section>
 
-_Applications are not currently open for facilitators._
+      <Section className="max-w-3xl">
+        <MarkdownExtendedRenderer>{`
+## Any other questions?
 
-#### Any other questions?
-
-We're really keen to hear from people interested in facilitating our courses. If you have any questions please do [contact us](https://bluedot.org/contact)!
+We're really keen to hear from people interested in facilitating our courses. If you have any questions please contact [joshua@bluedot.org](mailto:joshua@bluedot.org) or reach out via our [contact page](https://bluedot.org/contact)!
 `}
         </MarkdownExtendedRenderer>
       </Section>

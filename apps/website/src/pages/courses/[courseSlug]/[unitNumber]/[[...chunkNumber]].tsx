@@ -1,15 +1,18 @@
-import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
-import { ProgressDots, useAuthStore } from '@bluedot/ui';
-import { useEffect } from 'react';
+import {
+  chunkTable, type Exercise, exerciseTable, type UnitResource, unitResourceTable, unitTable,
+} from '@bluedot/db';
+import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { isHttpError } from 'http-errors';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { UnitWithContent, getUnitWithContent } from '../../../api/courses/[courseSlug]/[unitNumber]';
-import { GetCourseRegistrationResponse } from '../../../api/course-registrations/[courseId]';
+import db from '../../../../lib/api/db';
+import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
+import { trpc } from '../../../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../../../lib/constants';
 
-type CourseUnitChunkPageProps = UnitWithContent & {
+type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
   unitNumber: string;
 };
@@ -66,28 +69,22 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  // If we're logged in, ensures a course registration is recorded for this course
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_ignored, fetchCourseRegistration] = useAxios<GetCourseRegistrationResponse>({
-    method: 'get',
-    url: `/api/course-registrations/${unit.courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
+  const { latestUtmParams } = useLatestUtmParams();
+  const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
 
   useEffect(() => {
-    const shouldRecordCourseRegistration = !!(auth && unit.courseId);
+    // FoAI course only: If we're logged in, ensures a course registration is recorded
+    const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
-      fetchCourseRegistration().catch(() => { /* no op, as we ignore errors */ });
+      createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, fetchCourseRegistration]);
+  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
       router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
     }
-  }, [chunkIndex, courseSlug, unitNumber, router]);
+  }, [chunkIndex, courseSlug, unitNumber, router, chunks]);
 
   const handleSetChunkIndex = (newIndex: number) => {
     router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
@@ -131,7 +128,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   }
 
   try {
-    const unitWithContent = await getUnitWithContent(courseSlug, unitNumber);
+    const unitWithContent = await getUnitWithChunks(courseSlug, unitNumber);
 
     return {
       props: {
@@ -141,12 +138,77 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
       },
     };
   } catch (error) {
-    if (isHttpError(error) && error.statusCode === 404) {
+    if (error instanceof Error && error.message === 'NOT_FOUND') {
       return { notFound: true };
     }
     throw error;
   }
 };
+
+type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
+async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
+  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
+
+  // Sort units numerically since database text sorting might not handle numbers correctly
+  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+
+  const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
+  if (!unit) {
+    throw new Error('NOT_FOUND');
+  }
+
+  const allChunks = await db.scan(chunkTable, { unitId: unit.id });
+  const chunks = allChunks
+    .filter((chunk) => chunk.status === 'Active')
+    .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
+
+  // Resolve chunk resources and exercises with proper ordering
+  const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
+    let resources: UnitResource[] = [];
+    let exercises: Exercise[] = [];
+
+    // Fetch chunk resources, sort by readingOrder
+    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
+      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
+      const resolvedResources = await Promise.all(resourcePromises);
+      resources = resolvedResources
+        .filter((r): r is UnitResource => r !== null)
+        .sort((a, b) => {
+          const orderA = Number(a.readingOrder) || Infinity;
+          const orderB = Number(b.readingOrder) || Infinity;
+          return orderA - orderB;
+        });
+    }
+
+    // Fetch chunk exercises
+    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
+      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
+      const resolvedExercises = await Promise.all(exercisePromises);
+
+      // Filter for exercises that exist and are active, sort by exerciseNumber
+      exercises = resolvedExercises
+        .filter((e): e is Exercise => e !== null && e.status === 'Active')
+        .sort((a, b) => {
+          const numA = Number(a.exerciseNumber) || Infinity;
+          const numB = Number(b.exerciseNumber) || Infinity;
+          return numA - numB;
+        });
+    }
+
+    return {
+      ...chunk,
+      resources,
+      exercises,
+    };
+  }));
+
+  return {
+    units,
+    unit,
+    chunks: chunksWithContent,
+  };
+}
 
 CourseUnitChunkPage.hideFooter = true;
 

@@ -5,6 +5,6 @@ export const minioPvc = new k8s.core.v1.PersistentVolumeClaim('minio-pvc', {
   metadata: { name: 'minio-pvc' },
   spec: {
     accessModes: ['ReadWriteOnce'],
-    resources: { requests: { storage: '10Gi' } },
+    resources: { requests: { storage: '50Gi' } },
   },
 }, { provider });

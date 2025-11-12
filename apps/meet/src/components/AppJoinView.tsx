@@ -30,6 +30,8 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
     }, 1000);
     // eslint-disable-next-line consistent-return
     return () => clearTimeout(timer);
+    // TODO adopt react-hooks here, see https://github.com/bluedotimpact/bluedot/issues/1488
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [secondsToOpen]);
 
   const meetingHostKeyMessage = meetingHostKey ? (

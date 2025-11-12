@@ -1,17 +1,15 @@
 import {
   addQueryParam,
-  Auth,
-  Card, CTALinkOrButton, ProgressDots, useAuthStore,
+  Card, CTALinkOrButton, ProgressDots, useAuthStore, useCurrentTimeMs,
 } from '@bluedot/ui';
-import useAxios from 'axios-hooks';
 import React from 'react';
 import { FaAward } from 'react-icons/fa6';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../utils/getLoginUrl';
-import { GetCourseRegistrationResponse } from '../../pages/api/course-registrations/[courseId]';
 import { ROUTES } from '../../lib/routes';
-import { RequestCertificateRequest, RequestCertificateResponse } from '../../pages/api/certificates/request';
+import { trpc } from '../../utils/trpc';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 type CertificateConfig = {
   useCard: boolean;
@@ -49,11 +47,9 @@ type CertificateConfig = {
   };
 };
 
-const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
-
 const regularCourseConfig: CertificateConfig = {
   useCard: true,
-  showCommunity: true,
+  showCommunity: false,
   texts: {
     notLoggedIn: {
       title: 'Your Certificate',
@@ -85,7 +81,7 @@ const regularCourseConfig: CertificateConfig = {
 
 const foaiCourseConfig: CertificateConfig = {
   useCard: false,
-  showCommunity: false,
+  showCommunity: true,
   texts: {
     notLoggedIn: {
       header: "Download your certificate, show you're taking AI seriously",
@@ -208,57 +204,43 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
     );
   }
 
-  return <CertificateLinkCardAuthed courseId={courseId} auth={auth} config={config} />;
+  return <CertificateLinkCardAuthed courseId={courseId} config={config} />;
 };
 
-const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Auth; config: CertificateConfig }> = ({
+const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: CertificateConfig }> = ({
   courseId,
-  auth,
   config,
 }) => {
-  const [{ data, loading, error }, refetch] = useAxios<GetCourseRegistrationResponse>({
-    method: 'get',
-    url: `/api/course-registrations/${courseId}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  });
+  const {
+    data: courseRegistration, isLoading: loading, error, refetch,
+  } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
+  const currentTimeMs = useCurrentTimeMs();
 
-  const [{ loading: certificateRequestLoading, error: certificateRequestError }, refetchCertificateRequest] = useAxios<RequestCertificateResponse, RequestCertificateRequest>({
-    method: 'post',
-    url: '/api/certificates/request',
-    data: {
-      courseId,
-    },
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
-
-  const requestCertificate = async () => {
-    try {
-      await refetchCertificateRequest();
+  const requestCertificateMutation = trpc.certificates.request.useMutation({
+    onSuccess: async () => {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === 'rec0Zgize0c4liMl5') {
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
         window.dataLayer.push({
           event: 'completers',
           course_slug: 'future-of-ai',
         });
       }
-    } catch {
-      // Ignore, handled already by useAxios
-    }
+    },
+  });
+
+  const requestCertificate = () => {
+    requestCertificateMutation.mutate({ courseId });
   };
 
-  if (error || certificateRequestError) {
+  if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
-        <ErrorView error={error || certificateRequestError} />
+        <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"
-          onClick={() => (error ? refetch() : requestCertificate()).catch(() => { /* ignore */ })}
-          disabled={loading || certificateRequestLoading}
+          onClick={() => (error ? refetch() : requestCertificate())}
+          disabled={loading || requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
@@ -283,7 +265,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (loading || certificateRequestLoading) {
+  if (loading || requestCertificateMutation.isPending) {
     if (config.useCard) {
       return (
         <Card
@@ -302,8 +284,10 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
     );
   }
 
-  if (data?.courseRegistration.certificateId) {
-    const formattedCertificateDate = new Date(data.courseRegistration.certificateCreatedAt ? data.courseRegistration.certificateCreatedAt * 1000 : Date.now()).toLocaleDateString(undefined, { dateStyle: 'long' });
+  if (courseRegistration?.certificateId) {
+    const formattedCertificateDate = new Date(
+      courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs,
+    ).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior
@@ -320,12 +304,12 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-bluedot-black">Earned by {data.courseRegistration.fullName || data.courseRegistration.email}</p>
+                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName || courseRegistration.email}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
             </div>
             <CTALinkOrButton
-              url={addQueryParam(ROUTES.certification.url, 'id', data.courseRegistration.certificateId)}
+              url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)}
               variant="primary"
               target="_blank"
               className="lg:ml-auto"
@@ -341,7 +325,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
   }
 
   // Only future-of-ai certificates can be earned independently
-  if (data?.courseRegistration.courseId !== 'rec0Zgize0c4liMl5') {
+  // Note: the check `courseRegistration?.courseId !== FOAI_COURSE_ID` is required because we
+  // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
+  if (courseRegistration?.courseId !== FOAI_COURSE_ID) {
     const { notEligible } = config.texts;
     return (
       <Card
@@ -375,7 +361,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
               <CTALinkOrButton
                 variant="primary"
                 onClick={requestCertificate}
-                disabled={certificateRequestLoading}
+                disabled={requestCertificateMutation.isPending}
                 className="w-full"
               >
                 {requestCertConfig.buttonLabel}
@@ -386,7 +372,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { auth: Aut
           <CTALinkOrButton
             variant="primary"
             onClick={requestCertificate}
-            disabled={certificateRequestLoading}
+            disabled={requestCertificateMutation.isPending}
           >
             {requestCertConfig.buttonLabel}
           </CTALinkOrButton>

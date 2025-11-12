@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from 'next';
-import { getAllActiveCourses } from '../api/courses';
+import { getAllActiveCourses } from '../../server/routers/courses';
 
 const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/courses`;
 

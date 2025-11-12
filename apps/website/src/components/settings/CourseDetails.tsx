@@ -1,126 +1,49 @@
-import useAxios from 'axios-hooks';
-import { useState, useEffect } from 'react';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
-import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
-import { GroupDiscussion, GetGroupDiscussionResponse } from '../../pages/api/group-discussions/[id]';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { Course, CourseRegistration } from '@bluedot/db';
+import { CTALinkOrButton, ProgressDots, useCurrentTimeMs } from '@bluedot/ui';
+import { useState } from 'react';
 import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import GroupSwitchModal from '../courses/GroupSwitchModal';
 
-const HOUR_IN_SECONDS = 60 * 60; // 1 hour in seconds
+const HOUR_IN_MS = 60 * 60 * 1000;
 
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  authToken?: string;
+  attendedDiscussions: GroupDiscussion[];
+  upcomingDiscussions: GroupDiscussion[];
+  isLoading: boolean;
+  isLast?: boolean;
 };
 
 const CourseDetails = ({
-  course, courseRegistration, authToken,
+  course,
+  courseRegistration,
+  attendedDiscussions,
+  upcomingDiscussions,
+  isLoading,
+  isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
-  const [expectedDiscussions, setExpectedDiscussions] = useState<GroupDiscussion[]>([]);
-  const [attendedDiscussions, setAttendedDiscussions] = useState<GroupDiscussion[]>([]);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
-  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(Math.floor(Date.now() / 1000));
-
-  // Fetch meetPerson data to get discussion IDs
-  const [{ data: meetPersonData, loading }] = useAxios<{ type: 'success'; meetPerson: MeetPerson | null }>({
-    method: 'get',
-    url: `/api/meet-person?courseRegistrationId=${courseRegistration.id}`,
-    headers: authToken ? {
-      Authorization: `Bearer ${authToken}`,
-    } : undefined,
-  });
+  const currentTimeMs = useCurrentTimeMs();
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  // Fetch individual discussions when we have the meetPerson data
-  useEffect(() => {
-    const fetchDiscussions = async () => {
-      if (!meetPersonData?.meetPerson) {
-        return;
-      }
-
-      // Fetch all expected discussions (will be filtered later to show only those not ended)
-      // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-      const expectedDiscussionIds = isFacilitator
-        ? (meetPersonData.meetPerson.expectedDiscussionsFacilitator || [])
-        : (meetPersonData.meetPerson.expectedDiscussionsParticipant || []);
-
-      const expectedPromises = expectedDiscussionIds.map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      });
-
-      // Fetch all attended discussions (all will be shown, no filtering)
-      const attendedPromises = (meetPersonData.meetPerson.attendedDiscussions || []).map(async (id) => {
-        try {
-          const response = await fetch(`/api/group-discussions/${id}`);
-          const data: GetGroupDiscussionResponse = await response.json();
-          if (data.type === 'success') {
-            return data.discussion;
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      });
-
-      const [expectedResults, attendedResults] = await Promise.all([
-        Promise.all(expectedPromises),
-        Promise.all(attendedPromises),
-      ]);
-
-      // Filter out nulls and sort by startDateTime
-      const validExpected = expectedResults.filter((d): d is GroupDiscussion => d !== null);
-      const validAttended = attendedResults.filter((d): d is GroupDiscussion => d !== null);
-
-      validExpected.sort((a, b) => a.startDateTime - b.startDateTime);
-      validAttended.sort((a, b) => a.startDateTime - b.startDateTime);
-
-      setExpectedDiscussions(validExpected);
-      setAttendedDiscussions(validAttended);
-    };
-
-    fetchDiscussions();
-  }, [meetPersonData, isFacilitator]);
-
-  // Update current time every 30 seconds for real-time countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimeSeconds(Math.floor(Date.now() / 1000));
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Filter expected discussions to only show those where the end datetime hasn't passed yet
-  const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => discussion.endDateTime > currentTimeSeconds,
-  );
-
   const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
     // Check if discussion starts in less than 1 hour
-    const timeUntilStart = discussion.startDateTime - currentTimeSeconds;
-    const isStartingSoon = timeUntilStart < HOUR_IN_SECONDS && timeUntilStart > 0;
+    const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
+    const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
 
     // Determine button text and URL based on timing
     const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
     if (isStartingSoon) {
       buttonUrl = discussion.zoomLink || '#';
-    } else if (course.slug && discussion.unitNumber) {
+    } else if (course.slug && discussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
     }
 
@@ -149,7 +72,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (
@@ -218,7 +141,7 @@ const CourseDetails = ({
               </div>
               {!isPast && (
                 <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative(discussion.startDateTime)}`}
+                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
                 </div>
               )}
               {isPast && discussion.groupDetails && (
@@ -237,7 +160,7 @@ const CourseDetails = ({
                 size="small"
                 url={buttonUrl}
                 disabled={!discussion.zoomLink && isStartingSoon}
-                target="blank"
+                target="_blank"
               >
                 {buttonText}
               </CTALinkOrButton>
@@ -266,7 +189,7 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className="bg-white border-x border-b border-gray-200 last:rounded-b-xl" role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-gray-200">
@@ -298,7 +221,7 @@ const CourseDetails = ({
 
           <div className="p-4 sm:px-8 sm:py-4">
             {/* Content */}
-            {loading ? (
+            {isLoading ? (
               <div className="flex justify-center py-8">
                 <ProgressDots />
               </div>
@@ -312,28 +235,17 @@ const CourseDetails = ({
                       {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
                         .map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
 
-                      {/* Show "See all" button if there are more than 3 discussions */}
-                      {upcomingDiscussions.length > 3 && !showAllUpcoming && (
+                      {/* "See all"/"Show less" button when more than 3 upcoming discussions */}
+                      {upcomingDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllUpcoming(true)}
+                            onClick={() => setShowAllUpcoming(!showAllUpcoming)}
                             className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
                           >
-                            See all ({upcomingDiscussions.length} discussions)
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Show "Show less" button when expanded */}
-                      {upcomingDiscussions.length > 3 && showAllUpcoming && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllUpcoming(false)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            Show less
+                            {showAllUpcoming
+                              ? 'Show less'
+                              : `See all (${upcomingDiscussions.length}) discussions`}
                           </button>
                         </div>
                       )}
@@ -350,28 +262,15 @@ const CourseDetails = ({
                       {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
                         .map((discussion) => renderDiscussionItem(discussion, false, true))}
 
-                      {/* Show "See all" button if there are more than 3 discussions */}
-                      {attendedDiscussions.length > 3 && !showAllAttended && (
+                      {/* "See all"/"Show less" button when more than 3 attended discussions */}
+                      {attendedDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllAttended(true)}
+                            onClick={() => setShowAllAttended(!showAllAttended)}
                             className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
                           >
-                            See all ({attendedDiscussions.length} discussions)
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Show "Show less" button when expanded */}
-                      {attendedDiscussions.length > 3 && showAllAttended && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllAttended(false)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            Show less
+                            {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
                           </button>
                         </div>
                       )}
@@ -391,7 +290,7 @@ const CourseDetails = ({
             setGroupSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          currentUnit={selectedDiscussion.unitRecord}
+          initialUnitNumber={selectedDiscussion.unitRecord.unitNumber.toString()}
           courseSlug={course.slug}
         />
       )}

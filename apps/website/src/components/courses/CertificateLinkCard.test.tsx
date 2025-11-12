@@ -1,17 +1,32 @@
-import { render, screen } from '@testing-library/react';
-import {
-  describe, test, expect, beforeEach, vi,
-} from 'vitest';
-import useAxios from 'axios-hooks';
 import { useAuthStore } from '@bluedot/ui';
+import { render, screen } from '@testing-library/react';
 import { useRouter } from 'next/router';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest';
+import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 import CertificateLinkCard from './CertificateLinkCard';
+
+// I tried pretty hard to use tRPC MSW but kept running into issues where the component would be permanently stuck in
+// loading state for authenticated tests. I spent a couple hours trying to fight it, have decided to give up and mock
+// tRPC directly.
+
+// Hoist the mock functions so they can be used in vi.mock
+const { mockUseQuery, mockUseMutation } = vi.hoisted(() => ({
+  mockUseQuery: vi.fn(),
+  mockUseMutation: vi.fn(),
+}));
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
 
-vi.mock('axios-hooks');
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
   return {
@@ -20,8 +35,20 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-// Type helpers
-type UseAxiosReturnType = ReturnType<typeof useAxios>;
+vi.mock('../../utils/trpc', () => ({
+  trpc: {
+    courseRegistrations: {
+      getByCourseId: {
+        useQuery: mockUseQuery,
+      },
+    },
+    certificates: {
+      request: {
+        useMutation: mockUseMutation,
+      },
+    },
+  },
+}));
 
 describe('CertificateLinkCard', () => {
   beforeEach(() => {
@@ -31,6 +58,18 @@ describe('CertificateLinkCard', () => {
     } as ReturnType<typeof useRouter>);
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2024-01-01'));
+
+    // Reset mutation mock to default state
+    mockUseMutation.mockReturnValue({
+      mutate: vi.fn(),
+      isPending: false,
+      isError: false,
+      error: null,
+    });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe('Not authenticated', () => {
@@ -39,9 +78,7 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders regular course', () => {
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify login prompt is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -50,9 +87,7 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders FoAI course with different content', () => {
-      render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
-      );
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
@@ -69,15 +104,14 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders loading state', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        { data: undefined, loading: true, error: null },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+      mockUseQuery.mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify loading indicator is shown
       expect(screen.getByText('Your Certificate')).toBeTruthy();
@@ -86,64 +120,40 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders course without certificate - non-FoAI shows not eligible', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        {
-          data: {
-            courseRegistration: {
-              courseId: 'rec123456789',
-              certificateId: null,
-              email: 'user@example.com',
-              fullName: 'Test User',
-            },
-          },
-          loading: false,
-          error: null,
-        },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+      // Mock query response with no certificate for non-FoAI course
+      mockUseQuery.mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: 'rec123456789',
+          certificateId: null,
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify not eligible message
       expect(screen.getByText('Your Certificate')).toBeTruthy();
       expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      // Community section should NOT appear for non-FoAI courses
+      expect(screen.queryByText('Join the Community')).toBeNull();
     });
 
     test('renders course without certificate - FoAI shows request button', () => {
-      vi.mocked(useAxios)
-        .mockReturnValueOnce([
-          {
-            data: {
-              courseRegistration: {
-                courseId: 'rec0Zgize0c4liMl5',
-                certificateId: null,
-                email: 'user@example.com',
-                fullName: 'Test User',
-              },
-            },
-            loading: false,
-            error: null,
-          },
-          vi.fn(),
-          vi.fn(),
-        ] as UseAxiosReturnType)
-        .mockReturnValueOnce([
-          {
-            data: undefined,
-            loading: false,
-            error: null,
-          },
-          vi.fn(),
-          vi.fn(),
-        ] as UseAxiosReturnType);
+      mockUseQuery.mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: FOAI_COURSE_ID,
+          certificateId: null,
+          email: 'user@example.com',
+          fullName: 'Test User',
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec0Zgize0c4liMl5" />,
-      );
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
 
       // Verify that download certificate button is shown for FoAI course
       expect(screen.getByText('Download Certificate')).toBeTruthy();
@@ -155,30 +165,24 @@ describe('CertificateLinkCard', () => {
       // Verify FoAI-specific content is shown
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
       expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+
+      // Verify community section DOES appear for FoAI course
+      expect(screen.getByText('Join the Community')).toBeTruthy();
     });
 
-    test('renders course with certificate (works for both regular and FoAI)', () => {
-      vi.mocked(useAxios).mockReturnValue([
-        {
-          data: {
-            courseRegistration: {
-              courseId: 'rec123456789',
-              certificateId: 'cert123',
-              certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
-              email: 'user@example.com',
-              fullName: 'Test User',
-            },
-          },
-          loading: false,
-          error: null,
-        },
-        vi.fn(),
-        vi.fn(),
-      ] as UseAxiosReturnType);
+    test('renders regular course with certificate - no community section', () => {
+      mockUseQuery.mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: 'rec123456789',
+          certificateId: 'cert123',
+          certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
 
-      render(
-        <CertificateLinkCard courseId="rec123456789" />,
-      );
+      render(<CertificateLinkCard courseId="rec123456789" />);
 
       // Verify specific content
       expect(screen.getByText('Earned by Test User')).toBeTruthy();
@@ -189,6 +193,31 @@ describe('CertificateLinkCard', () => {
       // Verify the certificate link opens in a new tab
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
       expect(viewCertificateLink.getAttribute('target')).toBe('_blank');
+
+      // Community section should NOT appear for regular courses
+      expect(screen.queryByText('Join the Community')).toBeNull();
+    });
+
+    test('renders FoAI course with certificate - includes community section', () => {
+      mockUseQuery.mockReturnValue({
+        data: createMockCourseRegistration({
+          courseId: FOAI_COURSE_ID,
+          certificateId: 'cert123',
+          certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
+        }),
+        isLoading: false,
+        error: null,
+        refetch: vi.fn(),
+      });
+
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
+
+      // Verify certificate content
+      expect(screen.getByText('Earned by Test User')).toBeTruthy();
+      expect(screen.getByText('View Certificate')).toBeTruthy();
+
+      // Community section SHOULD appear for FoAI course
+      expect(screen.getByText('Join the Community')).toBeTruthy();
     });
   });
 });

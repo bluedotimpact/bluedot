@@ -3,69 +3,51 @@
 exports[`StorySection > renders default as expected 1`] = `
 <div>
   <section
-    class="section section-body story-section"
+    class="bg-white border-b border-[rgba(19,19,46,0.1)] py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20"
   >
     <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      class="flex flex-col min-[1024px]:flex-row items-center justify-center gap-[64px] min-[1024px]:gap-[80px] min-[1280px]:gap-[96px] min-[1440px]:gap-[120px] max-w-screen-xl mx-auto"
     >
       <div
-        class="section-heading__content flex-1 flex flex-col gap-2"
+        class="shrink-0 w-[234px] aspect-[234/229] min-[680px]:w-[334px] min-[680px]:aspect-square min-[1280px]:w-[400px] min-[1440px]:w-[450px]"
+      >
+        <img
+          alt="BlueDot team members at an event"
+          class="size-full rounded-[12px] border border-[rgba(19,19,46,0.1)] object-cover object-center"
+          src="/images/homepage/large-photo.png"
+        />
+      </div>
+      <div
+        class="flex flex-col items-start min-[1024px]:flex-1 w-full min-[680px]:w-auto"
       >
         <h2
-          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium text-center min-[680px]:text-left w-full min-[680px]:w-auto mb-[48px] min-[680px]:mb-[32px]"
         >
-          About us
+          Who is BlueDot?
         </h2>
-      </div>
-    </div>
-    <div
-      class="section__body"
-    >
-      <div
-        class="story-section__container flex flex-col gap-5"
-      >
         <div
-          class="story-section__text-container flex flex-col gap-5"
+          class="flex flex-col gap-[32px] items-center min-[680px]:items-start w-full"
         >
-          <p
-            class="bluedot-p not-prose"
+          <div
+            class="flex flex-col w-full"
           >
-            BlueDot Impact is a non-profit building educational courses to help ensure powerful emerging technologies benefit humanity.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            Since 2021, we have trained over 4,500 professionals worldwide – from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, DeepMind, and the UK's AI Security Institute.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            Working closely with leading organisations, we rapidly develop new courses to address emerging challenges and help talented people find roles where they can have the greatest impact.
-          </p>
+            <p
+              class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-[1em]"
+            >
+              BlueDot Impact is a non-profit based out of London. We train and accelerate talented people into opportunities that positively impact the trajectory of AI.
+            </p>
+            <p
+              class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-0"
+            >
+              Since 2022, we've trained over 5,000 professionals worldwide – from technical staff at frontier AI companies to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M.
+            </p>
+          </div>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-            href="/about"
+            class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
+            href="/join-us"
             tabindex="0"
           >
-            Learn more about us
-            <span
-              class="cta-button__chevron ml-3"
-            >
-              <svg
-                class="cta-button__chevron-icon size-2"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 320 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-                />
-              </svg>
-            </span>
+            We're hiring
           </a>
         </div>
       </div>

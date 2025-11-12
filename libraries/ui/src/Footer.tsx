@@ -17,14 +17,14 @@ export type FooterProps = React.PropsWithChildren<{
 
 type FooterSectionProps = {
   title?: string;
-  links?: { url: string; label: string }[];
+  links?: { url: string; label: string; target?: string }[];
   className?: string;
 };
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('flex flex-col', className)}>
     {title && (
-      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold">
+      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-semibold">
         {title}
       </h3>
     )}
@@ -32,7 +32,12 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
       <ul className="flex flex-col gap-[15px] list-none p-0">
         {links.map((link) => (
           <li key={link.url}>
-            <A href={link.url} className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal">
+            <A
+              href={link.url}
+              target={link.target}
+              rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+            >
               {link.label}
             </A>
           </li>
@@ -71,26 +76,25 @@ export const Footer: React.FC<FooterProps> = ({
   ];
 
   const resourceLinks = [
-    { url: '/announcements', label: 'Announcements and stories' },
-    { url: '/useful-links', label: 'Useful links' },
-    { url: '/community-projects', label: 'Community projects' },
+    { url: '/blog', label: 'Blog' },
+    { url: 'https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer', label: 'Events', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
   ];
 
   const exploreLinks = courses.map((course) => ({ url: course.path, label: course.title }));
 
   return (
-    <footer className={clsx('w-full', className)} style={{ background: '#13132E' }}>
+    <footer className={clsx('w-full bg-[#02051E]', className)}>
       {loading ? (
         <div className="w-full flex items-center justify-center py-16">
           <ProgressDots />
         </div>
       ) : (
-        <div className="w-full py-8 px-5 min-[680px]:py-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:px-12 xl:px-20 2xl:pt-10 2xl:pb-8 2xl:px-40">
-          <div className="max-w-[280px] min-[680px]:max-w-[616px] lg:max-w-screen-lg xl:w-[1120px] xl:max-w-[1120px] 2xl:w-[1120px] 2xl:max-w-[1120px] mx-auto">
+        <div className="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20">
+          <div className="max-w-screen-xl mx-auto">
 
-            {/* Logo (visible on all layouts except 2xl) */}
-            <div className="2xl:hidden mb-12">
+            {/* Logo (mobile and tablet only) */}
+            <div className="lg:hidden mb-12">
               <ClickTarget url="/">
                 {logo ? (
                   <img className="w-48 h-6" src={logo} alt="BlueDot Impact Logo" />
@@ -100,11 +104,42 @@ export const Footer: React.FC<FooterProps> = ({
               </ClickTarget>
             </div>
 
-            {/* Main Content Layout - 12 column grid on 2xl */}
-            <div className="2xl:grid 2xl:grid-cols-12 2xl:gap-8 2xl:items-stretch">
+            {/* Mobile: All sections stacked (320px-679px) */}
+            <div className="flex flex-col gap-12 min-[680px]:hidden">
+              <FooterLinksSection
+                title="BlueDot Impact"
+                links={bluedotLinks}
+              />
+              <FooterLinksSection
+                title="Explore"
+                links={exploreLinks}
+              />
+              <FooterLinksSection
+                title="Resources"
+                links={resourceLinks}
+              />
+            </div>
 
-              {/* Brand Column - Logo and Social (2xl layout only) */}
-              <div className="hidden 2xl:flex 2xl:flex-col 2xl:justify-between 2xl:col-span-4">
+            {/* Tablet: 2x2 grid (680px-1023px) */}
+            <div className="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden">
+              <FooterLinksSection
+                title="BlueDot Impact"
+                links={bluedotLinks}
+              />
+              <FooterLinksSection
+                title="Explore"
+                links={exploreLinks}
+              />
+              <FooterLinksSection
+                title="Resources"
+                links={resourceLinks}
+              />
+            </div>
+
+            {/* Desktop: 4 columns with logo+social on left (1024px+) */}
+            <div className="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8">
+              {/* Logo + Social column */}
+              <div className="flex flex-col justify-between shrink-0">
                 <ClickTarget url="/">
                   {logo ? (
                     <img className="w-48 h-6" src={logo} alt="BlueDot Impact Logo" />
@@ -112,80 +147,26 @@ export const Footer: React.FC<FooterProps> = ({
                     <p className="w-48 h-6 text-size-lg text-white bluedot-p">BlueDot Impact</p>
                   )}
                 </ClickTarget>
-
-                <FooterSocial className="ml-2" />
+                <FooterSocial />
               </div>
 
-              {/* Navigation Columns (2xl) */}
-              <div className="2xl:col-span-8 2xl:grid 2xl:grid-cols-3 2xl:gap-8">
-                <div className="flex flex-col gap-12 min-[680px]:gap-0 lg:flex-row lg:gap-8 mt-12 min-[680px]:mt-0 2xl:mt-0 2xl:contents">
-
-                  {/* Mobile: All sections stacked (320px-679px) */}
-                  <div className="flex flex-col gap-12 min-[680px]:hidden">
-                    <FooterLinksSection
-                      title="BlueDot Impact"
-                      links={bluedotLinks}
-                    />
-
-                    <FooterLinksSection
-                      title="Explore"
-                      links={exploreLinks}
-                    />
-
-                    <FooterLinksSection
-                      title="Resources"
-                      links={resourceLinks}
-                    />
-                  </div>
-
-                  {/* Tablet: Custom layout for 680px-1023px */}
-                  <div className="hidden min-[680px]:block lg:hidden">
-                    <div className="grid grid-cols-[1fr_1fr] gap-x-[100px]">
-                      <FooterLinksSection
-                        title="BlueDot Impact"
-                        links={bluedotLinks}
-                      />
-
-                      <FooterLinksSection
-                        title="Explore"
-                        links={exploreLinks}
-                      />
-                    </div>
-
-                    <div className="mt-[73px]">
-                      <FooterLinksSection
-                        title="Resources"
-                        links={resourceLinks}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Desktop+: Row layout */}
-                  <div className="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8 lg:w-full 2xl:contents">
-                    <FooterLinksSection
-                      title="BlueDot Impact"
-                      links={bluedotLinks}
-                      className="flex-1 2xl:flex-initial"
-                    />
-
-                    <FooterLinksSection
-                      title="Explore"
-                      links={exploreLinks}
-                      className="flex-1 2xl:flex-initial"
-                    />
-
-                    <FooterLinksSection
-                      title="Resources"
-                      links={resourceLinks}
-                      className="flex-1 2xl:flex-initial"
-                    />
-                  </div>
-                </div>
-              </div>
+              {/* Navigation columns */}
+              <FooterLinksSection
+                title="BlueDot Impact"
+                links={bluedotLinks}
+              />
+              <FooterLinksSection
+                title="Explore"
+                links={exploreLinks}
+              />
+              <FooterLinksSection
+                title="Resources"
+                links={resourceLinks}
+              />
             </div>
 
-            {/* Social Icons (visible on all layouts except 2xl) */}
-            <div className="2xl:hidden my-12">
+            {/* Social Icons (mobile and tablet only) */}
+            <div className="lg:hidden my-12">
               <FooterSocial />
             </div>
 

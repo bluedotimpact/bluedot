@@ -1,15 +1,16 @@
 import {
+  ProgressDots,
+  Section,
+} from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
+import {
   FC,
 } from 'react';
-import {
-  Section,
-  ProgressDots,
-} from '@bluedot/ui';
-import type { GetCoursesResponse } from '../../pages/api/courses';
+import type { AppRouter } from '../../server/routers/_app';
 import { CourseSearchCard } from './CourseSearchCard';
 
 export type CourseDirectoryProps = {
-  courses: GetCoursesResponse['courses'] | undefined;
+  courses?: inferRouterOutputs<AppRouter>['courses']['getAll'];
   loading: boolean;
 };
 
@@ -18,11 +19,11 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
   loading,
 }) => {
   return (
-    <Section className="course-directory">
-      <div className="course-directory__content flex flex-col gap-spacing-x">
-        <div className="course-directory__results-section flex flex-col gap-4 mt-2">
+    <Section>
+      <div className="flex flex-col gap-spacing-x">
+        <div className="flex flex-col gap-4 mt-2">
           {loading && <ProgressDots />}
-          <div className="course-directory__results grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
             {courses
               && courses.length > 0
               && courses.map((course) => (
@@ -30,8 +31,6 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
                   key={course.id}
                   title={course.title}
                   description={course.shortDescription}
-                  cadence={course.cadence}
-                  courseLength={course.durationDescription}
                   imageSrc={course.image || undefined}
                   url={course.path}
                 />
