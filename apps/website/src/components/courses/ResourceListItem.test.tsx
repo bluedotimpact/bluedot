@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import {
   describe, expect, it, vi,
 } from 'vitest';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { ResourceListItem } from './ResourceListItem';
 
 // Mock next-auth
@@ -42,29 +43,6 @@ vi.mock('./MarkdownExtendedRenderer', () => ({
   },
 }));
 
-// Mock tRPC
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    resources: {
-      getResourceCompletion: {
-        useQuery: vi.fn(() => ({
-          data: undefined,
-          isLoading: false,
-          error: null,
-          refetch: vi.fn(),
-        })),
-      },
-      saveResourceCompletion: {
-        useMutation: vi.fn(() => ({
-          mutateAsync: vi.fn(),
-          isLoading: false,
-          error: null,
-        })),
-      },
-    },
-  },
-}));
-
 describe('ResourceListItem - Listen to Article Feature', () => {
   const baseResource = {
     id: 'test-resource-1',
@@ -86,6 +64,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
   it('should render metadata without Listen to article button when no audio URL', () => {
     const { container, queryByText } = render(
       <ResourceListItem resource={baseResource} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show author, year, and time
@@ -107,6 +86,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container, getByText } = render(
       <ResourceListItem resource={resourceWithAudio} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show author, time, and Listen to article
@@ -127,6 +107,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container } = render(
       <ResourceListItem resource={resourceWithAudio} />,
+      { wrapper: TrpcProvider },
     );
 
     const metadata = container.querySelector('.resource-item__bottom-metadata');
@@ -150,6 +131,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container, getByText } = render(
       <ResourceListItem resource={resourceWithOnlyAudio} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show Listen to article button even when no other metadata
@@ -175,6 +157,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container: container1 } = render(
       <ResourceListItem resource={authorAndAudio} />,
+      { wrapper: TrpcProvider },
     );
     expect(container1.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
 
@@ -188,6 +171,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container: container2 } = render(
       <ResourceListItem resource={timeAndAudio} />,
+      { wrapper: TrpcProvider },
     );
     expect(container2.querySelector('.resource-item__bottom-metadata')).toMatchSnapshot();
   });
@@ -195,6 +179,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
   it('should display year field correctly in metadata', () => {
     const { queryByText } = render(
       <ResourceListItem resource={baseResource} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show year between author and time
@@ -209,6 +194,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container, queryByText } = render(
       <ResourceListItem resource={resourceWithoutYear} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show author and time but not year
@@ -233,6 +219,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     const { container, queryByText } = render(
       <ResourceListItem resource={resourceWithOnlyYear} />,
+      { wrapper: TrpcProvider },
     );
 
     // Should show only year
