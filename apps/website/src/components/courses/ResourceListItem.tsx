@@ -185,7 +185,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     await handleSaveCompletion(true, newFeedback);
   }, [resourceFeedback, handleSaveCompletion]);
 
-  if (completionLoading && !completionData) {
+  if (completionLoading) {
     return <ProgressDots />;
   }
 
