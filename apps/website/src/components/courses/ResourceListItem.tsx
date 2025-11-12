@@ -133,6 +133,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     },
   });
 
+  // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
   const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
   const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
 
