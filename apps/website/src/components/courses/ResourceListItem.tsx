@@ -154,13 +154,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   });
 
   // Handle saving resource completion
-  const handleSaveCompletion = useCallback(async (
+  const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
     updatedResourceFeedback?: ResourceFeedbackValue,
   ) => {
     if (!auth) return;
 
-    await saveCompletionMutation.mutateAsync({
+    saveCompletionMutation.mutate({
       unitResourceId: resource.id,
       isCompleted: updatedIsCompleted ?? isCompleted,
       resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
