@@ -54,20 +54,20 @@ export const resourcesRouter = router({
         updatedResourceCompletion = await db.update(resourceCompletionTable, {
           id: resourceCompletion.id,
           unitResourceIdWrite: input.unitResourceId,
-          rating: input.rating !== undefined ? input.rating : resourceCompletion.rating,
-          isCompleted: input.isCompleted !== undefined ? input.isCompleted : resourceCompletion.isCompleted,
-          feedback: input.feedback !== undefined ? input.feedback : resourceCompletion.feedback,
-          resourceFeedback: input.resourceFeedback !== undefined ? input.resourceFeedback : resourceCompletion.resourceFeedback,
+          rating: input.rating ?? resourceCompletion.rating,
+          isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
+          feedback: input.feedback ?? resourceCompletion.feedback,
+          resourceFeedback: input.resourceFeedback ?? resourceCompletion.resourceFeedback,
         });
       } else {
         // Create new resource completion
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: ctx.auth.email,
           unitResourceIdWrite: input.unitResourceId,
-          rating: input.rating !== undefined ? input.rating : null,
-          isCompleted: input.isCompleted !== undefined ? input.isCompleted : false,
-          feedback: input.feedback !== undefined ? input.feedback : '',
-          resourceFeedback: input.resourceFeedback !== undefined ? input.resourceFeedback : RESOURCE_FEEDBACK.NO_RESPONSE,
+          rating: input.rating ?? null,
+          isCompleted: input.isCompleted ?? false,
+          feedback: input.feedback ?? '',
+          resourceFeedback: input.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
         });
       }
 
