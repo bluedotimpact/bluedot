@@ -22,10 +22,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const { data: exerciseData, isLoading: exerciseLoading, error: exerciseError } = trpc.exercises.getExercise.useQuery({ exerciseId });
 
   // Only fetch user response when authenticated
-  const {
-    data: responseData,
-    error: exerciseResponseError,
-  } = trpc.exercises.getExerciseResponse.useQuery(
+  const { data: responseData } = trpc.exercises.getExerciseResponse.useQuery(
     { exerciseId },
     {
       enabled: !!auth,
@@ -51,10 +48,12 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ProgressDots />;
   }
 
-  // We ignore 404s, as this just indicates the exercise response hasn't been created yet
-  const shouldShowError = exerciseResponseError && exerciseResponseError.data?.code !== 'NOT_FOUND';
-  if (exerciseError || shouldShowError || !exerciseData) {
-    return <ErrorView error={exerciseError || exerciseResponseError || new Error('Failed to load exercise')} />;
+  if (exerciseError) {
+    return <ErrorView error={exerciseError} />;
+  }
+
+  if (!exerciseData) {
+    return <ErrorView error={new Error('Exercise not found')} />;
   }
 
   switch (exerciseData.type) {

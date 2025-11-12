@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { exerciseTable, exerciseResponseTable } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
 import { publicProcedure, protectedProcedure, router } from '../trpc';
 
@@ -17,13 +16,6 @@ export const exercisesRouter = router({
       const exerciseResponse = await db.getFirst(exerciseResponseTable, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
       });
-
-      if (!exerciseResponse) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Exercise response not found',
-        });
-      }
 
       return exerciseResponse;
     }),
