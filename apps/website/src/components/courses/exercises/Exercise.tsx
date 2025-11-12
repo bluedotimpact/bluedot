@@ -31,8 +31,10 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSuccess: () => {
-      utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+    onSuccess: async () => {
+      // Await this invalidation to ensure mutation is kept in loading state until data is refetched.
+      // Without this we get a UI flash where the mutation is complete but the new response data hasn't yet loaded.
+      await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
   });
 
