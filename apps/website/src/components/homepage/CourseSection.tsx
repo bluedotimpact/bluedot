@@ -334,12 +334,12 @@ const CourseCarousel = ({
       });
 
       // Reset auto-scroll timer to give user full 3 seconds before next auto-scroll
-      if (!isHovered && !prefersReducedMotionRef.current) {
+      if (!prefersReducedMotionRef.current) {
         stopAutoScroll();
         startAutoScroll();
       }
     }
-  }, [getCardWidth, getGap, isHovered, stopAutoScroll, startAutoScroll]);
+  }, [getCardWidth, getGap, stopAutoScroll, startAutoScroll]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
@@ -357,9 +357,20 @@ const CourseCarousel = ({
     setIsHovered(false);
   }, []);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scroll('left');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scroll('right');
+    }
+  }, [scroll]);
+
   return (
     <div className="flex lg:hidden flex-col">
       <div className="w-screen -mx-5 overflow-hidden">
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
           className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"
@@ -372,6 +383,7 @@ const CourseCarousel = ({
           onMouseLeave={handleMouseLeave}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
           onTouchStart={() => setIsHovered(true)}
           onTouchEnd={() => setIsHovered(false)}
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
