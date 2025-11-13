@@ -64,7 +64,7 @@ async function refreshCache(): Promise<Event[]> {
       const apiKey = env.LUMA_API_KEY;
 
       if (!apiKey) {
-        return cachedEvents || [];
+        return [];
       }
 
       const now = new Date().toISOString();
