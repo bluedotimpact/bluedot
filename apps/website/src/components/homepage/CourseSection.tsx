@@ -335,11 +335,14 @@ const CourseCarousel = ({
 
       // Reset auto-scroll timer to give user full 3 seconds before next auto-scroll
       if (!prefersReducedMotionRef.current) {
+        // Always clear any existing timer, but only restart when the user is not actively interacting
         stopAutoScroll();
-        startAutoScroll();
+        if (!isHovered) {
+          startAutoScroll();
+        }
       }
     }
-  }, [getCardWidth, getGap, stopAutoScroll, startAutoScroll]);
+  }, [getCardWidth, getGap, stopAutoScroll, startAutoScroll, isHovered]);
 
   const handleMouseEnter = useCallback(() => {
     setIsHovered(true);
