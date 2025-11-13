@@ -213,7 +213,7 @@ describe('CourseListRow', () => {
       });
     });
 
-    it('hides Join group button for participant with groups', () => {
+    it('hides Join group button for participant with groups', async () => {
       const meetPersonWithGroups = {
         ...mockMeetPerson,
         groupsAsParticipant: ['group-1'],
@@ -233,7 +233,9 @@ describe('CourseListRow', () => {
       );
 
       // Should not show "Join group" button
-      expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      });
     });
 
     it('shows Join group button for facilitator without discussions', async () => {
@@ -266,7 +268,7 @@ describe('CourseListRow', () => {
       });
     });
 
-    it('hides Join group button for facilitator with discussions', () => {
+    it('hides Join group button for facilitator with discussions', async () => {
       const facilitatorWithDiscussions = {
         ...mockMeetPerson,
         expectedDiscussionsFacilitator: ['disc-1', 'disc-2'],
@@ -291,7 +293,9 @@ describe('CourseListRow', () => {
       );
 
       // Should not show "Join group" button
-      expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      });
     });
   });
 });
