@@ -13,6 +13,7 @@ let cacheTimestamp: number | null = null;
 let consecutiveFailures = 0;
 let lastSlackAlert: number | null = null;
 let isRefreshing = false;
+let refreshPromise: Promise<Event[]> | null = null;
 
 type Event = {
   id: string;
@@ -42,90 +43,98 @@ export const lumaRouter = router({
       return cachedEvents;
     }
 
-    // No cache: wait for first fetch
+    // No cache: wait for first fetch (reuse in-flight promise if exists)
+    if (refreshPromise) {
+      return refreshPromise;
+    }
     return refreshCache();
   }),
 });
 
 async function refreshCache(): Promise<Event[]> {
-  // If already refreshing, return current cache
-  if (isRefreshing) {
-    return cachedEvents || [];
+  // If already refreshing, return the in-flight promise
+  if (refreshPromise) {
+    return refreshPromise;
   }
 
   isRefreshing = true;
 
-  try {
-    const apiKey = env.LUMA_API_KEY;
+  refreshPromise = (async () => {
+    try {
+      const apiKey = env.LUMA_API_KEY;
 
-    if (!apiKey) {
-      return cachedEvents || [];
-    }
+      if (!apiKey) {
+        return cachedEvents || [];
+      }
 
-    const now = new Date().toISOString();
-    const url = new URL('https://public-api.luma.com/v1/calendar/list-events');
-    url.searchParams.set('after', now);
-    url.searchParams.set('pagination_limit', '4');
-    url.searchParams.set('sort_column', 'start_at');
-    url.searchParams.set('sort_direction', 'asc');
+      const now = new Date().toISOString();
+      const url = new URL('https://public-api.luma.com/v1/calendar/list-events');
+      url.searchParams.set('after', now);
+      url.searchParams.set('pagination_limit', '4');
+      url.searchParams.set('sort_column', 'start_at');
+      url.searchParams.set('sort_direction', 'asc');
 
-    const response = await fetch(url.toString(), {
-      headers: {
-        accept: 'application/json',
-        'x-luma-api-key': apiKey,
-      },
-    });
+      const response = await fetch(url.toString(), {
+        headers: {
+          accept: 'application/json',
+          'x-luma-api-key': apiKey,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`Luma API returned ${response.status}: ${response.statusText}`);
-    }
+      if (!response.ok) {
+        throw new Error(`Luma API returned ${response.status}: ${response.statusText}`);
+      }
 
-    const data = await response.json() as {
-      entries: {
-        api_id: string;
-        event: {
-          name: string;
-          start_at: string;
-          end_at: string;
-          geo_address_info?: {
-            city?: string;
+      const data = await response.json() as {
+        entries: {
+          api_id: string;
+          event: {
+            name: string;
+            start_at: string;
+            end_at: string;
+            geo_address_info?: {
+              city?: string;
+            };
+            url: string;
           };
-          url: string;
-        };
-      }[];
-      has_more: boolean;
-      next_cursor?: string;
-    };
+        }[];
+        has_more: boolean;
+        next_cursor?: string;
+      };
 
-    const events = (data.entries || []).map(({ api_id, event }) => ({
-      id: api_id,
-      month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
-      day: new Date(event.start_at).getDate().toString(),
-      location: event.geo_address_info?.city?.toUpperCase() || 'REMOTE',
-      title: event.name,
-      time: formatStartAndEndTime(event.start_at, event.end_at),
-      url: event.url,
-    }));
+      const events = (data.entries || []).map(({ api_id, event }) => ({
+        id: api_id,
+        month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+        day: new Date(event.start_at).getDate().toString(),
+        location: event.geo_address_info?.city?.toUpperCase() || 'REMOTE',
+        title: event.name,
+        time: formatStartAndEndTime(event.start_at, event.end_at),
+        url: event.url,
+      }));
 
-    // Success: update cache and reset failure counter
-    cachedEvents = events;
-    cacheTimestamp = Date.now();
-    consecutiveFailures = 0;
+      // Success: update cache and reset failure counter
+      cachedEvents = events;
+      cacheTimestamp = Date.now();
+      consecutiveFailures = 0;
 
-    return events;
-  } catch (error) {
-    consecutiveFailures += 1;
-    // eslint-disable-next-line no-console
-    console.error('Failed to fetch Luma events:', error);
+      return events;
+    } catch (error) {
+      consecutiveFailures += 1;
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch Luma events:', error);
 
-    if (consecutiveFailures >= FAILURE_THRESHOLD) {
-      await sendSlackAlertIfNeeded(error);
+      if (consecutiveFailures >= FAILURE_THRESHOLD) {
+        await sendSlackAlertIfNeeded(error);
+      }
+
+      return cachedEvents || [];
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
     }
+  })();
 
-    return cachedEvents || [];
-  } finally {
-    isRefreshing = false;
-  }
+  return refreshPromise;
 }
 
 async function sendSlackAlertIfNeeded(error: unknown): Promise<void> {
