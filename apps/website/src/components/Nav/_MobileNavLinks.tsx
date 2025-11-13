@@ -15,13 +15,11 @@ import { getLoginUrl } from '../../utils/getLoginUrl';
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  isScrolled: boolean;
   isLoggedIn: boolean;
   isHomepage?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
-  isScrolled,
   isLoggedIn,
   isHomepage = false,
 }) => {
@@ -52,10 +50,10 @@ export const MobileNavLinks: React.FC<{
         setOpen={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
+          isHomepage && 'text-white [&_svg]:text-white',
         )}
       />
-      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.mobileNav))}>
+      <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
         <div
           className="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
           onClick={(e) => {
@@ -86,7 +84,6 @@ export const MobileNavLinks: React.FC<{
             className="mobile-nav-links__nav-links flex-col"
             expandedSections={expandedSections}
             updateExpandedSections={updateExpandedSections}
-            isScrolled={isScrolled}
             isHomepage={isHomepage}
           />
 

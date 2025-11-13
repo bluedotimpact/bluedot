@@ -8,12 +8,10 @@ import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
 
 export const ProfileLinks: React.FC<{
-  isScrolled: boolean;
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   isHomepage?: boolean;
 }> = ({
-  isScrolled,
   expandedSections,
   updateExpandedSections,
   isHomepage = false,
@@ -28,13 +26,10 @@ export const ProfileLinks: React.FC<{
   });
 
   const getNavLinkClasses = () => {
-    // Profile dropdown links: white text when dropdown has dark bg, dark text otherwise
-    const isDarkDrawer = !isHomepage && isScrolled;
-    const textColor = isDarkDrawer ? 'text-white hover:text-white' : 'text-[#02034B] hover:text-[#02034B]';
-
+    // Profile dropdown links: always dark text on white background
     return clsx(
       'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-      textColor,
+      'text-[#02034B] hover:text-[#02034B]',
     );
   };
 
@@ -43,7 +38,7 @@ export const ProfileLinks: React.FC<{
       <IconButton
         className={clsx(
           'profile-links__btn',
-          (isHomepage || isScrolled) && 'text-white [&_svg]:text-white',
+          isHomepage && 'text-white [&_svg]:text-white',
         )}
         open={expandedSections.profile}
         Icon={<FaCircleUser className="size-6 opacity-75" />}
@@ -52,7 +47,7 @@ export const ProfileLinks: React.FC<{
       <div
         className={clsx(
           'profile-links__drawer',
-          DRAWER_CLASSES(!isHomepage && isScrolled, expandedSections.profile, DRAWER_Z_PROFILE),
+          DRAWER_CLASSES(expandedSections.profile, DRAWER_Z_PROFILE),
         )}
       >
         <div className="profile-links__links flex flex-col gap-4 items-end section-base">
