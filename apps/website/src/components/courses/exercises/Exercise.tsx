@@ -72,7 +72,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           {...exerciseData}
           description={exerciseData.description || ''}
           title={exerciseData.title || ''}
-          exerciseResponse={responseData?.response || undefined}
+          exerciseResponse={responseData?.response}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
