@@ -21,6 +21,7 @@ import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
+import AutoSaveTextarea from './exercises/AutoSaveTextarea';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 
@@ -384,17 +385,18 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
                 {/* Text feedback textarea for mobile - only show when Like or Dislike is selected */}
                 {showFeedback && resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
-                  <textarea
+                  <AutoSaveTextarea
                     value={textFeedback}
-                    onChange={(e) => setTextFeedback(e.target.value)}
-                    onBlur={() => handleSaveCompletion(isCompleted, resourceFeedback, textFeedback)}
-                    className="box-border w-full min-h-[40px] bg-white rounded-[10px] p-3
-                      font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]
-                      resize-y outline-none transition-all duration-200 block
-                      border-[0.5px] border-[rgba(19,19,46,0.25)]
-                      focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]"
+                    onChange={setTextFeedback}
+                    onSave={async (value) => {
+                      await handleSaveCompletion(isCompleted, resourceFeedback, value);
+                    }}
                     placeholder="What did or didn't you find useful about this resource?"
-                    aria-label="Resource feedback comment"
+                    minHeight="40px"
+                    className="px-3 py-2"
+                    showSaveStatus
+                    ariaLabel="Resource feedback comment"
+                    savedText="Feedback saved"
                   />
                 )}
               </div>
@@ -422,17 +424,18 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
               {resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
-                <textarea
+                <AutoSaveTextarea
                   value={textFeedback}
-                  onChange={(e) => setTextFeedback(e.target.value)}
-                  onBlur={() => handleSaveCompletion(isCompleted, resourceFeedback, textFeedback)}
-                  className="box-border w-full min-h-[40px] bg-white rounded-[10px] p-3
-                    font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]
-                    resize-y outline-none transition-all duration-200 block
-                    border-[0.5px] border-[rgba(19,19,46,0.25)]
-                    focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]"
+                  onChange={setTextFeedback}
+                  onSave={async (value) => {
+                    await handleSaveCompletion(isCompleted, resourceFeedback, value);
+                  }}
                   placeholder="What did or didn't you find useful about this resource?"
-                  aria-label="Resource feedback comment"
+                  minHeight="40px"
+                  className="px-3 py-2"
+                  showSaveStatus
+                  ariaLabel="Resource feedback comment"
+                  savedText="Feedback saved"
                 />
               )}
             </div>
