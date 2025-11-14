@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom';
-import { act, render, screen } from '@testing-library/react';
+import {
+  act, render, screen, waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   afterEach,
@@ -182,5 +184,118 @@ describe('CourseListRow', () => {
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
     expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
     expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
+  });
+
+  describe('Join group button visibility', () => {
+    it('shows Join group button for participant without groups', async () => {
+      const meetPersonWithoutGroups = {
+        ...mockMeetPerson,
+        groupsAsParticipant: [],
+        expectedDiscussionsParticipant: [],
+      };
+
+      server.use(
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithoutGroups),
+      );
+
+      render(
+        <CourseListRow
+          course={mockCourse}
+          courseRegistration={mockCourseRegistration}
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        // Two buttons in DOM: one for mobile, one for desktop
+        const joinGroupButtons = screen.getAllByRole('button', { name: 'Join group' });
+        expect(joinGroupButtons.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('hides Join group button for participant with groups', async () => {
+      const meetPersonWithGroups = {
+        ...mockMeetPerson,
+        groupsAsParticipant: ['group-1'],
+        expectedDiscussionsParticipant: ['disc-1'],
+      };
+
+      server.use(
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithGroups),
+      );
+
+      render(
+        <CourseListRow
+          course={mockCourse}
+          courseRegistration={mockCourseRegistration}
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Should not show "Join group" button
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      });
+    });
+
+    it('shows Join group button for facilitator without discussions', async () => {
+      const facilitatorWithoutDiscussions = {
+        ...mockMeetPerson,
+        expectedDiscussionsFacilitator: [],
+        groupsAsParticipant: [],
+      };
+
+      const facilitatorRegistration = {
+        ...mockCourseRegistration,
+        role: 'Facilitator',
+      };
+
+      server.use(
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => facilitatorWithoutDiscussions),
+      );
+
+      render(
+        <CourseListRow
+          course={mockCourse}
+          courseRegistration={facilitatorRegistration}
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        const joinGroupButtons = screen.getAllByRole('button', { name: 'Join group' });
+        expect(joinGroupButtons.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('hides Join group button for facilitator with discussions', async () => {
+      const facilitatorWithDiscussions = {
+        ...mockMeetPerson,
+        expectedDiscussionsFacilitator: ['disc-1', 'disc-2'],
+        groupsAsParticipant: [],
+      };
+
+      const facilitatorRegistration = {
+        ...mockCourseRegistration,
+        role: 'Facilitator',
+      };
+
+      server.use(
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => facilitatorWithDiscussions),
+      );
+
+      render(
+        <CourseListRow
+          course={mockCourse}
+          courseRegistration={facilitatorRegistration}
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      // Should not show "Join group" button
+      await waitFor(() => {
+        expect(screen.queryByRole('button', { name: 'Join group' })).not.toBeInTheDocument();
+      });
+    });
   });
 });
