@@ -35,6 +35,16 @@ export default function App() {
     }
   }, [view]);
 
+  // Auto-scroll to bottom when code updates
+  useEffect(() => {
+    if (view === 'code') {
+      const scrollContainer = document.querySelector('.sp-code-editor');
+      if (scrollContainer) {
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+    }
+  }, [code, view]);
+
   return (
     <>
       {view !== 'load_preview'
