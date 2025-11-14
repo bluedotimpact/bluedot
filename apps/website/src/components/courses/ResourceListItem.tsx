@@ -185,7 +185,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
       // Ignore cancellation errors from rapid clicking
       const err = error as { code?: string; message?: string };
       if (err?.code !== 'ERR_CANCELED' && err?.message !== 'canceled') {
-        console.error('Error saving resource completion:', error);
+        // Silently handle non-cancellation errors
       }
     }
   }, [auth, isCompleted, resourceFeedback, textFeedback, putResourceCompletion]);

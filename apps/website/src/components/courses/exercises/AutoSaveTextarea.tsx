@@ -100,7 +100,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
       }, 3000);
     } catch (error) {
       setSaveStatus('error');
-      console.error('Error saving textarea content:', error);
     } finally {
       isSavingRef.current = false;
     }
