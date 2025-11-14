@@ -118,6 +118,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
+  const [textFeedback, setTextFeedback] = useState<string>('');
   const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -148,6 +149,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
       setIsCompleted(completionData.resourceCompletion.isCompleted || false);
       const feedback = completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
       setResourceFeedback(feedback);
+      setTextFeedback(completionData.resourceCompletion.feedback || '');
 
       // Show feedback box only if resource is completed
       setShowFeedback(completionData.resourceCompletion.isCompleted || false);
@@ -166,16 +168,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const handleSaveCompletion = useCallback(async (
     updatedIsCompleted: boolean | undefined,
     updatedResourceFeedback?: ResourceFeedbackValue,
+    updatedTextFeedback?: string,
   ) => {
     if (!auth) return;
 
-    await putResourceCompletion({
-      data: {
-        isCompleted: updatedIsCompleted ?? isCompleted,
-        resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
-      },
-    });
-  }, [auth, isCompleted, resourceFeedback, putResourceCompletion]);
+    try {
+      await putResourceCompletion({
+        data: {
+          isCompleted: updatedIsCompleted ?? isCompleted,
+          resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
+          feedback: updatedTextFeedback ?? textFeedback,
+        },
+      });
+    } catch (error) {
+      // Ignore cancellation errors from rapid clicking
+      const err = error as { code?: string; message?: string };
+      if (err?.code !== 'ERR_CANCELED' && err?.message !== 'canceled') {
+        console.error('Error saving resource completion:', error);
+      }
+    }
+  }, [auth, isCompleted, resourceFeedback, textFeedback, putResourceCompletion]);
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
@@ -330,42 +342,60 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] my-4" />
 
               {/* Bottom action bar */}
-              <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
-                {/* Complete/Completed button */}
-                {!isCompleted ? (
-                  <button
-                    type="button"
-                    onClick={() => handleToggleComplete(true)}
-                    className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
-                    aria-label="Mark resource as complete"
-                  >
-                    Complete
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleToggleComplete(false)}
-                    className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
-                    aria-label="Mark resource as incomplete"
-                  >
-                    <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
-                      Completed
-                    </span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
-                    </svg>
-                  </button>
-                )}
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
+                  {/* Complete/Completed button */}
+                  {!isCompleted ? (
+                    <button
+                      type="button"
+                      onClick={() => handleToggleComplete(true)}
+                      className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
+                      aria-label="Mark resource as complete"
+                    >
+                      Complete
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleToggleComplete(false)}
+                      className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
+                      aria-label="Mark resource as incomplete"
+                    >
+                      <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
+                        Completed
+                      </span>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
+                      </svg>
+                    </button>
+                  )}
 
-                {/* Feedback buttons (show when completed or feedback given) */}
-                {showFeedback && (
-                  <div>
-                    <FeedbackSection
-                      resourceFeedback={resourceFeedback}
-                      onFeedback={handleFeedback}
-                      variant="mobile"
-                    />
-                  </div>
+                  {/* Feedback buttons (show when completed or feedback given) */}
+                  {showFeedback && (
+                    <div>
+                      <FeedbackSection
+                        resourceFeedback={resourceFeedback}
+                        onFeedback={handleFeedback}
+                        variant="mobile"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Text feedback textarea for mobile - only show when Like or Dislike is selected */}
+                {showFeedback && resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
+                  <textarea
+                    value={textFeedback}
+                    onChange={(e) => setTextFeedback(e.target.value)}
+                    onBlur={() => handleSaveCompletion(isCompleted, resourceFeedback, textFeedback)}
+                    className="box-border w-full min-h-[40px] bg-white rounded-[10px] p-3
+                      font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]
+                      resize-y outline-none transition-all duration-200 block
+                      border-[0.5px] border-[rgba(19,19,46,0.25)]
+                      focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]"
+                    placeholder="What did or didn't you find useful about this resource?"
+                    aria-label="Resource feedback comment"
+                  />
                 )}
               </div>
             </div>
@@ -376,18 +406,35 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         {auth && showFeedback && (
           <div className="hidden lg:block">
             <div
-              className="hidden lg:flex items-center transition-all duration-200 px-6 pt-[17px] pb-[9px] gap-2 w-full h-14 bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
+              className="hidden lg:flex flex-col transition-all duration-200 px-6 pt-[17px] pb-4 gap-3 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
               role="region"
               aria-label="Resource feedback section"
             >
-              <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
-                Was this resource useful?
-              </P>
-              <FeedbackSection
-                resourceFeedback={resourceFeedback}
-                onFeedback={handleFeedback}
-                variant="desktop"
-              />
+              <div className="flex items-center gap-2">
+                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
+                  Was this resource useful?
+                </P>
+                <FeedbackSection
+                  resourceFeedback={resourceFeedback}
+                  onFeedback={handleFeedback}
+                  variant="desktop"
+                />
+              </div>
+              {/* Only show textarea when Like or Dislike is selected */}
+              {resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
+                <textarea
+                  value={textFeedback}
+                  onChange={(e) => setTextFeedback(e.target.value)}
+                  onBlur={() => handleSaveCompletion(isCompleted, resourceFeedback, textFeedback)}
+                  className="box-border w-full min-h-[40px] bg-white rounded-[10px] p-3
+                    font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]
+                    resize-y outline-none transition-all duration-200 block
+                    border-[0.5px] border-[rgba(19,19,46,0.25)]
+                    focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]"
+                  placeholder="What did or didn't you find useful about this resource?"
+                  aria-label="Resource feedback comment"
+                />
+              )}
             </div>
           </div>
         )}
