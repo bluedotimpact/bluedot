@@ -131,7 +131,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     const intervalId = window.setInterval(runPeriodicSave, periodicSaveInterval);
 
     return () => clearInterval(intervalId);
-  }, [disabled, periodicSaveInterval, value]);
+  }, [disabled, periodicSaveInterval]);
 
   // Inactivity auto-save timer
   useEffect(() => {
