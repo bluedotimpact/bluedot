@@ -16,7 +16,7 @@ export default makeApiRoute({
 
   try {
     const result = streamText({
-      model: anthropic('claude-sonnet-4-20250514'),
+      model: anthropic('claude-haiku-4-5-20251001'),
       messages: [{
         role: 'user',
         content: fullPrompt,
