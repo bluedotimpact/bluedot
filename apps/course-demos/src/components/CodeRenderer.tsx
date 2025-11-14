@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
 } from '@codesandbox/sandpack-react';
@@ -11,6 +11,7 @@ type CodeRendererProps = {
 };
 
 export const CodeRenderer: React.FC<CodeRendererProps> = ({ code, height, hidePreview = false }) => {
+  const editorContainerRef = useRef<HTMLDivElement>(null);
   const files = {
     '/App.js': {
       code: `import React from 'react';
@@ -37,8 +38,8 @@ export default function App() {
 
   // Auto-scroll to bottom when code updates
   useEffect(() => {
-    if (view === 'code') {
-      const scrollContainer = document.querySelector('.sp-code-editor');
+    if (view === 'code' && editorContainerRef.current) {
+      const scrollContainer = editorContainerRef.current?.querySelector('.sp-code-editor');
       if (scrollContainer) {
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
       }
@@ -58,7 +59,11 @@ export default function App() {
     >
       <SandpackLayout>
         {view === 'preview' && <SandpackPreview showOpenInCodeSandbox={false} style={{ height }} />}
-        {view === 'code' && <SandpackCodeEditor showRunButton={false} style={{ height }} />}
+        {view === 'code' && (
+          <div ref={editorContainerRef} style={{ width: '100%', height: '100%' }}>
+            <SandpackCodeEditor showRunButton={false} style={{ height }} />
+          </div>
+        )}
       </SandpackLayout>
     </SandpackProvider>
     )}
