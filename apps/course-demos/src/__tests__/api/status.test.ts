@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createMocks } from 'node-mocks-http';
 import { describe, expect, test } from 'vitest';
-import handle from './status';
+import handle from '../../pages/api/status';
 
 describe('/api/status', () => {
   test('returns an online status', async () => {
