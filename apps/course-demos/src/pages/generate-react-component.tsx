@@ -23,7 +23,7 @@ const DemoPage: React.FC = () => {
     }
     if (!submittedUserPrompt.trim()) return;
     setView('display');
-    complete(submittedUserPrompt);
+    await complete(submittedUserPrompt);
   };
 
   const EXAMPLES = [
