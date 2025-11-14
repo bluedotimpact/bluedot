@@ -1,7 +1,7 @@
 import { anthropic } from '@ai-sdk/anthropic';
 import { asError } from '@bluedot/ui';
 import { StreamingResponseSchema } from '@bluedot/ui/src/api';
-import { pipeDataStreamToResponse, streamText } from 'ai';
+import { pipeUIMessageStreamToResponse, streamText } from 'ai';
 import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 
@@ -14,21 +14,24 @@ export default makeApiRoute({
 }, async (body, { raw: { res } }) => {
   const fullPrompt = getPromptForUserPrompt(body.prompt);
 
-  pipeDataStreamToResponse(res, {
-    status: 200,
-    execute: async (dataStream) => {
-      const result = streamText({
-        model: anthropic('claude-sonnet-4-20250514'),
-        messages: [{
-          role: 'user',
-          content: fullPrompt,
-        }],
-        maxTokens: 10_000,
-      });
-      result.mergeIntoDataStream(dataStream);
-    },
-    onError: (error: unknown) => `Error generating component: ${asError(error).message}`,
-  });
+  try {
+    const result = streamText({
+      model: anthropic('claude-haiku-4-5-20251001'),
+      messages: [{
+        role: 'user',
+        content: fullPrompt,
+      }],
+      maxOutputTokens: 10_000,
+    });
+
+    pipeUIMessageStreamToResponse({
+      response: res,
+      stream: result.toUIMessageStream(),
+      status: 200,
+    });
+  } catch (error: unknown) {
+    throw new Error(`Error generating component: ${asError(error).message}`);
+  }
 });
 
 /**
