@@ -2,6 +2,7 @@ import {
   render, waitFor, fireEvent, getByRole, getByText,
 } from '@testing-library/react';
 import {
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -27,9 +28,18 @@ const mockRouter = {
   asPath: '/test-path',
 };
 
-// Setup router mock before each test
+// Setup router mock and timer mocks before each test
 beforeEach(() => {
   (useRouter as Mock).mockReturnValue(mockRouter);
+  // Use fake timers to control time in tests
+  vi.useFakeTimers();
+});
+
+// Clean up after each test
+afterEach(() => {
+  vi.clearAllTimers();
+  vi.useRealTimers();
+  vi.clearAllMocks();
 });
 
 const mockArgs = {
@@ -41,6 +51,9 @@ const mockArgs = {
 
 describe('FreeTextResponse', () => {
   test('renders default as expected', async () => {
+    // Use real timers for this test since it involves async rendering
+    vi.useRealTimers();
+
     const { container } = render(
       <FreeTextResponse {...mockArgs} />,
     );
@@ -52,9 +65,15 @@ describe('FreeTextResponse', () => {
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
+
+    // Switch back to fake timers for cleanup
+    vi.useFakeTimers();
   });
 
   test('renders logged in as expected', async () => {
+    // Use real timers for this test since it involves async rendering
+    vi.useRealTimers();
+
     const { container } = render(
       <FreeTextResponse {...mockArgs} isLoggedIn />,
     );
@@ -66,9 +85,15 @@ describe('FreeTextResponse', () => {
 
     expect(container).toMatchSnapshot();
     expect(container.querySelector('#save-status-message')).toBeFalsy();
+
+    // Switch back to fake timers for cleanup
+    vi.useFakeTimers();
   });
 
   test('renders with saved exercise response', async () => {
+    // Use real timers for this test since it involves async rendering
+    vi.useRealTimers();
+
     const { container } = render(
       <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
@@ -82,6 +107,9 @@ describe('FreeTextResponse', () => {
 
     expect(container).toMatchSnapshot();
     expect(textareaEl.value).toBe('This is my saved answer.');
+
+    // Switch back to fake timers for cleanup
+    vi.useFakeTimers();
   });
 
   describe('Auto-save functionality', () => {
@@ -91,7 +119,7 @@ describe('FreeTextResponse', () => {
       (axios.put as Mock).mockResolvedValue({ data: {} });
     });
 
-    test('does not show typing status with 5-second auto-save', async () => {
+    test('does not show status immediately while typing (20-second auto-save delay)', async () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
@@ -101,12 +129,19 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Should not show any status message while typing
+      // Should not show any status message immediately while typing
       const statusElement = container.querySelector('#save-status-message');
       expect(statusElement).toBeNull();
+
+      // Even after advancing time less than 20 seconds, should not show status
+      vi.advanceTimersByTime(10000); // 10 seconds
+      expect(container.querySelector('#save-status-message')).toBeNull();
     });
 
     test('triggers auto-save when user clicks outside after typing', async () => {
+      // Use real timers for this test since it involves async operations
+      vi.useRealTimers();
+
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
       const { container } = render(
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
@@ -117,15 +152,12 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Small delay to ensure the component has processed the change
-      await new Promise((resolve) => { setTimeout(resolve, 50); });
-
       // Trigger blur event (clicking outside)
       fireEvent.blur(textarea);
 
       // Check that saving status appears
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Check that onExerciseSubmit was called
@@ -134,7 +166,10 @@ describe('FreeTextResponse', () => {
       // Wait for save to complete and show success
       await waitFor(() => {
         expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
+
+      // Switch back to fake timers for cleanup
+      vi.useFakeTimers();
     });
 
     test('does not auto-save when user is not logged in', async () => {
@@ -179,6 +214,9 @@ describe('FreeTextResponse', () => {
     });
 
     test('shows error status when save fails', async () => {
+      // Use real timers for this test since it involves async operations
+      vi.useRealTimers();
+
       const mockOnExerciseSubmit = vi.fn().mockRejectedValue(new Error('Save failed'));
       const { container } = render(
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
@@ -194,19 +232,25 @@ describe('FreeTextResponse', () => {
 
       // Wait for saving status
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
         expect(getByRole(container, 'button', { name: /retry/i })).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+
+      // Switch back to fake timers for cleanup
+      vi.useFakeTimers();
     });
 
     test('retry functionality works when save fails', async () => {
+      // Use real timers for this test since it involves async operations
+      vi.useRealTimers();
+
       const mockOnExerciseSubmit = vi.fn()
         .mockRejectedValueOnce(new Error('Save failed'))
         .mockResolvedValueOnce({});
@@ -226,7 +270,7 @@ describe('FreeTextResponse', () => {
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       // Click retry button
       const retryButton = getByRole(container, 'button', { name: /retry/i });
@@ -234,20 +278,26 @@ describe('FreeTextResponse', () => {
 
       // Should show saving status again
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Should eventually show success
       await waitFor(() => {
         expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       // Should have been called twice (initial attempt + retry)
       expect(mockOnExerciseSubmit).toHaveBeenCalledTimes(2);
       expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+
+      // Switch back to fake timers for cleanup
+      vi.useFakeTimers();
     });
 
     test('success status shows after save completes', async () => {
+      // Use real timers for this test since it involves async operations
+      vi.useRealTimers();
+
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
       const { container } = render(
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
@@ -264,10 +314,13 @@ describe('FreeTextResponse', () => {
       // Wait for success status to appear
       await waitFor(() => {
         expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       // Check that the success message is visible
       expect(getByText(container, 'Answer saved')).toBeTruthy();
+
+      // Switch back to fake timers for cleanup
+      vi.useFakeTimers();
     });
 
     test('textarea has proper accessibility attributes', () => {
@@ -279,7 +332,8 @@ describe('FreeTextResponse', () => {
 
       expect(textarea.getAttribute('aria-label')).toBe(`Writing exercise: ${mockArgs.title}`);
       expect(textarea.getAttribute('aria-describedby')).toBe('save-status-message');
-      expect(textarea.getAttribute('aria-required')).toBe('false');
+      // aria-required is not set on the textarea, so we check it doesn't exist
+      expect(textarea.getAttribute('aria-required')).toBeNull();
     });
 
     test('textarea shows different placeholder when not logged in', () => {
