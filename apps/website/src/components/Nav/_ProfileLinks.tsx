@@ -50,7 +50,7 @@ export const ProfileLinks: React.FC<{
           DRAWER_CLASSES(expandedSections.profile, DRAWER_Z_PROFILE),
         )}
       >
-        <div className="profile-links__links flex flex-col gap-4 items-end section-base">
+        <div className="profile-links__links flex flex-col gap-4 w-fit overflow-hidden mx-auto">
           <A
             href={ROUTES.settingsAccount.url}
             className={getNavLinkClasses()}
