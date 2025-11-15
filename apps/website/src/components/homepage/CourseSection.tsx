@@ -146,7 +146,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: string; title: 
 };
 
 /* Navigation Button Component */
-const HeaderNavigationButton = ({
+const CourseCarouselButton = ({
   direction,
   onClick,
   disabled,
@@ -417,12 +417,12 @@ const CourseCarousel = ({
 
       {/* Navigation Buttons - centered below carousel */}
       <div className="flex gap-3 justify-center mt-8">
-        <HeaderNavigationButton
+        <CourseCarouselButton
           direction="left"
           onClick={() => scroll('left')}
           disabled={false}
         />
-        <HeaderNavigationButton
+        <CourseCarouselButton
           direction="right"
           onClick={() => scroll('right')}
           disabled={false}
