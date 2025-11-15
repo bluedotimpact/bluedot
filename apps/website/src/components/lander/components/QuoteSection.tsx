@@ -48,10 +48,9 @@ const getFontSizeForQuote = (quote: string): string => {
   return FONT_SIZE_CLASSES.DEFAULT;
 };
 
-const QuoteCard = ({ quote, isActive = true, onClick }: {
+const QuoteCard = ({ quote, isActive = true }: {
   quote: QuoteWithUrl;
   isActive?: boolean;
-  onClick?: () => void;
 }) => {
   const cardContent = (
     <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]">
@@ -121,20 +120,6 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
       </div>
     </div>
   );
-
-  if (onClick && !isActive) {
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        className="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
-        style={{ backgroundColor: COLORS.cardBg }}
-        aria-label="Go to next quote"
-      >
-        {cardContent}
-      </button>
-    );
-  }
 
   return (
     <div
