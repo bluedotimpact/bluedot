@@ -7,6 +7,7 @@ type SaveStatusIndicatorProps = {
   status: SaveStatus;
   id: string;
   onRetry?: () => void;
+  savedText?: string; // Custom text for saved state
 };
 
 // Custom checkmark icon component
@@ -78,12 +79,12 @@ const ErrorIcon = () => (
   </div>
 );
 
-// Configuration object for status content
-const STATUS_CONFIG: Record<SaveStatus, {
+// Configuration object for status content (without saved text, which is dynamic)
+const getStatusConfig = (savedText: string): Record<SaveStatus, {
   icon?: React.ReactNode;
   text: string | ((onRetry?: () => void) => React.ReactNode);
   className?: string;
-}> = {
+}> => ({
   idle: {
     text: '',
   },
@@ -92,11 +93,11 @@ const STATUS_CONFIG: Record<SaveStatus, {
   },
   saving: {
     icon: <RiLoader4Line className="animate-spin" size={16} style={{ color: '#1641D9' }} />,
-    text: 'Saving answer...',
+    text: 'Saving...',
   },
   saved: {
     icon: <CheckmarkIcon />,
-    text: 'Answer saved',
+    text: savedText,
   },
   error: {
     icon: <ErrorIcon />,
@@ -135,17 +136,21 @@ const STATUS_CONFIG: Record<SaveStatus, {
     ),
     className: 'text-red-600',
   },
-};
+});
 
 const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
   status,
   id,
   onRetry,
+  savedText = 'Answer saved', // Default to "Answer saved" for backward compatibility
 }) => {
   // Hide the indicator when status is idle or typing
   if (status === 'idle' || status === 'typing') return null;
 
-  const config = STATUS_CONFIG[status];
+  // Get the config with the custom saved text
+  const statusConfig = getStatusConfig(savedText);
+  const config = statusConfig[status];
+
   if (!config) return null;
 
   const isError = status === 'error';

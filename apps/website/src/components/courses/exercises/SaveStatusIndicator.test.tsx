@@ -39,7 +39,7 @@ describe('SaveStatusIndicator', () => {
       />,
     );
 
-    expect(getByText('Saving answer...')).toBeTruthy();
+    expect(getByText('Saving...')).toBeTruthy();
     expect(container.querySelector('.animate-spin')).toBeTruthy();
   });
 
