@@ -419,7 +419,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {groupDiscussionError && (
             <ErrorSection error={groupDiscussionError} />
           )}
-          {groupDiscussionWithZoomInfo?.groupDiscussion && (
+          {/* {groupDiscussionWithZoomInfo?.groupDiscussion && (
             <div className="mb-8 md:mb-6">
               <GroupDiscussionBanner
                 unit={unit}
@@ -444,7 +444,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 }}
               />
             </div>
-          )}
+          )} */}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
