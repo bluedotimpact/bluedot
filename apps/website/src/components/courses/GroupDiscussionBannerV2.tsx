@@ -23,6 +23,21 @@ const VideoIconContainer: React.FC = () => (
   </div>
 );
 
+const BUTTON_STYLES = {
+  primary: { variant: 'primary' as const, className: 'text-[14px] bg-[#2244BB]' },
+  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[14px] text-[#2244BB] hover:bg-bluedot-lighter' },
+  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter' },
+};
+
+type ButtonConfig = {
+  id: string;
+  label: React.ReactNode;
+  style: keyof typeof BUTTON_STYLES;
+  url?: string;
+  onClick?: () => void;
+  isVisible: boolean;
+};
+
 type GroupDiscussionBannerV2Props = {
   unit: Unit;
   groupDiscussion: GroupDiscussion;
@@ -66,11 +81,13 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
+  // TODO revert
   // Dynamic discussion starts soon check
-  const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
-    [groupDiscussion.startDateTime, currentTimeMs],
-  );
+  // const discussionStartsSoon = useMemo(
+  //   () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
+  //   [groupDiscussion.startDateTime, currentTimeMs],
+  // );
+  const discussionStartsSoon = true;
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
@@ -90,13 +107,73 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
     }
   };
 
+  const buttons: ButtonConfig[] = [
+    // Live discussion buttons
+    {
+      id: 'join-now',
+      label: (
+        <>
+          <MdOutlineVideocam size={24} />
+          Join now
+        </>
+      ),
+      style: 'primary',
+      url: discussionMeetLink,
+      isVisible: discussionStartsSoon,
+    },
+    {
+      id: 'host-key',
+      label: (
+        <>
+          <FaCopy size={16} />
+          {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
+        </>
+      ),
+      style: 'secondary',
+      onClick: copyHostKeyIfFacilitator,
+      isVisible: discussionStartsSoon && userRole === 'facilitator',
+    },
+    {
+      id: 'discussion-doc',
+      label: 'Open discussion doc',
+      style: 'secondary',
+      url: discussionDocLink,
+      isVisible: discussionStartsSoon,
+    },
+    {
+      id: 'message-group',
+      label: 'Message group',
+      style: 'secondary',
+      url: slackChannelLink,
+      isVisible: discussionStartsSoon,
+    },
+    // Upcoming discussion buttons
+    {
+      id: 'see-details',
+      label: 'See details',
+      style: 'secondary',
+      url: '/settings/courses',
+      isVisible: !discussionStartsSoon,
+    },
+    {
+      id: 'cant-make-it',
+      label: "Can't make it?",
+      style: 'ghost',
+      onClick: () => setGroupSwitchModalOpen(true),
+      isVisible: true,
+    },
+  ];
+
+  const visibleButtons = buttons.filter((button) => button.isVisible);
+
   return (
     <>
       <div className="flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
           {discussionStartsSoon ? (
-            <div className="bg-blue-600 text-white px-2 py-1 rounded font-semibold">
-              LIVE
+            // TODO add aura
+            <div className="bg-[#2244BB] text-white px-2 py-1 rounded font-bold">
+              <div className="-translate-y-[0.5px]">LIVE</div>
             </div>
           ) : (
             <VideoIconContainer />
@@ -115,73 +192,37 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
               {unitTitle}
             </button>
           </div>
-          {!discussionStartsSoon && (
-          <CTALinkOrButton
-            variant="outline-black"
-            size="small"
-            url={`/courses/${unit.courseSlug}/settings`}
-            className={`bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-cream-normal transition-all duration-200 ${
-              isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}
-          >
-            See details
-          </CTALinkOrButton>
+          {/* Desktop button container */}
+          {isOpen && (
+            <div className="flex gap-3 flex-1 items-center">
+              {visibleButtons.map((button, index) => {
+                const style = BUTTON_STYLES[button.style];
+                const isLastButton = index === visibleButtons.length - 1;
+                return (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant={style.variant}
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    target={button.url ? '_blank' : undefined}
+                    className={`${style.className} flex gap-[6px] items-center ${isLastButton ? 'ml-auto' : ''}`.trim()}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                );
+              })}
+              <div className="w-px h-6 bg-[#B5C3EC]" />
+            </div>
           )}
-          <div className="flex-1" />
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="hover:opacity-70 text-[#2244BB]"
+            className="cursor-pointer text-[#2244BB] ml-auto"
           >
             <IoAdd size={24} style={isOpen ? { transform: 'rotate(45deg)', transition: 'transform 200ms' } : { transition: 'transform 200ms' }} />
           </button>
         </div>
-
-        {isOpen && discussionStartsSoon && (
-          <div className="flex gap-2">
-            <CTALinkOrButton
-              variant="black"
-              target="_blank"
-              url={discussionMeetLink}
-            >
-              Join now
-            </CTALinkOrButton>
-            {userRole === 'facilitator' && hostKeyForFacilitators && (
-              <CTALinkOrButton
-                variant="outline-black"
-                onClick={copyHostKeyIfFacilitator}
-              >
-                <FaCopy size={14} />
-                {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
-              </CTALinkOrButton>
-            )}
-            <CTALinkOrButton
-              variant="outline-black"
-              target="_blank"
-              url={discussionDocLink}
-            >
-              Open discussion doc
-            </CTALinkOrButton>
-            <CTALinkOrButton
-              variant="outline-black"
-              target="_blank"
-              url={slackChannelLink}
-            >
-              Message group
-            </CTALinkOrButton>
-          </div>
-        )}
-
-        {isOpen && userRole !== 'facilitator' && (
-          <div className="flex gap-2">
-            <CTALinkOrButton
-              variant="outline-black"
-              onClick={() => setGroupSwitchModalOpen(true)}
-            >
-              Can't make it?
-            </CTALinkOrButton>
-          </div>
-        )}
       </div>
 
       {groupSwitchModalOpen && (
