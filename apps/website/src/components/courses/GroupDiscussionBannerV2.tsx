@@ -205,12 +205,18 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
+  // Collapse to mobile layout earlier if there are a lot of buttons
+  // squashing the text. Use `visibleButtons.length > 2` as a rule of
+  // thumb because exactly measuring the available space adds complexity.
+  const desktopShowContainerQuery = visibleButtons.length > 2 ? '@[900px]:flex' : '@[700px]:flex';
+  const desktopHideContainerQuery = visibleButtons.length > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
+
   return (
     <>
-      <div className="flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]">
+      <div className="@container flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
           <IndicatorIcon isLive={discussionIsLive} />
-          <div className="flex gap-[6px] min-w-0 flex-1 lg:flex-initial">
+          <div className="flex gap-[6px] min-w-0 flex-initial">
             <span className="text-[#2244BB] font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
@@ -227,7 +233,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
           {/* Desktop button container */}
           {isOpen && (
-            <div className="hidden lg:flex gap-2 flex-1 items-center ml-2">
+            <div className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
               {visibleButtons.map((button, index) => {
                 const style = BUTTON_STYLES[button.style];
                 const isLastButton = index === visibleButtons.length - 1;
@@ -260,7 +266,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
         {/* Mobile button container */}
         {isOpen && (
-          <div className="grid lg:hidden grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max">
+          <div className={`grid ${desktopHideContainerQuery} grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max`}>
             {visibleButtons.map((button, index) => {
               // On mobile, convert ghost to secondary
               const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
