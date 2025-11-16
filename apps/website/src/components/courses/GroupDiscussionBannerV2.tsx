@@ -7,7 +7,6 @@ import {
   useCurrentTimeMs,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
-import { MdOutlineVideocam } from 'react-icons/md';
 import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
@@ -111,17 +110,18 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
-  // TODO revert
   // Dynamic discussion starts soon check
-  const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
-    [groupDiscussion.startDateTime, currentTimeMs],
-  );
-  const discussionIsLive = useMemo(
-    () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  );
-  // const discussionStartsSoon = true;
+  // const discussionStartsSoon = useMemo(
+  //   () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
+  //   [groupDiscussion.startDateTime, currentTimeMs],
+  // );
+  // const discussionIsLive = useMemo(
+  //   () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
+  //   [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
+  // );
+  // TODO revert
+  const discussionStartsSoon = true;
+  const discussionIsLive = true;
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
@@ -169,7 +169,12 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
     },
     {
       id: 'discussion-doc',
-      label: 'Open discussion doc',
+      label: (
+        <>
+          <span className="lg:hidden">Discussion doc</span>
+          <span className="hidden lg:block">Open discussion doc</span>
+        </>
+      ),
       style: 'secondary',
       url: discussionDocLink,
       isVisible: discussionStartsSoon,
@@ -205,23 +210,24 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
       <div className="flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
           <IndicatorIcon isLive={discussionIsLive} />
-          <div className="flex gap-[6px]">
-            <span className="text-[#2244BB] font-bold">
+          <div className="flex gap-[6px] min-w-0 flex-1 lg:flex-initial">
+            <span className="text-[#2244BB] font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
-            <span className="text-[#2244BB]">•</span>
+            <span className="text-[#2244BB] whitespace-nowrap">•</span>
             {/* TODO Make this a regular <a> */}
             <button
               type="button"
               onClick={onClickPrepare}
-              className="text-[#2244BB] underline underline-offset-2 cursor-pointer"
+              className="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0"
             >
               {unitTitle}
             </button>
           </div>
+
           {/* Desktop button container */}
           {isOpen && (
-            <div className="flex gap-2 flex-1 items-center ml-2">
+            <div className="hidden lg:flex gap-2 flex-1 items-center ml-2">
               {visibleButtons.map((button, index) => {
                 const style = BUTTON_STYLES[button.style];
                 const isLastButton = index === visibleButtons.length - 1;
@@ -242,6 +248,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
               <div className="w-px h-6 bg-[#B5C3EC] ml-1" />
             </div>
           )}
+
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
@@ -250,6 +257,34 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
             <IoAdd size={24} style={isOpen ? { transform: 'rotate(45deg)', transition: 'transform 200ms' } : { transition: 'transform 200ms' }} />
           </button>
         </div>
+
+        {/* Mobile button container */}
+        {isOpen && (
+          <div className="grid lg:hidden grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max">
+            {visibleButtons.map((button, index) => {
+              // On mobile, convert ghost to secondary
+              const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
+              const style = BUTTON_STYLES[mobileStyle];
+              const isPrimary = button.style === 'primary';
+              // Buttons after the 3rd one should span full width
+              const shouldSpanFull = index >= 3;
+
+              return (
+                <CTALinkOrButton
+                  key={button.id}
+                  variant={style.variant}
+                  size="small"
+                  url={button.url}
+                  onClick={button.onClick}
+                  target={button.url ? '_blank' : undefined}
+                  className={`w-full ${style.className} flex gap-[6px] items-center whitespace-nowrap ${shouldSpanFull ? 'col-span-3' : ''} ${!isPrimary && !shouldSpanFull ? 'ml-auto' : ''}`.trim()}
+                >
+                  {button.label}
+                </CTALinkOrButton>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {groupSwitchModalOpen && (
