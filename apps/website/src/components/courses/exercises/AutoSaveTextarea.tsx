@@ -26,8 +26,8 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   // Default values that were previously props
   const minHeight = '140px';
   const showSaveStatus = true;
-  const autoSaveDelay = 20000; // 20 seconds
-  const periodicSaveInterval = 180000; // 3 minutes
+  const autoSaveDelayInMs = 20000; // 20 seconds
+  const periodicSaveIntervalInMs = 180000; // 3 minutes
   const hideResizeHandle = false;
   const savedText = 'Saved';
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
@@ -115,7 +115,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
-    if (disabled || periodicSaveInterval <= 0) return undefined;
+    if (disabled || periodicSaveIntervalInMs <= 0) return undefined;
 
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
@@ -128,21 +128,21 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     };
 
     // Set up recurring timer
-    const intervalId = window.setInterval(runPeriodicSave, periodicSaveInterval);
+    const intervalId = window.setInterval(runPeriodicSave, periodicSaveIntervalInMs);
 
     return () => clearInterval(intervalId);
-  }, [disabled, periodicSaveInterval]);
+  }, [disabled, periodicSaveIntervalInMs]);
 
   // Inactivity auto-save timer
   useEffect(() => {
-    if (!isEditing || disabled || autoSaveDelay <= 0) return undefined;
+    if (!isEditing || disabled || autoSaveDelayInMs <= 0) return undefined;
 
     // Clear and reset the inactivity timer
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
 
     inactivityTimerRef.current = window.setTimeout(() => {
       saveValue(value);
-    }, autoSaveDelay);
+    }, autoSaveDelayInMs);
 
     return () => {
       if (inactivityTimerRef.current) {
@@ -150,7 +150,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         inactivityTimerRef.current = null;
       }
     };
-  }, [value, isEditing, disabled, saveValue, autoSaveDelay]);
+  }, [value, isEditing, disabled, saveValue, autoSaveDelayInMs]);
 
   const handleTextareaBlur = useCallback(() => {
     if (disabled) return;
