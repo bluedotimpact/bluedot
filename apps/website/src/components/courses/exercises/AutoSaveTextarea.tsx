@@ -28,7 +28,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   disabled = false,
   height = 'normal',
 }) => {
-  const showSaveStatus = true;
   const autoSaveDelayInMs = 20000; // 20 seconds
   const periodicSaveIntervalInMs = 180000; // 3 minutes
   const savedText = 'Saved';
@@ -170,7 +169,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           aria-label="Text input area"
-          aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}
+          aria-describedby={!disabled ? 'save-status-message' : undefined}
         />
         {/* Custom drag notches overlay */}
         <div className="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
@@ -187,7 +186,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
           </svg>
         </div>
       </div>
-      {showSaveStatus && !disabled && (
+      {!disabled && (
         <SaveStatusIndicator
           status={saveStatus}
           id="save-status-message"
