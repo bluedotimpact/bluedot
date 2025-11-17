@@ -9,8 +9,8 @@ const SLACK_ALERT_COOLDOWN_MS = 60_000; // Max 1 alert per minute
 
 type LumaEvent = {
   name: string;
-  start_at: string;
-  end_at: string;
+  start_at: string; // ISO 8601 Datetime, already in UTC
+  end_at: string; // ISO 8601 Datetime, already in UTC
   geo_address_json?: {
     city?: string;
   };
