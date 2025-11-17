@@ -92,7 +92,7 @@ async function refreshCache(): Promise<Event[]> {
             name: string;
             start_at: string;
             end_at: string;
-            geo_address_info?: {
+            geo_address_json?: {
               city?: string;
             };
             url: string;
@@ -106,7 +106,7 @@ async function refreshCache(): Promise<Event[]> {
         id: api_id,
         month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
         day: new Date(event.start_at).getDate().toString(),
-        location: event.geo_address_info?.city?.toUpperCase() || 'REMOTE',
+        location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
         title: event.name,
         time: formatStartAndEndTime(event.start_at, event.end_at),
         url: event.url,
