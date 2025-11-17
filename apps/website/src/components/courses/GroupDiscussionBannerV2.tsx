@@ -171,14 +171,14 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
       ),
       style: 'secondary',
       onClick: copyHostKeyIfFacilitator,
-      isVisible: discussionStartsSoon && userRole === 'facilitator',
+      isVisible: discussionStartsSoon && userRole === 'facilitator' && !!hostKeyForFacilitators,
     },
     {
       id: 'discussion-doc',
       label: 'Open discussion doc',
       style: 'secondary',
       url: discussionDocLink,
-      isVisible: discussionStartsSoon,
+      isVisible: discussionStartsSoon || userRole === 'facilitator',
     },
     {
       id: 'message-group',
@@ -200,7 +200,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
       label: "Can't make it?",
       style: 'ghost',
       onClick: () => setGroupSwitchModalOpen(true),
-      isVisible: true,
+      isVisible: userRole !== 'facilitator',
       mobileIndex: 1,
     },
   ];
@@ -223,7 +223,6 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
             <span className="text-[#2244BB] whitespace-nowrap">•</span>
-            {/* TODO Make this a regular <a> */}
             <button
               type="button"
               onClick={onClickPrepare}
@@ -235,7 +234,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
           {/* Desktop button container */}
           {isOpen && (
-            <div className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
+            <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
               {visibleButtons.map((button, index) => {
                 const style = BUTTON_STYLES[button.style];
                 const isLastButton = index === visibleButtons.length - 1;
@@ -247,7 +246,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.url ? '_blank' : undefined}
-                    className={`${style.className} flex gap-[6px] items-center ${isLastButton ? 'ml-auto' : ''}`.trim()}
+                    className={clsx(style.className, 'flex gap-[6px] items-center', isLastButton && 'ml-auto')}
                   >
                     {button.label}
                   </CTALinkOrButton>
@@ -259,6 +258,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
           <button
             type="button"
+            aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
             onClick={() => setIsOpen(!isOpen)}
             className="cursor-pointer text-[#2244BB] ml-auto"
           >
@@ -285,7 +285,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
           const hasOverflow = overflowButtons.length > 0;
 
           return (
-            <div className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
+            <div id="discussion-banner-mobile-container" className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
               {directButtons.map((button) => {
                 // On mobile, convert ghost to secondary
                 const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
