@@ -5,6 +5,8 @@ import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
   useCurrentTimeMs,
+  OverflowMenu,
+  type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import { IoAdd } from 'react-icons/io5';
@@ -265,32 +267,53 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
         </div>
 
         {/* Mobile button container */}
-        {isOpen && (
-          <div className={`grid ${desktopHideContainerQuery} grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max`}>
-            {visibleButtons.map((button, index) => {
-              // On mobile, convert ghost to secondary
-              const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
-              const style = BUTTON_STYLES[mobileStyle];
-              const isPrimary = button.style === 'primary';
-              // Buttons after the 3rd one should span full width
-              const shouldSpanFull = index >= 3;
+        {isOpen && (() => {
+          const MAX_DIRECT_BUTTONS = 1;
+          const directButtons = visibleButtons.slice(0, MAX_DIRECT_BUTTONS);
+          const overflowButtons = visibleButtons.slice(MAX_DIRECT_BUTTONS);
+          const hasOverflow = overflowButtons.length > 0;
 
-              return (
-                <CTALinkOrButton
-                  key={button.id}
-                  variant={style.variant}
-                  size="small"
-                  url={button.url}
-                  onClick={button.onClick}
-                  target={button.url ? '_blank' : undefined}
-                  className={`w-full ${style.className} flex gap-[6px] items-center whitespace-nowrap ${shouldSpanFull ? 'col-span-3' : ''} ${!isPrimary && !shouldSpanFull ? 'ml-auto' : ''}`.trim()}
-                >
-                  {button.label}
-                </CTALinkOrButton>
-              );
-            })}
-          </div>
-        )}
+          return (
+            <div className={`grid ${desktopHideContainerQuery} grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max`}>
+              {directButtons.map((button, index) => {
+                // On mobile, convert ghost to secondary
+                const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
+                const style = BUTTON_STYLES[mobileStyle];
+                const isPrimary = button.style === 'primary';
+
+                return (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant={style.variant}
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    target={button.url ? '_blank' : undefined}
+                    className={`w-full ${style.className} flex gap-[6px] items-center whitespace-nowrap ${!isPrimary ? 'ml-auto' : ''}`.trim()}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                );
+              })}
+              
+              {hasOverflow && (
+                <div className="flex items-center justify-center">
+                  <OverflowMenu
+                    buttonClassName="flex items-center justify-center p-2 rounded-md bg-white border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter cursor-pointer"
+                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                      id: button.id,
+                      label: button.label,
+                      ...(button.url
+                        ? { href: button.url, target: '_blank' }
+                        : { onAction: button.onClick }
+                      ),
+                    }))}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {groupSwitchModalOpen && (
