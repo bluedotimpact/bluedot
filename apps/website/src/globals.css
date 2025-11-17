@@ -28,6 +28,8 @@
 
   /* Hairline borders for standard displays */
   --border-hairline: 1px;
+
+  --nav-height-mobile: 60px;
 }
 
 /* Prevent horizontal scrolling from absolutely positioned nav dropdowns
