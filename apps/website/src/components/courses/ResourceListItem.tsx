@@ -350,7 +350,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                       await handleSaveCompletion(isCompleted, resourceFeedback, value);
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
-                    height="short"
+                    className="min-h-[75px]"
                   />
                 )}
               </div>
@@ -388,7 +388,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                     await handleSaveCompletion(isCompleted, resourceFeedback, value);
                   }}
                   placeholder="What did or didn't you find useful about this resource?"
-                  height="short"
+                  className="min-h-[75px]"
                 />
               )}
             </div>

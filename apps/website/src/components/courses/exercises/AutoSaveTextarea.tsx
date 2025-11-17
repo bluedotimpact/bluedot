@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import SaveStatusIndicator from './SaveStatusIndicator';
+import { cn } from '@bluedot/ui';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -12,13 +13,8 @@ type AutoSaveTextareaProps = {
   onSave: (value: string) => Promise<void>;
   placeholder?: string;
   disabled?: boolean;
-  height?: 'short' | 'normal';
+  className?: string;
 };
-
-const TEXTAREA_HEIGHT_STYLES = {
-  short: 'min-h-[75px]',
-  normal: 'min-h-[140px]',
-} as const;
 
 const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   value,
@@ -26,7 +22,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   onSave,
   placeholder = 'Enter text here',
   disabled = false,
-  height = 'normal',
+  className,
 }) => {
   const autoSaveDelayInMs = 20000; // 20 seconds
   const periodicSaveIntervalInMs = 180000; // 3 minutes
@@ -146,15 +142,16 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     onChange(e.target.value);
   }, [onChange]);
 
-  const textareaClasses = clsx(
+  const textareaClasses = cn(
     'box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1]',
-    TEXTAREA_HEIGHT_STYLES[height],
+    'min-h-[140px]',
     'font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
     'resize-y outline-none transition-all duration-200 block',
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
     'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'disabled:cursor-not-allowed disabled:opacity-60',
     '[&::-webkit-resizer]:hidden',
+    className,
   );
 
   return (
