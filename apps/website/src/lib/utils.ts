@@ -58,19 +58,23 @@ export const formatDateDayOfWeek = (dateTimeSeconds: number): string => {
   });
 };
 
-/** Examples: 'starting now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
-export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
-  const startDate = new Date(dateTimeSeconds * 1000);
-  const now = new Date();
-  const timeDiffMs = startDate.getTime() - now.getTime();
+/** Examples: 'now', 'in 5 minutes', 'in 1 hour 30 minutes', '5 minutes ago' */
+export const formatDateTimeRelative = ({
+  dateTimeMs,
+  currentTimeMs,
+}: {
+  dateTimeMs: number;
+  currentTimeMs: number;
+}): string => {
+  const timeDiffMs = dateTimeMs - currentTimeMs;
 
   // Helper to pluralize units
   const pluralizeTimeUnit = (value: number, unit: string) => `${value} ${unit}${value !== 1 ? 's' : ''}`;
 
   // Helper to build human-readable time until/since
-  const buildRelativeTimeString = (minutes: number, hours: number, days: number, suffix: string) => {
-    if (days >= 1) {
-      return `${pluralizeTimeUnit(days, 'day')}${suffix}`;
+  const buildRelativeTimeString = (minutes: number, hours: number, calendarDays: number, suffix: string) => {
+    if (calendarDays >= 1) {
+      return `${pluralizeTimeUnit(calendarDays, 'day')}${suffix}`;
     }
     if (hours >= 1) {
       const remainingMinutes = minutes % 60;
@@ -85,14 +89,24 @@ export const formatDateTimeRelative = (dateTimeSeconds: number): string => {
   // Calculate time units
   const absMinutes = Math.abs(Math.floor(timeDiffMs / (1000 * 60)));
   const absHours = Math.floor(absMinutes / 60);
-  const absDays = Math.floor(absHours / 24);
+
+  // Calculate calendar days instead of just dividing hours by 24
+  // This ensures "in X days" reflects actual calendar days, not 24-hour periods
+  const startOfNow = new Date(currentTimeMs);
+  startOfNow.setHours(0, 0, 0, 0);
+
+  const startOfTarget = new Date(dateTimeMs);
+  startOfTarget.setHours(0, 0, 0, 0);
+
+  // Get absolute number of calendar days between dates
+  const absCalendarDays = Math.abs(Math.round((startOfTarget.getTime() - startOfNow.getTime()) / (1000 * 60 * 60 * 24)));
 
   // Determine relative time string
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
-    return 'starting now';
+    return 'now';
   }
   if (timeDiffMs > 0) {
-    return `in ${buildRelativeTimeString(absMinutes, absHours, absDays, '')}`;
+    return `in ${buildRelativeTimeString(absMinutes, absHours, absCalendarDays, '')}`;
   }
-  return buildRelativeTimeString(absMinutes, absHours, absDays, ' ago');
+  return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };

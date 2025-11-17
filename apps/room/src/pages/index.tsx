@@ -24,7 +24,7 @@ const DashboardPage = withAuth(({ auth }) => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [poll]);
 
   // If there's only one room, automatically select it
   useEffect(() => {

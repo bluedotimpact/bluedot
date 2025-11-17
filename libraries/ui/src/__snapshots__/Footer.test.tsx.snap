@@ -3,17 +3,16 @@
 exports[`Footer > renders default as expected 1`] = `
 <div>
   <footer
-    class="w-full"
-    style="background: #13132E;"
+    class="w-full bg-[#02051E]"
   >
     <div
-      class="w-full py-8 px-5 min-[680px]:py-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:px-12 xl:px-20 2xl:pt-10 2xl:pb-8 2xl:px-40"
+      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
     >
       <div
-        class="max-w-[280px] min-[680px]:max-w-[616px] lg:max-w-screen-lg xl:w-[1120px] xl:max-w-[1120px] 2xl:w-[1120px] 2xl:max-w-[1120px] mx-auto"
+        class="max-w-screen-xl mx-auto"
       >
         <div
-          class="2xl:hidden mb-12"
+          class="lg:hidden mb-12"
         >
           <a
             href="/"
@@ -27,10 +26,224 @@ exports[`Footer > renders default as expected 1`] = `
           </a>
         </div>
         <div
-          class="2xl:grid 2xl:grid-cols-12 2xl:gap-8 2xl:items-stretch"
+          class="flex flex-col gap-12 min-[680px]:hidden"
         >
           <div
-            class="hidden 2xl:flex 2xl:flex-col 2xl:justify-between 2xl:col-span-4"
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
+                >
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden"
+        >
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
+                >
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8"
+        >
+          <div
+            class="flex flex-col justify-between shrink-0"
           >
             <a
               href="/"
@@ -43,7 +256,7 @@ exports[`Footer > renders default as expected 1`] = `
               </p>
             </a>
             <div
-              class="flex gap-6 ml-2"
+              class="flex gap-6"
             >
               <a
                 aria-label="Twitter"
@@ -111,345 +324,111 @@ exports[`Footer > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="2xl:col-span-8 2xl:grid 2xl:grid-cols-3 2xl:gap-8"
+            class="flex flex-col"
           >
-            <div
-              class="flex flex-col gap-12 min-[680px]:gap-0 lg:flex-row lg:gap-8 mt-12 min-[680px]:mt-0 2xl:mt-0 2xl:contents"
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
-              <div
-                class="flex flex-col gap-12 min-[680px]:hidden"
-              >
-                <div
-                  class="flex flex-col"
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    BlueDot Impact
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/about"
-                        tabindex="0"
-                      >
-                        About us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                        tabindex="0"
-                      >
-                        Support us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/join-us"
-                        tabindex="0"
-                      >
-                        Join us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/contact"
-                        tabindex="0"
-                      >
-                        Contact us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  class="flex flex-col"
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Explore
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  />
-                </div>
-                <div
-                  class="flex flex-col"
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Resources
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/blog"
-                        tabindex="0"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                        rel="noopener noreferrer"
-                        tabindex="0"
-                        target="_blank"
-                      >
-                        Events
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/privacy-policy"
-                        tabindex="0"
-                      >
-                        Privacy Policy
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div
-                class="hidden min-[680px]:block lg:hidden"
-              >
-                <div
-                  class="grid grid-cols-[1fr_1fr] gap-x-[100px]"
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
                 >
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      BlueDot Impact
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    >
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/about"
-                          tabindex="0"
-                        >
-                          About us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                          tabindex="0"
-                        >
-                          Support us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/join-us"
-                          tabindex="0"
-                        >
-                          Join us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/contact"
-                          tabindex="0"
-                        >
-                          Contact us
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      Explore
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="mt-[73px]"
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
                 >
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      Resources
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    >
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/blog"
-                          tabindex="0"
-                        >
-                          Blog
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                          rel="noopener noreferrer"
-                          tabindex="0"
-                          target="_blank"
-                        >
-                          Events
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/privacy-policy"
-                          tabindex="0"
-                        >
-                          Privacy Policy
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8 lg:w-full 2xl:contents"
-              >
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    BlueDot Impact
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/about"
-                        tabindex="0"
-                      >
-                        About us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                        tabindex="0"
-                      >
-                        Support us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/join-us"
-                        tabindex="0"
-                      >
-                        Join us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/contact"
-                        tabindex="0"
-                      >
-                        Contact us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Explore
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  />
-                </div>
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
-                >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Resources
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/blog"
-                        tabindex="0"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                        rel="noopener noreferrer"
-                        tabindex="0"
-                        target="_blank"
-                      >
-                        Events
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/privacy-policy"
-                        tabindex="0"
-                      >
-                        Privacy Policy
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div
-          class="2xl:hidden my-12"
+          class="lg:hidden my-12"
         >
           <div
             class="flex gap-6"
@@ -561,17 +540,16 @@ exports[`Footer > renders default as expected 1`] = `
 exports[`Footer > renders with optional args 1`] = `
 <div>
   <footer
-    class="w-full"
-    style="background: #13132E;"
+    class="w-full bg-[#02051E]"
   >
     <div
-      class="w-full py-8 px-5 min-[680px]:py-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:px-12 xl:px-20 2xl:pt-10 2xl:pb-8 2xl:px-40"
+      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
     >
       <div
-        class="max-w-[280px] min-[680px]:max-w-[616px] lg:max-w-screen-lg xl:w-[1120px] xl:max-w-[1120px] 2xl:w-[1120px] 2xl:max-w-[1120px] mx-auto"
+        class="max-w-screen-xl mx-auto"
       >
         <div
-          class="2xl:hidden mb-12"
+          class="lg:hidden mb-12"
         >
           <a
             href="/"
@@ -585,10 +563,224 @@ exports[`Footer > renders with optional args 1`] = `
           </a>
         </div>
         <div
-          class="2xl:grid 2xl:grid-cols-12 2xl:gap-8 2xl:items-stretch"
+          class="flex flex-col gap-12 min-[680px]:hidden"
         >
           <div
-            class="hidden 2xl:flex 2xl:flex-col 2xl:justify-between 2xl:col-span-4"
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
+                >
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden"
+        >
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
+                >
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
+                >
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8"
+        >
+          <div
+            class="flex flex-col justify-between shrink-0"
           >
             <a
               href="/"
@@ -601,7 +793,7 @@ exports[`Footer > renders with optional args 1`] = `
               />
             </a>
             <div
-              class="flex gap-6 ml-2"
+              class="flex gap-6"
             >
               <a
                 aria-label="Twitter"
@@ -669,345 +861,111 @@ exports[`Footer > renders with optional args 1`] = `
             </div>
           </div>
           <div
-            class="2xl:col-span-8 2xl:grid 2xl:grid-cols-3 2xl:gap-8"
+            class="flex flex-col"
           >
-            <div
-              class="flex flex-col gap-12 min-[680px]:gap-0 lg:flex-row lg:gap-8 mt-12 min-[680px]:mt-0 2xl:mt-0 2xl:contents"
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
-              <div
-                class="flex flex-col gap-12 min-[680px]:hidden"
-              >
-                <div
-                  class="flex flex-col"
+              BlueDot Impact
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/about"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    BlueDot Impact
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/about"
-                        tabindex="0"
-                      >
-                        About us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                        tabindex="0"
-                      >
-                        Support us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/join-us"
-                        tabindex="0"
-                      >
-                        Join us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/contact"
-                        tabindex="0"
-                      >
-                        Contact us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  class="flex flex-col"
+                  About us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Explore
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  />
-                </div>
-                <div
-                  class="flex flex-col"
+                  Support us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/join-us"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Resources
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/blog"
-                        tabindex="0"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                        rel="noopener noreferrer"
-                        tabindex="0"
-                        target="_blank"
-                      >
-                        Events
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/privacy-policy"
-                        tabindex="0"
-                      >
-                        Privacy Policy
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div
-                class="hidden min-[680px]:block lg:hidden"
-              >
-                <div
-                  class="grid grid-cols-[1fr_1fr] gap-x-[100px]"
+                  Join us
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/contact"
+                  tabindex="0"
                 >
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      BlueDot Impact
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    >
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/about"
-                          tabindex="0"
-                        >
-                          About us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                          tabindex="0"
-                        >
-                          Support us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/join-us"
-                          tabindex="0"
-                        >
-                          Join us
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/contact"
-                          tabindex="0"
-                        >
-                          Contact us
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      Explore
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    />
-                  </div>
-                </div>
-                <div
-                  class="mt-[73px]"
+                  Contact us
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Explore
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            />
+          </div>
+          <div
+            class="flex flex-col"
+          >
+            <h3
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+            >
+              Resources
+            </h3>
+            <ul
+              class="flex flex-col gap-[15px] list-none p-0"
+            >
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/blog"
+                  tabindex="0"
                 >
-                  <div
-                    class="flex flex-col"
-                  >
-                    <h3
-                      class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                    >
-                      Resources
-                    </h3>
-                    <ul
-                      class="flex flex-col gap-[15px] list-none p-0"
-                    >
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/blog"
-                          tabindex="0"
-                        >
-                          Blog
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                          rel="noopener noreferrer"
-                          tabindex="0"
-                          target="_blank"
-                        >
-                          Events
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                          href="/privacy-policy"
-                          tabindex="0"
-                        >
-                          Privacy Policy
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8 lg:w-full 2xl:contents"
-              >
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    BlueDot Impact
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/about"
-                        tabindex="0"
-                      >
-                        About us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
-                        tabindex="0"
-                      >
-                        Support us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/join-us"
-                        tabindex="0"
-                      >
-                        Join us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/contact"
-                        tabindex="0"
-                      >
-                        Contact us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
+                  Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/privacy-policy"
+                  tabindex="0"
                 >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Explore
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  />
-                </div>
-                <div
-                  class="flex flex-col flex-1 2xl:flex-initial"
-                >
-                  <h3
-                    class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
-                  >
-                    Resources
-                  </h3>
-                  <ul
-                    class="flex flex-col gap-[15px] list-none p-0"
-                  >
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/blog"
-                        tabindex="0"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                        rel="noopener noreferrer"
-                        tabindex="0"
-                        target="_blank"
-                      >
-                        Events
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
-                        href="/privacy-policy"
-                        tabindex="0"
-                      >
-                        Privacy Policy
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div
-          class="2xl:hidden my-12"
+          class="lg:hidden my-12"
         >
           <div
             class="flex gap-6"

@@ -59,11 +59,11 @@ We’re not looking for spectators; we want you to actively participate in the f
 
 If you miss two consecutive discussions, we’ll consider you inactive and remove you from future group discussions until we hear from you again. This is because we want to ensure that the expected attendees for each group discussion are accurate so each discussion has between 4-8 participants in the discussion.
 
-If you miss four or more Learning Phase facilitated group discussions (i.e. units 1-8), we will remove you from the course and ask that you reapply for the next round of the course. It will be challenging to catch up with the course material at this stage and detract from potentially productive discussions.
+If you miss four or more group discussions, we will remove you from the course and ask that you reapply for the next round of the course. It will be challenging to catch up with the course material at this stage and detract from potentially productive discussions.
 
 We reserve the right to remove participants from the course who consistently disrupt the learning environment or demonstrate behaviour that negatively impacts their group. This includes repeated instances of being unprepared, disrespecting other participants or facilitators, or otherwise hindering the collaborative learning atmosphere we strive to maintain.
 
-Note that to receive a certificate of completion at the end of the course, you need to attend six or more Learning Phase facilitated group discussions and submit a project!
+Note that to receive a certificate of completion at the end of the course, you need to attend >80% of the group discussions and submit a project!
 
 If you feel like poor attendance or disruptive behaviour from others in your group is disrupting your learning, please mention this to your facilitator or [our team](https://bluedot.org/contact).
 `}

@@ -48,10 +48,9 @@ const getFontSizeForQuote = (quote: string): string => {
   return FONT_SIZE_CLASSES.DEFAULT;
 };
 
-const QuoteCard = ({ quote, isActive = true, onClick }: {
+const QuoteCard = ({ quote, isActive = true }: {
   quote: QuoteWithUrl;
   isActive?: boolean;
-  onClick?: () => void;
 }) => {
   const cardContent = (
     <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]">
@@ -121,20 +120,6 @@ const QuoteCard = ({ quote, isActive = true, onClick }: {
       </div>
     </div>
   );
-
-  if (onClick && !isActive) {
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        className="w-full cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
-        style={{ backgroundColor: COLORS.cardBg }}
-        aria-label="Go to next quote"
-      >
-        {cardContent}
-      </button>
-    );
-  }
 
   return (
     <div
@@ -234,7 +219,6 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
   };
 
   const activeQuote = quotes[activeIndex];
-  const nextQuote = quotes[(activeIndex + 1) % quotes.length];
 
   if (!activeQuote) {
     return null;
@@ -259,7 +243,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
       <div className="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible">
         {/* Quote cards container */}
         <div className="relative w-full">
-          {/* Mobile and Tablet layout with peek effect (below 1024px) */}
+          {/* Mobile and Tablet layout (below 1024px) */}
           <div className="lg:hidden relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
@@ -267,30 +251,9 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
                 <QuoteCard quote={activeQuote} isActive />
               </div>
             </div>
-
-            {/* Peek card positioned absolutely with consistent 10px gap */}
-            {nextQuote && (
-              <>
-                {/* Mobile peek card (below 680px) */}
-                <div className="min-[680px]:hidden absolute top-0 left-1/2 pointer-events-none">
-                  <div className="relative pointer-events-auto" style={{ left: 'calc((100vw - 40px) / 2 + 10px)' }}>
-                    <div className="w-[calc(100vw-40px)]">
-                      <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Tablet peek card (680px-1023px) */}
-                <div className="hidden min-[680px]:block lg:hidden absolute top-0 pointer-events-none" style={{ left: 'calc(50% + (100vw - 64px) / 2 + 16px)' }}>
-                  <div className="w-[calc(100vw-64px)] pointer-events-auto">
-                    <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
-                  </div>
-                </div>
-              </>
-            )}
           </div>
 
-          {/* Desktop layout with peek effect (1024px+) */}
+          {/* Desktop layout (1024px+) */}
           <div className="hidden lg:block relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
@@ -298,35 +261,6 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
                 <QuoteCard quote={activeQuote} isActive />
               </div>
             </div>
-
-            {/* Peek card - absolutely positioned for full-bleed effect */}
-            {nextQuote && (
-              <div className="absolute inset-0 pointer-events-none">
-                {/* Peek card for lg screens (1024px) */}
-                <div
-                  className="absolute top-0 pointer-events-auto hidden lg:block xl:hidden"
-                  style={{
-                    left: 'calc(50% + 496px)', // 50% center + 464px (half of 928px card) + 32px gap
-                  }}
-                >
-                  <div className="w-[928px]">
-                    <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
-                  </div>
-                </div>
-
-                {/* Peek card for xl screens (1280px+) */}
-                <div
-                  className="absolute top-0 pointer-events-auto hidden xl:block"
-                  style={{
-                    left: 'calc(50% + 592px)', // 50% center + 560px (half of 1120px card) + 32px gap
-                  }}
-                >
-                  <div className="w-[1120px]">
-                    <QuoteCard quote={nextQuote} isActive={false} onClick={handleNext} />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 

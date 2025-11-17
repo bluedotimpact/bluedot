@@ -11,14 +11,12 @@ import { ExpandedSectionsState } from './utils';
 export const NavCta: React.FC<{
   // Required
   expandedSections: ExpandedSectionsState;
-  isScrolled: boolean;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   // Optional
   isLoggedIn?: boolean;
   isHomepage?: boolean;
 }> = ({
   isLoggedIn,
-  isScrolled,
   expandedSections,
   updateExpandedSections,
   isHomepage = false,
@@ -34,13 +32,12 @@ export const NavCta: React.FC<{
     }
   }, [router.asPath]);
   const getButtonClasses = (type: 'primary' | 'secondary') => {
-    const isDark = isHomepage || isScrolled;
     const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
 
     if (type === 'primary') {
       return clsx(
         baseClasses,
-        isDark
+        isHomepage
           ? 'bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]'
           : 'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
       );
@@ -48,7 +45,7 @@ export const NavCta: React.FC<{
 
     return clsx(
       baseClasses,
-      isDark
+      isHomepage
         ? 'bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm'
         : 'border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50',
     );
@@ -58,7 +55,6 @@ export const NavCta: React.FC<{
     <div className="nav-cta flex flex-row items-center gap-4">
       {isLoggedIn ? (
         <ProfileLinks
-          isScrolled={isScrolled}
           expandedSections={expandedSections}
           updateExpandedSections={updateExpandedSections}
           isHomepage={isHomepage}

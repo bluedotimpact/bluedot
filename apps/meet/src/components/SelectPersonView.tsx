@@ -4,6 +4,7 @@ import {
   ClickTarget,
   CTALinkOrButton, ErrorSection, NewText,
   ProgressDots,
+  useCurrentTimeMs,
 } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { MeetingParticipantsRequest, MeetingParticipantsResponse } from '../pages/api/public/meeting-participants';
@@ -16,6 +17,7 @@ export type SelectPersonViewProps = {
 };
 
 const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, setPage }) => {
+  const currentTimeMs = useCurrentTimeMs();
   const [{ data, loading, error }] = useAxios<MeetingParticipantsResponse, MeetingParticipantsRequest>({
     method: 'post',
     url: '/api/public/meeting-participants',
@@ -38,26 +40,17 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     );
   }
 
-  if (data.type === 'redirect') {
-    window.location.href = data.to;
-    return (
-      <Page>
-        <NewText.H1 className="flex-1">Redirecting...</NewText.H1>
-      </Page>
-    );
-  }
-
   return (
     <Page>
       <NewText.H1 className="mb-4">Hey there! Who are you?</NewText.H1>
-      {(data.meetingStartTime > (Date.now() / 1000) + 10 * 60)
+      {(data.meetingStartTime > (currentTimeMs / 1000) + 10 * 60)
           && (
             <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">
               <p className="font-bold mb-1">Heads up, you're a little early.</p>
               <p>Your next discussion is scheduled to start at {new Date(data.meetingStartTime * 1000).toLocaleString()}.</p>
             </div>
           )}
-      {(data.meetingEndTime + 10 * 60 < (Date.now() / 1000))
+      {(data.meetingEndTime + 10 * 60 < (currentTimeMs / 1000))
           && (
             <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid">
               <p className="font-bold mb-1">Heads up, your discussion has passed its scheduled end time.</p>

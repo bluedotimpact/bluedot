@@ -1,9 +1,6 @@
-import { groupDiscussionTable, groupTable, InferSelectModel } from '@bluedot/db';
+import { type Group, type GroupDiscussion } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
-import { calculateGroupAvailability } from './available';
-
-type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
-type Group = InferSelectModel<typeof groupTable.pg>;
+import { calculateGroupAvailability } from './group-switching';
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);

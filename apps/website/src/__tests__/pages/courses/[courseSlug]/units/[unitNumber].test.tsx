@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
 import { Unit } from '@bluedot/db';
 import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { ChunkWithContent } from '../../../../../pages/api/courses/[courseSlug]/[unitNumber]/index';
 import { renderWithHead } from '../../../../testUtils';
 import { TrpcProvider } from '../../../../trpcProvider';
 
@@ -60,7 +59,7 @@ const createMockUnit = (unitNumber: string, title: string, content: string): Uni
   autoNumberId: 1,
 });
 
-const createMockChunk = (unitId: string): ChunkWithContent => ({
+const createMockChunk = (unitId: string) => ({
   chunkId: 'recuC87TILbjW4eF4',
   unitId,
   chunkTitle: 'Test Chunk',

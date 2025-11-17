@@ -4,6 +4,7 @@ import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 import OurCommunitySection from '../components/homepage/OurCommunitySection';
+import EventsSection from '../components/homepage/EventsSection';
 
 const HomePage = () => {
   return (
@@ -42,6 +43,9 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <OurCommunitySection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <EventsSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <HomepageBlogSection maxItems={3} />

@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import {
   beforeEach, describe, expect, Mock, test, vi,
@@ -12,10 +11,6 @@ import MultipleChoice from './MultipleChoice';
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
-
-// Mock axios
-vi.mock('axios');
-(axios.put as Mock).mockResolvedValue({ data: {} });
 
 const mockRouter = {
   asPath: '/test-path',
@@ -35,7 +30,7 @@ const mockArgs = {
     "Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?",
   options: mockOptions,
   answer: "The community's preference for low-tech fishing traditions\n",
-  onExerciseSubmit: () => {},
+  onExerciseSubmit: () => Promise.resolve(),
 };
 
 describe('MultipleChoice', () => {

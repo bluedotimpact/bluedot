@@ -1,22 +1,18 @@
-import clsx from 'clsx';
-
-import { A, H3 } from '../Text';
+import { A } from '../Text';
 import { TRANSITION_DURATION_CLASS } from './utils';
 
-export const NavLogo: React.FC<{ logo?: string; isScrolled: boolean; isHomepage?: boolean }> = ({ logo, isScrolled, isHomepage = false }) => (
-  <A href="/" className="logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline">
-    {logo ? (
+export const NavLogo: React.FC<{ isHomepage: boolean }> = ({ isHomepage }) => {
+  const logo = isHomepage
+    ? '/images/logo/BlueDot_Impact_Logo_White.svg'
+    : '/images/logo/BlueDot_Impact_Logo.svg';
+
+  return (
+    <A href="/" className="logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline">
       <img
-        className={clsx(
-          `logo__img h-5 min-[681px]:h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`,
-          // Don't invert on homepage (already white), only invert on other pages when scrolled
-          !isHomepage && isScrolled && 'brightness-0 invert',
-        )}
+        className={`logo__img h-5 min-[681px]:h-6 mr-auto transition-all ${TRANSITION_DURATION_CLASS}`}
         src={logo}
         alt="BlueDot Impact Logo"
       />
-    ) : (
-      <H3 className="logo__placeholder h-8 mr-auto">BlueDot Impact</H3>
-    )}
-  </A>
-);
+    </A>
+  );
+};
