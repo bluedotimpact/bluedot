@@ -339,7 +339,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 </div>
 
                 {/* Text feedback textarea for mobile - only show when Like or Dislike is selected */}
-                {isCompleted && resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
+                {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || completionData?.feedback) && (
                   <AutoSaveTextarea
                     value={textFeedback || completionData?.feedback || ''}
                     onChange={setTextFeedback}
@@ -374,7 +374,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 />
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
-              {resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE && (
+              {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || completionData?.feedback) && (
                 <AutoSaveTextarea
                   value={textFeedback || completionData?.feedback || ''}
                   onChange={setTextFeedback}
