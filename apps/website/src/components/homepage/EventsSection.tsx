@@ -86,9 +86,19 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 };
 
 const EventCard = ({ event }: { event: Event }) => {
-  const date = new Date(event.startAt);
-  const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-  const day = date.getDate().toString();
+  const startDate = new Date(event.startAt);
+  const endDate = new Date(event.endAt);
+
+  const timeFormat: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  const month = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const day = startDate.getDate().toString();
+  // Use `undefined` to respect user's locale for time formatting
+  const timeString = `${startDate.toLocaleTimeString(undefined, timeFormat)} - ${endDate.toLocaleTimeString(undefined, timeFormat)}`;
 
   return (
     <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
@@ -110,7 +120,7 @@ const EventCard = ({ event }: { event: Event }) => {
           </h3>
         </a>
         <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
-          {event.time}
+          {timeString}
         </p>
       </div>
     </div>

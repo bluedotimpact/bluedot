@@ -21,9 +21,9 @@ function transformEvent(api_id: string, event: LumaEvent) {
   return {
     id: api_id,
     startAt: event.start_at,
+    endAt: event.end_at,
     location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
     title: event.name,
-    time: formatStartAndEndTime(event.start_at, event.end_at),
     url: event.url,
   };
 }
@@ -148,20 +148,4 @@ async function sendSlackAlertIfNeeded(error: unknown): Promise<void> {
   ]);
 
   lastSlackAlert = now;
-}
-
-function formatStartAndEndTime(startAt: string, endAt: string): string {
-  const start = new Date(startAt);
-  const end = new Date(endAt);
-  const startTime = start.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-  const endTime = end.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-  return `${startTime} - ${endTime}`;
 }
