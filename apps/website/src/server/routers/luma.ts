@@ -7,7 +7,7 @@ const CACHE_TTL_MS = 60_000; // 1 minute
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
 const SLACK_ALERT_COOLDOWN_MS = 60_000; // Max 1 alert per minute
 
-function transformEvent(api_id: string, event: {
+type LumaEvent = {
   name: string;
   start_at: string;
   end_at: string;
@@ -15,7 +15,9 @@ function transformEvent(api_id: string, event: {
     city?: string;
   };
   url: string;
-}) {
+};
+
+function transformEvent(api_id: string, event: LumaEvent) {
   return {
     id: api_id,
     month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
@@ -100,15 +102,7 @@ async function refreshCache(): Promise<Event[]> {
       const data = await response.json() as {
         entries: {
           api_id: string;
-          event: {
-            name: string;
-            start_at: string;
-            end_at: string;
-            geo_address_json?: {
-              city?: string;
-            };
-            url: string;
-          };
+          event: LumaEvent;
         }[];
         has_more: boolean;
         next_cursor?: string;
