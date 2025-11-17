@@ -392,11 +392,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                       await handleSaveCompletion(isCompleted, resourceFeedback, value);
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
-                    minHeight="40px"
-                    className="px-3 py-2"
-                    showSaveStatus
-                    ariaLabel="Resource feedback comment"
-                    savedText="Feedback saved"
+                    className="px-3 py-2 min-h-[40px]"
                   />
                 )}
               </div>
@@ -431,11 +427,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                     await handleSaveCompletion(isCompleted, resourceFeedback, value);
                   }}
                   placeholder="What did or didn't you find useful about this resource?"
-                  minHeight="40px"
-                  className="px-3 py-2"
-                  showSaveStatus
-                  ariaLabel="Resource feedback comment"
-                  savedText="Feedback saved"
+                  className="px-3 py-2 min-h-[40px]"
                 />
               )}
             </div>

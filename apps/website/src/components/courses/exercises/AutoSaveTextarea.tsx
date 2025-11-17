@@ -11,15 +11,8 @@ type AutoSaveTextareaProps = {
   onChange: (value: string) => void;
   onSave: (value: string) => Promise<void>;
   placeholder?: string;
-  minHeight?: string;
   className?: string;
   disabled?: boolean;
-  showSaveStatus?: boolean;
-  autoSaveDelay?: number; // milliseconds for inactivity timer (default 20000)
-  periodicSaveInterval?: number; // milliseconds for periodic saves (default 180000)
-  ariaLabel?: string;
-  hideResizeHandle?: boolean;
-  savedText?: string; // Custom text for saved state (default: "Answer saved")
 };
 
 const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
@@ -27,16 +20,16 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   onChange,
   onSave,
   placeholder = 'Enter text here',
-  minHeight = '140px',
   className,
   disabled = false,
-  showSaveStatus = true,
-  autoSaveDelay = 20000, // 20 seconds
-  periodicSaveInterval = 180000, // 3 minutes
-  ariaLabel,
-  hideResizeHandle = false,
-  savedText = 'Answer saved',
 }) => {
+  // Default values that were previously props
+  const minHeight = '140px';
+  const showSaveStatus = true;
+  const autoSaveDelay = 20000; // 20 seconds
+  const periodicSaveInterval = 180000; // 3 minutes
+  const hideResizeHandle = false;
+  const savedText = 'Saved';
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
   const isSavingRef = useRef<boolean>(false);
@@ -193,7 +186,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         style={{ minHeight }}
         placeholder={placeholder}
         disabled={disabled}
-        aria-label={ariaLabel}
         aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}
       />
       {/* Custom drag notches overlay - only show if not hiding resize handle */}
