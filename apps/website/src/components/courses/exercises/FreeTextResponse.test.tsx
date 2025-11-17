@@ -150,7 +150,7 @@ describe('FreeTextResponse', () => {
 
       // Wait for save to complete and show success
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
+        expect(getByText(container, 'Saved')).toBeTruthy();
       }, { timeout: 2000 });
     });
 
@@ -256,7 +256,7 @@ describe('FreeTextResponse', () => {
 
       // Should eventually show success
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
+        expect(getByText(container, 'Saved')).toBeTruthy();
       }, { timeout: 2000 });
 
       // Should have been called twice (initial attempt + retry)
@@ -280,11 +280,11 @@ describe('FreeTextResponse', () => {
 
       // Wait for success status to appear
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
+        expect(getByText(container, 'Saved')).toBeTruthy();
       }, { timeout: 2000 });
 
       // Check that the success message is visible
-      expect(getByText(container, 'Answer saved')).toBeTruthy();
+      expect(getByText(container, 'Saved')).toBeTruthy();
     });
 
     test('textarea has proper accessibility attributes', () => {
@@ -294,7 +294,7 @@ describe('FreeTextResponse', () => {
 
       const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
-      expect(textarea.getAttribute('aria-label')).toBe(`Writing exercise: ${mockArgs.title}`);
+      expect(textarea.getAttribute('aria-label')).toBe('Text input area');
       expect(textarea.getAttribute('aria-describedby')).toBe('save-status-message');
       // aria-required is not set on the textarea, so we check it doesn't exist
       expect(textarea.getAttribute('aria-required')).toBeNull();

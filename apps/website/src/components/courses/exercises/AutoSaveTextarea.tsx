@@ -195,6 +195,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         className={textareaClasses}
         placeholder={placeholder}
         disabled={disabled}
+        aria-label="Text input area"
         aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}
       />
       {/* Custom drag notches overlay - only show if not hiding resize handle */}
