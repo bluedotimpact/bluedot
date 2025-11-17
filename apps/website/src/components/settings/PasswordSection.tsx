@@ -6,6 +6,7 @@ import {
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useRef, useState } from 'react';
+import type { ZodError } from 'zod';
 import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
 import { trpc } from '../../utils/trpc';
 import { P } from '../Text';
@@ -98,26 +99,31 @@ const ChangePasswordModal = ({
   const validateForm = (): boolean => {
     const newErrors = { current: '', new: '', confirm: '' };
 
-    const result = changePasswordWithConfirmSchema.safeParse({
-      currentPassword,
-      newPassword,
-      confirmPassword,
-    });
-
-    if (!result.success) {
-      result.error.issues.forEach((issue) => {
-        const field = issue.path[0];
-        if (field === 'currentPassword') {
-          newErrors.current = issue.message;
-        } else if (field === 'newPassword') {
-          newErrors.new = issue.message;
-        } else if (field === 'confirmPassword') {
-          newErrors.confirm = issue.message;
-        }
+    try {
+      changePasswordWithConfirmSchema.parse({
+        currentPassword,
+        newPassword,
+        confirmPassword,
       });
+      setErrors(newErrors);
+      return true;
+    } catch (error) {
+      if (error instanceof Error && 'errors' in error) {
+        const zodError = error as ZodError;
+        zodError.errors.forEach((err) => {
+          const field = err.path[0] as string;
+          if (field === 'currentPassword') {
+            newErrors.current = err.message;
+          } else if (field === 'newPassword') {
+            newErrors.new = err.message;
+          } else if (field === 'confirmPassword') {
+            newErrors.confirm = err.message;
+          }
+        });
+      }
+      setErrors(newErrors);
+      return false;
     }
-    setErrors(newErrors);
-    return result.success;
   };
 
   const handleSubmit = async () => {

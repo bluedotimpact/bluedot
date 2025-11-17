@@ -35,7 +35,7 @@
     "tailwind-merge": "^3.3.1",
     "winston": "^3.17.0",
     "winston-console-format": "^1.0.8",
-    "zod": "^4.1.12",
+    "zod": "^3.24.2",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

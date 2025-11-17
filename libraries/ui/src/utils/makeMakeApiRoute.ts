@@ -35,7 +35,7 @@ export type MakeMakeApiRouteEnv = {
   ALERTS_SLACK_CHANNEL_ID: string;
 };
 
-const EmptyBodySchema = z.union([z.strictObject({}), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
+const EmptyBodySchema = z.union([z.object({}).strict(), z.literal(null), z.literal(undefined), z.literal('')]).transform(() => null as null | undefined | void);
 
 const streamingPlaceholder = Symbol('streamingPlaceholder');
 export const StreamingResponseSchema = EmptyBodySchema.transform(() => streamingPlaceholder as unknown as null | undefined | void);

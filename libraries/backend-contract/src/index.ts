@@ -3,35 +3,35 @@ import { z } from 'zod';
 
 const c = initContract();
 
-const CourseCreationSchema = z.object({
+const CourseCreationSchema = z.strictObject({
   name: z.string().optional(),
   site: z.string().nullable().optional(),
   announcements: z.string().nullable().optional(),
-}).strict();
+});
 
-const CourseSchema = z.object({
+const CourseSchema = z.strictObject({
   courseId: z.string(),
-}).merge(CourseCreationSchema.required()).strict();
+}).merge(CourseCreationSchema.required());
 
-const IterationCreationSchema = z.object({
+const IterationCreationSchema = z.strictObject({
   name: z.string().optional(),
   courseId: z.string(),
   slackWorkspace: z.string().nullable().optional(),
   active: z.boolean().default(true),
-}).strict();
+});
 
-const IterationSchema = z.object({
+const IterationSchema = z.strictObject({
   iterationId: z.string(),
-}).merge(IterationCreationSchema.required()).strict();
+}).merge(IterationCreationSchema.required());
 
-const IdSchema = z.object({
+const IdSchema = z.strictObject({
   id: z.string(),
-}).strict();
+});
 
-const ErrorSchema = z.object({
+const ErrorSchema = z.strictObject({
   message: z.string(),
   statusCode: z.number(),
-}).strict();
+});
 
 export const contract = c.router({
   listCourses: {
