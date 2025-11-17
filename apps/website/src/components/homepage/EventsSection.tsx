@@ -6,16 +6,7 @@ import {
 } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
-
-type Event = {
-  id: string;
-  month: string;
-  day: string;
-  location: string;
-  title: string;
-  time: string;
-  url: string;
-};
+import type { Event } from '../../server/routers/luma';
 
 type Photo = {
   id: string;

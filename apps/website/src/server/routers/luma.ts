@@ -7,6 +7,28 @@ const CACHE_TTL_MS = 60_000; // 1 minute
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
 const SLACK_ALERT_COOLDOWN_MS = 60_000; // Max 1 alert per minute
 
+function transformEvent(api_id: string, event: {
+  name: string;
+  start_at: string;
+  end_at: string;
+  geo_address_json?: {
+    city?: string;
+  };
+  url: string;
+}) {
+  return {
+    id: api_id,
+    month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    day: new Date(event.start_at).getDate().toString(),
+    location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
+    title: event.name,
+    time: formatStartAndEndTime(event.start_at, event.end_at),
+    url: event.url,
+  };
+}
+
+export type Event = ReturnType<typeof transformEvent>;
+
 // In-memory cache state
 let cachedEvents: Event[] | null = null;
 let cacheTimestamp: number | null = null;
@@ -14,16 +36,6 @@ let consecutiveFailures = 0;
 let lastSlackAlert: number | null = null;
 let isRefreshing = false;
 let refreshPromise: Promise<Event[]> | null = null;
-
-type Event = {
-  id: string;
-  month: string;
-  day: string;
-  location: string;
-  title: string;
-  time: string;
-  url: string;
-};
 
 export const lumaRouter = router({
   getUpcomingEvents: publicProcedure.query(async (): Promise<Event[]> => {
@@ -102,15 +114,7 @@ async function refreshCache(): Promise<Event[]> {
         next_cursor?: string;
       };
 
-      const events = (data.entries || []).map(({ api_id, event }) => ({
-        id: api_id,
-        month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
-        day: new Date(event.start_at).getDate().toString(),
-        location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
-        title: event.name,
-        time: formatStartAndEndTime(event.start_at, event.end_at),
-        url: event.url,
-      }));
+      const events = (data.entries || []).map(({ api_id, event }) => transformEvent(api_id, event));
 
       // Success: update cache and reset failure counter
       cachedEvents = events;
