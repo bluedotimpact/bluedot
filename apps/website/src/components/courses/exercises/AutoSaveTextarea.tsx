@@ -30,7 +30,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 }) => {
   const autoSaveDelayInMs = 20000; // 20 seconds
   const periodicSaveIntervalInMs = 180000; // 3 minutes
-  const savedText = 'Saved';
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
   const isSavingRef = useRef<boolean>(false);
@@ -191,7 +190,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
           status={saveStatus}
           id="save-status-message"
           onRetry={handleRetry}
-          savedText={savedText}
+          savedText="Saved"
         />
       )}
     </div>
