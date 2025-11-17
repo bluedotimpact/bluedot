@@ -86,9 +86,13 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 };
 
 const EventCard = ({ event }: { event: Event }) => {
+  const date = new Date(event.startAt);
+  const month = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const day = date.getDate().toString();
+
   return (
     <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
-      <DateBadge month={event.month} day={event.day} />
+      <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
         <p className="text-[10px] font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
