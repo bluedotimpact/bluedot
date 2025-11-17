@@ -4,16 +4,11 @@ import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
-// Type for the getResourceCompletion return value where id can be null for default case
-type ResourceCompletionWithNullableId = Omit<ResourceCompletion, 'id' | 'autoNumberId'> & {
-  id: string | null;
-  autoNumberId?: number;
-};
 
 export const resourcesRouter = router({
   getResourceCompletion: protectedProcedure
     .input(z.object({ unitResourceId: z.string().min(1) }))
-    .query(async ({ input, ctx }): Promise<ResourceCompletionWithNullableId> => {
+    .query(async ({ input, ctx }) => {
       const resourceCompletion = await db.getFirst(resourceCompletionTable, {
         filter: {
           unitResourceIdRead: input.unitResourceId,
@@ -21,26 +16,11 @@ export const resourcesRouter = router({
         },
       });
 
-      // Always return a defined object structure
-      if (resourceCompletion) {
-        return {
-          ...resourceCompletion,
-          // Trim feedback field (Airtable quirk)
-          feedback: resourceCompletion.feedback?.trimEnd(),
-        };
-      }
-
-      // Return default structure when no completion exists
-      return {
-        id: null,
-        unitResourceIdRead: input.unitResourceId,
-        unitResourceIdWrite: input.unitResourceId,
-        email: ctx.auth.email,
-        rating: null,
-        isCompleted: false,
-        feedback: '',
-        resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
-      };
+      return resourceCompletion ? {
+        ...resourceCompletion,
+        // Trim feedback field (Airtable quirk)
+        feedback: resourceCompletion.feedback?.trimEnd(),
+      } : null;
     }),
 
   saveResourceCompletion: protectedProcedure
