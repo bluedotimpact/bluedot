@@ -176,7 +176,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   }, [onChange]);
 
   const textareaClasses = clsx(
-    'box-border w-full bg-white rounded-[10px] px-6 py-5',
+    'box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1]',
     TEXTAREA_HEIGHT_STYLES[height],
     'font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
     'resize-y outline-none transition-all duration-200 block',
@@ -225,7 +225,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         </div>
       ) : (
         // Simple wrapper without clipping
-        <div className="relative w-full">
+        <div className="relative w-full z-[1]">
           {wrapperContent}
         </div>
       )}
