@@ -20,12 +20,22 @@ const NAV_HEIGHT = 64;
 const SHEET_MARGIN = NAV_HEIGHT + 12;
 const CLOSE_VELOCITY_THRESHOLD = 500;
 const CLOSE_POSITION_THRESHOLD = 0.8;
+const MIN_CONTENT_HEIGHT = 100;
+
+export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & {
+  /**
+   * - 'fit-content': Open the minimum amount to display the `children`
+   * - 'fit-screen': Open enough to fill most of the screen, independent of the dimensions of `children`
+   */
+  initialSize: 'fit-content' | 'fit-screen'
+};
 
 // TODO add stories for this
-export const BottomDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
+export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   isOpen,
   setIsOpen,
   title,
+  initialSize,
   children,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -33,7 +43,7 @@ export const BottomDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'
   const [isFullyExpanded, setIsFullyExpanded] = useState(false);
   const dragControls = useDragControls();
 
-  // Ref to measure content height
+  // Ref to measure children content height
   const contentRef = useRef<HTMLDivElement>(null);
 
   const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
@@ -55,18 +65,15 @@ export const BottomDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'
     if (isOpen) {
       setIsClosing(false);
 
-      // Wait for next frame to measure content after DOM has rendered
+      // Calculate optimal opening position based on content height
       requestAnimationFrame(() => {
-        if (!contentRef.current) return;
-
-        // Measure content height
-        const contentHeight = contentRef.current.scrollHeight;
+        const contentHeight = contentRef.current?.scrollHeight ?? 0;
         const headerHeight = title ? 80 : 40;
-        const totalNeededHeight = contentHeight + headerHeight;
+        const totalNeededHeight = Math.max(contentHeight, MIN_CONTENT_HEIGHT) + headerHeight + 16;
         const contentBasedY = availableHeight - totalNeededHeight;
 
         // Use the larger y value (less expansion) = min height
-        const targetY = Math.max(0, Math.max(halfOpenY, contentBasedY));
+        const targetY = initialSize === 'fit-screen' ? halfOpenY : Math.max(halfOpenY, contentBasedY);
 
         animate(y, targetY, { duration: 0.3, ease: [0.32, 0.72, 0, 1] });
       });
@@ -76,7 +83,7 @@ export const BottomDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'
     }
 
     prevIsOpen.current = isOpen;
-  }, [halfOpenY, isOpen, y, availableHeight, title]);
+  }, [halfOpenY, isOpen, y, availableHeight, title, initialSize]);
 
   // Listen to y motion value changes to update isFullyExpanded (adds a drop shadow)
   useEffect(() => {
@@ -185,14 +192,15 @@ export const BottomDrawerModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'
 
                   {/* Content / Scrollable Area */}
                   <div
-                    ref={contentRef}
                     data-modal-content
                     className={clsx(
                       'flex flex-col flex-1 overflow-y-auto p-4 w-full items-center',
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    {children}
+                    <div className="w-full" ref={contentRef}>
+                      {children}
+                    </div>
                   </div>
                   {/*
                     * Spacer div: The parent can overflow off the screen, fill the off-screen space

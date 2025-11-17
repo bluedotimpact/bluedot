@@ -78,7 +78,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
 
   if (isDesktop === false) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} initialSize="fit-content">
         {menuContent}
       </BottomDrawerModal>
     );
