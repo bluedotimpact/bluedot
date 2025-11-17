@@ -136,6 +136,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
   const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
 
+  const showFeedbackUI = completionData?.isCompleted ?? false;
+
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
     const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
@@ -147,9 +149,9 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     updatedResourceFeedback?: ResourceFeedbackValue,
     updatedTextFeedback?: string,
   ) => {
-    if (!auth) return;
+    if (!auth) return Promise.resolve();
 
-    saveCompletionMutation.mutate({
+    return saveCompletionMutation.mutateAsync({
       unitResourceId: resource.id,
       isCompleted: updatedIsCompleted ?? isCompleted,
       resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
@@ -331,8 +333,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                     </button>
                   )}
 
-                  {/* Feedback buttons (show when completed or feedback given) */}
-                  {isCompleted && (
+                  {/* Feedback buttons - only show when there's an actual completion record */}
+                  {showFeedbackUI && (
                     <div>
                       <FeedbackSection
                         resourceFeedback={resourceFeedback}
@@ -343,12 +345,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                   )}
                 </div>
 
-                {/* Text feedback textarea for mobile - only show when Like or Dislike is selected */}
-                {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+                {/* Text feedback textarea for mobile - only show when there's a completion record and Like or Dislike is selected */}
+                {showFeedbackUI && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                   <AutoSaveTextarea
                     value={feedback}
                     onChange={setFeedback}
                     onSave={async (value) => {
+                      // Save the draft and await the promise
                       await handleSaveCompletion(isCompleted, resourceFeedback, value);
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
@@ -360,8 +363,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
           )}
         </div>
 
-        {/* Desktop feedback section */}
-        {auth && isCompleted && (
+        {/* Desktop feedback section - only show when there's an actual completion record */}
+        {auth && showFeedbackUI && (
           <div className="hidden lg:block">
             <div
               className="hidden lg:flex flex-col transition-all duration-200 px-6 pt-[17px] pb-4 gap-3 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
@@ -379,11 +382,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 />
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
-              {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+              {showFeedbackUI && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                 <AutoSaveTextarea
                   value={feedback}
                   onChange={setFeedback}
                   onSave={async (value) => {
+                    // Save the draft and await the promise
                     await handleSaveCompletion(isCompleted, resourceFeedback, value);
                   }}
                   placeholder="What did or didn't you find useful about this resource?"

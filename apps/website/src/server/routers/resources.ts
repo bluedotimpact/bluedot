@@ -1,9 +1,8 @@
 import { resourceCompletionTable } from '@bluedot/db';
-import { RESOURCE_FEEDBACK, type ResourceCompletion } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
-
 
 export const resourcesRouter = router({
   getResourceCompletion: protectedProcedure
@@ -16,11 +15,17 @@ export const resourcesRouter = router({
         },
       });
 
-      return resourceCompletion ? {
+      // Return null when no completion exists
+      if (!resourceCompletion) {
+        return null;
+      }
+
+      // Return the actual resource completion with trimmed feedback
+      return {
         ...resourceCompletion,
         // Trim feedback field (Airtable quirk)
-        feedback: resourceCompletion.feedback?.trimEnd(),
-      } : null;
+        feedback: resourceCompletion.feedback?.trimEnd() ?? null,
+      };
     }),
 
   saveResourceCompletion: protectedProcedure

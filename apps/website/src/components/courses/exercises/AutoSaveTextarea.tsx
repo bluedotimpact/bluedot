@@ -24,14 +24,14 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   disabled = false,
   className,
 }) => {
-  const autoSaveDelayInMs = 20000; // 20 seconds
-  const periodicSaveIntervalInMs = 180000; // 3 minutes
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
   const isSavingRef = useRef<boolean>(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
   const valueRef = useRef<string>(value);
+  const autoSaveDelayInMs = 20000; // 20 seconds
+  const periodicSaveIntervalInMs = 180000; // 3 minutes
 
   const isEditing = value !== lastSavedValue;
 
