@@ -20,8 +20,7 @@ type LumaEvent = {
 function transformEvent(api_id: string, event: LumaEvent) {
   return {
     id: api_id,
-    month: new Date(event.start_at).toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
-    day: new Date(event.start_at).getDate().toString(),
+    startAt: event.start_at,
     location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
     title: event.name,
     time: formatStartAndEndTime(event.start_at, event.end_at),
