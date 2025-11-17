@@ -15,11 +15,26 @@ export const resourcesRouter = router({
         },
       });
 
-      return resourceCompletion ? {
-        ...resourceCompletion,
-        // Trim feedback field (Airtable quirk)
-        feedback: resourceCompletion.feedback?.trimEnd(),
-      } : undefined;
+      // Always return a defined object structure
+      if (resourceCompletion) {
+        return {
+          ...resourceCompletion,
+          // Trim feedback field (Airtable quirk)
+          feedback: resourceCompletion.feedback?.trimEnd(),
+        };
+      }
+
+      // Return default structure when no completion exists
+      return {
+        id: null,
+        unitResourceIdRead: input.unitResourceId,
+        unitResourceIdWrite: input.unitResourceId,
+        email: ctx.auth.email,
+        rating: null,
+        isCompleted: false,
+        feedback: '',
+        resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+      };
     }),
 
   saveResourceCompletion: protectedProcedure
