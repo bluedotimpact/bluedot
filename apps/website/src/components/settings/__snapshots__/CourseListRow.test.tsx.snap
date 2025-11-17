@@ -24,7 +24,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                 Introduction to AI Safety
               </h3>
               <div
-                class="flex items-center gap-1.5 mt-0.5"
+                class="flex items-center gap-1.5 mt-1"
               >
                 <p
                   class="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4"

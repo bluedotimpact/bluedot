@@ -77,19 +77,6 @@ const CourseListRow = ({
     : false;
 
   const getPrimaryCtaButton = () => {
-    if (isNotInGroup) {
-      return (
-        <CTALinkOrButton
-          variant="primary"
-          size="small"
-          onClick={() => setGroupSwitchModalOpen(true)}
-          className="w-full sm:w-auto"
-        >
-          Join group
-        </CTALinkOrButton>
-      );
-    }
-
     if (!nextDiscussion) return null;
 
     const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
@@ -117,14 +104,21 @@ const CourseListRow = ({
 
   const primaryCtaButton = getPrimaryCtaButton();
 
-  // Format completion date
-  const metadataText = isCompleted && courseRegistration.certificateCreatedAt
-    ? `Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })}`
-    : '';
+  const getMetadataText = () => {
+    if (isCompleted && courseRegistration.certificateCreatedAt) {
+      return `Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      })}`;
+    }
+    if (isNotInGroup) {
+      return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
+    }
+    return '';
+  };
+
+  const metadataText = getMetadataText();
 
   // Determine hover class based on completion status
   const hoverClass = !isExpanded && !isCompleted ? 'hover:bg-white' : '';
@@ -153,7 +147,7 @@ const CourseListRow = ({
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-size-lg text-black leading-[22px]">{course.title}</h3>
                 {metadataText && (
-                  <div className="flex items-center gap-1.5 mt-0.5">
+                  <div className="flex items-center gap-1.5 mt-1">
                     <p className="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4">
                       {metadataText}
                     </p>
