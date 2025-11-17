@@ -136,7 +136,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
   const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
 
-  const showFeedbackUI = completionData?.isCompleted ?? false;
+  const showFeedbackUI = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
 
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
