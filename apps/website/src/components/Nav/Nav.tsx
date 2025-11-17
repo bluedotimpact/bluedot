@@ -68,7 +68,7 @@ export const Nav: React.FC = () => {
       })}
       >
         <div className="nav__container section-base">
-          <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px]">
+          <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-[76px]">
             {/* Left side: Logo */}
             <div className="flex items-center">
               {/* Mobile & Tablet: Hamburger Button */}
