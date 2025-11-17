@@ -11,20 +11,23 @@ type AutoSaveTextareaProps = {
   onChange: (value: string) => void;
   onSave: (value: string) => Promise<void>;
   placeholder?: string;
-  className?: string;
   disabled?: boolean;
+  height?: 'short' | 'normal';
 };
+
+const TEXTAREA_HEIGHT_STYLES = {
+  short: 'min-h-[75px]',
+  normal: 'min-h-[140px]',
+} as const;
 
 const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   value,
   onChange,
   onSave,
   placeholder = 'Enter text here',
-  className,
   disabled = false,
+  height = 'normal',
 }) => {
-  // Default values that were previously props
-  const minHeight = '140px';
   const showSaveStatus = true;
   const autoSaveDelayInMs = 20000; // 20 seconds
   const periodicSaveIntervalInMs = 180000; // 3 minutes
@@ -173,14 +176,14 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   }, [onChange]);
 
   const textareaClasses = clsx(
-    'box-border w-full bg-white rounded-[10px]',
+    'box-border w-full bg-white rounded-[10px] px-6 py-5',
+    TEXTAREA_HEIGHT_STYLES[height],
     'font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
     'resize-y outline-none transition-all duration-200 block',
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
     'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'disabled:cursor-not-allowed disabled:opacity-60',
     hideResizeHandle && '[&::-webkit-resizer]:hidden',
-    className,
   );
 
   const wrapperContent = (
@@ -190,7 +193,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         onChange={handleChange}
         onBlur={handleTextareaBlur}
         className={textareaClasses}
-        style={{ minHeight }}
         placeholder={placeholder}
         disabled={disabled}
         aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}

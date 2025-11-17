@@ -94,7 +94,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         onChange={handleAnswerChange}
         onSave={handleSave}
         placeholder={isLoggedIn ? 'Enter your answer here' : 'Create an account to save your answers'}
-        className="px-6 py-5 text-[15px] min-h-[140px]"
         disabled={!isLoggedIn}
       />
       {!isLoggedIn && (
