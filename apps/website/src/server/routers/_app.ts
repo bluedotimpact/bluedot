@@ -11,6 +11,7 @@ import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
+import { resourcesRouter } from './resources';
 import { usersRouter } from './users';
 
 export const appRouter = router({
@@ -26,6 +27,7 @@ export const appRouter = router({
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
+  resources: resourcesRouter,
   users: usersRouter,
 });
 

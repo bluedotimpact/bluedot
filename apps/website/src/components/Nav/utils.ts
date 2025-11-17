@@ -8,7 +8,7 @@ export const DRAWER_Z_PROFILE = 'z-50' as const;
 export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT | typeof DRAWER_Z_PROFILE = DRAWER_Z_DEFAULT) => clsx(
   'absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full',
   'lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))]',
-  'px-spacing-x transition-all duration-300 ease-in-out',
+  'px-spacing-x transition-all duration-300 ease-in-out overflow-hidden',
   'bg-white',
   isOpen
     ? `max-h-[700px] opacity-100 pt-4 pb-10 border-b border-color-border ${zIndex}`
