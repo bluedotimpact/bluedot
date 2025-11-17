@@ -1,13 +1,19 @@
 import { resourceCompletionTable } from '@bluedot/db';
-import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, type ResourceCompletion } from '@bluedot/db/src/schema';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
+// Type for the getResourceCompletion return value where id can be null for default case
+type ResourceCompletionWithNullableId = Omit<ResourceCompletion, 'id' | 'autoNumberId'> & {
+  id: string | null;
+  autoNumberId?: number;
+};
+
 export const resourcesRouter = router({
   getResourceCompletion: protectedProcedure
     .input(z.object({ unitResourceId: z.string().min(1) }))
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input, ctx }): Promise<ResourceCompletionWithNullableId> => {
       const resourceCompletion = await db.getFirst(resourceCompletionTable, {
         filter: {
           unitResourceIdRead: input.unitResourceId,
