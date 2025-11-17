@@ -35,6 +35,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   const isSavingRef = useRef<boolean>(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
+  const valueRef = useRef<string>(value);
 
   const isEditing = value !== lastSavedValue;
 
@@ -107,6 +108,11 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     lastSavedValueRef.current = lastSavedValue;
   }, [saveValue, lastSavedValue]);
 
+  // Keep valueRef updated with the current value
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
+
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
     if (disabled || periodicSaveInterval <= 0) return undefined;
@@ -114,9 +120,10 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
       const currentLastSaved = lastSavedValueRef.current;
+      const currentValue = valueRef.current;
 
-      if (value !== currentLastSaved) {
-        currentSaveValue(value);
+      if (currentValue !== currentLastSaved) {
+        currentSaveValue(currentValue);
       }
     };
 
