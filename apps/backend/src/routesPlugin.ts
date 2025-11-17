@@ -66,7 +66,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
 
     listIterations: async () => {
       const iterations = await db.selectFrom('Iteration')
-        .select(['iterationId', 'Name as name', 'Course as courseId', 'Slack workspace as slackWorkspace'])
+        .select(['iterationId', 'Name as name', 'Course as courseId', 'Slack workspace as slackWorkspace', 'Is active as active'])
         .execute();
 
       return {
@@ -76,7 +76,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
     },
     getIteration: async ({ params: { iterationId } }) => {
       const iteration = await db.selectFrom('Iteration')
-        .select(['iterationId', 'Name as name', 'Course as courseId', 'Slack workspace as slackWorkspace'])
+        .select(['iterationId', 'Name as name', 'Course as courseId', 'Slack workspace as slackWorkspace', 'Is active as active'])
         .where('iterationId', '==', asId(iterationId, 'IterationId'))
         .executeTakeFirstOrThrow();
 
@@ -124,7 +124,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
   s.registerRouter(contract, router, instance, {
     responseValidation: true,
     requestValidationErrorHandler: (error) => {
-      const messages = [error.body, error.pathParams, error.headers].flatMap((zodError) => zodError?.issues.map((i) => `[${i.path.join('.')}] ${i.message}`) ?? []);
+      const messages = [error.body, error.pathParams, error.headers].flatMap((zodError) => zodError?.issues.map((i) => `[${i.path?.join('.') ?? ''}] ${i.message}`) ?? []);
       throw new createHttpError.BadRequest(`Request validation failed: ${messages.join(', ')}`);
     },
   });

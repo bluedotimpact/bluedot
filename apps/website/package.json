@@ -31,8 +31,8 @@
     "@trpc/next": "^11.6.0",
     "@trpc/react-query": "^11.6.0",
     "@trpc/server": "^11.6.0",
-    "@ts-rest/core": "^3.41.1",
-    "@ts-rest/react-query": "^3.41.1",
+    "@ts-rest/core": "^3.53.0-rc.1",
+    "@ts-rest/react-query": "^3.53.0-rc.1",
     "axios": "^1.6.8",
     "axios-hooks": "^5.0.2",
     "clsx": "^2.1.1",
@@ -50,7 +50,7 @@
     "react-icons": "^5.5.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.3.1",
-    "zod": "^3.25.76",
+    "zod": "^4.1.12",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
