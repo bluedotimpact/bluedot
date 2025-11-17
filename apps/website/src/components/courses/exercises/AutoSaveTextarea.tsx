@@ -183,7 +183,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
     'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'disabled:cursor-not-allowed disabled:opacity-60',
-    hideResizeHandle && '[&::-webkit-resizer]:hidden',
+    !hideResizeHandle && '[&::-webkit-resizer]:hidden',
   );
 
   const wrapperContent = (
