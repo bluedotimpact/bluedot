@@ -31,7 +31,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   const showSaveStatus = true;
   const autoSaveDelayInMs = 20000; // 20 seconds
   const periodicSaveIntervalInMs = 180000; // 3 minutes
-  const hideResizeHandle = false;
   const savedText = 'Saved';
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
@@ -50,32 +49,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
       });
     };
   }, []);
-
-  // Inject style for Firefox to hide drag notches if needed
-  useEffect(() => {
-    if (!hideResizeHandle) return undefined;
-
-    const styleId = 'auto-save-textarea-firefox-styles';
-    if (document.getElementById(styleId)) return undefined;
-
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.textContent = `
-      @-moz-document url-prefix() {
-        .auto-save-textarea-drag-notches {
-          display: none !important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    return () => {
-      const existingStyle = document.getElementById(styleId);
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    };
-  }, [hideResizeHandle]);
 
   const saveValue = useCallback(async (valueToSave: string) => {
     if (isSavingRef.current || valueToSave === lastSavedValue || disabled) {
@@ -183,23 +156,23 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
     'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'disabled:cursor-not-allowed disabled:opacity-60',
-    !hideResizeHandle && '[&::-webkit-resizer]:hidden',
+    '[&::-webkit-resizer]:hidden',
   );
 
-  const wrapperContent = (
-    <>
-      <textarea
-        value={value}
-        onChange={handleChange}
-        onBlur={handleTextareaBlur}
-        className={textareaClasses}
-        placeholder={placeholder}
-        disabled={disabled}
-        aria-label="Text input area"
-        aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}
-      />
-      {/* Custom drag notches overlay - only show if not hiding resize handle */}
-      {!hideResizeHandle && (
+  return (
+    <div className="flex flex-col relative">
+      <div className="relative w-full z-[1]">
+        <textarea
+          value={value}
+          onChange={handleChange}
+          onBlur={handleTextareaBlur}
+          className={textareaClasses}
+          placeholder={placeholder}
+          disabled={disabled}
+          aria-label="Text input area"
+          aria-describedby={showSaveStatus && !disabled ? 'save-status-message' : undefined}
+        />
+        {/* Custom drag notches overlay */}
         <div className="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
           <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6" clipPath="url(#clip0_auto_save)">
@@ -213,23 +186,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
             </defs>
           </svg>
         </div>
-      )}
-    </>
-  );
-
-  return (
-    <div className="flex flex-col relative">
-      {hideResizeHandle ? (
-        // Wrapper that clips drag notches to textarea boundaries
-        <div className="relative w-full overflow-hidden rounded-[10px] z-[1]">
-          {wrapperContent}
-        </div>
-      ) : (
-        // Simple wrapper without clipping
-        <div className="relative w-full z-[1]">
-          {wrapperContent}
-        </div>
-      )}
+      </div>
       {showSaveStatus && !disabled && (
         <SaveStatusIndicator
           status={saveStatus}
