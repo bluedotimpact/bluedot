@@ -1,5 +1,5 @@
 import {
-  useCallback, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
 import {
@@ -114,6 +114,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
+  const [feedback, setFeedback] = useState('');
 
   // Fetch resource completion data (only when authenticated)
   const {
@@ -131,12 +132,16 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     },
   });
 
-  // Derive `isCompleted`, `resourceFeedback`, and `feedback` from mutation variables (for optimistic updates) or fetched data (on first load)
+  // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
   const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
   const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
-  const feedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
 
-  // Handle saving resource completion
+  // Sync feedback state with server data (both mutation variables and fetched data)
+  useEffect(() => {
+    const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
+    setFeedback(serverFeedback);
+  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback]);
+
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
     updatedResourceFeedback?: ResourceFeedbackValue,
@@ -342,10 +347,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                   <AutoSaveTextarea
                     value={feedback}
-                    onChange={(value) => {
-                      // Trigger immediate save with the new value
-                      handleSaveCompletion(isCompleted, resourceFeedback, value);
-                    }}
+                    onChange={setFeedback}
                     onSave={async (value) => {
                       await handleSaveCompletion(isCompleted, resourceFeedback, value);
                     }}
@@ -380,10 +382,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                 <AutoSaveTextarea
                   value={feedback}
-                  onChange={(value) => {
-                    // Trigger immediate save with the new value
-                    handleSaveCompletion(isCompleted, resourceFeedback, value);
-                  }}
+                  onChange={setFeedback}
                   onSave={async (value) => {
                     await handleSaveCompletion(isCompleted, resourceFeedback, value);
                   }}
