@@ -96,7 +96,7 @@ export const OverflowMenu: React.FC<OverflowMenuProps> = ({
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button
-        className={buttonClassName || DEFAULT_BUTTON_CLASS}
+        className={buttonClassName}
       >
         <HiDotsVertical className="size-5" />
       </Button>

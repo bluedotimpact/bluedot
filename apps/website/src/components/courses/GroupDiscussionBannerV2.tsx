@@ -67,6 +67,12 @@ type ButtonConfig = {
   url?: string;
   onClick?: () => void;
   isVisible: boolean;
+  /**
+   * Buttons can be in a different order on mobile. If `mobileIndex` is set, it determines
+   * the order on mobile. If not set, the buttons is placed after all buttons with a definite
+   * `mobileIndex`. For buttons with equal or no `mobileIndex` the existing order is preserved.
+   */
+  mobileIndex?: number;
 };
 
 type GroupDiscussionBannerV2Props = {
@@ -113,17 +119,14 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
   // Dynamic discussion starts soon check
-  // const discussionStartsSoon = useMemo(
-  //   () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
-  //   [groupDiscussion.startDateTime, currentTimeMs],
-  // );
-  // const discussionIsLive = useMemo(
-  //   () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-  //   [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  // );
-  // TODO revert
-  const discussionStartsSoon = true;
-  const discussionIsLive = true;
+  const discussionStartsSoon = useMemo(
+    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
+    [groupDiscussion.startDateTime, currentTimeMs],
+  );
+  const discussionIsLive = useMemo(
+    () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
+    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
+  );
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
@@ -156,6 +159,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
       style: 'primary',
       url: discussionMeetLink,
       isVisible: discussionStartsSoon,
+      mobileIndex: 0,
     },
     {
       id: 'host-key',
@@ -171,12 +175,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
     },
     {
       id: 'discussion-doc',
-      label: (
-        <>
-          <span className="lg:hidden">Discussion doc</span>
-          <span className="hidden lg:block">Open discussion doc</span>
-        </>
-      ),
+      label: 'Open discussion doc',
       style: 'secondary',
       url: discussionDocLink,
       isVisible: discussionStartsSoon,
@@ -202,6 +201,7 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
       style: 'ghost',
       onClick: () => setGroupSwitchModalOpen(true),
       isVisible: true,
+      mobileIndex: 1,
     },
   ];
 
@@ -268,14 +268,25 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
 
         {/* Mobile button container */}
         {isOpen && (() => {
-          const MAX_DIRECT_BUTTONS = 1;
-          const directButtons = visibleButtons.slice(0, MAX_DIRECT_BUTTONS);
-          const overflowButtons = visibleButtons.slice(MAX_DIRECT_BUTTONS);
+          const MAX_DIRECT_BUTTONS = 2;
+          const sortedForMobile = [...visibleButtons].sort((a, b) => {
+            // If both have mobileIndex, sort by value
+            if (a.mobileIndex !== undefined && b.mobileIndex !== undefined) {
+              return a.mobileIndex - b.mobileIndex;
+            }
+            // If one has mobileIndex and not the other, put the one with mobileIndex first
+            if (a.mobileIndex !== undefined) return -1;
+            if (b.mobileIndex !== undefined) return 1;
+            // Otherwise preserve the original order
+            return 0;
+          });
+          const directButtons = sortedForMobile.slice(0, MAX_DIRECT_BUTTONS);
+          const overflowButtons = sortedForMobile.slice(MAX_DIRECT_BUTTONS);
           const hasOverflow = overflowButtons.length > 0;
 
           return (
-            <div className={`grid ${desktopHideContainerQuery} grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-2 auto-rows-max`}>
-              {directButtons.map((button, index) => {
+            <div className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
+              {directButtons.map((button) => {
                 // On mobile, convert ghost to secondary
                 const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
                 const style = BUTTON_STYLES[mobileStyle];
@@ -289,27 +300,25 @@ const GroupDiscussionBannerV2: React.FC<GroupDiscussionBannerV2Props> = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.url ? '_blank' : undefined}
-                    className={`w-full ${style.className} flex gap-[6px] items-center whitespace-nowrap ${!isPrimary ? 'ml-auto' : ''}`.trim()}
+                    className={clsx(style.className, 'flex flex-1 gap-[6px] items-center whitespace-nowrap', !isPrimary && 'ml-auto')}
                   >
                     {button.label}
                   </CTALinkOrButton>
                 );
               })}
-              
+
               {hasOverflow && (
-                <div className="flex items-center justify-center">
-                  <OverflowMenu
-                    buttonClassName="flex items-center justify-center p-2 rounded-md bg-white border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter cursor-pointer"
-                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
-                      id: button.id,
-                      label: button.label,
-                      ...(button.url
-                        ? { href: button.url, target: '_blank' }
-                        : { onAction: button.onClick }
-                      ),
-                    }))}
-                  />
-                </div>
+                <OverflowMenu
+                  buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
+                  items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                    id: button.id,
+                    label: button.label,
+                    ...(button.url
+                      ? { href: button.url, target: '_blank' }
+                      : { onAction: button.onClick }
+                    ),
+                  }))}
+                />
               )}
             </div>
           );
