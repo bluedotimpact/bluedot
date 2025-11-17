@@ -352,7 +352,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                     onChange={setFeedback}
                     onSave={async (value) => {
                       // Save the draft and await the promise
-                      await handleSaveCompletion(isCompleted, resourceFeedback, value);
+                      await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
                     className="min-h-[75px]"
@@ -388,7 +388,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                   onChange={setFeedback}
                   onSave={async (value) => {
                     // Save the draft and await the promise
-                    await handleSaveCompletion(isCompleted, resourceFeedback, value);
+                    await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                   }}
                   placeholder="What did or didn't you find useful about this resource?"
                   className="min-h-[75px]"
