@@ -6,7 +6,7 @@ import {
 } from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
 import {
-  useEffect, useRef, useCallback,
+  useEffect, useRef, useCallback, useState,
 } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { withClickTracking } from '../../lib/withClickTracking';
@@ -145,6 +145,41 @@ const ValueProp = ({ iconType, title, description }: { iconType: string; title: 
   );
 };
 
+/* Navigation Button Component */
+const CourseCarouselButton = ({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: 'left' | 'right';
+  onClick: () => void;
+  disabled: boolean;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    className={clsx(
+      'size-[44px] rounded-full flex items-center justify-center',
+      'bg-[rgba(19,19,46,0.08)]',
+      'transition-all duration-200',
+      disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+    )}
+    aria-label={`Scroll ${direction}`}
+  >
+    <span
+      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      style={{
+        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
+      }}
+    >
+      →
+    </span>
+  </button>
+);
+
 /* Course Carousel - Mobile/Tablet */
 const CourseCarousel = ({
   courses,
@@ -155,6 +190,7 @@ const CourseCarousel = ({
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isResettingRef = useRef(false);
   const prefersReducedMotionRef = useRef(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const createInfiniteScrollData = () => {
     if (courses.length === 0) return [];
@@ -187,16 +223,19 @@ const CourseCarousel = ({
 
     autoScrollIntervalRef.current = setInterval(() => {
       if (scrollContainerRef.current && !isResettingRef.current) {
+        const cardWidth = getCardWidth();
+        const gap = getGap();
+        const scrollAmount = cardWidth + gap;
         const currentScrollLeft = scrollContainerRef.current.scrollLeft;
-        const newScrollLeft = currentScrollLeft + 0.5; // 0.5px per 50ms = 10px/sec
+        const newScrollLeft = currentScrollLeft + scrollAmount;
 
         scrollContainerRef.current.scrollTo({
           left: newScrollLeft,
-          behavior: 'auto',
+          behavior: 'smooth',
         });
       }
-    }, 50); // 50ms intervals
-  }, []);
+    }, 3000); // 3000ms = 3 seconds per card
+  }, [getCardWidth, getGap]);
 
   const stopAutoScroll = useCallback(() => {
     if (autoScrollIntervalRef.current) {
@@ -207,7 +246,7 @@ const CourseCarousel = ({
 
   // Start auto-scroll on mount and restart when hover state changes
   useEffect(() => {
-    if (!prefersReducedMotionRef.current) {
+    if (!isHovered && !prefersReducedMotionRef.current) {
       startAutoScroll();
     } else {
       stopAutoScroll();
@@ -215,7 +254,7 @@ const CourseCarousel = ({
     return () => {
       stopAutoScroll();
     };
-  }, [startAutoScroll, stopAutoScroll]);
+  }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   // Handle prefers-reduced-motion
   useEffect(() => {
@@ -225,7 +264,7 @@ const CourseCarousel = ({
       prefersReducedMotionRef.current = matches;
       if (matches) {
         stopAutoScroll();
-      } else {
+      } else if (!isHovered) {
         startAutoScroll();
       }
     };
@@ -238,7 +277,7 @@ const CourseCarousel = ({
 
     mql.addEventListener('change', onChange);
     return () => mql.removeEventListener('change', onChange);
-  }, [startAutoScroll, stopAutoScroll]);
+  }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   // Initialize scroll position to middle section
   useEffect(() => {
@@ -281,39 +320,113 @@ const CourseCarousel = ({
     }
   };
 
-  return (
-    <div className="flex lg:hidden w-screen -mx-5 overflow-hidden">
-      <div
-        ref={scrollContainerRef}
-        className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"
-        style={{
-          scrollSnapType: 'none',
-          scrollBehavior: 'auto',
-        }}
-        onScroll={handleScroll}
-        onTouchStart={stopAutoScroll}
-        onTouchEnd={startAutoScroll}
-        role="region"
-        aria-label="Courses carousel"
-      >
-        {infiniteCourses.map((course, index) => {
-          const originalIndex = index % courses.length;
-          const uniqueKey = `${course.id}-${index}`;
+  const scroll = useCallback((direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const cardWidth = getCardWidth();
+      const gap = getGap();
+      const scrollAmount = cardWidth + gap;
+      const newScrollLeft = scrollContainerRef.current.scrollLeft
+        + (direction === 'right' ? scrollAmount : -scrollAmount);
 
-          return (
-            <CourseCardRedesignedWithTracking
-              key={uniqueKey}
-              trackingEventParams={{
-                course_title: course.title,
-                course_url: course.path,
-              }}
-              course={course}
-              gradientRotation={GRADIENT_ROTATIONS[originalIndex] || 0}
-              className="flex-shrink-0 w-[276px] md:w-[400px]"
-              isFirstCard={course.isFeatured}
-            />
-          );
-        })}
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth',
+      });
+
+      // Reset auto-scroll timer to give user full 3 seconds before next auto-scroll
+      if (!prefersReducedMotionRef.current) {
+        // Always clear any existing timer, but only restart when the user is not actively interacting
+        stopAutoScroll();
+        if (!isHovered) {
+          startAutoScroll();
+        }
+      }
+    }
+  }, [getCardWidth, getGap, stopAutoScroll, startAutoScroll, isHovered]);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  const handleFocus = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scroll('left');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scroll('right');
+    }
+  }, [scroll]);
+
+  return (
+    <div className="flex lg:hidden flex-col">
+      <div className="w-screen -mx-5 overflow-hidden">
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"
+          style={{
+            scrollSnapType: 'none',
+            scrollBehavior: 'auto',
+          }}
+          onScroll={handleScroll}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+          role="region"
+          aria-label="Courses carousel"
+        >
+          {infiniteCourses.map((course, index) => {
+            const originalIndex = index % courses.length;
+            const uniqueKey = `${course.id}-${index}`;
+
+            return (
+              <CourseCardRedesignedWithTracking
+                key={uniqueKey}
+                trackingEventParams={{
+                  course_title: course.title,
+                  course_url: course.path,
+                }}
+                course={course}
+                gradientRotation={GRADIENT_ROTATIONS[originalIndex] || 0}
+                className="flex-shrink-0 w-[276px] md:w-[400px]"
+                isFirstCard={course.isFeatured}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Navigation Buttons - centered below carousel */}
+      <div className="flex gap-3 justify-center mt-8">
+        <CourseCarouselButton
+          direction="left"
+          onClick={() => scroll('left')}
+          disabled={false}
+        />
+        <CourseCarouselButton
+          direction="right"
+          onClick={() => scroll('right')}
+          disabled={false}
+        />
       </div>
     </div>
   );
