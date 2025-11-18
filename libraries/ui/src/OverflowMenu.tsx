@@ -45,8 +45,8 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
     const item = items.find((i) => i.id === key);
     if (item?.onAction) {
       item.onAction();
-      setIsOpen(false);
     }
+    setIsOpen(false);
   };
 
   const menuContent = (

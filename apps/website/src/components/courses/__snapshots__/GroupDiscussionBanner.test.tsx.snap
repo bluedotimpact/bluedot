@@ -19,9 +19,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           width="20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            clip-path="url(#clip0_95_681)"
-          >
+          <g>
             <path
               d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
               stroke="currentColor"
@@ -38,9 +36,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
             />
           </g>
           <defs>
-            <clippath
-              id="clip0_95_681"
-            >
+            <clippath>
               <rect
                 fill="white"
                 height="14"
@@ -64,7 +60,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0"
+          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -88,9 +84,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
             width="20"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g
-              clip-path="url(#clip0_95_681)"
-            >
+            <g>
               <path
                 d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
                 stroke="currentColor"
@@ -107,9 +101,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
               />
             </g>
             <defs>
-              <clippath
-                id="clip0_95_681"
-              >
+              <clippath>
                 <rect
                   fill="white"
                   height="14"
@@ -167,7 +159,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto"
+        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
         type="button"
       >
         <svg
@@ -208,9 +200,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           width="20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            clip-path="url(#clip0_95_681)"
-          >
+          <g>
             <path
               d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
               stroke="currentColor"
@@ -227,9 +217,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
             />
           </g>
           <defs>
-            <clippath
-              id="clip0_95_681"
-            >
+            <clippath>
               <rect
                 fill="white"
                 height="14"
@@ -314,9 +302,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           width="20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            clip-path="url(#clip0_95_681)"
-          >
+          <g>
             <path
               d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
               stroke="currentColor"
@@ -333,9 +319,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
             />
           </g>
           <defs>
-            <clippath
-              id="clip0_95_681"
-            >
+            <clippath>
               <rect
                 fill="white"
                 height="14"
@@ -359,7 +343,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0"
+          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -383,9 +367,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
             width="20"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g
-              clip-path="url(#clip0_95_681)"
-            >
+            <g>
               <path
                 d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
                 stroke="currentColor"
@@ -402,9 +384,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
               />
             </g>
             <defs>
-              <clippath
-                id="clip0_95_681"
-              >
+              <clippath>
                 <rect
                   fill="white"
                   height="14"
@@ -449,7 +429,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto"
+        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
         type="button"
       >
         <svg
@@ -490,9 +470,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           width="20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            clip-path="url(#clip0_95_681)"
-          >
+          <g>
             <path
               d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
               stroke="currentColor"
@@ -509,9 +487,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
             />
           </g>
           <defs>
-            <clippath
-              id="clip0_95_681"
-            >
+            <clippath>
               <rect
                 fill="white"
                 height="14"
@@ -564,7 +540,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
 </div>
 `;
 
-exports[`GroupDiscussionBanner > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
+exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
 <div>
   <div
     class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
@@ -583,9 +559,7 @@ exports[`GroupDiscussionBanner > facilitator sees discussion doc button even whe
           width="20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            clip-path="url(#clip0_95_681)"
-          >
+          <g>
             <path
               d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
               stroke="currentColor"
@@ -602,9 +576,7 @@ exports[`GroupDiscussionBanner > facilitator sees discussion doc button even whe
             />
           </g>
           <defs>
-            <clippath
-              id="clip0_95_681"
-            >
+            <clippath>
               <rect
                 fill="white"
                 height="14"
@@ -628,7 +600,7 @@ exports[`GroupDiscussionBanner > facilitator sees discussion doc button even whe
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0"
+          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -662,7 +634,7 @@ exports[`GroupDiscussionBanner > facilitator sees discussion doc button even whe
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto"
+        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
         type="button"
       >
         <svg
