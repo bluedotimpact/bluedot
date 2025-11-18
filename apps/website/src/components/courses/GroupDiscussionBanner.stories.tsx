@@ -29,8 +29,6 @@ const mockGroupDiscussion = {
   attendees: [],
   startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
   endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
-  // startDateTime: Math.floor(Date.now() / 1000) - 600, // Started 10 minutes ago (LIVE)
-  // endDateTime: Math.floor(Date.now() / 1000) + 2700, // Ends in 45 minutes
   group: 'group-123',
   zoomAccount: 'zoom-account-123',
   courseSite: 'site-123',
