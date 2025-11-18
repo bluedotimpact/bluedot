@@ -214,7 +214,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
   return (
     <>
-      <div className="@container flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]">
+      <div className="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
           <IndicatorIcon isLive={discussionIsLive} />
           <div className="flex gap-[6px] min-w-0 flex-initial">
