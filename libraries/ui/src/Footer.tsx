@@ -172,7 +172,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Copyright */}
             <div className="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]">
-              <span>&copy; {new Date().getFullYear()}. <A href="https://bluedot.org/" className="text-[#CCD7FF] hover:text-white">BlueDot Impact</A> is primarily funded by <A href="https://www.openphilanthropy.org/" className="text-[#CCD7FF] hover:text-white">Open Philanthropy</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="text-[#CCD7FF] hover:text-white">14964572</A>).</span>
+              <span>&copy; {new Date().getFullYear()}. <A href="https://bluedot.org/" className="text-[#CCD7FF] hover:text-white">BlueDot Impact</A> is funded by <A href="https://www.coefficientgiving.org/" className="text-[#CCD7FF] hover:text-white">Coefficient Giving</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="text-[#CCD7FF] hover:text-white">14964572</A>).</span>
             </div>
           </div>
         </div>

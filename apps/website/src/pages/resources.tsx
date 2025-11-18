@@ -121,10 +121,10 @@ If you're interested in working on technical AI safety, the current AI paradigm 
   - Applying to the EA Funds is an [easy and flexible process](https://forum.effectivealtruism.org/posts/caayRw2pgNLtqt9Pz/ea-funds-is-more-flexible-than-you-might-think), so we recommend you err on the side of applying if you're not sure.
   - They have historically funded: up-skilling in a field to prepare for future work; movement-building programs; scholarships, academic teaching buy-outs, and additional funding for academics to free up their time; funding to make existing researchers more effective; direct work in AI; seed money for new organizations; and more
   - If you're not sure where to apply, we recommend you default to this.
-- [Career development and transition funding](https://www.openphilanthropy.org/career-development-and-transition-funding/) – Open Philanthropy
+- [Career development and transition funding](https://www.coefficientgiving.org/career-development-and-transition-funding/) – Coefficient Giving
   - This program aims to provide support – primarily in the form of funding for graduate study, but also for other types of one-off career capital-building activities – for early-career individuals who want to pursue careers that help improve the long-term future
   - As with the EA Funds, applying is an easy and flexible process.
-- [Open Philanthropy Undergraduate Scholarship](https://www.openphilanthropy.org/undergraduate-scholarship/)
+- [Coefficient Giving Undergraduate Scholarship](https://www.coefficientgiving.org/undergraduate-scholarship/)
   - This program aims to provide support for highly promising and altruistically-minded students who are hoping to start an undergraduate degree at one of the top universities in the USA or UK, and who do not qualify as domestic students at these institutions for the purposes of admission and financial aid.
 - [Future of Life Institute – Grants](https://grants.futureoflife.org/)
   - Many different grant opportunities: project proposals; PhD fellowships; post-doctoral fellowships; and for professors to join their AI Existential Safety community
