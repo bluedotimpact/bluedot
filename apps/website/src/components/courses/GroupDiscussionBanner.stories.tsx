@@ -27,8 +27,8 @@ const mockGroupDiscussion = {
   facilitators: ['facilitator-1'],
   participantsExpected: ['participant-1'],
   attendees: [],
-  startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
-  endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
+  startDateTime: Math.floor(Date.now() / 1000) - 600, // Started 10 minutes ago (LIVE)
+  endDateTime: Math.floor(Date.now() / 1000) + 2700, // Ends in 45 minutes
   group: 'group-123',
   zoomAccount: 'zoom-account-123',
   courseSite: 'site-123',
@@ -71,21 +71,42 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Participant view with discussion starting soon
-export const ParticipantStartingSoon: Story = {
+// Participant view with discussion live
+export const ParticipantLive: Story = {
   args: {
     userRole: 'participant',
   },
 };
 
-// Participant view with discussion not starting soon (shows prepare button)
+// Participant view with discussion starting soon
+export const ParticipantStartingSoon: Story = {
+  args: {
+    userRole: 'participant',
+    groupDiscussion: {
+      ...mockGroupDiscussion,
+      startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
+      endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
+    },
+  },
+};
+
+// Participant view with discussion not starting soon
 export const ParticipantNotStartingSoon: Story = {
   args: {
     userRole: 'participant',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) + 7200,
+      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
+      endDateTime: Math.floor(Date.now() / 1000) + 10800, // 3 hours from now
     },
+  },
+};
+
+// Facilitator view with host key and discussion live
+export const FacilitatorLive: Story = {
+  args: {
+    userRole: 'facilitator',
+    hostKeyForFacilitators: '123456',
   },
 };
 
@@ -94,6 +115,11 @@ export const FacilitatorStartingSoon: Story = {
   args: {
     userRole: 'facilitator',
     hostKeyForFacilitators: '123456',
+    groupDiscussion: {
+      ...mockGroupDiscussion,
+      startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
+      endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
+    },
   },
 };
 
@@ -104,7 +130,8 @@ export const FacilitatorNotStartingSoon: Story = {
     hostKeyForFacilitators: '123456',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) + 7200,
+      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
+      endDateTime: Math.floor(Date.now() / 1000) + 10800, // 3 hours from now
     },
   },
 };

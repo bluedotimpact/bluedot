@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GroupDiscussionBannerV2 > Happy Path Tests > renders correctly for facilitator with host key 1`] = `
+exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facilitator with host key 1`] = `
 <div>
   <div
     class="@container flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]"
@@ -294,7 +294,7 @@ exports[`GroupDiscussionBannerV2 > Happy Path Tests > renders correctly for faci
 </div>
 `;
 
-exports[`GroupDiscussionBannerV2 > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
+exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
 <div>
   <div
     class="@container flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]"
@@ -562,7 +562,7 @@ exports[`GroupDiscussionBannerV2 > Happy Path Tests > renders correctly for part
 </div>
 `;
 
-exports[`GroupDiscussionBannerV2 > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
+exports[`GroupDiscussionBanner > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
 <div>
   <div
     class="@container flex flex-col gap-3 p-4 bg-[#E4EDFE] border-b border-[#C9D4F5]"
