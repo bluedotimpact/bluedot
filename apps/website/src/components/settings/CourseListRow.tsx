@@ -105,7 +105,7 @@ const CourseListRow = ({
   const primaryCtaButton = getPrimaryCtaButton();
 
   const getSubtitle = (): ReactNode | null => {
-    if (!isCompleted && nextDiscussion && !isLoading) {
+    if (!isCompleted && nextDiscussion) {
       if (isExpanded || isLoading) return null;
 
       return `Unit ${nextDiscussion.unitNumber} starts ${formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}`;
