@@ -9,6 +9,7 @@ const meta = {
     layout: 'centered',
   },
   args: {
+    ariaLabel: 'Actions menu',
     items: [
       {
         id: 'edit',

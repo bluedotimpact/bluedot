@@ -16,6 +16,7 @@ import GroupSwitchModal from './GroupSwitchModal';
 import { formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
+// Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 
 const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
@@ -308,6 +309,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
               {hasOverflow && (
                 <OverflowMenu
+                  ariaLabel="More discussion options"
                   buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,

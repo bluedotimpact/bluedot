@@ -23,6 +23,7 @@ export type OverflowMenuItemProps = {
 export type OverflowMenuProps = {
   items: OverflowMenuItemProps[];
   buttonClassName?: string;
+  ariaLabel?: string;
 };
 
 type MenuContentProps = {
@@ -94,12 +95,13 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
 export const OverflowMenu: React.FC<OverflowMenuProps> = ({
   items,
   buttonClassName,
+  ariaLabel = 'More options',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-      <Button className={cn(DEFAULT_BUTTON_CLASS, buttonClassName)}>
+      <Button className={cn(DEFAULT_BUTTON_CLASS, buttonClassName)} aria-label={ariaLabel}>
         <HiDotsVertical className="size-5" />
       </Button>
       <MenuContent items={items} isOpen={isOpen} setIsOpen={setIsOpen} />
