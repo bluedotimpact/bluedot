@@ -28,12 +28,12 @@ const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14,
     fill="none"
     className={className}
   >
-    <g clipPath="url(#clip0_95_681)">
+    <g>
       <path d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
     </g>
     <defs>
-      <clipPath id="clip0_95_681">
+      <clipPath>
         <rect width="14" height="14" fill="white" />
       </clipPath>
     </defs>
@@ -69,7 +69,7 @@ type ButtonConfig = {
   isVisible: boolean;
   /**
    * Buttons can be in a different order on mobile. If `mobileIndex` is set, it determines
-   * the order on mobile. If not set, the buttons is placed after all buttons with a definite
+   * the order on mobile. If not set, the button is placed after all buttons with a definite
    * `mobileIndex`. For buttons with equal or no `mobileIndex` the existing order is preserved.
    */
   mobileIndex?: number;
@@ -226,7 +226,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             <button
               type="button"
               onClick={onClickPrepare}
-              className="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0"
+              className="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
             >
               {unitTitle}
             </button>
@@ -260,7 +260,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             type="button"
             aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
             onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer text-[#2244BB] ml-auto"
+            className="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
           >
             <IoAdd size={24} style={isOpen ? { transform: 'rotate(45deg)', transition: 'transform 200ms' } : { transition: 'transform 200ms' }} />
           </button>

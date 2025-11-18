@@ -283,34 +283,34 @@ describe('GroupDiscussionBanner', () => {
 
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
-  });
 
-  test('facilitator sees discussion doc button even when discussion is not starting soon', () => {
-    const futureDiscussion = {
-      ...mockGroupDiscussion,
-      startDateTime: BASE_TIME + 7200, // 2 hours from base time
-      endDateTime: BASE_TIME + 10800, // 3 hours from base time
-    };
+    test('facilitator sees discussion doc button even when discussion is not starting soon', () => {
+      const futureDiscussion = {
+        ...mockGroupDiscussion,
+        startDateTime: BASE_TIME + 7200, // 2 hours from base time
+        endDateTime: BASE_TIME + 10800, // 3 hours from base time
+      };
 
-    const { container } = render(
-      <GroupDiscussionBanner
-        unit={mockUnit}
-        groupDiscussion={futureDiscussion}
-        userRole="facilitator"
-        hostKeyForFacilitators="123456"
-        onClickPrepare={mockOnClickPrepare}
-      />,
-    );
+      const { container } = render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={futureDiscussion}
+          userRole="facilitator"
+          hostKeyForFacilitators="123456"
+          onClickPrepare={mockOnClickPrepare}
+        />,
+      );
 
-    const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
-    fireEvent.click(expandButton);
+      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      fireEvent.click(expandButton);
 
-    // Facilitator-specific: Discussion doc button should be visible even when not starting soon
-    const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
-    const desktopButtons = within(desktopContainer);
-    expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
+      // Facilitator-specific: Discussion doc button should be visible even when not starting soon
+      const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
+      const desktopButtons = within(desktopContainer);
+      expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
 
-    expect(container).toMatchSnapshot();
+      expect(container).toMatchSnapshot();
+    });
   });
 
   describe('Edge Cases', () => {
