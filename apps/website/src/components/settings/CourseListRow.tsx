@@ -29,13 +29,16 @@ const CourseListRow = ({
     isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
   );
 
-  // Edge case: The user has been accepted but has no group assigned
-  const isNotInGroup = meetPerson
-    && (!meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
-
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
   const isFacilitator = courseRegistration.role === 'Facilitator';
+
+  // Edge case: The user has been accepted but has no group assigned
+  const isNotInGroup = meetPerson
+    && (isFacilitator
+      ? !meetPerson.expectedDiscussionsFacilitator || meetPerson.expectedDiscussionsFacilitator.length === 0
+      : !meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
+
   const expectedDiscussionIds = isFacilitator
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
