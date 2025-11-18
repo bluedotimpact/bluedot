@@ -30,7 +30,6 @@ export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & 
   initialSize: 'fit-content' | 'fit-screen'
 };
 
-// TODO add stories for this
 export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   isOpen,
   setIsOpen,

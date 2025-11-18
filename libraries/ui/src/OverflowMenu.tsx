@@ -10,6 +10,7 @@ import { HiDotsVertical } from 'react-icons/hi';
 import clsx from 'clsx';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
+import { cn } from './utils';
 
 export type OverflowMenuItemProps = {
   id: string;
@@ -19,7 +20,6 @@ export type OverflowMenuItemProps = {
   target?: string;
 };
 
-// TODO support general button props here
 export type OverflowMenuProps = {
   items: OverflowMenuItemProps[];
   buttonClassName?: string;
@@ -31,7 +31,11 @@ type MenuContentProps = {
   setIsOpen: (open: boolean) => void;
 };
 
-const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md hover:bg-gray-100 cursor-pointer';
+// Styled approximately as a 'secondary' CTALinkOrButton. Ideally this would have the
+// same variant options as CTALinkOrButton and encourage users not to customise the styling.
+// In practice our button styling is currently very inconsistent, so this is intended as
+// basic placeholder styling with the expectation that consumers *should* customise it.
+const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md hover:bg-gray-100 border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
 const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -95,9 +99,7 @@ export const OverflowMenu: React.FC<OverflowMenuProps> = ({
 
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-      <Button
-        className={buttonClassName}
-      >
+      <Button className={cn(DEFAULT_BUTTON_CLASS, buttonClassName)}>
         <HiDotsVertical className="size-5" />
       </Button>
       <MenuContent items={items} isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -16,7 +16,6 @@ import GroupSwitchModal from './GroupSwitchModal';
 import { formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
-// Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 
 const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
