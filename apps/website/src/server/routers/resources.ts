@@ -19,7 +19,7 @@ export const resourcesRouter = router({
         ...resourceCompletion,
         // Trim feedback field (Airtable quirk)
         feedback: resourceCompletion.feedback?.trimEnd(),
-      } : undefined;
+      } : null;
     }),
 
   saveResourceCompletion: protectedProcedure
