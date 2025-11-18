@@ -52,8 +52,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   const halfOpenY = availableHeight * 0.15; // Initial position - shows ~85% of content
   const closedY = availableHeight; // Fully closed position
 
-  // Start from closed position, even if isOpen is initially true. animateInRef.current
-  // will be called to transition from closedY -> halfOpenY
+  // Always start from closed position, the useEffect below will animate to an open position if needed
   const y = useMotionValue(closedY);
 
   // Reset on modal state changes

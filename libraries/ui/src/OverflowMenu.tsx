@@ -58,7 +58,7 @@ const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) =
           href={item.href}
           target={item.target}
           className={clsx(
-            'block px-4 py-3 cursor-pointer hover:bg-gray-100 outline-none',
+            'block px-4 py-3 cursor-pointer outline-none',
             isDesktop ? 'hover:bg-gray-100' : 'hover:bg-gray-200 rounded-lg',
           )}
         >
