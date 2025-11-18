@@ -41,6 +41,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   });
   const router = useRouter();
 
+  const answerValue = watch('answer');
+
   useEffect(() => {
     if (exerciseResponse !== undefined) {
       setValue('answer', exerciseResponse);
@@ -69,7 +71,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               {isLoggedIn && (
                 <button
                   type="button"
-                  onClick={() => downloadAsText({ title, description, response: watch('answer') || '' })}
+                  onClick={() => downloadAsText({ title, description, response: answerValue || '' })}
                   aria-label="Download as TXT"
                   className="p-1 -mt-1 -mr-1 rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal flex-shrink-0"
                 >
@@ -90,7 +92,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
       </div>
       <AutoSaveTextarea
-        value={watch('answer')}
+        value={answerValue}
         onChange={handleAnswerChange}
         onSave={handleSave}
         placeholder={isLoggedIn ? 'Enter your answer here' : 'Create an account to save your answers'}
