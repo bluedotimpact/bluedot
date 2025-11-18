@@ -87,6 +87,7 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
       <Head>
         <title>{`${certificate.recipientName}'s Certificate | BlueDot Impact`}</title>
         <meta name="description" content={`Certificate of completion for ${certificate.courseName}`} />
+        <meta name="robots" content="noindex" />
       </Head>
 
       <Section className="flex-1 pt-12">
