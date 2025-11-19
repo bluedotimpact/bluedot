@@ -159,12 +159,11 @@ const Form: React.FC<{
           {submitting && <div className="flex w-full justify-center"><ProgressDots /></div>}
           {!submitting && (
             <>
-              <NewText.P className={`text-size-xs text-stone-500 mb-2 ${hasSelectedTime() ? 'font-bold' : ''}`}>
-                {!isValidEmail() && <><span className="text-red-500">*</span> Input a valid email.<br /></>}
+              <NewText.P className={`text-size-xs text-red-500 mb-2 ${hasSelectedTime() ? 'font-bold' : ''}`}>
+                {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval() &&
-                  <>
-                    <span className="text-red-500">*</span>Fill out at least one interval of length at least {minLength} minutes.
-                  </>}
+                  <>* Fill out at least one interval of length at least {minLength} minutes.</>
+                }
 
               </NewText.P>
               <CTALinkOrButton
