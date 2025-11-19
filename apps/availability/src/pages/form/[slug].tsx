@@ -113,7 +113,7 @@ const Form: React.FC<{
 
   const hasSelectedTime = () => {
     const timeAv = watch('timeAv');
-    return Object.values(timeAv).some((v) => v);
+    return Object.values(timeAv).some(Boolean);
   }
 
   if (success) {
