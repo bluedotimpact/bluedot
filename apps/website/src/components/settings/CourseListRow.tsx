@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { CTALinkOrButton, addQueryParam, useCurrentTimeMs } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
 import { Course, CourseRegistration } from '@bluedot/db';
@@ -80,19 +80,6 @@ const CourseListRow = ({
     : false;
 
   const getPrimaryCtaButton = () => {
-    if (isNotInGroup) {
-      return (
-        <CTALinkOrButton
-          variant="primary"
-          size="small"
-          onClick={() => setGroupSwitchModalOpen(true)}
-          className="w-full sm:w-auto"
-        >
-          Join group
-        </CTALinkOrButton>
-      );
-    }
-
     if (!nextDiscussion) return null;
 
     const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
@@ -120,14 +107,35 @@ const CourseListRow = ({
 
   const primaryCtaButton = getPrimaryCtaButton();
 
-  // Format completion date
-  const metadataText = isCompleted && courseRegistration.certificateCreatedAt
-    ? `Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })}`
-    : '';
+  const getSubtitle = (): ReactNode | null => {
+    if (!isCompleted && nextDiscussion) {
+      if (isExpanded || isLoading) return null;
+
+      return `Unit ${nextDiscussion.unitNumber} starts ${formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}`;
+    }
+
+    if (isCompleted && courseRegistration.certificateCreatedAt) {
+      return (
+        <>
+          {`Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })}`}
+          <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
+            <FaCheck className="size-1.5 text-white" />
+          </span>
+        </>
+      );
+    }
+
+    if (isNotInGroup) {
+      return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
+    }
+    return null;
+  };
+
+  const subtitle = getSubtitle();
 
   // Determine hover class based on completion status
   const hoverClass = !isExpanded && !isCompleted ? 'hover:bg-white' : '';
@@ -155,26 +163,9 @@ const CourseListRow = ({
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-size-lg text-black leading-[22px]">{course.title}</h3>
-                {metadataText && (
-                  <div className="flex items-center gap-1.5 mt-0.5">
-                    <p className="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4">
-                      {metadataText}
-                    </p>
-                    {isCompleted && (
-                      <span className="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full">
-                        <FaCheck className="size-1.5 text-white" />
-                      </span>
-                    )}
-                  </div>
-                )}
-                {/* Show upcoming discussion info when collapsed */}
-                {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
-                  <p
-                    className={`text-size-xs mt-1 ${
-                      isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-charcoal-normal'
-                    }`}
-                  >
-                    Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
+                {subtitle && (
+                  <p className="flex items-center gap-1.5 mt-1 text-size-xs font-medium text-gray-500 leading-4">
+                    {subtitle}
                   </p>
                 )}
               </div>
@@ -244,26 +235,9 @@ const CourseListRow = ({
             {/* Content */}
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title}</h3>
-              {metadataText && (
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <p className="text-size-xs font-medium text-gray-900 opacity-50 leading-4">
-                    {metadataText}
-                  </p>
-                  {isCompleted && (
-                    <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
-                      <FaCheck className="size-1.5 text-white" />
-                    </span>
-                  )}
-                </div>
-              )}
-              {/* Show upcoming discussion info when collapsed on desktop */}
-              {!isExpanded && !isCompleted && nextDiscussion && !isLoading && (
-                <p
-                  className={`text-size-xs mt-1 ${
-                    isNextDiscussionStartingSoon ? 'text-blue-600' : 'text-gray-600'
-                  }`}
-                >
-                  Unit {nextDiscussion.unitNumber} starts {formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}
+              {subtitle && (
+                <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
+                  {subtitle}
                 </p>
               )}
             </div>
