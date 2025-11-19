@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
-  afterEach,
   beforeEach,
   describe,
   expect,
@@ -99,7 +98,7 @@ describe('CertificateLinkCard', () => {
 
     test('renders course without certificate - FoAI shows request button', async () => {
       server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(({input}) => createMockCourseRegistration({
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
           courseId: input.courseId,
           certificateId: null,
           email: 'user@example.com',
