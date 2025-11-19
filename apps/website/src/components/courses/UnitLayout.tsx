@@ -287,7 +287,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       <MobileHeader
-        className="unit__mobile-header md:hidden sticky top-16 z-10"
+        className="unit__mobile-header md:hidden sticky top-(--nav-height-mobile) z-10"
         unit={unit}
         prevUnit={prevUnit}
         nextUnit={nextUnit}
