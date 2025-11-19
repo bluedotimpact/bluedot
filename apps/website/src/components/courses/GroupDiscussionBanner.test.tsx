@@ -73,6 +73,10 @@ const mockOnClickPrepare = vi.fn();
 describe('GroupDiscussionBanner', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // We restrict faking to just 'Date' to ensure deterministic tests for time-based logic.
+    // We must NOT mock 'setTimeout' or 'setInterval'. tRPC relies  on native timers to batch updates and transition
+    // states (loading -> success). If timers are mocked, the tRPC query will hang in 'loading' state indefinitely.
     vi.useFakeTimers({ toFake: ['Date'] });
     const fixedTime = new Date(BASE_TIME * 1000); // Convert back from seconds to milliseconds
     vi.setSystemTime(fixedTime);
