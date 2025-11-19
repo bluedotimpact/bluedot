@@ -9,6 +9,8 @@ import {
   beforeEach,
   describe, expect, test, vi,
 } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 
 // Mock dependencies
@@ -66,20 +68,6 @@ const mockGroupDiscussion = {
   autoNumberId: 1,
 };
 
-const { mockUseQuery } = vi.hoisted(() => ({
-  mockUseQuery: vi.fn(),
-}));
-
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    courses: {
-      getUnit: {
-        useQuery: mockUseQuery,
-      },
-    },
-  },
-}));
-
 const mockOnClickPrepare = vi.fn();
 
 describe('GroupDiscussionBanner', () => {
@@ -89,11 +77,7 @@ describe('GroupDiscussionBanner', () => {
     const fixedTime = new Date(BASE_TIME * 1000); // Convert back from seconds to milliseconds
     vi.setSystemTime(fixedTime);
 
-    mockUseQuery.mockReturnValue({
-      data: mockUnit,
-      isLoading: false,
-      error: null,
-    });
+    server.use(trpcMsw.courses.getUnit.query(() => mockUnit));
   });
 
   afterEach(() => {
@@ -110,6 +94,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText(/Your discussion on/)).toBeInTheDocument();
@@ -129,6 +114,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
@@ -150,6 +136,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Open discussion doc')).toBeInTheDocument();
@@ -170,6 +157,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Prepare for discussion')).toBeInTheDocument();
@@ -187,6 +175,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const joinButton = screen.getByText('Join discussion');
@@ -203,6 +192,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const hostKeyButton = screen.getByText('Host key: 123456');
@@ -224,6 +214,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const prepareButton = screen.getByText('Prepare for discussion');
@@ -240,6 +231,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const cantMakeItButton = screen.getByText("Can't make it?");
@@ -256,6 +248,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       const docButton = screen.getByText('Open discussion doc');
@@ -276,6 +269,7 @@ describe('GroupDiscussionBanner', () => {
           hostKeyForFacilitators="123456"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
@@ -289,6 +283,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
@@ -303,6 +298,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="facilitator"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
@@ -312,11 +308,9 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      mockUseQuery.mockReturnValueOnce({
-        data: undefined,
-        isLoading: true,
-        error: null,
-      });
+      server.use(trpcMsw.courses.getUnit.query(() => {
+        return new Promise(() => {}); // Never resolves to simulate loading
+      }));
 
       render(
         <GroupDiscussionBanner
@@ -325,6 +319,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Should use fallback unit title while loading
@@ -344,6 +339,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Should use fallback unit title when no unit ID is provided
@@ -351,11 +347,9 @@ describe('GroupDiscussionBanner', () => {
     });
 
     test('handles unit fetch error state', () => {
-      mockUseQuery.mockReturnValueOnce({
-        data: undefined,
-        isLoading: false,
-        error: new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' }),
-      });
+      server.use(trpcMsw.courses.getUnit.query(() => {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
+      }));
 
       render(
         <GroupDiscussionBanner
@@ -364,6 +358,7 @@ describe('GroupDiscussionBanner', () => {
           userRole="participant"
           onClickPrepare={mockOnClickPrepare}
         />,
+        { wrapper: TrpcProvider },
       );
 
       // Should use fallback unit title when error
