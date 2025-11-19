@@ -67,7 +67,7 @@ const Form: React.FC<{
   const { query: { slug } } = useRouter();
 
   const {
-    register, watch, control, handleSubmit,
+    register, watch, control, handleSubmit, formState,
   } = useFormContext<FormFieldData>();
 
   const [submitting, setSubmitting] = useState(false);
@@ -110,11 +110,6 @@ const Form: React.FC<{
     const timeAv = shift(toIntervals(watch('timeAv')), parseOffsetFromStringToMinutes(watch('timezone')));
     return timeAv.some(([start, end]) => end - start >= minLength);
   };
-
-  const hasSelectedTime = () => {
-    const timeAv = watch('timeAv');
-    return Object.values(timeAv).some(Boolean);
-  }
 
   if (success) {
     return (
@@ -159,7 +154,7 @@ const Form: React.FC<{
           {submitting && <div className="flex w-full justify-center"><ProgressDots /></div>}
           {!submitting && (
             <>
-              <NewText.P className={`text-size-xs text-red-500 mb-2 ${hasSelectedTime() ? 'font-bold' : ''}`}>
+              <NewText.P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval() &&
                   <>* Fill out at least one interval of length at least {minLength} minutes.</>
