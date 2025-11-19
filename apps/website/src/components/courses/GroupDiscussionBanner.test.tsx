@@ -73,7 +73,7 @@ const mockOnClickPrepare = vi.fn();
 describe('GroupDiscussionBanner', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ['Date'] });
     const fixedTime = new Date(BASE_TIME * 1000); // Convert back from seconds to milliseconds
     vi.setSystemTime(fixedTime);
 
@@ -86,7 +86,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('Happy Path Tests', () => {
-    test('renders correctly for participant when discussion starts soon', () => {
+    test('renders correctly for participant when discussion starts soon', async () => {
       const { container } = render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -98,7 +98,8 @@ describe('GroupDiscussionBanner', () => {
       );
 
       expect(screen.getByText(/Your discussion on/)).toBeInTheDocument();
-      expect(screen.getByText(/Unit 1: Introduction to AI Safety/)).toBeInTheDocument();
+      // Wait for component to re-render after data is loaded to ensure full unit title is shown
+      expect(await screen.findByText(/Unit 1: Introduction to AI Safety/)).toBeInTheDocument();
       expect(screen.getByText('Join discussion')).toBeInTheDocument();
       expect(screen.getByText('Message your group')).toBeInTheDocument();
       expect(screen.getByText("Can't make it?")).toBeInTheDocument();
