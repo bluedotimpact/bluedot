@@ -80,8 +80,8 @@ describe('CertificateLinkCard', () => {
     test('renders course without certificate - non-FoAI shows not eligible', async () => {
       // Mock query response with no certificate for non-FoAI course
       server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: 'rec123456789',
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: null,
         })),
       );
@@ -136,8 +136,8 @@ describe('CertificateLinkCard', () => {
 
     test('renders regular course with certificate - no community section', async () => {
       server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: 'rec123456789',
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
         })),
@@ -163,8 +163,8 @@ describe('CertificateLinkCard', () => {
 
     test('renders FoAI course with certificate - includes community section', async () => {
       server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FOAI_COURSE_ID,
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
         })),
