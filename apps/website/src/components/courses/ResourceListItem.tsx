@@ -136,8 +136,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
   const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
 
-  const showFeedbackUI = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
-
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
     const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
@@ -334,7 +332,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                   )}
 
                   {/* Feedback buttons - only show when there's an actual completion record */}
-                  {showFeedbackUI && (
+                  {isCompleted && (
                     <div>
                       <FeedbackSection
                         resourceFeedback={resourceFeedback}
@@ -346,7 +344,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 </div>
 
                 {/* Text feedback textarea for mobile - only show when there's a completion record and Like or Dislike is selected */}
-                {showFeedbackUI && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+                {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                   <AutoSaveTextarea
                     value={feedback}
                     onChange={setFeedback}
@@ -364,7 +362,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         </div>
 
         {/* Desktop feedback section - only show when there's an actual completion record */}
-        {auth && showFeedbackUI && (
+        {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
               className="hidden lg:flex flex-col transition-all duration-200 px-6 pt-[17px] pb-4 gap-3 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
@@ -382,7 +380,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
                 />
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
-              {showFeedbackUI && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+              {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
                 <AutoSaveTextarea
                   value={feedback}
                   onChange={setFeedback}
