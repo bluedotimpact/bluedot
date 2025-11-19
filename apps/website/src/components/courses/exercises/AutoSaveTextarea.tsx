@@ -13,6 +13,7 @@ type AutoSaveTextareaProps = {
   placeholder?: string;
   disabled?: boolean;
   height?: 'short' | 'normal';
+  className?: string;
 };
 
 const TEXTAREA_HEIGHT_STYLES = {
@@ -27,6 +28,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   placeholder = 'Enter text here',
   disabled = false,
   height = 'normal',
+  className,
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
@@ -155,6 +157,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     'disabled:cursor-not-allowed disabled:opacity-60',
     '[&::-webkit-resizer]:hidden',
     TEXTAREA_HEIGHT_STYLES[height],
+    className,
   );
 
   return (
