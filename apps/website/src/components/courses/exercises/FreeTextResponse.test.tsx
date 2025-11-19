@@ -287,6 +287,59 @@ describe('FreeTextResponse', () => {
       expect(getByText(container, 'Saved')).toBeTruthy();
     });
 
+    test('triggers periodic auto-save after 3 minutes with unsaved changes', async () => {
+      // Use fake timers for this test to control time advancement
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(
+        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+
+      // Type in the textarea
+      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+
+      // Verify save hasn't been called yet
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      // Advance time by 3 minutes (180000ms) and run all pending timers
+      await vi.advanceTimersByTimeAsync(180000);
+
+      // Verify save was called
+      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+
+      // Clean up: switch back to real timers
+      vi.useRealTimers();
+    });
+
+    test('does not trigger periodic save when there are no unsaved changes', async () => {
+      // Use fake timers for this test to control time advancement
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse="Already saved answer"
+          isLoggedIn
+        />,
+      );
+
+      // Don't change anything - the value matches the saved response
+
+      // Advance time by 3 minutes (180000ms) and run all pending timers
+      await vi.advanceTimersByTimeAsync(180000);
+
+      // Should not have called save since nothing changed
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      // Clean up: switch back to real timers
+      vi.useRealTimers();
+    });
+
     test('textarea has proper accessibility attributes', () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
