@@ -2,7 +2,7 @@
 
 exports[`FreeTextResponse > renders default as expected 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -117,13 +117,13 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         </span>
       </a>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
 exports[`FreeTextResponse > renders logged in as expected 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -230,13 +230,13 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
 exports[`FreeTextResponse > renders with saved exercise response 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -345,6 +345,6 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 `;
