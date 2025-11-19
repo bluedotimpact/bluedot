@@ -3,11 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
-  beforeEach,
-  describe,
-  expect,
-  test,
-  vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { createMockCourseRegistration } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
@@ -54,7 +50,11 @@ describe('CertificateLinkCard', () => {
 
       // Verify FoAI-specific content
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
-      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+      expect(
+        screen.getByText(
+          'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+        ),
+      ).toBeTruthy();
       expect(screen.getByText('Download Certificate')).toBeTruthy();
     });
   });
@@ -90,7 +90,11 @@ describe('CertificateLinkCard', () => {
 
       // Wait for the query to complete and verify not eligible message
       await waitFor(() => {
-        expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
+        expect(
+          screen.getByText(
+            "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+          ),
+        ).toBeTruthy();
       });
       expect(screen.getByText('Your Certificate')).toBeTruthy();
       // Community section should NOT appear for non-FoAI courses
@@ -120,7 +124,11 @@ describe('CertificateLinkCard', () => {
 
       // Verify FoAI-specific content is shown
       expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
-      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+      expect(
+        screen.getByText(
+          'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+        ),
+      ).toBeTruthy();
 
       // Verify community section DOES appear for FoAI course
       expect(screen.getByText('Join the Community')).toBeTruthy();

@@ -1,13 +1,8 @@
 import '@testing-library/jest-dom';
-import {
-  fireEvent,
-  render, screen,
-} from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import {
-  afterEach,
-  beforeEach,
-  describe, expect, test, vi,
+  afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
@@ -257,10 +252,7 @@ describe('GroupDiscussionBanner', () => {
       );
 
       const docButton = screen.getByText('Open discussion doc');
-      expect(docButton.closest('a')).toHaveAttribute(
-        'href',
-        'https://docs.google.com/document/d/abc123',
-      );
+      expect(docButton.closest('a')).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     });
   });
 
@@ -313,9 +305,11 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      server.use(trpcMsw.courses.getUnit.query(() => {
-        return new Promise(() => {}); // Never resolves to simulate loading
-      }));
+      server.use(
+        trpcMsw.courses.getUnit.query(() => {
+          return new Promise(() => {}); // Never resolves to simulate loading
+        }),
+      );
 
       render(
         <GroupDiscussionBanner
@@ -352,9 +346,11 @@ describe('GroupDiscussionBanner', () => {
     });
 
     test('handles unit fetch error state', () => {
-      server.use(trpcMsw.courses.getUnit.query(() => {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
-      }));
+      server.use(
+        trpcMsw.courses.getUnit.query(() => {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
+        }),
+      );
 
       render(
         <GroupDiscussionBanner
