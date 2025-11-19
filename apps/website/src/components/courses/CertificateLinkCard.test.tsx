@@ -40,22 +40,22 @@ describe('CertificateLinkCard', () => {
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
       // Verify login prompt is shown
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
-      expect(screen.getByText('Create a free account to collect course certificates.')).toBeTruthy();
-      expect(screen.getByText('Log in')).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+      expect(screen.getByText('Create a free account to collect course certificates.')).toBeInTheDocument();
+      expect(screen.getByText('Log in')).toBeInTheDocument();
     });
 
     test('renders FoAI course with different content', () => {
       render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
 
       // Verify FoAI-specific content
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
       expect(
         screen.getByText(
           'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
         ),
-      ).toBeTruthy();
-      expect(screen.getByText('Download Certificate')).toBeTruthy();
+      ).toBeInTheDocument();
+      expect(screen.getByText('Download Certificate')).toBeInTheDocument();
     });
   });
 
@@ -72,9 +72,9 @@ describe('CertificateLinkCard', () => {
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
       // Verify loading indicator is shown
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
       // Check for progress dots (ProgressDots component)
-      expect(document.querySelector('.progress-dots')).toBeTruthy();
+      expect(document.querySelector('.progress-dots')).toBeInTheDocument();
     });
 
     test('renders course without certificate - non-FoAI shows not eligible', async () => {
@@ -94,9 +94,9 @@ describe('CertificateLinkCard', () => {
           screen.getByText(
             "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
           ),
-        ).toBeTruthy();
+        ).toBeInTheDocument();
       });
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
       // Community section should NOT appear for non-FoAI courses
       expect(screen.queryByText('Join the Community')).toBeNull();
     });
@@ -115,23 +115,23 @@ describe('CertificateLinkCard', () => {
 
       // Wait for the query to complete and verify download certificate button is shown
       await waitFor(() => {
-        expect(screen.getByText('Download Certificate')).toBeTruthy();
+        expect(screen.getByText('Download Certificate')).toBeInTheDocument();
       });
 
       // Verify the button is actually a button element using React Testing Library best practices
       const downloadButton = screen.getByRole('button', { name: 'Download Certificate' });
-      expect(downloadButton).toBeTruthy();
+      expect(downloadButton).toBeInTheDocument();
 
       // Verify FoAI-specific content is shown
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
       expect(
         screen.getByText(
           'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
         ),
-      ).toBeTruthy();
+      ).toBeInTheDocument();
 
       // Verify community section DOES appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      expect(screen.getByText('Join the Community')).toBeInTheDocument();
     });
 
     test('renders regular course with certificate - no community section', async () => {
@@ -147,11 +147,11 @@ describe('CertificateLinkCard', () => {
 
       // Wait for the query to complete and verify certificate content
       await waitFor(() => {
-        expect(screen.getByText('Earned by Test User')).toBeTruthy();
+        expect(screen.getByText('Earned by Test User')).toBeInTheDocument();
       });
       // Use a flexible date check to tolerate locale-specific ordering
-      expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeTruthy();
-      expect(screen.getByText('View Certificate')).toBeTruthy();
+      expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeInTheDocument();
+      expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
       // Verify the certificate link opens in a new tab
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
@@ -174,12 +174,12 @@ describe('CertificateLinkCard', () => {
 
       // Wait for the query to complete and verify certificate content
       await waitFor(() => {
-        expect(screen.getByText('Earned by Test User')).toBeTruthy();
+        expect(screen.getByText('Earned by Test User')).toBeInTheDocument();
       });
-      expect(screen.getByText('View Certificate')).toBeTruthy();
+      expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
       // Community section SHOULD appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      expect(screen.getByText('Join the Community')).toBeInTheDocument();
     });
   });
 });
