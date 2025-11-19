@@ -10,7 +10,6 @@ import {
   test,
   vi,
 } from 'vitest';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
 
@@ -18,11 +17,6 @@ import FreeTextResponse from './FreeTextResponse';
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
-
-// Mock axios
-vi.mock('axios');
-// Setup axios mock to resolve successfully
-(axios.put as Mock).mockResolvedValue({ data: {} });
 
 const mockRouter = {
   asPath: '/test-path',
@@ -97,8 +91,6 @@ describe('FreeTextResponse', () => {
   describe('Auto-save functionality', () => {
     beforeEach(() => {
       vi.clearAllMocks();
-      // Reset axios mock to resolve successfully by default
-      (axios.put as Mock).mockResolvedValue({ data: {} });
     });
 
     test('does not show status immediately while typing (20-second auto-save delay)', async () => {
