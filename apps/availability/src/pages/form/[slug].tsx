@@ -155,8 +155,12 @@ const Form: React.FC<{
           {!submitting && (
             <>
               <NewText.P className="text-size-xs text-stone-500 mb-2">
-                {!isValidEmail() && <>Input a valid email.<br /></>}
-                {!longEnoughInterval() && `Fill out at least one interval of length at least ${minLength} minutes.`}
+                {!isValidEmail() && <><span className="text-red-500">*</span> Input a valid email.<br /></>}
+                {!longEnoughInterval() &&
+                  <>
+                    <span className="text-red-500">*</span>Fill out at least one interval of length at least {minLength} minutes.
+                  </>}
+
               </NewText.P>
               <CTALinkOrButton
                 onClick={() => handleSubmit(onSubmit)()}
