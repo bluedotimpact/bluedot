@@ -111,6 +111,11 @@ const Form: React.FC<{
     return timeAv.some(([start, end]) => end - start >= minLength);
   };
 
+  const hasSelectedTime = () => {
+    const timeAv = watch('timeAv');
+    return Object.values(timeAv).some((v) => v);
+  }
+
   if (success) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -154,7 +159,7 @@ const Form: React.FC<{
           {submitting && <div className="flex w-full justify-center"><ProgressDots /></div>}
           {!submitting && (
             <>
-              <NewText.P className="text-size-xs text-stone-500 mb-2">
+              <NewText.P className={`text-size-xs text-stone-500 mb-2 ${hasSelectedTime() ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <><span className="text-red-500">*</span> Input a valid email.<br /></>}
                 {!longEnoughInterval() &&
                   <>
