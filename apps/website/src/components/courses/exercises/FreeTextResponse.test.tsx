@@ -319,7 +319,7 @@ describe('FreeTextResponse', () => {
       vi.useFakeTimers();
 
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      const { container } = render(
+      render(
         <FreeTextResponse
           {...mockArgs}
           onExerciseSubmit={mockOnExerciseSubmit}
