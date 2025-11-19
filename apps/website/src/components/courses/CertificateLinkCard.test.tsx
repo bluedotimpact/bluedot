@@ -34,7 +34,7 @@ describe('CertificateLinkCard', () => {
     vi.mocked(useRouter).mockReturnValue({
       asPath: '/courses/test-course',
     } as ReturnType<typeof useRouter>);
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date('2024-01-01'));
   });
 
