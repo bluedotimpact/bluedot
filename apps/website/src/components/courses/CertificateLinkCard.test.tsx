@@ -67,7 +67,8 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders loading state', () => {
-      // Don't set up a handler - this will keep the component in loading state
+      // Never resolves to simulate loading
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => new Promise(() => {})));
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
       // Verify loading indicator is shown
