@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { CTALinkOrButton } from '@bluedot/ui';
 import React, {
   useCallback, useEffect,
+  useState,
 } from 'react';
-import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
@@ -20,10 +20,6 @@ type FreeTextResponseProps = {
   isLoggedIn?: boolean;
 };
 
-type FormData = {
-  answer: string;
-};
-
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   className,
   description,
@@ -32,37 +28,19 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   onExerciseSubmit,
   title,
 }) => {
-  const {
-    handleSubmit, setValue, watch,
-  } = useForm<FormData>({
-    defaultValues: {
-      answer: exerciseResponse || '',
-    },
-  });
   const router = useRouter();
-
-  const answerValue = watch('answer');
+  const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
   useEffect(() => {
-    if (exerciseResponse !== undefined) {
-      setValue('answer', exerciseResponse);
-    }
-  }, [exerciseResponse, setValue]);
+    setAnswer(exerciseResponse || '');
+  }, [exerciseResponse]);
 
   const handleSave = useCallback(async (value: string) => {
     await onExerciseSubmit(value, value.trim().length > 0);
   }, [onExerciseSubmit]);
 
-  const handleAnswerChange = useCallback((value: string) => {
-    setValue('answer', value);
-  }, [setValue]);
-
-  const onSubmit = useCallback(async (data: FormData) => {
-    await handleSave(data.answer);
-  }, [handleSave]);
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
+    <div className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="flex flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 flex flex-col gap-2">
@@ -71,7 +49,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               {isLoggedIn && (
                 <button
                   type="button"
-                  onClick={() => downloadAsText({ title, description, response: answerValue || '' })}
+                  onClick={() => downloadAsText({ title, description, response: answer || '' })}
                   aria-label="Download as TXT"
                   className="p-1 -mt-1 -mr-1 rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal flex-shrink-0"
                 >
@@ -92,8 +70,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
       </div>
       <AutoSaveTextarea
-        value={answerValue}
-        onChange={handleAnswerChange}
+        value={answer}
+        onChange={setAnswer}
         onSave={handleSave}
         placeholder={isLoggedIn ? 'Enter your answer here' : 'Create an account to save your answers'}
         disabled={!isLoggedIn}
@@ -110,7 +88,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           </CTALinkOrButton>
         </div>
       )}
-    </form>
+    </div>
   );
 };
 
