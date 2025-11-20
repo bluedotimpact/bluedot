@@ -145,7 +145,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
           if (!oldData) return [];
 
-          const { unitResourceId, ...updatedFields } = newData;
           // Create a shallow copy for safe mutation
           const newArray = [...oldData];
 
@@ -162,15 +161,15 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
           } else if (newData.isCompleted) {
             // If no existing item and isCompleted is true, add a new item
             newArray.push({
-              id: unitResourceId,
+              id: newData.unitResourceId,
               autoNumberId: null,
               email: auth?.email ?? '',
-              unitResourceIdRead: unitResourceId,
-              unitResourceIdWrite: unitResourceId,
-              rating: updatedFields.rating ?? null,
-              feedback: updatedFields.feedback ?? '',
-              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
-              isCompleted: updatedFields.isCompleted ?? false,
+              unitResourceIdRead: newData.unitResourceId,
+              unitResourceIdWrite: newData.unitResourceId,
+              rating: newData.rating ?? null,
+              feedback: newData.feedback ?? '',
+              resourceFeedback: newData.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              isCompleted: newData.isCompleted ?? false,
             });
           }
           return newArray;
