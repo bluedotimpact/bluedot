@@ -106,16 +106,17 @@ const buildTimeDeltaString = (event: Event) => {
   });
   const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
 
-  // Use `undefined` to respect user locale
-  const timeFormatter = new Intl.DateTimeFormat(undefined, {
+  const timeFormatOptions: Intl.DateTimeFormatOptions = {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
     timeZone,
-  });
+  };
 
-  const timeStart = timeFormatter.format(startDate);
-  const timeEnd = timeFormatter.format(endDate);
+  // Use `undefined` to respect user locale
+  const timeStart = new Intl.DateTimeFormat(undefined, timeFormatOptions).format(startDate);
+  // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
+  const timeEnd = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
 
   let endDateString = '';
   if (isMultiDay) {
@@ -127,8 +128,7 @@ const buildTimeDeltaString = (event: Event) => {
     endDateString = `${dateFormatter.format(endDate)} `; // Add trailing space
   }
 
-  const suffix = event.location === 'ONLINE' ? 'Your time' : timeZone;
-  return `${timeStart} - ${endDateString}${timeEnd} (${suffix})`;
+  return `${timeStart} - ${endDateString}${timeEnd}`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
