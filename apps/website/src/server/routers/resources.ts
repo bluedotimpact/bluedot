@@ -1,4 +1,6 @@
-import { resourceCompletionTable } from '@bluedot/db';
+import {
+  and, eq, inArray, resourceCompletionTable,
+} from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -26,6 +28,19 @@ export const resourcesRouter = router({
         // Trim feedback field (Airtable quirk)
         feedback: resourceCompletion.feedback?.trimEnd() ?? null,
       };
+    }),
+
+  getResourceCompletions: protectedProcedure
+    .input(z.object({ unitResourceIds: z.array(z.string().min(1)) }))
+    .query(async ({ input, ctx }) => {
+      const resourceCompletions = await db.pg.select().from(resourceCompletionTable.pg).where(
+        and(
+          inArray(resourceCompletionTable.pg.unitResourceIdRead, input.unitResourceIds),
+          eq(resourceCompletionTable.pg.email, ctx.auth.email),
+        ),
+      );
+      console.log(resourceCompletions);
+      return resourceCompletions;
     }),
 
   saveResourceCompletion: protectedProcedure
