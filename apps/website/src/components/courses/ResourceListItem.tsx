@@ -166,8 +166,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    handleSaveCompletion(true, newFeedback);
-  }, [resourceFeedback, handleSaveCompletion]);
+    handleSaveCompletion(true, newFeedback, feedback || '');
+  }, [resourceFeedback, feedback, handleSaveCompletion]);
 
   if (completionLoading) {
     return <ProgressDots />;
