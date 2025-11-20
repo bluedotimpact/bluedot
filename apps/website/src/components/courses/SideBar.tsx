@@ -1,5 +1,5 @@
 import { InferSelectModel, unitTable } from '@bluedot/db';
-import { cn, ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
@@ -127,7 +127,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                             <>
                               {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                               ⋅
-                              <span className={cn(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
+                              <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
                                 {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index]?.chunkCoreResources.length} completed
                               </span>
                             </>
