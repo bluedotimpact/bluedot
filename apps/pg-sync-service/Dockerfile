@@ -9,8 +9,8 @@ ENV NODE_ENV=production
 ARG APP_NAME
 ENV APP_NAME=${APP_NAME}
 
-COPY package.json ./
-COPY dist_tools/package-lock.json ./
+COPY dist_tools/json/package.json ./
+COPY dist_tools/json/package-lock.json ./
 
 RUN --mount=type=cache,target=/app/.npm \
   npm set cache /app/.npm && \
