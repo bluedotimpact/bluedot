@@ -539,6 +539,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="block md:top-16 bg-color-canvas md:ml-[360px]"
+    />
     <section
       class="section section-body unit__main !border-none !pt-0 !mt-0"
     >
