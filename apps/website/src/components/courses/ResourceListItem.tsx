@@ -11,6 +11,9 @@ import { ErrorView } from '@bluedot/ui/src/ErrorView';
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
 import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import {
   A, P,
 } from '../Text';
@@ -20,6 +23,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import AutoSaveTextarea from './exercises/AutoSaveTextarea';
 import { trpc } from '../../utils/trpc';
+import type { AppRouter } from '../../server/routers/_app';
 
 // Simplified SVG icon components
 const ThumbIcon: React.FC<{
@@ -126,6 +130,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     { unitResourceId: resource.id },
     { enabled: !!auth },
   );
+
+  const queryClient = useQueryClient();
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
