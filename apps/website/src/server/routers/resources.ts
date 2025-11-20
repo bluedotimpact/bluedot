@@ -15,11 +15,17 @@ export const resourcesRouter = router({
         },
       });
 
-      return resourceCompletion ? {
+      // Return null when no completion exists
+      if (!resourceCompletion) {
+        return null;
+      }
+
+      // Return the actual resource completion with trimmed feedback
+      return {
         ...resourceCompletion,
         // Trim feedback field (Airtable quirk)
-        feedback: resourceCompletion.feedback?.trimEnd(),
-      } : null;
+        feedback: resourceCompletion.feedback?.trimEnd() ?? null,
+      };
     }),
 
   saveResourceCompletion: protectedProcedure
