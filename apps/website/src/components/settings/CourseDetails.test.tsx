@@ -6,7 +6,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
+import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseDetails from './CourseDetails';
 
 // Mock GroupSwitchModal to avoid testing it here

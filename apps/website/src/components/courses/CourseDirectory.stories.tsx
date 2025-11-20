@@ -1,6 +1,6 @@
 import type { Course } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
-import { mockCourse } from '../../__tests__/testUtils';
+import { createMockCourse } from '../../__tests__/testUtils';
 import CourseDirectory from './CourseDirectory';
 
 const meta = {
@@ -16,7 +16,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockCourses = [
-  mockCourse({
+  createMockCourse({
     id: '1',
     title: 'AI Safety',
     description: 'Understand the principles and practices to ensure AI systems are safe and reliable.',
@@ -30,7 +30,7 @@ const mockCourses = [
     isNew: true,
     isFeatured: false,
   }),
-  mockCourse({
+  createMockCourse({
     id: '2',
     title: 'AI Danger',
     description: 'Learn about the potential risks and challenges associated with AI technologies.',
@@ -44,7 +44,7 @@ const mockCourses = [
     isNew: false,
     isFeatured: true,
   }),
-  mockCourse({
+  createMockCourse({
     id: '3',
     title: 'State Management Strategies',
     description: 'Explore various state management techniques and their applications in modern web development.',

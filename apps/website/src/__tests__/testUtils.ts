@@ -1,5 +1,7 @@
 import { render, RenderResult } from '@testing-library/react';
-import type { Course, CourseRegistration } from '@bluedot/db';
+import type {
+  Chunk, Course, CourseRegistration, Group, GroupDiscussion, Unit,
+} from '@bluedot/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -41,7 +43,12 @@ export const renderWithHead = (ui: React.ReactElement): RenderResult => {
   return result;
 };
 
-export const mockCourse = (overrides: Partial<Course> = {}): Course => ({
+const MOCK_COURSE_ID = 'course-id';
+const MOCK_COURSE_REGISTRATION_ID = 'course-registration-id';
+const MOCK_CHUNK_ID = 'chunk-id';
+const MOCK_GROUP_ID = 'group-id';
+
+export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
   cadence: 'Weekly',
   certificationBadgeImage: 'badge.png',
@@ -51,7 +58,7 @@ export const mockCourse = (overrides: Partial<Course> = {}): Course => ({
   displayOnCourseHubIndex: true,
   durationDescription: '4 weeks',
   durationHours: 40,
-  id: 'course-id',
+  id: MOCK_COURSE_ID,
   image: '/images/courses/default.jpg',
   isFeatured: false,
   isNew: false,
@@ -76,7 +83,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   email: 'user@example.com',
   firstName: 'Test',
   fullName: 'Test User',
-  id: 'rec-test-id',
+  id: MOCK_COURSE_REGISTRATION_ID,
   lastName: 'User',
   lastVisitedChunkIndex: null,
   lastVisitedUnitNumber: null,
@@ -84,5 +91,76 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   roundStatus: 'Active',
   source: null,
   userId: 'user-1',
+  ...overrides,
+});
+
+export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
+  autoNumberId: 1,
+  chunks: ['recuC87TILbjW4eF4'],
+  content: null,
+  courseId: 'rec8CeVOWU0mGu2Jf',
+  coursePath: '/courses/test-course',
+  courseSlug: 'test-course',
+  courseTitle: 'Test Course',
+  courseUnit: null,
+  description: 'Unit description',
+  duration: 30,
+  id: `unit-${overrides.unitNumber || 1}`,
+  learningOutcomes: null,
+  menuText: null,
+  path: `/courses/test-course/${overrides.unitNumber || '1'}`,
+  title: 'Unit title',
+  unitNumber: '1',
+  unitPodcastUrl: '',
+  unitStatus: 'Active',
+  ...overrides,
+});
+
+export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
+  chunkContent: 'Test chunk content',
+  chunkExercises: [],
+  chunkId: 'recuC87TILbjW4eF4',
+  chunkOrder: '1',
+  chunkResources: [],
+  chunkTitle: 'Test Chunk',
+  chunkType: 'Reading',
+  estimatedTime: null,
+  id: MOCK_CHUNK_ID,
+  metaDescription: null,
+  status: 'Active',
+  unitId: 'unit-id',
+  ...overrides,
+});
+
+export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
+  autoNumberId: null,
+  groupDiscussions: [],
+  groupName: 'Group 1',
+  id: MOCK_GROUP_ID,
+  participants: [],
+  round: 'round-1',
+  startTimeUtc: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
+  whoCanSwitchIntoThisGroup: [],
+  ...overrides,
+});
+
+export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
+  activityDoc: null,
+  attendees: [],
+  autoNumberId: null,
+  courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
+  courseSite: null,
+  endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
+  facilitators: [],
+  group: MOCK_GROUP_ID,
+  id: `discussion-${overrides.unitNumber || 1}`,
+  participantsExpected: [],
+  round: null,
+  slackChannelId: null,
+  startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
+  unit: `unit-${overrides.unitNumber || 1}`,
+  unitNumber: 1,
+  zoomAccount: null,
+  zoomLink: null,
   ...overrides,
 });

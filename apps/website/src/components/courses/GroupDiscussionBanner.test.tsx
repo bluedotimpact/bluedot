@@ -10,6 +10,7 @@ import {
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
 // Mock dependencies
 vi.mock('./GroupSwitchModal', () => ({
@@ -23,48 +24,19 @@ Object.defineProperty(navigator, 'clipboard', {
   writable: true,
 });
 
-const mockUnit = {
-  id: 'unit-123',
-  title: 'Introduction to AI Safety',
-  unitNumber: '1',
-  courseSlug: 'ai-safety-fundamentals',
-  path: '/courses/ai-safety-fundamentals/1',
-  content: 'Unit content',
-  description: 'Unit description',
-  duration: 60,
-  autoNumberId: 1,
-  chunks: ['chunk-1'],
-  courseId: 'course-123',
-  courseTitle: 'AI Safety Fundamentals',
-  coursePath: '/courses/ai-safety-fundamentals',
-  learningOutcomes: 'Learning outcomes',
-  menuText: 'Menu text',
-  unitPodcastUrl: null,
-  courseUnit: 'course-unit-123',
-  unitStatus: 'active',
-};
+const mockUnit = createMockUnit({ title: 'Introduction to AI Safety' });
 
 const BASE_TIME = Math.floor(new Date('2024-09-25T10:00:00.000Z').getTime() / 1000);
 
-const mockGroupDiscussion = {
-  id: 'discussion-123',
+const mockGroupDiscussion = createMockGroupDiscussion({
   facilitators: ['facilitator-1'],
   participantsExpected: ['participant-1'],
-  attendees: [],
   startDateTime: BASE_TIME + 1800, // 30 minutes from base time
   endDateTime: BASE_TIME + 5400, // 90 minutes from base time
-  group: 'group-123',
-  zoomAccount: 'zoom-account-123',
-  courseSite: 'site-123',
-  unitNumber: 1,
-  unit: 'unit-123',
   zoomLink: 'https://zoom.us/j/123456789',
   activityDoc: 'https://docs.google.com/document/d/abc123',
   slackChannelId: 'C1234567890',
-  round: 'round-123',
-  courseBuilderUnitRecordId: 'unit-123',
-  autoNumberId: 1,
-};
+});
 
 const mockOnClickPrepare = vi.fn();
 

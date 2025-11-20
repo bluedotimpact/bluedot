@@ -11,7 +11,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
+import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
