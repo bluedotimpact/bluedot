@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import {
   fireEvent,
-  render, screen, waitFor, within,
+  render, screen, within,
 } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import {
