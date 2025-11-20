@@ -156,9 +156,8 @@ const Form: React.FC<{
             <>
               <NewText.P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
-                {!longEnoughInterval() &&
-                  <>* Fill out at least one interval of length at least {minLength} minutes.</>
-                }
+                {!longEnoughInterval()
+                  && <>* Fill out at least one interval of length at least {minLength} minutes.</>}
 
               </NewText.P>
               <CTALinkOrButton
