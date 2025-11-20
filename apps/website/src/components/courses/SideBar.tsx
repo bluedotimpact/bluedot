@@ -2,18 +2,18 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { FaChevronRight } from 'react-icons/fa6';
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { unitTable, InferSelectModel } from '@bluedot/db';
 import { A } from '../Text';
+import type { ChunkWithContent } from './UnitLayout';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 type SideBarProps = {
   // Required
   courseTitle: string;
   units: Unit[];
   currentUnitNumber: number;
-  chunks: Chunk[];
+  chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   // Optional
@@ -23,7 +23,7 @@ type SideBarProps = {
 type SideBarCollapsibleProps = {
   unit: Unit;
   isCurrentUnit: boolean;
-  chunks: Chunk[];
+  chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
 };
