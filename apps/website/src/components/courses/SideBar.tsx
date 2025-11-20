@@ -1,13 +1,12 @@
-import React from 'react';
-import clsx from 'clsx';
-
-import { FaChevronRight } from 'react-icons/fa6';
-import { unitTable, InferSelectModel } from '@bluedot/db';
+import { InferSelectModel, unitTable } from '@bluedot/db';
 import { cn, ProgressDots, useAuthStore } from '@bluedot/ui';
-import { A } from '../Text';
+import clsx from 'clsx';
+import React from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
-import type { ChunkWithContent } from './UnitLayout';
+import { A } from '../Text';
 import { filterResourcesByType } from './ResourceDisplay';
+import type { ChunkWithContent } from './UnitLayout';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
