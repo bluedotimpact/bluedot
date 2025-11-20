@@ -154,9 +154,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
             // If an existing item is found, update it
             newArray[existingIndex] = {
               ...newArray[existingIndex],
-              isCompleted: newData.isCompleted ?? false,
-              resourceFeedback: newData.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
-              feedback: newData.feedback ?? '',
+              ...newData,
             };
           } else if (newData.isCompleted) {
             // If no existing item and isCompleted is true, add a new item
