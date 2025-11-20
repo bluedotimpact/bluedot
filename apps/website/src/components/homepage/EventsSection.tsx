@@ -93,13 +93,15 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 const buildTimeDeltaString = (event: Event) => {
   const startDate = new Date(event.startAt);
   const endDate = new Date(event.endAt);
+  const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
 
   // Use `undefined` to respect user locale
   const timeFormatter = new Intl.DateTimeFormat(undefined, {
     hour: 'numeric',
+    month: 'short',
     minute: '2-digit',
     hour12: true,
-    timeZone: event.location === 'ONLINE' ? undefined : event.timezone,
+    timeZone,
   });
 
   const timeStart = timeFormatter.format(startDate);
@@ -107,7 +109,7 @@ const buildTimeDeltaString = (event: Event) => {
 
   const multiDateEnd = endDate.getDate() !== startDate.getDate() ? `${endDate.getDate()} ${endDate.toLocaleString(undefined, { month: 'short' })} ` : '';
 
-  return `${timeStart} - ${multiDateEnd}${timeEnd} (${event.location === 'ONLINE' ? 'Your time' : event.timezone})`;
+  return `${timeStart} - ${multiDateEnd}${timeEnd} (${event.location === 'ONLINE' ? 'Your time' : timeZone})`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
