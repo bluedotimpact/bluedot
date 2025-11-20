@@ -21,6 +21,9 @@ const TEXTAREA_HEIGHT_STYLES = {
   normal: 'min-h-[140px]',
 } as const;
 
+const AUTOSAVE_DELAY_IN_MS = 20000; // 20 seconds
+const PERIODIC_SAVE_INTERVAL_IN_MS = 180000; // 3 minutes
+
 const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   value,
   onChange,
@@ -36,8 +39,6 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
   const valueRef = useRef<string>(value);
-  const autoSaveDelayInMs = 20000; // 20 seconds
-  const periodicSaveIntervalInMs = 180000; // 3 minutes
 
   const isEditing = value !== lastSavedValue;
 
@@ -91,7 +92,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
-    if (disabled || periodicSaveIntervalInMs <= 0) return undefined;
+    if (disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
 
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
@@ -104,21 +105,21 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     };
 
     // Set up recurring timer
-    const intervalId = window.setInterval(runPeriodicSave, periodicSaveIntervalInMs);
+    const intervalId = window.setInterval(runPeriodicSave, PERIODIC_SAVE_INTERVAL_IN_MS);
 
     return () => clearInterval(intervalId);
-  }, [disabled, periodicSaveIntervalInMs]);
+  }, [disabled]);
 
   // Inactivity auto-save timer
   useEffect(() => {
-    if (!isEditing || disabled || autoSaveDelayInMs <= 0) return undefined;
+    if (!isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
 
     // Clear and reset the inactivity timer
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
 
     inactivityTimerRef.current = window.setTimeout(() => {
       saveValue(value);
-    }, autoSaveDelayInMs);
+    }, AUTOSAVE_DELAY_IN_MS);
 
     return () => {
       if (inactivityTimerRef.current) {
@@ -126,7 +127,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         inactivityTimerRef.current = null;
       }
     };
-  }, [value, isEditing, disabled, saveValue, autoSaveDelayInMs]);
+  }, [value, isEditing, disabled, saveValue]);
 
   const handleTextareaBlur = useCallback(() => {
     if (disabled) return;
