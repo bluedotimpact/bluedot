@@ -31,7 +31,7 @@ const BASE_TIME = Math.floor(new Date('2024-09-25T10:00:00.000Z').getTime() / 10
 const mockGroupDiscussion = createMockGroupDiscussion({
   facilitators: ['facilitator-1'],
   participantsExpected: ['participant-1'],
-  unitNumber: 1,
+  courseBuilderUnitRecordId: mockUnit.id,
   startDateTime: BASE_TIME + 1800, // 30 minutes from base time
   endDateTime: BASE_TIME + 5400, // 90 minutes from base time
   zoomLink: 'https://zoom.us/j/123456789',
