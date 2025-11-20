@@ -6,6 +6,7 @@ import { unitTable, InferSelectModel } from '@bluedot/db';
 import { A } from '../Text';
 import { trpc } from '../../utils/trpc';
 import type { ChunkWithContent } from './UnitLayout';
+import { filterResourcesByType } from './ResourceDisplay';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
@@ -64,6 +65,20 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   }, {
     enabled: isCurrentUnit && coreResources.length > 0 && Boolean(auth),
   });
+
+  // For each chunk we need to know (1) how many core resources there are and (2) how many have been completed
+  const groupedResourceCompletionData = chunks.map((chunk) => {
+    const coreChunkResources = filterResourcesByType(chunk.resources, 'Core');
+    const coreResourceIds = new Set(coreChunkResources.map((resource) => resource.id));
+    const completedCoreResources = resourceCompletions?.filter((completion) => completion.isCompleted && coreResourceIds.has(completion.id)) || [];
+
+    return {
+      chunkCoreResources: coreChunkResources,
+      completedCoreResources,
+      allResourcesCompleted: completedCoreResources.length === coreChunkResources.length && coreChunkResources.length > 0,
+    };
+  });
+
   return (
     isCurrentUnit ? (
       <div className="relative">
