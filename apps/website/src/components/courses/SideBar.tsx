@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
 import { unitTable, InferSelectModel } from '@bluedot/db';
 import { A } from '../Text';
+import { trpc } from '../../utils/trpc';
 import type { ChunkWithContent } from './UnitLayout';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
@@ -53,9 +54,16 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   currentChunkIndex,
   onChunkSelect,
 }) => {
-  // Format time in minutes to "Xh Ymin" or "Zmin"
+  const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
+  const coreResources = chunks.flatMap((chunk) => filterResourcesByType(chunk.resources, 'Core'));
+
+  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
+    unitResourceIds: coreResources.map((resource) => resource.id),
+  }, {
+    enabled: isCurrentUnit && coreResources.length > 0 && Boolean(auth),
+  });
   return (
     isCurrentUnit ? (
       <div className="relative">
