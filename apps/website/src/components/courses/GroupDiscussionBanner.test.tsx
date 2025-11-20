@@ -261,7 +261,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Role Specific Behavior', () => {
-    test('facilitator does not see "Can\'t make it?" button', () => {
+    test('facilitator does not see "Can\'t make it?" button', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -273,6 +273,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
+      await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
 
@@ -345,9 +346,7 @@ describe('GroupDiscussionBanner', () => {
       );
 
       // Should use fallback unit title when no unit ID is provided
-      await waitFor(() => {
-        expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
-      });
+      expect(await screen.findByText(/Unit 1/)).toBeInTheDocument();
     });
 
     test('handles unit fetch error state', async () => {
@@ -368,9 +367,7 @@ describe('GroupDiscussionBanner', () => {
       );
 
       // Should use fallback unit title when error
-      await waitFor(() => {
-        expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
-      });
+      expect(await screen.findByText(/Unit 1/)).toBeInTheDocument();
     });
   });
 });
