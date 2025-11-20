@@ -151,18 +151,27 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
           const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
 
-          if (existingIndex > -1) {
+          if (newArray[existingIndex]) {
             // If an existing item is found, update it
             newArray[existingIndex] = {
               ...newArray[existingIndex],
-              ...updatedFields,
-            } as typeof newArray[number];
+              isCompleted: newData.isCompleted ?? false,
+              resourceFeedback: newData.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              feedback: newData.feedback ?? '',
+            };
           } else if (newData.isCompleted) {
             // If no existing item and isCompleted is true, add a new item
             newArray.push({
-              unitResourceIdRead: resource.id,
-              ...updatedFields,
-            } as typeof newArray[number]);
+              id: unitResourceId,
+              autoNumberId: null,
+              email: auth?.email ?? '',
+              unitResourceIdRead: unitResourceId,
+              unitResourceIdWrite: unitResourceId,
+              rating: updatedFields.rating ?? null,
+              feedback: updatedFields.feedback ?? '',
+              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              isCompleted: updatedFields.isCompleted ?? false,
+            });
           }
           return newArray;
         },
