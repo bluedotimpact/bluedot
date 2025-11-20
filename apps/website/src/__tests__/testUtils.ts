@@ -148,7 +148,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   activityDoc: null,
   attendees: [],
   autoNumberId: null,
-  courseBuilderUnitRecordId: null,
+  courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
   courseSite: null,
   endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
   facilitators: [],
