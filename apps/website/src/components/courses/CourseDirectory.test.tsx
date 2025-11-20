@@ -3,10 +3,10 @@ import {
   describe, expect, test,
 } from 'vitest';
 import CourseDirectory from './CourseDirectory';
-import { mockCourse } from '../../__tests__/testUtils';
+import { createMockCourse } from '../../__tests__/testUtils';
 
 const mockCourses = [
-  mockCourse({
+  createMockCourse({
     id: 'course-1',
     title: 'Test Course 1',
     shortDescription: 'Desc 1',
@@ -17,7 +17,7 @@ const mockCourses = [
     path: '/course1',
     durationDescription: '4 weeks',
   }),
-  mockCourse({
+  createMockCourse({
     id: 'course-2',
     title: 'Test Course 2',
     shortDescription: 'Desc 2',

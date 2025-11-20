@@ -1,9 +1,8 @@
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import { Course, Unit } from '@bluedot/db';
 import CoursePage from '../../../../pages/courses/[courseSlug]/index';
-import { renderWithHead } from '../../../testUtils';
+import { createMockCourse, createMockUnit, renderWithHead } from '../../../testUtils';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.
@@ -21,51 +20,14 @@ vi.mock('next/head', () => ({
   },
 }));
 
-const mockCourse: Course = {
-  id: 'recCourse123',
-  title: 'AI Safety Fundamentals',
+const mockCourse = createMockCourse({
   slug: 'ai-safety-fundamentals',
+  title: 'AI Safety Fundamentals',
   description: 'Learn about AI safety and alignment',
-  path: '/courses/ai-safety-fundamentals',
-  status: 'published',
-  durationHours: 40,
-  durationDescription: '8 weeks',
-  level: 'Beginner',
-  cadence: 'Weekly',
-  shortDescription: 'Introduction to AI safety',
-  image: '/images/courses/ai-safety.jpg',
-  detailsUrl: 'https://example.com/details',
-  certificationDescription: 'Certificate description',
-  certificationBadgeImage: 'badge.png',
-  displayOnCourseHubIndex: true,
-  averageRating: 4.8,
-  isFeatured: true,
-  isNew: false,
-  publicLastUpdated: null,
-  units: [],
-};
+});
 
-const mockUnits: Unit[] = [
-  {
-    id: 'recUnit1',
-    courseId: 'recCourse123',
-    unitNumber: '1',
-    title: 'Introduction to AI Safety',
-    path: '/courses/ai-safety-fundamentals/1',
-    courseSlug: 'ai-safety-fundamentals',
-    courseTitle: 'AI Safety Fundamentals',
-    coursePath: '/courses/ai-safety-fundamentals',
-    courseUnit: null,
-    content: 'Unit content',
-    description: 'Unit description',
-    learningOutcomes: 'Learning outcomes',
-    duration: 30,
-    chunks: ['recChunk1'],
-    menuText: 'Introduction',
-    unitPodcastUrl: '',
-    unitStatus: 'Active',
-    autoNumberId: 1,
-  },
+const mockUnits = [
+  createMockUnit(),
 ];
 
 describe('CoursePage SSR/SEO', () => {

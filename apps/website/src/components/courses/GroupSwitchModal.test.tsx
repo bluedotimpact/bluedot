@@ -15,12 +15,14 @@ import {
   type Mock,
 } from 'vitest';
 import { useAuthStore } from '@bluedot/ui';
-import type { Course, Unit } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import {
+  createMockCourse, createMockGroupDiscussion, createMockUnit, createMockGroup,
+} from '../../__tests__/testUtils';
 
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
@@ -34,22 +36,20 @@ const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
-const mockUnit1 = {
-  id: 'unit-1',
+const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
-} as Unit;
+});
 
-const mockUnit2 = {
-  id: 'unit-2',
+const mockUnit2 = createMockUnit({
   title: 'AI Alignment',
   unitNumber: '2',
-} as Unit;
+});
 
-const mockCourse = {
+const mockCourse = createMockCourse({
   id: 'course-1',
   slug: 'ai-safety',
-} as Course;
+});
 
 const mockCourseData = {
   course: mockCourse,
@@ -65,31 +65,21 @@ const mockCourseDataWithTwoUnits = {
 const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
-      group: {
+      group: createMockGroup({
         id: 'group-1',
         groupName: 'Morning Group A',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: 'round-1',
         participants: ['participant-1'], // Current user
-        startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000),
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
       allDiscussionsHaveStarted: false,
     },
     {
-      group: {
+      group: createMockGroup({
         id: 'group-2',
         groupName: 'Evening Group B',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: 'round-1',
         participants: [],
-        startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000),
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
       allDiscussionsHaveStarted: false,
@@ -98,50 +88,22 @@ const mockSwitchingData: DiscussionsAvailable = {
   discussionsAvailable: {
     1: [
       {
-        discussion: {
+        discussion: createMockGroupDiscussion({
           id: 'discussion-1',
-          startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000),
-          unit: 'unit-1',
-          unitNumber: 1,
-          autoNumberId: null,
           group: 'group-1',
-          round: null,
-          facilitators: [],
           participantsExpected: ['participant-1'],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
         spotsLeftIfKnown: 0,
         hasStarted: false,
       },
       {
-        discussion: {
+        discussion: createMockGroupDiscussion({
           id: 'discussion-2',
-          startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000),
-          unit: 'unit-1',
-          unitNumber: 1,
-          autoNumberId: null,
           group: 'group-2',
-          round: null,
-          facilitators: [],
           participantsExpected: ['other-participant-1', 'other-participant-2'],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
         spotsLeftIfKnown: 2,

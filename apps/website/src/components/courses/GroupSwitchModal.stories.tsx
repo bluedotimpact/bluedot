@@ -5,94 +5,25 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import { createMockCourse, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
-const unit1: Unit = {
-  id: 'unit-1',
-  duration: null,
-  description: 'Introduction to AI Safety concepts',
-  autoNumberId: 1,
-  path: '/courses/ai-safety/unit-1',
+const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '1',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
-const unit2: Unit = {
-  id: 'unit-2',
-  duration: null,
-  description: 'AI alignment concepts',
-  autoNumberId: 2,
-  path: '/courses/ai-safety/unit-2',
-  title: 'AI Alignment',
+const unit2 = createMockUnit({
+  title: 'AI Safety Course',
   unitNumber: '2',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '2',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
-const unit3: Unit = {
-  id: 'unit-3',
-  duration: null,
-  description: 'Technical safety approaches',
-  autoNumberId: 3,
-  path: '/courses/ai-safety/unit-3',
-  title: 'Technical Safety',
+const unit3 = createMockUnit({
+  title: 'Technical Safety Approaches',
   unitNumber: '3',
-  chunks: null,
-  courseId: 'course-1',
-  courseTitle: 'AI Safety Course',
-  coursePath: '/courses/ai-safety',
-  courseSlug: 'ai-safety',
-  courseUnit: '3',
-  content: null,
-  menuText: null,
-  learningOutcomes: null,
-  unitPodcastUrl: null,
-  unitStatus: 'published',
-};
+});
 
 const mockCourseData: { course: Course, units: Unit[] } = {
-  course: {
-    id: 'course-1',
-    title: 'AI Safety Course',
-    slug: 'ai-safety',
-    description: 'Learn about AI safety',
-    path: '',
-    certificationBadgeImage: null,
-    certificationDescription: null,
-    detailsUrl: '',
-    displayOnCourseHubIndex: false,
-    durationDescription: '',
-    durationHours: null,
-    image: null,
-    shortDescription: '',
-    units: [],
-    cadence: '',
-    level: '',
-    averageRating: null,
-    publicLastUpdated: null,
-    isNew: false,
-    isFeatured: false,
-    status: null,
-  },
+  course: createMockCourse(),
   units: [
     unit1,
     unit2,
@@ -151,50 +82,18 @@ const mockSwitchingData: DiscussionsAvailable = {
   discussionsAvailable: {
     1: [
       {
-        discussion: {
-          id: 'discussion-1',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000), // 2 hours from now
-          unit: null,
-          unitNumber: null,
-          autoNumberId: null,
-          group: '',
-          round: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Morning Group A',
         userIsParticipant: true,
         spotsLeftIfKnown: 0,
         hasStarted: false,
       },
       {
-        discussion: {
-          id: 'discussion-2',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000), // 24 hours from now
-          group: '',
-          round: null,
-          autoNumberId: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          unitNumber: null,
-          unit: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Evening Group B',
         userIsParticipant: false,
         spotsLeftIfKnown: 2,
@@ -203,25 +102,9 @@ const mockSwitchingData: DiscussionsAvailable = {
     ],
     2: [
       {
-        discussion: {
-          id: 'discussion-3',
+        discussion: createMockGroupDiscussion({
           startDateTime: Math.floor((Date.now() + 48 * 60 * 60 * 1000) / 1000), // 48 hours from now
-          unit: null,
-          unitNumber: null,
-          autoNumberId: null,
-          group: '',
-          round: null,
-          facilitators: [],
-          participantsExpected: [],
-          attendees: [],
-          endDateTime: 0,
-          zoomAccount: null,
-          courseSite: null,
-          zoomLink: null,
-          activityDoc: null,
-          slackChannelId: null,
-          courseBuilderUnitRecordId: null,
-        },
+        }),
         groupName: 'Weekend Group C',
         userIsParticipant: false,
         spotsLeftIfKnown: 1,

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
+import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
