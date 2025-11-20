@@ -130,6 +130,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     onSettled: () => {
       utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
     },
+    onMutate: async (newData) => {
+      // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
+      await utils.resources.getResourceCompletions.cancel();
+      queryClient.setQueriesData(
+        { queryKey: getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query') },
+        (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
+          if (!oldData) return [];
+
+          return oldData.map((completion) => {
+            if (completion.unitResourceIdRead === resource.id) {
+              return {
+                ...completion,
+                ...newData,
+              };
+            }
+            return completion;
+          });
+        },
+      );
+    },
   });
 
   // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
