@@ -39,7 +39,6 @@ export const resourcesRouter = router({
           eq(resourceCompletionTable.pg.email, ctx.auth.email),
         ),
       );
-      console.log(resourceCompletions);
       return resourceCompletions;
     }),
 
