@@ -569,6 +569,22 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
       pgColumn: text(),
       airtableId: 'fldXrkZ6Vg8zDh1ZU',
     },
+    firstDiscussionDate: {
+      pgColumn: text(),
+      airtableId: 'fldLQNa0te7r3GpBU',
+    },
+    lastDiscussionDate: {
+      pgColumn: text(),
+      airtableId: 'fldTHHKka0wYfLBIa',
+    },
+    courseId: {
+      pgColumn: text(),
+      airtableId: 'fldz8sTIZz3O0fJoi',
+    },
+    intensity: {
+      pgColumn: text(),
+      airtableId: 'fldONnpcLTSwwy1NJ',
+    },
   },
 });
 
