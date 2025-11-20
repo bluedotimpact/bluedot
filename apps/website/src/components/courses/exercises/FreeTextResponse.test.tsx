@@ -405,5 +405,81 @@ describe('FreeTextResponse', () => {
       expect(textarea.placeholder).toBe('Enter your answer here');
       expect(textarea.disabled).toBe(false);
     });
+
+    test('does not overwrite user input when exerciseResponse prop updates during typing', async () => {
+      // This test verifies the fix for issue #1614:
+      // If a user continues typing while saving, the refetch triggered by invalidation
+      // should not overwrite their new input.
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container, rerender } = render(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse=""
+          isLoggedIn
+        />,
+      );
+
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+
+      // User types initial text
+      fireEvent.change(textarea, { target: { value: 'Hello' } });
+      expect(textarea.value).toBe('Hello');
+
+      // User continues typing before save completes
+      fireEvent.change(textarea, { target: { value: 'Hello World' } });
+      expect(textarea.value).toBe('Hello World');
+
+      // Simulate the exerciseResponse prop updating (as would happen after refetch)
+      // This simulates the server response coming back with the old saved value
+      rerender(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse="Hello"
+          isLoggedIn
+        />,
+      );
+
+      // Wait a tick for effects to run
+      await waitFor(() => {
+        // Verify that the user's current input is NOT overwritten
+        expect(textarea.value).toBe('Hello World');
+      });
+
+      // The local state should take precedence over the refetched server value
+      expect(textarea.value).not.toBe('Hello');
+    });
+
+    test('syncs exerciseResponse when navigating to a new exercise with empty local state', async () => {
+      // This test ensures that when navigating to a different exercise,
+      // the saved response is loaded correctly
+
+      const { container, rerender } = render(
+        <FreeTextResponse
+          {...mockArgs}
+          exerciseResponse=""
+          isLoggedIn
+        />,
+      );
+
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      expect(textarea.value).toBe('');
+
+      // Simulate navigating to a different exercise with a saved response
+      rerender(
+        <FreeTextResponse
+          {...mockArgs}
+          exerciseResponse="Previously saved answer"
+          isLoggedIn
+        />,
+      );
+
+      // Should sync the new exercise's response when answer is empty
+      await waitFor(() => {
+        expect(textarea.value).toBe('Previously saved answer');
+      });
+    });
   });
 });
