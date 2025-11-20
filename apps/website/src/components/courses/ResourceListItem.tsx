@@ -116,6 +116,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const [isHovered, setIsHovered] = useState(false);
   const [feedback, setFeedback] = useState('');
 
+  // TODO: instead of loading only individual resource completion, load all resource completions in parent and pass data
   // Fetch resource completion data (only when authenticated)
   const {
     data: completionData,
