@@ -43,6 +43,11 @@ export const renderWithHead = (ui: React.ReactElement): RenderResult => {
   return result;
 };
 
+const MOCK_COURSE_ID = 'course-id';
+const MOCK_COURSE_REGISTRATION_ID = 'course-registration-id';
+const MOCK_CHUNK_ID = 'chunk-id';
+const MOCK_GROUP_ID = 'group-id';
+
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
   cadence: 'Weekly',
@@ -53,7 +58,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   displayOnCourseHubIndex: true,
   durationDescription: '4 weeks',
   durationHours: 40,
-  id: 'course-id',
+  id: MOCK_COURSE_ID,
   image: '/images/courses/default.jpg',
   isFeatured: false,
   isNew: false,
@@ -78,7 +83,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   email: 'user@example.com',
   firstName: 'Test',
   fullName: 'Test User',
-  id: 'rec-test-id',
+  id: MOCK_COURSE_REGISTRATION_ID,
   lastName: 'User',
   lastVisitedChunkIndex: null,
   lastVisitedUnitNumber: null,
@@ -120,7 +125,7 @@ export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
   chunkTitle: 'Test Chunk',
   chunkType: 'Reading',
   estimatedTime: null,
-  id: 'chunk-id',
+  id: MOCK_CHUNK_ID,
   metaDescription: null,
   status: 'Active',
   unitId: 'unit-id',
@@ -131,7 +136,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   autoNumberId: null,
   groupDiscussions: [],
   groupName: 'Group 1',
-  id: 'group-1',
+  id: MOCK_GROUP_ID,
   participants: [],
   round: 'round-1',
   startTimeUtc: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
@@ -147,7 +152,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   courseSite: null,
   endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
   facilitators: [],
-  group: 'group-1',
+  group: MOCK_GROUP_ID,
   id: `discussion-${overrides.unitNumber || 1}`,
   participantsExpected: [],
   round: null,
