@@ -1,27 +1,15 @@
 import { useAuthStore } from '@bluedot/ui';
-import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  test,
-  vi,
+  beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import CertificateLinkCard from './CertificateLinkCard';
-
-// I tried pretty hard to use tRPC MSW but kept running into issues where the component would be permanently stuck in
-// loading state for authenticated tests. I spent a couple hours trying to fight it, have decided to give up and mock
-// tRPC directly.
-
-// Hoist the mock functions so they can be used in vi.mock
-const { mockUseQuery, mockUseMutation } = vi.hoisted(() => ({
-  mockUseQuery: vi.fn(),
-  mockUseMutation: vi.fn(),
-}));
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -35,41 +23,12 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    courseRegistrations: {
-      getByCourseId: {
-        useQuery: mockUseQuery,
-      },
-    },
-    certificates: {
-      request: {
-        useMutation: mockUseMutation,
-      },
-    },
-  },
-}));
-
 describe('CertificateLinkCard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useRouter).mockReturnValue({
       asPath: '/courses/test-course',
     } as ReturnType<typeof useRouter>);
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date('2024-01-01'));
-
-    // Reset mutation mock to default state
-    mockUseMutation.mockReturnValue({
-      mutate: vi.fn(),
-      isPending: false,
-      isError: false,
-      error: null,
-    });
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   describe('Not authenticated', () => {
@@ -78,21 +37,25 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders regular course', () => {
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
       // Verify login prompt is shown
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
-      expect(screen.getByText('Create a free account to collect course certificates.')).toBeTruthy();
-      expect(screen.getByText('Log in')).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+      expect(screen.getByText('Create a free account to collect course certificates.')).toBeInTheDocument();
+      expect(screen.getByText('Log in')).toBeInTheDocument();
     });
 
     test('renders FoAI course with different content', () => {
-      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
 
       // Verify FoAI-specific content
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
-      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
-      expect(screen.getByText('Download Certificate')).toBeTruthy();
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+        ),
+      ).toBeInTheDocument();
+      expect(screen.getByText('Download Certificate')).toBeInTheDocument();
     });
   });
 
@@ -104,91 +67,91 @@ describe('CertificateLinkCard', () => {
     });
 
     test('renders loading state', () => {
-      mockUseQuery.mockReturnValue({
-        data: undefined,
-        isLoading: true,
-        error: null,
-        refetch: vi.fn(),
-      });
-
-      render(<CertificateLinkCard courseId="rec123456789" />);
+      // Never resolves to simulate loading
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => new Promise(() => {})));
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
       // Verify loading indicator is shown
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
       // Check for progress dots (ProgressDots component)
-      expect(document.querySelector('.progress-dots')).toBeTruthy();
+      expect(document.querySelector('.progress-dots')).toBeInTheDocument();
     });
 
-    test('renders course without certificate - non-FoAI shows not eligible', () => {
+    test('renders course without certificate - non-FoAI shows not eligible', async () => {
       // Mock query response with no certificate for non-FoAI course
-      mockUseQuery.mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: 'rec123456789',
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: null,
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
+        })),
+      );
+
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      // Wait for the query to complete and verify not eligible message
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+          ),
+        ).toBeInTheDocument();
       });
-
-      render(<CertificateLinkCard courseId="rec123456789" />);
-
-      // Verify not eligible message
-      expect(screen.getByText('Your Certificate')).toBeTruthy();
-      expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeTruthy();
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
       // Community section should NOT appear for non-FoAI courses
       expect(screen.queryByText('Join the Community')).toBeNull();
     });
 
-    test('renders course without certificate - FoAI shows request button', () => {
-      mockUseQuery.mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: FOAI_COURSE_ID,
+    test('renders course without certificate - FoAI shows request button', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: null,
           email: 'user@example.com',
           fullName: 'Test User',
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
+        })),
+      );
+
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
+
+      // Wait for the query to complete and verify download certificate button is shown
+      await waitFor(() => {
+        expect(screen.getByText('Download Certificate')).toBeInTheDocument();
       });
-
-      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
-
-      // Verify that download certificate button is shown for FoAI course
-      expect(screen.getByText('Download Certificate')).toBeTruthy();
 
       // Verify the button is actually a button element using React Testing Library best practices
       const downloadButton = screen.getByRole('button', { name: 'Download Certificate' });
-      expect(downloadButton).toBeTruthy();
+      expect(downloadButton).toBeInTheDocument();
 
       // Verify FoAI-specific content is shown
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeTruthy();
-      expect(screen.getByText('Complete all answers to unlock your certificate, then share your accomplishment on social media.')).toBeTruthy();
+      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+        ),
+      ).toBeInTheDocument();
 
       // Verify community section DOES appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      expect(screen.getByText('Join the Community')).toBeInTheDocument();
     });
 
-    test('renders regular course with certificate - no community section', () => {
-      mockUseQuery.mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: 'rec123456789',
+    test('renders regular course with certificate - no community section', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
+        })),
+      );
+
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      // Wait for the query to complete and verify certificate content
+      await waitFor(() => {
+        expect(screen.getByText('Earned by Test User')).toBeInTheDocument();
       });
-
-      render(<CertificateLinkCard courseId="rec123456789" />);
-
-      // Verify specific content
-      expect(screen.getByText('Earned by Test User')).toBeTruthy();
       // Use a flexible date check to tolerate locale-specific ordering
-      expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeTruthy();
-      expect(screen.getByText('View Certificate')).toBeTruthy();
+      expect(screen.getByText(/^\s*Issued on .*20\d{2}/)).toBeInTheDocument();
+      expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
       // Verify the certificate link opens in a new tab
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
@@ -198,26 +161,25 @@ describe('CertificateLinkCard', () => {
       expect(screen.queryByText('Join the Community')).toBeNull();
     });
 
-    test('renders FoAI course with certificate - includes community section', () => {
-      mockUseQuery.mockReturnValue({
-        data: createMockCourseRegistration({
-          courseId: FOAI_COURSE_ID,
+    test('renders FoAI course with certificate - includes community section', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
-        }),
-        isLoading: false,
-        error: null,
-        refetch: vi.fn(),
+        })),
+      );
+
+      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
+
+      // Wait for the query to complete and verify certificate content
+      await waitFor(() => {
+        expect(screen.getByText('Earned by Test User')).toBeInTheDocument();
       });
-
-      render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />);
-
-      // Verify certificate content
-      expect(screen.getByText('Earned by Test User')).toBeTruthy();
-      expect(screen.getByText('View Certificate')).toBeTruthy();
+      expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
       // Community section SHOULD appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeTruthy();
+      expect(screen.getByText('Join the Community')).toBeInTheDocument();
     });
   });
 });
