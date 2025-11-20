@@ -32,10 +32,7 @@ type MenuContentProps = {
   setIsOpen: (open: boolean) => void;
 };
 
-// Styled approximately as a 'secondary' CTALinkOrButton. Ideally this would have the
-// same variant options as CTALinkOrButton and encourage users not to customise the styling.
-// In practice our button styling is currently very inconsistent, so this is intended as
-// basic placeholder styling with the expectation that consumers *should* customise it.
+// Trigger button styled as secondary. Menu items are the primary actions
 const DEFAULT_BUTTON_CLASS = 'flex items-center justify-center p-2 rounded-md hover:bg-gray-100 border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer';
 
 const MenuContent: React.FC<MenuContentProps> = ({ items, isOpen, setIsOpen }) => {

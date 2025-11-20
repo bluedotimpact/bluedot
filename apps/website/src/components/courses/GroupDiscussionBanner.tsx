@@ -19,41 +19,6 @@ import { trpc } from '../../utils/trpc';
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 
-const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 14 14"
-    fill="none"
-    className={className}
-  >
-    <g>
-      <path d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-    </g>
-    <defs>
-      <clipPath>
-        <rect width="14" height="14" fill="white" />
-      </clipPath>
-    </defs>
-  </svg>
-);
-
-const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
-  <div className={clsx(
-    'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
-    isLive ? 'bg-[#2244BB] font-bold border-4 rounded-lg' : 'bg-white border rounded',
-  )}
-  >
-    {isLive ? (
-      <div className="text-white -translate-y-[0.5px]">LIVE</div>
-    ) : (
-      <VideoIcon size={20} className="text-[#2244BB]" />
-    )}
-  </div>
-);
-
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
   secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter' },
@@ -119,9 +84,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
   // Dynamic discussion starts soon check
-  const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS,
-    [groupDiscussion.startDateTime, currentTimeMs],
+  const discussionIsSoonOrLive = useMemo(
+    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
+    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
   );
   const discussionIsLive = useMemo(
     () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
@@ -158,7 +123,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       ),
       style: 'primary',
       url: discussionMeetLink,
-      isVisible: discussionStartsSoon,
+      isVisible: discussionIsSoonOrLive,
       mobileIndex: 0,
     },
     {
@@ -171,21 +136,21 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       ),
       style: 'secondary',
       onClick: copyHostKeyIfFacilitator,
-      isVisible: discussionStartsSoon && userRole === 'facilitator' && !!hostKeyForFacilitators,
+      isVisible: discussionIsSoonOrLive && userRole === 'facilitator' && !!hostKeyForFacilitators,
     },
     {
       id: 'discussion-doc',
       label: 'Open discussion doc',
       style: 'secondary',
       url: discussionDocLink,
-      isVisible: discussionStartsSoon || userRole === 'facilitator',
+      isVisible: discussionIsSoonOrLive || userRole === 'facilitator',
     },
     {
       id: 'message-group',
       label: 'Message group',
       style: 'secondary',
       url: slackChannelLink,
-      isVisible: discussionStartsSoon,
+      isVisible: discussionIsSoonOrLive,
     },
     // Upcoming discussion buttons
     {
@@ -193,7 +158,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       label: 'See details',
       style: 'secondary',
       url: '/settings/courses',
-      isVisible: !discussionStartsSoon,
+      isVisible: !discussionIsSoonOrLive,
     },
     {
       id: 'cant-make-it',
@@ -336,5 +301,40 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     </>
   );
 };
+
+const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 14 14"
+    fill="none"
+    className={className}
+  >
+    <g>
+      <path d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </g>
+    <defs>
+      <clipPath>
+        <rect width="14" height="14" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
+  <div className={clsx(
+    'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
+    isLive ? 'bg-[#2244BB] font-bold border-4 rounded-lg' : 'bg-white border rounded',
+  )}
+  >
+    {isLive ? (
+      <div className="text-white -translate-y-[0.5px]">LIVE</div>
+    ) : (
+      <VideoIcon size={20} className="text-[#2244BB]" />
+    )}
+  </div>
+);
 
 export default GroupDiscussionBanner;
