@@ -101,7 +101,7 @@ const buildTimeDeltaString = (event: Event) => {
     day: 'numeric',
     timeZone,
   });
-  const isSameDay = dateComparator.format(startDate) === dateComparator.format(endDate);
+  const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
 
   // Use `undefined` to respect user locale
   const timeFormatter = new Intl.DateTimeFormat(undefined, {
@@ -115,7 +115,7 @@ const buildTimeDeltaString = (event: Event) => {
   const timeEnd = timeFormatter.format(endDate);
 
   let endDateString = '';
-  if (!isSameDay) {
+  if (isMultiDay) {
     const dateFormatter = new Intl.DateTimeFormat(undefined, {
       month: 'short',
       day: 'numeric',
