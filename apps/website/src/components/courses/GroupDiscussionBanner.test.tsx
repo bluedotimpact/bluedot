@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import {
   fireEvent,
-  render, screen, within,
+  render, screen, waitFor, within,
 } from '@testing-library/react';
 import { TRPCError } from '@trpc/server';
 import {
@@ -100,7 +100,8 @@ describe('GroupDiscussionBanner', () => {
       );
 
       expect(screen.getByText(/Discussion (in|is live)/)).toBeInTheDocument();
-      const unitButton = screen.getByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
+      // Wait for component to fetch data (loading to finish)
+      const unitButton = await screen.findByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
       expect(unitButton).toBeInTheDocument();
       const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
@@ -124,7 +125,7 @@ describe('GroupDiscussionBanner', () => {
       expect(container).toMatchSnapshot();
     });
 
-    test('renders correctly for facilitator with host key', () => {
+    test('renders correctly for facilitator with host key', async () => {
       const { container } = render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -136,7 +137,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       // Desktop and mobile should both have host key button
@@ -155,7 +156,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Interactions', () => {
-    test('join discussion button has correct zoom link', () => {
+    test('join discussion button has correct zoom link', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -166,7 +167,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       const joinButton = screen.getAllByText('Join now')[0]; // Get first instance (desktop or mobile)
@@ -186,7 +187,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       const hostKeyButtons = screen.getAllByText('Host key: 123456');
@@ -196,7 +197,7 @@ describe('GroupDiscussionBanner', () => {
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('123456');
     });
 
-    test('clicking unit title button calls onClickPrepare', () => {
+    test('clicking unit title button calls onClickPrepare', async () => {
       const futureDiscussion = {
         ...mockGroupDiscussion,
         startDateTime: BASE_TIME + 7200, // 2 hours from base time
@@ -213,13 +214,13 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const unitButton = screen.getByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
+      const unitButton = await screen.findByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
       fireEvent.click(unitButton);
 
       expect(mockOnClickPrepare).toHaveBeenCalled();
     });
 
-    test('clicking "Can\'t make it?" opens group switch modal', () => {
+    test('clicking "Can\'t make it?" opens group switch modal', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -230,7 +231,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       const cantMakeItButtons = screen.getAllByText("Can't make it?");
@@ -240,7 +241,7 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByTestId('group-switch-modal')).toBeInTheDocument();
     });
 
-    test('open discussion doc button appears when discussion starts soon', () => {
+    test('open discussion doc button appears when discussion starts soon', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -251,7 +252,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       const docButton = screen.getByText('Open discussion doc');
@@ -275,7 +276,7 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
     });
 
-    test('facilitator sees discussion doc button even when discussion is not starting soon', () => {
+    test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {
       const futureDiscussion = {
         ...mockGroupDiscussion,
         startDateTime: BASE_TIME + 7200, // 2 hours from base time
@@ -293,7 +294,7 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
       // Facilitator-specific: Discussion doc button should be visible even when not starting soon
@@ -327,7 +328,7 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
     });
 
-    test('shows fallback title when unit ID is missing', () => {
+    test('shows fallback title when unit ID is missing', async () => {
       const discussionWithoutUnit = {
         ...mockGroupDiscussion,
         courseBuilderUnitRecordId: null,
@@ -344,10 +345,12 @@ describe('GroupDiscussionBanner', () => {
       );
 
       // Should use fallback unit title when no unit ID is provided
-      expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+      });
     });
 
-    test('handles unit fetch error state', () => {
+    test('handles unit fetch error state', async () => {
       server.use(
         trpcMsw.courses.getUnit.query(() => {
           throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
@@ -365,7 +368,9 @@ describe('GroupDiscussionBanner', () => {
       );
 
       // Should use fallback unit title when error
-      expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText(/Unit 1/)).toBeInTheDocument();
+      });
     });
   });
 });
