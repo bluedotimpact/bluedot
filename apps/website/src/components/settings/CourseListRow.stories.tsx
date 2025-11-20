@@ -90,6 +90,7 @@ const mockMeetPerson: MeetPerson = {
   groupsAsParticipant: ['group-1'],
   buckets: ['bucket-1'],
   autoNumberId: 1,
+  projectSubmission: []
 };
 
 const mockFacilitatorMeetPerson: MeetPerson = {
