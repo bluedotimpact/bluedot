@@ -30,9 +30,15 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const router = useRouter();
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
+  // Only sync from exerciseResponse on initial mount, not on subsequent changes
+  // This prevents the refetch from overwriting user's unsaved changes
+  const initialExerciseResponse = React.useRef(exerciseResponse);
   useEffect(() => {
-    setAnswer(exerciseResponse || '');
-  }, [exerciseResponse]);
+    if (initialExerciseResponse.current !== exerciseResponse && !answer) {
+      setAnswer(exerciseResponse || '');
+      initialExerciseResponse.current = exerciseResponse;
+    }
+  }, [exerciseResponse, answer]);
 
   const handleSave = useCallback(async (value: string) => {
     await onExerciseSubmit(value, value.trim().length > 0);
