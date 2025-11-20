@@ -584,7 +584,7 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
     intensity: {
       pgColumn: text(),
       airtableId: 'fldONnpcLTSwwy1NJ',
-    }
+    },
   },
 });
 
