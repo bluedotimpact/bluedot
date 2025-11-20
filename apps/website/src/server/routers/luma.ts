@@ -22,7 +22,7 @@ function transformEvent(api_id: string, event: LumaEvent) {
     id: api_id,
     startAt: event.start_at,
     endAt: event.end_at,
-    location: event.geo_address_json?.city?.toUpperCase() || 'REMOTE',
+    location: event.geo_address_json?.city?.toUpperCase() || 'ONLINE',
     title: event.name,
     url: event.url,
   };
