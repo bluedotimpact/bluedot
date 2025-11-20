@@ -109,7 +109,8 @@ const buildTimeDeltaString = (event: Event) => {
 
   const multiDateEnd = endDate.getDate() !== startDate.getDate() ? `${endDate.getDate()} ${endDate.toLocaleString(undefined, { month: 'short' })} ` : '';
 
-  return `${timeStart} - ${multiDateEnd}${timeEnd} (${event.location === 'ONLINE' ? 'Your time' : timeZone})`;
+  const suffix = event.location === 'ONLINE' ? 'Your time' : timeZone;
+  return `${timeStart} - ${multiDateEnd}${timeEnd} (${suffix})`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
