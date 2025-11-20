@@ -95,10 +95,17 @@ const buildTimeDeltaString = (event: Event) => {
   const endDate = new Date(event.endAt);
   const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
 
+  const dateComparator = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    timeZone,
+  });
+  const isSameDay = dateComparator.format(startDate) === dateComparator.format(endDate);
+
   // Use `undefined` to respect user locale
   const timeFormatter = new Intl.DateTimeFormat(undefined, {
     hour: 'numeric',
-    month: 'short',
     minute: '2-digit',
     hour12: true,
     timeZone,
@@ -107,10 +114,18 @@ const buildTimeDeltaString = (event: Event) => {
   const timeStart = timeFormatter.format(startDate);
   const timeEnd = timeFormatter.format(endDate);
 
-  const multiDateEnd = endDate.getDate() !== startDate.getDate() ? `${endDate.getDate()} ${endDate.toLocaleString(undefined, { month: 'short' })} ` : '';
+  let endDateString = '';
+  if (!isSameDay) {
+    const dateFormatter = new Intl.DateTimeFormat(undefined, {
+      month: 'short',
+      day: 'numeric',
+      timeZone,
+    });
+    endDateString = `${dateFormatter.format(endDate)} `; // Add trailing space
+  }
 
   const suffix = event.location === 'ONLINE' ? 'Your time' : timeZone;
-  return `${timeStart} - ${multiDateEnd}${timeEnd} (${suffix})`;
+  return `${timeStart} - ${endDateString}${timeEnd} (${suffix})`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
