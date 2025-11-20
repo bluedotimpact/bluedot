@@ -2,7 +2,7 @@
 
 exports[`FreeTextResponse > renders default as expected 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -37,18 +37,16 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       class="flex flex-col relative"
     >
       <div
-        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
+        class="relative w-full z-[1]"
       >
         <textarea
-          aria-label="Writing exercise: Understanding LLMs"
-          aria-required="false"
-          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
+          aria-label="Text input area"
+          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           disabled=""
-          name="answer"
           placeholder="Create an account to save your answers"
         />
         <div
-          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -58,7 +56,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_910_4280)"
+              clip-path="url(#clip0_auto_save)"
               opacity="0.6"
             >
               <path
@@ -76,7 +74,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             </g>
             <defs>
               <clippath
-                id="clip0_910_4280"
+                id="clip0_auto_save"
               >
                 <rect
                   fill="white"
@@ -119,13 +117,13 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         </span>
       </a>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
 exports[`FreeTextResponse > renders logged in as expected 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -181,18 +179,16 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       class="flex flex-col relative"
     >
       <div
-        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
+        class="relative w-full z-[1]"
       >
         <textarea
           aria-describedby="save-status-message"
-          aria-label="Writing exercise: Understanding LLMs"
-          aria-required="false"
-          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
-          name="answer"
+          aria-label="Text input area"
+          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           placeholder="Enter your answer here"
         />
         <div
-          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -202,7 +198,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_910_4280)"
+              clip-path="url(#clip0_auto_save)"
               opacity="0.6"
             >
               <path
@@ -220,7 +216,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             </g>
             <defs>
               <clippath
-                id="clip0_910_4280"
+                id="clip0_auto_save"
               >
                 <rect
                   fill="white"
@@ -234,13 +230,13 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 `;
 
 exports[`FreeTextResponse > renders with saved exercise response 1`] = `
 <div>
-  <form
+  <div
     class="container-lined bg-white p-8 flex flex-col gap-6"
   >
     <div
@@ -296,18 +292,18 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       class="flex flex-col relative"
     >
       <div
-        class="relative w-full overflow-hidden rounded-[10px] z-[1]"
+        class="relative w-full z-[1]"
       >
         <textarea
           aria-describedby="save-status-message"
-          aria-label="Writing exercise: Understanding LLMs"
-          aria-required="false"
-          class="box-border w-full min-h-[140px] bg-white rounded-[10px] px-6 py-5 font-normal text-[15px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden"
-          name="answer"
+          aria-label="Text input area"
+          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           placeholder="Enter your answer here"
-        />
+        >
+          This is my saved answer.
+        </textarea>
         <div
-          class="drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -317,7 +313,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_910_4280)"
+              clip-path="url(#clip0_auto_save)"
               opacity="0.6"
             >
               <path
@@ -335,7 +331,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             </g>
             <defs>
               <clippath
-                id="clip0_910_4280"
+                id="clip0_auto_save"
               >
                 <rect
                   fill="white"
@@ -349,6 +345,6 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 `;
