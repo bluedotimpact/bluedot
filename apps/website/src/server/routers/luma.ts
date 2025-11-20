@@ -14,6 +14,7 @@ type LumaEvent = {
   geo_address_json?: {
     city?: string;
   };
+  timezone: string; // IANA timezone, e.g. "America/New_York"
   url: string;
 };
 
@@ -23,6 +24,7 @@ function transformEvent(api_id: string, event: LumaEvent) {
     startAt: event.start_at,
     endAt: event.end_at,
     location: event.geo_address_json?.city?.toUpperCase() || 'ONLINE',
+    timezone: event.timezone,
     title: event.name,
     url: event.url,
   };
