@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import CoursesContent from './CoursesContent';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockCourseRegistration, mockCourse } from '../../__tests__/testUtils';
+import { createMockCourseRegistration, createMockCourse } from '../../__tests__/testUtils';
 
 type MockCourseListRowProps = {
   course: { title: string };
@@ -25,7 +25,7 @@ vi.mock('./CourseListRow', () => ({
 
 describe('CoursesContent', () => {
   const courseId = 'course-1';
-  const mockCourseData = mockCourse({
+  const mockCourseData = createMockCourse({
     id: courseId,
     title: 'Introduction to AI Safety',
     description: 'Learn the fundamentals of AI safety.',

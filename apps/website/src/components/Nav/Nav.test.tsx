@@ -9,12 +9,12 @@ import {
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { Nav } from './Nav';
-import { mockCourse } from '../../__tests__/testUtils';
+import { createMockCourse } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 const mockCourses = [
-  mockCourse({
+  createMockCourse({
     id: '1',
     title: 'Featured Course',
     description: 'Featured course description',
@@ -25,7 +25,7 @@ const mockCourses = [
     isFeatured: true,
     isNew: false,
   }),
-  mockCourse({
+  createMockCourse({
     id: '2',
     title: 'New Course',
     description: 'New course description',
