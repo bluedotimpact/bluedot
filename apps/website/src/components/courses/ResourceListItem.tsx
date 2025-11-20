@@ -147,9 +147,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
           return oldData.map((completion) => {
             if (completion.unitResourceIdRead === resource.id) {
+              const { unitResourceId, ...updated } = newData;
               return {
                 ...completion,
-                ...newData,
+                ...updated,
               };
             }
             return completion;
