@@ -21,7 +21,7 @@ import type { DiscussionsAvailable } from '../../server/routers/group-switching'
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import {
-  createMockGroupDiscussion, createMockUnit, mockCourse as createMockCourse, createMockGroup,
+  createMockCourse, createMockGroupDiscussion, createMockUnit, createMockGroup,
 } from '../../__tests__/testUtils';
 
 vi.mock('@bluedot/ui', async () => {

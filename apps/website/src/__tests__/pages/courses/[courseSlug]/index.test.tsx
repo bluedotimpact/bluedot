@@ -2,7 +2,7 @@ import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
 import CoursePage from '../../../../pages/courses/[courseSlug]/index';
-import { createMockUnit, mockCourse as createMockCourse, renderWithHead } from '../../../testUtils';
+import { createMockCourse, createMockUnit, renderWithHead } from '../../../testUtils';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.

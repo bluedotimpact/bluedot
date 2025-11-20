@@ -5,7 +5,7 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { createMockGroupDiscussion, createMockUnit, mockCourse } from '../../__tests__/testUtils';
+import { createMockCourse, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
 const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -23,7 +23,7 @@ const unit3 = createMockUnit({
 });
 
 const mockCourseData: { course: Course, units: Unit[] } = {
-  course: mockCourse(),
+  course: createMockCourse(),
   units: [
     unit1,
     unit2,
