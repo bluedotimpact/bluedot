@@ -287,7 +287,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       <MobileHeader
-        className="unit__mobile-header md:hidden sticky top-16 z-10"
+        className="unit__mobile-header md:hidden sticky top-(--nav-height-mobile) z-10"
         unit={unit}
         prevUnit={prevUnit}
         nextUnit={nextUnit}
@@ -379,43 +379,46 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </div>
         </div>
       </div>
+      <div className={clsx('block md:top-16 bg-color-canvas', isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]')}>
+        {/* Group discussion banner - positioned below breadcrumbs */}
+        {groupDiscussionError && (
+          <ErrorSection error={groupDiscussionError} />
+        )}
+        {groupDiscussionWithZoomInfo?.groupDiscussion && (
+          <div className="mb-8 md:mb-6">
+            <GroupDiscussionBanner
+              unit={unit}
+              groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+              userRole={groupDiscussionWithZoomInfo.userRole}
+              hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
+              // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
+              onClickPrepare={() => {
+                if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
+                  handleChunkSelect(0);
+                } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
+                  // Otherwise, try to navigate to the discussion's unit number
+                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
+                  if (discussionUnit) {
+                    router.push(discussionUnit.path);
+                  } else {
+                    handleChunkSelect(0); // fallback to current unit
+                  }
+                } else {
+                  handleChunkSelect(0); // fallback to current unit
+                }
+              }}
+            />
+          </div>
+        )}
+      </div>
 
-      {/* Main content section - positioned below breadcrumbs */}
+      {/* Main content section */}
       <Section className="unit__main !border-none !pt-0 !mt-0">
         <div className={clsx(
           'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8',
           !isSidebarHidden && 'md:ml-[360px]',
         )}
         >
-          {groupDiscussionError && (
-            <ErrorSection error={groupDiscussionError} />
-          )}
-          {groupDiscussionWithZoomInfo?.groupDiscussion && (
-            <div className="mb-8 md:mb-6">
-              <GroupDiscussionBanner
-                unit={unit}
-                groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
-                userRole={groupDiscussionWithZoomInfo.userRole}
-                hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
-                // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
-                onClickPrepare={() => {
-                  if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
-                    handleChunkSelect(0);
-                  } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
-                    // Otherwise, try to navigate to the discussion's unit number
-                    const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
-                    if (discussionUnit) {
-                      router.push(discussionUnit.path);
-                    } else {
-                      handleChunkSelect(0); // fallback to current unit
-                    }
-                  } else {
-                    handleChunkSelect(0); // fallback to current unit
-                  }
-                }}
-              />
-            </div>
-          )}
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (

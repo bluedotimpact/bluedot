@@ -32,7 +32,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -41,7 +41,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -50,7 +50,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -59,7 +59,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -68,7 +68,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -81,7 +81,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -93,7 +93,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -102,7 +102,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -111,7 +111,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -122,7 +122,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -139,7 +139,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -148,7 +148,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -157,7 +157,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -166,7 +166,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -175,7 +175,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -188,7 +188,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -200,7 +200,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -209,7 +209,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -218,7 +218,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -229,7 +229,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -327,7 +327,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -336,7 +336,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -345,7 +345,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -354,7 +354,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -363,7 +363,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -376,7 +376,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -388,7 +388,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -397,7 +397,7 @@ exports[`Footer > renders default as expected 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -406,7 +406,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -417,7 +417,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -512,13 +512,13 @@ exports[`Footer > renders default as expected 1`] = `
             >
               BlueDot Impact
             </a>
-             is primarily funded by 
+             is funded by 
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://www.openphilanthropy.org/"
+              href="https://www.coefficientgiving.org/"
               tabindex="0"
             >
-              Open Philanthropy
+              Coefficient Giving
             </a>
             , and is a non-profit based in the UK (company number 
             <a
@@ -569,7 +569,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -578,7 +578,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -587,7 +587,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -596,7 +596,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -605,7 +605,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -618,7 +618,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -630,7 +630,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -639,7 +639,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -648,7 +648,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -659,7 +659,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -676,7 +676,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -685,7 +685,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -694,7 +694,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -703,7 +703,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -712,7 +712,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -725,7 +725,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -737,7 +737,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -746,7 +746,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -755,7 +755,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -766,7 +766,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -864,7 +864,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               BlueDot Impact
             </h3>
@@ -873,7 +873,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/about"
                   tabindex="0"
                 >
@@ -882,7 +882,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://donate.stripe.com/5kA3fpgjpdJv6o89AA"
                   tabindex="0"
                 >
@@ -891,7 +891,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/join-us"
                   tabindex="0"
                 >
@@ -900,7 +900,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/contact"
                   tabindex="0"
                 >
@@ -913,7 +913,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Explore
             </h3>
@@ -925,7 +925,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="flex flex-col"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold"
+              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
             >
               Resources
             </h3>
@@ -934,7 +934,7 @@ exports[`Footer > renders with optional args 1`] = `
             >
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/blog"
                   tabindex="0"
                 >
@@ -943,7 +943,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -954,7 +954,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
               <li>
                 <a
-                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -1049,13 +1049,13 @@ exports[`Footer > renders with optional args 1`] = `
             >
               BlueDot Impact
             </a>
-             is primarily funded by 
+             is funded by 
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://www.openphilanthropy.org/"
+              href="https://www.coefficientgiving.org/"
               tabindex="0"
             >
-              Open Philanthropy
+              Coefficient Giving
             </a>
             , and is a non-profit based in the UK (company number 
             <a

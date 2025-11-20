@@ -27,9 +27,6 @@ export type MeetingParticipantsResponse = {
   /* unix time in seconds */
   meetingEndTime: number,
   activityDoc?: string,
-} | {
-  type: 'redirect',
-  to: string,
 };
 
 export default makeApiRoute({
@@ -37,27 +34,21 @@ export default makeApiRoute({
   requestBody: z.object({
     groupId: z.string(),
   }),
-  responseBody: z.union([
-    z.object({
-      type: z.literal('success'),
-      groupDiscussionId: z.string(),
-      participants: z.array(z.object({
-        id: z.string(),
-        name: z.string(),
-        role: z.enum(['host', 'participant']),
-      })),
-      meetingNumber: z.string(),
-      meetingPassword: z.string(),
-      meetingHostKey: z.string(),
-      meetingStartTime: z.number(),
-      meetingEndTime: z.number(),
-      activityDoc: z.string().optional(),
-    }),
-    z.object({
-      type: z.literal('redirect'),
-      to: z.string(),
-    }),
-  ]),
+  responseBody: z.object({
+    type: z.literal('success'),
+    groupDiscussionId: z.string(),
+    participants: z.array(z.object({
+      id: z.string(),
+      name: z.string(),
+      role: z.enum(['host', 'participant']),
+    })),
+    meetingNumber: z.string(),
+    meetingPassword: z.string(),
+    meetingHostKey: z.string(),
+    meetingStartTime: z.number(),
+    meetingEndTime: z.number(),
+    activityDoc: z.string().optional(),
+  }),
 }, async (body) => {
   // Get the group
   await db.get(groupTable, { id: body.groupId });

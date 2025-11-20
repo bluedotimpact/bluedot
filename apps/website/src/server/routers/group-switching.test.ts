@@ -1,7 +1,7 @@
-import type { Group } from '@bluedot/db';
+import { type Group } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
-import { createMockGroup, createMockGroupDiscussion } from '../../../../../__tests__/testUtils';
-import { calculateGroupAvailability } from './available';
+import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
+import { calculateGroupAvailability } from './group-switching';
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);

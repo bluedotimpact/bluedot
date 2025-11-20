@@ -15,9 +15,6 @@ const DemoPage: React.FC = () => {
     completion: generatedCode, complete, isLoading: loading, error,
   } = useCompletion({
     api: '/api/generate-react-component',
-    onResponse: () => {
-      setView('display');
-    },
   });
 
   const handleSubmit = async (submittedUserPrompt: string = userPrompt) => {
@@ -26,7 +23,7 @@ const DemoPage: React.FC = () => {
     }
     if (!submittedUserPrompt.trim()) return;
     setView('display');
-    complete(submittedUserPrompt);
+    await complete(submittedUserPrompt);
   };
 
   const EXAMPLES = [

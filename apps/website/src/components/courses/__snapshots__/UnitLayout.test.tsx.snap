@@ -10,7 +10,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       role="status"
     />
     <div
-      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3 unit__mobile-header md:hidden sticky top-16 z-10"
+      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3 unit__mobile-header md:hidden sticky top-(--nav-height-mobile) z-10"
     >
       <nav
         class="mobile-unit-header__nav flex flex-row items-center justify-between w-full"
@@ -539,6 +539,9 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         </div>
       </div>
     </div>
+    <div
+      class="block md:top-16 bg-color-canvas md:ml-[360px]"
+    />
     <section
       class="section section-body unit__main !border-none !pt-0 !mt-0"
     >

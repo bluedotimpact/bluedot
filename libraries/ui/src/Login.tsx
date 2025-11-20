@@ -214,7 +214,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
           window.location.href = loginProviderUrl;
         });
     }
-  }, [auth, appendLatestUtmParamsToUrl, redirectTo]);
+  }, [auth, appendLatestUtmParamsToUrl, redirectTo, prefilledEmail, loginPreset]);
 
   if (auth) {
     return <Navigate url={redirectTo} />;
@@ -284,7 +284,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
       hasEverMounted.current = true;
       signinUser();
     }
-  }, []);
+  }, [loginPreset.oidcSettings, onLoginComplete, router, setAuth]);
 
   if (error) {
     return <ErrorSection error={error} />;

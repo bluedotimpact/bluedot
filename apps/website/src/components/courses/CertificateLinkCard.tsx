@@ -1,6 +1,6 @@
 import {
   addQueryParam,
-  Card, CTALinkOrButton, ProgressDots, useAuthStore,
+  Card, CTALinkOrButton, ProgressDots, useAuthStore, useCurrentTimeMs,
 } from '@bluedot/ui';
 import React from 'react';
 import { FaAward } from 'react-icons/fa6';
@@ -214,6 +214,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   const {
     data: courseRegistration, isLoading: loading, error, refetch,
   } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
+  const currentTimeMs = useCurrentTimeMs();
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
@@ -285,7 +286,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
 
   if (courseRegistration?.certificateId) {
     const formattedCertificateDate = new Date(
-      courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : Date.now(),
+      courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs,
     ).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 

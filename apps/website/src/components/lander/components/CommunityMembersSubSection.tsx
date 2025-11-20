@@ -167,13 +167,13 @@ const CommunityMembersSubSection = ({
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   // Handle hover state for auto-scroll
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsHovered(true);
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     setIsHovered(false);
-  }, []);
+  };
 
   // Initialize scroll position to middle section
   useEffect(() => {
@@ -208,7 +208,7 @@ const CommunityMembersSubSection = ({
     }
   }, [members.length]);
 
-  const scroll = useCallback((direction: 'left' | 'right') => {
+  const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
       const scrollAmount = CARD_CONFIG.WIDTH + CARD_CONFIG.GAP;
       const newScrollLeft = scrollContainerRef.current.scrollLeft
@@ -219,10 +219,10 @@ const CommunityMembersSubSection = ({
         behavior: 'smooth',
       });
     }
-  }, []);
+  };
 
   // Handle keyboard navigation
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
       scroll('left');
@@ -230,7 +230,7 @@ const CommunityMembersSubSection = ({
       e.preventDefault();
       scroll('right');
     }
-  }, [scroll]);
+  };
 
   return (
     <section className="community-members-section w-full bg-[#FAFAF7] py-12 min-[680px]:py-16 lg:py-24" data-testid="community-members-section">

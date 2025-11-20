@@ -1,42 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { MeetPerson } from '@bluedot/db';
-import CourseDetails from './CourseDetails';
-import { mockCourse as createMockCourse } from '../../__tests__/testUtils';
+import { mockCourse as createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import CourseDetails from './CourseDetails';
 
-const meta: Meta<typeof CourseDetails> = {
-  title: 'Settings/CourseDetails',
-  component: CourseDetails,
-  parameters: {
-    layout: 'padded',
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-// Mock course data
-const mockCourse = createMockCourse();
-
-// Mock course registration
-const mockCourseRegistration = {
-  id: 'reg-1',
-  courseId: 'course-1',
-  userId: 'user-1',
-  email: 'user@example.com',
-  firstName: 'John',
-  lastName: 'Doe',
-  fullName: 'John Doe',
-  role: 'Participant' as const,
-  roundStatus: 'Active',
-  certificateId: null,
-  certificateCreatedAt: null,
-  lastVisitedUnitNumber: null,
-  lastVisitedChunkIndex: null,
-  courseApplicationsBaseId: null,
-  decision: null,
-};
+const courseId = 'course-1';
+const mockCourse = createMockCourse({ id: courseId });
+const mockCourseRegistration = createMockCourseRegistration({ courseId });
 
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
@@ -107,60 +76,31 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
   },
 };
 
-const mockMeetPerson: MeetPerson = {
-  id: 'meet-person-1',
-  name: 'John Doe',
-  applicationsBaseRecordId: null,
-  round: 'Round 1',
-  expectedDiscussionsParticipant: ['discussion-1', 'discussion-2'],
-  expectedDiscussionsFacilitator: [],
-  attendedDiscussions: ['discussion-3'],
-  groupsAsParticipant: ['group-1'],
-  buckets: ['bucket-1'],
-  autoNumberId: 1,
+const meta: Meta<typeof CourseDetails> = {
+  title: 'Settings/CourseDetails',
+  component: CourseDetails,
+  parameters: {
+    layout: 'padded',
+  },
+  args: {
+    course: mockCourse,
+    attendedDiscussions: [mockDiscussions['discussion-3']!],
+    upcomingDiscussions: [mockDiscussions['discussion-1']!, mockDiscussions['discussion-2']!],
+    isLoading: false,
+  },
 };
 
-const mockFacilitatorMeetPerson: MeetPerson = {
-  id: 'meet-person-2',
-  name: 'Jane Facilitator',
-  applicationsBaseRecordId: null,
-  round: 'Round 1',
-  expectedDiscussionsParticipant: [],
-  expectedDiscussionsFacilitator: ['discussion-1', 'discussion-2'],
-  attendedDiscussions: ['discussion-3'],
-  groupsAsParticipant: ['group-1'],
-  buckets: ['bucket-1'],
-  autoNumberId: 2,
-};
-
-const createMswHandlers = (meetPerson: MeetPerson) => [
-  trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
-  trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(({ input }) => {
-    const discussions = input.discussionIds
-      .map((id) => mockDiscussions[id])
-      .filter((d) => d !== undefined);
-
-    return {
-      discussions,
-    };
-  }),
-];
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockCourseRegistration,
-  },
-  parameters: {
-    msw: {
-      handlers: createMswHandlers(mockMeetPerson),
-    },
+    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
   },
 };
 
 export const Facilitator: Story = {
   args: {
-    course: mockCourse,
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
   },
   parameters: {
@@ -168,9 +108,6 @@ export const Facilitator: Story = {
       description: {
         story: 'Facilitators do not see the "Switch group" button for discussions.',
       },
-    },
-    msw: {
-      handlers: createMswHandlers(mockFacilitatorMeetPerson),
     },
   },
 };

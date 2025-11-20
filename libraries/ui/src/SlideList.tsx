@@ -45,7 +45,7 @@ export const SlideList: React.FC<SlideListProps> = ({
     resizeObserver.observe(slidesRef.current);
 
     return cleanup;
-  }, []);
+  }, [measuredContainerWidth]);
 
   // On the first render, we won't have a `measuredContainerWidth`. Fall back
   // to 1400px as a value close to the max column width, so that the first render will tend to

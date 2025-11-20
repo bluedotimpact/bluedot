@@ -3,6 +3,9 @@
   "include": [
     "next-env.d.ts",
     "src/**/*",
+    "dist/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

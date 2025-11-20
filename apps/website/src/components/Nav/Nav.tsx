@@ -13,11 +13,7 @@ import { ExpandedSectionsState } from './utils';
 export const Nav: React.FC = () => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
-  const [isScrolled, setIsScrolled] = useState(false);
   const isHomepage = router.pathname === '/';
-  const logo = isHomepage
-    ? '/images/logo/BlueDot_Impact_Logo_White.svg'
-    : '/images/logo/BlueDot_Impact_Logo.svg';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
@@ -29,15 +25,6 @@ export const Nav: React.FC = () => {
   const updateExpandedSections = (updates: Partial<ExpandedSectionsState>) => {
     setExpandedSections((prev: ExpandedSectionsState) => ({ ...prev, ...updates }));
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Handle viewport breakpoint changes to reset dropdown states on mobile/desktop transitions
   useEffect(() => {
@@ -66,13 +53,8 @@ export const Nav: React.FC = () => {
     }
     return clsx(
       'nav sticky top-0 z-50 w-full transition-all duration-300',
-      !isScrolled && [
-        'bg-white',
-        'border-b border-color-divider',
-      ],
-      isScrolled && [
-        'bg-color-canvas-dark',
-      ],
+      'bg-white',
+      'border-b border-color-divider',
     );
   };
 
@@ -86,20 +68,19 @@ export const Nav: React.FC = () => {
       })}
       >
         <div className="nav__container section-base">
-          <div className="nav__bar w-full flex justify-between items-center min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px]">
+          <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-[76px]">
             {/* Left side: Logo */}
             <div className="flex items-center">
               {/* Mobile & Tablet: Hamburger Button */}
               <MobileNavLinks
                 expandedSections={expandedSections}
                 updateExpandedSections={updateExpandedSections}
-                isScrolled={isScrolled}
                 isLoggedIn={isLoggedIn}
                 isHomepage={isHomepage}
               />
 
               {/* Logo */}
-              <NavLogo logo={logo} isScrolled={isScrolled} isHomepage={isHomepage} />
+              <NavLogo isHomepage={isHomepage} />
             </div>
 
             {/* Center/Right side: Nav Links and CTA */}
@@ -108,14 +89,12 @@ export const Nav: React.FC = () => {
               <DesktopNavLinks
                 expandedSections={expandedSections}
                 updateExpandedSections={updateExpandedSections}
-                isScrolled={isScrolled}
                 isHomepage={isHomepage}
               />
 
               {/* CTA Buttons */}
               <NavCta
                 isLoggedIn={isLoggedIn}
-                isScrolled={isScrolled}
                 isHomepage={isHomepage}
                 expandedSections={expandedSections}
                 updateExpandedSections={updateExpandedSections}

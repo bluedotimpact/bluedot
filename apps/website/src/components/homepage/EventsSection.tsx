@@ -6,16 +6,7 @@ import {
 } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
-
-type Event = {
-  id: string;
-  month: string;
-  day: string;
-  location: string;
-  title: string;
-  time: string;
-  url: string;
-};
+import type { Event } from '../../server/routers/luma';
 
 type Photo = {
   id: string;
@@ -95,9 +86,23 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 };
 
 const EventCard = ({ event }: { event: Event }) => {
+  const startDate = new Date(event.startAt);
+  const endDate = new Date(event.endAt);
+
+  const timeFormat: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  const month = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const day = startDate.getDate().toString();
+  // Use `undefined` to respect user's locale for time formatting
+  const timeString = `${startDate.toLocaleTimeString(undefined, timeFormat)} - ${endDate.toLocaleTimeString(undefined, timeFormat)}`;
+
   return (
     <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
-      <DateBadge month={event.month} day={event.day} />
+      <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
         <p className="text-[10px] font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
@@ -115,7 +120,7 @@ const EventCard = ({ event }: { event: Event }) => {
           </h3>
         </a>
         <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
-          {event.time}
+          {timeString}
         </p>
       </div>
     </div>
@@ -135,10 +140,6 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
   };
 
   const infinitePhotos = createInfiniteScrollData();
-
-  const getPhotoWidth = useCallback((photo: Photo) => {
-    return photo.width;
-  }, []);
 
   const getPhotoGap = useCallback(() => {
     if (typeof window === 'undefined') return 32;
@@ -207,21 +208,21 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
     return () => mql.removeEventListener('change', onChange);
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setIsHovered(true);
-  }, []);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     setIsHovered(false);
-  }, []);
+  };
 
-  const handleFocus = useCallback(() => {
+  const handleFocus = () => {
     setIsHovered(true);
-  }, []);
+  };
 
-  const handleBlur = useCallback(() => {
+  const handleBlur = () => {
     setIsHovered(false);
-  }, []);
+  };
 
   useEffect(() => {
     if (scrollContainerRef.current && photos.length > 0) {
@@ -230,7 +231,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
     }
   }, [photos, getPhotoGap]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     const container = scrollContainerRef.current;
     if (container && !isResettingRef.current && photos.length > 0) {
       const { scrollLeft } = container;
@@ -247,7 +248,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
         isResettingRef.current = false;
       }
     }
-  }, [photos, getPhotoGap]);
+  };
 
   return (
     <div className="relative -mx-5 min-[680px]:-mx-8 min-[1024px]:-mx-12 min-[1280px]:-mx-16 2xl:-mx-20">
@@ -285,7 +286,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
                 src={photo.src}
                 alt={photo.alt}
                 className="h-[240px] min-[680px]:h-[300px] min-[1024px]:h-[385px] rounded-xl min-[1024px]:rounded-xl border border-[rgba(19,19,46,0.1)] object-cover object-center"
-                style={{ width: `${getPhotoWidth(photo)}px` }}
+                style={{ width: `${photo.width}px` }}
               />
             </a>
           );

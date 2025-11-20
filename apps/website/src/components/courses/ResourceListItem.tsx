@@ -2,18 +2,15 @@ import {
   useCallback, useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
-import useAxios from 'axios-hooks';
 import {
   addQueryParam,
   ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { unitResourceTable, InferSelectModel } from '@bluedot/db';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK, ResourceFeedbackValue } from '@bluedot/db/src/schema';
-import { GetResourceCompletionResponse, PutResourceCompletionRequest } from '../../pages/api/courses/resource-completion/[unitResourceId]';
+import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
 import {
   A, P,
 } from '../Text';
@@ -21,8 +18,8 @@ import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
-
-type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
+import AutoSaveTextarea from './exercises/AutoSaveTextarea';
+import { trpc } from '../../utils/trpc';
 
 // Simplified SVG icon components
 const ThumbIcon: React.FC<{
@@ -115,92 +112,68 @@ type ResourceListItemProps = {
 export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
-  const [resourceFeedback, setResourceFeedback] = useState<ResourceFeedbackValue>(RESOURCE_FEEDBACK.NO_RESPONSE);
-  const [hasCompletionLoaded, setHasCompletionLoaded] = useState(false);
+  const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
+  const [feedback, setFeedback] = useState('');
 
-  // Fetch resource completion data
-  const [{
+  // Fetch resource completion data (only when authenticated)
+  const {
     data: completionData,
-    loading: completionLoading,
+    isLoading: completionLoading,
     error: completionError,
-  }, fetchResourceCompletion] = useAxios<GetResourceCompletionResponse>({
-    method: 'get',
-    url: `/api/courses/resource-completion/${resource.id}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
+  } = trpc.resources.getResourceCompletion.useQuery(
+    { unitResourceId: resource.id },
+    { enabled: !!auth },
+  );
+
+  const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
+    onSettled: () => {
+      utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
     },
-  }, { manual: true });
+  });
 
-  // Fetch resource completion when auth is available
+  // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
+  const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
+  const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
+
+  // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
-    if (auth) {
-      fetchResourceCompletion().catch(() => { /* no op, as we handle errors above */ });
-    }
-  }, [auth, fetchResourceCompletion]);
+    const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
+    setFeedback(serverFeedback);
+  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback]);
 
-  // Update local state when completion data is fetched the first time
-  useEffect(() => {
-    if (completionData?.resourceCompletion && !hasCompletionLoaded) {
-      setHasCompletionLoaded(true);
-      setIsCompleted(completionData.resourceCompletion.isCompleted || false);
-      const feedback = completionData.resourceCompletion.resourceFeedback || RESOURCE_FEEDBACK.NO_RESPONSE;
-      setResourceFeedback(feedback);
-
-      // Show feedback box only if resource is completed
-      setShowFeedback(completionData.resourceCompletion.isCompleted || false);
-    }
-  }, [completionData, hasCompletionLoaded]);
-
-  const [, putResourceCompletion] = useAxios<GetResourceCompletionResponse, PutResourceCompletionRequest>({
-    method: 'put',
-    url: `/api/courses/resource-completion/${resource.id}`,
-    headers: {
-      Authorization: `Bearer ${auth?.token}`,
-    },
-  }, { manual: true });
-
-  // Handle saving resource completion
-  const handleSaveCompletion = useCallback(async (
+  const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
     updatedResourceFeedback?: ResourceFeedbackValue,
+    updatedTextFeedback?: string,
   ) => {
-    if (!auth) return;
+    if (!auth) return Promise.resolve();
 
-    await putResourceCompletion({
-      data: {
-        isCompleted: updatedIsCompleted ?? isCompleted,
-        resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
-      },
+    return saveCompletionMutation.mutateAsync({
+      unitResourceId: resource.id,
+      isCompleted: updatedIsCompleted ?? isCompleted,
+      resourceFeedback: updatedResourceFeedback ?? resourceFeedback,
+      feedback: updatedTextFeedback,
     });
-  }, [auth, isCompleted, resourceFeedback, putResourceCompletion]);
+  }, [auth, isCompleted, resourceFeedback, resource.id, saveCompletionMutation]);
 
   // Handle marking resource as complete
-  const handleToggleComplete = useCallback(async (newIsCompleted = !isCompleted) => {
-    setIsCompleted(newIsCompleted);
-    // Show feedback only when resource is completed
-    setShowFeedback(newIsCompleted);
-    await handleSaveCompletion(newIsCompleted);
+  const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
+    handleSaveCompletion(newIsCompleted);
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
-  const handleFeedback = useCallback(async (feedbackValue: ResourceFeedbackValue) => {
+  const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    setResourceFeedback(newFeedback);
-    setIsCompleted(true); // Mark as completed when feedback is given
-    setShowFeedback(true); // Ensure feedback section stays visible
-    await handleSaveCompletion(true, newFeedback);
-  }, [resourceFeedback, handleSaveCompletion]);
+    handleSaveCompletion(true, newFeedback, feedback || '');
+  }, [resourceFeedback, feedback, handleSaveCompletion]);
 
-  if (completionLoading && !completionData) {
+  if (completionLoading) {
     return <ProgressDots />;
   }
 
-  // We ignore 404s, as this just indicates the resource completion hasn't been created yet
-  if (completionError && completionError.status !== 404) {
+  if (completionError) {
     return <ErrorView error={completionError} />;
   }
 
@@ -330,64 +303,95 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
               <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] my-4" />
 
               {/* Bottom action bar */}
-              <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
-                {/* Complete/Completed button */}
-                {!isCompleted ? (
-                  <button
-                    type="button"
-                    onClick={() => handleToggleComplete(true)}
-                    className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
-                    aria-label="Mark resource as complete"
-                  >
-                    Complete
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleToggleComplete(false)}
-                    className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
-                    aria-label="Mark resource as incomplete"
-                  >
-                    <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
-                      Completed
-                    </span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
-                    </svg>
-                  </button>
-                )}
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-wrap items-center p-0 gap-2 min-h-[30px]">
+                  {/* Complete/Completed button */}
+                  {!isCompleted ? (
+                    <button
+                      type="button"
+                      onClick={() => handleToggleComplete(true)}
+                      className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-[#2244BB] rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
+                      aria-label="Mark resource as complete"
+                    >
+                      Complete
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleToggleComplete(false)}
+                      className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
+                      aria-label="Mark resource as incomplete"
+                    >
+                      <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#2244BB]">
+                        Completed
+                      </span>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M1.5 3.49994V6.49994M1.5 6.49994H4.5M1.5 6.49994L4.11063 4.11056C4.87508 3.34625 5.84782 2.82415 6.90729 2.60951C7.96677 2.39487 9.06601 2.4972 10.0677 2.90372C11.0693 3.31024 11.929 4.00291 12.5392 4.8952C13.1494 5.78749 13.4832 6.83982 13.4988 7.92071C13.5144 9.0016 13.2111 10.0631 12.6268 10.9726C12.0426 11.8821 11.2033 12.5993 10.2137 13.0345C9.22422 13.4698 8.12838 13.6037 7.06316 13.4197C5.99793 13.2357 5.01055 12.7419 4.22438 11.9999" stroke="#2244BB" strokeWidth="1.25" strokeLinecap="square" />
+                      </svg>
+                    </button>
+                  )}
 
-                {/* Feedback buttons (show when completed or feedback given) */}
-                {showFeedback && (
-                  <div>
-                    <FeedbackSection
-                      resourceFeedback={resourceFeedback}
-                      onFeedback={handleFeedback}
-                      variant="mobile"
-                    />
-                  </div>
+                  {/* Feedback buttons - only show when there's an actual completion record */}
+                  {isCompleted && (
+                    <div>
+                      <FeedbackSection
+                        resourceFeedback={resourceFeedback}
+                        onFeedback={handleFeedback}
+                        variant="mobile"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Text feedback textarea for mobile - only show when there's a completion record and Like or Dislike is selected */}
+                {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+                  <AutoSaveTextarea
+                    value={feedback}
+                    onChange={setFeedback}
+                    onSave={async (value) => {
+                      // Save the draft and await the promise
+                      await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
+                    }}
+                    placeholder="What did or didn't you find useful about this resource?"
+                    height="short"
+                  />
                 )}
               </div>
             </div>
           )}
         </div>
 
-        {/* Desktop feedback section */}
-        {auth && showFeedback && (
+        {/* Desktop feedback section - only show when there's an actual completion record */}
+        {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className="hidden lg:flex items-center transition-all duration-200 px-6 pt-[17px] pb-[9px] gap-2 w-full h-14 bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
+              className="hidden lg:flex flex-col transition-all duration-200 px-6 pt-[17px] pb-4 gap-3 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
               role="region"
               aria-label="Resource feedback section"
             >
-              <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
-                Was this resource useful?
-              </P>
-              <FeedbackSection
-                resourceFeedback={resourceFeedback}
-                onFeedback={handleFeedback}
-                variant="desktop"
-              />
+              <div className="flex items-center gap-2">
+                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
+                  Was this resource useful?
+                </P>
+                <FeedbackSection
+                  resourceFeedback={resourceFeedback}
+                  onFeedback={handleFeedback}
+                  variant="desktop"
+                />
+              </div>
+              {/* Only show textarea when Like or Dislike is selected */}
+              {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
+                <AutoSaveTextarea
+                  value={feedback}
+                  onChange={setFeedback}
+                  onSave={async (value) => {
+                    // Save the draft and await the promise
+                    await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
+                  }}
+                  placeholder="What did or didn't you find useful about this resource?"
+                  height="short"
+                />
+              )}
             </div>
           </div>
         )}

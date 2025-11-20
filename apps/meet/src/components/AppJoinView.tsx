@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   CTALinkOrButton, NewText,
 } from '@bluedot/ui';
@@ -15,9 +15,9 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
   },
 }) => {
   const [secondsToOpen, setSecondsToOpen] = useState(meetingHostKey ? 5 : 0);
-  const joinDirect = () => {
+  const joinDirect = useCallback(() => {
     window.open(`zoomus://zoom.us/join?action=join&confno=${meetingNumber}&pwd=${meetingPassword}`, '_self');
-  };
+  }, [meetingNumber, meetingPassword]);
 
   useEffect(() => {
     if (secondsToOpen <= 0) {
@@ -30,7 +30,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
     }, 1000);
     // eslint-disable-next-line consistent-return
     return () => clearTimeout(timer);
-  }, [secondsToOpen]);
+  }, [joinDirect, secondsToOpen]);
 
   const meetingHostKeyMessage = meetingHostKey ? (
     <>

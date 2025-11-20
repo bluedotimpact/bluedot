@@ -26,7 +26,7 @@ const RoomControlPage = withAuth(({ auth }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [roomId]);
+  }, [poll, roomId]);
 
   const [meetingInputValue, setMeetingInputValue] = useState('');
 

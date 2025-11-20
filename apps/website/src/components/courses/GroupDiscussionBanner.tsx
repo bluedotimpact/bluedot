@@ -4,15 +4,41 @@ import React, {
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
+  useCurrentTimeMs,
+  OverflowMenu,
+  type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
+import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
+import clsx from 'clsx';
 import GroupSwitchModal from './GroupSwitchModal';
-import { formatDateTimeRelative, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import { formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
+
+const BUTTON_STYLES = {
+  primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
+  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter' },
+  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter' },
+};
+
+type ButtonConfig = {
+  id: string;
+  label: React.ReactNode;
+  style: keyof typeof BUTTON_STYLES;
+  url?: string;
+  onClick?: () => void;
+  isVisible: boolean;
+  /**
+   * Buttons can be in a different order on mobile. If `mobileIndex` is set, it determines
+   * the order on mobile. If not set, the button is placed after all buttons with a definite
+   * `mobileIndex`. For buttons with equal or no `mobileIndex` the existing order is preserved.
+   */
+  mobileIndex?: number;
+};
 
 type GroupDiscussionBannerProps = {
   unit: Unit;
@@ -29,18 +55,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   hostKeyForFacilitators,
   onClickPrepare,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
-  const [currentTime, setCurrentTime] = useState(Date.now());
+  const currentTimeMs = useCurrentTimeMs();
   const [hostKeyCopied, setHostKeyCopied] = useState(false);
-
-  // Update current time every 30 seconds for smoother countdown
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(Date.now());
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (!hostKeyCopied) return undefined;
@@ -63,20 +81,20 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
-  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative(groupDiscussion.startDateTime), [groupDiscussion.startDateTime, currentTime]);
-  const startTimeDisplayDate = useMemo(() => formatDateMonthAndDay(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
-  const startTimeDisplayTime = useMemo(() => formatTime12HourClock(groupDiscussion.startDateTime), [groupDiscussion.startDateTime]);
+  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
   // Dynamic discussion starts soon check
-  const discussionStartsSoon = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTime) <= ONE_HOUR_MS,
-    [groupDiscussion.startDateTime, currentTime],
+  const discussionIsSoonOrLive = useMemo(
+    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
+    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
+  );
+  const discussionIsLive = useMemo(
+    () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
+    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
   );
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
-
   const discussionDocLink = groupDiscussion.activityDoc || '';
-
   const slackChannelLink = groupDiscussion.slackChannelId
     ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
     : '';
@@ -93,71 +111,186 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     }
   };
 
+  const buttons: ButtonConfig[] = [
+    // Live discussion buttons
+    {
+      id: 'join-now',
+      label: (
+        <>
+          <VideoIcon size={20} />
+          <div className="translate-y-[0.5px]">Join now</div>
+        </>
+      ),
+      style: 'primary',
+      url: discussionMeetLink,
+      isVisible: discussionIsSoonOrLive,
+      mobileIndex: 0,
+    },
+    {
+      id: 'host-key',
+      label: (
+        <>
+          <FaCopy size={16} />
+          {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
+        </>
+      ),
+      style: 'secondary',
+      onClick: copyHostKeyIfFacilitator,
+      isVisible: discussionIsSoonOrLive && userRole === 'facilitator' && !!hostKeyForFacilitators,
+    },
+    {
+      id: 'discussion-doc',
+      label: 'Open discussion doc',
+      style: 'secondary',
+      url: discussionDocLink,
+      isVisible: discussionIsSoonOrLive || userRole === 'facilitator',
+    },
+    {
+      id: 'message-group',
+      label: 'Message group',
+      style: 'secondary',
+      url: slackChannelLink,
+      isVisible: discussionIsSoonOrLive,
+    },
+    // Upcoming discussion buttons
+    {
+      id: 'see-details',
+      label: 'See details',
+      style: 'secondary',
+      url: '/settings/courses',
+      isVisible: !discussionIsSoonOrLive,
+    },
+    {
+      id: 'cant-make-it',
+      label: "Can't make it?",
+      style: 'ghost',
+      onClick: () => setGroupSwitchModalOpen(true),
+      isVisible: userRole !== 'facilitator',
+      mobileIndex: 1,
+    },
+  ];
+
+  const visibleButtons = buttons.filter((button) => button.isVisible);
+
+  // Collapse to mobile layout earlier if there are a lot of buttons
+  // squashing the text. Use `visibleButtons.length > 2` as a rule of
+  // thumb because exactly measuring the available space adds complexity.
+  const desktopShowContainerQuery = visibleButtons.length > 2 ? '@[900px]:flex' : '@[700px]:flex';
+  const desktopHideContainerQuery = visibleButtons.length > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
+
   return (
-    <div className="flex flex-col p-2 border-1 border-charcoal-light gap-2">
-      <div className="flex justify-between items-center px-4 my-1 gap-4">
-        <div>
-          Your discussion on <span className="font-semibold">{unitTitle}</span> starts {startTimeDisplayRelative}
-        </div>
-        <div className="inline-block border border-charcoal-light rounded p-2 text-center text-size-sm">
-          <div className="font-semibold whitespace-nowrap">{startTimeDisplayDate}</div>
-          <div className="text-gray-600 whitespace-nowrap">{startTimeDisplayTime}</div>
-        </div>
-      </div>
-      <div className="flex flex-col gap-2">
-        {discussionStartsSoon ? (
-          <CTALinkOrButton
-            target="_blank"
-            url={discussionMeetLink}
-            className="w-full"
+    <>
+      <div className="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]">
+        <div className="flex items-center gap-3 text-size-xs">
+          <IndicatorIcon isLive={discussionIsLive} />
+          <div className="flex gap-[6px] min-w-0 flex-initial">
+            <span className="text-[#2244BB] font-bold whitespace-nowrap">
+              {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
+            </span>
+            <span className="text-[#2244BB] whitespace-nowrap">•</span>
+            <button
+              type="button"
+              onClick={onClickPrepare}
+              className="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+            >
+              {unitTitle}
+            </button>
+          </div>
+
+          {/* Desktop button container */}
+          {isOpen && (
+            <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
+              {visibleButtons.map((button, index) => {
+                const style = BUTTON_STYLES[button.style];
+                const isLastButton = index === visibleButtons.length - 1;
+                return (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant={style.variant}
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    target={button.url ? '_blank' : undefined}
+                    className={clsx(style.className, 'flex gap-[6px] items-center', isLastButton && 'ml-auto')}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                );
+              })}
+              <div className="w-px h-6 bg-[#B5C3EC] ml-1" />
+            </div>
+          )}
+
+          <button
+            type="button"
+            aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
+            onClick={() => setIsOpen(!isOpen)}
+            className="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
           >
-            Join discussion
-          </CTALinkOrButton>
-        ) : (
-          <CTALinkOrButton onClick={onClickPrepare} className="w-full">
-            Prepare for discussion
-          </CTALinkOrButton>
-        )}
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(175px,1fr))] gap-2 w-full">
-          {discussionStartsSoon && userRole === 'facilitator' && hostKeyForFacilitators && (
-            <CTALinkOrButton
-              variant="secondary"
-              className="w-full gap-2"
-              onClick={copyHostKeyIfFacilitator}
-            >
-              <span className="text-gray-600"><FaCopy size={14} /></span>
-              {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
-            </CTALinkOrButton>
-          )}
-          {(discussionStartsSoon || userRole === 'facilitator') && (
-            <CTALinkOrButton
-              variant="secondary"
-              target="_blank"
-              className="w-full"
-              url={discussionDocLink}
-            >
-              Open discussion doc
-            </CTALinkOrButton>
-          )}
-          <CTALinkOrButton
-            variant="secondary"
-            target="_blank"
-            className="w-full"
-            url={slackChannelLink}
-          >
-            Message your group
-          </CTALinkOrButton>
-          {userRole !== 'facilitator' && (
-            <CTALinkOrButton
-              variant="secondary"
-              className="w-full"
-              onClick={() => setGroupSwitchModalOpen(true)}
-            >
-              Can't make it?
-            </CTALinkOrButton>
-          )}
+            <IoAdd size={24} style={isOpen ? { transform: 'rotate(45deg)', transition: 'transform 200ms' } : { transition: 'transform 200ms' }} />
+          </button>
         </div>
+
+        {/* Mobile button container */}
+        {isOpen && (() => {
+          const MAX_DIRECT_BUTTONS = 2;
+          const sortedForMobile = [...visibleButtons].sort((a, b) => {
+            // If both have mobileIndex, sort by value
+            if (a.mobileIndex !== undefined && b.mobileIndex !== undefined) {
+              return a.mobileIndex - b.mobileIndex;
+            }
+            // If one has mobileIndex and not the other, put the one with mobileIndex first
+            if (a.mobileIndex !== undefined) return -1;
+            if (b.mobileIndex !== undefined) return 1;
+            // Otherwise preserve the original order
+            return 0;
+          });
+          const directButtons = sortedForMobile.slice(0, MAX_DIRECT_BUTTONS);
+          const overflowButtons = sortedForMobile.slice(MAX_DIRECT_BUTTONS);
+          const hasOverflow = overflowButtons.length > 0;
+
+          return (
+            <div id="discussion-banner-mobile-container" className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
+              {directButtons.map((button) => {
+                // On mobile, convert ghost to secondary
+                const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
+                const style = BUTTON_STYLES[mobileStyle];
+                const isPrimary = button.style === 'primary';
+
+                return (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant={style.variant}
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    target={button.url ? '_blank' : undefined}
+                    className={clsx(style.className, 'flex flex-1 gap-[6px] items-center whitespace-nowrap', !isPrimary && 'ml-auto')}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                );
+              })}
+
+              {hasOverflow && (
+                <OverflowMenu
+                  ariaLabel="More discussion options"
+                  buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
+                  items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                    id: button.id,
+                    label: button.label,
+                    ...(button.url
+                      ? { href: button.url, target: '_blank' }
+                      : { onAction: button.onClick }
+                    ),
+                  }))}
+                />
+              )}
+            </div>
+          );
+        })()}
       </div>
+
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
@@ -165,8 +298,43 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           courseSlug={unit.courseSlug}
         />
       )}
-    </div>
+    </>
   );
 };
+
+const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 14 14"
+    fill="none"
+    className={className}
+  >
+    <g>
+      <path d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </g>
+    <defs>
+      <clipPath>
+        <rect width="14" height="14" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
+  <div className={clsx(
+    'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
+    isLive ? 'bg-[#2244BB] font-bold border-4 rounded-lg' : 'bg-white border rounded',
+  )}
+  >
+    {isLive ? (
+      <div className="text-white -translate-y-[0.5px]">LIVE</div>
+    ) : (
+      <VideoIcon size={20} className="text-[#2244BB]" />
+    )}
+  </div>
+);
 
 export default GroupDiscussionBanner;

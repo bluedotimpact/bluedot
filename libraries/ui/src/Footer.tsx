@@ -24,7 +24,7 @@ type FooterSectionProps = {
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
   <div className={clsx('flex flex-col', className)}>
     {title && (
-      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-[Roobert,sans-serif] font-semibold">
+      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-semibold">
         {title}
       </h3>
     )}
@@ -36,7 +36,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
               href={link.url}
               target={link.target}
               rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-[Roobert,sans-serif] font-normal"
+              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
             >
               {link.label}
             </A>
@@ -172,7 +172,7 @@ export const Footer: React.FC<FooterProps> = ({
 
             {/* Copyright */}
             <div className="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]">
-              <span>&copy; {new Date().getFullYear()}. <A href="https://bluedot.org/" className="text-[#CCD7FF] hover:text-white">BlueDot Impact</A> is primarily funded by <A href="https://www.openphilanthropy.org/" className="text-[#CCD7FF] hover:text-white">Open Philanthropy</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="text-[#CCD7FF] hover:text-white">14964572</A>).</span>
+              <span>&copy; {new Date().getFullYear()}. <A href="https://bluedot.org/" className="text-[#CCD7FF] hover:text-white">BlueDot Impact</A> is funded by <A href="https://www.coefficientgiving.org/" className="text-[#CCD7FF] hover:text-white">Coefficient Giving</A>, and is a non-profit based in the UK (company number <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="text-[#CCD7FF] hover:text-white">14964572</A>).</span>
             </div>
           </div>
         </div>

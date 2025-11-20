@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NewText } from '@bluedot/ui';
+
+const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']; // Add more colors as needed
+const images = ['bdi.png', 'aisf.png', 'bsf.png']; // Array of images
 
 const Dewi = () => {
   const [value, setValue] = useState(0);
-  const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']; // Add more colors as needed
-  const images = ['bdi.png', 'aisf.png', 'bsf.png']; // Array of images
 
   // Function to get the next color based on the current value
-  const getNextColor = () => colors[value % colors.length]!;
+  const getNextColor = useCallback(() => colors[value % colors.length]!, [value]);
   const getCurrentImage = () => images[value % images.length];
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const Dewi = () => {
   useEffect(() => {
     // Update the background color of the main element
     (document.getElementsByClassName('bluedot-base')[0] as HTMLElement).style.backgroundColor = getNextColor();
-  }, [value]); // Dependency array to run effect when value changes
+  }, [getNextColor, value]); // Dependency array to run effect when value changes
 
   return (
     <div className="section-body gap-4">
