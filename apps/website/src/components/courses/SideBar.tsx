@@ -53,6 +53,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   currentChunkIndex,
   onChunkSelect,
 }) => {
+  // Format time in minutes to "Xh Ymin" or "Zmin"
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   return (
