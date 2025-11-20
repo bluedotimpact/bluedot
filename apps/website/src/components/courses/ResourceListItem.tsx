@@ -145,16 +145,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
           if (!oldData) return [];
 
-          return oldData.map((completion) => {
-            if (completion.unitResourceIdRead === resource.id) {
-              const { unitResourceId, ...updated } = newData;
-              return {
-                ...completion,
-                ...updated,
-              };
-            }
-            return completion;
-          });
+          const { unitResourceId, ...updatedFields } = newData;
+          // Create a shallow copy for safe mutation
+          const newArray = [...oldData];
+
+          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
+
+          if (existingIndex > -1) {
+            // If an existing item is found, update it
+            newArray[existingIndex] = {
+              ...newArray[existingIndex],
+              ...updatedFields,
+            } as typeof newArray[number];
+          } else if (newData.isCompleted) {
+            // If no existing item and isCompleted is true, add a new item
+            newArray.push({
+              unitResourceIdRead: resource.id,
+              ...updatedFields,
+            } as typeof newArray[number]);
+          }
+          return newArray;
         },
       );
     },
