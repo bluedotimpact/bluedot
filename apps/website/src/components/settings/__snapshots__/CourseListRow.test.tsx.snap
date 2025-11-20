@@ -23,16 +23,12 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               >
                 Introduction to AI Safety
               </h3>
-              <div
-                class="flex items-center gap-1.5 mt-0.5"
+              <p
+                class="flex items-center gap-1.5 mt-1 text-size-xs font-medium text-gray-500 leading-4"
               >
-                <p
-                  class="text-size-xs font-medium text-charcoal-normal opacity-50 leading-4"
-                >
-                  Completed on Jan 1, 2024
-                </p>
+                Completed on Jan 1, 2024
                 <span
-                  class="inline-flex items-center justify-center size-3.5 bg-[#8088A6] rounded-full"
+                  class="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full"
                 >
                   <svg
                     class="size-1.5 text-white"
@@ -49,7 +45,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                     />
                   </svg>
                 </span>
-              </div>
+              </p>
             </div>
           </div>
           <div
@@ -75,14 +71,10 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
             >
               Introduction to AI Safety
             </h3>
-            <div
-              class="flex items-center gap-1.5 mt-0.5"
+            <p
+              class="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4"
             >
-              <p
-                class="text-size-xs font-medium text-gray-900 opacity-50 leading-4"
-              >
-                Completed on Jan 1, 2024
-              </p>
+              Completed on Jan 1, 2024
               <span
                 class="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full"
               >
@@ -101,7 +93,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                   />
                 </svg>
               </span>
-            </div>
+            </p>
           </div>
           <div
             class="flex items-center gap-3 flex-shrink-0"

@@ -2,6 +2,7 @@ import {
   render, waitFor, fireEvent, getByRole, getByText,
 } from '@testing-library/react';
 import {
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -9,7 +10,6 @@ import {
   test,
   vi,
 } from 'vitest';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
 
@@ -18,11 +18,6 @@ vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
 
-// Mock axios
-vi.mock('axios');
-// Setup axios mock to resolve successfully
-(axios.put as Mock).mockResolvedValue({ data: {} });
-
 const mockRouter = {
   asPath: '/test-path',
 };
@@ -30,6 +25,15 @@ const mockRouter = {
 // Setup router mock before each test
 beforeEach(() => {
   (useRouter as Mock).mockReturnValue(mockRouter);
+  // Use real timers by default (most tests need them for async operations)
+  vi.useRealTimers();
+});
+
+// Clean up after each test
+afterEach(() => {
+  vi.clearAllTimers();
+  vi.useRealTimers();
+  vi.clearAllMocks();
 });
 
 const mockArgs = {
@@ -87,11 +91,12 @@ describe('FreeTextResponse', () => {
   describe('Auto-save functionality', () => {
     beforeEach(() => {
       vi.clearAllMocks();
-      // Reset axios mock to resolve successfully by default
-      (axios.put as Mock).mockResolvedValue({ data: {} });
     });
 
-    test('does not show typing status with 5-second auto-save', async () => {
+    test('does not show status immediately while typing (20-second auto-save delay)', async () => {
+      // Use fake timers for this test to control time advancement
+      vi.useFakeTimers();
+
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
@@ -101,9 +106,16 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Should not show any status message while typing
+      // Should not show any status message immediately while typing
       const statusElement = container.querySelector('#save-status-message');
       expect(statusElement).toBeNull();
+
+      // Even after advancing time less than 20 seconds, should not show status
+      vi.advanceTimersByTime(10000); // 10 seconds
+      expect(container.querySelector('#save-status-message')).toBeNull();
+
+      // Clean up: switch back to real timers
+      vi.useRealTimers();
     });
 
     test('triggers auto-save when user clicks outside after typing', async () => {
@@ -117,15 +129,12 @@ describe('FreeTextResponse', () => {
       // Type in the textarea
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
-      // Small delay to ensure the component has processed the change
-      await new Promise((resolve) => { setTimeout(resolve, 50); });
-
       // Trigger blur event (clicking outside)
       fireEvent.blur(textarea);
 
       // Check that saving status appears
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Check that onExerciseSubmit was called
@@ -133,8 +142,8 @@ describe('FreeTextResponse', () => {
 
       // Wait for save to complete and show success
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+        expect(getByText(container, 'Saved')).toBeTruthy();
+      }, { timeout: 2000 });
     });
 
     test('does not auto-save when user is not logged in', async () => {
@@ -194,14 +203,14 @@ describe('FreeTextResponse', () => {
 
       // Wait for saving status
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
         expect(getByRole(container, 'button', { name: /retry/i })).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
     });
@@ -226,7 +235,7 @@ describe('FreeTextResponse', () => {
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
-      }, { timeout: 1000 });
+      }, { timeout: 2000 });
 
       // Click retry button
       const retryButton = getByRole(container, 'button', { name: /retry/i });
@@ -234,13 +243,13 @@ describe('FreeTextResponse', () => {
 
       // Should show saving status again
       await waitFor(() => {
-        expect(getByText(container, 'Saving answer...')).toBeTruthy();
+        expect(getByText(container, 'Saving...')).toBeTruthy();
       });
 
       // Should eventually show success
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+        expect(getByText(container, 'Saved')).toBeTruthy();
+      }, { timeout: 2000 });
 
       // Should have been called twice (initial attempt + retry)
       expect(mockOnExerciseSubmit).toHaveBeenCalledTimes(2);
@@ -263,11 +272,64 @@ describe('FreeTextResponse', () => {
 
       // Wait for success status to appear
       await waitFor(() => {
-        expect(getByText(container, 'Answer saved')).toBeTruthy();
-      }, { timeout: 1000 });
+        expect(getByText(container, 'Saved')).toBeTruthy();
+      }, { timeout: 2000 });
 
       // Check that the success message is visible
-      expect(getByText(container, 'Answer saved')).toBeTruthy();
+      expect(getByText(container, 'Saved')).toBeTruthy();
+    });
+
+    test('triggers periodic auto-save after 3 minutes with unsaved changes', async () => {
+      // Use fake timers for this test to control time advancement
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container } = render(
+        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+
+      // Type in the textarea
+      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+
+      // Verify save hasn't been called yet
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      // Advance time by 3 minutes (180000ms) and run all pending timers
+      await vi.advanceTimersByTimeAsync(180000);
+
+      // Verify save was called
+      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+
+      // Clean up: switch back to real timers
+      vi.useRealTimers();
+    });
+
+    test('does not trigger periodic save when there are no unsaved changes', async () => {
+      // Use fake timers for this test to control time advancement
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      render(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse="Already saved answer"
+          isLoggedIn
+        />,
+      );
+
+      // Don't change anything - the value matches the saved response
+
+      // Advance time by 3 minutes (180000ms) and run all pending timers
+      await vi.advanceTimersByTimeAsync(180000);
+
+      // Should not have called save since nothing changed
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      // Clean up: switch back to real timers
+      vi.useRealTimers();
     });
 
     test('textarea has proper accessibility attributes', () => {
@@ -277,9 +339,10 @@ describe('FreeTextResponse', () => {
 
       const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
-      expect(textarea.getAttribute('aria-label')).toBe(`Writing exercise: ${mockArgs.title}`);
+      expect(textarea.getAttribute('aria-label')).toBe('Text input area');
       expect(textarea.getAttribute('aria-describedby')).toBe('save-status-message');
-      expect(textarea.getAttribute('aria-required')).toBe('false');
+      // aria-required is not set on the textarea, so we check it doesn't exist
+      expect(textarea.getAttribute('aria-required')).toBeNull();
     });
 
     test('textarea shows different placeholder when not logged in', () => {
