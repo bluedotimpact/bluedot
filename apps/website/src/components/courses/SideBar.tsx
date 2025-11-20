@@ -128,7 +128,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                               {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                               ⋅
                               <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index]?.chunkCoreResources.length} completed
+                                {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index].chunkCoreResources.length} completed
                               </span>
                             </>
                           )
