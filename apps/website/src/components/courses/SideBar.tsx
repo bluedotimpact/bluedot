@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { FaChevronRight } from 'react-icons/fa6';
 import { unitTable, InferSelectModel } from '@bluedot/db';
+import { cn, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { A } from '../Text';
 import { trpc } from '../../utils/trpc';
 import type { ChunkWithContent } from './UnitLayout';
@@ -116,9 +117,24 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
-                      {formatTime(chunk.estimatedTime)}
-                    </span>
+                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                        <span>
+                          {formatTime(chunk.estimatedTime)}
+                        </span>
+                        {resourceCompletionsLoading ? (
+                          <ProgressDots />
+                        ) : (
+                          groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
+                            <>
+                              {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
+                              ⋅
+                              <span className={cn(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
+                                {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index]?.chunkCoreResources.length} completed
+                              </span>
+                            </>
+                          )
+                        )}
+                      </div>
                     )}
                   </div>
                 </button>
