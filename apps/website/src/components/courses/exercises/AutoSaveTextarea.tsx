@@ -35,6 +35,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const isSavingRef = useRef<boolean>(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
@@ -92,7 +93,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
-    if (disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
+    if (!isFocused || disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
 
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
@@ -108,11 +109,11 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     const intervalId = window.setInterval(runPeriodicSave, PERIODIC_SAVE_INTERVAL_IN_MS);
 
     return () => clearInterval(intervalId);
-  }, [disabled]);
+  }, [disabled, isFocused]);
 
   // Inactivity auto-save timer
   useEffect(() => {
-    if (!isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
+    if (!isFocused || !isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
 
     // Clear and reset the inactivity timer
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
@@ -127,7 +128,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         inactivityTimerRef.current = null;
       }
     };
-  }, [value, isEditing, disabled, saveValue]);
+  }, [value, isEditing, disabled, saveValue, isFocused]);
 
   const handleTextareaBlur = useCallback(() => {
     if (disabled) return;
@@ -138,6 +139,11 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
       saveValue(value);
     }
   }, [lastSavedValue, disabled, saveValue, value]);
+
+  const handleFocus = () => {
+    if (disabled) return;
+    setIsFocused(true);
+  };
 
   const handleRetry = useCallback(() => {
     if (value !== lastSavedValue) {
@@ -168,6 +174,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
           value={value}
           onChange={handleChange}
           onBlur={handleTextareaBlur}
+          onFocus={handleFocus}
           className={textareaClasses}
           placeholder={placeholder}
           disabled={disabled}
