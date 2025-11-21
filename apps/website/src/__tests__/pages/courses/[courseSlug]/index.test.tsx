@@ -48,5 +48,21 @@ describe('CoursePage SSR/SEO', () => {
 
     const metaDescription = document.querySelector('meta[name="description"]');
     expect(metaDescription?.getAttribute('content')).toBe('Learn about AI safety and alignment');
+
+    // Check Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    expect(ogTitle?.getAttribute('content')).toBe(mockCourse.title);
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    expect(ogDescription?.getAttribute('content')).toBe(mockCourse.shortDescription);
+
+    const ogType = document.querySelector('meta[property="og:type"]');
+    expect(ogType?.getAttribute('content')).toBe('website');
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockCourse.slug)}`);
   });
 });
