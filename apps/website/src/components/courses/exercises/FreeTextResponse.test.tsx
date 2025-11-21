@@ -291,6 +291,7 @@ describe('FreeTextResponse', () => {
       const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
 
       // Type in the textarea
+      fireEvent.focus(textarea);
       fireEvent.change(textarea, { target: { value: 'This is my answer' } });
 
       // Verify save hasn't been called yet
