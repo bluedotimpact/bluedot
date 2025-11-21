@@ -21,7 +21,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:description"
     />
     <meta
-      content="/images/agi-strategy/hero-banner-split.png"
+      content="https://bluedot.org/images/agi-strategy/hero-banner-split.png"
       property="og:image"
     />
     <meta
