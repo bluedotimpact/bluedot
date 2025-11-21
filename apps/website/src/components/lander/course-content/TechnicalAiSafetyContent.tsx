@@ -92,6 +92,7 @@ export const createTechnicalAiSafetyContent = (
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
+    courseSlug,
     details: [
       {
         icon: PiGraduationCap,
@@ -130,13 +131,7 @@ export const createTechnicalAiSafetyContent = (
         label: 'Schedule',
         description: null,
         isSchedule: true,
-        scheduleDescription: (
-          <>
-            Intensive round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
-            <br />
-            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
-          </>
-        ),
+        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
   },

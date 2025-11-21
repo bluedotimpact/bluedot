@@ -93,7 +93,7 @@ describe('SocialShare', () => {
 
     expectedLinks.forEach(({ baseUrl, assert }) => {
       const link = Array.from(container.querySelectorAll('a[target="_blank"]'))
-        .find((l) => l.getAttribute('href')?.includes(baseUrl));
+        .find((l) => l.getAttribute('href')?.includes(baseUrl)) ?? null;
       assert(link);
     });
   });

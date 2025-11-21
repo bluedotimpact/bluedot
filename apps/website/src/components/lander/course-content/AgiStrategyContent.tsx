@@ -91,6 +91,7 @@ export const createAgiStrategyContent = (
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
+    courseSlug,
     details: [
       {
         icon: PiGraduationCap,
@@ -129,33 +130,7 @@ export const createAgiStrategyContent = (
         label: 'Schedule',
         description: null,
         isSchedule: true,
-        scheduleDescription: (
-          <>
-            <span className="font-semibold">Round 3 (next round)</span>
-            <br />
-            Deadline: <span className="font-semibold">Nov 13th</span>
-            <br />
-            Start: <span className="font-semibold">Nov 17th</span>
-            <br />
-            End: <span className="font-semibold">Dec 21st</span>
-            <br />
-            + multiple 5-day cohorts each week!
-            <br />
-            <br />
-            We will also be running a number of 5-day cohorts during the holiday weeks!
-            <br />
-            <br />
-            <span className="font-semibold">Round 4</span>
-            <br />
-            Deadline: <span className="font-semibold">Jan 2nd</span>
-            <br />
-            Start: <span className="font-semibold">Jan 5th</span>
-            <br />
-            End: <span className="font-semibold">Feb 1st</span>
-            <br />
-            + multiple 5-day cohorts each week!
-          </>
-        ),
+        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
   },
