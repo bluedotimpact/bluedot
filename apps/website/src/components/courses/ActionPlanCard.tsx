@@ -36,6 +36,8 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     { enabled: !!courseRegistration?.id },
   );
 
+  const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
+
   // Handle loading state
   if (courseRegistrationLoading || meetPersonLoading) {
     return (
@@ -76,27 +78,22 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     return null;
   }
 
-  // 3. User hasn't submitted action plan
-  const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
-  if (hasSubmittedActionPlan) {
-    return null;
-  }
-
   // All conditions met - show the action plan card
   const actionPlanUrl = `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPerson.id}`;
 
   return (
     <Card
       title="Your Certificate"
-      subtitle="Complete the course and submit your action plan to receive your certificate."
+      subtitle="Engage in >80% of discussions and submit your action plan to receive your certificate."
       className="container-lined p-8 bg-white"
     >
       <CTALinkOrButton
         url={actionPlanUrl}
-        variant="primary"
+        variant={hasSubmittedActionPlan ? 'secondary' : 'primary'}
         target="_blank"
+        disabled={hasSubmittedActionPlan ?? false}
       >
-        Submit Action Plan
+        {hasSubmittedActionPlan ? 'Action plan submitted' : 'Submit your action plan'}
       </CTALinkOrButton>
     </Card>
   );

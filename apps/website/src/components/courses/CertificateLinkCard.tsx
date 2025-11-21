@@ -53,7 +53,7 @@ const regularCourseConfig: CertificateConfig = {
   texts: {
     notLoggedIn: {
       title: 'Your Certificate',
-      subtitle: 'Create a free account to collect course certificates.',
+      subtitle: 'Create a free account to earn your course certificate.',
       buttonLabel: 'Log in',
     },
     loading: {
@@ -64,12 +64,12 @@ const regularCourseConfig: CertificateConfig = {
     },
     hasCertificate: {
       title: 'Your Certificate',
-      subtitle: 'View your certificate to share your achievement.',
+      subtitle: 'View your certificate and share your achievement.',
       viewButtonLabel: 'View Certificate',
     },
     requestCertificate: {
       title: 'Your Certificate',
-      subtitle: "If you've completed all the course exercises, you're eligible for a free course certificate.",
+      subtitle: "If you've engaged in >80% of discussions and submitted your action plan, you'll receive a certificate.",
       buttonLabel: 'Request Certificate',
     },
     notEligible: {
@@ -85,7 +85,7 @@ const foaiCourseConfig: CertificateConfig = {
   texts: {
     notLoggedIn: {
       header: "Download your certificate, show you're taking AI seriously",
-      description: 'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+      description: 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
       buttonLabel: 'Download Certificate',
     },
     loading: {
@@ -338,10 +338,9 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
   if (courseRegistration?.courseId !== FOAI_COURSE_ID) {
     // Hide certificate card if user should see ActionPlanCard instead
-    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists + no action plan submission
+    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists
     // If meetPerson doesn't exist or there's an error fetching it, show certificate card as fallback
-    const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
-    if (!courseRegistration?.certificateId && meetPerson && !meetPersonError && !hasSubmittedActionPlan) {
+    if (!courseRegistration?.certificateId && meetPerson && !meetPersonError) {
       // Return null - ActionPlanCard will show instead
       return null;
     }
