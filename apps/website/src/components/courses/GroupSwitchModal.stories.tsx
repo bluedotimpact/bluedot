@@ -5,7 +5,9 @@ import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import { createMockCourse, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
+import {
+  createMockCourse, createMockGroup, createMockGroupDiscussion, createMockUnit,
+} from '../../__tests__/testUtils';
 
 const unit1 = createMockUnit({
   title: 'Introduction to AI Safety',
@@ -34,46 +36,31 @@ const mockCourseData: { course: Course, units: Unit[] } = {
 const mockSwitchingData: DiscussionsAvailable = {
   groupsAvailable: [
     {
-      group: {
+      group: createMockGroup({
         id: 'group-1',
         groupName: 'Morning Group A',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: '',
-        participants: [],
         startTimeUtc: Math.floor(new Date('2024-01-01T09:00:00Z').getTime() / 1000), // 9:00 AM UTC
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
       allDiscussionsHaveStarted: false,
     },
     {
-      group: {
+      group: createMockGroup({
         id: 'group-2',
         groupName: 'Evening Group B',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: '',
-        participants: [],
         startTimeUtc: Math.floor(new Date('2024-01-01T19:00:00Z').getTime() / 1000), // 7:00 PM UTC
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
       allDiscussionsHaveStarted: false,
     },
     {
-      group: {
+      group: createMockGroup({
         id: 'group-3',
         groupName: 'Weekend Group C',
-        autoNumberId: null,
-        groupDiscussions: [],
-        round: '',
-        participants: [],
         startTimeUtc: Math.floor(new Date('2024-01-06T14:00:00Z').getTime() / 1000), // Saturday 2:00 PM UTC
-        whoCanSwitchIntoThisGroup: [],
-      },
+      }),
       userIsParticipant: false,
       spotsLeftIfKnown: 0,
       allDiscussionsHaveStarted: false,
