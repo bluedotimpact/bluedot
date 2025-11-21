@@ -333,6 +333,44 @@ describe('FreeTextResponse', () => {
       vi.useRealTimers();
     });
 
+    test('does not trigger periodic auto-save without focus', async () => {
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      render(
+        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      // Do not make any changes or focus
+
+      // Advance time by 3 minutes
+      await vi.advanceTimersByTimeAsync(180000);
+
+      // Should NOT have saved, textarea was never focused
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      vi.useRealTimers();
+    });
+
+    test('does not trigger inactivity auto-save without focus', async () => {
+      vi.useFakeTimers();
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      render(
+        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      // Do not make any changes or focus
+
+      // Advance time by 20 seconds (inactivity delay)
+      await vi.advanceTimersByTimeAsync(20000);
+
+      // Should not have saved, textarea was never focused
+      expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
+
+      vi.useRealTimers();
+    });
+
     test('textarea has proper accessibility attributes', () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
