@@ -130,7 +130,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     };
   }, [value, isEditing, disabled, saveValue, isFocussed]);
 
-  const handleTextareaBlur = () => {
+  const handleBlur = () => {
     if (disabled) return;
 
     if (value !== lastSavedValue) {
@@ -173,7 +173,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         <textarea
           value={value}
           onChange={handleChange}
-          onBlur={handleTextareaBlur}
+          onBlur={handleBlur}
           onFocus={handleFocus}
           className={textareaClasses}
           placeholder={placeholder}
