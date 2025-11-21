@@ -222,9 +222,7 @@ const CourseDetails = ({
           <div className="p-4 sm:px-8 sm:py-4">
             {/* Content */}
             {isLoading ? (
-              <div className="flex justify-center py-8">
-                <ProgressDots />
-              </div>
+              <ProgressDots className="py-8" />
             ) : (
               <div className="min-h-[200px]">
                 {activeTab === 'upcoming' && (

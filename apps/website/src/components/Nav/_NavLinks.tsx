@@ -166,9 +166,7 @@ const NavDropdown: React.FC<{
       >
         <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty')}>
           {loading ? (
-            <div className="py-2">
-              <ProgressDots />
-            </div>
+            <ProgressDots className="py-2" />
           ) : (
             links?.map((link) => {
               // Dropdown links: always dark text on white background
