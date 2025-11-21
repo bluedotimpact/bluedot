@@ -61,6 +61,9 @@ describe('JobPostingPage SSR/SEO', () => {
     const ogType = document.querySelector('meta[property="og:type"]');
     expect(ogType?.getAttribute('content')).toBe('article');
 
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
+
     const ogUrl = document.querySelector('meta[property="og:url"]');
     expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug)}`);
 
