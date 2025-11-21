@@ -86,27 +86,24 @@ const RoundGroup = ({
     <div className="flex flex-col gap-6">
       <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-end gap-1 text-[15px] text-[#13132E]">
         <span className="font-semibold uppercase tracking-[0.45px] leading-tight">
-          <span className="min-[680px]:hidden">{labelLong}</span>
-          <span className="hidden min-[680px]:inline min-[1280px]:hidden">{labelShort}</span>
-          <span className="hidden min-[1280px]:inline">{labelLong}</span>
+          <span className="min-[680px]:hidden">{labelShort}</span>
+          <span className="hidden min-[680px]:inline min-[1024px]:hidden min-[1440px]:inline">{labelShort}</span>
+          <span className="hidden min-[1024px]:inline min-[1440px]:hidden">{labelLong}</span>
         </span>
         <span className="opacity-80 font-normal leading-tight">
           <span className="min-[680px]:hidden">{descriptionShort}</span>
-          <span className="hidden min-[680px]:inline min-[1280px]:hidden">{descriptionLong}</span>
-          <span className="hidden min-[1280px]:inline">{descriptionShort}</span>
+          <span className="hidden min-[680px]:inline">{descriptionLong}</span>
         </span>
       </div>
 
-      <div className="flex flex-col gap-0">
+      <div className="flex flex-col gap-5">
         {rounds.map((round, index) => (
           <div key={round.id}>
             <RoundItem round={round} applicationUrl={applicationUrl} />
             {index < rounds.length - 1 && (
-              <>
-                <div className="h-4" />
-                <div className="h-px w-full bg-[rgba(19,19,46,0.1)]" />
-                <div className="h-4" />
-              </>
+              <div className="relative mt-5">
+                <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
+              </div>
             )}
           </div>
         ))}
@@ -124,9 +121,9 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   const applyUrl = `${applicationUrl}?prefill_%5B%3E%5D%20Round=${round.id}`;
 
   return (
-    <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-4">
-      <div className="flex items-center gap-3 min-[680px]:gap-4">
-        <div className="h-full min-h-[48px] w-1 flex-shrink-0 rounded-sm bg-[#2244BB]" />
+    <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">
+      <div className="flex items-stretch gap-3 min-[680px]:gap-4">
+        <div className="w-1 flex-shrink-0 rounded-sm bg-[#2244BB]" />
         <div className="flex flex-col gap-3 min-[680px]:gap-0">
           <div>
             {round.dateRange && (
@@ -143,9 +140,12 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
             href={applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-[15px] leading-[1.6] text-[#2244BB] min-[680px]:hidden"
+            className="font-medium text-[15px] leading-[1.6] text-[#2244BB] group min-[680px]:hidden"
           >
-            Apply now
+            <span className="transition-transform group-hover:-translate-x-1 inline-block">Apply now</span>
+            <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0 inline-block">
+              →
+            </span>
           </a>
         </div>
       </div>
@@ -154,11 +154,11 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         href={applyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden font-medium text-[15px] leading-[1.6] text-[#2244BB] group items-center min-[680px]:flex min-[680px]:ml-auto"
+        className="hidden min-[680px]:flex font-medium text-[15px] leading-[1.6] text-[#2244BB] group items-center ml-auto"
       >
         <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
-        <span className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all">
-          {' →'}
+        <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
+          →
         </span>
       </a>
     </div>
