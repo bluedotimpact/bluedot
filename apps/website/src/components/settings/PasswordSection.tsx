@@ -286,8 +286,8 @@ const ChangePasswordModal = ({
             aria-label="Update password"
           >
             {isLoading ? (
-              <span className="flex items-center gap-2 [&_.progress-dots]:my-0 [&_.progress-dots_span]:bg-white">
-                <ProgressDots />
+              <span className="flex items-center gap-2">
+                <ProgressDots className="my-0" dotClassName="bg-white" />
                 <span>Updating...</span>
               </span>
             ) : (

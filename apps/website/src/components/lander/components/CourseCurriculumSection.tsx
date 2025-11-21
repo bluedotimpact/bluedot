@@ -44,9 +44,7 @@ const CourseCurriculumSection = ({
   if (loading) {
     return (
       <SectionWrapper title={title}>
-        <div className="flex justify-center">
-          <ProgressDots />
-        </div>
+        <ProgressDots />
       </SectionWrapper>
     );
   }

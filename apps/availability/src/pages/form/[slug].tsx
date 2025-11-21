@@ -205,9 +205,7 @@ const FormWrapper: React.FC = () => {
 
   if (!info || info.type === 'loading') {
     return (
-      <div className="w-full h-screen flex justify-center items-center">
-        <ProgressDots />
-      </div>
+      <ProgressDots className="w-full h-screen flex justify-center items-center" />
     );
   }
 
