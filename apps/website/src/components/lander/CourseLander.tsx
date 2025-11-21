@@ -56,7 +56,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
-        <meta property="og:image" content="/images/agi-strategy/hero-banner-split.png" />
+        <meta property="og:image" content="https://bluedot.org/images/agi-strategy/hero-banner-split.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={content.meta.title} />
