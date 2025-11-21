@@ -35,7 +35,7 @@ const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
         <meta key="og:title" property="og:title" content={job.title} />
         <meta key="og:description" property="og:description" content={job.subtitle} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:type" property="og:type" content="article" />
+        <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
         <meta key="og:image" property="og:image" content="https://bluedot.org/images/logo/icon-on-blue.png" />
         <meta key="og:image:width" property="og:image:width" content="1000" />
