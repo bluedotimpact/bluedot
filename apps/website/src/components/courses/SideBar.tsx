@@ -121,9 +121,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           {formatTime(chunk.estimatedTime)}
                         </span>
                         {resourceCompletionsLoading ? (
-                          <span className="[&_.progress-dots]:my-0.5 [&_.progress-dots]:ml-2">
-                            <ProgressDots />
-                          </span>
+                          <ProgressDots className="my-0.5 ml-2" />
                         ) : (
                           groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
                             <>
