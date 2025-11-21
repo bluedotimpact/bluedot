@@ -63,6 +63,6 @@ describe('CoursePage SSR/SEO', () => {
     expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockCourse.slug)}`);
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/courses/${encodeURIComponent(mockCourse.slug)}`);
   });
 });
