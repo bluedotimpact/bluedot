@@ -287,7 +287,7 @@ const ChangePasswordModal = ({
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <ProgressDots className="my-0 bg-white" />
+                <ProgressDots className="my-0" dotClassName="bg-white" />
                 <span>Updating...</span>
               </span>
             ) : (
