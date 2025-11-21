@@ -89,7 +89,7 @@ export const courseRoundsRouter = router({
         return {
           id: round.id,
           courseRoundIntensity: round.courseRoundIntensity || 'Unknown',
-          intensity: round.intensity, 
+          intensity: round.intensity,
           applicationDeadline: round.applicationDeadline
             ? formatDate(round.applicationDeadline)
             : 'TBD',
