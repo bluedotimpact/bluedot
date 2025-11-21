@@ -84,36 +84,45 @@ describe('ActionPlanCard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText('Complete the course and submit your action plan to receive your certificate.')).toBeInTheDocument();
+        expect(screen.getByText('Engage in >80% of discussions and submit your action plan to receive your certificate.')).toBeInTheDocument();
       });
 
       // Verify button and URL
-      const submitButton = screen.getByRole('link', { name: 'Submit Action Plan' });
+      const submitButton = screen.getByRole('link', { name: 'Submit your action plan' });
       expect(submitButton.getAttribute('href')).toBe(
         'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
       );
       expect(submitButton.getAttribute('target')).toBe('_blank');
     });
 
-    test('Scenario 2: Facilitated course, no certificate, action plan submitted → returns null', async () => {
+    test('Scenario 2: Facilitated course, no certificate, action plan submitted → shows disabled button', async () => {
+      const mockMeetPerson = createMockMeetPerson({
+        id: 'recABC123',
+        projectSubmission: ['submission-1'],
+      });
+
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
           courseId: FACILITATED_COURSE_ID,
           certificateId: null,
         })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
-          projectSubmission: ['submission-1'],
-        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
       );
 
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
+      render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
       await waitFor(() => {
-        expect(container.firstChild).toBeNull();
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText('Engage in >80% of discussions and submit your action plan to receive your certificate.')).toBeInTheDocument();
       });
+
+      // Verify button shows submitted state
+      const submitButton = screen.getByRole('link', { name: 'Action plan submitted' });
+      expect(submitButton.getAttribute('href')).toBe(
+        'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
+      );
+      // The button should have disabled styling classes
+      expect(submitButton).toHaveClass('disabled:opacity-50', 'disabled:pointer-events-none');
     });
 
     test('Scenario 3: Facilitated course, has certificate → returns null', async () => {
@@ -154,7 +163,26 @@ describe('ActionPlanCard', () => {
       });
     });
 
-    test('Scenario 5: Not logged in → returns null', () => {
+    test('Scenario 5: No meetPerson record → returns null', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
+          courseId: FACILITATED_COURSE_ID,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => null),
+      );
+
+      const { container } = render(
+        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
+    });
+
+    test('Scenario 6: Not logged in → returns null', () => {
       vi.mocked(useAuthStore).mockReturnValue(null);
 
       const { container } = render(

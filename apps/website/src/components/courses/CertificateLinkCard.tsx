@@ -101,7 +101,7 @@ const foaiCourseConfig: CertificateConfig = {
     },
     requestCertificate: {
       header: "Download your certificate, show you're taking AI seriously",
-      description: 'Complete all answers to unlock your certificate, then share your accomplishment on social media.',
+      description: 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
       buttonLabel: 'Download Certificate',
     },
     notEligible: {
