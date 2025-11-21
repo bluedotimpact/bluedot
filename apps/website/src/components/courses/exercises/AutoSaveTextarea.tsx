@@ -35,7 +35,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isFocussed, setIsFocussed] = useState<boolean>(false);
   const isSavingRef = useRef<boolean>(false);
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
@@ -93,7 +93,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
-    if (!isFocused || disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
+    if (!isFocussed || disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
 
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
@@ -109,11 +109,11 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     const intervalId = window.setInterval(runPeriodicSave, PERIODIC_SAVE_INTERVAL_IN_MS);
 
     return () => clearInterval(intervalId);
-  }, [disabled, isFocused]);
+  }, [disabled, isFocussed]);
 
   // Inactivity auto-save timer
   useEffect(() => {
-    if (!isFocused || !isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
+    if (!isFocussed || !isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
 
     // Clear and reset the inactivity timer
     if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
@@ -128,7 +128,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
         inactivityTimerRef.current = null;
       }
     };
-  }, [value, isEditing, disabled, saveValue, isFocused]);
+  }, [value, isEditing, disabled, saveValue, isFocussed]);
 
   const handleTextareaBlur = () => {
     if (disabled) return;
@@ -142,7 +142,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
 
   const handleFocus = () => {
     if (disabled) return;
-    setIsFocused(true);
+    setIsFocussed(true);
   };
 
   const handleRetry = () => {
