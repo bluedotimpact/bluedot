@@ -79,7 +79,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   certificateCreatedAt: null,
   certificateId: null,
   courseApplicationsBaseId: 'base123',
-  courseId: 'course-1',
+  courseId: MOCK_COURSE_ID,
   decision: 'Accept',
   email: 'user@example.com',
   firstName: 'Test',
