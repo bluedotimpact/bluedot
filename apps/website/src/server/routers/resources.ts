@@ -39,7 +39,21 @@ export const resourcesRouter = router({
           eq(resourceCompletionTable.pg.email, ctx.auth.email),
         ),
       );
-      return resourceCompletions;
+
+      // Deduplicate by unitResourceIdRead, keeping only the first occurrence.
+      // Although we should only have one resource completion for a resource per user, it is possible to have multiple
+      // (e.g. if a user quickly submits multiple times before the first is saved). We cannot enforce uniqueness in
+      // Airtable, so we handle it here.
+      const seenIds = new Set<string>();
+      const uniqueCompletions = resourceCompletions.filter((completion) => {
+        if (seenIds.has(completion.unitResourceIdRead)) {
+          return false;
+        }
+        seenIds.add(completion.unitResourceIdRead);
+        return true;
+      });
+
+      return uniqueCompletions;
     }),
 
   saveResourceCompletion: protectedProcedure
