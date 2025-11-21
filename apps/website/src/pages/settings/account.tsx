@@ -31,7 +31,7 @@ const AccountSettingsPage = () => {
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
-      {userLoading && <ProgressDots />}
+      {userLoading && <ProgressDots className="py-8" />}
       {userError && <ErrorSection error={userError} />}
       {user && (
         <>
