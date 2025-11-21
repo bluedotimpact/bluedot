@@ -49,7 +49,20 @@ describe('JobPostingPage SSR/SEO', () => {
     expect(document.title).toBe('AI Safety Researcher | BlueDot Impact');
 
     const metaDescription = document.querySelector('meta[name="description"]');
-    expect(metaDescription?.getAttribute('content')).toBe('Join our research team');
+    expect(metaDescription?.getAttribute('content')).toBe(mockJob.subtitle);
+
+    // Check Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    expect(ogTitle?.getAttribute('content')).toBe(mockJob.title);
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    expect(ogDescription?.getAttribute('content')).toBe(mockJob.subtitle);
+
+    const ogType = document.querySelector('meta[property="og:type"]');
+    expect(ogType?.getAttribute('content')).toBe('article');
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug)}`);
 
     const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
     expect(jsonLdScript).toBeTruthy();
