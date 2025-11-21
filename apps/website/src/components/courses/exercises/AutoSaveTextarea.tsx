@@ -130,7 +130,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     };
   }, [value, isEditing, disabled, saveValue, isFocused]);
 
-  const handleTextareaBlur = useCallback(() => {
+  const handleTextareaBlur = () => {
     if (disabled) return;
 
     if (value !== lastSavedValue) {
@@ -138,22 +138,22 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
       if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
       saveValue(value);
     }
-  }, [lastSavedValue, disabled, saveValue, value]);
+  };
 
   const handleFocus = () => {
     if (disabled) return;
     setIsFocused(true);
   };
 
-  const handleRetry = useCallback(() => {
+  const handleRetry = () => {
     if (value !== lastSavedValue) {
       saveValue(value);
     }
-  }, [value, lastSavedValue, saveValue]);
+  };
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
-  }, [onChange]);
+  };
 
   const textareaClasses = cn(
     'box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1]',
