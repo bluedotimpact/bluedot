@@ -60,6 +60,11 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     );
   }
 
+  // If no meetPerson record exists, cannot submit action plan
+  if (!meetPerson) {
+    return null;
+  }
+
   // Check if conditions are met to show the card
   // 1. User is in a facilitated course (courseId !== FOAI_COURSE_ID)
   if (courseRegistration?.courseId === FOAI_COURSE_ID) {
@@ -78,7 +83,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
   }
 
   // All conditions met - show the action plan card
-  const actionPlanUrl = `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPerson?.id || ''}`;
+  const actionPlanUrl = `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPerson.id}`;
 
   return (
     <Card

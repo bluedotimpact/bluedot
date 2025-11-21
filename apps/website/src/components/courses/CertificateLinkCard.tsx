@@ -216,6 +216,15 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
   const currentTimeMs = useCurrentTimeMs();
 
+  const {
+    data: meetPerson,
+    isLoading: meetPersonLoading,
+    error: meetPersonError,
+  } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    { courseRegistrationId: courseRegistration?.id || '' },
+    { enabled: !!courseRegistration?.id },
+  );
+
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     onSuccess: async () => {
       await refetch();
@@ -265,7 +274,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  if (loading || requestCertificateMutation.isPending) {
+  if (loading || requestCertificateMutation.isPending || meetPersonLoading) {
     if (config.useCard) {
       return (
         <Card
@@ -328,6 +337,15 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   // Note: the check `courseRegistration?.courseId !== FOAI_COURSE_ID` is required because we
   // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
   if (courseRegistration?.courseId !== FOAI_COURSE_ID) {
+    // Hide certificate card if user should see ActionPlanCard instead
+    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists + no action plan submission
+    // If meetPerson doesn't exist or there's an error fetching it, show certificate card as fallback
+    const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
+    if (!courseRegistration?.certificateId && meetPerson && !meetPersonError && !hasSubmittedActionPlan) {
+      // Return null - ActionPlanCard will show instead
+      return null;
+    }
+
     const { notEligible } = config.texts;
     return (
       <Card

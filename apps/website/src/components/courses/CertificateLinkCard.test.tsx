@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { createMockCourseRegistration } from '../../__tests__/testUtils';
+import { createMockCourseRegistration, createMockMeetPerson } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { FOAI_COURSE_ID } from '../../lib/constants';
@@ -77,18 +77,41 @@ describe('CertificateLinkCard', () => {
       expect(document.querySelector('.progress-dots')).toBeInTheDocument();
     });
 
-    test('renders course without certificate - non-FoAI shows not eligible', async () => {
-      // Mock query response with no certificate for non-FoAI course
+    test('renders course without certificate - non-FoAI returns null (ActionPlanCard shows instead)', async () => {
+      // Mock query response with no certificate for non-FoAI course and no action plan
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
           courseId: input.courseId,
           certificateId: null,
         })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          projectSubmission: [], // No action plan submitted
+        })),
+      );
+
+      const { container } = render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      // Wait for queries to complete and verify card returns null (ActionPlanCard will show instead)
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
+    });
+
+    test('renders course without certificate but with action plan - non-FoAI shows not eligible', async () => {
+      // Mock query response with no certificate for non-FoAI course but with action plan submitted
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          projectSubmission: ['submission-1'], // Action plan submitted
+        })),
       );
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
-      // Wait for the query to complete and verify not eligible message
+      // Wait for the query to complete and verify not eligible message now shows
       await waitFor(() => {
         expect(
           screen.getByText(
@@ -101,6 +124,29 @@ describe('CertificateLinkCard', () => {
       expect(screen.queryByText('Join the Community')).toBeNull();
     });
 
+    test('renders course without certificate when meetPerson is null - shows not eligible as fallback', async () => {
+      // Mock query with no certificate and meetPerson returns null (edge case)
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => null),
+      );
+
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      // Should show certificate card as fallback (not return null)
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+          ),
+        ).toBeInTheDocument();
+      });
+      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+    });
+
     test('renders course without certificate - FoAI shows request button', async () => {
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
@@ -109,6 +155,7 @@ describe('CertificateLinkCard', () => {
           email: 'user@example.com',
           fullName: 'Test User',
         })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson()),
       );
 
       render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
@@ -141,6 +188,7 @@ describe('CertificateLinkCard', () => {
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
         })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson()),
       );
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
@@ -168,6 +216,7 @@ describe('CertificateLinkCard', () => {
           certificateId: 'cert123',
           certificateCreatedAt: 1704067200, // 2024-01-01 in Unix timestamp
         })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson()),
       );
 
       render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
