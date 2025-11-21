@@ -56,8 +56,14 @@ describe('BlogPostPage SSR/SEO', () => {
     const ogTitle = document.querySelector('meta[property="og:title"]');
     expect(ogTitle?.getAttribute('content')).toBe('My Amazing Blog Post');
 
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    expect(ogDescription?.getAttribute('content')).toBe('My Amazing Blog Post');
+
     const ogType = document.querySelector('meta[property="og:type"]');
     expect(ogType?.getAttribute('content')).toBe('article');
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
     expect(ogUrl?.getAttribute('content')).toBe('https://bluedot.org/blog/my-amazing-blog-post');

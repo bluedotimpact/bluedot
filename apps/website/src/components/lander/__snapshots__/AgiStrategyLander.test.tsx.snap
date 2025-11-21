@@ -21,7 +21,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:description"
     />
     <meta
-      content="/images/agi-strategy/hero-banner-split.png"
+      content="https://bluedot.org/images/agi-strategy/hero-banner-split.png"
       property="og:image"
     />
     <meta
@@ -43,6 +43,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
     <meta
       content="BlueDot Impact"
       property="og:site_name"
+    />
+    <meta
+      content="https://bluedot.org/courses/agi-strategy"
+      property="og:url"
     />
     <meta
       content="summary_large_image"
