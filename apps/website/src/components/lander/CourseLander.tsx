@@ -62,6 +62,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
         <meta property="og:image:alt" content={content.meta.title} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
+        <meta property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseSlug)}`} />
 
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
