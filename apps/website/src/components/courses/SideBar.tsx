@@ -1,19 +1,21 @@
-import React from 'react';
+import { InferSelectModel, unitTable } from '@bluedot/db';
+import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import clsx from 'clsx';
-
+import React from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { trpc } from '../../utils/trpc';
 import { A } from '../Text';
+import { filterResourcesByType } from './ResourceDisplay';
+import type { ChunkWithContent } from './UnitLayout';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 type SideBarProps = {
   // Required
   courseTitle: string;
   units: Unit[];
   currentUnitNumber: number;
-  chunks: Chunk[];
+  chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   // Optional
@@ -23,7 +25,7 @@ type SideBarProps = {
 type SideBarCollapsibleProps = {
   unit: Unit;
   isCurrentUnit: boolean;
-  chunks: Chunk[];
+  chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
 };
@@ -53,7 +55,29 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   currentChunkIndex,
   onChunkSelect,
 }) => {
+  const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
+
+  const coreResources = chunks.flatMap((chunk) => filterResourcesByType(chunk.resources, 'Core'));
+
+  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
+    unitResourceIds: coreResources.map((resource) => resource.id),
+  }, {
+    enabled: isCurrentUnit && coreResources.length > 0 && Boolean(auth),
+  });
+
+  // For each chunk we need to know (1) how many core resources there are and (2) how many have been completed
+  const groupedResourceCompletionData = chunks.map((chunk) => {
+    const coreChunkResources = filterResourcesByType(chunk.resources, 'Core');
+    const coreResourceIds = new Set(coreChunkResources.map((resource) => resource.id));
+    const completedCoreResources = resourceCompletions?.filter((completion) => completion.isCompleted && coreResourceIds.has(completion.unitResourceIdRead)) || [];
+
+    return {
+      chunkCoreResources: coreChunkResources,
+      completedCoreResources,
+      allResourcesCompleted: completedCoreResources.length === coreChunkResources.length && coreChunkResources.length > 0,
+    };
+  });
 
   return (
     isCurrentUnit ? (
@@ -92,9 +116,28 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                    <span className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
-                      {formatTime(chunk.estimatedTime)}
-                    </span>
+                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                        <span>
+                          {formatTime(chunk.estimatedTime)}
+                        </span>
+                        {auth && (
+                          resourceCompletionsLoading ? (
+                            <span className="[&_.progress-dots]:my-0.5 [&_.progress-dots]:ml-2">
+                              <ProgressDots />
+                            </span>
+                          ) : (
+                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
+                              <>
+                                {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
+                                ⋅
+                                <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
+                                  {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index].chunkCoreResources.length} completed
+                                </span>
+                              </>
+                            )
+                          )
+                        )}
+                      </div>
                     )}
                   </div>
                 </button>

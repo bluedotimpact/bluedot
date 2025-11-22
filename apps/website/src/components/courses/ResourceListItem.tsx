@@ -11,6 +11,9 @@ import { ErrorView } from '@bluedot/ui/src/ErrorView';
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
 import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import {
   A, P,
 } from '../Text';
@@ -20,6 +23,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import AutoSaveTextarea from './exercises/AutoSaveTextarea';
 import { trpc } from '../../utils/trpc';
+import type { AppRouter } from '../../server/routers/_app';
 
 // Simplified SVG icon components
 const ThumbIcon: React.FC<{
@@ -116,6 +120,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const [isHovered, setIsHovered] = useState(false);
   const [feedback, setFeedback] = useState('');
 
+  // TODO: instead of loading only individual resource completion, load all resource completions in parent and pass data
   // Fetch resource completion data (only when authenticated)
   const {
     data: completionData,
@@ -126,9 +131,50 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     { enabled: !!auth },
   );
 
+  const queryClient = useQueryClient();
+
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
       utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
+    },
+    onMutate: async (newData) => {
+      // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
+      await utils.resources.getResourceCompletions.cancel();
+      queryClient.setQueriesData(
+        { queryKey: getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query') },
+        (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
+          if (!oldData) return [];
+
+          // Create a shallow copy for safe mutation
+          const newArray = [...oldData];
+
+          const { unitResourceId, ...updatedFields } = newData;
+
+          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
+
+          if (newArray[existingIndex]) {
+            // If an existing item is found, update it
+            newArray[existingIndex] = {
+              ...newArray[existingIndex],
+              ...updatedFields,
+            };
+          } else if (newData.isCompleted) {
+            // If no existing item and isCompleted is true, add a new item
+            newArray.push({
+              id: unitResourceId,
+              autoNumberId: null,
+              email: auth?.email ?? '',
+              unitResourceIdRead: unitResourceId,
+              unitResourceIdWrite: unitResourceId,
+              rating: updatedFields.rating ?? null,
+              feedback: updatedFields.feedback ?? '',
+              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              isCompleted: updatedFields.isCompleted ?? false,
+            });
+          }
+          return newArray;
+        },
+      );
     },
   });
 

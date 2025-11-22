@@ -1,4 +1,6 @@
-import { resourceCompletionTable } from '@bluedot/db';
+import {
+  and, eq, inArray, resourceCompletionTable,
+} from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
 import db from '../../lib/api/db';
@@ -26,6 +28,32 @@ export const resourcesRouter = router({
         // Trim feedback field (Airtable quirk)
         feedback: resourceCompletion.feedback?.trimEnd() ?? null,
       };
+    }),
+
+  getResourceCompletions: protectedProcedure
+    .input(z.object({ unitResourceIds: z.array(z.string().min(1)) }))
+    .query(async ({ input, ctx }) => {
+      const resourceCompletions = await db.pg.select().from(resourceCompletionTable.pg).where(
+        and(
+          inArray(resourceCompletionTable.pg.unitResourceIdRead, input.unitResourceIds),
+          eq(resourceCompletionTable.pg.email, ctx.auth.email),
+        ),
+      );
+
+      // Deduplicate by unitResourceIdRead, keeping only the first occurrence.
+      // Although we should only have one resource completion for a resource per user, it is possible to have multiple
+      // (e.g. if a user quickly submits multiple times before the first is saved). We cannot enforce uniqueness in
+      // Airtable, so we handle it here.
+      const seenIds = new Set<string>();
+      const uniqueCompletions = resourceCompletions.filter((completion) => {
+        if (seenIds.has(completion.unitResourceIdRead)) {
+          return false;
+        }
+        seenIds.add(completion.unitResourceIdRead);
+        return true;
+      });
+
+      return uniqueCompletions;
     }),
 
   saveResourceCompletion: protectedProcedure
