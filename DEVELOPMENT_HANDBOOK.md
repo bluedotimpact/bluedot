@@ -437,7 +437,7 @@ describe('UserProfile', () => {
 // Both frontend and backend can use the same schema
 const schema = z.object({
   name: z.string().min(1).max(100),
-  email: z.string().email(),
+  email: z.email(),
 });
 ```
 
