@@ -2,7 +2,6 @@ import {
   PiBriefcase,
   PiCompass,
   PiFlask,
-  PiGraduationCap,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
