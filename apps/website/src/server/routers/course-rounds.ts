@@ -28,9 +28,10 @@ export const courseRoundsRouter = router({
       const courseId = course[0].id;
 
       // Only show rounds where deadline hasn't passed everywhere in the world
-      // Add 14 hours to current time to account for UTC+14 (furthest ahead timezone)
+      // Subtract 12 hours from current time to account for UTC-12 (furthest behind timezone)
+      // This keeps rounds visible while it's still that day somewhere on earth
       const now = new Date();
-      const deadlineThreshold = new Date(now.getTime() + (14 * 60 * 60 * 1000));
+      const deadlineThreshold = new Date(now.getTime() - (12 * 60 * 60 * 1000));
 
       // Fetch only upcoming rounds for this course
       const filteredRounds = await db.pg
