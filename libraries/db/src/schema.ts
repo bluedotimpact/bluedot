@@ -589,6 +589,11 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
       pgColumn: text(),
       airtableId: 'fldONnpcLTSwwy1NJ',
     },
+    // Equal to number of days or weeks in the course
+    numberOfUnits: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldgu6vcBcT7KiIG7',
+    },
   },
 });
 
