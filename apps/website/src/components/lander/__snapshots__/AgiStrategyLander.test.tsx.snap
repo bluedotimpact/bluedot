@@ -441,45 +441,6 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
                   >
-                    Options
-                  </p>
-                </div>
-                <div
-                  class="flex-1 min-w-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
-                  >
-                    <span
-                      class="font-semibold"
-                    >
-                      Intensive
-                    </span>
-                    : 5-day course (5h/day)
-                    <br />
-                    <span
-                      class="font-semibold"
-                    >
-                      Part-time
-                    </span>
-                    : 5-week course (5h/week)
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-full h-px bg-[#13132E] opacity-10 my-6"
-              />
-            </div>
-            <div>
-              <div
-                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
-              >
-                <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
-                  >
                     Commitment
                   </p>
                 </div>

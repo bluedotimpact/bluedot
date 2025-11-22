@@ -67,21 +67,9 @@ export const courseRoundsRouter = router({
         const lastDay = last.getUTCDate();
         const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
         const lastMonth = last.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-        const firstYear = first.getUTCFullYear();
-        const lastYear = last.getUTCFullYear();
 
-        // Same month and year: "17 – 21 Nov 2025"
-        if (firstMonth === lastMonth && firstYear === lastYear) {
-          return `${firstDay} – ${lastDay} ${firstMonth} ${firstYear}`;
-        }
-
-        // Different months, same year: "17 Nov – 21 Dec 2025"
-        if (firstYear === lastYear) {
-          return `${firstDay} ${firstMonth} – ${lastDay} ${lastMonth} ${firstYear}`;
-        }
-
-        // Different years: "17 Nov 2025 – 21 Jan 2026"
-        return `${firstDay} ${firstMonth} ${firstYear} – ${lastDay} ${lastMonth} ${lastYear}`;
+        // Always format as "17 Nov - 21 Nov" or "17 Nov - 21 Dec"
+        return `${firstDay} ${firstMonth} - ${lastDay} ${lastMonth}`;
       };
 
       // Transform rounds with actual date ranges
@@ -95,6 +83,7 @@ export const courseRoundsRouter = router({
             : 'TBD',
           applicationDeadlineRaw: round.applicationDeadline, // Keep raw date for sorting
           dateRange: formatDateRange(round.firstDiscussionDate, round.lastDiscussionDate) || 'TBD',
+          numberOfUnits: round.numberOfUnits,
         };
       });
 

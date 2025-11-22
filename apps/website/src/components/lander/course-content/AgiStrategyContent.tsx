@@ -94,17 +94,6 @@ export const createAgiStrategyContent = (
     courseSlug,
     details: [
       {
-        icon: PiGraduationCap,
-        label: 'Options',
-        description: (
-          <>
-            <span className="font-semibold">Intensive</span>: 5-day course (5h/day)
-            <br />
-            <span className="font-semibold">Part-time</span>: 5-week course (5h/week)
-          </>
-        ),
-      },
-      {
         icon: PiClockClockwise,
         label: 'Commitment',
         description: (

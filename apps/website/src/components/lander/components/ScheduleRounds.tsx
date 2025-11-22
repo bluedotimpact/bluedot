@@ -23,7 +23,12 @@ export const ScheduleRounds = ({
 
   const hasIntenseRounds = !!(rounds?.intense && rounds.intense.length > 0);
   const hasPartTimeRounds = !!(rounds?.partTime && rounds.partTime.length > 0);
-  const showDynamicSchedule = hasIntenseRounds || hasPartTimeRounds;
+
+  // Check if rounds have valid numberOfUnits
+  const intenseHasUnits = hasIntenseRounds && rounds.intense[0]?.numberOfUnits != null;
+  const partTimeHasUnits = hasPartTimeRounds && rounds.partTime[0]?.numberOfUnits != null;
+
+  const showDynamicSchedule = intenseHasUnits || partTimeHasUnits;
 
   if (isLoading) {
     return (
@@ -38,25 +43,33 @@ export const ScheduleRounds = ({
     return fallbackContent ?? null;
   }
 
+  // Calculate descriptions based on numberOfUnits
+  const intenseDescription = intenseHasUnits
+    ? `${rounds.intense[0].numberOfUnits} day course (5h/day)`
+    : '';
+  const partTimeDescription = partTimeHasUnits
+    ? `${rounds.partTime[0].numberOfUnits} week course (5h/week)`
+    : '';
+
   return (
     <div className="flex flex-col gap-16">
-      {hasIntenseRounds && (
+      {intenseHasUnits && (
         <RoundGroup
           labelShort="INTENSIVE:"
           labelLong="INTENSIVE COURSE:"
-          descriptionLong="6 day course (5h/day)"
-          descriptionShort="6d course (5h/day)"
+          descriptionLong={intenseDescription}
+          descriptionShort={intenseDescription}
           rounds={rounds.intense}
           applicationUrl={applicationUrl}
         />
       )}
 
-      {hasPartTimeRounds && (
+      {partTimeHasUnits && (
         <RoundGroup
           labelShort="PART-TIME:"
           labelLong="PART-TIME COURSE:"
-          descriptionLong="6 week course (5h/week)"
-          descriptionShort="6w course (5h/week)"
+          descriptionLong={partTimeDescription}
+          descriptionShort={partTimeDescription}
           rounds={rounds.partTime}
           applicationUrl={applicationUrl}
         />
