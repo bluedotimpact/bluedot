@@ -492,6 +492,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    projectSubmission: {
+      pgColumn: text().array(),
+      airtableId: 'fldFjRSrXH8Z5sGaQ',
+    },
     /**
      * A bucket defines a set of groups, where participants are allowed to switch between the
      * groups if requested. This field is an array of all the buckets the person is a member of.
@@ -584,6 +588,11 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
     intensity: {
       pgColumn: text(),
       airtableId: 'fldONnpcLTSwwy1NJ',
+    },
+    // Equal to number of days or weeks in the course
+    numberOfUnits: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldgu6vcBcT7KiIG7',
     },
   },
 });

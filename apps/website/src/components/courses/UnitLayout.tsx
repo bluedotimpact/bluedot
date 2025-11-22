@@ -18,6 +18,7 @@ import {
   type UnitResource,
 } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
+import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -454,6 +455,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 className="mt-8 md:mt-6"
               />
               <div className="mt-8 md:mt-6">
+                <ActionPlanCard courseId={unit.courseId} />
+              </div>
+              <div className="mt-4">
                 <CertificateLinkCard courseId={unit.courseId} />
               </div>
             </>
