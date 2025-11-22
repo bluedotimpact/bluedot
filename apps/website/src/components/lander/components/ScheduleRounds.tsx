@@ -44,10 +44,10 @@ export const ScheduleRounds = ({
   }
 
   // Calculate descriptions based on numberOfUnits
-  const intenseDescription = intenseHasUnits
+  const intenseDescription = intenseHasUnits && rounds.intense[0]
     ? `${rounds.intense[0].numberOfUnits} day course (5h/day)`
     : '';
-  const partTimeDescription = partTimeHasUnits
+  const partTimeDescription = partTimeHasUnits && rounds.partTime[0]
     ? `${rounds.partTime[0].numberOfUnits} week course (5h/week)`
     : '';
 
