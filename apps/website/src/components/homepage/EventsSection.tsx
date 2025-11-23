@@ -85,20 +85,58 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
   );
 };
 
-const EventCard = ({ event }: { event: Event }) => {
+/** Given a transformed Luma event, returns a time delta string:
+ * 1. If the event is online, the time delta is shown in local user time, e.g. "9:00 am - 5:00 pm GMT+2" (for a user in
+ *    GMT+2)
+ * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "2 pm - 5 pm GMT" (even if user
+ *    in GMT+2)
+ * 3. If the event is shown over multiple days, the end date is shown before the end time, e.g. "9:00 am - Mar 5 5:00 pm
+ *    GMT"
+ */
+const buildTimeDeltaString = (event: Event) => {
   const startDate = new Date(event.startAt);
   const endDate = new Date(event.endAt);
+  const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
 
-  const timeFormat: Intl.DateTimeFormatOptions = {
+  const dateComparator = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    timeZone,
+  });
+  const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
+
+  const timeFormatOptions: Intl.DateTimeFormatOptions = {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
+    timeZone,
   };
 
+  // Use `undefined` to respect user locale
+  const timeStart = new Intl.DateTimeFormat(undefined, timeFormatOptions).format(startDate);
+  // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
+  const timeEnd = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
+
+  let endDateString = '';
+  if (isMultiDay) {
+    const dateFormatter = new Intl.DateTimeFormat(undefined, {
+      month: 'short',
+      day: 'numeric',
+      timeZone,
+    });
+    endDateString = `${dateFormatter.format(endDate)} `; // Add trailing space
+  }
+
+  return `${timeStart} - ${endDateString}${timeEnd}`;
+};
+
+const EventCard = ({ event }: { event: Event }) => {
+  const startDate = new Date(event.startAt);
   const month = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const day = startDate.getDate().toString();
-  // Use `undefined` to respect user's locale for time formatting
-  const timeString = `${startDate.toLocaleTimeString(undefined, timeFormat)} - ${endDate.toLocaleTimeString(undefined, timeFormat)}`;
+
+  const timeString = buildTimeDeltaString(event);
 
   return (
     <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
