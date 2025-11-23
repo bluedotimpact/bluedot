@@ -56,18 +56,37 @@ export const courseRoundsRouter = router({
         return `${day} ${month}`;
       };
 
-      // Format date range from first and last discussion dates in UTC
-      // Uses UTC methods to ensure dates aren't shifted by timezone conversion
-      const formatDateRange = (firstDate: string | null, lastDate: string | null) => {
-        if (!firstDate || !lastDate) return null;
+      // Format date range based on firstDiscussionDate and numberOfUnits.
+      // numberOfUnits is equal to number of days (intensive) or weeks (part-time) in the course.
+      // Falls back to lastDiscussionDate when units are missing.
+      const formatDateRange = (
+        firstDate: string | null,
+        lastDate: string | null,
+        numberOfUnits: number | null,
+        intensity: string | null,
+      ) => {
+        if (!firstDate) return null;
 
         const first = new Date(firstDate);
-        const last = new Date(lastDate);
+
+        let computedLast: Date | null = null;
+
+        if (numberOfUnits && numberOfUnits > 0) {
+          const isPartTime = intensity?.toLowerCase() === 'part-time';
+          const unitLengthInDays = isPartTime ? 7 : 1;
+          const daysToAdd = (numberOfUnits - 1) * unitLengthInDays;
+
+          computedLast = new Date(first.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+        } else if (lastDate) {
+          computedLast = new Date(lastDate);
+        } else {
+          return null;
+        }
 
         const firstDay = String(first.getUTCDate()).padStart(2, '0');
-        const lastDay = String(last.getUTCDate()).padStart(2, '0');
+        const lastDay = String(computedLast.getUTCDate()).padStart(2, '0');
         const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-        const lastMonth = last.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+        const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
 
         // Always format as "17 Nov - 21 Nov" or "01 Jan - 05 Dec"
         return `${firstDay} ${firstMonth} - ${lastDay} ${lastMonth}`;
@@ -82,7 +101,12 @@ export const courseRoundsRouter = router({
             ? formatDate(round.applicationDeadline)
             : 'TBD',
           applicationDeadlineRaw: round.applicationDeadline, // Keep raw date for sorting
-          dateRange: formatDateRange(round.firstDiscussionDate, round.lastDiscussionDate) || 'TBD',
+          dateRange: formatDateRange(
+            round.firstDiscussionDate,
+            round.lastDiscussionDate,
+            round.numberOfUnits,
+            round.intensity,
+          ) || 'TBD',
           numberOfUnits: round.numberOfUnits,
         };
       });
