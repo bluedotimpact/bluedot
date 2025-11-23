@@ -47,11 +47,11 @@ export const courseRoundsRouter = router({
           ),
         );
 
-      // Format a single date to "day month" format in UTC (e.g., "17 Nov")
+      // Format a single date to "day month" format in UTC (e.g., "17 Nov", "01 Jan")
       // Uses UTC methods to prevent timezone conversion
       const formatDate = (isoDate: string) => {
         const date = new Date(isoDate);
-        const day = date.getUTCDate();
+        const day = String(date.getUTCDate()).padStart(2, '0');
         const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
         return `${day} ${month}`;
       };
@@ -64,12 +64,12 @@ export const courseRoundsRouter = router({
         const first = new Date(firstDate);
         const last = new Date(lastDate);
 
-        const firstDay = first.getUTCDate();
-        const lastDay = last.getUTCDate();
+        const firstDay = String(first.getUTCDate()).padStart(2, '0');
+        const lastDay = String(last.getUTCDate()).padStart(2, '0');
         const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
         const lastMonth = last.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
 
-        // Always format as "17 Nov - 21 Nov" or "17 Nov - 21 Dec"
+        // Always format as "17 Nov - 21 Nov" or "01 Jan - 05 Dec"
         return `${firstDay} ${firstMonth} - ${lastDay} ${lastMonth}`;
       };
 
