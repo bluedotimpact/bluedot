@@ -4,6 +4,7 @@ import { blogsRouter } from './blogs';
 import { exercisesRouter } from './exercises';
 import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
+import { courseRoundsRouter } from './course-rounds';
 import { coursesRouter } from './courses';
 import { groupDiscussionsRouter } from './group-discussions';
 import { groupSwitchingRouter } from './group-switching';
@@ -20,6 +21,7 @@ export const appRouter = router({
   exercises: exercisesRouter,
   certificates: certificatesRouter,
   courseRegistrations: courseRegistrationsRouter,
+  courseRounds: courseRoundsRouter,
   courses: coursesRouter,
   groupDiscussions: groupDiscussionsRouter,
   groupSwitching: groupSwitchingRouter,

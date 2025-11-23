@@ -2,7 +2,6 @@ import {
   PiBriefcase,
   PiCompass,
   PiFlask,
-  PiGraduationCap,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
@@ -92,18 +91,8 @@ export const createTechnicalAiSafetyContent = (
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
+    courseSlug,
     details: [
-      {
-        icon: PiGraduationCap,
-        label: 'Options',
-        description: (
-          <>
-            <span className="font-semibold">Intensive</span>: 6-day course (5h/day)
-            <br />
-            <span className="font-semibold">Part-time</span>: 6-week course (5h/week)
-          </>
-        ),
-      },
       {
         icon: PiClockClockwise,
         label: 'Commitment',
@@ -130,13 +119,7 @@ export const createTechnicalAiSafetyContent = (
         label: 'Schedule',
         description: null,
         isSchedule: true,
-        scheduleDescription: (
-          <>
-            Intensive round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
-            <br />
-            Part-time round starts <span className="font-semibold">17 Nov</span>, application deadline <span className="font-semibold">9 Nov</span>
-          </>
-        ),
+        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
   },

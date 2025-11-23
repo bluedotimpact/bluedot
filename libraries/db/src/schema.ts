@@ -565,7 +565,7 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblt1XjyP5KPoVPfB',
   columns: {
-    courseRoundIntensity: {
+    courseRoundIntensity: { // e.g., "AI Alignment (2024 Feb W08)" or  "AGI Strategy (2025 Dec W51) - Intensive", or "AGI Strategy (2026 Jan W02) - Part-time"
       pgColumn: text(),
       airtableId: 'fldvOk9j9FbDV5aLl',
     },

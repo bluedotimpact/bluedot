@@ -2,7 +2,6 @@ import {
   PiBriefcase,
   PiCompass,
   PiFlask,
-  PiGraduationCap,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
@@ -91,18 +90,8 @@ export const createBioSecurityContent = (
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
+    courseSlug,
     details: [
-      {
-        icon: PiGraduationCap,
-        label: 'Options',
-        description: (
-          <>
-            <span className="font-semibold">Intensive</span>: 6-day course (5h/day)
-            <br />
-            <span className="font-semibold">Part-time</span>: 6-week course (5h/week)
-          </>
-        ),
-      },
       {
         icon: PiClockClockwise,
         label: 'Commitment',
@@ -129,26 +118,7 @@ export const createBioSecurityContent = (
         label: 'Schedule',
         description: null,
         isSchedule: true,
-        scheduleDescription: (
-          <>
-            <span className="font-semibold">Next part-time round</span>
-            <br />
-            Application deadline: <span className="font-semibold">Nov 12th</span>
-            <br />
-            Course start: <span className="font-semibold">Nov 17th</span>
-            <br />
-            Course end: <span className="font-semibold">Dec 21st</span>
-            <br />
-            <br />
-            <span className="font-semibold">Next intensive round</span>
-            <br />
-            Application deadline: <span className="font-semibold">Nov 12th</span>
-            <br />
-            Course start: <span className="font-semibold">Nov 17th</span>
-            <br />
-            Course end: <span className="font-semibold">Nov 22nd</span>
-          </>
-        ),
+        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
   },
