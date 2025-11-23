@@ -88,7 +88,6 @@ const CourseInformationSection = ({
                     </div>
                   </div>
                 ) : (
-                  /* Standard layout for other items  */
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">

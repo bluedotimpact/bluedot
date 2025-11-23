@@ -131,7 +131,8 @@ type RoundItemProps = {
 };
 
 const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
-  const applyUrl = `${applicationUrl}?prefill_%5B%3E%5D%20Round=${round.id}`;
+  const separator = applicationUrl.includes('?') ? '&' : '?';
+  const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
   return (
     <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">

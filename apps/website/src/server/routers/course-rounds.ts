@@ -77,7 +77,6 @@ export const courseRoundsRouter = router({
       const enrichedRounds = filteredRounds.map((round) => {
         return {
           id: round.id,
-          courseRoundIntensity: round.courseRoundIntensity || 'Unknown',
           intensity: round.intensity,
           applicationDeadline: round.applicationDeadline
             ? formatDate(round.applicationDeadline)
