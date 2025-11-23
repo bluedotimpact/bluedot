@@ -1,46 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 
-const mockUnit = {
-  id: 'unit-123',
-  title: 'Introduction to AI Safety',
-  unitNumber: '1',
-  courseSlug: 'ai-safety-fundamentals',
-  path: '/courses/ai-safety-fundamentals/1',
-  content: 'Unit content',
-  description: 'Unit description',
-  duration: 60,
-  autoNumberId: 1,
-  chunks: ['chunk-1'],
-  courseId: 'course-123',
-  courseTitle: 'AI Safety Fundamentals',
-  coursePath: '/courses/ai-safety-fundamentals',
-  learningOutcomes: 'Learning outcomes',
-  menuText: 'Menu text',
-  unitPodcastUrl: null,
-  courseUnit: 'course-unit-123',
-  unitStatus: 'active',
-};
+const mockUnit = createMockUnit();
 
-const mockGroupDiscussion = {
-  id: 'discussion-123',
-  facilitators: ['facilitator-1'],
-  participantsExpected: ['participant-1'],
-  attendees: [],
+const mockGroupDiscussion = createMockGroupDiscussion({
   startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
   endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
-  group: 'group-123',
-  zoomAccount: 'zoom-account-123',
-  courseSite: 'site-123',
-  unitNumber: 1,
-  unit: 'unit-123',
-  zoomLink: 'https://zoom.us/j/123456789',
-  activityDoc: 'https://docs.google.com/document/d/abc123',
-  slackChannelId: 'C1234567890',
-  round: 'round-123',
-  courseBuilderUnitRecordId: 'unit-123',
-  autoNumberId: 1,
-};
+});
 
 const meta = {
   title: 'website/courses/GroupDiscussionBanner',
