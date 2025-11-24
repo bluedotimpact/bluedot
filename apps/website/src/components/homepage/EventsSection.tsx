@@ -114,7 +114,7 @@ const buildTimeDeltaString = (event: Event) => {
   };
 
   // Use `undefined` to respect user locale
-  const timeStart = new Intl.DateTimeFormat(undefined, timeFormatOptions).format(startDate);
+  const timeStart = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, weekday: 'short' }).format(startDate);
   // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
   const timeEnd = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
 
