@@ -191,14 +191,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   });
 
   // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
-  const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
-  const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
+  // Only use mutation variables if mutation hasn't failed (to support rollback on error)
+  const isCompleted = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.isCompleted !== undefined)
+    ? saveCompletionMutation.variables.isCompleted
+    : (completionData?.isCompleted ?? false);
+  const resourceFeedback = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.resourceFeedback !== undefined)
+    ? saveCompletionMutation.variables.resourceFeedback
+    : (completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
-    const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
-    setFeedback(serverFeedback);
-  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback]);
+    const optimisticFeedback = saveCompletionMutation.variables?.feedback;
+    const serverFeedback = completionData?.feedback;
+
+    // Only use optimistic feedback if there is no error
+    if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
+      setFeedback(optimisticFeedback);
+    } else {
+      setFeedback(serverFeedback ?? '');
+    }
+  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback, saveCompletionMutation.isError]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
